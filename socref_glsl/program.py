@@ -6,6 +6,7 @@ from PySide2 import QtGui as qtg
 from socref import register
 from socref import abstract
 from socref import utility as ut
+from . import parser
 
 
 
@@ -101,7 +102,7 @@ class Program(abstract.AbstractBlock):
 
         return : See interface docs.
         """
-        pass
+        return parser.Parser(self)
 
 
     def setDefaultProperties(self):

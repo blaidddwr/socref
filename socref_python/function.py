@@ -331,7 +331,7 @@ class Function(Descriptor):
             ret += (
                 [""]
                 + ut.wrapText(
-                    initial + self._p_return_description
+                    initial+self._p_return_description
                     ,begin=begin + " "*settings.INDENT
                     ,after=" "*len(initial)
                     ,columns=settings.COLUMNS

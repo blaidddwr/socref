@@ -36,6 +36,9 @@ class Parser(abstract.AbstractParser):
         """
         abstract.AbstractParser.__init__(self)
         self.__root_block = root
+        self.__scopePattern = re.compile('^\s*namespace\s+(\w+)\s*$')
+        self.__functionPattern = re.compile('^(.*\s+)??(([\w<>,:]*operator )?[\w<>,:]+)\((.*)$')
+        self.__functionPointerPattern = re.compile('^(.*)\(\*\w+\)\((.*)\)')
         self.__definitions = {"headers": {},"functions": {}}
 
 
@@ -145,8 +148,6 @@ class Parser(abstract.AbstractParser):
         depth = 0 if scope else 1
         if scope:
             scope += "::"
-        scopePattern = re.compile('^\s*namespace\s+(\w+)\s*$')
-        functionPattern = re.compile('^(.*\s+)??(([\w<>,:]*operator )?[\w<>,:]+)\((.*)$')
         while True:
             line = ifile.readline()
             if not line:
@@ -156,10 +157,10 @@ class Parser(abstract.AbstractParser):
                 depth += line.count("{") - line.count("}")
                 if depth <= 0:
                     break
-                match = scopePattern.match(line)
+                match = self.__scopePattern.match(line)
                 if match:
                     self.__scan_(ifile,scope + match.group(1))
-                match = functionPattern.match(line)
+                match = self.__functionPattern.match(line)
                 if match:
                     signature = self.__scanSignature_(ifile,match.group(2),match.group(4))
                     if signature:
@@ -184,8 +185,7 @@ class Parser(abstract.AbstractParser):
         line = line.lstrip()
         if line.startswith(","):
             line = line[1:]
-        functionPointerPattern = re.compile('^(.*)\(\*\w+\)\((.*)\)')
-        match = functionPointerPattern.match(line)
+        match = self.__functionPointerPattern.match(line)
         if match:
             return "%s(*)(%s)"%(match.group(1).replace(" ",""),match.group(2).replace(" ",""))
         else:

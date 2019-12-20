@@ -44,23 +44,19 @@ class Variable(template.Template):
     ####################
 
 
-    def buildDeclaration(self, begin, blanks=True):
+    def buildDeclaration(self, begin):
         """
-        Implements the .namespace.Base interface with one additional optional argument.
+        Implements the .namespace.Base interface.
 
         begin : See interface docs.
-
-        blanks : True to include initial blank lines in the returned code separating this variable
-                 declaration from others or false for no blank lines.
 
         return : See interface docs.
         """
         ret = []
-        if blanks:
-            ret += [""]*settings.H2LINES
         if self.inUnion():
             ret += ut.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
         else:
+            ret += [""]*settings.H2LINES
             ret.append(begin + "/*!")
             ret += ut.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
             ret.append(begin + " */")

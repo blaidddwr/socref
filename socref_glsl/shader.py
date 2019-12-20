@@ -6,6 +6,7 @@ from PySide2 import QtGui as qtg
 from socref import register
 from socref import abstract
 from socref import utility as ut
+from . import settings
 
 
 
@@ -154,13 +155,28 @@ class Shader(Base):
     ####################
 
 
+    def build(self, definition, begin=""):
+        """
+        Implements the .shader.Base interface.
+
+        definition : See interface docs.
+
+        begin : See interface docs.
+
+        return : See interface docs.
+        """
+        ret = self._buildChildren_(definition,begin)
+        ret += [""]*settings.H1LINES + ["void main()","{","}"]
+        return ret
+
+
     def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        return ()
+        return ("Variable","Structure","Function")
 
 
     def clearProperties(self):
@@ -197,6 +213,28 @@ class Shader(Base):
         ut.addComboSelect(combo,"Compute",qtg.QIcon(":/glsl/compute_shader.svg"))
         ret.append(combo)
         return ret
+
+
+    def extension(self):
+        """
+        Getter method.
+
+        return : A file extension string based off this shader's type.
+        """
+        if self._p_type == "Vertex":
+            return settings.VERTEX_EXTENSION
+        elif self._p_type == "Fragment":
+            return settings.FRAGMENT_EXTENSION
+        elif self._p_type == "Tesselation Control":
+            return settings.TESS_CTRL_EXTENSION
+        elif self._p_type == "Tesselation Evaluation":
+            return settings.TESS_EVAL_EXTENSION
+        elif self._p_type == "Geometry":
+            return settings.GEOMETRY_EXTENSION
+        elif self._p_type == "Compute":
+            return settings.COMPUTE_EXTENSION
+        else:
+            raise RuntimeError("Shader is invalid type.")
 
 
     def icon(self):

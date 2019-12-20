@@ -299,7 +299,7 @@ class Function(Templatee):
             ret += "... "
         flags = self.__flags_()
         if flags:
-            flags = " [%s]" % flags
+            flags = " [%s]"%flags
         ret += "%s(%i)%s" % (self.__name_(),len(self),flags)
         return ret
 
@@ -313,7 +313,10 @@ class Function(Templatee):
         self.__checkFlags_()
         return_ = ""
         if self._p_returnType != "void":
-            return_ = "<p><b>%s</b> : %s</p>" % (self._p_returnType,self._p_returnDescription)
+            return_ = (
+                "<p><b>%s</b> : %s</p>"
+                % (html.escape(self._p_returnType),html.escape(self._p_returnDescription))
+            )
         return_ = ut.richText(2,"Return",return_)
         flags = ut.richTextList(2,"Flags",self.__flagsList_())
         return (
@@ -534,7 +537,7 @@ class Function(Templatee):
         namespace.Base.setDefaultProperties(self)
         self._p_name = "function"
         self._p_returnType = "void"
-        self._p_returnDescription = "Detailed description."
+        self._p_returnDescription = ""
         self._p_inlines = ""
         self._p_default = "0"
         self._p_deleted = "0"

@@ -3955,18 +3955,13 @@ Edit toolbar.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Implements the .namespace.Base interface with one additional optional argument.</__p_description>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
                                 <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>blanks</__p_name>
-                                <__p_description>True to include initial blank lines in the returned code separating this variable declaration from others or false for no blank lines.</__p_description>
-                                <__p_assignment>True</__p_assignment>
                             </Object>
                         </Function>
                         <Function>
@@ -5421,6 +5416,36 @@ Edit toolbar.
                     <__p_description>The number of spaces used for each indent.</__p_description>
                     <__p_assignment>4</__p_assignment>
                 </Object>
+                <Object>
+                    <__p_name>VERTEX_EXTENSION</__p_name>
+                    <__p_description>The file name extension for vertex shaders.</__p_description>
+                    <__p_assignment>&quot;.vert.glsl&quot;</__p_assignment>
+                </Object>
+                <Object>
+                    <__p_name>FRAGMENT_EXTENSION</__p_name>
+                    <__p_description>The file name extension for fragment shaders.</__p_description>
+                    <__p_assignment>&quot;.frag.glsl&quot;</__p_assignment>
+                </Object>
+                <Object>
+                    <__p_name>TESS_CTRL_EXTENSION</__p_name>
+                    <__p_description>The file name extension for tesselation control shaders.</__p_description>
+                    <__p_assignment>&quot;.tessctrl.glsl&quot;</__p_assignment>
+                </Object>
+                <Object>
+                    <__p_name>TESS_EVAL_EXTENSION</__p_name>
+                    <__p_description>The file name extension for tesselation evaluation shaders.</__p_description>
+                    <__p_assignment>&quot;.tesseval.glsl&quot;</__p_assignment>
+                </Object>
+                <Object>
+                    <__p_name>GEOMETRY_EXTENSION</__p_name>
+                    <__p_description>The file name extension for geometry shaders.</__p_description>
+                    <__p_assignment>&quot;.geom.glsl&quot;</__p_assignment>
+                </Object>
+                <Object>
+                    <__p_name>COMPUTE_EXTENSION</__p_name>
+                    <__p_description>The file name extension for compute shaders.</__p_description>
+                    <__p_assignment>&quot;.comp.glsl&quot;</__p_assignment>
+                </Object>
             </Module>
             <Module>
                 <__p_name>program</__p_name>
@@ -5428,8 +5453,8 @@ Edit toolbar.
                 <Class>
                     <__p_name>Program</__p_name>
                     <__p_description>This is the program block class. It implements the Socrates' Reference abstract block class. It represents a GLSL program. It is the root block type of a GLSL project. A program simply represents a folder that contains shader files.</__p_description>
-                    <__p_parents>abstract.AbstractBlock</__p_parents>
                     <__p_descriptors>register(&quot;Program&quot;,root=True)</__p_descriptors>
+                    <__p_parents>abstract.AbstractBlock</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5594,8 +5619,8 @@ Edit toolbar.
                 <Class>
                     <__p_name>Shader</__p_name>
                     <__p_description>This is the shader block class. It implements the Socrates' Reference abstract block class. It represents a GLSL shader.</__p_description>
-                    <__p_parents>Base</__p_parents>
                     <__p_descriptors>register(&quot;Shader&quot;)</__p_descriptors>
+                    <__p_parents>Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5609,6 +5634,134 @@ Edit toolbar.
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the .shader.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clearProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>displayView</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>editDefinitions</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>extension</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A file extension string based off this shader's type.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>variable</__p_name>
+                <__p_description>Contains the variable block class.</__p_description>
+                <Class>
+                    <__p_name>Variable</__p_name>
+                    <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a GLSL variable.</__p_description>
+                    <__p_parents>shader.Base</__p_parents>
+                    <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new variable block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>argumentView</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text paragraph that describes this variable as an argument.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the .shader.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildArgument</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A source code fragment string that is the argument of this variable.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>buildComment</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of source code lines that is a comment fragment for this variable as an argument. This returns the correct doxygen syntax.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of returned lines of comment code.</__p_description>
+                            </Object>
+                        </Function>
                         <Function>
                             <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
@@ -5644,6 +5797,27 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>inStructure</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this variable is part of a structure or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isArgument</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this variable is an argument of a function or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isVolatileAbove</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
@@ -5653,16 +5827,313 @@ Edit toolbar.
                 </Class>
             </Module>
             <Module>
-                <__p_name>variable</__p_name>
-                <__p_description>Contains the variable block class.</__p_description>
-            </Module>
-            <Module>
                 <__p_name>structure</__p_name>
                 <__p_description>Contains the structure block class.</__p_description>
+                <Class>
+                    <__p_name>Structure</__p_name>
+                    <__p_description>This is the structure block class. It implements the Socrates' Reference abstract block class. It represents a GLSL struct.</__p_description>
+                    <__p_parents>shader.Base</__p_parents>
+                    <__p_descriptors>register(&quot;Structure&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new structure block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the .shader.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clearProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>displayName</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>displayView</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>editDefinitions</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
             </Module>
             <Module>
                 <__p_name>function</__p_name>
                 <__p_description>Contains the function block class.</__p_description>
+                <Class>
+                    <__p_name>Function</__p_name>
+                    <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a GLSL function.</__p_description>
+                    <__p_parents>shader.Base</__p_parents>
+                    <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new function block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the .shader.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clearProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>displayName</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>displayView</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>editDefinitions</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__argumentsView_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text detailed view of all this function's arguments. If this function has no arguments then this returns an empty string.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__buildComments_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of source code lines that is the block comment for this function.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of every returned line of code.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__buildDeclaration_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of lines that is the declaration, or header, of this function. If this function has no arguments then a single line is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of every returned line of returned code.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>parser</__p_name>
+                <__p_description>Contains the GLSL language parser class.</__p_description>
+                <Class>
+                    <__p_name>Parser</__p_name>
+                    <__p_description>This is the GLSL parser class. It implements the Socrates' Reference abstract parser.</__p_description>
+                    <__p_parents>abstract.AbstractParser</__p_parents>
+                    <Access>
+                        <__p_name>Initializer</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new GLSL parser with the given root program block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>root</__p_name>
+                                <__p_description>A program block that is the root block of a GLSL project that this new parser will parse.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>unknown</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_build_</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>block</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>_buildPathList_</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>_scan_</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__buildPaths_</__p_name>
+                            <__p_description>Recursively adds source code paths to be scanned using the given parent block and path.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>The parent block whose children are scanned for potential source code paths.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>The path of the given parent block that is appended to any child block's path added.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__scanFunction_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of scanned code lines from the given input file, assuming it is positioned right after the function declaration line.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>ifile</__p_name>
+                                <__p_description>The input file positioned right after a function declaration whose scanned lines are returned.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>end</__p_name>
+                                <__p_description>The end part of function declaration, beginning with the first opening parenthesis after the function name.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
             </Module>
         </Package>
         <Package>

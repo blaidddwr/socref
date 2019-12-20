@@ -56,7 +56,7 @@ class Union(namespace.Base):
         ret.append(begin+"{")
         nextBegin = begin + " "*settings.INDENT
         for child in self:
-            ret += child.buildDeclaration(nextBegin,False)
+            ret += child.buildDeclaration(nextBegin)
         ret.append(begin+"};")
         return ret
 
