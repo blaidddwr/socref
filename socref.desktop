@@ -1,0 +1,10 @@
+[Desktop Entry]
+Comment=Code reference and commenting helper
+Exec=socref
+GenericName=Coding Reference
+Icon=socref
+Name=Socrates' Reference
+Categories=Development
+Terminal=false
+Type=Application
+MimeType=application/scp-xml

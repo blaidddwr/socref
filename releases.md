@@ -3,6 +3,19 @@
 
 Description of all releases with most recent on the top.
 
+## Version 0.8.0
+
+* Complete overhaul of entire program to python.
+* Still uses Qt through the PySide2 python interface.
+* Added python project language.
+* Complete overhaul of the entire GUI.
+* Added docker view and edit widgets for blocks.
+* Added toolbar for common actions along with free desktop icons.
+* Changed file extension for projects to SCP.
+* Drastically modified parser output for C++ files.
+* Added additional C++ template argument support.
+* Inline comment support has been removed.
+
 ## Version 0.7.2
 
 * Fixed project relative path bugs.

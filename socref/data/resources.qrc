@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/socref">
+        <file>application.svg</file>
+        <file>about.html</file>
+    </qresource>
+</RCC>
