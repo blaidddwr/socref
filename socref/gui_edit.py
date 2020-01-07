@@ -365,6 +365,9 @@ class BlockEditDock(qtw.QDockWidget):
         Called to update the block this dock is editing to the new one at the given index. If the
         given index is invalid then this dock returns to a null state with no form.
 
+        Garbage collection is required because rebuilding this dock's GUI causes large memory leaks
+        otherwise.
+
         index : The index of the new block whose properties are edited by this dock.
         """
         if self.__index.isValid() and self.__applyButton.isEnabled():
@@ -380,10 +383,6 @@ class BlockEditDock(qtw.QDockWidget):
         self.__index = index
         if self.__area.widget():
             self.__area.widget().deleteLater()
-            #
-            # Garbage collection is required because rebuilding this dock's GUI causes large memory
-            # leaks otherwise.
-            #
             gc.collect()
         if index.isValid():
             self.__area.setWidget(self.__buildFormWidget_(index))

@@ -51,9 +51,6 @@ class Module(package.Package):
         """
         ret = package.Package.build(self,definition,begin)
         ret += self._buildChildren_(definition,begin)
-        #
-        # Add the special main function call if this is the special main module of a package.
-        #
         if self._p_name == "__main__":
             ret += [""]*settings.H1LINES
             ret.append('if __name__ == "__main__": main()')

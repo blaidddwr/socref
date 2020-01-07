@@ -307,10 +307,6 @@ class ProjectView(qtw.QTreeView):
         (row,parent) = self.__insertValues_()
         if parent is None:
             return False
-        #
-        # If there is not a single global copied block type that is in the build list of the parent
-        # index then return false.
-        #
         if not ProjectView.__blockTypeSet & set(self.__model.data(parent,model.Role.BUILD_LIST)):
             return False
         return True
@@ -347,54 +343,36 @@ class ProjectView(qtw.QTreeView):
         """
         Initialize the qt actions of this new project view.
         """
-        #
-        # Undo action.
-        #
         action = self.__undoAction
         action.setIcon(qtg.QIcon.fromTheme("edit-undo"))
         action.setStatusTip("Undo the previous action.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Undo))
         action.triggered.connect(self.__undo_)
         self.addAction(action)
-        #
-        # Redo action.
-        #
         action = self.__redoAction
         action.setIcon(qtg.QIcon.fromTheme("edit-redo"))
         action.setStatusTip("Redo the previous undone action.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Redo))
         action.triggered.connect(self.__redo_)
         self.addAction(action)
-        #
-        # Remove action.
-        #
         action = self.__removeAction
         action.setIcon(qtg.QIcon.fromTheme("list-remove"))
         action.setStatusTip("Remove selected block(s).")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Delete))
         action.triggered.connect(self.__remove_)
         self.addAction(action)
-        #
-        # Cut action.
-        #
         action = self.__cutAction
         action.setIcon(qtg.QIcon.fromTheme("edit-cut"))
         action.setStatusTip("Cut selected block(s).")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Cut))
         action.triggered.connect(self.__cut_)
         self.addAction(action)
-        #
-        # Copy action.
-        #
         action = self.__copyAction
         action.setIcon(qtg.QIcon.fromTheme("edit-copy"))
         action.setStatusTip("Copy selected block(s).")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Copy))
         action.triggered.connect(self.__copy_)
         self.addAction(action)
-        #
-        # Paste action.
-        #
         action = self.__pasteAction
         action.setIcon(qtg.QIcon.fromTheme("edit-paste"))
         action.setStatusTip(
@@ -403,43 +381,28 @@ class ProjectView(qtw.QTreeView):
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Paste))
         action.triggered.connect(self.__paste_)
         self.addAction(action)
-        #
-        # Move up action.
-        #
         action = self.__moveUpAction
         action.setIcon(qtg.QIcon.fromTheme("go-up"))
         action.setStatusTip("Move current block up by one.")
         action.setShortcut(qtg.QKeySequence(qtc.Qt.CTRL + qtc.Qt.Key_Up))
         action.triggered.connect(self.__moveUp_)
         self.addAction(action)
-        #
-        # Move down action.
-        #
         action = self.__moveDownAction
         action.setIcon(qtg.QIcon.fromTheme("go-down"))
         action.setStatusTip("Move current block down by one.")
         action.setShortcut(qtg.QKeySequence(qtc.Qt.CTRL + qtc.Qt.Key_Down))
         action.triggered.connect(self.__moveDown_)
         self.addAction(action)
-        #
-        # Insert before action.
-        #
         action = self.__insertBeforeAction
         action.setStatusTip("Add or paste blocks before the current block.")
         action.setCheckable(True)
         action.setChecked(self.__insert == self.__BEFORE)
         action.triggered.connect(self.__insertBefore_)
-        #
-        # Insert into action.
-        #
         action = self.__insertIntoAction
         action.setStatusTip("Add or paste blocks into the current block.")
         action.setCheckable(True)
         action.setChecked(self.__insert == self.__INTO)
         action.triggered.connect(self.__insertInto_)
-        #
-        # Insert after action.
-        #
         action = self.__insertAfterAction
         action.setStatusTip("Add or paste blocks after the current block.")
         action.setCheckable(True)
@@ -548,16 +511,15 @@ class ProjectView(qtw.QTreeView):
         Called to add a newly created block to this project's model at its current index using its
         selected insert option.
 
+        This will also update the current index to the newly added block if the current one is not
+        valid. This partially fixes a strange PySide2 bug.
+
         blockType : The block type that is created and added to this project's model.
         """
         (row,parent) = self.__insertValues_()
         if parent is None:
             return
         self.__model.insertRows(row,(blockType,),parent)
-        #
-        # This partially fixes a strange PySide2 bug. It happens sometimes after creating a new
-        # project and trying to add a new block.
-        #
         if not self.selectionModel().currentIndex().isValid():
             self.selectionModel().setCurrentIndex(
                 self.__model.index(0,0,qtc.QModelIndex())

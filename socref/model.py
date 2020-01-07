@@ -52,6 +52,9 @@ class ParserModel(qtc.QObject):
         Called to start execution of the given abstract parser, returning when execution is
         complete.
 
+        This also catches any python exceptions and prints them to standard error because Qt
+        thread's event loop ignores them.
+
         parser : The abstract parser that is executed.
         """
         self.__progress = 0
@@ -62,10 +65,6 @@ class ParserModel(qtc.QObject):
             if unknown:
                 self.remained.emit(unknown)
         except:
-            #
-            # Qt thread's event loop ignores python exceptions so catch any here and make it
-            # visible.
-            #
             traceback.print_exc()
         finally:
             self.finished.emit()

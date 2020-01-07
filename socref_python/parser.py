@@ -200,29 +200,17 @@ class Parser(abstract.AbstractParser):
 
         ifile : The python script file whose function at the current seek position is scanned.
 
-        return : Scanned function definition containing all lines of scanned code along with inline
-                 comment markers from the function definition in the given python script file at its
-                 current seek position.
+        return : Scanned function definition containing all lines of scanned code from the function
+                 definition in the given python script file at its current seek position.
         """
         self.__skipDocString_(ifile)
-        #
-        # Latch is used to read in only the first line of any continuous block of comment lines.
-        #
         latch = True
-        ret = []
         scan = Scanner(ifile)
         while True:
             line = scan.readline()
             if line is None:
                 break
-            match = self.__commentPattern.match(line)
-            if match:
-                if latch:
-                    ret.append(match.group(1)[scan.indent():])
-                    latch = False
-            else:
-                ret.append(line[scan.indent():])
-                latch = True
+            ret.append(line[scan.indent():])
         return ret
 
 

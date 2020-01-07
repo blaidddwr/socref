@@ -500,9 +500,6 @@ class AbstractParser(abc.ABC):
         self.__buildingPaths = True
         self._buildPathList_()
         self.__buildingPaths = False
-        #
-        # Make sure there are no duplicates paths in the generated path list.
-        #
         if len(set(self.__paths)) != len(self.__paths):
             raise exception.ScanError("Duplicate file names generated for parsing. This is caused"
                                       " by two blocks generating an identical file name. Perhaps"

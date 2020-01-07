@@ -716,8 +716,6 @@ The parsing process is separated into building a path list, scanning, building, 
                         <Function>
                             <__p_name>parse</__p_name>
                             <__p_description>Parses the source code of the project of this parser's root block, updating its progress with the given callback object. The root path of this parser must be set.</__p_description>
-                            <__p_inlines>Make sure there are no duplicates paths in the generated path list.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -1227,12 +1225,13 @@ It provides helper methods for converting a qt model index into a list of rows a
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>start</__p_name>
-                            <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.</__p_description>
-                            <__p_descriptors>qtc.Slot(abstract.AbstractParser)</__p_descriptors>
-                            <__p_inlines>Qt thread's event loop ignores python exceptions so catch any here and make it visible.
-</__p_inlines>
+                            <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.
+
+This also catches any python exceptions and prints them to standard error because Qt thread's event loop ignores them.
+</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(abstract.AbstractParser)</__p_descriptors>
                             <Object>
                                 <__p_name>parser</__p_name>
                                 <__p_description>The abstract parser that is executed.</__p_description>
@@ -2013,11 +2012,9 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <Function>
                             <__p_name>__suggest_</__p_name>
                             <__p_description>Called to offer a suggested word in this spell checker's word edit widget. This finds the next word in the list of suggestions. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_inlines>Find the index to the next word in this spell checker's list of suggestions, wrapping to the beginning if its word edit widget is on the last word or an unknown word.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>
@@ -2213,8 +2210,6 @@ Actions are provided for all basic editing actions done upon a view's model. The
                             <__p_name>__canPaste_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_returnDescription>True if any of this project's global copied blocks can be pasted into its model at the current index with the current insertion type. False if no copied block can be pasted.</__p_returnDescription>
-                            <__p_inlines>If there is not a single global copied block type that is in the build list of the parent index then return false.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2228,28 +2223,6 @@ Actions are provided for all basic editing actions done upon a view's model. The
                         <Function>
                             <__p_name>__setupActions_</__p_name>
                             <__p_description>Initialize the qt actions of this new project view.</__p_description>
-                            <__p_inlines>Undo action.
-
-Redo action.
-
-Remove action.
-
-Cut action.
-
-Copy action.
-
-Paste action.
-
-Move up action.
-
-Move down action.
-
-Insert before action.
-
-Insert into action.
-
-Insert after action.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2293,12 +2266,13 @@ Insert after action.
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__add_</__p_name>
-                            <__p_description>Called to add a newly created block to this project's model at its current index using its selected insert option.</__p_description>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
-                            <__p_inlines>This partially fixes a strange PySide2 bug. It happens sometimes after creating a new project and trying to add a new block.
-</__p_inlines>
+                            <__p_description>Called to add a newly created block to this project's model at its current index using its selected insert option.
+
+This will also update the current index to the newly added block if the current one is not valid. This partially fixes a strange PySide2 bug.
+</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <Object>
                                 <__p_name>blockType</__p_name>
                                 <__p_description>The block type that is created and added to this project's model.</__p_description>
@@ -2692,12 +2666,13 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         </Function>
                         <Function>
                             <__p_name>__indexChanged_</__p_name>
-                            <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.</__p_description>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
-                            <__p_inlines>Garbage collection is required because rebuilding this dock's GUI causes large memory leaks otherwise.
-</__p_inlines>
+                            <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.
+
+Garbage collection is required because rebuilding this dock's GUI causes large memory leaks otherwise.
+</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the new block whose properties are edited by this dock.</__p_description>
@@ -3154,20 +3129,6 @@ It is the main window of the core application. It provides a view, docks, menus,
                         <Function>
                             <__p_name>__setupFileActions_</__p_name>
                             <__p_description>Initializes the qt actions of this new window's file menu.</__p_description>
-                            <__p_inlines>Open action.
-
-Save action.
-
-Save as action.
-
-Close action.
-
-Properties action.
-
-Parse action.
-
-Exit action.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3179,9 +3140,10 @@ Exit action.
                         </Function>
                         <Function>
                             <__p_name>__setupGui_</__p_name>
-                            <__p_description>Initializes the GUI of this new window.</__p_description>
-                            <__p_inlines>The status bar is not visible until this method is called so call it here to make it visible from the start.
-</__p_inlines>
+                            <__p_description>Initializes the GUI of this new window.
+
+The status bar is also accessed that forces it to be visible before it is initially used in this new window.
+</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3206,10 +3168,6 @@ Exit action.
                         <Function>
                             <__p_name>__setupToolbars_</__p_name>
                             <__p_description>Initializes all toolbars of this new window.</__p_description>
-                            <__p_inlines>File toolbar.
-
-Edit toolbar.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3238,9 +3196,9 @@ Edit toolbar.
                         <Function>
                             <__p_name>__about_</__p_name>
                             <__p_description>Called to open a modal about dialog describing this application to the user.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__close_</__p_name>
@@ -3371,8 +3329,6 @@ Edit toolbar.
                 <Function>
                     <__p_name>main</__p_name>
                     <__p_description>Begins execution of the program.</__p_description>
-                    <__p_inlines>Qt likes to catch all exceptions without exiting.
-</__p_inlines>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                 </Function>
@@ -6364,8 +6320,6 @@ Edit toolbar.
                             <__p_name>build</__p_name>
                             <__p_description>Implements the .package.Package interface.</__p_description>
                             <__p_returnDescription>See interface docs.</__p_returnDescription>
-                            <__p_inlines>Add the special main function call if this is the special main module of a package.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -6742,7 +6696,7 @@ Edit toolbar.
                         <Function>
                             <__p_name>__buildLines_</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_returnDescription>A list of source code lines generated from the given list of code lines and this function's inline comments.</__p_returnDescription>
+                            <__p_returnDescription>A list of source code lines generated from the given list of code lines.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -6795,8 +6749,6 @@ Edit toolbar.
                             <__p_name>build</__p_name>
                             <__p_description>Implements the .package.Package interface.</__p_description>
                             <__p_returnDescription>See interface docs.</__p_returnDescription>
-                            <__p_inlines>Get the scanned dictionary definition of this class.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -7095,9 +7047,7 @@ Edit toolbar.
                         <Function>
                             <__p_name>__scanFunction_</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_returnDescription>Scanned function definition containing all lines of scanned code along with inline comment markers from the function definition in the given python script file at its current seek position.</__p_returnDescription>
-                            <__p_inlines>Latch is used to read in only the first line of any continuous block of comment lines.
-</__p_inlines>
+                            <__p_returnDescription>Scanned function definition containing all lines of scanned code from the function definition in the given python script file at its current seek position.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -7119,18 +7069,6 @@ Edit toolbar.
                         <Function>
                             <__p_name>__skipDocString_</__p_name>
                             <__p_description>Seeks past any initial doc string starting at the current seek index of the given python script file. Blank lines also skipped and ignored.</__p_description>
-                            <__p_inlines>Initialize the doc line count to 0.
-
-Continue until both the beginning and ending doc string lines have been read or no doc string was found.
-
-Read the next line, keeping track of the last line's seek position.
-
-If the end of file is reached then return.
-
-If this is a doc string line then increment the doc line count.
-
-Else if this is not a blank line and the doc line count is 0 then return.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>

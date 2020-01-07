@@ -278,10 +278,6 @@ class SpellChecker(qtw.QGroupBox):
         document then this does nothing.
         """
         if self.__cursor is not None and self.__suggested:
-            #
-            # Find the index to the next word in this spell checker's list of suggestions, wrapping
-            # to the beginning if its word edit widget is on the last word or an unknown word.
-            #
             index = 1
             try:
                 index += self.__suggested.index(self.__wordEdit.text())

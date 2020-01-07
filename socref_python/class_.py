@@ -53,9 +53,6 @@ class Class(function.Descriptor):
 
         return : See interface docs.
         """
-        #
-        # Get the scanned dictionary definition of this class.
-        #
         definition = definition["classes"].get(self._p_name,{"functions":{}})
         ret = [""]*settings.H1LINES
         ret += self._buildDescriptors_(begin)

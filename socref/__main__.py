@@ -17,14 +17,12 @@ def main():
     """
     Begins execution of the program.
     """
-    #
-    # Qt likes to catch all exceptions without exiting.
-    #
-    print(os.getpid())
     block.BlockFactory().load("C++","socref_cpp")
     block.BlockFactory().load("C++/Qt","socref_cppqt")
     block.BlockFactory().load("GLSL","socref_glsl")
     block.BlockFactory().load("Python","socref_python")
+    qtc.QCoreApplication.setAttribute(qtc.Qt.AA_UseHighDpiPixmaps)
+    qtc.QCoreApplication.setAttribute(qtc.Qt.AA_EnableHighDpiScaling)
     application = qtw.QApplication(sys.argv)
     qtc.QCoreApplication.setOrganizationName("Socrates' Gaming Republic")
     qtc.QCoreApplication.setApplicationName("Socrates' Reference")

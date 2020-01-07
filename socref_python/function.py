@@ -140,7 +140,6 @@ class Function(Descriptor):
         """
         Descriptor.__init__(self)
         self._p_returnDescription = ""
-        self._p_inlines = ""
         self._p_static = "0"
         self._p_abstract = "0"
 
@@ -186,7 +185,6 @@ class Function(Descriptor):
         """
         Descriptor.clearProperties(self)
         self._p_returnDescription = ""
-        self._p_inlines = ""
         self._p_static = "0"
         self._p_abstract = "0"
 
@@ -235,7 +233,6 @@ class Function(Descriptor):
         else:
             ret.append(ut.hiddenEdit("_p_static","0"))
             ret.append(ut.hiddenEdit("_p_abstract","0"))
-        ret.append(ut.textEdit("Inline Comments:","_p_inlines",speller=True))
         ret.append(self._descriptorsEditDefinition_())
         return ret
 
@@ -290,7 +287,6 @@ class Function(Descriptor):
         Descriptor.setDefaultProperties(self)
         self._p_name = "function"
         self._p_returnDescription = ""
-        self._p_inlines = ""
         self._p_static = "0"
         self._p_abstract = "0"
 
@@ -368,28 +364,13 @@ class Function(Descriptor):
 
         begin : The indent string that is added to the beginning of every line of returned code.
 
-        return : A list of source code lines generated from the given list of code lines and this
-                 function's inline comments.
+        return : A list of source code lines generated from the given list of code lines.
         """
         if not lines:
             return [begin + " "*settings.INDENT + "pass"]
-        ret = []
-        inlines = [line for line in self._p_inlines.split("\n\n") if line]
-        for line in lines:
-            if line.endswith("#"):
-                if inlines:
-                    ret.append(begin + " "*settings.INDENT + line)
-                    ret += ut.wrapText(
-                        inlines.pop(0)
-                        ,begin=begin + " "*settings.INDENT + line + " "
-                        ,columns=settings.COLUMNS
-                    )
-                    ret.append(begin + " "*settings.INDENT + line)
-                else:
-                    ret.append(begin + " "*settings.INDENT + line)
-            else:
-                ret.append(begin + " "*settings.INDENT + line)
-        return ret
+        else:
+            newBegin = begin + " "*settings.INDENT
+            return [newBegin+line for line in lines if line]
 
 
     def __checkFlags_(self):

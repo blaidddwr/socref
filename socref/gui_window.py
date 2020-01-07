@@ -179,60 +179,39 @@ class MainWindow(qtw.QMainWindow):
         """
         Initializes the qt actions of this new window's file menu.
         """
-        #
-        # Open action.
-        #
         action = self.__openAction
         action.setIcon(qtg.QIcon.fromTheme("document-open"))
         action.setStatusTip("Open an existing project.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Open))
         action.triggered.connect(self.__open_)
         self.addAction(action)
-        #
-        # Save action.
-        #
         action = self.__saveAction
         action.setIcon(qtg.QIcon.fromTheme("document-save"))
         action.setStatusTip("Save the current project.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Save))
         action.triggered.connect(self.__save_)
         self.addAction(action)
-        #
-        # Save as action.
-        #
         action = self.__saveAsAction
         action.setIcon(qtg.QIcon.fromTheme("document-save-as"))
         action.setStatusTip("Save the current project to a provided file path.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.SaveAs))
         action.triggered.connect(self.__saveAs_)
         self.addAction(action)
-        #
-        # Close action.
-        #
         action = self.__closeAction
         action.setStatusTip("Close the current project.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Close))
         action.triggered.connect(self.__close_)
         self.addAction(action)
-        #
-        # Properties action.
-        #
         action = self.__propertiesAction
         action.setStatusTip("Open a dialog to edit the basic properties of the current project.")
         action.triggered.connect(self.__properties_)
         self.addAction(action)
-        #
-        # Parse action.
-        #
         action = self.__parseAction
         action.setIcon(qtg.QIcon.fromTheme("view-refresh"))
         action.setStatusTip("Parse all source code files with the current project.")
         action.setShortcut(qtg.QKeySequence(qtc.Qt.CTRL + qtc.Qt.Key_P))
         action.triggered.connect(self.__parse_)
         self.addAction(action)
-        #
-        # Exit action.
-        #
         action = self.__exitAction
         action.setIcon(qtg.QIcon.fromTheme("application-exit"))
         action.setStatusTip("Exit this window.")
@@ -263,6 +242,9 @@ class MainWindow(qtw.QMainWindow):
     def __setupGui_(self):
         """
         Initializes the GUI of this new window.
+
+        The status bar is also accessed that forces it to be visible before it is initially used in
+        this new window.
         """
         self.__instances.append(self)
         self.setWindowIcon(qtg.QIcon(":/socref/application.svg"))
@@ -279,10 +261,6 @@ class MainWindow(qtw.QMainWindow):
         model.ParserModel().progressed.connect(self.__parseProgressed_)
         model.ParserModel().finished.connect(self.__parseFinished_)
         self.__restore_()
-        #
-        # The status bar is not visible until this method is called so call it here to make it
-        # visible from the start.
-        #
         self.statusBar()
         self.__updateTitle_()
         self.__updateActions_()
@@ -330,18 +308,12 @@ class MainWindow(qtw.QMainWindow):
         """
         Initializes all toolbars of this new window.
         """
-        #
-        # File toolbar.
-        #
         toolbar = self.addToolBar("File")
         toolbar.setObjectName("file.toolbar")
         toolbar.addAction(self.__openAction)
         toolbar.addAction(self.__saveAction)
         toolbar.addAction(self.__saveAsAction)
         toolbar.addAction(self.__parseAction)
-        #
-        # Edit toolbar.
-        #
         toolbar = self.addToolBar("Edit")
         toolbar.setObjectName("edit.toolbar")
         toolbar.addAction(self.__view.undoAction())
