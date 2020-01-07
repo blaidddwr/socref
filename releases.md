@@ -89,7 +89,6 @@ Description of all releases with most recent on the top.
 
 * Improved edit block dialog GUI to properly handle failures.
 * Added project settings menu that opens a settings dialog project types.
-    * Implemented settings dialog for C++/Qt.
 * Added help menu.
 * Fixed C++/Qt parsing bugs.
 * Modified C++/Qt parent block to allow scope.
@@ -148,8 +147,6 @@ Description of all releases with most recent on the top.
 
 * Added tree view block editor that supports programming blocks.
 * Added support for C++/Qt using the new tree view block editor.
-* C++/Qt support includes: namespaces, classes, enumerations, functions,
-  variables, operator overloading, and signals/slots.
 * Improved GUI with various minor changes to make the interface better and
   easier to use.
 
