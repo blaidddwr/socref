@@ -204,7 +204,7 @@ class Parser(abstract.AbstractParser):
                  definition in the given python script file at its current seek position.
         """
         self.__skipDocString_(ifile)
-        latch = True
+        ret = []
         scan = Scanner(ifile)
         while True:
             line = scan.readline()
