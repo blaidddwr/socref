@@ -3070,6 +3070,20 @@ It is the main window of the core application. It provides a view, docks, menus,
                         </Function>
                     </Access>
                     <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>open_</__p_name>
+                            <__p_description>Opens a project at the given path in this window. If this window already has a project then this does nothing.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>The path of the project file that this window opens.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
                         <__p_name>Signals</__p_name>
                         <__p_type>Public</__p_type>
                         <Object>
@@ -3508,6 +3522,11 @@ The status bar is also accessed that forces it to be visible before it is initia
                             <Object>
                                 <__p_name>body</__p_name>
                                 <__p_description>A list of code lines returned with wrapped namespace declarations.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>commentLast</__p_name>
+                                <__p_description>True to add a description comment header to the last inner most namespace or false for no comments.</__p_description>
+                                <__p_assignment>False</__p_assignment>
                             </Object>
                         </Function>
                     </Access>

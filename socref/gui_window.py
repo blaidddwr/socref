@@ -68,6 +68,27 @@ class MainWindow(qtw.QMainWindow):
 
 
     ####################
+    # PUBLIC - Methods #
+    ####################
+
+
+    def open_(self, path):
+        """
+        Opens a project at the given path in this window. If this window already has a project then
+        this does nothing.
+
+        path : The path of the project file that this window opens.
+        """
+        if self.__model:
+            return
+        self.__model.load(path)
+        self.__path = path
+        self.__updateTitle_()
+        self.setWindowModified(False)
+        self.__updateActions_()
+
+
+    ####################
     # PUBLIC - Signals #
     ####################
 
@@ -460,15 +481,11 @@ class MainWindow(qtw.QMainWindow):
         if self.__model:
             window = MainWindow()
         try:
-            window.__model.load(path)
+            window.open_(path)
         except:
             if window is not self:
                 window.deleteLater()
             raise
-        window.__path = path
-        window.__updateTitle_()
-        window.setWindowModified(False)
-        window.__updateActions_()
         window.show()
 
 

@@ -177,7 +177,6 @@ class Function(Templatee):
         Templatee.__init__(self)
         self._p_returnType = ""
         self._p_returnDescription = ""
-        self._p_inlines = ""
         self._p_default = "0"
         self._p_deleted = "0"
         self._p_explicit = "0"
@@ -277,7 +276,6 @@ class Function(Templatee):
         namespace.Base.clearProperties(self)
         self._p_returnType = ""
         self._p_returnDescription = ""
-        self._p_inlines = ""
         self._p_default = "0"
         self._p_deleted = "0"
         self._p_explicit = "0"
@@ -360,7 +358,6 @@ class Function(Templatee):
             ret.append(ut.hiddenEdit("_p_override","0"))
             ret.append(ut.hiddenEdit("_p_final","0"))
             ret.append(ut.hiddenEdit("_p_abstract","0"))
-        ret.append(ut.textEdit("Inline Comments:","_p_inlines"))
         return ret
 
 
@@ -540,7 +537,6 @@ class Function(Templatee):
         self._p_name = "function"
         self._p_returnType = "void"
         self._p_returnDescription = ""
-        self._p_inlines = ""
         self._p_default = "0"
         self._p_deleted = "0"
         self._p_explicit = "0"
