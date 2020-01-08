@@ -93,7 +93,7 @@
                 <Object>
                     <__p_name>VERSION</__p_name>
                     <__p_description>The version of this application as a string. The string lists the major version, minor version, and revision in that order and separated by periods.</__p_description>
-                    <__p_assignment>&quot;0.0.9999&quot;</__p_assignment>
+                    <__p_assignment>&quot;0.8.1&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>DICTIONARY</__p_name>
