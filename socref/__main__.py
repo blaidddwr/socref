@@ -30,7 +30,10 @@ def main():
     model.ParserModel().remained.connect(lambda code : gui_dialog.CodeDialog(code).exec_())
     model.ParserModel().moveToThread(parserThread)
     parserThread.start()
-    gui_window.MainWindow().show()
+    main = gui_window.MainWindow()
+    if len(sys.argv) > 1:
+        main.open_(sys.argv[1])
+    main.show()
     ret = application.exec_()
     parserThread.quit()
     parserThread.wait()

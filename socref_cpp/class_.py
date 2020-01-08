@@ -61,7 +61,9 @@ class Class(function.Templatee):
             elif child._TYPE_ == "Access":
                 accesses.append(child)
         ret.append(begin+" */")
-        ret.append(begin+self.templateDeclaration())
+        template = self.templateDeclaration()
+        if template:
+            ret.append(begin+template)
         ret.append(begin+"class "+self._p_name)
         ret += self.__buildParents_(begin)
         ret.append(begin+"{")
@@ -287,7 +289,6 @@ class Class(function.Templatee):
         ret = []
         parents = [parent for parent in self._p_parents.split("\n") if parent]
         if parents:
-            print(parents)
             ret.append(begin+":")
             begin += " "*settings.INDENT
             first = True

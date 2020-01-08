@@ -176,30 +176,40 @@ class Base(abstract.AbstractBlock):
         return ["#ifndef " + guard,"#define " + guard]
 
 
-    def _buildNamespaces_(self, body):
+    def _buildNamespaces_(self, body, commentLast=False):
         """
         Getter method.
 
         body : A list of code lines returned with wrapped namespace declarations.
 
+        commentLast : True to add a description comment header to the last inner most namespace or
+                      false for no comments.
+
         return : A list of source code lines of the given body wrapped in enclosing lines of
                  namespace declarations composed from this block's parent namespace blocks.
         """
         ret = []
-        names = []
+        namespaces = []
         up = self
         while up is not None:
             if up._TYPE_ == "Namespace" and up.parent():
-                names.append(up._p_name)
+                namespaces.append(up)
             up = up.parent()
-        names.reverse()
-        if names:
+        namespaces.reverse()
+        if namespaces:
+            last = namespaces.pop()
             ret.append("")
-            for name in names:
-                ret += ["namespace "+name,"{"]
+            for namespace in namespaces:
+                ret += ["namespace "+namespace._p_name,"{"]
+            if commentLast:
+                ret += ["/*"]
+                ret += ut.wrapBlocks(last._p_description," * ",columns=settings.COLUMNS)
+                ret += [" */"]
+            ret += ["namespace "+last._p_name,"{"]
+            namespaces.append(last)
         ret += body
-        if names:
-            ret += [""] + ["}"]*len(names)
+        if namespaces:
+            ret += [""] + ["}"]*len(namespaces)
         return ret
 
 
@@ -297,7 +307,7 @@ class Namespace(Base):
         if variables:
             body += [""]*settings.H1LINES
         body += variables+functions
-        ret += self._buildNamespaces_(body)
+        ret += self._buildNamespaces_(body,self._TYPE_ == "Namespace")
         ret += ["","#endif"]
         return ret
 
