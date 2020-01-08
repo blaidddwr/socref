@@ -1229,9 +1229,9 @@ It provides helper methods for converting a qt model index into a list of rows a
 
 This also catches any python exceptions and prints them to standard error because Qt thread's event loop ignores them.
 </__p_description>
+                            <__p_descriptors>qtc.Slot(abstract.AbstractParser)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(abstract.AbstractParser)</__p_descriptors>
                             <Object>
                                 <__p_name>parser</__p_name>
                                 <__p_description>The abstract parser that is executed.</__p_description>
@@ -2012,9 +2012,9 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <Function>
                             <__p_name>__suggest_</__p_name>
                             <__p_description>Called to offer a suggested word in this spell checker's word edit widget. This finds the next word in the list of suggestions. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>
@@ -2270,9 +2270,9 @@ Actions are provided for all basic editing actions done upon a view's model. The
 
 This will also update the current index to the newly added block if the current one is not valid. This partially fixes a strange PySide2 bug.
 </__p_description>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <Object>
                                 <__p_name>blockType</__p_name>
                                 <__p_description>The block type that is created and added to this project's model.</__p_description>
@@ -2670,9 +2670,9 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
 
 Garbage collection is required because rebuilding this dock's GUI causes large memory leaks otherwise.
 </__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the new block whose properties are edited by this dock.</__p_description>
@@ -3850,9 +3850,13 @@ The status bar is also accessed that forces it to be visible before it is initia
                         <Function>
                             <__p_name>buildArgument</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_returnDescription>A source code fragment string that is the argument of this template.</__p_returnDescription>
+                            <__p_returnDescription>A source code fragment string that is the argument of this template, including any initialization if this is for a declaration.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>isDeclaration</__p_name>
+                                <__p_description>True if this is returned for a function declaration or false if it is for a function definition.</__p_description>
+                            </Object>
                         </Function>
                         <Function>
                             <__p_name>buildComment</__p_name>
@@ -4157,7 +4161,8 @@ The status bar is also accessed that forces it to be visible before it is initia
                         </Function>
                         <Function>
                             <__p_name>templateDefinition</__p_name>
-                            <__p_description>A template definition code string of this block based off its child template blocks or an empty string if it has no templates. The returned declaration does not include any initial value of template children.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>A template definition code string of this block based off its child template blocks or an empty string if it has no templates. The returned declaration does not include any initial value of template children.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4449,9 +4454,9 @@ The status bar is also accessed that forces it to be visible before it is initia
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__buildDeclaration_</__p_name>
+                            <__p_name>__buildHeader_</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_returnDescription>A list of lines that is the declaration, or header, of this function. If this function has no arguments or templates then a single line is returned.</__p_returnDescription>
+                            <__p_returnDescription>A list of lines that is the declaration or definition header of this function. If this function has no arguments or templates then a single line is returned.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -4468,7 +4473,7 @@ The status bar is also accessed that forces it to be visible before it is initia
                             </Object>
                             <Object>
                                 <__p_name>end</__p_name>
-                                <__p_description>A string that is added to the end of the returned declaration.</__p_description>
+                                <__p_description>A string that is added to the end of the returned declaration. If this string is a semicolon then a declaration header is returned else a definition header is returned.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>beforeFlags</__p_name>

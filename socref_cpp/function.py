@@ -65,9 +65,11 @@ class Templatee(namespace.Base):
 
     def templateDefinition(self):
         """
-        A template definition code string of this block based off its child template blocks or an
-        empty string if it has no templates. The returned declaration does not include any initial
-        value of template children.
+        Getter method.
+
+        return : A template definition code string of this block based off its child template blocks
+                 or an empty string if it has no templates. The returned declaration does not
+                 include any initial value of template children.
         """
         ret = self.__declaration_(True,False)
         return "template"+ret if ret else ""
@@ -204,7 +206,7 @@ class Function(Templatee):
         ret = [""]*settings.H2LINES
         ret += self.__buildComments_(begin)
         (before,after) = self.__buildFlagDeclarations_()
-        ret += self.__buildDeclaration_("","",begin,";",before,after)
+        ret += self.__buildHeader_("","",begin,";",before,after)
         return ret
 
 
@@ -233,7 +235,7 @@ class Function(Templatee):
         ):
             ret = [""]*settings.H1LINES
             (before,after) = self.__buildFlagDefinitions_()
-            ret += self.__buildDeclaration_(scope,template,"","",before,after)
+            ret += self.__buildHeader_(scope,template,"","",before,after)
             ret += definitions["functions"].pop(self.__signature_(scope),["{"])
             ret.append("}")
             return ([],ret)
@@ -590,7 +592,7 @@ class Function(Templatee):
         return ret
 
 
-    def __buildDeclaration_(self, scope, template, begin, end, beforeFlags, afterFlags):
+    def __buildHeader_(self, scope, template, begin, end, beforeFlags, afterFlags):
         """
         Getter method.
 
@@ -601,7 +603,8 @@ class Function(Templatee):
 
         begin : A string that is added to the beginning of every returned line of returned code.
 
-        end : A string that is added to the end of the returned declaration.
+        end : A string that is added to the end of the returned declaration. If this string is a
+              semicolon then a declaration header is returned else a definition header is returned.
 
         beforeFlags : The flags added to the returned declaration before the function return type
                       and name.
@@ -609,15 +612,15 @@ class Function(Templatee):
         afterFlags : The flags added to the returned declaration after the function name and
                      arguments.
 
-        return : A list of lines that is the declaration, or header, of this function. If this
-                 function has no arguments or templates then a single line is returned.
+        return : A list of lines that is the declaration or definition header of this function. If
+                 this function has no arguments or templates then a single line is returned.
         """
         if scope:
             scope += "::"
         if self.hasTemplates():
             if template:
                 template += " "
-            template += self.templateDefinition()
+            template += self.templateDeclaration if end == ";" else self.templateDefinition()
         ret = []
         if template:
             ret.append(begin+template)
@@ -628,7 +631,7 @@ class Function(Templatee):
         args = []
         for child in self:
             if child._TYPE_ == "Variable":
-                args.append(child.buildArgument())
+                args.append(child.buildArgument(end == ";"))
         if not args:
             line.append(")"+afterFlags+end)
             ret.append("".join(line))

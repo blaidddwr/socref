@@ -38,7 +38,7 @@ class Parser(abstract.AbstractParser):
         abstract.AbstractParser.__init__(self)
         self.__root_block = root
         self.__scopePattern = re.compile('^\s*namespace\s+(\w+)\s*$')
-        self.__functionPattern = re.compile('^(.*\s+)??(([\w<>,:]*operator )?[\w<>,:]+)\((.*)$')
+        self.__functionPattern = re.compile('^(.*\s+)??(([\w<>,:]*operator )?[\w<>,:~]+)\((.*)$')
         self.__functionPointerPattern = re.compile('^(.*)\(\*\w+\)\((.*)\)')
         self.__definitions = {"headers": {},"functions": {}}
 
@@ -208,15 +208,17 @@ class Parser(abstract.AbstractParser):
         """
         depth = 1
         lines = []
+        first = False
         while True:
             line = ifile.readline()
             if not line:
                 return lines
             line = line[:-1]
             if line:
-                if "{" in line:
+                if not first and "{" in line:
                     depth -= 1
-                depth += line.count("{") - line.count("}")
+                    first = True
+                depth += line.count("{")-line.count("}")
                 if depth <= 0:
                     return lines
                 lines.append(line)

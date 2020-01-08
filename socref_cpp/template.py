@@ -57,14 +57,18 @@ class Template(namespace.Base):
         return ret
 
 
-    def buildArgument(self):
+    def buildArgument(self, isDeclaration):
         """
         Getter method.
 
-        return : A source code fragment string that is the argument of this template.
+        isDeclaration : True if this is returned for a function declaration or false if it is for a
+                        function definition.
+
+        return : A source code fragment string that is the argument of this template, including any
+                 initialization if this is for a declaration.
         """
         ret = self._p_type.replace("@",self._p_name)
-        if self._p_assignment:
+        if self._p_assignment and isDeclaration:
             ret += "="+self._p_assignment
         return ret
 

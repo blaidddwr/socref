@@ -107,5 +107,5 @@ class Class(cppclass.Class):
         """
         ret = []
         if self.isQtObject():
-            ret.append(begin+"QT_OBJECT")
+            ret.append(begin+"Q_OBJECT")
         return ret+cppclass.Class._buildClassHeader_(self,begin)
