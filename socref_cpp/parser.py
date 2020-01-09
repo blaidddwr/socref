@@ -278,6 +278,8 @@ class Parser(abstract.AbstractParser):
                 if line:
                     if ")" in line and not "(" in line:
                         if not ";" in line:
+                            if "const" in line:
+                                name += ":const"
                             return name+":"+arguments
                         break
                     else:
@@ -285,4 +287,6 @@ class Parser(abstract.AbstractParser):
                             arguments += "_"
                         arguments += self.__scanArgument_(line)
         elif not ";" in ending:
+            if "const" in ending:
+                name += ":const"
             return name

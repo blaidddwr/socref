@@ -64,7 +64,7 @@ class Enum(namespace.Base):
             ret += child.buildDeclaration(nextBegin,first)
             if first:
                 first = False
-        ret.append(begin+"}")
+        ret.append(begin+"};")
         return ret
 
 

@@ -616,7 +616,7 @@ class Function(Templatee):
         if self.hasTemplates():
             if template:
                 template += " "
-            template += self.templateDeclaration if end == ";" else self.templateDefinition()
+            template += self.templateDeclaration() if end == ";" else self.templateDefinition()
         ret = []
         if template:
             ret.append(begin+template)
@@ -818,6 +818,8 @@ class Function(Templatee):
             scope += "::"
         ret = self.__buildNamespaceScope_()
         ret += scope+self.__name_()
+        if self.isConstant():
+            ret += ":const"
         args = []
         for child in self:
             if child._TYPE_ == "Variable":
