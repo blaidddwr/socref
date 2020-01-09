@@ -3,6 +3,11 @@
 
 Description of all releases with most recent on the top.
 
+## Version 0.8.2
+
+* Fixed C++/Qt parsing bugs.
+* Removed support for all C++ implicit type conversion operators.
+
 ## Version 0.8.1
 
 * Fixed C++/Qt bugs.
