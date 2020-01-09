@@ -88,12 +88,13 @@ class Template(namespace.Base):
             header = "@tparam %s : " % self._p_name
         else:
             header = "@param %s : " % self._p_name
-        return ut.wrapText(
+        ret = ut.wrapText(
             header + self._p_description
             ,begin
-            ,begin + " "*len(header)
+            ," "*len(header)
             ,settings.COLUMNS
         )
+        return ret
 
 
     def buildList(self):

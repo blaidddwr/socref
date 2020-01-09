@@ -3,6 +3,18 @@
 
 Description of all releases with most recent on the top.
 
+## Version 0.8.2
+
+* Fixed C++/Qt parsing bugs.
+* Removed support for all C++ implicit type conversion operators.
+
+## Version 0.8.1
+
+* Fixed C++/Qt bugs.
+* Added basic check in setup tools script.
+* Added to C++ parsing.
+* Added command line argument processing for opening a project.
+
 ## Version 0.8.0
 
 * Complete overhaul of entire program to python.

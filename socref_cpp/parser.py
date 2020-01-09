@@ -38,7 +38,7 @@ class Parser(abstract.AbstractParser):
         abstract.AbstractParser.__init__(self)
         self.__root_block = root
         self.__scopePattern = re.compile('^\s*namespace\s+(\w+)\s*$')
-        self.__functionPattern = re.compile('^(.*\s+)??(([\w<>,:]*operator )?[\w<>,:~]+)\((.*)$')
+        self.__functionPattern = re.compile('^(.*\s)?([\S]+)\((.*)$')
         self.__functionPointerPattern = re.compile('^(.*)\(\*\w+\)\((.*)\)')
         self.__definitions = {"headers": {},"functions": {}}
 
@@ -163,7 +163,7 @@ class Parser(abstract.AbstractParser):
                     self.__scan_(ifile,scope + match.group(1))
                 match = self.__functionPattern.match(line)
                 if match:
-                    signature = self.__scanSignature_(ifile,match.group(2),match.group(4))
+                    signature = self.__scanSignature_(ifile,match.group(2),match.group(3))
                     if signature:
                         ut.uniqueInsert(
                             self.__definitions["functions"]
