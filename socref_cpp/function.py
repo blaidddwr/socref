@@ -98,7 +98,7 @@ class Templatee(namespace.Base):
                  about its templates. If this block has no templates then an empty string is
                  returned.
         """
-        return "<> " if self.hasTemplates() else ""
+        return " <>" if self.hasTemplates() else ""
 
 
     def _templatesView_(self):
@@ -294,13 +294,12 @@ class Function(Templatee):
 
         return : See interface docs.
         """
-        ret = self._templatesName_()
-        if not self.isConstructor() and not self.isDestructor() and self._p_returnType != "void":
-            ret += "... "
         flags = self.__flags_()
         if flags:
             flags = " [%s]"%flags
-        ret += "%s(%i)%s" % (self.__name_(),len(self),flags)
+        ret = "%s(%i)%s%s" % (self.__name_(),len(self),flags,self._templatesName_())
+        if not self.isConstructor() and not self.isDestructor() and self._p_returnType != "void":
+            ret += " ..."
         return ret
 
 

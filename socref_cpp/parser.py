@@ -161,15 +161,16 @@ class Parser(abstract.AbstractParser):
                 match = self.__scopePattern.match(line)
                 if match:
                     self.__scan_(ifile,scope + match.group(1))
-                match = self.__functionPattern.match(line)
-                if match:
-                    signature = self.__scanSignature_(ifile,match.group(2),match.group(3))
-                    if signature:
-                        ut.uniqueInsert(
-                            self.__definitions["functions"]
-                            ,scope+signature
-                            ,self.__scanFunction_(ifile)
-                        )
+                if not line.startswith("template"):
+                    match = self.__functionPattern.match(line)
+                    if match:
+                        signature = self.__scanSignature_(ifile,match.group(2),match.group(3))
+                        if signature:
+                            ut.uniqueInsert(
+                                self.__definitions["functions"]
+                                ,scope+signature
+                                ,self.__scanFunction_(ifile)
+                            )
 
 
     def __scanArgument_(self, line):

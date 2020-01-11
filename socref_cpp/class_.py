@@ -169,7 +169,7 @@ class Class(function.Templatee):
 
         return : See interface docs.
         """
-        return self._templatesName_() + self._p_name
+        return self._p_name + self._templatesName_()
 
 
     def displayView(self):
