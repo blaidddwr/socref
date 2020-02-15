@@ -263,7 +263,7 @@ class Function(Templatee):
         """
         ret = definitions["headers"].get(path,[])
         ret += [""]*settings.H1LINES
-        ret += self.__buildDeclaration_("","","","","","")
+        ret += self.__buildHeader_("","","","","","")
         ret += definitions["functions"].pop(self.__signature_(""),["{"])
         ret.append("}")
         return ret

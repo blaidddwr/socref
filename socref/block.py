@@ -18,7 +18,8 @@ def register(name, root=False):
     being loaded.
 
     name : The block's type name that is being registered. This must be unique among all block names
-           of any one language and only contain letter and space characters.
+           of any one language and only contain alphabetical and underscore characters. Underscore
+           characters are replaced with spaces when displays the block type to the user.
 
     root : Optional root Boolean that indicates the registered block is the root block of the
            language if set to true. Only one block type can be the root of a language.
@@ -155,6 +156,10 @@ class BlockFactory():
         """
         if name == self.__ROOT:
             raise exception.RegisterError("Block class cannot register with reserved name.")
+        if not name.replace("_","a").isalpha():
+            raise exception.RegisterError(
+                "Block type name can only contain alphabetical and underscore characters." + name
+            )
         self.__registerBlock_(class_,name)
         class_._LANG_ = self.__importingLangName
         class_._TYPE_ = name

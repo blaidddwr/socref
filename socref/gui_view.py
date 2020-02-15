@@ -466,7 +466,7 @@ class ProjectView(qtw.QTreeView):
         block_list = self.__model.data(index,model.Role.BUILD_LIST)
         if block_list is not None:
             for block_type in block_list:
-                action = qtw.QAction(block_type,self)
+                action = qtw.QAction(block_type.replace("_"," "),self)
                 action.setIcon(
                     block.BlockFactory().create(self.__model.langName(),block_type).icon()
                 )

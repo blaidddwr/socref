@@ -74,7 +74,7 @@ class Enum(namespace.Base):
 
         return : See interface docs.
         """
-        return ("Enumeration Value",)
+        return ("Enumeration_Value",)
 
 
     def clearProperties(self):

@@ -123,16 +123,15 @@ class Parser(abstract.AbstractParser):
         for child in parent:
             if child._TYPE_ == "Namespace":
                 end = "" if child.isHidden() else child._p_name.lower()
-                if end:
-                    self._addPath_(child,scope+child._p_name.lower()+settings.HEADER_EXTENSION)
-                    if child.hasFunctions():
-                        self._addPath_(child,scope+child._p_name.lower()+settings.SOURCE_EXTENSION)
+                self._addPath_(child,scope+child._p_name.lower()+settings.HEADER_EXTENSION)
+                if child.hasFunctions():
+                    self._addPath_(child,scope+child._p_name.lower()+settings.SOURCE_EXTENSION)
                 self.__buildPaths_(child,scope + end)
             elif child._TYPE_ == "Class":
                 self._addPath_(child,scope+child._p_name.lower()+settings.HEADER_EXTENSION)
                 if not child.hasTemplates():
                     self._addPath_(child,scope+child._p_name.lower()+settings.SOURCE_EXTENSION)
-            elif not scope and child._TYPE_ == "Function":
+            elif not scope and child._TYPE_ == "Function" and child._p_name == "main":
                 self._addPath_(child,child._p_name.lower()+settings.SOURCE_EXTENSION)
 
 
@@ -244,9 +243,6 @@ class Parser(abstract.AbstractParser):
                 return lines
             line = line[:-1]
             if not line:
-                return lines
-            elif line[0] != "#":
-                ifile.seek(last)
                 return lines
             else:
                 lines.append(line)

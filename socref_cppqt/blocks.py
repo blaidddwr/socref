@@ -70,7 +70,7 @@ class Enum(enumeration.Enum):
 
 
 
-@register("Enumeration Value")
+@register("Enumeration_Value")
 class EnumValue(enumeration_value.EnumValue):
     """
     This is the enumeration value block class. It implements the Socrates' Reference abstract block

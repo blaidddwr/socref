@@ -817,7 +817,7 @@ The parsing process is separated into building a path list, scanning, building, 
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>name</__p_name>
-                        <__p_description>The block's type name that is being registered. This must be unique among all block names of any one language and only contain letter and space characters.</__p_description>
+                        <__p_description>The block's type name that is being registered. This must be unique among all block names of any one language and only contain alphabetical and underscore characters. Underscore characters are replaced with spaces when displays the block type to the user.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>root</__p_name>
@@ -3765,8 +3765,8 @@ The status bar is also accessed that forces it to be visible before it is initia
                 <Class>
                     <__p_name>EnumValue</__p_name>
                     <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration value.</__p_description>
-                    <__p_descriptors>register(&quot;Enumeration Value&quot;)</__p_descriptors>
                     <__p_parents>namespace.Base</__p_parents>
+                    <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5156,8 +5156,8 @@ The status bar is also accessed that forces it to be visible before it is initia
                 <Class>
                     <__p_name>EnumValue</__p_name>
                     <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt enumeration value.</__p_description>
-                    <__p_descriptors>register(&quot;Enumeration Value&quot;)</__p_descriptors>
                     <__p_parents>enumeration_value.EnumValue</__p_parents>
+                    <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>

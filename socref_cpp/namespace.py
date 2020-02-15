@@ -260,9 +260,7 @@ class Namespace(Base):
                 forwards += child.buildForward()
             else:
                 ret += child.buildDeclaration(begin)
-        if forwards:
-            ret += [""]*settings.H2LINES
-        ret += forwards
+        ret = forwards+ret
         return ret
 
 

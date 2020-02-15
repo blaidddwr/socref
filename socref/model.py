@@ -370,7 +370,6 @@ class ProjectModel(qtc.QAbstractItemModel):
         while not stream.atEnd():
             stream.readNext()
             if stream.isStartElement():
-                name = stream.name().replace("_"," ")
                 block_ = block.BlockFactory().create(langName,name)
                 block_.setFromXml(stream)
                 if name in parentBlock.buildList():

@@ -15,7 +15,7 @@ from . import namespace
 
 
 
-@register("Enumeration Value")
+@register("Enumeration_Value")
 class EnumValue(namespace.Base):
     """
     This is the enumeration value block class. It implements the Socrates' Reference abstract block
