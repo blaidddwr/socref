@@ -43,11 +43,17 @@ class Module(package.Package):
         """
         Implements the .package.Package interface.
 
-        definition : See interface docs.
+        Parameters
+        ----------
+        definition : object
+                     See interface docs.
+        begin : object
+                See interface docs.
 
-        begin : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = package.Package.build(self,definition,begin)
         ret += self._buildChildren_(definition,begin)
@@ -61,7 +67,10 @@ class Module(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Object","Function","Class")
 
@@ -70,7 +79,10 @@ class Module(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return qtg.QIcon(":/python/module.svg")
 

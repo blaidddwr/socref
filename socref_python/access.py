@@ -50,11 +50,17 @@ class Access(package.Package):
         """
         Implements the .package.Package interface.
 
-        definition : See interface docs.
+        Parameters
+        ----------
+        definition : object
+                     See interface docs.
+        begin : object
+                See interface docs.
 
-        begin : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = [""]*settings.H3LINES
         line = "# %s - %s #" % (self._p_type.upper(),self._p_name)
@@ -69,7 +75,10 @@ class Access(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Object","Function")
 
@@ -86,7 +95,10 @@ class Access(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return self._p_name + " (%i)" % len(self)
 
@@ -95,7 +107,10 @@ class Access(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return "<h1>%s</h1><p>%s</p>" % (
             html.escape(self._p_type.upper())
@@ -107,7 +122,10 @@ class Access(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = []
         ret.append(ut.lineEdit("Name:","_p_name"))
@@ -123,7 +141,10 @@ class Access(package.Package):
         """
         Getter method.
 
-        return : True if this access block contains abstract methods or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this access block contains abstract methods or false otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":
@@ -136,7 +157,10 @@ class Access(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self._p_type == "Public":
             return qtg.QIcon(":/python/public.svg")
@@ -150,7 +174,10 @@ class Access(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return True
 
