@@ -45,11 +45,17 @@ class Structure(shader.Base):
         """
         Implements the .shader.Base interface.
 
-        definition : See interface docs.
+        Parameters
+        ----------
+        definition : object
+                     See interface docs.
+        begin : object
+                See interface docs.
 
-        begin : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = [""]*settings.H2LINES
         ret.append(begin+"/*!")
@@ -72,7 +78,10 @@ class Structure(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Variable",)
 
@@ -89,7 +98,10 @@ class Structure(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self._p_name:
             return self._p_name
@@ -101,7 +113,10 @@ class Structure(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         type_ = "<h2>Type</h2><p>"+html.escape(self._p_type)+"</p>"
         return shader.Base.displayView(self)+type_
@@ -111,7 +126,10 @@ class Structure(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = shader.Base.editDefinitions(self)
         ret.append(ut.lineEdit("Type:","_p_type"))
@@ -122,7 +140,10 @@ class Structure(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return qtg.QIcon(":/glsl/structure.svg")
 

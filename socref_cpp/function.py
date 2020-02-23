@@ -43,7 +43,10 @@ class Templatee(namespace.Base):
         """
         Getter method.
 
-        return : True if this block has any templates or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this block has any templates or false otherwise.
         """
         for child in self:
             if child._TYPE_ == "Template":
@@ -55,9 +58,12 @@ class Templatee(namespace.Base):
         """
         Getter method.
 
-        return : A template declaration code string of this block based off its child template
-                 blocks or an empty string if it has no templates. The returned declaration includes
-                 any initial value of template children.
+        Returns
+        -------
+        ret0 : string
+               Template declaration code of this block based off its child template blocks or an
+               empty string if it has no templates. The returned declaration includes any initial
+               value of template children.
         """
         ret = self.__declaration_(True,True)
         return "template"+ret if ret else ""
@@ -67,9 +73,12 @@ class Templatee(namespace.Base):
         """
         Getter method.
 
-        return : A template definition code string of this block based off its child template blocks
-                 or an empty string if it has no templates. The returned declaration does not
-                 include any initial value of template children.
+        Returns
+        -------
+        ret0 : string
+               Template definition code of this block based off its child template blocks or an
+               empty string if it has no templates. The returned declaration does not include any
+               initial value of template children.
         """
         ret = self.__declaration_(True,False)
         return "template"+ret if ret else ""
@@ -79,8 +88,11 @@ class Templatee(namespace.Base):
         """
         Getter method.
 
-        return : A template scope code string of this block based off its child template blocks or
-                 an empty string if it has no templates.
+        Returns
+        -------
+        ret0 : string
+               Template scope code of this block based off its child template blocks or an empty
+               string if it has no templates.
         """
         return self.__declaration_(False,False)
 
@@ -94,19 +106,24 @@ class Templatee(namespace.Base):
         """
         Getter method.
 
-        return : A string that is a decoration for a block's display name providing information
-                 about its templates. If this block has no templates then an empty string is
-                 returned.
+        Returns
+        -------
+        ret0 : string
+               A decoration for this block's display name providing information about its templates.
+               If this block has no templates then an empty string is returned.
         """
-        return "<> " if self.hasTemplates() else ""
+        return " <>" if self.hasTemplates() else ""
 
 
     def _templatesView_(self):
         """
         Getter method.
 
-        return : A rich text string providing detailed information about this block's templates. If
-                 this block has no templates then an empty string is returned.
+        Returns
+        -------
+        ret0 : rich text
+               Providing detailed information about this block's templates. If this block has no
+               templates then an empty string is returned.
         """
         return ut.richText(
             2
@@ -124,15 +141,21 @@ class Templatee(namespace.Base):
         """
         Getter method.
 
-        withType : True to include the template type in the returned template code string or false
+        Parameters
+        ----------
+        withType : bool
+                   True to include the template type in the returned template code string or false
                    otherwise.
+        withInit : bool
+                   True to include any initial value of a template argument or false otherwise.
 
-        withInit : True to include any initial value of a template argument or false otherwise.
-
-        return : A template code string that is the list of this block's children templates,
-                 optionally including the template type and/or any initial value. If this block has
-                 no templates then an empty string is returned. The returned code does not include
-                 the initial "template" keyword for declarations.
+        Returns
+        -------
+        ret0 : string
+               Template code that is the list of this block's children templates, optionally
+               including the template type and/or any initial value. If this block has no templates
+               then an empty string is returned. The returned code does not include the initial
+               "template" keyword for declarations.
         """
         args = []
         for child in self:
@@ -198,9 +221,15 @@ class Function(Templatee):
         """
         Implements the .namespace.Base interface.
 
-        begin : See interface docs.
+        Parameters
+        ----------
+        begin : object
+                See interface docs.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = [""]*settings.H2LINES
         ret += self.__buildComments_(begin)
@@ -213,15 +242,21 @@ class Function(Templatee):
         """
         Implements the .namespace.Base interface.
 
-        definitions : See interface docs.
+        Parameters
+        ----------
+        definitions : object
+                      See interface docs.
+        scope : object
+                See interface docs.
+        template : object
+                   See interface docs.
+        header : object
+                 See interface docs.
 
-        scope : See interface docs.
-
-        template : See interface docs.
-
-        header : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if (
             not self.isDefault()
@@ -246,7 +281,10 @@ class Function(Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Template","Variable")
 
@@ -255,15 +293,21 @@ class Function(Templatee):
         """
         Implements the .namespace.Base interface.
 
-        definitions : See interface docs.
+        Parameters
+        ----------
+        definitions : object
+                      See interface docs.
+        path : object
+               See interface docs.
 
-        path : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = definitions["headers"].get(path,[])
         ret += [""]*settings.H1LINES
-        ret += self.__buildDeclaration_("","","","","","")
+        ret += self.__buildHeader_("","","","","","")
         ret += definitions["functions"].pop(self.__signature_(""),["{"])
         ret.append("}")
         return ret
@@ -292,15 +336,17 @@ class Function(Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
-        ret = self._templatesName_()
-        if not self.isConstructor() and not self.isDestructor() and self._p_returnType != "void":
-            ret += "... "
         flags = self.__flags_()
         if flags:
             flags = " [%s]"%flags
-        ret += "%s(%i)%s" % (self.__name_(),len(self),flags)
+        ret = "%s(%i)%s%s" % (self.__name_(),len(self),flags,self._templatesName_())
+        if not self.isConstructor() and not self.isDestructor() and self._p_returnType != "void":
+            ret += " ..."
         return ret
 
 
@@ -308,7 +354,10 @@ class Function(Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         self.__checkFlags_()
         return_ = ""
@@ -332,7 +381,10 @@ class Function(Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = namespace.Base.editDefinitions(self)
         ret.append(ut.lineEdit("Return Type:","_p_returnType"))
@@ -365,7 +417,10 @@ class Function(Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self.isConstructor():
             return qtg.QIcon(":/cpp/constructor.svg")
@@ -398,7 +453,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is abstract or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is abstract or false otherwise.
         """
         return bool(int(self._p_abstract))
 
@@ -407,7 +465,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is constant or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is constant or false otherwise.
         """
         return bool(int(self._p_const))
 
@@ -416,7 +477,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is a constructor or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is a constructor or false otherwise.
         """
         return self._p_name == "^"
 
@@ -425,7 +489,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is the default or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is the default or false otherwise.
         """
         return bool(int(self._p_default))
 
@@ -434,7 +501,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is deleted or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is deleted or false otherwise.
         """
         return bool(int(self._p_deleted))
 
@@ -443,7 +513,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is a destructor or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is a destructor or false otherwise.
         """
         return self._p_name == "~^"
 
@@ -452,7 +525,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is an explicit constructor or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is an explicit constructor or false otherwise.
         """
         return bool(int(self._p_explicit))
 
@@ -461,7 +537,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is the final overriding virtual interface or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is the final overriding virtual interface or false otherwise.
         """
         return bool(int(self._p_final))
 
@@ -470,7 +549,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is a method or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is a method or false otherwise.
         """
         return self.parent() and self.parent()._TYPE_ == "Access"
 
@@ -479,7 +561,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function does not throw exceptions or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function does not throw exceptions or false otherwise.
         """
         return bool(int(self._p_noexcept))
 
@@ -488,7 +573,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is an operator or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is an operator or false otherwise.
         """
         return self._p_name.startswith("operator")
 
@@ -497,7 +585,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is overriding a virtual interface or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is overriding a virtual interface or false otherwise.
         """
         return bool(int(self._p_override))
 
@@ -506,7 +597,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is static or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is static or false otherwise.
         """
         return bool(int(self._p_static))
 
@@ -515,7 +609,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : True if this function is virtual or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is virtual or false otherwise.
         """
         return bool(int(self._p_virtual))
 
@@ -524,7 +621,10 @@ class Function(Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return self.isMethod()
 
@@ -558,8 +658,11 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : Rich text detailed view of all this function's arguments. If this function has no
-                 arguments then this returns an empty string.
+        Returns
+        -------
+        ret0 : rich text
+               Detailed view of all this function's arguments. If this function has no arguments
+               then this returns an empty string.
         """
         return ut.richText(
             2
@@ -572,9 +675,15 @@ class Function(Templatee):
         """
         Getter method.
 
-        begin : A string that is added to the beginning of every returned line of code.
+        Parameters
+        ----------
+        begin : string
+                Added to the beginning of every returned line of code.
 
-        return : A list of source code lines that is the block comment for this function.
+        Returns
+        -------
+        ret0 : list
+               Source code lines that is the block comment for this function.
         """
         ret = [begin+"/*!"]
         ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
@@ -592,31 +701,37 @@ class Function(Templatee):
         """
         Getter method.
 
-        scope : The scope that is appended to the returned functions name.
-
-        template : Any template declarations that is appended to its own line before the main
+        Parameters
+        ----------
+        scope : string
+                The scope that is appended to the returned functions name.
+        template : string
+                   Any template declarations that is appended to its own line before the main
                    function declaration.
-
-        begin : A string that is added to the beginning of every returned line of returned code.
-
-        end : A string that is added to the end of the returned declaration. If this string is a
-              semicolon then a declaration header is returned else a definition header is returned.
-
-        beforeFlags : The flags added to the returned declaration before the function return type
+        begin : string
+                Added to the beginning of every returned line of returned code.
+        end : string
+              Added to the end of the returned declaration. If this string is a semicolon then a
+              declaration header is returned else a definition header is returned.
+        beforeFlags : string
+                      The flags added to the returned declaration before the function return type
                       and name.
-
-        afterFlags : The flags added to the returned declaration after the function name and
+        afterFlags : string
+                     The flags added to the returned declaration after the function name and
                      arguments.
 
-        return : A list of lines that is the declaration or definition header of this function. If
-                 this function has no arguments or templates then a single line is returned.
+        Returns
+        -------
+        ret0 : list
+               Lines that is the declaration or definition header of this function. If this function
+               has no arguments or templates then a single line is returned.
         """
         if scope:
             scope += "::"
         if self.hasTemplates():
             if template:
                 template += " "
-            template += self.templateDeclaration if end == ";" else self.templateDefinition()
+            template += self.templateDeclaration() if end == ";" else self.templateDefinition()
         ret = []
         if template:
             ret.append(begin+template)
@@ -648,9 +763,12 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : A tuple containing two code fragment strings. The first are flags for this
-                 function's declaration before its return type and name. The second are flags for
-                 its declaration after its name and arguments.
+        Returns
+        -------
+        ret0 : string
+               Flags for this function's declaration before its return type and name.
+        ret1 : string
+               Flags for its declaration after its name and arguments.
         """
         before = ""
         after = ""
@@ -681,9 +799,12 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : A tuple containing two code fragment strings. The first are flags for this
-                 function's definition header before its return type and name. The second are flags
-                 for its definition header after its name and arguments.
+        Returns
+        -------
+        ret0 : string
+               Flags for this function's definition header before its return type and name.
+        ret1 : string
+               Flags for its definition header after its name and arguments.
         """
         ret = ""
         if self.isConstant():
@@ -697,8 +818,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : A string that is the namespace only scope of this function, not including any
-                 classes.
+        Returns
+        -------
+        ret0 : string
+               The namespace only scope of this function, not including any classes.
         """
         namespaces = []
         up = self.parent()
@@ -733,8 +856,11 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : A string of character flags this block has enabled. If this block has no flags
-                 enabled then an empty string is returned.
+        Returns
+        -------
+        ret0 : string
+               Character flags this block has enabled. If this block has no flags enabled then an
+               empty string is returned.
         """
         ret = ""
         if self.isDefault():
@@ -764,8 +890,11 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : A string list of flags this block has enabled. If this block has no flags enabled
-                 then an empty string is returned.
+        Returns
+        -------
+        ret0 : list
+               Character flags this block has enabled. If this block has no flags enabled then an
+               empty list is returned.
         """
         flags = []
         if self.isDefault():
@@ -795,8 +924,10 @@ class Function(Templatee):
         """
         Getter method.
 
-        return : The name of this function, taking into account if it is a constructor or
-                 destructor.
+        Returns
+        -------
+        ret0 : string
+               The name of this function, taking into account if it is a constructor or destructor.
         """
         if self.isMethod():
             return self._p_name.replace("^",self.parent().parent()._p_name)
@@ -808,16 +939,24 @@ class Function(Templatee):
         """
         Getter method.
 
-        scope : The class only scope of this function, not including any namespaces.
+        Parameters
+        ----------
+        scope : string
+                The class only scope of this function, not including any namespaces.
 
-        return : The signature of this function used to lookup any scanned lines of code when
-                 building its definition. This includes its full scope of any namespaces and
-                 classes, name of the function, and its arguments because this is C++.
+        Returns
+        -------
+        ret0 : string
+               The signature of this function used to lookup any scanned lines of code when building
+               its definition. This includes its full scope of any namespaces and classes, name of
+               the function, and its arguments because this is C++.
         """
         if scope:
             scope += "::"
         ret = self.__buildNamespaceScope_()
         ret += scope+self.__name_()
+        if self.isConstant():
+            ret += ":const"
         args = []
         for child in self:
             if child._TYPE_ == "Variable":

@@ -42,7 +42,10 @@ class Access(cppaccess.Access):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self._p_type == "Signals":
             return qtg.QIcon(":/cppqt/signals.svg")
@@ -60,7 +63,10 @@ class Access(cppaccess.Access):
         """
         Getter method.
 
-        return : True if this access is a signals type or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this access is a signals type or false otherwise.
         """
         return self._p_type == "Signals"
 
@@ -69,8 +75,11 @@ class Access(cppaccess.Access):
         """
         Getter method.
 
-        return : True if this access is a public, protected, or private slots type. False is
-                 returned otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this access is a public, protected, or private slots type. False is returned
+               otherwise.
         """
         return self._p_type.endswith("Slots")
 
@@ -84,7 +93,10 @@ class Access(cppaccess.Access):
         """
         Extends the socref_cpp.access.Access method.
 
-        combo : See method docs.
+        Parameters
+        ----------
+        combo : object
+                See method docs.
         """
         cppaccess.Access._addComboSelects_(self,combo)
         ut.addComboSelect(combo,"Signals",icon=qtg.QIcon(":/cppqt/signals.svg"))

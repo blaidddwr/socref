@@ -96,7 +96,10 @@ class AbstractBlock(abc.ABC):
         """
         This interface is a getter method.
 
-        return : A list of block types that can be children of this block.
+        Returns
+        -------
+        ret0 : list
+               Block types that can be children of this block.
         """
         pass
 
@@ -114,7 +117,10 @@ class AbstractBlock(abc.ABC):
         """
         This interface is a getter method.
 
-        return : A string that is the display name of this block.
+        Returns
+        -------
+        ret0 : string
+               The display name of this block.
         """
         pass
 
@@ -124,7 +130,10 @@ class AbstractBlock(abc.ABC):
         """
         This interface is a getter method.
 
-        return : A string in qt rich text format that gives a detailed description of this block.
+        Returns
+        -------
+        ret0 : string
+               Qt rich text that gives a detailed description of this block.
         """
         pass
 
@@ -134,8 +143,11 @@ class AbstractBlock(abc.ABC):
         """
         This interface is a getter method.
 
-        return : A list of edit definition dictionaries informing the core application how to build
-                 the edit GUI for this block.
+        Returns
+        -------
+        ret0 : list
+               Edit definition dictionaries informing the core application how to build the edit GUI
+               for this block.
         """
         pass
 
@@ -145,7 +157,10 @@ class AbstractBlock(abc.ABC):
         """
         This interface is a getter method.
 
-        return : A qt icon that represents this block.
+        Returns
+        -------
+        ret0 : PySide2.QtGui.QIcon
+               The icon of this block.
         """
         pass
 
@@ -167,9 +182,15 @@ class AbstractBlock(abc.ABC):
         """
         Implements the equality operator.
 
-        other : Another block that is evaluated for equality with this one.
+        Parameters
+        ----------
+        other : socref.abstract.AbstractBlock
+                Another block that is evaluated for equality with this one.
 
-        return : True if the other object is this instance or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if the other object is this instance or false otherwise.
         """
         return self is other
 
@@ -178,7 +199,10 @@ class AbstractBlock(abc.ABC):
         """
         Implements the length operator.
 
-        return : Total number of children of this block.
+        Returns
+        -------
+        ret0 : int
+               Total number of children of this block.
         """
         return len(self.__children)
 
@@ -187,9 +211,15 @@ class AbstractBlock(abc.ABC):
         """
         Implements the contain operator.
 
-        block : Another block that is evaluated.
+        Parameters
+        ----------
+        block : socref.abstract.AbstractBlock
+                Another block that is evaluated.
 
-        return : True if the given block is a child of this block or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if the given block is a child of this block or false otherwise.
         """
         return block in self.__children
 
@@ -198,7 +228,10 @@ class AbstractBlock(abc.ABC):
         """
         Implements the iterator operator.
 
-        return : Iterator of this block's list of children.
+        Returns
+        -------
+        ret0 : iterator
+               Iterator of this block's list of children.
         """
         return self.__children.__iter__()
 
@@ -207,9 +240,15 @@ class AbstractBlock(abc.ABC):
         """
         Implements the get item operator.
 
-        index : The integer index of this block's child block that is returned.
+        Parameters
+        ----------
+        index : int
+                The index of this block's child block that is returned.
 
-        return : This block's child block with the given index.
+        Returns
+        -------
+        ret0 : socref.abstract.AbstractBlock
+               This block's child block with the given index.
         """
         return self.__children[index]
 
@@ -219,7 +258,10 @@ class AbstractBlock(abc.ABC):
         Implements the delete item operator. Deletes this block's child block with the given integer
         index.
 
-        index : The integer index of this block's child block that is deleted.
+        Parameters
+        ----------
+        index : int
+                The index of this block's child block that is deleted.
         """
         del self.__children[index]
 
@@ -228,10 +270,16 @@ class AbstractBlock(abc.ABC):
         """
         Implements the get attribute operator. Intercepts the value of any property attribute.
 
-        key : The key of the attribute whose value is returned.
+        Parameters
+        ----------
+        key : string
+              The key of the attribute whose value is returned.
 
-        return : The property attribute that begins with "_p_" or the default get attribute operator
-                 return value otherwise.
+        Returns
+        -------
+        ret0 : object
+               The property attribute that begins with "_p_" or the default get attribute operator
+               return value otherwise.
         """
         if key.startswith("_p_"):
             return self.__properties[key]
@@ -245,9 +293,12 @@ class AbstractBlock(abc.ABC):
         attribute that begins with "_p_" to the given item, else calls the default set attribute
         operator to the given item.
 
-        key : The key of the attribute whose value is set to the given item.
-
-        item : An item used to set the attribute with the given key.
+        Parameters
+        ----------
+        key : string
+              The key of the attribute whose value is set to the given item.
+        item : object
+               An item used to set the attribute with the given key.
         """
         if key.startswith("_p_"):
             self.__properties[key] = item
@@ -260,49 +311,15 @@ class AbstractBlock(abc.ABC):
     ####################
 
 
-    def isVolatileAbove(self):
-        """
-        This interface is a getter method. The default implementation returns false.
-
-        return : A Boolean indicating if a change in this block's properties can effect the blocks
-                 above it. Above in this context is going up a block's parent. True if this block
-                 can effect the blocks above it or false otherwise.
-        """
-        return False
-
-
-    def isVolatileBelow(self):
-        """
-        This interface is a getter method. The default implementation returns false.
-
-        return : A Boolean indicating if a change in this block's properties can effect the blocks
-                 below it. Below in this context is going down a block's children. True if this
-                 block can effect the blocks below it or false otherwise.
-        """
-        return False
-
-
-    def parser(self):
-        """
-        This interface is a getter method. The default implementation returns none.
-
-        return : An abstract parser implementation used to parse the source code of a project if
-                 this is the root block, else none if this is not the root block.
-        """
-        pass
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
     def append(self, block):
         """
         Appends the given block as a new child into this block's list of children. The given block
         cannot already have a parent.
 
-        block : A block that is appended as a new child to this block.
+        Parameters
+        ----------
+        block : socref.abstract.AbstractBlock
+                A block that is appended as a new child to this block.
         """
         self.insert(len(self),block)
 
@@ -311,7 +328,10 @@ class AbstractBlock(abc.ABC):
         """
         Getter method. This block must have a parent.
 
-        return : The integer index of this block within its parent block's list of children.
+        Returns
+        -------
+        ret0 : int
+               The integer index of this block within its parent block's list of children.
         """
         if self.parent() is None:
             raise RuntimeError("Cannot get index of block with no parent.")
@@ -323,9 +343,12 @@ class AbstractBlock(abc.ABC):
         Inserts the given block as a new child into this block's list of children at the given
         index. The given block cannot already have a parent.
 
-        index : The index where the given block is inserted into this block's list of children.
-
-        block : A block that is inserted as a new child to this block.
+        Parameters
+        ----------
+        index : int
+                The index where the given block is inserted into this block's list of children.
+        block : socref.abstract.AbstractBlock
+                A block that is inserted as a new child to this block.
         """
         if block.parent() is not None:
             raise RuntimeError("Block is already a child of another block.")
@@ -333,22 +356,72 @@ class AbstractBlock(abc.ABC):
         block.__parent = weakref.ref(self)
 
 
+    def isVolatileAbove(self):
+        """
+        This interface is a getter method. The default implementation returns false.
+
+        Returns
+        -------
+        ret0 : bool
+               Indicates if a change in this block's properties can effect the blocks above it.
+               Above in this context is going up a block's parent. True if this block can effect the
+               blocks above it or false otherwise.
+        """
+        return False
+
+
+    def isVolatileBelow(self):
+        """
+        This interface is a getter method. The default implementation returns false.
+
+        Returns
+        -------
+        ret0 : bool
+               Indicates if a change in this block's properties can effect the blocks below it.
+               Below in this context is going down a block's children. True if this block can effect
+               the blocks below it or false otherwise.
+        """
+        return False
+
+
     def parent(self):
         """
         Getter method.
 
-        return : The parent block of this block or none if this block has no parent.
+        Returns
+        -------
+        ret0 : socref.abstract.AbstractBlock
+               The parent block of this block or none if this block has no parent.
         """
         return self.__parent if self.__parent is None else self.__parent()
+
+
+    def parser(self):
+        """
+        This interface is a getter method. The default implementation returns none.
+
+        Returns
+        -------
+        ret0 : object
+               An abstract parser implementation used to parse the source code of a project if this
+               is the root block, else none if this is not the root block.
+        """
+        pass
 
 
     def pop(self, index):
         """
         Removes a child block of this block with the given index.
 
-        index : The index of the removed and returned child block.
+        Parameters
+        ----------
+        index : int
+                The index of the removed and returned child block.
 
-        return : Removed child block of this block with the given index.
+        Returns
+        -------
+        ret0 : socref.abstract.AbstractBlock
+               Removed child block of this block with the given index.
         """
         orphan = self.__children.pop(index)
         orphan.__parent = None
@@ -359,7 +432,10 @@ class AbstractBlock(abc.ABC):
         """
         Getter method.
 
-        return : Properties dictionary of this block.
+        Returns
+        -------
+        ret0 : dictionary
+               Properties of this block.
         """
         return self.__properties
 
@@ -370,7 +446,10 @@ class AbstractBlock(abc.ABC):
         qt reader stream. This overwrites any properties and children blocks this block may
         currently contain.
 
-        stream : A qt reader stream used to load all block's properties and children.
+        Parameters
+        ----------
+        stream : PySide2.QtCore.QXmlStreamReader
+                 Used to load all block's properties and children.
         """
         self.__properties = {}
         self.clearProperties()
@@ -385,7 +464,6 @@ class AbstractBlock(abc.ABC):
                     if key in self.__properties:
                         self.__properties[key] = stream.readElementText()
                 else:
-                    name = name.replace("_"," ")
                     child = block.BlockFactory().create(self._LANG_,name)
                     child.setFromXml(stream)
                     self.append(child)
@@ -397,7 +475,10 @@ class AbstractBlock(abc.ABC):
         """
         Sets this block's properties dictionary to the given dictionary.
 
-        properties : A dictionary that is set as this block's new properties dictionary.
+        Parameters
+        ----------
+        properties : dictionary
+                     This block's new properties dictionary.
         """
         self.__properties = properties
 
@@ -407,9 +488,12 @@ class AbstractBlock(abc.ABC):
         Saves this block's properties and all of its children block's properties to XML using the
         given qt XML writer stream.
 
-        stream : A qt writer stream used to save all block's properties and children.
+        Parameters
+        ----------
+        stream : PySide2.QtCore.QXmlStreamWriter
+                 Used to save all block's properties and children.
         """
-        stream.writeStartElement(self._TYPE_.replace(" ","_"))
+        stream.writeStartElement(self._TYPE_)
         props = self.properties()
         for key in props:
             prop = props[key]
@@ -476,8 +560,11 @@ class AbstractParser(abc.ABC):
         """
         This interface is a getter method.
 
-        return : A flat dictionary of scanned code that was unknown and not used in any built source
-                 code.
+        Returns
+        -------
+        ret0 : dictionary
+               A flat dictionary of scanned code that was unknown and not used in any built source
+               code.
         """
         pass
 
@@ -492,8 +579,11 @@ class AbstractParser(abc.ABC):
         Parses the source code of the project of this parser's root block, updating its progress
         with the given callback object. The root path of this parser must be set.
 
-        update : A callable object that is used to update the progress of this scan. It takes one
-                 argument that is the progress as a percentage from 1 to 99.
+        Parameters
+        ----------
+        update : function
+                 Used to update the progress of this scan. It takes one argument that is the
+                 progress as a percentage from 1 to 99.
         """
         if self.__rootPath == "":
             raise RuntimeError("Root path is not set.")
@@ -525,7 +615,10 @@ class AbstractParser(abc.ABC):
         Sets the root path of this parser. This can only be called once when this parser's root path
         is empty.
 
-        path : The root path of this parser.
+        Parameters
+        ----------
+        path : string
+               The root path of this parser.
         """
         if self.__rootPath != "":
             raise RuntimeError("Root path already set.")
@@ -542,12 +635,17 @@ class AbstractParser(abc.ABC):
         """
         This interface is a getter method.
 
-        block : The block associated with the given source code file path.
+        Parameters
+        ----------
+        block : socref.abstract.AbstractBlock
+                The block associated with the given source code file path.
+        path : string
+               The path of the source code file whose contents are returned.
 
-        path : The path of the source code file whose contents are returned.
-
-        return : The new string contents of the source code file at the given path and associated
-                 block.
+        Returns
+        -------
+        ret0 : string
+               The new contents of the source code file at the given path and associated block.
         """
         pass
 
@@ -566,7 +664,10 @@ class AbstractParser(abc.ABC):
         This interface scans the source code file at the given path. The given path exists and is a
         regular file.
 
-        path : The path of the source code file that is scanned.
+        Parameters
+        ----------
+        path : string
+               The path of the source code file that is scanned.
         """
         pass
 
@@ -582,9 +683,12 @@ class AbstractParser(abc.ABC):
         associated blocks to be scanned and built. This must be called within the build path list
         interface.
 
-        block : The block associated with the source code file path.
-
-        path : The source code file path.
+        Parameters
+        ----------
+        block : socref.abstract.AbstractBlock
+                The block associated with the source code file path.
+        path : string
+               The source code file path.
         """
         if self.__rootPath == "":
             raise RuntimeError("Root path is not set.")
@@ -605,9 +709,12 @@ class AbstractParser(abc.ABC):
         file is overwritten with the new contents only if they are different from the current
         contents or the file does not exist.
 
-        block : The block associated with the source code file path.
-
-        path : The path to the source code file that is built.
+        Parameters
+        ----------
+        block : socref.abstract.AbstractBlock
+                The block associated with the source code file path.
+        path : string
+               The path to the source code file that is built.
         """
         if not os.path.exists(os.path.dirname(path)):
             os.makedirs(os.path.dirname(path))

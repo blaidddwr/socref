@@ -67,10 +67,16 @@ class Descriptor(package.Package):
         """
         Getter method.
 
-        begin : The indent string that is added to the beginning of every line of returned code.
+        Parameters
+        ----------
+        begin : string
+                The indent that is added to the beginning of every line of returned code.
 
-        return : A string that is the source code for this block's descriptors. If this block has no
-                 descriptors an empty string is returned.
+        Returns
+        -------
+        ret0 : string
+               The source code for this block's descriptors. If this block has no descriptors an
+               empty string is returned.
         """
         return [begin + "@" + line for line in self._p_descriptors.split("\n") if line]
 
@@ -79,7 +85,10 @@ class Descriptor(package.Package):
         """
         Getter Method.
 
-        return : The edit definition for this block's descriptors property.
+        Returns
+        -------
+        ret0 : dictionary
+               The edit definition for this block's descriptors property.
         """
         return ut.textEdit("Descriptors:","_p_descriptors")
 
@@ -88,9 +97,11 @@ class Descriptor(package.Package):
         """
         Getter method.
 
-        return : A string that is a decoration for a block's display name providing information
-                 about its descriptors. If this block has no descriptors then an empty string is
-                 returned.
+        Returns
+        -------
+        ret0 : string
+               A decoration for a block's display name providing information about its descriptors.
+               If this block has no descriptors then an empty string is returned.
         """
         if self._p_descriptors:
             return " @"
@@ -102,8 +113,11 @@ class Descriptor(package.Package):
         """
         Getter method.
 
-        return : A rich text string providing detailed information about this block's descriptors.
-                 If this block has no descriptors then an empty string is returned.
+        Returns
+        -------
+        ret0 : rich text
+               Detailed information about this block's descriptors. If this block has no descriptors
+               then an empty string is returned.
         """
         return ut.richText(
             2
@@ -153,11 +167,17 @@ class Function(Descriptor):
         """
         Implements the .package.Package interface.
 
-        definition : See interface docs.
+        Parameters
+        ----------
+        definition : object
+                     See interface docs.
+        begin : object
+                See interface docs.
 
-        begin : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = []
         if self.isMethod():
@@ -174,7 +194,10 @@ class Function(Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Object",)
 
@@ -193,7 +216,10 @@ class Function(Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = ""
         ret += "%s(%i)%s" % (self._p_name,len(self),self._descriptorsName_())
@@ -206,7 +232,10 @@ class Function(Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         self.__checkFlags_()
         return_ = ut.richText(2,"Return",html.escape(self._p_returnDescription))
@@ -223,7 +252,10 @@ class Function(Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = package.Package.editDefinitions(self)
         ret.append(ut.textEdit("Return:","_p_returnDescription",speller=True))
@@ -241,7 +273,10 @@ class Function(Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self._p_name.startswith("__") and self._p_name.endswith("__"):
             return qtg.QIcon(":/python/operator.svg")
@@ -257,7 +292,10 @@ class Function(Descriptor):
         """
         Getter method.
 
-        return : True if this function is abstract or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is abstract or false otherwise.
         """
         return bool(int(self._p_abstract))
 
@@ -266,7 +304,10 @@ class Function(Descriptor):
         """
         Getter method.
 
-        return : True if this function is a method of a class or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is a method of a class or false otherwise.
         """
         return self.parent()._TYPE_ == "Access"
 
@@ -275,7 +316,10 @@ class Function(Descriptor):
         """
         Getter method.
 
-        return : True if this function is static or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this function is static or false otherwise.
         """
         return bool(int(self._p_static))
 
@@ -300,8 +344,11 @@ class Function(Descriptor):
         """
         Getter method.
 
-        return : Rich text detailed view of all this function's arguments. If this function has no
-                 arguments then this returns an empty string.
+        Returns
+        -------
+        ret0 : rich text
+               Detailed view of all this function's arguments. If this function has no arguments
+               then this returns an empty string.
         """
         return ut.richText(2,"Arguments","".join((arg.argumentView() for arg in self)))
 
@@ -310,29 +357,51 @@ class Function(Descriptor):
         """
         Getter method.
 
-        begin : The indent string that is added to the beginning of every line of returned code.
+        Parameters
+        ----------
+        begin : string
+                The indent that is added to the beginning of every line of returned code.
 
-        return : A list of lines that is the source code doc string of this function.
+        Returns
+        -------
+        ret0 : list
+               The source code doc string lines of this function.
         """
-        ret = [begin + " "*settings.INDENT + '"""']
+        newIndent = begin + " "*settings.INDENT
+        ret = [newIndent+'"""']
         ret += ut.wrapBlocks(
             self._p_description
-            ,begin=begin + " "*settings.INDENT
+            ,begin=newIndent
             ,columns=settings.COLUMNS
         )
+        args = []
         for arg in self:
-            ret += [""] + arg.buildComment(begin + " "*settings.INDENT)
-        if self._p_returnDescription:
-            initial = "return : "
-            ret += (
-                [""]
-                + ut.wrapText(
-                    initial+self._p_returnDescription
-                    ,begin=begin + " "*settings.INDENT
-                    ,after=" "*len(initial)
-                    ,columns=settings.COLUMNS
-                )
-            )
+            args += arg.buildComment(newIndent)
+        if args:
+            ret += ["",newIndent+"Parameters",newIndent+"----------"]
+            ret += args
+        returns = [desc for desc in self._p_returnDescription.split("\n\n") if desc]
+        if returns:
+            ret += ["",newIndent+"Returns",newIndent+"-------"]
+            i = 0
+            for desc in returns:
+                desc = desc.split("\n")
+                if len(desc) >= 2:
+                    initial = "ret"+str(i)+" : "
+                    ret += ut.wrapText(
+                        newIndent + initial + desc[0]
+                        ,begin=newIndent
+                        ,after=" "*len(initial)
+                        ,columns=settings.COLUMNS
+                    )
+                    ret += ut.wrapText(
+                        desc[1]
+                        ,begin=newIndent + " "*len(initial)
+                        ,columns=settings.COLUMNS
+                    )
+                else:
+                    ret += [newIndent+"UNKNOWN"]
+                i += 1
         ret.append(ret[0])
         return ret
 
@@ -341,10 +410,16 @@ class Function(Descriptor):
         """
         Getter method.
 
-        begin : The indent string that is added to the beginning of every line of returned code.
+        Parameters
+        ----------
+        begin : string
+                The indent that is added to the beginning of every line of returned code.
 
-        return : A list of lines that is the source code of this function's header. The header
-                 includes any descriptors and the define line.
+        Returns
+        -------
+        ret0 : list
+               The source code lines of this function's header. The header includes any descriptors
+               and the define line.
         """
         ret = self._buildDescriptors_(begin)
         if self.isAbstract():
@@ -360,11 +435,17 @@ class Function(Descriptor):
         """
         Getter method.
 
-        lines : A list of code lines used to generate the returned source code lines.
+        Parameters
+        ----------
+        lines : list
+                A list of code lines used to generate the returned source code lines.
+        begin : string
+                The indent that is added to the beginning of every line of returned code.
 
-        begin : The indent string that is added to the beginning of every line of returned code.
-
-        return : A list of source code lines generated from the given list of code lines.
+        Returns
+        -------
+        ret0 : list
+               Source code lines generated from the given list of code lines.
         """
         if not lines:
             return [begin + " "*settings.INDENT + "pass"]
@@ -386,8 +467,11 @@ class Function(Descriptor):
         """
         Getter method.
 
-        return : Rich text list of flags this block has enabled. If this block has no flags enabled
-                 then an empty string is returned.
+        Returns
+        -------
+        ret0 : list
+               Rich text list of flags this block has enabled. If this block has no flags enabled
+               then an empty string is returned.
         """
         flags = []
         if self.isStatic():

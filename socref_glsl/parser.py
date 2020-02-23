@@ -28,8 +28,10 @@ class Parser(abstract.AbstractParser):
         """
         Initializes a new GLSL parser with the given root program block.
 
-        root : A program block that is the root block of a GLSL project that this new parser will
-               parse.
+        Parameters
+        ----------
+        root : socref_glsl.program.Program
+               The root block of a GLSL project that this new parser will parse.
         """
         abstract.AbstractParser.__init__(self)
         self.__root = root
@@ -46,7 +48,10 @@ class Parser(abstract.AbstractParser):
         """
         Implements the socref.abstract.AbstractParser interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = {}
         for path in self.__definitions:
@@ -65,11 +70,17 @@ class Parser(abstract.AbstractParser):
         """
         Implements the socref.abstract.AbstractParser interface.
 
-        block : See interface docs.
+        Parameters
+        ----------
+        block : object
+                See interface docs.
+        path : object
+               See interface docs.
 
-        path : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return "\n".join(block.build(self.__definitions[path]))+"\n"
 
@@ -85,7 +96,10 @@ class Parser(abstract.AbstractParser):
         """
         Implements the socref.abstract.AbstractParser interface.
 
-        path : See interface docs.
+        Parameters
+        ----------
+        path : object
+               See interface docs.
         """
         with open(path,"r") as ifile:
             def_ = {"header": self.__scanHeader_(ifile),"functions": {}}
@@ -114,9 +128,12 @@ class Parser(abstract.AbstractParser):
         """
         Recursively adds source code paths to be scanned using the given parent block and path.
 
-        parent : The parent block whose children are scanned for potential source code paths.
-
-        path : The path of the given parent block that is appended to any child block's path added.
+        Parameters
+        ----------
+        parent : socref.abstract.AbstractBlock
+                 The parent block whose children are scanned for potential source code paths.
+        path : string
+               The path of the given parent block that is appended to any child block's path added.
         """
         for block in parent:
             if block._TYPE_ == "Program":
@@ -129,14 +146,20 @@ class Parser(abstract.AbstractParser):
         """
         Getter method.
 
-        ifile : The input file positioned right after a function declaration whose scanned lines are
+        Parameters
+        ----------
+        ifile : file object
+                The input file positioned right after a function declaration whose scanned lines are
                 returned.
-
-        end : The end part of function declaration, beginning with the first opening parenthesis
+        end : string
+              The end part of function declaration, beginning with the first opening parenthesis
               after the function name.
 
-        return : A list of scanned code lines from the given input file, assuming it is positioned
-                 right after the function declaration line.
+        Returns
+        -------
+        ret0 : list
+               Scanned code lines from the given input file, assuming it is positioned right after
+               the function declaration line.
         """
         depth = end.count("(")-end.count(")")
         while depth > 0:
@@ -163,10 +186,15 @@ class Parser(abstract.AbstractParser):
         """
         Getter method.
 
-        ifile : The input file whose shader directive code lines are scanned.
+        Parameters
+        ----------
+        ifile : file object
+                The input file whose shader directive code lines are scanned.
 
-        return : A list of shader directive code lines scanned from the header of the given shader
-                 file.
+        Returns
+        -------
+        ret0 : list
+               Shader directive code lines scanned from the header of the given shader file.
         """
         lines = []
         while True:

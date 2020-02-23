@@ -51,7 +51,10 @@ class Class(cppclass.Class):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = cppclass.Class.editDefinitions(self)
         ret.append(ut.checkboxEdit("Qt Object","_p_qtObject"))
@@ -62,7 +65,10 @@ class Class(cppclass.Class):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self.isQtObject():
             if self.isAbstract():
@@ -79,7 +85,10 @@ class Class(cppclass.Class):
         """
         Getter method.
 
-        return : True if this class is a qt object or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this class is a qt object or false otherwise.
         """
         return bool(int(self._p_qtObject))
 
@@ -101,9 +110,15 @@ class Class(cppclass.Class):
         """
         Extends the socref_cpp.class_.Class method.
 
-        begin : See method docs.
+        Parameters
+        ----------
+        begin : object
+                See method docs.
 
-        return : See method docs.
+        Returns
+        -------
+        ret0 : object
+               See method docs.
         """
         ret = []
         if self.isQtObject():

@@ -44,9 +44,15 @@ class Enum(namespace.Base):
         """
         Implements the .namespace.Base interface.
 
-        begin : See interface docs.
+        Parameters
+        ----------
+        begin : object
+                See interface docs.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = [""]*settings.H2LINES
         ret.append(begin+"/*!")
@@ -64,7 +70,7 @@ class Enum(namespace.Base):
             ret += child.buildDeclaration(nextBegin,first)
             if first:
                 first = False
-        ret.append(begin+"}")
+        ret.append(begin+"};")
         return ret
 
 
@@ -72,9 +78,12 @@ class Enum(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
-        return ("Enumeration Value",)
+        return ("Enumeration_Value",)
 
 
     def clearProperties(self):
@@ -89,7 +98,10 @@ class Enum(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = self._p_name
         if self.isClass():
@@ -101,7 +113,10 @@ class Enum(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         class_ = "<p><i>Class</i></p>" if self.isClass() else ""
         return namespace.Base.displayView(self) + class_
@@ -111,7 +126,10 @@ class Enum(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = namespace.Base.editDefinitions(self)
         ret.append(ut.checkboxEdit("Class","_p_class"))
@@ -122,7 +140,10 @@ class Enum(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return qtg.QIcon(":/cpp/enumeration.svg")
 
@@ -131,7 +152,10 @@ class Enum(namespace.Base):
         """
         Getter method.
 
-        return : True if this is a class enumeration or false if it is a regular enumeration.
+        Returns
+        -------
+        ret0 : bool
+               True if this is a class enumeration or false if it is a regular enumeration.
         """
         return bool(int(self._p_class))
 

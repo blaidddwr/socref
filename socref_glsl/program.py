@@ -46,7 +46,10 @@ class Program(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Program","Shader")
 
@@ -62,7 +65,10 @@ class Program(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return self._p_name
 
@@ -71,7 +77,10 @@ class Program(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return "<h1>PROGRAM</h1><p>"+html.escape(self._p_name)+"</p>"
 
@@ -80,7 +89,10 @@ class Program(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = []
         ret.append(ut.lineEdit("Name:","_p_name"))
@@ -91,7 +103,10 @@ class Program(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return qtg.QIcon(":/glsl/program.svg")
 
@@ -100,7 +115,10 @@ class Program(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return parser.Parser(self)
 

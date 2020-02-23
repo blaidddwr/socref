@@ -47,13 +47,19 @@ class Class(function.Descriptor):
         """
         Implements the .package.Package interface.
 
-        definition : See interface docs.
+        Parameters
+        ----------
+        definition : object
+                     See interface docs.
+        begin : object
+                See interface docs.
 
-        begin : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
-        definition = definition["classes"].get(self._p_name,{"functions":{}})
+        definition = definition["classes"].get(self._p_name,{"functions": {}})
         ret = [""]*settings.H1LINES
         ret += self._buildDescriptors_(begin)
         ret.append("%sclass %s(%s):" % (begin,self._p_name,self.__buildParents_()))
@@ -72,7 +78,10 @@ class Class(function.Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Access",)
 
@@ -89,7 +98,10 @@ class Class(function.Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return self._p_name + self._descriptorsName_()
 
@@ -98,7 +110,10 @@ class Class(function.Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         parents = ut.richText(
             2
@@ -112,7 +127,10 @@ class Class(function.Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = package.Package.editDefinitions(self)
         ret.append(ut.textEdit("Parents:","_p_parents"))
@@ -124,7 +142,10 @@ class Class(function.Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self.isAbstract():
             return qtg.QIcon(":/python/abstract_class.svg")
@@ -136,7 +157,10 @@ class Class(function.Descriptor):
         """
         Getter method.
 
-        return : True if this class contains any abstract functions or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this class contains any abstract functions or false otherwise.
         """
         for access in self:
             if access.hasAbstract():
@@ -162,7 +186,10 @@ class Class(function.Descriptor):
         """
         Getter method.
 
-        return : A string that is the source code fragment of this class block's parents used in its
-                 source code header line.
+        Returns
+        -------
+        ret0 : string
+               The source code fragment of this class block's parents used in its source code header
+               line.
         """
         return ", ".join((parent for parent in self._p_parents.split("\n") if parent))

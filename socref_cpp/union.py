@@ -44,9 +44,15 @@ class Union(namespace.Base):
         """
         Implements the .namespace.Base interface.
 
-        begin : See interface docs.
+        Parameters
+        ----------
+        begin : object
+                See interface docs.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = [""]*settings.H2LINES
         ret.append(begin+"/*!")
@@ -65,7 +71,10 @@ class Union(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Variable",)
 
@@ -74,7 +83,10 @@ class Union(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return qtg.QIcon(":/cpp/union.svg")
 

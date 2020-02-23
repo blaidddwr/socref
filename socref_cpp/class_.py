@@ -47,9 +47,15 @@ class Class(function.Templatee):
         """
         Implements the .namespace.Base interface.
 
-        begin : See interface docs.
+        Parameters
+        ----------
+        begin : object
+                See interface docs.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = [""]*settings.H1LINES
         ret.append(begin+"/*!")
@@ -78,15 +84,21 @@ class Class(function.Templatee):
         """
         Implements the .namespace.Base interface.
 
-        definitions : See interface docs.
+        Parameters
+        ----------
+        definitions : object
+                      See interface docs.
+        scope : object
+                See interface docs.
+        template : object
+                   See interface docs.
+        header : object
+                 See interface docs.
 
-        scope : See interface docs.
-
-        template : See interface docs.
-
-        header : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if scope:
             scope += "::"
@@ -110,8 +122,11 @@ class Class(function.Templatee):
         """
         Getter method.
 
-        return : A single line that is the forward declaration of this class or an empty list if
-                 this class has any templates.
+        Returns
+        -------
+        ret0 : list
+               A single line that is the forward declaration of this class or an empty list if this
+               class has any templates.
         """
         if not self.hasTemplates():
             return ["class "+self._p_name+";"]
@@ -123,11 +138,17 @@ class Class(function.Templatee):
         """
         Implements the .namespace.Base interface.
 
-        definitions : See interface docs.
+        Parameters
+        ----------
+        definitions : object
+                      See interface docs.
+        path : object
+               See interface docs.
 
-        path : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return namespace.Namespace.buildHeader(self,definitions,path)
 
@@ -136,7 +157,10 @@ class Class(function.Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Template","Access")
 
@@ -145,11 +169,17 @@ class Class(function.Templatee):
         """
         Implements the .namespace.Base interface.
 
-        definitions : See interface docs.
+        Parameters
+        ----------
+        definitions : object
+                      See interface docs.
+        path : object
+               See interface docs.
 
-        path : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return namespace.Namespace.buildSource(self,definitions,path)
 
@@ -167,16 +197,22 @@ class Class(function.Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
-        return self._templatesName_() + self._p_name
+        return self._p_name + self._templatesName_()
 
 
     def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         parents = ut.richText(
             2
@@ -190,7 +226,10 @@ class Class(function.Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = namespace.Base.editDefinitions(self)
         ret.append(ut.textEdit("Parents:","_p_parents"))
@@ -202,7 +241,10 @@ class Class(function.Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self.isAbstract():
             return qtg.QIcon(":/cpp/abstract_class.svg")
@@ -216,7 +258,10 @@ class Class(function.Templatee):
         """
         Getter method.
 
-        return : True if this class contains any abstract functions or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this class contains any abstract functions or false otherwise.
         """
         for child in self:
             if child._TYPE_ == "Access" and child.hasAbstract():
@@ -228,7 +273,10 @@ class Class(function.Templatee):
         """
         Getter method.
 
-        return : True if this class contains any virtual functions or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this class contains any virtual functions or false otherwise.
         """
         for child in self:
             if child._TYPE_ == "Access" and child.hasVirtual():
@@ -240,7 +288,10 @@ class Class(function.Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return True
 
@@ -264,10 +315,16 @@ class Class(function.Templatee):
         """
         Getter method.
 
-        begin : A string that is added to the beginning of each returned line of code.
+        Parameters
+        ----------
+        begin : string
+                Added to the beginning of each returned line of code.
 
-        return : A list of class header code lines that are added to this classes built declaration
-                 just after the initial opening bracket.
+        Returns
+        -------
+        ret0 : list
+               Class header code lines that are added to this classes built declaration just after
+               the initial opening bracket.
         """
         return [begin + line for line in self._p_header.split("\n") if line]
 
@@ -281,10 +338,16 @@ class Class(function.Templatee):
         """
         Getter method.
 
-        begin : A string that is added to the beginning of each returned line of code.
+        Parameters
+        ----------
+        begin : string
+                Added to the beginning of each returned line of code.
 
-        return : A list of code lines, beginning with a colon, that are the parent declarations for
-                 this class. If this class has no parents then an empty list is returned.
+        Returns
+        -------
+        ret0 : list
+               Code lines, beginning with a colon, that are the parent declarations for this class.
+               If this class has no parents then an empty list is returned.
         """
         ret = []
         parents = [parent for parent in self._p_parents.split("\n") if parent]

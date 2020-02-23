@@ -36,7 +36,10 @@ class Parser(abstract.AbstractParser):
         """
         Initializes a new python parser with the given root package block.
 
-        root : A package block that is the root block of a python project that this new parser will
+        Parameters
+        ----------
+        root : package.Package
+               A package block that is the root block of a python project that this new parser will
                parse.
         """
         abstract.AbstractParser.__init__(self)
@@ -59,7 +62,10 @@ class Parser(abstract.AbstractParser):
         """
         Implements the socref.abstract.AbstractParser interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = {}
         for key in self.__definitions:
@@ -82,11 +88,17 @@ class Parser(abstract.AbstractParser):
         """
         Implements the socref.abstract.AbstractParser interface.
 
-        block : See interface docs.
+        Parameters
+        ----------
+        block : object
+                See interface docs.
+        path : object
+               See interface docs.
 
-        path : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return (
             "\n".join(
@@ -109,7 +121,10 @@ class Parser(abstract.AbstractParser):
         """
         Implements the socref.abstract.AbstractParser interface.
 
-        path : See interface docs.
+        Parameters
+        ----------
+        path : object
+               See interface docs.
         """
         with open(path,"r") as ifile:
             def_ = {
@@ -141,13 +156,15 @@ class Parser(abstract.AbstractParser):
         Adds unknown code fragment strings to the given dictionary using the given root key for any
         remaining function lines in the given definition of functions.
 
-        code : A dictionary of unknown code fragments that has any unused function lines added to
-               it.
-
-        root_key : A string appended with the function name and used as the key for inserting any
-                   unused function definition found.
-
-        definition : A functions definition generated from scanning and used by builders.
+        Parameters
+        ----------
+        code : dictionary
+               Unknown code fragments that has any unused function lines added to it.
+        root_key : string
+                   Appended with the function name and used as the key for inserting any unused
+                   function definition found.
+        definition : dictionary
+                     Function definitions generated from scanning and used by builders.
         """
         for key in definition:
             function = definition[key]
@@ -159,9 +176,12 @@ class Parser(abstract.AbstractParser):
         """
         Recursively adds source code paths to be scanned using the given parent block and path.
 
-        parent : The parent block whose children are scanned for potential source code paths.
-
-        path : The path of the given parent block that is appended to any child block's path added.
+        Parameters
+        ----------
+        parent : socref.abstract.AbstractBlock
+                 The parent block whose children are scanned for potential source code paths.
+        path : string
+               The path of the given parent block that is appended to any child block's path added.
         """
         for block in parent:
             if block._TYPE_ == "Package":
@@ -175,11 +195,16 @@ class Parser(abstract.AbstractParser):
         """
         Getter method.
 
-        ifile : The python script file whose class at the current seek position is scanned.
+        Parameters
+        ----------
+        ifile : file object
+                The python script whose class at the current seek position is scanned.
 
-        return : Scanned class definition containing any found and scanned method's lines of code
-                 from the class definition in the given python script file at its current seek
-                 position.
+        Returns
+        -------
+        ret0 : dictionary
+               Scanned class definition containing any found and scanned method's lines of code from
+               the class definition in the given python script file at its current seek position.
         """
         self.__skipDocString_(ifile)
         ret = {"functions": {}}
@@ -198,10 +223,16 @@ class Parser(abstract.AbstractParser):
         """
         Getter method.
 
-        ifile : The python script file whose function at the current seek position is scanned.
+        Parameters
+        ----------
+        ifile : file object
+                The python script whose function at the current seek position is scanned.
 
-        return : Scanned function definition containing all lines of scanned code from the function
-                 definition in the given python script file at its current seek position.
+        Returns
+        -------
+        ret0 : list
+               Scanned function definition containing all lines of scanned code from the function
+               definition in the given python script file at its current seek position.
         """
         self.__skipDocString_(ifile)
         ret = []
@@ -218,12 +249,17 @@ class Parser(abstract.AbstractParser):
         """
         Getter method.
 
-        ifile : The python script file whose import lines of code are scanned.
+        Parameters
+        ----------
+        ifile : file object
+                The python script whose import lines of code are scanned.
 
-        return : A list of import code lines scanned from the header of the given python script
-                 file. It is assumed all import lines occur at the beginning of the file right after
-                 any initial doc string. It is also assumed the import lines end with at least one
-                 blank line.
+        Returns
+        -------
+        ret0 : list
+               Import code lines scanned from the header of the given python script file. It is
+               assumed all import lines occur at the beginning of the file right after any initial
+               doc string. It is also assumed the import lines end with at least one blank line.
         """
         self.__skipDocString_(ifile)
         ret = []
@@ -245,7 +281,10 @@ class Parser(abstract.AbstractParser):
         Seeks past any initial doc string starting at the current seek index of the given python
         script file. Blank lines also skipped and ignored.
 
-        ifile : The python script file whose doc string, if any, is skipped.
+        Parameters
+        ----------
+        ifile : file object
+                The python script whose doc string, if any, is skipped.
         """
         count = 0
         while count < 2:
@@ -284,7 +323,10 @@ class Scanner():
         """
         Initializes a new scanner with the given input file.
 
-        ifile : The input file that is scanned.
+        Parameters
+        ----------
+        ifile : file object
+                The input file that is scanned.
         """
         self.__ifile = ifile
         self.__indent = None
@@ -299,8 +341,11 @@ class Scanner():
         """
         Getter method.
 
-        return : The indent size in spaces of the code block this scanner is reading. This must be
-                 called after the read line method is called at least once.
+        Returns
+        -------
+        ret0 : int
+               The indent size in spaces of the code block this scanner is reading. This must be
+               called after the read line method is called at least once.
         """
         if self.__indent is None:
             raise RuntimeError("indent has not been discovered.")
@@ -311,10 +356,13 @@ class Scanner():
         """
         Getter method.
 
-        return : The next line of python source code read in from this scanner's input file. If the
-                 end of file is reached or the end of the code block with the determined indent then
-                 this returns none. The first time this is called the indent of the block to be read
-                 is determined with the first line of code encountered.
+        Returns
+        -------
+        ret0 : string
+               The next line of python source code read in from this scanner's input file. If the
+               end of file is reached or the end of the code block with the determined indent then
+               this returns none. The first time this is called the indent of the block to be read
+               is determined with the first line of code encountered.
         """
         while True:
             last = self.__ifile.tell()

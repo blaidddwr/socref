@@ -46,7 +46,10 @@ class Object(package.Package):
         """
         Getter method.
 
-        return : Rich text paragraph that describes this object as an argument of a function.
+        Returns
+        -------
+        ret0 : rich text
+               Paragraph that describes this object as an argument of a function.
         """
         ret = "<p><b>%s " % html.escape(self._p_name)
         if self._p_assignment:
@@ -61,11 +64,17 @@ class Object(package.Package):
         """
         Implements the .package.Package interface.
 
-        definition : See interface docs.
+        Parameters
+        ----------
+        definition : object
+                     See interface docs.
+        begin : object
+                See interface docs.
 
-        begin : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = [""]*settings.H3LINES
         blankCommentLine = begin + "#"
@@ -83,7 +92,10 @@ class Object(package.Package):
         """
         Getter method.
 
-        return : A string that is the source code for this object as a function argument.
+        Returns
+        -------
+        ret0 : string
+               The source code for this object as a function argument.
         """
         ret = self._p_name
         if self._p_assignment:
@@ -95,25 +107,39 @@ class Object(package.Package):
         """
         Getter method.
 
-        begin : The indent or begin string that is appended to every line of returned source code.
+        Parameters
+        ----------
+        begin : string
+                The indent that is appended to every line of returned source code.
 
-        return : A list of lines that is the source code doc string fragment for this object as a
-                 function argument.
+        Returns
+        -------
+        ret0 : list
+               The source code lines doc string fragment for this object as a function argument.
         """
-        initial = self._p_name + " : "
-        return ut.wrapText(
-            initial + self._p_description
-            ,begin=begin
-            ,after=" "*len(initial)
-            ,columns=settings.COLUMNS
-        )
+        desc = self._p_description.split("\n")
+        if len(desc) >= 2:
+            initial = self._p_name + " : "
+            ret = ut.wrapText(
+                initial+desc[0]
+                ,begin=begin
+                ,after=" "*len(initial)
+                ,columns=settings.COLUMNS
+            )
+            ret += ut.wrapText(desc[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
+            return ret
+        else:
+            return [begin+"UNKNOWN"]
 
 
     def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ()
 
@@ -130,7 +156,10 @@ class Object(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = self._p_name
         if self.isArgument() and self._p_assignment:
@@ -142,7 +171,10 @@ class Object(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         assignment = ut.richText(2,"Assignment",html.escape(self._p_assignment))
         return package.Package.displayView(self) + assignment
@@ -152,7 +184,10 @@ class Object(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = package.Package.editDefinitions(self)
         ret.append(ut.lineEdit("Assignment:","_p_assignment"))
@@ -163,7 +198,10 @@ class Object(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return qtg.QIcon(":/python/object.svg")
 
@@ -172,7 +210,10 @@ class Object(package.Package):
         """
         Getter method.
 
-        return : True if this object is part of a class or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this object is part of a class or false otherwise.
         """
         return self.parent()._TYPE_ == "Access"
 
@@ -181,7 +222,10 @@ class Object(package.Package):
         """
         Getter method.
 
-        return : True if this object is an argument of a function or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this object is an argument of a function or false otherwise.
         """
         return self.parent()._TYPE_ == "Function"
 
@@ -190,7 +234,10 @@ class Object(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return self.isArgument()
 

@@ -47,9 +47,15 @@ class Access(abstract.AbstractBlock):
         """
         Implements the .namespace.Base interface.
 
-        begin : See interface docs.
+        Parameters
+        ----------
+        begin : object
+                See interface docs.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = [""]*settings.H2LINES
         header = []
@@ -79,7 +85,10 @@ class Access(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Enumeration","Variable","Function","Class","Union")
 
@@ -88,15 +97,21 @@ class Access(abstract.AbstractBlock):
         """
         Implements the .namespace.Base interface.
 
-        definitions : See interface docs.
+        Parameters
+        ----------
+        definitions : object
+                      See interface docs.
+        scope : object
+                See interface docs.
+        template : object
+                   See interface docs.
+        header : object
+                 See interface docs.
 
-        scope : See interface docs.
-
-        template : See interface docs.
-
-        header : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         variables = []
         functions = []
@@ -120,7 +135,10 @@ class Access(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return self._p_name + " (%i)" % len(self)
 
@@ -129,7 +147,10 @@ class Access(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return "<h1>%s</h1><p>%s</p>" % (
             html.escape(self._p_type.upper())
@@ -141,7 +162,10 @@ class Access(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = []
         ret.append(ut.lineEdit("Name:","_p_name"))
@@ -156,7 +180,10 @@ class Access(abstract.AbstractBlock):
         """
         Getter method.
 
-        return : True if this access block contains any abstract methods or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this access block contains any abstract methods or false otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":
@@ -169,7 +196,10 @@ class Access(abstract.AbstractBlock):
         """
         Getter method.
 
-        return : True if this access block contains any virtual methods or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this access block contains any virtual methods or false otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":
@@ -182,7 +212,10 @@ class Access(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self._p_type == "Public":
             return qtg.QIcon(":/cpp/public.svg")
@@ -196,7 +229,10 @@ class Access(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return True
 
@@ -205,7 +241,10 @@ class Access(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return True
 
@@ -229,7 +268,10 @@ class Access(abstract.AbstractBlock):
         Adds the selection values available for modifying this access block's type to the given
         combo edit definition.
 
-        combo : The combo box that is populated with possible access type values.
+        Parameters
+        ----------
+        combo : PySide2.QtWidgets.QComboBox
+                The combo box that is populated with possible access type values.
         """
         ut.addComboSelect(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
         ut.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))

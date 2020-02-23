@@ -38,7 +38,10 @@ class Command(abc.ABC):
         """
         Initialize a new command with the given project model.
 
-        model : The project model that this new command acts upon.
+        Parameters
+        ----------
+        model : socref.model.ProjectModel
+                The project model that this new command acts upon.
         """
         self._model = model
 
@@ -73,10 +76,16 @@ class Command(abc.ABC):
         """
         Getter method.
 
-        index : A qt model index of this command's project model that is returns as a list of rows.
+        Parameters
+        ----------
+        index : PySide2.QtCore.QModelIndex
+                An index of this command's project model that is returns as a list of rows.
 
-        return : A list of rows that represent the given qt model index of this command's project
-                 model. An empty list is the root index.
+        Returns
+        -------
+        ret0 : list
+               Rows that represent the given qt model index of this command's project model. An
+               empty list is the root index.
         """
         rows = []
         while index.isValid():
@@ -90,11 +99,16 @@ class Command(abc.ABC):
         """
         Getter method.
 
-        rows : A list of rows that represent a valid qt model index of this command's project model.
+        Parameters
+        ----------
+        rows : list
+               Rows that represent a valid qt model index of this command's project model.
 
-        return : A valid qt model index created from this command's project model with the given
-                 list of rows. In this context valid can also be an invalid null index that
-                 represents the root.
+        Returns
+        -------
+        ret0 : PySide2.QtCore.QModelIndex
+               A valid index created from this command's project model with the given list of rows.
+               In this context valid can also be an invalid null index that represents the root.
         """
         index = qtc.QModelIndex()
         for row in rows:
@@ -127,15 +141,16 @@ class SetCommand(Command):
         Initializes a new set command with the given from properties, to properties, index, and
         model.
 
-        fromProperties : A block properties dictionary that is the current properties of the given
-                         index.
-
-        toProperties : A block properties dictionary that is the properties the given index is set
-                       to.
-
-        index : The qt model index whose properties are changed.
-
-        model : The project model whose given index block properties are changed.
+        Parameters
+        ----------
+        fromProperties : dictionary
+                         Block properties that are the current properties of the given index.
+        toProperties : dictionary
+                       Block properties that the given index is set to.
+        index : PySide2.QtCore.QModelIndex
+                The index whose properties are changed.
+        model : socref.model.ProjectModel
+                The project model whose given index block properties are changed.
         """
         Command.__init__(self,model)
         self.__rows = self._buildRows_(index)
@@ -186,13 +201,16 @@ class RemoveCommand(Command):
         """
         Initializes a new remove command with the given row, count, parent index, and project model.
 
-        row : The row of the first removed child of the given parent index.
-
-        count : The number of children that are removed.
-
-        parent : The parent index whose child indexes are removed.
-
-        model : The project model whose given indexes are removed.
+        Parameters
+        ----------
+        row : int
+              The row of the first removed child of the given parent index.
+        count : int
+                The number of children that are removed.
+        parent : PySide2.QtCore.QModelIndex
+                 The parent index whose child indexes are removed.
+        model : socref.model.ProjectModel
+                The project model whose given indexes are removed.
         """
         Command.__init__(self,model)
         self._blocks = None
@@ -255,13 +273,16 @@ class InsertCommand(RemoveCommand):
         Initializes a new insert command with the given row, blocks to insert, parent index, and
         project model.
 
-        row : The row where the given blocks are inserted.
-
-        blocks : List of blocks that are inserted into the given project model.
-
-        parent : The parent index where the given blocks are inserted as children.
-
-        model : The project model where the given blocks are inserted.
+        Parameters
+        ----------
+        row : int
+              The row where the given blocks are inserted.
+        blocks : list
+                 Blocks that are inserted into the given project model.
+        parent : PySide2.QtCore.QModelIndex
+                 The parent index where the given blocks are inserted as children.
+        model : socref.model.ProjectModel
+                The project model where the given blocks are inserted.
         """
         RemoveCommand.__init__(self,row,len(blocks),parent,model)
         self._blocks = blocks
@@ -308,12 +329,15 @@ class MoveCommand(Command):
         """
         Initializes a new move command with the given change, index, and project model.
 
-        change : The change from the old row to the new row of the moved index. A negative change is
+        Parameters
+        ----------
+        change : int
+                 The change from the old row to the new row of the moved index. A negative change is
                  up and positive down by the number given.
-
-        index : The index in the given project model that is moved.
-
-        model : The project model whose given index is moved.
+        index : PySide2.QtCore.QModelIndex
+                The index in the given project model that is moved.
+        model : socref.model.ProjectModel
+                The project model whose given index is moved.
         """
         Command.__init__(self,model)
         self.__parentRows = self._buildRows_(index.parent())

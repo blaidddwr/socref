@@ -3,6 +3,12 @@
 
 Description of all releases with most recent on the top.
 
+## Version 0.8.3
+
+* Fixed core bugs.
+* Fixed C++ parsing bugs.
+* Modified python parsing output for function doc strings to follow numpy standard.
+
 ## Version 0.8.2
 
 * Fixed C++/Qt parsing bugs.

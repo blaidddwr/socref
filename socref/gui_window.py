@@ -77,7 +77,10 @@ class MainWindow(qtw.QMainWindow):
         Opens a project at the given path in this window. If this window already has a project then
         this does nothing.
 
-        path : The path of the project file that this window opens.
+        Parameters
+        ----------
+        path : string
+               The path of the project file that this window opens.
         """
         if self.__model:
             return
@@ -108,7 +111,10 @@ class MainWindow(qtw.QMainWindow):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
-        event : See qt docs.
+        Parameters
+        ----------
+        event : object
+                See qt docs.
         """
         if self.__isOkToClose_():
             settings = qtc.QSettings()
@@ -130,9 +136,12 @@ class MainWindow(qtw.QMainWindow):
         """
         Getter method.
 
-        return : True if it is OK to close this window or false otherwise. It is OK to close this
-                 window if the user saves any unsaved changes to this window's project, chooses to
-                 discard unsaved changes, or there are no unsaved changes to worry about.
+        Returns
+        -------
+        ret0 : bool
+               True if it is OK to close this window or false otherwise. It is OK to close this
+               window if the user saves any unsaved changes to this window's project, chooses to
+               discard unsaved changes, or there are no unsaved changes to worry about.
         """
         if not self.__model or not self.__model.isModified():
             return True
@@ -440,7 +449,10 @@ class MainWindow(qtw.QMainWindow):
         Called to inform this window that its project's name has been changed. This updates the
         window's title.
 
-        name : The new name of this window's model's project.
+        Parameters
+        ----------
+        name : string
+               The new name of this window's model's project.
         """
         self.__updateTitle_()
 
@@ -450,7 +462,10 @@ class MainWindow(qtw.QMainWindow):
         """
         Called to create a new project of the given language for this window.
 
-        langName : The name of the language used to create a new project.
+        Parameters
+        ----------
+        langName : string
+                   The name of the language used to create a new project.
         """
         window = self
         if self.__model:
@@ -520,7 +535,10 @@ class MainWindow(qtw.QMainWindow):
         """
         Called to inform this window that the singleton parser model has made progress parsing.
 
-        percent : The percentage progress the singleton parser model has made parsing from 0 to 100.
+        Parameters
+        ----------
+        percent : int
+                  The percentage progress the singleton parser model has made parsing from 0 to 100.
         """
         if self.__progressBar is not None:
             self.__progressBar.setValue(percent)
@@ -554,7 +572,10 @@ class MainWindow(qtw.QMainWindow):
         Called to save this window's project. If this window has no project or its save path is none
         then this does nothing.
 
-        return : True if the project was saved successfully or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if the project was saved successfully or false otherwise.
         """
         if not self.__model or self.__path is None:
             return False

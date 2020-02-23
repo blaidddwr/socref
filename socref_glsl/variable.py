@@ -46,7 +46,10 @@ class Variable(shader.Base):
         """
         Getter method.
 
-        return : Rich text paragraph that describes this variable as an argument.
+        Returns
+        -------
+        ret0 : rich text
+               Paragraph that describes this variable as an argument.
         """
         ret = "<p><b>%s "%html.escape(self._p_type.replace("@",self._p_name))
         if self._p_assignment:
@@ -61,11 +64,17 @@ class Variable(shader.Base):
         """
         Implements the .shader.Base interface.
 
-        definition : See interface docs.
+        Parameters
+        ----------
+        definition : object
+                     See interface docs.
+        begin : object
+                See interface docs.
 
-        begin : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = []
         if self.inStructure():
@@ -83,7 +92,10 @@ class Variable(shader.Base):
         """
         Getter method.
 
-        return : A source code fragment string that is the argument of this variable.
+        Returns
+        -------
+        ret0 : string
+               A source code fragment that is the argument of this variable.
         """
         return self._p_type.replace("@",self._p_name)
 
@@ -92,10 +104,16 @@ class Variable(shader.Base):
         """
         Getter method.
 
-        begin : A string that is added to the beginning of returned lines of comment code.
+        Parameters
+        ----------
+        begin : string
+                Added to the beginning of returned lines of comment code.
 
-        return : A list of source code lines that is a comment fragment for this variable as an
-                 argument. This returns the correct doxygen syntax.
+        Returns
+        -------
+        ret0 : list
+               Source code lines that is a comment fragment for this variable as an argument. This
+               returns the correct doxygen syntax.
         """
         header = "@param %s : " % self._p_name
         return ut.wrapText(
@@ -110,7 +128,10 @@ class Variable(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ()
 
@@ -128,7 +149,10 @@ class Variable(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self._p_name:
             return self._p_name
@@ -140,7 +164,10 @@ class Variable(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         type_ = "<h2>Type</h2><p>"+html.escape(self._p_type)+"</p>"
         assignment = ut.richText(2,"Assignment",html.escape(self._p_assignment))
@@ -151,7 +178,10 @@ class Variable(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = shader.Base.editDefinitions(self)
         ret.append(ut.lineEdit("Type:","_p_type"))
@@ -163,7 +193,10 @@ class Variable(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return qtg.QIcon(":/glsl/variable.svg")
 
@@ -172,7 +205,10 @@ class Variable(shader.Base):
         """
         Getter method.
 
-        return : True if this variable is part of a structure or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this variable is part of a structure or false otherwise.
         """
         return self.parent()._TYPE_ == "Structure"
 
@@ -181,7 +217,10 @@ class Variable(shader.Base):
         """
         Getter method.
 
-        return : True if this variable is an argument of a function or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this variable is an argument of a function or false otherwise.
         """
         return self.parent()._TYPE_ == "Function"
 
@@ -190,7 +229,10 @@ class Variable(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return self.isArgument()
 

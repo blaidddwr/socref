@@ -46,11 +46,17 @@ class Function(shader.Base):
         """
         Implements the .shader.Base interface.
 
-        definition : See interface docs.
+        Parameters
+        ----------
+        definition : object
+                     See interface docs.
+        begin : object
+                See interface docs.
 
-        begin : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = [""]*settings.H1LINES
         ret += self.__buildComments_(begin)
@@ -63,7 +69,10 @@ class Function(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ("Variable",)
 
@@ -81,7 +90,10 @@ class Function(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return self._p_name + "(%s)"%str(len(self))
 
@@ -90,7 +102,10 @@ class Function(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return_ = ""
         if self._p_returnType != "void":
@@ -106,7 +121,10 @@ class Function(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = shader.Base.editDefinitions(self)
         ret.append(ut.lineEdit("Return Type:","_p_returnType"))
@@ -118,7 +136,10 @@ class Function(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return qtg.QIcon(":/glsl/function.svg")
 
@@ -142,8 +163,11 @@ class Function(shader.Base):
         """
         Getter method.
 
-        return : Rich text detailed view of all this function's arguments. If this function has no
-                 arguments then this returns an empty string.
+        Returns
+        -------
+        ret0 : rich text
+               Detailed view of all this function's arguments. If this function has no arguments
+               then this returns an empty string.
         """
         return ut.richText(
             2
@@ -156,9 +180,15 @@ class Function(shader.Base):
         """
         Getter method.
 
-        begin : A string that is added to the beginning of every returned line of code.
+        Parameters
+        ----------
+        begin : string
+                Added to the beginning of every returned line of code.
 
-        return : A list of source code lines that is the block comment for this function.
+        Returns
+        -------
+        ret0 : list
+               Source code lines that is the block comment for this function.
         """
         ret = [begin+"/*!"]
         commentBlank = begin+" *"
@@ -185,10 +215,16 @@ class Function(shader.Base):
         """
         Getter method.
 
-        begin : A string that is added to the beginning of every returned line of returned code.
+        Parameters
+        ----------
+        begin : string
+                Added to the beginning of every returned line of code.
 
-        return : A list of lines that is the declaration, or header, of this function. If this
-                 function has no arguments then a single line is returned.
+        Returns
+        -------
+        ret0 : list
+               Lines that is the declaration, or header, of this function. If this function has no
+               arguments then a single line is returned.
         """
         ret = []
         line = begin+self._p_returnType+" "+self._p_name+"("

@@ -31,7 +31,10 @@ class BlockViewDock(qtw.QDockWidget):
         """
         Initializes a new block view dock with the given optional parent.
 
-        parent : The optional qt object parent of this new block view dock.
+        Parameters
+        ----------
+        parent : object
+                 Optional qt object parent of this new block view dock.
         """
         qtw.QDockWidget.__init__(self,parent)
         self.__label = qtw.QLabel(
@@ -53,7 +56,10 @@ class BlockViewDock(qtw.QDockWidget):
         Sets this dock's view to the one given. If this dock currently has a view it is disconnected
         from this dock.
 
-        view : The new attached view of this dock.
+        Parameters
+        ----------
+        view : socref.gui_view.ProjectView
+               The new attached view of this dock.
         """
         if self.__view is not None:
             self.__view.current_changed.disconnect(self.__indexChanged_)
@@ -129,7 +135,10 @@ class ProjectView(qtw.QTreeView):
         """
         Initializes a new project view with the given optional parent.
 
-        parent : The optional qt object parent of this new project.
+        Parameters
+        ----------
+        parent : object
+                 Optional qt object parent of this new project.
         """
         qtw.QTreeView.__init__(self, parent)
         self.__model = None
@@ -164,7 +173,10 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : The context menu of this project.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QMenu
+               The context menu of this project.
         """
         return self.__contextMenu
 
@@ -173,7 +185,10 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : The copy action of this project.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QAction
+               The copy action of this project.
         """
         return self.__copyAction
 
@@ -182,7 +197,10 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : The cut action of this project.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QAction
+               The cut action of this project.
         """
         return self.__cutAction
 
@@ -191,7 +209,10 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : The move down action of this project.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QAction
+               The move down action of this project.
         """
         return self.__moveDownAction
 
@@ -200,7 +221,10 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : The move up action of this project.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QAction
+               The move up action of this project.
         """
         return self.__moveUpAction
 
@@ -209,7 +233,10 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : The paste action of this project.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QAction
+               The paste action of this project.
         """
         return self.__pasteAction
 
@@ -218,7 +245,10 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : The redo action of this project.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QAction
+               The redo action of this project.
         """
         return self.__redoAction
 
@@ -227,7 +257,10 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : The remove action of this project.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QAction
+               The remove action of this project.
         """
         return self.__removeAction
 
@@ -236,7 +269,10 @@ class ProjectView(qtw.QTreeView):
         """
         Sets this project's model to the one given.
 
-        model : The new model this project view displays and edits.
+        Parameters
+        ----------
+        model : socref.model.ProjectModel
+                The new model this project view displays and edits.
         """
         qtw.QTreeView.setModel(self,model)
         if self.__model:
@@ -255,7 +291,10 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : The undo action of this project.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QAction
+               The undo action of this project.
         """
         return self.__undoAction
 
@@ -298,9 +337,12 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : True if any of this project's global copied blocks can be pasted into its model at
-                 the current index with the current insertion type. False if no copied block can be
-                 pasted.
+        Returns
+        -------
+        ret0 : bool
+               True if any of this project's global copied blocks can be pasted into its model at
+               the current index with the current insertion type. False if no copied block can be
+               pasted.
         """
         if self.__model is None or not self.__model or ProjectView.__xmlBlocks is None:
             return False
@@ -316,9 +358,16 @@ class ProjectView(qtw.QTreeView):
         """
         Getter method.
 
-        return : A tuple containing the row and parent index where blocks must be inserted into this
-                 project's model by either adding new ones or pasting copied ones. If there is no
-                 valid target for insertion the tuple returned is none and none.
+        Returns
+        -------
+        ret0 : object
+               The row where blocks must be inserted into this project's model by either adding new
+               ones or pasting copied ones. If there is no valid target for insertion then none is
+               returned.
+        ret1 : object
+               The parent qt model index where blocks must be inserted into this project's model by
+               either adding new ones or pasting copied ones. If there is no valid target for
+               insertion then none is returned.
         """
         index = self.selectionModel().currentIndex()
         parent = None
@@ -466,7 +515,7 @@ class ProjectView(qtw.QTreeView):
         block_list = self.__model.data(index,model.Role.BUILD_LIST)
         if block_list is not None:
             for block_type in block_list:
-                action = qtw.QAction(block_type,self)
+                action = qtw.QAction(block_type.replace("_"," "),self)
                 action.setIcon(
                     block.BlockFactory().create(self.__model.langName(),block_type).icon()
                 )
@@ -491,7 +540,10 @@ class ProjectView(qtw.QTreeView):
         Updates this project's insert option to the one given, setting all insert actions checked
         states appropriately.
 
-        option : The new insert option set for this project.
+        Parameters
+        ----------
+        option : int
+                 The new insert option set for this project.
         """
         self.__insertBeforeAction.setChecked(option == self.__BEFORE)
         self.__insertIntoAction.setChecked(option == self.__INTO)
@@ -514,7 +566,10 @@ class ProjectView(qtw.QTreeView):
         This will also update the current index to the newly added block if the current one is not
         valid. This partially fixes a strange PySide2 bug.
 
-        blockType : The block type that is created and added to this project's model.
+        Parameters
+        ----------
+        blockType : string
+                    The block type that is created and added to this project's model.
         """
         (row,parent) = self.__insertValues_()
         if parent is None:
@@ -533,7 +588,10 @@ class ProjectView(qtw.QTreeView):
         Called to inform this project that its context menu has been requested by the GUI at the
         given relative point.
 
-        position : The point where the context menu is requested relative to this project's widget.
+        Parameters
+        ----------
+        position : PySide2.QtCore.QPoint
+                   The point where the context menu is requested relative to this project's widget.
         """
         self.__contextMenu.exec_(self.mapToGlobal(position))
 
@@ -562,9 +620,12 @@ class ProjectView(qtw.QTreeView):
         Called to inform this project that its selection model's current index has changed to the
         one given from the previous one given.
 
-        current : The new current index of this project's selection model.
-
-        previous : The previous index of this project's selection model.
+        Parameters
+        ----------
+        current : PySide2.QtCore.QModelIndex
+                  The new current index of this project's selection model.
+        previous : PySide2.QtCore.QModelIndex
+                   The previous index of this project's selection model.
         """
         self.__updateContextMenu_()
         self.indexChanged.emit(current)
@@ -610,11 +671,14 @@ class ProjectView(qtw.QTreeView):
         Called to inform this project that data has changed for the range of indexes from the given
         top left to the given bottom right with the given roles.
 
-        topLeft : The top left index in the range of indexes that has changed.
-
-        bottomRight : The bottom right index in the range of indexes that has changed.
-
-        roles : List of qt data roles that have changed in the given indexes.
+        Parameters
+        ----------
+        topLeft : PySide2.QtCore.QModelIndex
+                  The top left index in the range of indexes that has changed.
+        bottomRight : PySide2.QtCore.QModelIndex
+                      The bottom right index in the range of indexes that has changed.
+        roles : list
+                Qt data roles that have changed in the given indexes.
         """
         if topLeft == self.selectionModel().currentIndex():
             self.indexDataChanged.emit()
