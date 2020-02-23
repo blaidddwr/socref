@@ -45,11 +45,17 @@ class EnumValue(namespace.Base):
         """
         Implements the .namespace.Base interface with one additional argument.
 
-        begin : See interface docs.
+        Parameters
+        ----------
+        begin : object
+                See interface docs.
+        first : bool
+                True if this is the first value in its enumeration parent or false otherwise.
 
-        first : True if this is the first value in its enumeration parent or false otherwise.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = ut.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
         line = begin+("" if first else ",")+self._p_name
@@ -63,7 +69,10 @@ class EnumValue(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ()
 
@@ -80,7 +89,10 @@ class EnumValue(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         value = ut.richText(2,"Value",html.escape(self._p_value))
         return namespace.Base.displayView(self) + value
@@ -90,7 +102,10 @@ class EnumValue(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = namespace.Base.editDefinitions(self)
         ret.append(ut.lineEdit("Value:","_p_value"))
@@ -101,7 +116,10 @@ class EnumValue(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return qtg.QIcon(":/cpp/enumeration_value.svg")
 

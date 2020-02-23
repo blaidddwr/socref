@@ -33,10 +33,13 @@ class SpellHighlighter(qtg.QSyntaxHighlighter):
         """
         Initializes a new spell highlighter with the given dictionary and parent.
 
-        dictionary : The Hunspell dictionary used for spell checking. This does not include the
+        Parameters
+        ----------
+        dictionary : string
+                     The Hunspell dictionary used for spell checking. This does not include the
                      directory or file extensions, for example "en_US".
-
-        parent : The parent document that takes ownership of this highlighter and has its misspelled
+        parent : PySide2.QtGui.QTextDocument
+                 The parent document that takes ownership of this highlighter and has its misspelled
                  words highlighted.
         """
         qtg.QSyntaxHighlighter.__init__(self,parent)
@@ -59,7 +62,10 @@ class SpellHighlighter(qtg.QSyntaxHighlighter):
         """
         Implements the qtg.QSyntaxHighlighter interface.
 
-        text : See qt docs.
+        Parameters
+        ----------
+        text : object
+               See qt docs.
         """
         start = 0
         pattern = re.compile('\w+')
@@ -101,12 +107,15 @@ class SpellChecker(qtw.QGroupBox):
         """
         Initializes a new speller checker with the given title, dictionary, and optional parent.
 
-        title : The title of this new spell checker's qt group box.
-
-        dictionary : The Hunspell dictionary used for spell checking. This does not include the
+        Parameters
+        ----------
+        title : string
+                The title of this new spell checker's qt group box.
+        dictionary : string
+                     The Hunspell dictionary used for spell checking. This does not include the
                      directory or file extensions, for example "en_US".
-
-        parent : An optional qt object parent for this new spell checker.
+        parent : object
+                 An optional qt object parent for this new spell checker.
         """
         qtw.QGroupBox.__init__(self,title,parent)
         self.__hunspell = hunspell.HunSpell(
@@ -149,7 +158,10 @@ class SpellChecker(qtw.QGroupBox):
         given qt text cursor. The entire document is checked for misspelled words. If this spell
         checker is already checking a document then this does nothing.
 
-        cursor : A qt text cursor whose document is checked for misspelled words.
+        Parameters
+        ----------
+        cursor : PySide2.QtGui.QTextCursor
+                 It's document is checked for misspelled words.
         """
         if self.__cursor is None:
             self.__cursor = cursor
@@ -168,7 +180,10 @@ class SpellChecker(qtw.QGroupBox):
         optionally skipping the word this checker's cursor is currently under. If no misspelled word
         is found once the end of the document is reached then it stops this spell checker.
 
-        skip : True to skip the word this checker's cursor is currently under or false to check it
+        Parameters
+        ----------
+        skip : bool
+               True to skip the word this checker's cursor is currently under or false to check it
                for spelling.
         """
         cursor = self.__cursor

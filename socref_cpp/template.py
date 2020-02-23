@@ -46,7 +46,10 @@ class Template(namespace.Base):
         """
         Getter method.
 
-        return : Rich text paragraph that describes this template as an argument.
+        Returns
+        -------
+        ret0 : rich text
+               Paragraph that describes this template as an argument.
         """
         ret = "<p><b>%s "%html.escape(self._p_type.replace("@",self._p_name))
         if self._p_assignment:
@@ -61,11 +64,17 @@ class Template(namespace.Base):
         """
         Getter method.
 
-        isDeclaration : True if this is returned for a function declaration or false if it is for a
+        Parameters
+        ----------
+        isDeclaration : bool
+                        True if this is returned for a function declaration or false if it is for a
                         function definition.
 
-        return : A source code fragment string that is the argument of this template, including any
-                 initialization if this is for a declaration.
+        Returns
+        -------
+        ret0 : string
+               Source code fragment that is the argument of this template, including any
+               initialization if this is for a declaration.
         """
         ret = self._p_type.replace("@",self._p_name)
         if self._p_assignment and isDeclaration:
@@ -77,11 +86,17 @@ class Template(namespace.Base):
         """
         Getter method.
 
-        begin : A string that is added to the beginning of returned lines of comment code.
+        Parameters
+        ----------
+        begin : string
+                Added to the beginning of returned lines of comment code.
 
-        return : A list of source code lines that is a comment fragment for this template as an
-                 argument. This returns the correct doxygen syntax based off this block being an
-                 actual template or variable argument.
+        Returns
+        -------
+        ret0 : list
+               Source code lines that is a comment fragment for this template as an argument. This
+               returns the correct doxygen syntax based off this block being an actual template or
+               variable argument.
         """
         header = ""
         if self._TYPE_ == "Template":
@@ -101,7 +116,10 @@ class Template(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ()
 
@@ -120,7 +138,10 @@ class Template(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return self._p_name
 
@@ -129,7 +150,10 @@ class Template(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         type_ = ut.richText(2,"Type",html.escape(self._p_type))
         assignment = ut.richText(2,"Assignment",html.escape(self._p_assignment))
@@ -140,7 +164,10 @@ class Template(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = namespace.Base.editDefinitions(self)
         ret.append(ut.lineEdit("Type:","_p_type"))
@@ -152,7 +179,10 @@ class Template(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return qtg.QIcon(":/cpp/template.svg")
 
@@ -161,7 +191,10 @@ class Template(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return True
 

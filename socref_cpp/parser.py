@@ -32,8 +32,10 @@ class Parser(abstract.AbstractParser):
         """
         Initializes a new C++ parser with the given root namespace block.
 
-        root : A namespace block that is the root block of a C++ project that this new parser will
-               parse.
+        Parameters
+        ----------
+        root : socref_cpp.namespace.Namespace
+               The root block of a C++ project that this new parser will parse.
         """
         abstract.AbstractParser.__init__(self)
         self.__root_block = root
@@ -52,7 +54,10 @@ class Parser(abstract.AbstractParser):
         """
         Implements the socref.abstract.AbstractParser interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return {
             key: "\n".join(self.__definitions["functions"][key])
@@ -69,11 +74,17 @@ class Parser(abstract.AbstractParser):
         """
         Implements the socref.abstract.AbstractParser interface.
 
-        block : See interface docs.
+        Parameters
+        ----------
+        block : object
+                See interface docs.
+        path : object
+               See interface docs.
 
-        path : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if path.endswith(settings.HEADER_EXTENSION):
             return "\n".join(block.buildHeader(self.__definitions,path))+"\n"
@@ -94,7 +105,10 @@ class Parser(abstract.AbstractParser):
         """
         Implements the socref.abstract.AbstractParser interface.
 
-        path : See interface docs.
+        Parameters
+        ----------
+        path : object
+               See interface docs.
         """
         with open(path,"r") as ifile:
             headers = self.__scanHeader_(ifile)
@@ -113,9 +127,12 @@ class Parser(abstract.AbstractParser):
         """
         Recursively adds source code paths using the given parent block and scope.
 
-        parent : The parent block whose children are scanned for potential paths.
-
-        scope : The scope of the given parent block with double colons being replaced by an
+        Parameters
+        ----------
+        parent : socref.abstract.AbstractBlock
+                 The parent block whose children are scanned for potential paths.
+        scope : string
+                The scope of the given parent block with double colons being replaced by an
                 underscore.
         """
         if scope:
@@ -141,9 +158,12 @@ class Parser(abstract.AbstractParser):
         given namespace scope. Any scanned code of function definitions are added to this parser's
         definitions dictionary.
 
-        ifile : The input file that is scanned for function definition code.
-
-        scope : The namespace scope that any found function definitions are nested within.
+        Parameters
+        ----------
+        ifile : file object
+                The input file that is scanned for function definition code.
+        scope : string
+                The namespace scope that any found function definitions are nested within.
         """
         depth = 0 if scope else 1
         if scope:
@@ -176,12 +196,18 @@ class Parser(abstract.AbstractParser):
         """
         Getter method.
 
-        line : A string that is a function argument whose signature is returned.
+        Parameters
+        ----------
+        line : string
+               A function argument whose signature is returned.
 
-        return : The argument signature of the given argument line. The signature removes any spaces
-                 and the name of the argument, leaving only the type. This only works with arguments
-                 where the last word is the variable name separated from its type, including
-                 asterisks or ampersands. This also works with C style function pointers.
+        Returns
+        -------
+        ret0 : string
+               The argument signature of the given argument line. The signature removes any spaces
+               and the name of the argument, leaving only the type. This only works with arguments
+               where the last word is the variable name separated from its type, including asterisks
+               or ampersands. This also works with C style function pointers.
         """
         line = line.lstrip()
         if line.startswith(","):
@@ -198,13 +224,18 @@ class Parser(abstract.AbstractParser):
         """
         Getter method.
 
-        ifile : The input file positioned at the beginning of a function definition whose lines of
-                code is scanned and returned.
+        Parameters
+        ----------
+        ifile : file object
+                The input file positioned at the beginning of a function definition whose lines of
+                code are scanned and returned.
 
-        return : A list of code lines scanned from the given input file, assuming it is at the
-                 beginning of a function definition. It stops scanning lines when the final
-                 enclosing bracket is found. The line with the last ending bracket is not included
-                 with the returned lines.
+        Returns
+        -------
+        ret0 : list
+               Code lines scanned from the given input file, assuming it is at the beginning of a
+               function definition. It stops scanning lines when the final enclosing bracket is
+               found. The line with the last ending bracket is not included with the returned lines.
         """
         depth = 1
         lines = []
@@ -228,12 +259,18 @@ class Parser(abstract.AbstractParser):
         """
         Getter method.
 
-        ifile : The input file positioned at the beginning of the file whose preprocessor header
+        Parameters
+        ----------
+        ifile : file object
+                The input file positioned at the beginning of the file whose preprocessor header
                 lines are scanned and returned.
 
-        return : A list of proprocessor header lines scanned from the given input file, assuming it
-                 is at the beginning of the file. This will include the header guard lines if the
-                 given input file is a C++ header.
+        Returns
+        -------
+        ret0 : list
+               Preprocessor header lines scanned from the given input file, assuming it is at the
+               beginning of the file. This will include the header guard lines if the given input
+               file is a C++ header.
         """
         lines = []
         while True:
@@ -252,18 +289,24 @@ class Parser(abstract.AbstractParser):
         """
         Getter method.
 
-        ifile : The input file positioned after the first declaration line of a function header
-                whose signature is returned.
-
-        name : The function name of the returned signature.
-
-        ending : The ending of the first function declaration line of the returned signature, used
+        Parameters
+        ----------
+        ifile : file object
+                The input file positioned after the first declaration line of a function header
+                whose signature is scanned and returned.
+        name : string
+               The function name of the returned signature.
+        ending : string
+                 The ending of the first function declaration line of the returned signature, used
                  for functions that have no arguments.
 
-        return : A string that is the function signature scanned from the given input file, assuming
-                 it is positioned at the line after the first declaration line. The given function
-                 name and ending is used to generate the signature taken from the first declaration
-                 line. The returned signature does not include any scope.
+        Returns
+        -------
+        ret0 : string
+               The function signature scanned from the given input file, assuming it is positioned
+               at the line after the first declaration line. The given function name and ending is
+               used to generate the signature taken from the first declaration line. The returned
+               signature does not include any scope.
         """
         if not ")" in ending:
             arguments = ""

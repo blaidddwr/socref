@@ -41,15 +41,21 @@ class Function(cppfunction.Function):
         """
         Implements the socref_cpp.namespace.Base interface.
 
-        definitions : See interface docs.
+        Parameters
+        ----------
+        definitions : object
+                      See interface docs.
+        scope : object
+                See interface docs.
+        template : object
+                   See interface docs.
+        header : object
+                 See interface docs.
 
-        scope : See interface docs.
-
-        template : See interface docs.
-
-        header : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self.isMethod() and self.parent().isSignals():
             return ([],[])
@@ -61,7 +67,10 @@ class Function(cppfunction.Function):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self.isMethod():
             if self.parent().isSignals():

@@ -35,13 +35,16 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         Initializes a new plain text editor with the given optional text and parent. Spelling and
         dialog popup can also be enabled or disabled.
 
-        text : The optional edited text of this new plain text editor.
-
-        parent : The optional qt object parent of this new plain text editor.
-
-        speller : True to enable misspelled word highlighting or false to disable it.
-
-        popup : True to enable the popup edit dialog shortcut or false to disable it.
+        Parameters
+        ----------
+        text : string
+               The optional edited text of this new plain text editor.
+        parent : object
+                 Optional qt object parent of this new plain text editor.
+        speller : bool
+                  True to enable misspelled word highlighting or false to disable it.
+        popup : bool
+                True to enable the popup edit dialog shortcut or false to disable it.
         """
         qtw.QPlainTextEdit.__init__(self,text,parent)
         self.__speller = speller
@@ -61,7 +64,10 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         """
         Sets the state of this editor's spelling highlighter to enabled or disabled.
 
-        enabled : True to enable this editor's spelling highlighter or false to disable it.
+        Parameters
+        ----------
+        enabled : bool
+                  True to enable this editor's spelling highlighter or false to disable it.
         """
         if not enabled:
             if self.__highlighter is not None:
@@ -138,7 +144,10 @@ class BlockEditDock(qtw.QDockWidget):
         """
         Initialize a new block edit dock with the given optional parent.
 
-        parent : The optional qt object parent of this new block edit dock.
+        Parameters
+        ----------
+        parent : object
+                 Optional qt object parent of this new block edit dock.
         """
         qtw.QDockWidget.__init__(self,parent)
         self.__area = qtw.QScrollArea(widgetResizable=True)
@@ -159,7 +168,10 @@ class BlockEditDock(qtw.QDockWidget):
         Sets this dock's view to the one given. If this dock currently has a view it is disconnected
         from this dock.
 
-        view : The new attached view of this dock.
+        Parameters
+        ----------
+        view : socref.gui_view.ProjectView
+               The new attached view of this dock.
         """
         if self.__view is not None:
             self.__view.current_changed.disconnect(self.__indexChanged_)
@@ -180,14 +192,20 @@ class BlockEditDock(qtw.QDockWidget):
         """
         Getter method.
 
-        definition : The edit definition used to build the returned edit widget.
-
-        properties : The properties of the block used to get the initial value of the returned edit
+        Parameters
+        ----------
+        definition : dictionary
+                     The edit definition used to build the returned edit widget.
+        properties : dictionary
+                     The properties of the block used to get the initial value of the returned edit
                      widget.
 
-        return : A tuple containing 2 items. The first is a new checkbox widget configured for the
-                 given definition and properties. The second is a string label for adding it to a
-                 form.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QCheckBox
+               A new checkbox configured for the given definition and properties.
+        ret1 : string
+               A label for adding it to a form.
         """
         edit = qtw.QCheckBox(definition["label"])
         edit.setCheckState(
@@ -203,14 +221,20 @@ class BlockEditDock(qtw.QDockWidget):
         """
         Getter method.
 
-        definition : The edit definition used to build the returned edit widget.
-
-        properties : The properties of the block used to get the initial value of the returned edit
+        Parameters
+        ----------
+        definition : dictionary
+                     The edit definition used to build the returned edit widget.
+        properties : dictionary
+                     The properties of the block used to get the initial value of the returned edit
                      widget.
 
-        return : A tuple containing 2 items. The first is a new combo box widget configured for the
-                 given definition and properties. The second is a string label for adding it to a
-                 form.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QComboBox
+               A new combo box configured for the given definition and properties.
+        ret1 : string
+               A label for adding it to a form.
         """
         edit = qtw.QComboBox()
         for selection in definition["selections"]:
@@ -231,9 +255,15 @@ class BlockEditDock(qtw.QDockWidget):
         based off its edit definitions, adding them to this dock's list of edit widgets. This clears
         any previous edit widgets from the last index that was built by this method.
 
-        index : The index of the block whose property edit widgets are built.
+        Parameters
+        ----------
+        index : PySide2.QtCore.QModelIndex
+                The index of the block whose property edit widgets are built.
 
-        return : The form layout containing all built edit widgets and the apply button at the end.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QWidget
+               Contains all built edit widgets.
         """
         self.__edits.clear()
         try:
@@ -271,9 +301,15 @@ class BlockEditDock(qtw.QDockWidget):
         """
         Getter method.
 
-        definition : The edit definition used to build the returned edit widget.
+        Parameters
+        ----------
+        definition : dictionary
+                     The edit definition used to build the returned edit widget.
 
-        return : A new hidden edit widget configured for the given definition.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QWidget
+               A new hidden edit widget configured for the given definition.
         """
         edit = qtw.QWidget()
         edit._value_ = lambda val=definition["value"] : val
@@ -285,14 +321,20 @@ class BlockEditDock(qtw.QDockWidget):
         """
         Getter method.
 
-        definition : The edit definition used to build the returned edit widget.
-
-        properties : The properties of the block used to get the initial value of the returned edit
+        Parameters
+        ----------
+        definition : dictionary
+                     The edit definition used to build the returned edit widget.
+        properties : dictionary
+                     The properties of the block used to get the initial value of the returned edit
                      widget.
 
-        return : A tuple containing 2 items. The first is a new line edit widget configured for the
-                 given definition and properties. The second is a string label for adding it to a
-                 form.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QLineEdit
+               A new line editor configured for the given definition and properties.
+        ret1 : string
+               A label for adding it to a form.
         """
         edit = qtw.QLineEdit(properties[definition["key"]])
         edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
@@ -305,14 +347,20 @@ class BlockEditDock(qtw.QDockWidget):
         """
         Getter method.
 
-        definition : The edit definition used to build the returned edit widget.
-
-        properties : The properties of the block used to get the initial value of the returned edit
+        Parameters
+        ----------
+        definition : dictionary
+                     The edit definition used to build the returned edit widget.
+        properties : dictionary
+                     The properties of the block used to get the initial value of the returned edit
                      widget.
 
-        return : A tuple containing 2 items. The first is a new plain text edit widget configured
-                 for the given definition and properties. The second is a string label for adding it
-                 to a form.
+        Returns
+        -------
+        ret0 : socref.gui_edit.PlainTextEdit
+               A new text editor configured for the given definition and properties.
+        ret1 : string
+               A label for adding it to a form.
         """
         edit = PlainTextEdit(speller=definition.get("speller",False),popup=True)
         edit.setPlainText(properties[definition["key"]])
@@ -368,7 +416,10 @@ class BlockEditDock(qtw.QDockWidget):
         Garbage collection is required because rebuilding this dock's GUI causes large memory leaks
         otherwise.
 
-        index : The index of the new block whose properties are edited by this dock.
+        Parameters
+        ----------
+        index : PySide2.QtCore.QModelIndex
+                The index of the new block whose properties are edited by this dock.
         """
         if self.__index.isValid() and self.__applyButton.isEnabled():
             answer = qtw.QMessageBox.question(
@@ -398,7 +449,10 @@ class BlockEditDock(qtw.QDockWidget):
         Called to update the index of the block this dock is editing. It is assumed the same block
         is being edited so the edit widget form is not rebuilt.
 
-        index : The new index of the block this dock is editing.
+        Parameters
+        ----------
+        index : PySide2.QtCore.QModelIndex
+                The new index of the block this dock is editing.
         """
         self.__index = index
 

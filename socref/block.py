@@ -17,12 +17,15 @@ def register(name, root=False):
     provide the language name and block name, respectively. This must be called when a language is
     being loaded.
 
-    name : The block's type name that is being registered. This must be unique among all block names
+    Parameters
+    ----------
+    name : string
+           The block's type name that is being registered. This must be unique among all block names
            of any one language and only contain alphabetical and underscore characters. Underscore
            characters are replaced with spaces when displays the block type to the user.
-
-    root : Optional root Boolean that indicates the registered block is the root block of the
-           language if set to true. Only one block type can be the root of a language.
+    root : bool
+           Optionally indicates the registered block is the root block of the language if set to
+           true. Only one block type can be the root of a language.
     """
     def wrapper(class_):
         BlockFactory().registerBlock(class_,name)
@@ -74,10 +77,16 @@ class BlockFactory():
         """
         Getter method. The given language name must exist in this factory.
 
-        langName : The language name whose list of registered block types are returned.
+        Parameters
+        ----------
+        langName : string
+                   The language name whose list of registered block types are returned.
 
-        return : A list of registered block type names for a language with the given name that this
-                 factory has loaded.
+        Returns
+        -------
+        ret0 : list
+               Registered block type names for a language with the given name that this factory has
+               loaded.
         """
         return self.__langs[langName].keys()
 
@@ -86,11 +95,17 @@ class BlockFactory():
         """
         Getter method. The given language name and block type name must exist in this factory.
 
-        langName : The name of the language of the created block.
+        Parameters
+        ----------
+        langName : string
+                   The name of the language of the created block.
+        typeName : string
+                   The type name of the created block.
 
-        typeName : The type name of the created block.
-
-        return : A new block of the given type from the given language.
+        Returns
+        -------
+        ret0 : socref.abstract.AbstractBlock
+               A new block of the given type from the given language.
         """
         return self.__langs[langName][typeName]()
 
@@ -99,9 +114,15 @@ class BlockFactory():
         """
         Getter method. The given language must exist in this factory.
 
-        langName : The name of the language of the created root block.
+        Parameters
+        ----------
+        langName : string
+                   The name of the language of the created root block.
 
-        return : A new root block from the given language.
+        Returns
+        -------
+        ret0 : socref.abstract.AbstractBlock
+               A new root block from the given language.
         """
         return self.__langs[langName][self.__ROOT]()
 
@@ -110,7 +131,10 @@ class BlockFactory():
         """
         Getter method.
 
-        return : A sorted list of languages names this factory has loaded.
+        Returns
+        -------
+        ret0 : list
+               Sorted language names this factory has loaded.
         """
         ret = list(self.__langs.keys())
         ret.sort()
@@ -121,9 +145,12 @@ class BlockFactory():
         """
         Loads a new language into this factory. The given language name must be unique.
 
-        langName : The language name that is loaded.
-
-        import_name : The module name of the language that is loaded.
+        Parameters
+        ----------
+        langName : string
+                   The language name that is loaded.
+        import_name : string
+                      The module name of the language that is loaded.
         """
         if langName in self.__langs.keys():
             raise exception.LangError("Language already loaded with the same name")
@@ -149,10 +176,13 @@ class BlockFactory():
         _TYPE_. A language must be currently loading by this factory. The given type name must be
         unique within its language and cannot be the reserved name "##ROOT##".
 
-        class_ : A class object that is registered as a block type of the currently loading
+        Parameters
+        ----------
+        class_ : socref.abstract.AbstractBlock
+                 A class object that is registered as a block type of the currently loading
                  language.
-
-        name : The type name of the block that is registered.
+        name : string
+               The type name of the block that is registered.
         """
         if name == self.__ROOT:
             raise exception.RegisterError("Block class cannot register with reserved name.")
@@ -171,7 +201,10 @@ class BlockFactory():
         loaded by this factory. Only one class object can be the root block of a language so this
         can only be called once per language load.
 
-        class_ : A class object that is registered as the root block type of the currently loading
+        Parameters
+        ----------
+        class_ : socref.abstract.AbstractBlock
+                 A class object that is registered as the root block type of the currently loading
                  language.
         """
         self.__registerBlock_(class_,self.__ROOT)
@@ -187,10 +220,13 @@ class BlockFactory():
         Registers the given block class with the given key to the language currently being loaded by
         this factory.
 
-        class_ : A class object that is registered as a block type of the currently loading
+        Parameters
+        ----------
+        class_ : socref.abstract.AbstractBlock
+                 A class object that is registered as a block type of the currently loading
                  language.
-
-        key : The key used to add the class object to the language dictionary currently being loaded
+        key : string
+              The key used to add the class object to the language dictionary currently being loaded
               by this factory.
         """
         if self.__importingLang is None:

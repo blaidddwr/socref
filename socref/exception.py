@@ -25,7 +25,10 @@ class LangError(Exception):
         """
         Initialize a new load error exception with any number of given positional arguments.
 
-        *args : Positional arguments passed on to the super exception class.
+        Parameters
+        ----------
+        *args : tuple
+                Positional arguments passed on to the super exception class.
         """
         Exception.__init__(self,*args)
 
@@ -52,7 +55,10 @@ class LoadError(Exception):
         """
         Initialize a new load error exception with any number of given positional arguments.
 
-        *args : Positional arguments passed on to the super exception class.
+        Parameters
+        ----------
+        *args : tuple
+                Positional arguments passed on to the super exception class.
         """
         Exception.__init__(self,*args)
 
@@ -79,7 +85,10 @@ class RegisterError(Exception):
         """
         Initialize a new load error exception with any number of given positional arguments.
 
-        *args : Positional arguments passed on to the super exception class.
+        Parameters
+        ----------
+        *args : tuple
+                Positional arguments passed on to the super exception class.
         """
         Exception.__init__(self,*args)
 
@@ -106,6 +115,9 @@ class ScanError(Exception):
         """
         Initialize a new load error exception with any number of given positional arguments.
 
-        *args : Positional arguments passed on to the super exception class.
+        Parameters
+        ----------
+        *args : tuple
+                Positional arguments passed on to the super exception class.
         """
         Exception.__init__(self,*args)

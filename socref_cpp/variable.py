@@ -48,9 +48,15 @@ class Variable(template.Template):
         """
         Implements the .namespace.Base interface.
 
-        begin : See interface docs.
+        Parameters
+        ----------
+        begin : object
+                See interface docs.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = []
         if self.inUnion():
@@ -75,15 +81,21 @@ class Variable(template.Template):
         """
         Implements the .namespace.Base interface.
 
-        definitions : See interface docs.
+        Parameters
+        ----------
+        definitions : object
+                      See interface docs.
+        scope : object
+                See interface docs.
+        template : object
+                   See interface docs.
+        header : object
+                 See interface docs.
 
-        scope : See interface docs.
-
-        template : See interface docs.
-
-        header : See interface docs.
-
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if (
             ((not template and not header) or (template and header))
@@ -105,7 +117,10 @@ class Variable(template.Template):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return ()
 
@@ -114,7 +129,10 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : A string that is the signature of this variable as an argument.
+        Returns
+        -------
+        ret0 : string
+               The signature of this variable as an argument.
         """
         return self._p_type.replace("@","").replace(" ","")
 
@@ -134,7 +152,10 @@ class Variable(template.Template):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         base = self._p_name
         if self._p_assignment:
@@ -152,7 +173,10 @@ class Variable(template.Template):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         self.__checkFlags_()
         return template.Template.displayView(self) + self.__flagsView_()
@@ -162,7 +186,10 @@ class Variable(template.Template):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         ret = template.Template.editDefinitions(self)
         if not self.isArgument():
@@ -184,7 +211,10 @@ class Variable(template.Template):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         if self.isStatic():
             return qtg.QIcon(":/cpp/static_variable.svg")
@@ -196,7 +226,10 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : True if this variable is part of a class or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this variable is part of a class or false otherwise.
         """
         return self.parent()._TYPE_ == "Access"
 
@@ -205,7 +238,10 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : True if this variable is part of a union or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this variable is part of a union or false otherwise.
         """
         return self.parent()._TYPE_ == "Union"
 
@@ -214,7 +250,10 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : True if this variable is an argument of a function or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this variable is an argument of a function or false otherwise.
         """
         return self.parent()._TYPE_ == "Function"
 
@@ -223,7 +262,10 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : True if this variable is a constant expression or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this variable is a constant expression or false otherwise.
         """
         return bool(int(self._p_constexpr))
 
@@ -232,7 +274,10 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : True if this variable is mutable or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this variable is mutable or false otherwise.
         """
         return bool(int(self._p_mutable))
 
@@ -241,7 +286,10 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : True if this variable is static or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this variable is static or false otherwise.
         """
         return bool(int(self._p_static))
 
@@ -250,7 +298,10 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : True if this variable is thread local or false otherwise.
+        Returns
+        -------
+        ret0 : bool
+               True if this variable is thread local or false otherwise.
         """
         return bool(int(self._p_thread_local))
 
@@ -259,7 +310,10 @@ class Variable(template.Template):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
-        return : See interface docs.
+        Returns
+        -------
+        ret0 : object
+               See interface docs.
         """
         return self.isArgument()
 
@@ -286,8 +340,11 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : A string that is the code declarations for any flags this variable has enabled. The
-                 extern flag is implicitly enabled of this variable is not a class member.
+        Returns
+        -------
+        ret0 : string
+               The code declarations for any flags this variable has enabled. The extern flag is
+               implicitly enabled of this variable is not a class member.
         """
         ret = ""
         if not self.inClass():
@@ -319,8 +376,11 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : A string of character flags this block has enabled. If this block has no flags
-                 enabled then an empty string is returned.
+        Returns
+        -------
+        ret0 : string
+               Character flags this block has enabled. If this block has no flags enabled then an
+               empty string is returned.
         """
         ret = ""
         if self.isConstExpr():
@@ -338,8 +398,11 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : Rich text list of flags this block has enabled. If this block has no flags enabled
-                 then an empty string is returned.
+        Returns
+        -------
+        ret0 : rich text
+               List of flags this block has enabled. If this block has no flags enabled then an
+               empty string is returned.
         """
         flags = []
         if self.isConstExpr():

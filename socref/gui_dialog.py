@@ -35,11 +35,14 @@ class TextDialog(qtw.QDialog):
         Initializes a new text dialog with the given optional text and parent. Spelling features can
         also be enabled or disabled.
 
-        text : The optional text of this new text dialog.
-
-        parent : The optional qt object parent of this new text dialog.
-
-        speller : True to enable misspelled word highlighting and spell checking or false to disable
+        Parameters
+        ----------
+        text : string
+               The optional text of this new text dialog.
+        parent : object
+                 The optional qt object parent of this new text dialog.
+        speller : bool
+                  True to enable misspelled word highlighting and spell checking or false to disable
                   it all.
         """
         qtw.QDialog.__init__(self,parent)
@@ -59,7 +62,10 @@ class TextDialog(qtw.QDialog):
         """
         Getter method.
 
-        return : The current text of this text dialog.
+        Returns
+        -------
+        ret0 : string
+               The current of this text dialog.
         """
         return self.__textEdit.toPlainText()
 
@@ -73,7 +79,10 @@ class TextDialog(qtw.QDialog):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
-        event : See qt docs.
+        Parameters
+        ----------
+        event : object
+                See qt docs.
         """
         settings = qtc.QSettings()
         settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
@@ -99,7 +108,10 @@ class TextDialog(qtw.QDialog):
         """
         Initializes the buttons of this new text dialog.
 
-        return : A box layout of initialized buttons.
+        Returns
+        -------
+        ret0 : PySide2.QtWidgets.QHBoxLayout
+               A layout of initialized buttons.
         """
         set_ = qtw.QPushButton("Set")
         set_.clicked.connect(lambda : self.done(qtw.QDialog.Accepted))
@@ -131,7 +143,10 @@ class TextDialog(qtw.QDialog):
         """
         Initializes the spell checker box of this new text dialog.
 
-        return : The initialized spell checker box widget.
+        Returns
+        -------
+        ret0 : socref.gui_util.SpellChecker
+               The initialized spell checker box widget.
         """
         self.__spellerBox.hide()
         self.__spellerBox.cursorChanged.connect(
@@ -202,9 +217,12 @@ class ProjectDialog(qtw.QDialog):
         """
         Initializes a new project dialog with the given model and optional parent.
 
-        model : The project model that this dialog edits with its form.
-
-        parent : The optional qt object parent of this dialog.
+        Parameters
+        ----------
+        model : socref.model.ProjectModel
+                The project model that this dialog edits with its form.
+        parent : object
+                 The optional qt object parent of this dialog.
         """
         qtw.QDialog.__init__(self,parent)
         self.__nameEdit = qtw.QLineEdit(self)
@@ -224,7 +242,10 @@ class ProjectDialog(qtw.QDialog):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
-        event : See qt docs.
+        Parameters
+        ----------
+        event : object
+                See qt docs.
         """
         settings = qtc.QSettings()
         settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
@@ -317,7 +338,10 @@ class ProjectDialog(qtw.QDialog):
         """
         Called to inform this dialog its project model's name has changed.
 
-        name : The new name of this dialog's project model.
+        Parameters
+        ----------
+        name : string
+               The new name of this dialog's project model.
         """
         self.__nameEdit.setText(name)
 
@@ -337,7 +361,10 @@ class ProjectDialog(qtw.QDialog):
         """
         Called to inform this dialog its project model's parse path has changed.
 
-        path : The new parse path of this dialog's project model.
+        Parameters
+        ----------
+        path : string
+               The new parse path of this dialog's project model.
         """
         self.__parsePathEdit.setText(path)
 
@@ -377,9 +404,12 @@ class CodeDialog(qtw.QDialog):
         """
         Initializes a new code dialog with the given code dictionary and optional parent.
 
-        code : The code dictionary that this dialog displays to the user.
-
-        parent : The optional qt object parent of this dialog.
+        Parameters
+        ----------
+        code : dictionary
+               The code that this dialog displays to the user.
+        parent : object
+                 The optional qt object parent of this dialog.
         """
         qtw.QDialog.__init__(self,parent)
         self.__code = code
@@ -397,7 +427,10 @@ class CodeDialog(qtw.QDialog):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
-        event : See qt docs.
+        Parameters
+        ----------
+        event : object
+                See qt docs.
         """
         settings = qtc.QSettings()
         settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
@@ -491,7 +524,10 @@ class CodeDialog(qtw.QDialog):
         Called to inform this dialog's the selected code fragment has changed to the one with the
         given key.
 
-        key : The new key of the selected code fragment.
+        Parameters
+        ----------
+        key : string
+              The new key of the selected code fragment.
         """
         self.__view.setPlainText(self.__code[key])
 
