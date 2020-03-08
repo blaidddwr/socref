@@ -3889,12 +3889,12 @@ The percentage progress the singleton parser model has made parsing from 0 to 10
                         <Function>
                             <__p_name>__save_</__p_name>
                             <__p_description>Called to save this window's project. If this window has no project or its save path is none then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_returnDescription>bool
 True if the project was saved successfully or false otherwise.
 </__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__saveAs_</__p_name>
@@ -7523,7 +7523,10 @@ See interface docs.
                             <__p_name>_buildChildren_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_returnDescription>list
-Source code lines that is the combined source code of all this block's children's built code lines.
+Source code lines that is the combined source code of all this block's children's built code lines, excluding any classes.
+
+list
+Source code import lines that import any classes within this module that is created in its own special module file.
 </__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>

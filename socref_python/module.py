@@ -56,7 +56,10 @@ class Module(package.Package):
                See interface docs.
         """
         ret = package.Package.build(self,definition,begin)
-        ret += self._buildChildren_(definition,begin)
+        (regular,classes) = self._buildChildren_(definition,begin)
+        if classes:
+            ret += [""]+classes
+        ret += regular
         if self._p_name == "__main__":
             ret += [""]*settings.H1LINES
             ret.append('if __name__ == "__main__": main()')

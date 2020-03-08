@@ -180,9 +180,16 @@ class Package(abstract.AbstractBlock):
         -------
         ret0 : list
                Source code lines that is the combined source code of all this block's children's
-               built code lines.
+               built code lines, excluding any classes.
+        ret1 : list
+               Source code import lines that import any classes within this module that is created
+               in its own special module file.
         """
-        ret = []
+        regular = []
+        classes = []
         for block in self:
-            ret += block.build(definition,begin)
-        return ret
+            if block._TYPE_!="Class":
+                regular += block.build(definition,begin)
+            else:
+                classes += ["from ._%s import %s"%(block._p_name.lower(),block._p_name)]
+        return (regular,classes)

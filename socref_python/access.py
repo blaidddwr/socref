@@ -67,7 +67,8 @@ class Access(package.Package):
         ret.append(begin + "#"*len(line))
         ret.append(begin + line)
         ret.append(ret[-2])
-        ret += self._buildChildren_(definition,begin)
+        (regular,classes) = self._buildChildren_(definition,begin)
+        ret += regular
         return ret
 
 

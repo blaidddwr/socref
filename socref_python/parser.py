@@ -189,6 +189,9 @@ class Parser(abstract.AbstractParser):
                 self.__buildPaths_(block,os.path.join(path,block._p_name))
             elif block._TYPE_ == "Module":
                 self._addPath_(block,os.path.join(path,block._p_name+".py"))
+                self.__buildPaths_(block,path)
+            elif block._TYPE_ == "Class":
+                self._addPath_(block,os.path.join(path,"_"+block._p_name.lower()+".py"))
 
 
     def __scanClass_(self, ifile):

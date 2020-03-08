@@ -59,8 +59,13 @@ class Class(function.Descriptor):
         ret0 : object
                See interface docs.
         """
+        ret = []
+        ret.append('"""')
+        ret += ut.wrapBlocks("Contains the %s class."%(self._p_name,),columns=settings.COLUMNS)
+        ret.append('"""')
+        ret += definition.pop("header")
         definition = definition["classes"].get(self._p_name,{"functions": {}})
-        ret = [""]*settings.H1LINES
+        ret += [""]*settings.H1LINES
         ret += self._buildDescriptors_(begin)
         ret.append("%sclass %s(%s):" % (begin,self._p_name,self.__buildParents_()))
         ret.append(begin + " "*settings.INDENT + '"""')
@@ -70,7 +75,8 @@ class Class(function.Descriptor):
             ,columns=settings.COLUMNS
         )
         ret.append(begin + " "*settings.INDENT + '"""')
-        ret += self._buildChildren_(definition,begin + " " * settings.INDENT)
+        (regular,classes) = self._buildChildren_(definition,begin + " " * settings.INDENT)
+        ret += regular
         return ret
 
 
