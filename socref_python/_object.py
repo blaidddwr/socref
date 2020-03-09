@@ -1,13 +1,11 @@
 """
-Contains the object block class.
+Contains the Object class.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
-from socref import abstract
-from . import settings
-from . import package
+from ._package import Package
 
 
 
@@ -17,7 +15,7 @@ from . import package
 
 
 @register("Object")
-class Object(package.Package):
+class Object(Package):
     """
     This is the object block class. It implements the Socrates' Reference abstract block class. It
     represents a python object.
@@ -33,7 +31,7 @@ class Object(package.Package):
         """
         Initializes a new object block.
         """
-        package.Package.__init__(self)
+        Package.__init__(self)
         self._p_assignment = ""
 
 
@@ -62,7 +60,7 @@ class Object(package.Package):
 
     def build(self, definition, begin=""):
         """
-        Implements the .package.Package interface.
+        Implements the socref_python.block.Package interface.
 
         Parameters
         ----------
@@ -79,7 +77,7 @@ class Object(package.Package):
         ret = [""]*settings.H3LINES
         blankCommentLine = begin + "#"
         ret.append(blankCommentLine)
-        ret += ut.wrapBlocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
+        ret += edit.wrapBlocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
         ret.append(blankCommentLine)
         line = begin + self._p_name
         if self._p_assignment:
@@ -120,13 +118,13 @@ class Object(package.Package):
         desc = self._p_description.split("\n")
         if len(desc) >= 2:
             initial = self._p_name + " : "
-            ret = ut.wrapText(
+            ret = edit.wrapText(
                 initial+desc[0]
                 ,begin=begin
                 ,after=" "*len(initial)
                 ,columns=settings.COLUMNS
             )
-            ret += ut.wrapText(desc[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
+            ret += edit.wrapText(desc[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
             return ret
         else:
             return [begin+"UNKNOWN"]
@@ -148,7 +146,7 @@ class Object(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Package.clearProperties(self)
+        Package.clearProperties(self)
         self._p_assignment = ""
 
 
@@ -176,8 +174,8 @@ class Object(package.Package):
         ret0 : object
                See interface docs.
         """
-        assignment = ut.richText(2,"Assignment",html.escape(self._p_assignment))
-        return package.Package.displayView(self) + assignment
+        assignment = edit.richText(2,"Assignment",html.escape(self._p_assignment))
+        return Package.displayView(self) + assignment
 
 
     def editDefinitions(self):
@@ -189,8 +187,8 @@ class Object(package.Package):
         ret0 : object
                See interface docs.
         """
-        ret = package.Package.editDefinitions(self)
-        ret.append(ut.lineEdit("Assignment:","_p_assignment"))
+        ret = Package.editDefinitions(self)
+        ret.append(edit.lineEdit("Assignment:","_p_assignment"))
         return ret
 
 
@@ -246,6 +244,6 @@ class Object(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Package.setDefaultProperties(self)
+        Package.setDefaultProperties(self)
         self._p_name = "object"
         self._p_assignment = ""

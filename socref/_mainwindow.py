@@ -1,17 +1,14 @@
 """
-Contains all GUI windows for the core application.
+Contains the MainWindow class.
 """
 import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
-from . import settings
 from . import abstract
-from . import block
-from . import model
-from . import gui_view
-from . import gui_edit
-from . import gui_dialog
+from . import core
+from . import gui
+from . import settings
 
 
 
@@ -50,10 +47,10 @@ class MainWindow(qtw.QMainWindow):
         Initializes a new main window.
         """
         qtw.QMainWindow.__init__(self)
-        self.__model = model.ProjectModel(self)
-        self.__view = gui_view.ProjectView(self)
-        self.__blockViewDock = gui_view.BlockViewDock(self)
-        self.__blockEditDock = gui_edit.BlockEditDock(self)
+        self.__model = core.ProjectModel(self)
+        self.__view = gui.ProjectView(self)
+        self.__blockViewDock = gui.BlockViewDock(self)
+        self.__blockEditDock = gui.BlockEditDock(self)
         self.__progressBar = None
         self.__openAction = qtw.QAction("Open",self)
         self.__saveAction = qtw.QAction("Save",self)
@@ -286,10 +283,10 @@ class MainWindow(qtw.QMainWindow):
         self.__setupActions_()
         self.__setupMenus_()
         self.__setupToolbars_()
-        self.parseRequested.connect(model.ParserModel().start)
-        model.ParserModel().started.connect(self.__parseStarted_)
-        model.ParserModel().progressed.connect(self.__parseProgressed_)
-        model.ParserModel().finished.connect(self.__parseFinished_)
+        self.parseRequested.connect(core.parser.start)
+        core.parser.started.connect(self.__parseStarted_)
+        core.parser.progressed.connect(self.__parseProgressed_)
+        core.parser.finished.connect(self.__parseFinished_)
         self.__restore_()
         self.statusBar()
         self.__updateTitle_()
@@ -326,7 +323,7 @@ class MainWindow(qtw.QMainWindow):
         """
         Populates this window's list of new actions with all available languages.
         """
-        for lang in block.BlockFactory().langs():
+        for lang in core.blockFactory.langs():
             self.__newActions.append(qtw.QAction(lang,self))
             self.__newActions[-1].triggered.connect(
                 lambda checked=False,name=lang : self.__new_(name)
@@ -563,7 +560,7 @@ class MainWindow(qtw.QMainWindow):
         Called to have this window bring up a modal project dialog to edit the basic properties of
         its current project. If this window has no project then this does nothing.
         """
-        gui_dialog.ProjectDialog(self.__model).exec_()
+        gui.ProjectDialog(self.__model).exec_()
 
 
     @qtc.Slot()

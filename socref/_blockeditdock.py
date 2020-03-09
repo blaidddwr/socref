@@ -1,114 +1,11 @@
 """
-Contains all GUI edit widgets that provide the user the ability to edit some form of data.
+Contains the BlockEditDock class.
 """
 import gc
 from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
-from . import settings
-from . import model
-from . import gui_util
-from . import gui_dialog
-
-
-
-
-
-
-
-
-class PlainTextEdit(qtw.QPlainTextEdit):
-    """
-    This is the plain text class. It provides additional functionality to its inherit class.
-    Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog
-    that has additional spell checking functionality. Misspelled word highlighting and the editor
-    dialog popup features can be enabled or disabled.
-    """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(self, text="", parent=None, speller=False, popup=False):
-        """
-        Initializes a new plain text editor with the given optional text and parent. Spelling and
-        dialog popup can also be enabled or disabled.
-
-        Parameters
-        ----------
-        text : string
-               The optional edited text of this new plain text editor.
-        parent : object
-                 Optional qt object parent of this new plain text editor.
-        speller : bool
-                  True to enable misspelled word highlighting or false to disable it.
-        popup : bool
-                True to enable the popup edit dialog shortcut or false to disable it.
-        """
-        qtw.QPlainTextEdit.__init__(self,text,parent)
-        self.__speller = speller
-        self.__popup = popup
-        self.__highlighter = None
-        if speller:
-            self.setSpellerEnabled(True)
-        self.__setupActions_()
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def setSpellerEnabled(self, enabled):
-        """
-        Sets the state of this editor's spelling highlighter to enabled or disabled.
-
-        Parameters
-        ----------
-        enabled : bool
-                  True to enable this editor's spelling highlighter or false to disable it.
-        """
-        if not enabled:
-            if self.__highlighter is not None:
-                self.__highlighter.deleteLater()
-                self.__highlighter = None
-        elif self.__highlighter is None:
-            self.__highlighter = gui_util.SpellHighlighter(settings.DICTIONARY,self.document())
-        self.__speller = enabled
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
-    def __setupActions_(self):
-        """
-        Initialize the qt action shortcuts of this new text editor.
-        """
-        dialog = qtw.QAction(self)
-        dialog.setShortcutContext(qtc.Qt.WidgetShortcut)
-        dialog.setShortcut(qtc.Qt.CTRL + qtc.Qt.Key_E)
-        dialog.triggered.connect(self.__dialog_)
-        self.addAction(dialog)
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
-
-
-    @qtc.Slot()
-    def __dialog_(self):
-        """
-        Called to open a modal dialog text editor to edit this editor's text.
-        """
-        if self.__popup:
-            dialog = gui_dialog.TextDialog(self.toPlainText(),self,speller=self.__speller)
-            dialog.setWindowTitle("Text Editor - Socrates' Reference")
-            if dialog.exec_():
-                self.setPlainText(dialog.text())
+from . import core
+from . import gui
 
 
 
@@ -170,7 +67,7 @@ class BlockEditDock(qtw.QDockWidget):
 
         Parameters
         ----------
-        view : socref.gui_view.ProjectView
+        view : socref.gui.ProjectView
                The new attached view of this dock.
         """
         if self.__view is not None:
@@ -267,8 +164,8 @@ class BlockEditDock(qtw.QDockWidget):
         """
         self.__edits.clear()
         try:
-            props = self.__view.model().data(index,model.Role.PROPERTIES)
-            defs = self.__view.model().data(index,model.Role.EDIT_DEFS)
+            props = self.__view.model().data(index,core.Role.PROPERTIES)
+            defs = self.__view.model().data(index,core.Role.EDIT_DEFS)
             layout = qtw.QFormLayout()
             for def_ in defs:
                 edit = None
@@ -357,12 +254,12 @@ class BlockEditDock(qtw.QDockWidget):
 
         Returns
         -------
-        ret0 : socref.gui_edit.PlainTextEdit
+        ret0 : socref.gui.PlainTextEdit
                A new text editor configured for the given definition and properties.
         ret1 : string
                A label for adding it to a form.
         """
-        edit = PlainTextEdit(speller=definition.get("speller",False),popup=True)
+        edit = gui.PlainTextEdit(speller=definition.get("speller",False),popup=True)
         edit.setPlainText(properties[definition["key"]])
         edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
         edit._value_ = lambda e=edit : e.toPlainText()
@@ -402,7 +299,7 @@ class BlockEditDock(qtw.QDockWidget):
             self.__view.model().setData(
                 self.__index
                 ,{edit._key: edit._value_() for edit in self.__edits}
-                ,model.Role.PROPERTIES
+                ,core.Role.PROPERTIES
             )
             self.__applyButton.setEnabled(False)
 

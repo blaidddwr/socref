@@ -1,12 +1,11 @@
 """
-Contains the package block class.
+Contains the Package class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import register
-from socref import utility as ut
 from socref import abstract
-from . import settings
+from socref import edit
+from socref import register
 from . import parser
 
 
@@ -63,7 +62,7 @@ class Package(abstract.AbstractBlock):
         """
         ret = []
         ret.append('"""')
-        ret += ut.wrapBlocks(self._p_description,columns=settings.COLUMNS)
+        ret += edit.wrapBlocks(self._p_description,columns=settings.COLUMNS)
         ret.append('"""')
         ret += definition.pop("header")
         return ret
@@ -110,7 +109,7 @@ class Package(abstract.AbstractBlock):
         ret0 : object
                See interface docs.
         """
-        return ut.richTextBlocks(1,"Description",html.escape(self._p_description))
+        return edit.richTextBlocks(1,"Description",html.escape(self._p_description))
 
 
     def editDefinitions(self):
@@ -123,8 +122,8 @@ class Package(abstract.AbstractBlock):
                See interface docs.
         """
         ret = []
-        ret.append(ut.lineEdit("Name:","_p_name"))
-        ret.append(ut.textEdit("Description:","_p_description",speller=True))
+        ret.append(edit.lineEdit("Name:","_p_name"))
+        ret.append(edit.textEdit("Description:","_p_description",speller=True))
         return ret
 
 

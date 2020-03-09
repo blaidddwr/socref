@@ -1,13 +1,12 @@
 """
-Contains the access block class.
+Contains the Access class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import register
-from socref import utility as ut
 from socref import abstract
-from . import settings
-from . import package
+from socref import edit
+from socref import register
+from ._package import Package
 
 
 
@@ -17,7 +16,7 @@ from . import package
 
 
 @register("Access")
-class Access(package.Package):
+class Access(Package):
     """
     This is the access block class. It implements the Socrates' Reference abstract block class. It
     represents a fictitious access declaration for python classes. Since python does not actually
@@ -48,7 +47,7 @@ class Access(package.Package):
 
     def build(self, definition, begin=""):
         """
-        Implements the .package.Package interface.
+        Implements the socref_python.block.Package interface.
 
         Parameters
         ----------
@@ -129,11 +128,11 @@ class Access(package.Package):
                See interface docs.
         """
         ret = []
-        ret.append(ut.lineEdit("Name:","_p_name"))
-        combo = ut.comboEdit("Type:","_p_type")
-        ut.addComboSelect(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
-        ut.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
-        ut.addComboSelect(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
+        ret.append(edit.lineEdit("Name:","_p_name"))
+        combo = edit.comboEdit("Type:","_p_type")
+        edit.addComboSelect(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
+        edit.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
+        edit.addComboSelect(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
         ret.append(combo)
         return ret
 

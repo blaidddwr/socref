@@ -1,14 +1,11 @@
 """
-Contains the class block class.
+Contains the Class class.
 """
-import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
-from socref import abstract
-from . import settings
-from . import package
-from . import function
+from ._descriptor import Descriptor
+from . import block
 
 
 
@@ -18,7 +15,7 @@ from . import function
 
 
 @register("Class")
-class Class(function.Descriptor):
+class Class(Descriptor):
     """
     This is the class block class. It implements the Socrates' Reference abstract block class. It
     represents a python class.
@@ -34,7 +31,7 @@ class Class(function.Descriptor):
         """
         Initializes a new class block.
         """
-        function.Descriptor.__init__(self)
+        Descriptor.__init__(self)
         self._p_parents = ""
 
 
@@ -45,7 +42,7 @@ class Class(function.Descriptor):
 
     def build(self, definition, begin=""):
         """
-        Implements the .package.Package interface.
+        Implements the socref_python.block.Package interface.
 
         Parameters
         ----------
@@ -61,7 +58,7 @@ class Class(function.Descriptor):
         """
         ret = []
         ret.append('"""')
-        ret += ut.wrapBlocks("Contains the %s class."%(self._p_name,),columns=settings.COLUMNS)
+        ret += edit.wrapBlocks("Contains the %s class."%(self._p_name,),columns=settings.COLUMNS)
         ret.append('"""')
         ret += definition.pop("header")
         definition = definition["classes"].get(self._p_name,{"functions": {}})
@@ -69,7 +66,7 @@ class Class(function.Descriptor):
         ret += self._buildDescriptors_(begin)
         ret.append("%sclass %s(%s):" % (begin,self._p_name,self.__buildParents_()))
         ret.append(begin + " "*settings.INDENT + '"""')
-        ret += ut.wrapBlocks(
+        ret += edit.wrapBlocks(
             self._p_description
             ,begin=begin + " "*settings.INDENT
             ,columns=settings.COLUMNS
@@ -96,7 +93,7 @@ class Class(function.Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        function.Descriptor.clearProperties(self)
+        Descriptor.clearProperties(self)
         self._p_parents = ""
 
 
@@ -121,12 +118,12 @@ class Class(function.Descriptor):
         ret0 : object
                See interface docs.
         """
-        parents = ut.richText(
+        parents = edit.richText(
             2
             ,"Parents"
             ,"".join(("<li>%s</li>" % parent for parent in self._p_parents.split("\n") if parent))
         )
-        return package.Package.displayView(self) + parents + self._descriptorsView_()
+        return block.Package.displayView(self) + parents + self._descriptorsView_()
 
 
     def editDefinitions(self):
@@ -138,8 +135,8 @@ class Class(function.Descriptor):
         ret0 : object
                See interface docs.
         """
-        ret = package.Package.editDefinitions(self)
-        ret.append(ut.textEdit("Parents:","_p_parents"))
+        ret = block.Package.editDefinitions(self)
+        ret.append(edit.textEdit("Parents:","_p_parents"))
         ret.append(self._descriptorsEditDefinition_())
         return ret
 
@@ -178,7 +175,7 @@ class Class(function.Descriptor):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        function.Descriptor.setDefaultProperties(self)
+        Descriptor.setDefaultProperties(self)
         self._p_name = "class"
         self._p_parents = ""
 

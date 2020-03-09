@@ -1,81 +1,10 @@
 """
-Contains all GUI utility classes used by other GUI elements of the core application.
+Contains the SpellChecker class.
 """
-import os
-import re
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
-import hunspell
-from . import settings
-
-
-
-
-
-
-
-
-class SpellHighlighter(qtg.QSyntaxHighlighter):
-    """
-    This is the spell highlighter class. It implements the qt syntax highlighter class. It provides
-    highlighting of misspelled words in the document the highlighter is given on initialization. It
-    uses the Hunspell library for all speller functions.
-    """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(self, dictionary, parent):
-        """
-        Initializes a new spell highlighter with the given dictionary and parent.
-
-        Parameters
-        ----------
-        dictionary : string
-                     The Hunspell dictionary used for spell checking. This does not include the
-                     directory or file extensions, for example "en_US".
-        parent : PySide2.QtGui.QTextDocument
-                 The parent document that takes ownership of this highlighter and has its misspelled
-                 words highlighted.
-        """
-        qtg.QSyntaxHighlighter.__init__(self,parent)
-        self.__hunspell = hunspell.HunSpell(
-            os.path.join(settings.HUNSPELL_ROOT,dictionary + ".dic")
-            ,os.path.join(settings.HUNSPELL_ROOT,dictionary + ".aff")
-        )
-        format_ = self.__format = qtg.QTextCharFormat()
-        format_.setFontUnderline(True)
-        format_.setUnderlineColor(qtc.Qt.red)
-        format_.setUnderlineStyle(qtg.QTextCharFormat.WaveUnderline)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def highlightBlock(self, text):
-        """
-        Implements the qtg.QSyntaxHighlighter interface.
-
-        Parameters
-        ----------
-        text : object
-               See qt docs.
-        """
-        start = 0
-        pattern = re.compile('\w+')
-        while True:
-            match = pattern.search(text,start)
-            if not match:
-                break
-            if not self.__hunspell.spell(match.group(0)):
-                self.setFormat(match.start(),match.end() - match.start(),self.__format)
-            start = match.end()
+from . import core
 
 
 
@@ -118,10 +47,6 @@ class SpellChecker(qtw.QGroupBox):
                  An optional qt object parent for this new spell checker.
         """
         qtw.QGroupBox.__init__(self,title,parent)
-        self.__hunspell = hunspell.HunSpell(
-            os.path.join(settings.HUNSPELL_ROOT,dictionary + ".dic")
-            ,os.path.join(settings.HUNSPELL_ROOT,dictionary + ".aff")
-        )
         self.__wordLabel = qtw.QLabel(self)
         self.__wordEdit = qtw.QLineEdit(self)
         self.__cursor = None
@@ -192,7 +117,7 @@ class SpellChecker(qtw.QGroupBox):
             if not skip:
                 cursor.select(qtg.QTextCursor.WordUnderCursor)
                 if pattern.fullmatch(cursor.selectedText()):
-                    hun = self.__hunspell
+                    hun = core.speller
                     word = cursor.selectedText()
                     if not hun.spell(word):
                         self.cursorChanged.emit(cursor)
@@ -257,7 +182,7 @@ class SpellChecker(qtw.QGroupBox):
         word. If this spell checker is not actively checking a document then this does nothing.
         """
         if self.__cursor is not None:
-            self.__hunspell.add(self.__wordLabel.text())
+            core.speller.add(self.__wordLabel.text())
             self.__findNextWord_(skip=True)
 
 

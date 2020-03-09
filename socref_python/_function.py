@@ -1,132 +1,12 @@
 """
-Contains the function and generic descriptor block classes.
+Contains the Function class.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
-from socref import abstract
-from . import settings
-from . import package
-
-
-
-
-
-
-
-
-class Descriptor(package.Package):
-    """
-    This is the descriptor class. It partially implements the Socrates' Reference abstract block
-    class. This provides a descriptors property along with utility methods for it. This is meant to
-    act as a base class for any block that has descriptors.
-    """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(self):
-        """
-        Initializes a new descriptor block.
-        """
-        package.Package.__init__(self)
-        self._p_descriptors = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        package.Package.clearProperties(self)
-        self._p_descriptors = ""
-
-
-    def setDefaultProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        package.Package.setDefaultProperties(self)
-        self._p_descriptors = ""
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
-    def _buildDescriptors_(self, begin):
-        """
-        Getter method.
-
-        Parameters
-        ----------
-        begin : string
-                The indent that is added to the beginning of every line of returned code.
-
-        Returns
-        -------
-        ret0 : string
-               The source code for this block's descriptors. If this block has no descriptors an
-               empty string is returned.
-        """
-        return [begin + "@" + line for line in self._p_descriptors.split("\n") if line]
-
-
-    def _descriptorsEditDefinition_(self):
-        """
-        Getter Method.
-
-        Returns
-        -------
-        ret0 : dictionary
-               The edit definition for this block's descriptors property.
-        """
-        return ut.textEdit("Descriptors:","_p_descriptors")
-
-
-    def _descriptorsName_(self):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : string
-               A decoration for a block's display name providing information about its descriptors.
-               If this block has no descriptors then an empty string is returned.
-        """
-        if self._p_descriptors:
-            return " @"
-        else:
-            return ""
-
-
-    def _descriptorsView_(self):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : rich text
-               Detailed information about this block's descriptors. If this block has no descriptors
-               then an empty string is returned.
-        """
-        return ut.richText(
-            2
-            ,"Descriptors"
-            ,"".join(
-                ("<p>@%s</p>" % html.escape(line)
-                 for line in self._p_descriptors.split("\n") if line)
-             )
-        )
+from ._descriptor import Descriptor
+from . import block
 
 
 
@@ -165,7 +45,7 @@ class Function(Descriptor):
 
     def build(self, definition, begin=""):
         """
-        Implements the .package.Package interface.
+        Implements the socref_python.block.Package interface.
 
         Parameters
         ----------
@@ -238,9 +118,9 @@ class Function(Descriptor):
                See interface docs.
         """
         self.__checkFlags_()
-        return_ = ut.richText(2,"Return",html.escape(self._p_returnDescription))
+        return_ = edit.richText(2,"Return",html.escape(self._p_returnDescription))
         return (
-            package.Package.displayView(self)
+            block.Package.displayView(self)
             + self.__argumentsView_()
             + return_
             + self.__flagsView_()
@@ -257,14 +137,14 @@ class Function(Descriptor):
         ret0 : object
                See interface docs.
         """
-        ret = package.Package.editDefinitions(self)
-        ret.append(ut.textEdit("Return:","_p_returnDescription",speller=True))
+        ret = block.Package.editDefinitions(self)
+        ret.append(edit.textEdit("Return:","_p_returnDescription",speller=True))
         if self.isMethod():
-            ret.append(ut.checkboxEdit("Static","_p_static"))
-            ret.append(ut.checkboxEdit("Abstract","_p_abstract"))
+            ret.append(edit.checkboxEdit("Static","_p_static"))
+            ret.append(edit.checkboxEdit("Abstract","_p_abstract"))
         else:
-            ret.append(ut.hiddenEdit("_p_static","0"))
-            ret.append(ut.hiddenEdit("_p_abstract","0"))
+            ret.append(edit.hiddenEdit("_p_static","0"))
+            ret.append(edit.hiddenEdit("_p_abstract","0"))
         ret.append(self._descriptorsEditDefinition_())
         return ret
 
@@ -350,7 +230,7 @@ class Function(Descriptor):
                Detailed view of all this function's arguments. If this function has no arguments
                then this returns an empty string.
         """
-        return ut.richText(2,"Arguments","".join((arg.argumentView() for arg in self)))
+        return edit.richText(2,"Arguments","".join((arg.argumentView() for arg in self)))
 
 
     def __buildDocString_(self, begin):
@@ -369,7 +249,7 @@ class Function(Descriptor):
         """
         newIndent = begin + " "*settings.INDENT
         ret = [newIndent+'"""']
-        ret += ut.wrapBlocks(
+        ret += edit.wrapBlocks(
             self._p_description
             ,begin=newIndent
             ,columns=settings.COLUMNS
@@ -388,13 +268,13 @@ class Function(Descriptor):
                 desc = desc.split("\n")
                 if len(desc) >= 2:
                     initial = "ret"+str(i)+" : "
-                    ret += ut.wrapText(
+                    ret += edit.wrapText(
                         newIndent + initial + desc[0]
                         ,begin=newIndent
                         ,after=" "*len(initial)
                         ,columns=settings.COLUMNS
                     )
-                    ret += ut.wrapText(
+                    ret += edit.wrapText(
                         desc[1]
                         ,begin=newIndent + " "*len(initial)
                         ,columns=settings.COLUMNS
@@ -478,4 +358,4 @@ class Function(Descriptor):
             flags.append("Static")
         if self.isAbstract():
             flags.append("Abstract")
-        return ut.richTextList(2,"Flags",flags)
+        return edit.richTextList(2,"Flags",flags)

@@ -1,11 +1,9 @@
 """
-Contains the module block class.
+Contains the Module class.
 """
 from PySide2 import QtGui as qtg
 from socref import register
-from socref import abstract
-from . import settings
-from . import package
+from ._package import Package
 
 
 
@@ -15,7 +13,7 @@ from . import package
 
 
 @register("Module")
-class Module(package.Package):
+class Module(Package):
     """
     This is the module block class. It implements the Socrates' Reference abstract block class. It
     represents a python module.
@@ -31,7 +29,7 @@ class Module(package.Package):
         """
         Initializes a new module block.
         """
-        package.Package.__init__(self)
+        Package.__init__(self)
 
 
     ####################
@@ -41,7 +39,7 @@ class Module(package.Package):
 
     def build(self, definition, begin=""):
         """
-        Implements the .package.Package interface.
+        Implements the socref_python.block.Package interface.
 
         Parameters
         ----------
@@ -55,7 +53,7 @@ class Module(package.Package):
         ret0 : object
                See interface docs.
         """
-        ret = package.Package.build(self,definition,begin)
+        ret = Package.build(self,definition,begin)
         (regular,classes) = self._buildChildren_(definition,begin)
         if classes:
             ret += [""]+classes
@@ -94,5 +92,5 @@ class Module(package.Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Package.setDefaultProperties(self)
+        Package.setDefaultProperties(self)
         self._p_name = "module"

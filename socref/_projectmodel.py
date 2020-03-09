@@ -1,127 +1,9 @@
 """
-Contains all model classes used by the core application.
+Contains the ProjectModel class.
 """
-import traceback
-import enum
 from PySide2 import QtCore as qtc
-from . import exception
-from . import utility
 from . import abstract
-from . import block
-from .command import *
-
-
-
-
-
-
-
-
-@utility.Singleton
-class ParserModel(qtc.QObject):
-    """
-    This is the singleton parser model class. It handles execution of a given abstract parser. A
-    slot is provided for starting a new abstract parser. Signals are provided for informing when
-    parsing begins, makes progress, finishes, and has remaining unknown code fragments. This class
-    is designed to run on its own thread because parsing can be a long process. Because of this the
-    GUI must interface with this class exclusively through its signals and slots.
-    """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(self):
-        """
-        Initializes a new parser.
-        """
-        qtc.QObject.__init__(self)
-        self.__progress = 0
-
-
-    ##################
-    # PUBLIC - Slots #
-    ##################
-
-
-    @qtc.Slot(abstract.AbstractParser)
-    def start(self, parser):
-        """
-        Called to start execution of the given abstract parser, returning when execution is
-        complete.
-
-        This also catches any python exceptions and prints them to standard error because Qt
-        thread's event loop ignores them.
-
-        Parameters
-        ----------
-        parser : socref.abstract.AbstractParser
-                 The abstract parser that is executed.
-        """
-        self.__progress = 0
-        self.started.emit()
-        try:
-            parser.parse(self.__update_)
-            unknown = parser.unknown()
-            if unknown:
-                self.remained.emit(unknown)
-        except:
-            traceback.print_exc()
-        finally:
-            self.finished.emit()
-
-
-    ####################
-    # PUBLIC - Signals #
-    ####################
-
-
-    #
-    # Signals this parser has finished parsing.
-    #
-    finished = qtc.Signal()
-
-
-    #
-    # Signals this parser has made the given percentage progress parsing. The range given is from 0
-    # to 100.
-    #
-    progressed = qtc.Signal(int)
-
-
-    #
-    # Signals this parser had remaining unknown code fragments after finishing the last parsing.
-    #
-    remained = qtc.Signal(dict)
-
-
-    #
-    # Signals this parser has started parsing.
-    #
-    started = qtc.Signal()
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
-    def __update_(self, percent):
-        """
-        Called by the abstract parser that this parser model is currently parsing to inform this
-        parser that progress of the given percentage has been made in parsing.
-
-        Parameters
-        ----------
-        percent : int
-                  The percentage progress made by this parser model's abstract parser ranging from 0
-                  to 100.
-        """
-        if percent > self.__progress:
-            self.__progress = percent
-            self.progressed.emit(percent)
+from . import core
 
 
 
@@ -327,15 +209,15 @@ class ProjectModel(qtc.QAbstractItemModel):
                 return block.displayName()
             elif role == qtc.Qt.DecorationRole:
                 return block.icon()
-            elif role == Role.BUILD_LIST:
+            elif role == core.Role.BUILD_LIST:
                 return block.buildList()
-            elif role == Role.VIEW:
+            elif role == core.Role.VIEW:
                 return block.displayView()
-            elif role == Role.EDIT_DEFS:
+            elif role == core.Role.EDIT_DEFS:
                 return block.editDefinitions()
-            elif role == Role.PROPERTIES:
+            elif role == core.Role.PROPERTIES:
                 return block.properties()
-            elif role == Role.BLOCK_TYPE:
+            elif role == core.Role.BLOCK_TYPE:
                 return block._TYPE_
 
 
@@ -426,11 +308,11 @@ class ProjectModel(qtc.QAbstractItemModel):
             stream.readNext()
             if stream.isStartElement():
                 name = stream.name()
-                block_ = block.BlockFactory().create(langName,name)
+                block_ = core.blockFactory.create(langName,name)
                 block_.setFromXml(stream)
                 if name in parentBlock.buildList():
                     blocks.append(block_)
-        self.__push_(InsertCommand(row,blocks,parent,self))
+        self.__push_(core.InsertCommand(row,blocks,parent,self))
         return len(blocks)
 
 
@@ -479,10 +361,10 @@ class ProjectModel(qtc.QAbstractItemModel):
             return False
         blocks = []
         for blockType in blockTypes:
-            block_ = block.BlockFactory().create(self.__langName,blockType)
+            block_ = core.blockFactory.create(self.__langName,blockType)
             block_.setDefaultProperties()
             blocks.append(block_)
-        self.__push_(InsertCommand(row,blocks,parent,self))
+        self.__push_(core.InsertCommand(row,blocks,parent,self))
         return True
 
 
@@ -579,7 +461,7 @@ class ProjectModel(qtc.QAbstractItemModel):
         toRow = index.row() + change
         if toRow < 0 or toRow >= len(block):
             return False
-        self.__push_(MoveCommand(change,index,self))
+        self.__push_(core.MoveCommand(change,index,self))
         return True
 
 
@@ -612,7 +494,7 @@ class ProjectModel(qtc.QAbstractItemModel):
             self.__name = "New Project"
             self.__parsePath = "."
             self.__langName = langName
-            self.__root = block.BlockFactory().createRoot(self.__langName)
+            self.__root = core.blockFactory.createRoot(self.__langName)
         except:
             self.__name = None
             self.__langName = None
@@ -696,7 +578,7 @@ class ProjectModel(qtc.QAbstractItemModel):
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or count < 0 or (row + count) > len(parentBlock):
             return False
-        self.__push_(RemoveCommand(row,count,parent,self))
+        self.__push_(core.RemoveCommand(row,count,parent,self))
         return True
 
 
@@ -764,8 +646,8 @@ class ProjectModel(qtc.QAbstractItemModel):
                See qt docs.
         """
         block = self.__block_(index)
-        if block is not None and role == Role.PROPERTIES:
-            self.__push_(SetCommand(block.properties(),value,index,self))
+        if block is not None and role == core.Role.PROPERTIES:
+            self.__push_(core.SetCommand(block.properties(),value,index,self))
             return True
         else:
             return False
@@ -1106,51 +988,3 @@ class ProjectModel(qtc.QAbstractItemModel):
     # The root tag used for XML project files.
     #
     __PROJECT_TAG = "scp_project"
-
-
-
-
-
-
-
-
-class Role(enum.Enum):
-    """
-    This is the role enumeration class. It defines all custom data roles the project model
-    implements.
-    """
-
-
-    #########################
-    # PUBLIC - Enumerations #
-    #########################
-
-
-    #
-    # Defines the block type role which represents a block's type name.
-    #
-    BLOCK_TYPE = qtc.Qt.UserRole + 0
-
-
-    #
-    # Defines the view role which represents a block's detailed rich text view.
-    #
-    VIEW = qtc.Qt.UserRole + 1
-
-
-    #
-    # Defines the build list role which represents a block's build list.
-    #
-    BUILD_LIST = qtc.Qt.UserRole + 2
-
-
-    #
-    # Defines the properties role which represents a block's properties.
-    #
-    PROPERTIES = qtc.Qt.UserRole + 3
-
-
-    #
-    # Defines the edit definitions role which represents a block's edit definitions.
-    #
-    EDIT_DEFS = qtc.Qt.UserRole + 4

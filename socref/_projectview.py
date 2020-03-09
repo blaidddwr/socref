@@ -1,104 +1,10 @@
 """
-Contains all GUI view widgets that display projects and their blocks.
+Contains the ProjectView class.
 """
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
-from . import block
-from . import model
-
-
-
-
-
-
-
-
-class BlockViewDock(qtw.QDockWidget):
-    """
-    This is the block view dock class. It attaches itself to a project view, providing a detailed
-    view of the currently indexed block. It connects the appropriate signal to listen for the
-    current index of the view to change. The detailed view is presented in a qt label as rich text.
-    """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(self, parent=None):
-        """
-        Initializes a new block view dock with the given optional parent.
-
-        Parameters
-        ----------
-        parent : object
-                 Optional qt object parent of this new block view dock.
-        """
-        qtw.QDockWidget.__init__(self,parent)
-        self.__label = qtw.QLabel(
-            alignment=qtc.Qt.AlignTop
-            ,wordWrap=True
-            ,textFormat=qtc.Qt.RichText
-        )
-        self.__view = None
-        self.__setupGui_()
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def setView(self, view):
-        """
-        Sets this dock's view to the one given. If this dock currently has a view it is disconnected
-        from this dock.
-
-        Parameters
-        ----------
-        view : socref.gui_view.ProjectView
-               The new attached view of this dock.
-        """
-        if self.__view is not None:
-            self.__view.current_changed.disconnect(self.__indexChanged_)
-        self.__view = view
-        self.__view.indexChanged.connect(self.__indexChanged_)
-        self.__view.indexDataChanged.connect(self.__indexChanged_)
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
-    def __setupGui_(self):
-        """
-        Initialize the GUI of this new block view dock.
-        """
-        self.__label.setContentsMargins(4,16,4,4)
-        area = qtw.QScrollArea(widgetResizable=True)
-        area.setWidget(self.__label)
-        self.setWidget(area)
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
-
-
-    @qtc.Slot(qtc.QModelIndex)
-    def __indexChanged_(self):
-        """
-        Called to update this dock's detailed view to its view's currently indexed block. If its
-        view's current index is invalid then this dock returns its view to a null state.
-        """
-        index = self.__view.selectionModel().currentIndex()
-        if index.isValid():
-            self.__label.setText(self.__view.model().data(index,model.Role.VIEW))
-        else:
-            self.__label.setText("")
+from . import core
 
 
 
@@ -349,7 +255,7 @@ class ProjectView(qtw.QTreeView):
         (row,parent) = self.__insertValues_()
         if parent is None:
             return False
-        if not ProjectView.__blockTypeSet & set(self.__model.data(parent,model.Role.BUILD_LIST)):
+        if not ProjectView.__blockTypeSet & set(self.__model.data(parent,core.Role.BUILD_LIST)):
             return False
         return True
 
@@ -512,12 +418,12 @@ class ProjectView(qtw.QTreeView):
         (row,index) = self.__insertValues_()
         if index is None:
             return
-        block_list = self.__model.data(index,model.Role.BUILD_LIST)
+        block_list = self.__model.data(index,core.Role.BUILD_LIST)
         if block_list is not None:
             for block_type in block_list:
                 action = qtw.QAction(block_type.replace("_"," "),self)
                 action.setIcon(
-                    block.BlockFactory().create(self.__model.langName(),block_type).icon()
+                    core.blockFactory.create(self.__model.langName(),block_type).icon()
                 )
                 action.triggered.connect(lambda checked=False, name=block_type : self.__add_(name))
                 self.__addActions.append(action)

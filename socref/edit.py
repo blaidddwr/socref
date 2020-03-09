@@ -1,8 +1,6 @@
 """
-Contains all utility functions and classes that provide basic utilities to the rest of the core
-application and language implementations.
+Detailed description.
 """
-import html
 
 
 
@@ -347,68 +345,3 @@ def wrapText(text, begin="", after="", columns=80):
             line += " " + words.pop(0)
         ret.append(line)
     return ret
-
-
-
-
-
-
-
-
-class Singleton():
-    """
-    This is the descriptor singleton class. It turns its descriptor class into a singleton. It
-    provides a class method that returns the class object of the singleton instance.
-    """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(self, class_):
-        """
-        Initializes a new singleton with the given class object.
-
-        Parameters
-        ----------
-        class_ : class
-                 Class object that is made into a singleton class.
-        """
-        self.__class = class_
-        self.__instance = class_()
-
-
-    ######################
-    # PUBLIC - Operators #
-    ######################
-
-
-    def __call__(self):
-        """
-        Implements the call operator.
-
-        Returns
-        -------
-        ret0 : instance
-               The singleton instance of this descriptor's class.
-        """
-        return self.__instance
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def class_(self):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : class
-               The class object of this descriptor.
-        """
-        return self.__class
