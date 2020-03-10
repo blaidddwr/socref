@@ -1,11 +1,11 @@
 """
-Contains the enumeration block class.
+Contains the Enum class.
 """
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
 from . import settings
-from . import namespace
+from ._base import Base
 
 
 
@@ -15,7 +15,7 @@ from . import namespace
 
 
 @register("Enumeration")
-class Enum(namespace.Base):
+class Enum(Base):
     """
     This is the enumeration block class. It implements the Socrates' Reference abstract block class.
     It represents a C++ enumeration.
@@ -31,7 +31,7 @@ class Enum(namespace.Base):
         """
         Initializes a new enumeration block.
         """
-        namespace.Base.__init__(self)
+        Base.__init__(self)
         self._p_class = "0"
 
 
@@ -42,7 +42,7 @@ class Enum(namespace.Base):
 
     def buildDeclaration(self, begin):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -56,7 +56,7 @@ class Enum(namespace.Base):
         """
         ret = [""]*settings.H2LINES
         ret.append(begin+"/*!")
-        ret += ut.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+        ret += edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
         ret.append(begin+" */")
         line = begin+"enum "
         if self.isClass():
@@ -90,7 +90,7 @@ class Enum(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.clearProperties(self)
+        Base.clearProperties(self)
         self._p_class = "0"
 
 
@@ -119,7 +119,7 @@ class Enum(namespace.Base):
                See interface docs.
         """
         class_ = "<p><i>Class</i></p>" if self.isClass() else ""
-        return namespace.Base.displayView(self) + class_
+        return Base.displayView(self) + class_
 
 
     def editDefinitions(self):
@@ -131,8 +131,8 @@ class Enum(namespace.Base):
         ret0 : object
                See interface docs.
         """
-        ret = namespace.Base.editDefinitions(self)
-        ret.append(ut.checkboxEdit("Class","_p_class"))
+        ret = Base.editDefinitions(self)
+        ret.append(edit.checkboxEdit("Class","_p_class"))
         return ret
 
 
@@ -164,6 +164,6 @@ class Enum(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.setDefaultProperties(self)
+        Base.setDefaultProperties(self)
         self._p_name = "enumeration"
         self._p_class = "0"

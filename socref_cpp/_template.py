@@ -1,12 +1,12 @@
 """
-Contains the template block class.
+Contains the Template class.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
 from . import settings
-from . import namespace
+from ._base import Base
 
 
 
@@ -16,7 +16,7 @@ from . import namespace
 
 
 @register("Template")
-class Template(namespace.Base):
+class Template(Base):
     """
     This is the template block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ template.
@@ -32,7 +32,7 @@ class Template(namespace.Base):
         """
         Initializes a new namespace block.
         """
-        namespace.Base.__init__(self)
+        Base.__init__(self)
         self._p_type = ""
         self._p_assignment = ""
 
@@ -103,7 +103,7 @@ class Template(namespace.Base):
             header = "@tparam %s : " % self._p_name
         else:
             header = "@param %s : " % self._p_name
-        ret = ut.wrapText(
+        ret = edit.wrapText(
             header + self._p_description
             ,begin
             ," "*len(header)
@@ -128,7 +128,7 @@ class Template(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.clearProperties(self)
+        Base.clearProperties(self)
         self._p_name = ""
         self._p_type = ""
         self._p_assignment = ""
@@ -155,9 +155,9 @@ class Template(namespace.Base):
         ret0 : object
                See interface docs.
         """
-        type_ = ut.richText(2,"Type",html.escape(self._p_type))
-        assignment = ut.richText(2,"Assignment",html.escape(self._p_assignment))
-        return namespace.Base.displayView(self) + type_ + assignment
+        type_ = edit.richText(2,"Type",html.escape(self._p_type))
+        assignment = edit.richText(2,"Assignment",html.escape(self._p_assignment))
+        return Base.displayView(self) + type_ + assignment
 
 
     def editDefinitions(self):
@@ -169,9 +169,9 @@ class Template(namespace.Base):
         ret0 : object
                See interface docs.
         """
-        ret = namespace.Base.editDefinitions(self)
-        ret.append(ut.lineEdit("Type:","_p_type"))
-        ret.append(ut.lineEdit("Assignment:","_p_assignment"))
+        ret = Base.editDefinitions(self)
+        ret.append(edit.lineEdit("Type:","_p_type"))
+        ret.append(edit.lineEdit("Assignment:","_p_assignment"))
         return ret
 
 
@@ -203,7 +203,7 @@ class Template(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.setDefaultProperties(self)
+        Base.setDefaultProperties(self)
         self._p_name = "Template"
         self._p_type = "class @"
         self._p_assignment = ""

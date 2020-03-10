@@ -1,11 +1,11 @@
 """
-Contains the access block class.
+Contains the Access class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import register
-from socref import utility as ut
 from socref import abstract
+from socref import edit
+from socref import register
 from . import settings
 
 
@@ -45,7 +45,7 @@ class Access(abstract.AbstractBlock):
 
     def buildDeclaration(self, begin):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -95,7 +95,7 @@ class Access(abstract.AbstractBlock):
 
     def buildDefinition(self, definitions, scope, template, header):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -168,11 +168,11 @@ class Access(abstract.AbstractBlock):
                See interface docs.
         """
         ret = []
-        ret.append(ut.lineEdit("Name:","_p_name"))
-        combo = ut.comboEdit("Type:","_p_type")
+        ret.append(edit.lineEdit("Name:","_p_name"))
+        combo = edit.comboEdit("Type:","_p_type")
         self._addComboSelects_(combo)
         ret.append(combo)
-        ret.append(ut.textEdit("Enclosure:","_p_enclosure"))
+        ret.append(edit.textEdit("Enclosure:","_p_enclosure"))
         return ret
 
 
@@ -273,6 +273,6 @@ class Access(abstract.AbstractBlock):
         combo : PySide2.QtWidgets.QComboBox
                 The combo box that is populated with possible access type values.
         """
-        ut.addComboSelect(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
-        ut.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))
-        ut.addComboSelect(combo,"Private",icon=qtg.QIcon(":/cpp/private.svg"))
+        edit.addComboSelect(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
+        edit.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))
+        edit.addComboSelect(combo,"Private",icon=qtg.QIcon(":/cpp/private.svg"))

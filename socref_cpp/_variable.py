@@ -1,12 +1,11 @@
 """
-Contains the variable block class.
+Contains the Variable class.
 """
-import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
 from . import settings
-from . import template
+from ._template import Template
 
 
 
@@ -16,7 +15,7 @@ from . import template
 
 
 @register("Variable")
-class Variable(template.Template):
+class Variable(Template):
     """
     This is the variable block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ variable.
@@ -32,7 +31,7 @@ class Variable(template.Template):
         """
         Initializes a new variable block.
         """
-        template.Template.__init__(self)
+        Template.__init__(self)
         self._p_constexpr = "0"
         self._p_static = "0"
         self._p_mutable = "0"
@@ -46,7 +45,7 @@ class Variable(template.Template):
 
     def buildDeclaration(self, begin):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -60,11 +59,11 @@ class Variable(template.Template):
         """
         ret = []
         if self.inUnion():
-            ret += ut.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
+            ret += edit.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
         else:
             ret += [""]*settings.H2LINES
             ret.append(begin + "/*!")
-            ret += ut.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+            ret += edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
             ret.append(begin + " */")
         line = begin+self.__buildFlags_()+self._p_type.replace("@",self._p_name)
         if (
@@ -79,7 +78,7 @@ class Variable(template.Template):
 
     def buildDefinition(self, definitions, scope, template, header):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -141,7 +140,7 @@ class Variable(template.Template):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        template.Template.clearProperties(self)
+        Template.clearProperties(self)
         self._p_constexpr = "0"
         self._p_static = "0"
         self._p_mutable = "0"
@@ -179,7 +178,7 @@ class Variable(template.Template):
                See interface docs.
         """
         self.__checkFlags_()
-        return template.Template.displayView(self) + self.__flagsView_()
+        return Template.displayView(self) + self.__flagsView_()
 
 
     def editDefinitions(self):
@@ -191,19 +190,19 @@ class Variable(template.Template):
         ret0 : object
                See interface docs.
         """
-        ret = template.Template.editDefinitions(self)
+        ret = Template.editDefinitions(self)
         if not self.isArgument():
-            ret.append(ut.checkboxEdit("Constant Expression","_p_constexpr"))
-            ret.append(ut.checkboxEdit("Thread Local","_p_thread_local"))
+            ret.append(edit.checkboxEdit("Constant Expression","_p_constexpr"))
+            ret.append(edit.checkboxEdit("Thread Local","_p_thread_local"))
         else:
-            ret.append(ut.hiddenEdit("_p_constexpr","0"))
-            ret.append(ut.hiddenEdit("_p_thread_local","0"))
+            ret.append(edit.hiddenEdit("_p_constexpr","0"))
+            ret.append(edit.hiddenEdit("_p_thread_local","0"))
         if self.inClass():
-            ret.append(ut.checkboxEdit("Static","_p_static"))
-            ret.append(ut.checkboxEdit("Mutable","_p_mutable"))
+            ret.append(edit.checkboxEdit("Static","_p_static"))
+            ret.append(edit.checkboxEdit("Mutable","_p_mutable"))
         else:
-            ret.append(ut.hiddenEdit("_p_static","0"))
-            ret.append(ut.hiddenEdit("_p_mutable","0"))
+            ret.append(edit.hiddenEdit("_p_static","0"))
+            ret.append(edit.hiddenEdit("_p_mutable","0"))
         return ret
 
 
@@ -322,7 +321,7 @@ class Variable(template.Template):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        template.Template.setDefaultProperties(self)
+        Template.setDefaultProperties(self)
         self._p_name = "variable"
         self._p_type = "int @"
         self._p_constexpr = "0"
@@ -413,4 +412,4 @@ class Variable(template.Template):
             flags.append("Mutable")
         if self.isThreadLocal():
             flags.append("Thread Local")
-        return ut.richTextList(2,"Flags",flags)
+        return edit.richTextList(2,"Flags",flags)

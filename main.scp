@@ -812,10 +812,10 @@ The project model whose given index is moved.
 
 This also catches any python exceptions and prints them to standard error because Qt thread's event loop ignores them.
 </__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_descriptors>qtc.Slot(AbstractParser)
 </__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parser</__p_name>
                                 <__p_description>socref.abstract.AbstractParser
@@ -3924,7 +3924,8 @@ Rows that represent a valid qt model index of this command's project model.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -3948,7 +3949,8 @@ See interface docs.
                         </Function>
                         <Function>
                             <__p_name>buildDefinition</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -4270,8 +4272,9 @@ True to add a description comment header to the last inner most namespace or fal
                 <Class>
                     <__p_name>Class</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a C++ class.</__p_description>
+                    <__p_parents>Templatee
+</__p_parents>
                     <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
-                    <__p_parents>function.Templatee</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4287,7 +4290,8 @@ True to add a description comment header to the last inner most namespace or fal
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -4302,7 +4306,8 @@ See interface docs.
                         </Function>
                         <Function>
                             <__p_name>buildDefinition</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -4344,7 +4349,8 @@ A single line that is the forward declaration of this class or an empty list if 
                         </Function>
                         <Function>
                             <__p_name>buildHeader</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -4374,7 +4380,8 @@ See interface docs.
                         </Function>
                         <Function>
                             <__p_name>buildSource</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -4511,8 +4518,9 @@ Added to the beginning of each returned line of code.
                 <Class>
                     <__p_name>Enum</__p_name>
                     <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration.</__p_description>
+                    <__p_parents>Base
+</__p_parents>
                     <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
-                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4528,7 +4536,8 @@ Added to the beginning of each returned line of code.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -4612,8 +4621,9 @@ True if this is a class enumeration or false if it is a regular enumeration.
                 <Class>
                     <__p_name>EnumValue</__p_name>
                     <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration value.</__p_description>
+                    <__p_parents>Base
+</__p_parents>
                     <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
-                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4629,7 +4639,8 @@ True if this is a class enumeration or false if it is a regular enumeration.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Implements the .namespace.Base interface with one additional argument.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface with one additional argument.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -4718,7 +4729,8 @@ See interface docs.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -4733,7 +4745,8 @@ See interface docs.
                         </Function>
                         <Function>
                             <__p_name>buildDefinition</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -4775,7 +4788,8 @@ See interface docs.
                         </Function>
                         <Function>
                             <__p_name>buildSource</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -5312,8 +5326,9 @@ See interface docs.
                 <Class>
                     <__p_name>Template</__p_name>
                     <__p_description>This is the template block class. It implements the Socrates' Reference abstract block class. It represents a C++ template.</__p_description>
+                    <__p_parents>Base
+</__p_parents>
                     <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
-                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5437,7 +5452,8 @@ See interface docs.
                 <Class>
                     <__p_name>Templatee</__p_name>
                     <__p_description>This is the templatee class. It provides methods for handling template block children. This is meant to act as a base class for any block that can have templates.</__p_description>
-                    <__p_parents>namespace.Base</__p_parents>
+                    <__p_parents>Base
+</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5539,8 +5555,9 @@ True to include any initial value of a template argument or false otherwise.
                 <Class>
                     <__p_name>Union</__p_name>
                     <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++ union.</__p_description>
+                    <__p_parents>Base
+</__p_parents>
                     <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
-                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5556,7 +5573,8 @@ True to include any initial value of a template argument or false otherwise.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -5598,8 +5616,9 @@ See interface docs.
                 <Class>
                     <__p_name>Variable</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++ variable.</__p_description>
+                    <__p_parents>Template
+</__p_parents>
                     <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
-                    <__p_parents>template.Template</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5615,7 +5634,8 @@ See interface docs.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -5630,7 +5650,8 @@ See interface docs.
                         </Function>
                         <Function>
                             <__p_name>buildDefinition</__p_name>
-                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_description>Implements the socref_cpp.block.Base interface.
+</__p_description>
                             <__p_returnDescription>object
 See interface docs.
 </__p_returnDescription>
@@ -6069,7 +6090,7 @@ The ending of the first function declaration line of the returned signature, use
             </Module>
         </Package>
         <Package>
-            <__p_name>socref_cppqt_</__p_name>
+            <__p_name>socref_cppqt</__p_name>
             <__p_description>Contains the C++/Qt language definition for Socrates' Reference. This is basically a copy of the C++ language with some slight extensions to allow for qt objects, signals, and slots.</__p_description>
             <Module>
                 <__p_name>block</__p_name>
@@ -6077,8 +6098,9 @@ The ending of the first function declaration line of the returned signature, use
                 <Class>
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents an access declaration for C++/Qt class.</__p_description>
+                    <__p_parents>cppblock.Access
+</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
-                    <__p_parents>cppaccess.Access</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6125,7 +6147,8 @@ True if this access is a public, protected, or private slots type. False is retu
                         <__p_type>Protected</__p_type>
                         <Function>
                             <__p_name>_addComboSelects_</__p_name>
-                            <__p_description>Extends the socref_cpp.access.Access method.</__p_description>
+                            <__p_description>Extends the socref_cpp.block.Access method.
+</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -6140,8 +6163,9 @@ See method docs.
                 <Class>
                     <__p_name>Class</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt class.</__p_description>
+                    <__p_parents>cppblock.Class
+</__p_parents>
                     <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
-                    <__p_parents>cppclass.Class</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6200,7 +6224,8 @@ True if this class is a qt object or false otherwise.
                         <__p_type>Protected</__p_type>
                         <Function>
                             <__p_name>_buildClassHeader_</__p_name>
-                            <__p_description>Extends the socref_cpp.class_.Class method.</__p_description>
+                            <__p_description>Extends the socref_cpp.block.Class method.
+</__p_description>
                             <__p_returnDescription>object
 See method docs.
 </__p_returnDescription>
@@ -6216,26 +6241,11 @@ See method docs.
                     </Access>
                 </Class>
                 <Class>
-                    <__p_name>Namespace</__p_name>
-                    <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt namespace. It is the root block type of a C++/Qt project.</__p_description>
-                    <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
-                    <__p_parents>namespace.Namespace</__p_parents>
-                    <Access>
-                        <__p_name>Initialize</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new namespace block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                </Class>
-                <Class>
                     <__p_name>Enum</__p_name>
                     <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt enumeration.</__p_description>
+                    <__p_parents>cppblock.Enum
+</__p_parents>
                     <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
-                    <__p_parents>enumeration.Enum</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6250,8 +6260,9 @@ See method docs.
                 <Class>
                     <__p_name>EnumValue</__p_name>
                     <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt enumeration value.</__p_description>
+                    <__p_parents>cppblock.EnumValue
+</__p_parents>
                     <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
-                    <__p_parents>enumeration_value.EnumValue</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6266,8 +6277,9 @@ See method docs.
                 <Class>
                     <__p_name>Function</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt function.</__p_description>
+                    <__p_parents>cppblock.Function
+</__p_parents>
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
-                    <__p_parents>cppfunction.Function</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6326,10 +6338,28 @@ See interface docs.
                     </Access>
                 </Class>
                 <Class>
+                    <__p_name>Namespace</__p_name>
+                    <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt namespace. It is the root block type of a C++/Qt project.</__p_description>
+                    <__p_parents>cppblock.Namespace
+</__p_parents>
+                    <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new namespace block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
                     <__p_name>Template</__p_name>
                     <__p_description>This is the template block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt template.</__p_description>
+                    <__p_parents>cppblock.Template
+</__p_parents>
                     <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
-                    <__p_parents>template.Template</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6344,8 +6374,9 @@ See interface docs.
                 <Class>
                     <__p_name>Union</__p_name>
                     <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt union.</__p_description>
+                    <__p_parents>cppblock.Union
+</__p_parents>
                     <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
-                    <__p_parents>union.Union</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6360,8 +6391,9 @@ See interface docs.
                 <Class>
                     <__p_name>Variable</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt variable.</__p_description>
+                    <__p_parents>cppblock.Variable
+</__p_parents>
                     <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
-                    <__p_parents>variable.Variable</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -7277,10 +7309,10 @@ The input file whose shader directive code lines are scanned.
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.
 </__p_description>
-                    <__p_parents>Package
-</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)
 </__p_descriptors>
+                    <__p_parents>Package
+</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -7397,9 +7429,9 @@ See interface docs.
                 <Class>
                     <__p_name>Class</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
+                    <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
                     <__p_parents>Descriptor
 </__p_parents>
-                    <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -7801,9 +7833,9 @@ Rich text list of flags this block has enabled. If this block has no flags enabl
                 <Class>
                     <__p_name>Module</__p_name>
                     <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
+                    <__p_descriptors>register(&quot;Module&quot;)</__p_descriptors>
                     <__p_parents>Package
 </__p_parents>
-                    <__p_descriptors>register(&quot;Module&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -7869,9 +7901,9 @@ See interface docs.
                 <Class>
                     <__p_name>Object</__p_name>
                     <__p_description>This is the object block class. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
+                    <__p_descriptors>register(&quot;Object&quot;)</__p_descriptors>
                     <__p_parents>Package
 </__p_parents>
-                    <__p_descriptors>register(&quot;Object&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>

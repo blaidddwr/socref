@@ -1,9 +1,9 @@
 """
-Contains the function block class.
+Contains the Function class.
 """
 from PySide2 import QtGui as qtg
 from socref import register
-from socref_cpp import function as cppfunction
+from socref_cpp import block as cppblock
 
 
 
@@ -13,7 +13,7 @@ from socref_cpp import function as cppfunction
 
 
 @register("Function")
-class Function(cppfunction.Function):
+class Function(cppblock.Function):
     """
     This is the function block class. It implements the Socrates' Reference abstract block class. It
     represents a C++/Qt function.
@@ -29,7 +29,7 @@ class Function(cppfunction.Function):
         """
         Initializes a new function block.
         """
-        cppfunction.Function.__init__(self)
+        cppblock.Function.__init__(self)
 
 
     ####################
@@ -60,7 +60,7 @@ class Function(cppfunction.Function):
         if self.isMethod() and self.parent().isSignals():
             return ([],[])
         else:
-            return cppfunction.Function.buildDefinition(self,definitions,scope,template,header)
+            return cppblock.Function.buildDefinition(self,definitions,scope,template,header)
 
 
     def icon(self):
@@ -83,6 +83,6 @@ class Function(cppfunction.Function):
                 else:
                     return qtg.QIcon(":/cppqt/slot.svg")
             else:
-                return cppfunction.Function.icon(self)
+                return cppblock.Function.icon(self)
         else:
-            return cppfunction.Function.icon(self)
+            return cppblock.Function.icon(self)

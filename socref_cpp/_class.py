@@ -1,13 +1,12 @@
 """
-Contains the class block class.
+Contains the Class class.
 """
-import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
+from . import block
 from . import settings
-from . import namespace
-from . import function
+from ._templatee import Templatee
 
 
 
@@ -17,7 +16,7 @@ from . import function
 
 
 @register("Class")
-class Class(function.Templatee):
+class Class(Templatee):
     """
     This is the class block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ class.
@@ -33,7 +32,7 @@ class Class(function.Templatee):
         """
         Initializes a new class block.
         """
-        function.Templatee.__init__(self)
+        Templatee.__init__(self)
         self._p_parents = ""
         self._p_header = ""
 
@@ -45,7 +44,7 @@ class Class(function.Templatee):
 
     def buildDeclaration(self, begin):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -59,7 +58,7 @@ class Class(function.Templatee):
         """
         ret = [""]*settings.H1LINES
         ret.append(begin+"/*!")
-        ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        ret += edit.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
         accesses = []
         for child in self:
             if child._TYPE_ == "Template":
@@ -82,7 +81,7 @@ class Class(function.Templatee):
 
     def buildDefinition(self, definitions, scope, template, header):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -136,7 +135,7 @@ class Class(function.Templatee):
 
     def buildHeader(self, definitions, path):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -150,7 +149,7 @@ class Class(function.Templatee):
         ret0 : object
                See interface docs.
         """
-        return namespace.Namespace.buildHeader(self,definitions,path)
+        return block.Namespace.buildHeader(self,definitions,path)
 
 
     def buildList(self):
@@ -167,7 +166,7 @@ class Class(function.Templatee):
 
     def buildSource(self, definitions, path):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -181,14 +180,14 @@ class Class(function.Templatee):
         ret0 : object
                See interface docs.
         """
-        return namespace.Namespace.buildSource(self,definitions,path)
+        return block.Namespace.buildSource(self,definitions,path)
 
 
     def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.clearProperties(self)
+        block.Base.clearProperties(self)
         self._p_parents = ""
         self._p_header = ""
 
@@ -214,12 +213,12 @@ class Class(function.Templatee):
         ret0 : object
                See interface docs.
         """
-        parents = ut.richText(
+        parents = edit.richText(
             2
             ,"Parents"
             ,"".join(("<li>%s</li>" % parent for parent in self._p_parents.split("\n") if parent))
         )
-        return namespace.Base.displayView(self)+self._templatesView_()+parents
+        return block.Base.displayView(self)+self._templatesView_()+parents
 
 
     def editDefinitions(self):
@@ -231,9 +230,9 @@ class Class(function.Templatee):
         ret0 : object
                See interface docs.
         """
-        ret = namespace.Base.editDefinitions(self)
-        ret.append(ut.textEdit("Parents:","_p_parents"))
-        ret.append(ut.textEdit("Header:","_p_header"))
+        ret = block.Base.editDefinitions(self)
+        ret.append(edit.textEdit("Parents:","_p_parents"))
+        ret.append(edit.textEdit("Header:","_p_header"))
         return ret
 
 
@@ -300,7 +299,7 @@ class Class(function.Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.setDefaultProperties(self)
+        block.Base.setDefaultProperties(self)
         self._p_name = "class"
         self._p_parents = ""
         self._p_header = ""

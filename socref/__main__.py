@@ -14,8 +14,8 @@ def main():
     """
     Begins execution of the program.
     """
-    #core.blockFactory.load("C++","socref_cpp")
-    #core.blockFactory.load("C++/Qt","socref_cppqt")
+    core.blockFactory.load("C++","socref_cpp")
+    core.blockFactory.load("C++/Qt","socref_cppqt")
     #core.blockFactory.load("GLSL","socref_glsl")
     core.blockFactory.load("Python","socref_python")
     qtc.QCoreApplication.setAttribute(qtc.Qt.AA_UseHighDpiPixmaps)

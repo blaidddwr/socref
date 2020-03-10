@@ -1,12 +1,12 @@
 """
-Contains the enumeration value block class.
+Contains the EnumValue class.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
 from . import settings
-from . import namespace
+from ._base import Base
 
 
 
@@ -16,7 +16,7 @@ from . import namespace
 
 
 @register("Enumeration_Value")
-class EnumValue(namespace.Base):
+class EnumValue(Base):
     """
     This is the enumeration value block class. It implements the Socrates' Reference abstract block
     class. It represents a C++ enumeration value.
@@ -32,7 +32,7 @@ class EnumValue(namespace.Base):
         """
         Initializes a new enumeration value block.
         """
-        namespace.Base.__init__(self)
+        Base.__init__(self)
         self._p_value = ""
 
 
@@ -43,7 +43,7 @@ class EnumValue(namespace.Base):
 
     def buildDeclaration(self, begin, first):
         """
-        Implements the .namespace.Base interface with one additional argument.
+        Implements the socref_cpp.block.Base interface with one additional argument.
 
         Parameters
         ----------
@@ -57,7 +57,7 @@ class EnumValue(namespace.Base):
         ret0 : object
                See interface docs.
         """
-        ret = ut.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
+        ret = edit.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
         line = begin+("" if first else ",")+self._p_name
         if self._p_value:
             line += " = "+self._p_value
@@ -81,7 +81,7 @@ class EnumValue(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.clearProperties(self)
+        Base.clearProperties(self)
         self._p_value = ""
 
 
@@ -94,8 +94,8 @@ class EnumValue(namespace.Base):
         ret0 : object
                See interface docs.
         """
-        value = ut.richText(2,"Value",html.escape(self._p_value))
-        return namespace.Base.displayView(self) + value
+        value = edit.richText(2,"Value",html.escape(self._p_value))
+        return Base.displayView(self) + value
 
 
     def editDefinitions(self):
@@ -107,8 +107,8 @@ class EnumValue(namespace.Base):
         ret0 : object
                See interface docs.
         """
-        ret = namespace.Base.editDefinitions(self)
-        ret.append(ut.lineEdit("Value:","_p_value"))
+        ret = Base.editDefinitions(self)
+        ret.append(edit.lineEdit("Value:","_p_value"))
         return ret
 
 
@@ -128,6 +128,6 @@ class EnumValue(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.setDefaultProperties(self)
+        Base.setDefaultProperties(self)
         self._p_name = "enumeration_value"
         self._p_value = ""

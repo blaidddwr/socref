@@ -1,10 +1,10 @@
 """
-Contains the access block class.
+Contains the Access class.
 """
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
-from socref_cpp import access as cppaccess
+from socref_cpp import block as cppblock
 
 
 
@@ -14,7 +14,7 @@ from socref_cpp import access as cppaccess
 
 
 @register("Access")
-class Access(cppaccess.Access):
+class Access(cppblock.Access):
     """
     This is the access block class. It implements the Socrates' Reference abstract block class. It
     represents an access declaration for C++/Qt class.
@@ -30,7 +30,7 @@ class Access(cppaccess.Access):
         """
         Initializes a new access block.
         """
-        cppaccess.Access.__init__(self)
+        cppblock.Access.__init__(self)
 
 
     ####################
@@ -56,7 +56,7 @@ class Access(cppaccess.Access):
         elif self._p_type == "Private Slots":
             return qtg.QIcon(":/cppqt/private_slots.svg")
         else:
-            return cppaccess.Access.icon(self)
+            return cppblock.Access.icon(self)
 
 
     def isSignals(self):
@@ -91,15 +91,15 @@ class Access(cppaccess.Access):
 
     def _addComboSelects_(self, combo):
         """
-        Extends the socref_cpp.access.Access method.
+        Extends the socref_cpp.block.Access method.
 
         Parameters
         ----------
         combo : object
                 See method docs.
         """
-        cppaccess.Access._addComboSelects_(self,combo)
-        ut.addComboSelect(combo,"Signals",icon=qtg.QIcon(":/cppqt/signals.svg"))
-        ut.addComboSelect(combo,"Public Slots",icon=qtg.QIcon(":/cppqt/public_slots.svg"))
-        ut.addComboSelect(combo,"Protected Slots",icon=qtg.QIcon(":/cppqt/protected_slots.svg"))
-        ut.addComboSelect(combo,"Private Slots",icon=qtg.QIcon(":/cppqt/private_slots.svg"))
+        cppblock.Access._addComboSelects_(self,combo)
+        edit.addComboSelect(combo,"Signals",icon=qtg.QIcon(":/cppqt/signals.svg"))
+        edit.addComboSelect(combo,"Public Slots",icon=qtg.QIcon(":/cppqt/public_slots.svg"))
+        edit.addComboSelect(combo,"Protected Slots",icon=qtg.QIcon(":/cppqt/protected_slots.svg"))
+        edit.addComboSelect(combo,"Private Slots",icon=qtg.QIcon(":/cppqt/private_slots.svg"))

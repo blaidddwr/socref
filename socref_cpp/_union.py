@@ -1,12 +1,11 @@
 """
-Contains the union block class.
+Contains the Union class.
 """
-import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
 from . import settings
-from . import namespace
+from ._base import Base
 
 
 
@@ -16,7 +15,7 @@ from . import namespace
 
 
 @register("Union")
-class Union(namespace.Base):
+class Union(Base):
     """
     This is the union block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ union.
@@ -32,7 +31,7 @@ class Union(namespace.Base):
         """
         Initializes a new union block.
         """
-        namespace.Base.__init__(self)
+        Base.__init__(self)
 
 
     ####################
@@ -42,7 +41,7 @@ class Union(namespace.Base):
 
     def buildDeclaration(self, begin):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -56,7 +55,7 @@ class Union(namespace.Base):
         """
         ret = [""]*settings.H2LINES
         ret.append(begin+"/*!")
-        ret += ut.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+        ret += edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
         ret.append(begin+" */")
         ret.append(begin+"union "+self._p_name)
         ret.append(begin+"{")
@@ -95,5 +94,5 @@ class Union(namespace.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.setDefaultProperties(self)
+        Base.setDefaultProperties(self)
         self._p_name = "union"

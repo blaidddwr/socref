@@ -1,10 +1,10 @@
 """
-Contains the class block class.
+Contains the Class class.
 """
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
-from socref_cpp import class_ as cppclass
+from socref_cpp import block as cppblock
 
 
 
@@ -14,7 +14,7 @@ from socref_cpp import class_ as cppclass
 
 
 @register("Class")
-class Class(cppclass.Class):
+class Class(cppblock.Class):
     """
     This is the class block class. It implements the Socrates' Reference abstract block class. It
     represents a C++/Qt class.
@@ -30,7 +30,7 @@ class Class(cppclass.Class):
         """
         Initializes a new class block.
         """
-        cppclass.Class.__init__(self)
+        cppblock.Class.__init__(self)
         self._p_qtObject = "0"
 
 
@@ -43,7 +43,7 @@ class Class(cppclass.Class):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        cppclass.Class.clearProperties(self)
+        cppblock.Class.clearProperties(self)
         self._p_qtObject = "0"
 
 
@@ -56,8 +56,8 @@ class Class(cppclass.Class):
         ret0 : object
                See interface docs.
         """
-        ret = cppclass.Class.editDefinitions(self)
-        ret.append(ut.checkboxEdit("Qt Object","_p_qtObject"))
+        ret = cppblock.Class.editDefinitions(self)
+        ret.append(edit.checkboxEdit("Qt Object","_p_qtObject"))
         return ret
 
 
@@ -78,7 +78,7 @@ class Class(cppclass.Class):
             else:
                 return qtg.QIcon(":/cppqt/qtobject.svg")
         else:
-            return cppclass.Class.icon(self)
+            return cppblock.Class.icon(self)
 
 
     def isQtObject(self):
@@ -97,7 +97,7 @@ class Class(cppclass.Class):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        cppclass.Class.setDefaultProperties(self)
+        cppblock.Class.setDefaultProperties(self)
         self._p_qtObject = "0"
 
 
@@ -108,7 +108,7 @@ class Class(cppclass.Class):
 
     def _buildClassHeader_(self, begin):
         """
-        Extends the socref_cpp.class_.Class method.
+        Extends the socref_cpp.block.Class method.
 
         Parameters
         ----------
@@ -123,4 +123,4 @@ class Class(cppclass.Class):
         ret = []
         if self.isQtObject():
             ret.append(begin+"Q_OBJECT")
-        return ret+cppclass.Class._buildClassHeader_(self,begin)
+        return ret+cppblock.Class._buildClassHeader_(self,begin)

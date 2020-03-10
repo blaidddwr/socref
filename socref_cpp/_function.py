@@ -1,177 +1,13 @@
 """
-Contains the function generic templatee block classes.
+Contains the Function class.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
+from . import block
 from . import settings
-from . import namespace
-
-
-
-
-
-
-
-
-class Templatee(namespace.Base):
-    """
-    This is the templatee class. It provides methods for handling template block children. This is
-    meant to act as a base class for any block that can have templates.
-    """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(self):
-        """
-        Initializes a new templatee block.
-        """
-        namespace.Base.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def hasTemplates(self):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : bool
-               True if this block has any templates or false otherwise.
-        """
-        for child in self:
-            if child._TYPE_ == "Template":
-                return True
-        return False
-
-
-    def templateDeclaration(self):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : string
-               Template declaration code of this block based off its child template blocks or an
-               empty string if it has no templates. The returned declaration includes any initial
-               value of template children.
-        """
-        ret = self.__declaration_(True,True)
-        return "template"+ret if ret else ""
-
-
-    def templateDefinition(self):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : string
-               Template definition code of this block based off its child template blocks or an
-               empty string if it has no templates. The returned declaration does not include any
-               initial value of template children.
-        """
-        ret = self.__declaration_(True,False)
-        return "template"+ret if ret else ""
-
-
-    def templateScope(self):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : string
-               Template scope code of this block based off its child template blocks or an empty
-               string if it has no templates.
-        """
-        return self.__declaration_(False,False)
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
-    def _templatesName_(self):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : string
-               A decoration for this block's display name providing information about its templates.
-               If this block has no templates then an empty string is returned.
-        """
-        return " <>" if self.hasTemplates() else ""
-
-
-    def _templatesView_(self):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : rich text
-               Providing detailed information about this block's templates. If this block has no
-               templates then an empty string is returned.
-        """
-        return ut.richText(
-            2
-            ,"Templates"
-            ,"".join((child.argumentView() for child in self if child._TYPE_ == "Template"))
-        )
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
-    def __declaration_(self, withType, withInit):
-        """
-        Getter method.
-
-        Parameters
-        ----------
-        withType : bool
-                   True to include the template type in the returned template code string or false
-                   otherwise.
-        withInit : bool
-                   True to include any initial value of a template argument or false otherwise.
-
-        Returns
-        -------
-        ret0 : string
-               Template code that is the list of this block's children templates, optionally
-               including the template type and/or any initial value. If this block has no templates
-               then an empty string is returned. The returned code does not include the initial
-               "template" keyword for declarations.
-        """
-        args = []
-        for child in self:
-            if child._TYPE_ == "Template":
-                line = ""
-                if withType:
-                    line = child._p_type.replace("@",child._p_name)
-                else:
-                    line = child._p_name
-                if withInit and child._p_assignment:
-                    line += "="+child._p_assignment
-                args.append(line)
-        if args:
-            return "<%s>" % ",".join(args)
-        else:
-            return ""
+from ._templatee import Templatee
 
 
 
@@ -219,7 +55,7 @@ class Function(Templatee):
 
     def buildDeclaration(self, begin):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -240,7 +76,7 @@ class Function(Templatee):
 
     def buildDefinition(self, definitions, scope, template, header):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -291,7 +127,7 @@ class Function(Templatee):
 
     def buildSource(self, definitions, path):
         """
-        Implements the .namespace.Base interface.
+        Implements the socref_cpp.block.Base interface.
 
         Parameters
         ----------
@@ -317,7 +153,7 @@ class Function(Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.clearProperties(self)
+        block.Base.clearProperties(self)
         self._p_returnType = ""
         self._p_returnDescription = ""
         self._p_default = "0"
@@ -366,10 +202,10 @@ class Function(Templatee):
                 "<p><b>%s</b> : %s</p>"
                 % (html.escape(self._p_returnType),html.escape(self._p_returnDescription))
             )
-        return_ = ut.richText(2,"Return",return_)
-        flags = ut.richTextList(2,"Flags",self.__flagsList_())
+        return_ = edit.richText(2,"Return",return_)
+        flags = edit.richTextList(2,"Flags",self.__flagsList_())
         return (
-            namespace.Base.displayView(self)
+            block.Base.displayView(self)
             + self._templatesView_()
             + self.__argumentsView_()
             + return_
@@ -386,30 +222,30 @@ class Function(Templatee):
         ret0 : object
                See interface docs.
         """
-        ret = namespace.Base.editDefinitions(self)
-        ret.append(ut.lineEdit("Return Type:","_p_returnType"))
-        ret.append(ut.textEdit("Return Description:","_p_returnDescription",speller=True))
-        ret.append(ut.checkboxEdit("No Exceptions","_p_noexcept"))
+        ret = block.Base.editDefinitions(self)
+        ret.append(edit.lineEdit("Return Type:","_p_returnType"))
+        ret.append(edit.textEdit("Return Description:","_p_returnDescription",speller=True))
+        ret.append(edit.checkboxEdit("No Exceptions","_p_noexcept"))
         if self.isMethod():
-            ret.append(ut.checkboxEdit("Default","_p_default"))
-            ret.append(ut.checkboxEdit("Deleted","_p_deleted"))
-            ret.append(ut.checkboxEdit("Explicit","_p_explicit"))
-            ret.append(ut.checkboxEdit("Constant","_p_const"))
-            ret.append(ut.checkboxEdit("Static","_p_static"))
-            ret.append(ut.checkboxEdit("Virtual","_p_virtual"))
-            ret.append(ut.checkboxEdit("Override","_p_override"))
-            ret.append(ut.checkboxEdit("Final","_p_final"))
-            ret.append(ut.checkboxEdit("Abstract","_p_abstract"))
+            ret.append(edit.checkboxEdit("Default","_p_default"))
+            ret.append(edit.checkboxEdit("Deleted","_p_deleted"))
+            ret.append(edit.checkboxEdit("Explicit","_p_explicit"))
+            ret.append(edit.checkboxEdit("Constant","_p_const"))
+            ret.append(edit.checkboxEdit("Static","_p_static"))
+            ret.append(edit.checkboxEdit("Virtual","_p_virtual"))
+            ret.append(edit.checkboxEdit("Override","_p_override"))
+            ret.append(edit.checkboxEdit("Final","_p_final"))
+            ret.append(edit.checkboxEdit("Abstract","_p_abstract"))
         else:
-            ret.append(ut.hiddenEdit("_p_default","0"))
-            ret.append(ut.hiddenEdit("_p_deleted","0"))
-            ret.append(ut.hiddenEdit("_p_explicit","0"))
-            ret.append(ut.hiddenEdit("_p_const","0"))
-            ret.append(ut.hiddenEdit("_p_static","0"))
-            ret.append(ut.hiddenEdit("_p_virtual","0"))
-            ret.append(ut.hiddenEdit("_p_override","0"))
-            ret.append(ut.hiddenEdit("_p_final","0"))
-            ret.append(ut.hiddenEdit("_p_abstract","0"))
+            ret.append(edit.hiddenEdit("_p_default","0"))
+            ret.append(edit.hiddenEdit("_p_deleted","0"))
+            ret.append(edit.hiddenEdit("_p_explicit","0"))
+            ret.append(edit.hiddenEdit("_p_const","0"))
+            ret.append(edit.hiddenEdit("_p_static","0"))
+            ret.append(edit.hiddenEdit("_p_virtual","0"))
+            ret.append(edit.hiddenEdit("_p_override","0"))
+            ret.append(edit.hiddenEdit("_p_final","0"))
+            ret.append(edit.hiddenEdit("_p_abstract","0"))
         return ret
 
 
@@ -633,7 +469,7 @@ class Function(Templatee):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.setDefaultProperties(self)
+        block.Base.setDefaultProperties(self)
         self._p_name = "function"
         self._p_returnType = "void"
         self._p_returnDescription = ""
@@ -664,7 +500,7 @@ class Function(Templatee):
                Detailed view of all this function's arguments. If this function has no arguments
                then this returns an empty string.
         """
-        return ut.richText(
+        return edit.richText(
             2
             ,"Arguments"
             ,"".join((child.argumentView() for child in self if child._TYPE_ == "Variable"))
@@ -686,13 +522,13 @@ class Function(Templatee):
                Source code lines that is the block comment for this function.
         """
         ret = [begin+"/*!"]
-        ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        ret += edit.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
         for child in self:
             ret += [begin+" *"] + child.buildComment(begin+" * ")
         if self._p_returnType != "void":
             header = "@return : "
             ret.append(begin+" *")
-            ret += ut.wrapText(header + self._p_returnDescription,begin+" * "," "*len(header),100)
+            ret += edit.wrapText(header + self._p_returnDescription,begin+" * "," "*len(header),100)
         ret.append(begin+" */")
         return ret
 
