@@ -7,6 +7,7 @@ from socref import edit
 from socref import register
 from ._descriptor import Descriptor
 from . import block
+from . import settings
 
 
 

@@ -1,11 +1,11 @@
 """
-Contains the program block class.
+Contains the Program class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import register
 from socref import abstract
-from socref import utility as ut
+from socref import edit
+from socref import register
 from . import parser
 
 
@@ -95,7 +95,7 @@ class Program(abstract.AbstractBlock):
                See interface docs.
         """
         ret = []
-        ret.append(ut.lineEdit("Name:","_p_name"))
+        ret.append(edit.lineEdit("Name:","_p_name"))
         return ret
 
 

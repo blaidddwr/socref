@@ -7,6 +7,7 @@ from socref import abstract
 from socref import edit
 from socref import register
 from ._package import Package
+from . import settings
 
 
 

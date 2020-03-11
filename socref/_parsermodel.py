@@ -1,6 +1,7 @@
 """
 Contains the ParserModel class.
 """
+import traceback
 from PySide2 import QtCore as qtc
 from ._abstractparser import AbstractParser
 
@@ -60,7 +61,7 @@ class ParserModel(qtc.QObject):
             unknown = parser.unknown()
             if unknown:
                 self.remained.emit(unknown)
-        except:
+        except Exception as ok:
             traceback.print_exc()
         finally:
             self.finished.emit()

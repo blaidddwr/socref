@@ -4,6 +4,7 @@ Contains the Module class.
 from PySide2 import QtGui as qtg
 from socref import register
 from ._package import Package
+from . import settings
 
 
 

@@ -1,9 +1,11 @@
 """
 Contains the Parser class.
 """
+import os
 import re
 from socref import abstract
 from socref import edit
+from . import parser
 
 
 
@@ -209,7 +211,7 @@ class Parser(abstract.AbstractParser):
         """
         self.__skipDocString_(ifile)
         ret = {"functions": {}}
-        scan = Scanner(ifile)
+        scan = parser.Scanner(ifile)
         while True:
             line = scan.readline()
             if line is None:
@@ -237,7 +239,7 @@ class Parser(abstract.AbstractParser):
         """
         self.__skipDocString_(ifile)
         ret = []
-        scan = Scanner(ifile)
+        scan = parser.Scanner(ifile)
         while True:
             line = scan.readline()
             if line is None:

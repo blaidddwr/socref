@@ -1,12 +1,12 @@
 """
-Contains the structure block class.
+Contains the Structure class.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
 from . import settings
-from . import shader
+from ._base import Base
 
 
 
@@ -16,10 +16,10 @@ from . import shader
 
 
 @register("Structure")
-class Structure(shader.Base):
+class Structure(Base):
     """
     This is the structure block class. It implements the Socrates' Reference abstract block class.
-    It represents a GLSL struct.
+    It represents a GLSL structure.
     """
 
 
@@ -32,7 +32,7 @@ class Structure(shader.Base):
         """
         Initializes a new structure block.
         """
-        shader.Base.__init__(self)
+        Base.__init__(self)
         self._p_type = ""
 
 
@@ -43,7 +43,7 @@ class Structure(shader.Base):
 
     def build(self, definition, begin=""):
         """
-        Implements the .shader.Base interface.
+        Implements the socref_glsl.block.Base interface.
 
         Parameters
         ----------
@@ -59,7 +59,7 @@ class Structure(shader.Base):
         """
         ret = [""]*settings.H2LINES
         ret.append(begin+"/*!")
-        ret += ut.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+        ret += edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
         ret.append(begin+" */")
         ret.append(begin+self._p_type)
         ret.append("{")
@@ -90,7 +90,7 @@ class Structure(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        shader.Base.clearProperties(self)
+        Base.clearProperties(self)
         self._p_type = ""
 
 
@@ -119,7 +119,7 @@ class Structure(shader.Base):
                See interface docs.
         """
         type_ = "<h2>Type</h2><p>"+html.escape(self._p_type)+"</p>"
-        return shader.Base.displayView(self)+type_
+        return Base.displayView(self)+type_
 
 
     def editDefinitions(self):
@@ -131,8 +131,8 @@ class Structure(shader.Base):
         ret0 : object
                See interface docs.
         """
-        ret = shader.Base.editDefinitions(self)
-        ret.append(ut.lineEdit("Type:","_p_type"))
+        ret = Base.editDefinitions(self)
+        ret.append(edit.lineEdit("Type:","_p_type"))
         return ret
 
 
@@ -152,6 +152,6 @@ class Structure(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        shader.Base.setDefaultProperties(self)
+        Base.setDefaultProperties(self)
         self._p_name = "structure"
         self._p_type = "struct Struct"

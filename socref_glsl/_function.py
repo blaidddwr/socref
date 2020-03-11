@@ -1,12 +1,12 @@
 """
-Contains the function block class.
+Contains the Function class.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import edit
 from socref import register
-from socref import utility as ut
 from . import settings
-from . import shader
+from ._base import Base
 
 
 
@@ -16,7 +16,7 @@ from . import shader
 
 
 @register("Function")
-class Function(shader.Base):
+class Function(Base):
     """
     This is the function block class. It implements the Socrates' Reference abstract block class. It
     represents a GLSL function.
@@ -32,7 +32,7 @@ class Function(shader.Base):
         """
         Initializes a new function block.
         """
-        shader.Base.__init__(self)
+        Base.__init__(self)
         self._p_returnType = ""
         self._p_returnDescription = ""
 
@@ -44,7 +44,7 @@ class Function(shader.Base):
 
     def build(self, definition, begin=""):
         """
-        Implements the .shader.Base interface.
+        Implements the socref_glsl.block.Base interface.
 
         Parameters
         ----------
@@ -81,7 +81,7 @@ class Function(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        shader.Base.clearProperties(self)
+        Base.clearProperties(self)
         self._p_returnType = ""
         self._p_returnDescription = ""
 
@@ -113,8 +113,8 @@ class Function(shader.Base):
                 "<p><b>%s</b> : %s</p>"
                 % (html.escape(self._p_returnType),html.escape(self._p_returnDescription))
             )
-        return_ = ut.richText(2,"Return",return_)
-        return shader.Base.displayView(self)+self.__argumentsView_()+return_
+        return_ = edit.richText(2,"Return",return_)
+        return Base.displayView(self)+self.__argumentsView_()+return_
 
 
     def editDefinitions(self):
@@ -126,9 +126,9 @@ class Function(shader.Base):
         ret0 : object
                See interface docs.
         """
-        ret = shader.Base.editDefinitions(self)
-        ret.append(ut.lineEdit("Return Type:","_p_returnType"))
-        ret.append(ut.textEdit("Return Description:","_p_returnDescription",speller=True))
+        ret = Base.editDefinitions(self)
+        ret.append(edit.lineEdit("Return Type:","_p_returnType"))
+        ret.append(edit.textEdit("Return Description:","_p_returnDescription",speller=True))
         return ret
 
 
@@ -148,7 +148,7 @@ class Function(shader.Base):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        shader.Base.setDefaultProperties(self)
+        Base.setDefaultProperties(self)
         self._p_name = "function"
         self._p_returnType = "void"
         self._p_returnDescription = ""
@@ -169,7 +169,7 @@ class Function(shader.Base):
                Detailed view of all this function's arguments. If this function has no arguments
                then this returns an empty string.
         """
-        return ut.richText(
+        return edit.richText(
             2
             ,"Arguments"
             ,"".join((child.argumentView() for child in self if child._TYPE_ == "Variable"))
@@ -193,14 +193,14 @@ class Function(shader.Base):
         ret = [begin+"/*!"]
         commentBlank = begin+" *"
         commentBegin = commentBlank+" "
-        ret += ut.wrapText(self._p_description,commentBegin,columns=settings.COLUMNS)
+        ret += edit.wrapText(self._p_description,commentBegin,columns=settings.COLUMNS)
         for arg in self:
             ret += [commentBlank] + arg.buildComment(commentBegin)
         if self._p_returnDescription:
             initial = "@return : "
             ret += (
                 [commentBlank]
-                + ut.wrapText(
+                + edit.wrapText(
                     initial+self._p_returnDescription
                     ,commentBegin
                     ," "*len(initial)
