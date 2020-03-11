@@ -1,4 +1,4 @@
-RCC=pyside2-rcc
+RCC=rcc
 
 resources.py: data/*
-	$(RCC) data/resources.qrc -o resources.py
+	$(RCC) -g python data/resources.qrc -o resources.py
