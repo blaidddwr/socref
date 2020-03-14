@@ -1,5 +1,5 @@
 """
-Contains all custom exception classes that the core application can raise.
+Contains all custom exception classes that this application can raise.
 """
 
 from ._langerror import LangError

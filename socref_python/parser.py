@@ -1,6 +1,5 @@
 """
-Contains the python language parser class. It also contains all helper classes used for the parsing
-process.
+Contains all parser related classes.
 """
 
 from ._parser import Parser

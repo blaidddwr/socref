@@ -1,5 +1,5 @@
 """
-Contains the C++ language parser class.
+Contains all parser related classes.
 """
 
 from ._parser import Parser

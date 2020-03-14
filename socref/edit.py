@@ -1,5 +1,6 @@
 """
-Detailed description.
+Contains helper methods that language block classes can use for displaying rich text, creating edit
+definitions, and producing parsing output.
 """
 
 

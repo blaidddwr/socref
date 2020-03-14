@@ -1,6 +1,5 @@
 """
-Contains all abstract classes used by the core application and any language implementation to
-communicate with one another.
+Contains all abstract classes used implement a language and a function for registering its blocks.
 """
 from . import core
 

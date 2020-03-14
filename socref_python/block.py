@@ -1,5 +1,5 @@
 """
-Detailed description.
+Contains all block classes for this language.
 """
 
 from ._access import Access

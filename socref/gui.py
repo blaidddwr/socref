@@ -1,5 +1,5 @@
 """
-asd
+Contains all GUI classes for this application.
 """
 
 from ._blockeditdock import BlockEditDock

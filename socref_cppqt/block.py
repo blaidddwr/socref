@@ -1,7 +1,5 @@
 """
-Contains classes for namespace, enumeration, enumeration value, template, variable, and union
-blocks. All contain block classes are exact copies of their C++ counterparts and require no
-modification for Qt.
+Contains all block classes for this language.
 """
 
 from ._access import Access

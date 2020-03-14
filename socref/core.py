@@ -1,5 +1,5 @@
 """
-asd
+Contains all core classes, functions, and singleton instances of this application.
 """
 import os
 import hunspell
@@ -19,7 +19,8 @@ from ._setcommand import SetCommand
 
 def initialize():
     """
-    Detailed description.
+    Initializes the global singleton Hunspell speller used for spell checking through this
+    application. This must only be called once during initialization of the application.
     """
     global speller
     speller = hunspell.HunSpell(
@@ -29,18 +30,18 @@ def initialize():
 
 
 #
-# Detailed description.
+# The global singleton instance of this application's block factory.
 #
 blockFactory = BlockFactory()
 
 
 #
-# Detailed description.
+# The global singleton instance of this application's Hunspell speller.
 #
 speller = None
 
 
 #
-# Detailed description.
+# The global singleton instance of this application's parser model.
 #
 parser = ParserModel()
