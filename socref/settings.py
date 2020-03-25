@@ -1,5 +1,5 @@
 """
-Contains all global settings for the core application.
+Contains all global settings for this application.
 """
 
 
