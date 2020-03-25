@@ -46,7 +46,7 @@ class Parser(abstract.AbstractParser):
         self.__rootBlock = root
         self.__docPattern = re.compile(' *"""')
         self.__importPattern = re.compile('^(from|import).*')
-        self.__classPattern = re.compile('^class +([a-zA-Z_]+\w*)\([\w\._]*\):')
+        self.__classPattern = re.compile('^class +([a-zA-Z_]+\w*)\([\w\._,\s]*\):')
         self.__functionPattern = re.compile('^def +([a-zA-Z_]+\w*)\(.*\):')
         self.__commentPattern = re.compile('^( *#).*')
         self.__methodPattern = re.compile('^ *def +([a-zA-Z_]+\w*)\(.*\):')
