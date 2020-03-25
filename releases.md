@@ -3,6 +3,12 @@
 
 Description of all releases with most recent on the top.
 
+## Version 0.8.4
+
+* Modified python parsing so each class is contained in its own special module.
+* Fixed core bugs.
+* Fixed python parsing bug.
+
 ## Version 0.8.3
 
 * Fixed core bugs.
