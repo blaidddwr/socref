@@ -58,9 +58,15 @@ class Shader(Base):
                See interface docs.
         """
         ret = definition.pop("header")
-        ret += self._buildChildren_(definition,begin)
-        ret += [""]*settings.H1LINES + ["void main()"]
-        ret += definition["functions"].pop("main",["{"]) + ["}"]
+        ret += (
+            self._buildChildren_(definition,begin)
+            + [""]*settings.H1LINES
+            + ["/*!"]
+            + edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+            + [" */"]
+            + ["void main()"]
+            + definition["functions"].pop("main",["{"]) + ["}"]
+        )
         return ret
 
 

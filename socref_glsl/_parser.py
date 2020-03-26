@@ -82,7 +82,10 @@ class Parser(abstract.AbstractParser):
         ret0 : object
                See interface docs.
         """
-        return "\n".join(block.build(self.__definitions[path]))+"\n"
+        return (
+            "\n".join(block.build(self.__definitions.get(path,{"header": [], "functions": {}})))
+            +"\n"
+        )
 
 
     def _buildPathList_(self):
