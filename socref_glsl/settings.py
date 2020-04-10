@@ -30,34 +30,34 @@ INDENT = 4
 #
 # The file name extension for vertex shaders.
 #
-VERTEX_EXTENSION = ".vert.glsl"
+VERTEX_EXTENSION = ".v.glsl"
 
 
 #
 # The file name extension for fragment shaders.
 #
-FRAGMENT_EXTENSION = ".frag.glsl"
+FRAGMENT_EXTENSION = ".f.glsl"
 
 
 #
 # The file name extension for tesselation control shaders.
 #
-TESS_CTRL_EXTENSION = ".tessctrl.glsl"
+TESS_CTRL_EXTENSION = ".tc.glsl"
 
 
 #
 # The file name extension for tesselation evaluation shaders.
 #
-TESS_EVAL_EXTENSION = ".tesseval.glsl"
+TESS_EVAL_EXTENSION = ".te.glsl"
 
 
 #
 # The file name extension for geometry shaders.
 #
-GEOMETRY_EXTENSION = ".geom.glsl"
+GEOMETRY_EXTENSION = ".g.glsl"
 
 
 #
 # The file name extension for compute shaders.
 #
-COMPUTE_EXTENSION = ".comp.glsl"
+COMPUTE_EXTENSION = ".cp.glsl"

@@ -7293,32 +7293,32 @@ The input file whose shader directive code lines are scanned.
                 <Object>
                     <__p_name>VERTEX_EXTENSION</__p_name>
                     <__p_description>The file name extension for vertex shaders.</__p_description>
-                    <__p_assignment>&quot;.vert.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.v.glsl&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>FRAGMENT_EXTENSION</__p_name>
                     <__p_description>The file name extension for fragment shaders.</__p_description>
-                    <__p_assignment>&quot;.frag.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.f.glsl&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>TESS_CTRL_EXTENSION</__p_name>
                     <__p_description>The file name extension for tesselation control shaders.</__p_description>
-                    <__p_assignment>&quot;.tessctrl.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.tc.glsl&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>TESS_EVAL_EXTENSION</__p_name>
                     <__p_description>The file name extension for tesselation evaluation shaders.</__p_description>
-                    <__p_assignment>&quot;.tesseval.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.te.glsl&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>GEOMETRY_EXTENSION</__p_name>
                     <__p_description>The file name extension for geometry shaders.</__p_description>
-                    <__p_assignment>&quot;.geom.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.g.glsl&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>COMPUTE_EXTENSION</__p_name>
                     <__p_description>The file name extension for compute shaders.</__p_description>
-                    <__p_assignment>&quot;.comp.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.cp.glsl&quot;</__p_assignment>
                 </Object>
             </Module>
         </Package>
