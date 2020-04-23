@@ -68,6 +68,7 @@ class Class(Descriptor):
         ret += edit.wrapBlocks("Contains the %s class."%(self._p_name,),columns=settings.COLUMNS)
         ret.append('"""')
         ret += definition.pop("header")
+        script = definition.pop("script")
         definition = definition["classes"].get(self._p_name,{"functions": {}})
         ret += [""]*settings.H1LINES
         ret += self._buildDescriptors_(begin)
@@ -81,6 +82,8 @@ class Class(Descriptor):
         ret.append(begin + " "*settings.INDENT + '"""')
         (regular,classes) = self._buildChildren_(definition,begin + " " * settings.INDENT)
         ret += regular
+        if script:
+            ret += [""]*settings.H1LINES + [settings.SCRIPT_HEADER] + script
         return ret
 
 
