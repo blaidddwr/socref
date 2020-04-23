@@ -37,3 +37,9 @@ H3LINES = 2
 # The number of spaces used for each indent.
 #
 INDENT = 4
+
+
+#
+# Detailed description.
+#
+SCRIPT_HEADER = "### __SCRIPT__ ###"

@@ -6,6 +6,7 @@ import re
 from socref import abstract
 from socref import edit
 from . import parser
+from . import settings
 
 
 
@@ -18,12 +19,14 @@ class Parser(abstract.AbstractParser):
     """
     This is the python parser class. It implements the Socrates' Reference abstract parser. When
     scanning source code it builds a definitions dictionary whose keys are the path of the source
-    code file scanned and values are another dictionary for that file containing three keys. The
+    code file scanned and values are another dictionary for that file containing four keys. The
     first key is "headers" and contains lines of import statements at the head of the python file.
-    The second key is "functions" and is a dictionary whose keys are function names and values are
-    their scanned lines of code. The third key is "classes" that is a dictionary whose keys are
-    class names and values are dictionaries with one key "functions" that follows the same structure
-    as the second "functions" key but for the methods of the class it is contained within.
+    The second key is "script" and contains any scripting lines at the end of the python file after
+    the script header comment. The third key is "functions" and is a dictionary whose keys are
+    function names and values are their scanned lines of code. The fourth key is "classes" that is a
+    dictionary whose keys are class names and values are dictionaries with one key "functions" that
+    follows the same structure as the second "functions" key but for the methods of the class it is
+    contained within.
     """
 
 
@@ -144,6 +147,7 @@ class Parser(abstract.AbstractParser):
         with open(path,"r") as ifile:
             def_ = {
                 "header": self.__scanHeader_(ifile)
+                ,"script": []
                 ,"functions": {}
                 ,"classes": {}
             }
@@ -152,16 +156,20 @@ class Parser(abstract.AbstractParser):
                 if not line:
                     break
                 line = line[:-1]
-                match = self.__classPattern.match(line)
-                if match:
-                    edit.uniqueInsert(def_["classes"],match.group(1),self.__scanClass_(ifile))
-                match = self.__functionPattern.match(line)
-                if match:
-                    edit.uniqueInsert(
-                        def_["functions"]
-                        ,match.group(1)
-                        ,self.__scanFunction_(ifile,match.group(2))
-                    )
+                if line==settings.SCRIPT_HEADER:
+                    def_["script"] = self.__scanScript_(ifile)
+                else:
+                    match = self.__classPattern.match(line)
+                    if match:
+                        edit.uniqueInsert(def_["classes"],match.group(1),self.__scanClass_(ifile))
+                    else:
+                        match = self.__functionPattern.match(line)
+                        if match:
+                            edit.uniqueInsert(
+                                def_["functions"]
+                                ,match.group(1)
+                                ,self.__scanFunction_(ifile,match.group(2))
+                            )
             self.__definitions[path] = def_
 
 
@@ -325,6 +333,33 @@ class Parser(abstract.AbstractParser):
         while True:
             line = ifile.readline()
             if not line or line == '\n':
+                break
+            ret.append(line[:-1])
+        return ret
+
+
+    def __scanScript_(
+        self
+        ,ifile
+        ):
+        """
+        Getter method.
+
+        Parameters
+        ----------
+        ifile : file object
+                The python script whose script lines are scanned.
+
+        Returns
+        -------
+        ret0 : list
+               Script code lines scanned from the end of the given python script file. It is assumed
+               the next line to read is right after the script header comment.
+        """
+        ret = []
+        while True:
+            line = ifile.readline()
+            if not line:
                 break
             ret.append(line[:-1])
         return ret

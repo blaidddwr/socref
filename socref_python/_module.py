@@ -60,7 +60,8 @@ class Module(Package):
         ret0 : object
                See interface docs.
         """
-        ret = Package.build(self,definition,begin)
+        (header,footer) = Package._build_(self,definition,begin)
+        ret = header
         (regular,classes) = self._buildChildren_(definition,begin)
         if classes:
             ret += [""]+classes
@@ -68,6 +69,7 @@ class Module(Package):
         if self._p_name == "__main__":
             ret += [""]*settings.H1LINES
             ret.append('if __name__ == "__main__": main()')
+        ret += footer
         return ret
 
 
