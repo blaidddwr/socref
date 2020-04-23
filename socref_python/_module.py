@@ -26,7 +26,9 @@ class Module(Package):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new module block.
         """
@@ -38,7 +40,11 @@ class Module(Package):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_python.block.Package interface.
 
@@ -65,7 +71,9 @@ class Module(Package):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -77,7 +85,9 @@ class Module(Package):
         return ("Object","Function","Class")
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -89,7 +99,9 @@ class Module(Package):
         return qtg.QIcon(":/python/module.svg")
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

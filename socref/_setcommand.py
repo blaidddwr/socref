@@ -22,7 +22,13 @@ class SetCommand(AbstractCommand):
     #######################
 
 
-    def __init__(self, fromProperties, toProperties, index, model):
+    def __init__(
+        self
+        ,fromProperties
+        ,toProperties
+        ,index
+        ,model
+        ):
         """
         Initializes a new set command with the given from properties, to properties, index, and
         model.
@@ -49,14 +55,18 @@ class SetCommand(AbstractCommand):
     ####################
 
 
-    def redo(self):
+    def redo(
+        self
+        ):
         """
         Implements the .command.Command interface.
         """
         self._model._setProperties_(self._getIndex_(self.__rows),self.__toProperties)
 
 
-    def undo(self):
+    def undo(
+        self
+        ):
         """
         Implements the .command.Command interface.
         """

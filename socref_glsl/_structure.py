@@ -28,7 +28,9 @@ class Structure(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new structure block.
         """
@@ -41,7 +43,11 @@ class Structure(Base):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_glsl.block.Base interface.
 
@@ -74,7 +80,9 @@ class Structure(Base):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -86,7 +94,9 @@ class Structure(Base):
         return ("Variable",)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -94,7 +104,9 @@ class Structure(Base):
         self._p_type = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -109,7 +121,9 @@ class Structure(Base):
             return self._p_type.split()[-1]
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -122,7 +136,9 @@ class Structure(Base):
         return Base.displayView(self)+type_
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -136,7 +152,9 @@ class Structure(Base):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -148,7 +166,9 @@ class Structure(Base):
         return qtg.QIcon(":/glsl/structure.svg")
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

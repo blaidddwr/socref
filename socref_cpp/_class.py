@@ -28,7 +28,9 @@ class Class(Templatee):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new class block.
         """
@@ -42,7 +44,10 @@ class Class(Templatee):
     ####################
 
 
-    def buildDeclaration(self, begin):
+    def buildDeclaration(
+        self
+        ,begin
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -79,7 +84,13 @@ class Class(Templatee):
         return ret
 
 
-    def buildDefinition(self, definitions, scope, template, header):
+    def buildDefinition(
+        self
+        ,definitions
+        ,scope
+        ,template
+        ,header
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -117,7 +128,9 @@ class Class(Templatee):
         return (variables,functions)
 
 
-    def buildForward(self):
+    def buildForward(
+        self
+        ):
         """
         Getter method.
 
@@ -133,7 +146,11 @@ class Class(Templatee):
             return []
 
 
-    def buildHeader(self, definitions, path):
+    def buildHeader(
+        self
+        ,definitions
+        ,path
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -152,7 +169,9 @@ class Class(Templatee):
         return block.Namespace.buildHeader(self,definitions,path)
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -164,7 +183,11 @@ class Class(Templatee):
         return ("Template","Access")
 
 
-    def buildSource(self, definitions, path):
+    def buildSource(
+        self
+        ,definitions
+        ,path
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -183,7 +206,9 @@ class Class(Templatee):
         return block.Namespace.buildSource(self,definitions,path)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -192,7 +217,9 @@ class Class(Templatee):
         self._p_header = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -204,7 +231,9 @@ class Class(Templatee):
         return self._p_name + self._templatesName_()
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -221,7 +250,9 @@ class Class(Templatee):
         return block.Base.displayView(self)+self._templatesView_()+parents
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -236,7 +267,9 @@ class Class(Templatee):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -253,7 +286,9 @@ class Class(Templatee):
             return qtg.QIcon(":/cpp/class.svg")
 
 
-    def isAbstract(self):
+    def isAbstract(
+        self
+        ):
         """
         Getter method.
 
@@ -268,7 +303,9 @@ class Class(Templatee):
         return False
 
 
-    def isVirtual(self):
+    def isVirtual(
+        self
+        ):
         """
         Getter method.
 
@@ -283,7 +320,9 @@ class Class(Templatee):
         return False
 
 
-    def isVolatileBelow(self):
+    def isVolatileBelow(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -295,7 +334,9 @@ class Class(Templatee):
         return True
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -310,7 +351,10 @@ class Class(Templatee):
     #######################
 
 
-    def _buildClassHeader_(self, begin):
+    def _buildClassHeader_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -333,7 +377,10 @@ class Class(Templatee):
     #####################
 
 
-    def __buildParents_(self, begin):
+    def __buildParents_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 

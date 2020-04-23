@@ -6,7 +6,11 @@ definitions, and producing parsing output.
 
 
 
-def addComboSelect(comboEdit, text, icon=None):
+def addComboSelect(
+    comboEdit
+    ,text
+    ,icon=None
+    ):
     """
     Adds a selection to the given combo box edit definition with the given text and optional icon.
 
@@ -27,7 +31,10 @@ def addComboSelect(comboEdit, text, icon=None):
 
 
 
-def checkboxEdit(label, key):
+def checkboxEdit(
+    label
+    ,key
+    ):
     """
     Builder function.
 
@@ -48,7 +55,10 @@ def checkboxEdit(label, key):
 
 
 
-def comboEdit(label, key):
+def comboEdit(
+    label
+    ,key
+    ):
     """
     Builder function.
 
@@ -71,7 +81,11 @@ def comboEdit(label, key):
 
 
 
-def edit(type_, label, key):
+def edit(
+    type_
+    ,label
+    ,key
+    ):
     """
     Builder function.
 
@@ -96,7 +110,10 @@ def edit(type_, label, key):
 
 
 
-def hiddenEdit(key, value):
+def hiddenEdit(
+    key
+    ,value
+    ):
     """
     Builder function.
 
@@ -119,7 +136,10 @@ def hiddenEdit(key, value):
 
 
 
-def lineEdit(label, key):
+def lineEdit(
+    label
+    ,key
+    ):
     """
     Builder function.
 
@@ -140,7 +160,11 @@ def lineEdit(label, key):
 
 
 
-def richText(size, title, body):
+def richText(
+    size
+    ,title
+    ,body
+    ):
     """
     Builder function.
 
@@ -169,7 +193,11 @@ def richText(size, title, body):
 
 
 
-def richTextBlocks(size, title, body):
+def richTextBlocks(
+    size
+    ,title
+    ,body
+    ):
     """
     Builder function.
 
@@ -197,7 +225,11 @@ def richTextBlocks(size, title, body):
 
 
 
-def richTextList(size, title, list_):
+def richTextList(
+    size
+    ,title
+    ,list_
+    ):
     """
     Builder function.
 
@@ -225,7 +257,11 @@ def richTextList(size, title, list_):
 
 
 
-def textEdit(label, key, speller=False):
+def textEdit(
+    label
+    ,key
+    ,speller=False
+    ):
     """
     Builder function.
 
@@ -250,7 +286,11 @@ def textEdit(label, key, speller=False):
 
 
 
-def uniqueInsert(dict_, key, item):
+def uniqueInsert(
+    dict_
+    ,key
+    ,item
+    ):
     """
     Inserts the given item into the given dictionary with the given key. If the given key already
     exists in the dictionary a number is appended to the key string until a key is found that does
@@ -277,7 +317,12 @@ def uniqueInsert(dict_, key, item):
 
 
 
-def wrapBlocks(text, begin="", separator="", columns=80):
+def wrapBlocks(
+    text
+    ,begin=""
+    ,separator=""
+    ,columns=80
+    ):
     """
     Builder function.
 
@@ -311,7 +356,12 @@ def wrapBlocks(text, begin="", separator="", columns=80):
 
 
 
-def wrapText(text, begin="", after="", columns=80):
+def wrapText(
+    text
+    ,begin=""
+    ,after=""
+    ,columns=80
+    ):
     """
     Builder function.
 

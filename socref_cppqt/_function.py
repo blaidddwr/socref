@@ -25,7 +25,9 @@ class Function(cppblock.Function):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new function block.
         """
@@ -37,7 +39,13 @@ class Function(cppblock.Function):
     ####################
 
 
-    def buildDefinition(self, definitions, scope, template, header):
+    def buildDefinition(
+        self
+        ,definitions
+        ,scope
+        ,template
+        ,header
+        ):
         """
         Implements the socref_cpp.namespace.Base interface.
 
@@ -63,7 +71,9 @@ class Function(cppblock.Function):
             return cppblock.Function.buildDefinition(self,definitions,scope,template,header)
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 

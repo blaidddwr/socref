@@ -24,7 +24,9 @@ class EnumValue(cppblock.EnumValue):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new enumeration value block.
         """

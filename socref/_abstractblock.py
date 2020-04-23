@@ -73,7 +73,9 @@ class AbstractBlock(abc.ABC):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new abstract block.
         """
@@ -89,7 +91,9 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         This interface is a getter method.
 
@@ -102,7 +106,9 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         This interface clears all of this block's properties to their null state.
         """
@@ -110,7 +116,9 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         This interface is a getter method.
 
@@ -123,7 +131,9 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         This interface is a getter method.
 
@@ -136,7 +146,9 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         This interface is a getter method.
 
@@ -150,7 +162,9 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         This interface is a getter method.
 
@@ -163,7 +177,9 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         This interface sets all of this block's properties to their default state.
         """
@@ -175,7 +191,10 @@ class AbstractBlock(abc.ABC):
     ######################
 
 
-    def __eq__(self, other):
+    def __eq__(
+        self
+        ,other
+        ):
         """
         Implements the equality operator.
 
@@ -192,7 +211,9 @@ class AbstractBlock(abc.ABC):
         return self is other
 
 
-    def __len__(self):
+    def __len__(
+        self
+        ):
         """
         Implements the length operator.
 
@@ -204,7 +225,10 @@ class AbstractBlock(abc.ABC):
         return len(self.__children)
 
 
-    def __contains__(self, block):
+    def __contains__(
+        self
+        ,block
+        ):
         """
         Implements the contain operator.
 
@@ -221,7 +245,9 @@ class AbstractBlock(abc.ABC):
         return block in self.__children
 
 
-    def __iter__(self):
+    def __iter__(
+        self
+        ):
         """
         Implements the iterator operator.
 
@@ -233,7 +259,10 @@ class AbstractBlock(abc.ABC):
         return self.__children.__iter__()
 
 
-    def __getitem__(self, index):
+    def __getitem__(
+        self
+        ,index
+        ):
         """
         Implements the get item operator.
 
@@ -250,7 +279,10 @@ class AbstractBlock(abc.ABC):
         return self.__children[index]
 
 
-    def __delitem__(self, index):
+    def __delitem__(
+        self
+        ,index
+        ):
         """
         Implements the delete item operator. Deletes this block's child block with the given integer
         index.
@@ -263,7 +295,10 @@ class AbstractBlock(abc.ABC):
         del self.__children[index]
 
 
-    def __getattr__(self, key):
+    def __getattr__(
+        self
+        ,key
+        ):
         """
         Implements the get attribute operator. Intercepts the value of any property attribute.
 
@@ -284,7 +319,11 @@ class AbstractBlock(abc.ABC):
             return object.__getattribute__(self,key)
 
 
-    def __setattr__(self, key, item):
+    def __setattr__(
+        self
+        ,key
+        ,item
+        ):
         """
         Implements the set attribute operator. Intercepts and sets the value of any property
         attribute that begins with "_p_" to the given item, else calls the default set attribute
@@ -308,7 +347,10 @@ class AbstractBlock(abc.ABC):
     ####################
 
 
-    def append(self, block):
+    def append(
+        self
+        ,block
+        ):
         """
         Appends the given block as a new child into this block's list of children. The given block
         cannot already have a parent.
@@ -321,7 +363,9 @@ class AbstractBlock(abc.ABC):
         self.insert(len(self),block)
 
 
-    def index(self):
+    def index(
+        self
+        ):
         """
         Getter method. This block must have a parent.
 
@@ -335,7 +379,11 @@ class AbstractBlock(abc.ABC):
         return self.parent().__children.index(self)
 
 
-    def insert(self, index, block):
+    def insert(
+        self
+        ,index
+        ,block
+        ):
         """
         Inserts the given block as a new child into this block's list of children at the given
         index. The given block cannot already have a parent.
@@ -353,7 +401,9 @@ class AbstractBlock(abc.ABC):
         block.__parent = weakref.ref(self)
 
 
-    def isVolatileAbove(self):
+    def isVolatileAbove(
+        self
+        ):
         """
         This interface is a getter method. The default implementation returns false.
 
@@ -367,7 +417,9 @@ class AbstractBlock(abc.ABC):
         return False
 
 
-    def isVolatileBelow(self):
+    def isVolatileBelow(
+        self
+        ):
         """
         This interface is a getter method. The default implementation returns false.
 
@@ -381,7 +433,9 @@ class AbstractBlock(abc.ABC):
         return False
 
 
-    def parent(self):
+    def parent(
+        self
+        ):
         """
         Getter method.
 
@@ -393,7 +447,9 @@ class AbstractBlock(abc.ABC):
         return self.__parent if self.__parent is None else self.__parent()
 
 
-    def parser(self):
+    def parser(
+        self
+        ):
         """
         This interface is a getter method. The default implementation returns none.
 
@@ -406,7 +462,10 @@ class AbstractBlock(abc.ABC):
         pass
 
 
-    def pop(self, index):
+    def pop(
+        self
+        ,index
+        ):
         """
         Removes a child block of this block with the given index.
 
@@ -425,7 +484,9 @@ class AbstractBlock(abc.ABC):
         return orphan
 
 
-    def properties(self):
+    def properties(
+        self
+        ):
         """
         Getter method.
 
@@ -437,7 +498,10 @@ class AbstractBlock(abc.ABC):
         return self.__properties
 
 
-    def setFromXml(self, stream):
+    def setFromXml(
+        self
+        ,stream
+        ):
         """
         Loads this block's properties and all children block's properties from XML using the given
         qt reader stream. This overwrites any properties and children blocks this block may
@@ -468,7 +532,10 @@ class AbstractBlock(abc.ABC):
                 break
 
 
-    def setProperties(self, properties):
+    def setProperties(
+        self
+        ,properties
+        ):
         """
         Sets this block's properties dictionary to the given dictionary.
 
@@ -480,7 +547,10 @@ class AbstractBlock(abc.ABC):
         self.__properties = properties
 
 
-    def toXml(self, stream):
+    def toXml(
+        self
+        ,stream
+        ):
         """
         Saves this block's properties and all of its children block's properties to XML using the
         given qt XML writer stream.

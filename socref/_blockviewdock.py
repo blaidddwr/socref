@@ -25,7 +25,10 @@ class BlockViewDock(qtw.QDockWidget):
     #######################
 
 
-    def __init__(self, parent=None):
+    def __init__(
+        self
+        ,parent=None
+        ):
         """
         Initializes a new block view dock with the given optional parent.
 
@@ -49,7 +52,10 @@ class BlockViewDock(qtw.QDockWidget):
     ####################
 
 
-    def setView(self, view):
+    def setView(
+        self
+        ,view
+        ):
         """
         Sets this dock's view to the one given. If this dock currently has a view it is disconnected
         from this dock.
@@ -71,7 +77,9 @@ class BlockViewDock(qtw.QDockWidget):
     #####################
 
 
-    def __setupGui_(self):
+    def __setupGui_(
+        self
+        ):
         """
         Initialize the GUI of this new block view dock.
         """
@@ -87,7 +95,9 @@ class BlockViewDock(qtw.QDockWidget):
 
 
     @qtc.Slot(qtc.QModelIndex)
-    def __indexChanged_(self):
+    def __indexChanged_(
+        self
+        ):
         """
         Called to update this dock's detailed view to its view's currently indexed block. If its
         view's current index is invalid then this dock returns its view to a null state.

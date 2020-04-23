@@ -37,7 +37,10 @@ class BlockEditDock(qtw.QDockWidget):
     #######################
 
 
-    def __init__(self, parent=None):
+    def __init__(
+        self
+        ,parent=None
+        ):
         """
         Initialize a new block edit dock with the given optional parent.
 
@@ -60,7 +63,10 @@ class BlockEditDock(qtw.QDockWidget):
     ####################
 
 
-    def setView(self, view):
+    def setView(
+        self
+        ,view
+        ):
         """
         Sets this dock's view to the one given. If this dock currently has a view it is disconnected
         from this dock.
@@ -85,7 +91,11 @@ class BlockEditDock(qtw.QDockWidget):
     #####################
 
 
-    def __buildCheckbox_(self, definition, properties):
+    def __buildCheckbox_(
+        self
+        ,definition
+        ,properties
+        ):
         """
         Getter method.
 
@@ -114,7 +124,11 @@ class BlockEditDock(qtw.QDockWidget):
         return (edit,"")
 
 
-    def __buildCombo_(self, definition, properties):
+    def __buildCombo_(
+        self
+        ,definition
+        ,properties
+        ):
         """
         Getter method.
 
@@ -146,7 +160,10 @@ class BlockEditDock(qtw.QDockWidget):
         return (edit,definition["label"])
 
 
-    def __buildFormWidget_(self, index):
+    def __buildFormWidget_(
+        self
+        ,index
+        ):
         """
         Builds and initializes all edit widgets for all properties of the block at the given index
         based off its edit definitions, adding them to this dock's list of edit widgets. This clears
@@ -194,7 +211,10 @@ class BlockEditDock(qtw.QDockWidget):
             raise
 
 
-    def __buildHidden_(self, definition):
+    def __buildHidden_(
+        self
+        ,definition
+        ):
         """
         Getter method.
 
@@ -214,7 +234,11 @@ class BlockEditDock(qtw.QDockWidget):
         return edit
 
 
-    def __buildLine_(self, definition, properties):
+    def __buildLine_(
+        self
+        ,definition
+        ,properties
+        ):
         """
         Getter method.
 
@@ -240,7 +264,11 @@ class BlockEditDock(qtw.QDockWidget):
         return (edit,definition["label"])
 
 
-    def __buildText_(self, definition, properties):
+    def __buildText_(
+        self
+        ,definition
+        ,properties
+        ):
         """
         Getter method.
 
@@ -267,7 +295,9 @@ class BlockEditDock(qtw.QDockWidget):
         return (edit,definition["label"])
 
 
-    def __setupGui_(self):
+    def __setupGui_(
+        self
+        ):
         """
         Initializes the GUI of this new block edit dock.
         """
@@ -290,7 +320,9 @@ class BlockEditDock(qtw.QDockWidget):
 
 
     @qtc.Slot()
-    def __apply_(self):
+    def __apply_(
+        self
+        ):
         """
         Called to set this dock's currently indexed block's properties to the current values of its
         edit widgets. If the current index is not valid then this does nothing.
@@ -305,7 +337,10 @@ class BlockEditDock(qtw.QDockWidget):
 
 
     @qtc.Slot(qtc.QModelIndex)
-    def __indexChanged_(self, index):
+    def __indexChanged_(
+        self
+        ,index
+        ):
         """
         Called to update the block this dock is editing to the new one at the given index. If the
         given index is invalid then this dock returns to a null state with no form.
@@ -341,7 +376,10 @@ class BlockEditDock(qtw.QDockWidget):
 
 
     @qtc.Slot(qtc.QModelIndex)
-    def __indexMoved_(self, index):
+    def __indexMoved_(
+        self
+        ,index
+        ):
         """
         Called to update the index of the block this dock is editing. It is assumed the same block
         is being edited so the edit widget form is not rebuilt.
@@ -355,7 +393,9 @@ class BlockEditDock(qtw.QDockWidget):
 
 
     @qtc.Slot()
-    def __indexRemoved_(self):
+    def __indexRemoved_(
+        self
+        ):
         """
         Called to remove this dock's current index, setting it to invalid.
         """

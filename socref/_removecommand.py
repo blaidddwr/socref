@@ -24,7 +24,13 @@ class RemoveCommand(AbstractCommand):
     #######################
 
 
-    def __init__(self, row, count, parent, model):
+    def __init__(
+        self
+        ,row
+        ,count
+        ,parent
+        ,model
+        ):
         """
         Initializes a new remove command with the given row, count, parent index, and project model.
 
@@ -51,7 +57,9 @@ class RemoveCommand(AbstractCommand):
     ####################
 
 
-    def redo(self):
+    def redo(
+        self
+        ):
         """
         Implements the .command.Command interface.
         """
@@ -63,7 +71,9 @@ class RemoveCommand(AbstractCommand):
             )
 
 
-    def undo(self):
+    def undo(
+        self
+        ):
         """
         Implements the .command.Command interface.
         """

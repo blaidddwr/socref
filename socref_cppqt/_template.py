@@ -24,7 +24,9 @@ class Template(cppblock.Template):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new namespace block.
         """

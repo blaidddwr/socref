@@ -29,7 +29,9 @@ class Function(Descriptor):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new function block.
         """
@@ -44,7 +46,11 @@ class Function(Descriptor):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_python.block.Package interface.
 
@@ -71,7 +77,9 @@ class Function(Descriptor):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -83,7 +91,9 @@ class Function(Descriptor):
         return ("Object",)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -93,7 +103,9 @@ class Function(Descriptor):
         self._p_abstract = "0"
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -109,7 +121,9 @@ class Function(Descriptor):
         return ret
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -129,7 +143,9 @@ class Function(Descriptor):
         )
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -150,7 +166,9 @@ class Function(Descriptor):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -169,7 +187,9 @@ class Function(Descriptor):
             return qtg.QIcon(":/python/function.svg")
 
 
-    def isAbstract(self):
+    def isAbstract(
+        self
+        ):
         """
         Getter method.
 
@@ -181,7 +201,9 @@ class Function(Descriptor):
         return bool(int(self._p_abstract))
 
 
-    def isMethod(self):
+    def isMethod(
+        self
+        ):
         """
         Getter method.
 
@@ -193,7 +215,9 @@ class Function(Descriptor):
         return self.parent()._TYPE_ == "Access"
 
 
-    def isStatic(self):
+    def isStatic(
+        self
+        ):
         """
         Getter method.
 
@@ -205,7 +229,9 @@ class Function(Descriptor):
         return bool(int(self._p_static))
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -221,7 +247,9 @@ class Function(Descriptor):
     #####################
 
 
-    def __argumentsView_(self):
+    def __argumentsView_(
+        self
+        ):
         """
         Getter method.
 
@@ -234,7 +262,10 @@ class Function(Descriptor):
         return edit.richText(2,"Arguments","".join((arg.argumentView() for arg in self)))
 
 
-    def __buildDocString_(self, begin):
+    def __buildDocString_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -287,7 +318,10 @@ class Function(Descriptor):
         return ret
 
 
-    def __buildHeader_(self, begin):
+    def __buildHeader_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -324,7 +358,11 @@ class Function(Descriptor):
         return ret
 
 
-    def __buildLines_(self, lines, begin):
+    def __buildLines_(
+        self
+        ,lines
+        ,begin
+        ):
         """
         Getter method.
 
@@ -347,7 +385,9 @@ class Function(Descriptor):
             return [newBegin+line for line in lines if line]
 
 
-    def __checkFlags_(self):
+    def __checkFlags_(
+        self
+        ):
         """
         Sets this function's flags to legal values if it is not a method.
         """
@@ -356,7 +396,9 @@ class Function(Descriptor):
             self._p_abstract = "0"
 
 
-    def __flagsView_(self):
+    def __flagsView_(
+        self
+        ):
         """
         Getter method.
 

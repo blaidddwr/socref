@@ -26,7 +26,9 @@ class Access(cppblock.Access):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new access block.
         """
@@ -38,7 +40,9 @@ class Access(cppblock.Access):
     ####################
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -59,7 +63,9 @@ class Access(cppblock.Access):
             return cppblock.Access.icon(self)
 
 
-    def isSignals(self):
+    def isSignals(
+        self
+        ):
         """
         Getter method.
 
@@ -71,7 +77,9 @@ class Access(cppblock.Access):
         return self._p_type == "Signals"
 
 
-    def isSlots(self):
+    def isSlots(
+        self
+        ):
         """
         Getter method.
 
@@ -89,7 +97,10 @@ class Access(cppblock.Access):
     #######################
 
 
-    def _addComboSelects_(self, combo):
+    def _addComboSelects_(
+        self
+        ,combo
+        ):
         """
         Extends the socref_cpp.block.Access method.
 

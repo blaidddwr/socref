@@ -27,7 +27,9 @@ class ParserModel(qtc.QObject):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new parser.
         """
@@ -41,7 +43,10 @@ class ParserModel(qtc.QObject):
 
 
     @qtc.Slot(AbstractParser)
-    def start(self, parser):
+    def start(
+        self
+        ,parser
+        ):
         """
         Called to start execution of the given abstract parser, returning when execution is
         complete.
@@ -102,7 +107,10 @@ class ParserModel(qtc.QObject):
     #####################
 
 
-    def __update_(self, percent):
+    def __update_(
+        self
+        ,percent
+        ):
         """
         Called by the abstract parser that this parser model is currently parsing to inform this
         parser that progress of the given percentage has been made in parsing.

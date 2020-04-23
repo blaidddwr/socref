@@ -42,7 +42,9 @@ class MainWindow(qtw.QMainWindow):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new main window.
         """
@@ -69,7 +71,10 @@ class MainWindow(qtw.QMainWindow):
     ####################
 
 
-    def open_(self, path):
+    def open_(
+        self
+        ,path
+        ):
         """
         Opens a project at the given path in this window. If this window already has a project then
         this does nothing.
@@ -104,7 +109,10 @@ class MainWindow(qtw.QMainWindow):
     #######################
 
 
-    def closeEvent(self, event):
+    def closeEvent(
+        self
+        ,event
+        ):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
@@ -129,7 +137,9 @@ class MainWindow(qtw.QMainWindow):
     #####################
 
 
-    def __isOkToClose_(self):
+    def __isOkToClose_(
+        self
+        ):
         """
         Getter method.
 
@@ -160,7 +170,9 @@ class MainWindow(qtw.QMainWindow):
             return True
 
 
-    def __restore_(self):
+    def __restore_(
+        self
+        ):
         """
         Restores the geometry and state of this window.
         """
@@ -173,7 +185,9 @@ class MainWindow(qtw.QMainWindow):
             self.restoreState(state)
 
 
-    def __setupActions_(self):
+    def __setupActions_(
+        self
+        ):
         """
         Initializes all qt actions of this new window.
         """
@@ -181,7 +195,9 @@ class MainWindow(qtw.QMainWindow):
         self.__setupFileActions_()
 
 
-    def __setupDocks_(self):
+    def __setupDocks_(
+        self
+        ):
         """
         Initializes the edit/view block dock widgets of this new window.
         """
@@ -195,14 +211,18 @@ class MainWindow(qtw.QMainWindow):
         self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__blockEditDock)
 
 
-    def __setupEditMenu_(self):
+    def __setupEditMenu_(
+        self
+        ):
         """
         Adds this new window's project view's context menu as the window's edit menu.
         """
         self.menuBar().addMenu(self.__view.contextMenu())
 
 
-    def __setupFileActions_(self):
+    def __setupFileActions_(
+        self
+        ):
         """
         Initializes the qt actions of this new window's file menu.
         """
@@ -247,7 +267,9 @@ class MainWindow(qtw.QMainWindow):
         self.addAction(action)
 
 
-    def __setupFileMenu_(self):
+    def __setupFileMenu_(
+        self
+        ):
         """
         Initializes the file menu for this new window.
         """
@@ -266,7 +288,9 @@ class MainWindow(qtw.QMainWindow):
         menu.addAction(self.__exitAction)
 
 
-    def __setupGui_(self):
+    def __setupGui_(
+        self
+        ):
         """
         Initializes the GUI of this new window.
 
@@ -293,7 +317,9 @@ class MainWindow(qtw.QMainWindow):
         self.__updateActions_()
 
 
-    def __setupHelpMenu_(self):
+    def __setupHelpMenu_(
+        self
+        ):
         """
         Initializes the help menu for this new window.
         """
@@ -308,7 +334,9 @@ class MainWindow(qtw.QMainWindow):
         menu.addAction(aboutqt)
 
 
-    def __setupMenus_(self):
+    def __setupMenus_(
+        self
+        ):
         """
         Initializes all menus of this new window.
         """
@@ -319,7 +347,9 @@ class MainWindow(qtw.QMainWindow):
         self.__setupHelpMenu_()
 
 
-    def __setupNewActions_(self):
+    def __setupNewActions_(
+        self
+        ):
         """
         Populates this window's list of new actions with all available languages.
         """
@@ -331,7 +361,9 @@ class MainWindow(qtw.QMainWindow):
             self.addAction(self.__newActions[-1])
 
 
-    def __setupToolbars_(self):
+    def __setupToolbars_(
+        self
+        ):
         """
         Initializes all toolbars of this new window.
         """
@@ -353,7 +385,9 @@ class MainWindow(qtw.QMainWindow):
         toolbar.addAction(self.__view.moveDownAction())
 
 
-    def __setupViewMenu_(self):
+    def __setupViewMenu_(
+        self
+        ):
         """
         Initializes the view menu for this new window.
         """
@@ -374,7 +408,9 @@ class MainWindow(qtw.QMainWindow):
         menu.addAction(edit)
 
 
-    def __updateActions_(self):
+    def __updateActions_(
+        self
+        ):
         """
         Updates this window's actions.
         """
@@ -385,7 +421,9 @@ class MainWindow(qtw.QMainWindow):
         self.__parseAction.setDisabled(self.__path is None)
 
 
-    def __updateTitle_(self):
+    def __updateTitle_(
+        self
+        ):
         """
         Updates this window's title.
         """
@@ -403,7 +441,9 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __about_(self):
+    def __about_(
+        self
+        ):
         """
         Called to open a modal about dialog describing this application to the user.
         """
@@ -419,7 +459,9 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __close_(self):
+    def __close_(
+        self
+        ):
         """
         Called to close this window's current project. If this window has no project then this does
         nothing. If the current project has unsaved changes the user is queried about what to do.
@@ -433,7 +475,9 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __modified_(self):
+    def __modified_(
+        self
+        ):
         """
         Called to inform this window that its project has been modified.
         """
@@ -441,7 +485,10 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot(str)
-    def __nameChanged_(self, name):
+    def __nameChanged_(
+        self
+        ,name
+        ):
         """
         Called to inform this window that its project's name has been changed. This updates the
         window's title.
@@ -455,7 +502,10 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot(str)
-    def __new_(self, langName):
+    def __new_(
+        self
+        ,langName
+        ):
         """
         Called to create a new project of the given language for this window.
 
@@ -475,7 +525,9 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __open_(self):
+    def __open_(
+        self
+        ):
         """
         Called to open a project file for this window if it does not have a project or a new window
         otherwise.
@@ -502,7 +554,9 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __parse_(self):
+    def __parse_(
+        self
+        ):
         """
         Called to parse the source code of this window's project. If this window does not have a
         project save path then this does nothing.
@@ -518,7 +572,9 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __parseFinished_(self):
+    def __parseFinished_(
+        self
+        ):
         """
         Called to inform this window that the singleton parser model has finished parsing.
         """
@@ -528,7 +584,10 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot(int)
-    def __parseProgressed_(self, percent):
+    def __parseProgressed_(
+        self
+        ,percent
+        ):
         """
         Called to inform this window that the singleton parser model has made progress parsing.
 
@@ -542,7 +601,9 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __parseStarted_(self):
+    def __parseStarted_(
+        self
+        ):
         """
         Called to inform this window that the singleton parser model has started parsing.
         """
@@ -555,7 +616,9 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __properties_(self):
+    def __properties_(
+        self
+        ):
         """
         Called to have this window bring up a modal project dialog to edit the basic properties of
         its current project. If this window has no project then this does nothing.
@@ -564,7 +627,9 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __save_(self):
+    def __save_(
+        self
+        ):
         """
         Called to save this window's project. If this window has no project or its save path is none
         then this does nothing.
@@ -582,7 +647,9 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __saveAs_(self):
+    def __saveAs_(
+        self
+        ):
         """
         Called to save this window's project to a new save file path selected by the user. If this
         window has no project then this does nothing.

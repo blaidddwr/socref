@@ -28,7 +28,10 @@ class Parser(abstract.AbstractParser):
     ########################
 
 
-    def __init__(self, root):
+    def __init__(
+        self
+        ,root
+        ):
         """
         Initializes a new C++ parser with the given root namespace block.
 
@@ -50,7 +53,9 @@ class Parser(abstract.AbstractParser):
     ####################
 
 
-    def unknown(self):
+    def unknown(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -70,7 +75,11 @@ class Parser(abstract.AbstractParser):
     #######################
 
 
-    def _build_(self, block, path):
+    def _build_(
+        self
+        ,block
+        ,path
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -94,14 +103,19 @@ class Parser(abstract.AbstractParser):
             raise RuntimeError("Invalid path given for building.")
 
 
-    def _buildPathList_(self):
+    def _buildPathList_(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
         """
         self.__buildPaths_(self.__root_block,"")
 
 
-    def _scan_(self, path):
+    def _scan_(
+        self
+        ,path
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -123,7 +137,11 @@ class Parser(abstract.AbstractParser):
     #####################
 
 
-    def __buildPaths_(self, parent, scope):
+    def __buildPaths_(
+        self
+        ,parent
+        ,scope
+        ):
         """
         Recursively adds source code paths using the given parent block and scope.
 
@@ -152,7 +170,11 @@ class Parser(abstract.AbstractParser):
                 self._addPath_(child,child._p_name.lower()+settings.SOURCE_EXTENSION)
 
 
-    def __scan_(self, ifile, scope):
+    def __scan_(
+        self
+        ,ifile
+        ,scope
+        ):
         """
         Recursively scans the given input file for code of function definitions enclosed in the
         given namespace scope. Any scanned code of function definitions are added to this parser's
@@ -192,7 +214,10 @@ class Parser(abstract.AbstractParser):
                             )
 
 
-    def __scanArgument_(self, line):
+    def __scanArgument_(
+        self
+        ,line
+        ):
         """
         Getter method.
 
@@ -220,7 +245,10 @@ class Parser(abstract.AbstractParser):
             return "".join(subs[:-1])
 
 
-    def __scanFunction_(self, ifile):
+    def __scanFunction_(
+        self
+        ,ifile
+        ):
         """
         Getter method.
 
@@ -255,7 +283,10 @@ class Parser(abstract.AbstractParser):
                 lines.append(line)
 
 
-    def __scanHeader_(self, ifile):
+    def __scanHeader_(
+        self
+        ,ifile
+        ):
         """
         Getter method.
 
@@ -285,7 +316,12 @@ class Parser(abstract.AbstractParser):
                 lines.append(line)
 
 
-    def __scanSignature_(self, ifile, name, ending):
+    def __scanSignature_(
+        self
+        ,ifile
+        ,name
+        ,ending
+        ):
         """
         Getter method.
 

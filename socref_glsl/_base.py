@@ -24,7 +24,9 @@ class Base(abstract.AbstractBlock):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new base block.
         """
@@ -38,7 +40,11 @@ class Base(abstract.AbstractBlock):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         This interface is a getter method. The default implementation returns an empty list.
 
@@ -58,7 +64,9 @@ class Base(abstract.AbstractBlock):
         return []
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -66,7 +74,9 @@ class Base(abstract.AbstractBlock):
         self._p_description = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -78,7 +88,9 @@ class Base(abstract.AbstractBlock):
         return self._p_name
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -90,7 +102,9 @@ class Base(abstract.AbstractBlock):
         return "<h1>Description</h1><p>"+html.escape(self._p_description)+"</p>"
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -105,7 +119,9 @@ class Base(abstract.AbstractBlock):
         return ret
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -117,7 +133,11 @@ class Base(abstract.AbstractBlock):
     #######################
 
 
-    def _buildChildren_(self, definition, begin=""):
+    def _buildChildren_(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Getter method.
 

@@ -30,7 +30,9 @@ class Package(abstract.AbstractBlock):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new package block.
         """
@@ -44,7 +46,11 @@ class Package(abstract.AbstractBlock):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         This interface is a getter method. The default implementation returns an empty list.
 
@@ -69,7 +75,9 @@ class Package(abstract.AbstractBlock):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -81,7 +89,9 @@ class Package(abstract.AbstractBlock):
         return ("Package","Module")
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -89,7 +99,9 @@ class Package(abstract.AbstractBlock):
         self._p_description = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -101,7 +113,9 @@ class Package(abstract.AbstractBlock):
         return self._p_name
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -113,7 +127,9 @@ class Package(abstract.AbstractBlock):
         return edit.richTextBlocks(1,"Description",html.escape(self._p_description))
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -128,7 +144,9 @@ class Package(abstract.AbstractBlock):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -140,7 +158,9 @@ class Package(abstract.AbstractBlock):
         return qtg.QIcon(":/python/package.svg")
 
 
-    def parser(self):
+    def parser(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -152,7 +172,9 @@ class Package(abstract.AbstractBlock):
         return parser.Parser(self)
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -165,7 +187,11 @@ class Package(abstract.AbstractBlock):
     #######################
 
 
-    def _buildChildren_(self, definition, begin=""):
+    def _buildChildren_(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Getter method.
 

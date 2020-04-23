@@ -23,7 +23,10 @@ class Scanner():
     ########################
 
 
-    def __init__(self, ifile):
+    def __init__(
+        self
+        ,ifile
+        ):
         """
         Initializes a new scanner with the given input file.
 
@@ -41,7 +44,9 @@ class Scanner():
     ####################
 
 
-    def indent(self):
+    def indent(
+        self
+        ):
         """
         Getter method.
 
@@ -56,7 +61,9 @@ class Scanner():
         return self.__indent
 
 
-    def readline(self):
+    def readline(
+        self
+        ):
         """
         Getter method.
 

@@ -34,7 +34,10 @@ class AbstractCommand(abc.ABC):
     #######################
 
 
-    def __init__(self, model):
+    def __init__(
+        self
+        ,model
+        ):
         """
         Initialize a new command with the given project model.
 
@@ -52,7 +55,9 @@ class AbstractCommand(abc.ABC):
 
 
     @abc.abstractmethod
-    def redo(self):
+    def redo(
+        self
+        ):
         """
         This interface acts on this command's project model to redo its command.
         """
@@ -60,7 +65,9 @@ class AbstractCommand(abc.ABC):
 
 
     @abc.abstractmethod
-    def undo(self):
+    def undo(
+        self
+        ):
         """
         This interface acts on this command's project model to undo its command.
         """
@@ -72,7 +79,10 @@ class AbstractCommand(abc.ABC):
     #######################
 
 
-    def _buildRows_(self, index):
+    def _buildRows_(
+        self
+        ,index
+        ):
         """
         Getter method.
 
@@ -95,7 +105,10 @@ class AbstractCommand(abc.ABC):
         return rows
 
 
-    def _getIndex_(self, rows):
+    def _getIndex_(
+        self
+        ,rows
+        ):
         """
         Getter method.
 

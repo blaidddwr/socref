@@ -9,7 +9,10 @@ from ._abstractparser import AbstractParser
 
 
 
-def register(name, root=False):
+def register(
+    name
+    ,root=False
+    ):
     """
     Registers the wrapped class object as a block with the given name for the language currently
     being loaded. The class object is also assigned special attributes _LANG_ and _TYPE_ that

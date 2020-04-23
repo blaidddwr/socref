@@ -27,7 +27,12 @@ class TextDialog(qtw.QDialog):
     #######################
 
 
-    def __init__(self, text="", parent=None, speller=False):
+    def __init__(
+        self
+        ,text=""
+        ,parent=None
+        ,speller=False
+        ):
         """
         Initializes a new text dialog with the given optional text and parent. Spelling features can
         also be enabled or disabled.
@@ -55,7 +60,9 @@ class TextDialog(qtw.QDialog):
     ####################
 
 
-    def text(self):
+    def text(
+        self
+        ):
         """
         Getter method.
 
@@ -72,7 +79,10 @@ class TextDialog(qtw.QDialog):
     #######################
 
 
-    def closeEvent(self, event):
+    def closeEvent(
+        self
+        ,event
+        ):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
@@ -91,7 +101,9 @@ class TextDialog(qtw.QDialog):
     #####################
 
 
-    def __restore_(self):
+    def __restore_(
+        self
+        ):
         """
         Restores the geometry of this dialog.
         """
@@ -101,7 +113,9 @@ class TextDialog(qtw.QDialog):
             self.restoreGeometry(geometry)
 
 
-    def __setupButtons_(self):
+    def __setupButtons_(
+        self
+        ):
         """
         Initializes the buttons of this new text dialog.
 
@@ -124,7 +138,9 @@ class TextDialog(qtw.QDialog):
         return ret
 
 
-    def __setupGui_(self):
+    def __setupGui_(
+        self
+        ):
         """
         Initializes the GUI of this new text dialog.
         """
@@ -136,7 +152,9 @@ class TextDialog(qtw.QDialog):
         self.__restore_()
 
 
-    def __setupSpellChecker_(self):
+    def __setupSpellChecker_(
+        self
+        ):
         """
         Initializes the spell checker box of this new text dialog.
 
@@ -159,7 +177,9 @@ class TextDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __spellCheck_(self):
+    def __spellCheck_(
+        self
+        ):
         """
         Called to begin spell checking this text dialog's document. This shows its spell checker box
         and tells it to start checking.
@@ -169,7 +189,9 @@ class TextDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __spellCheckFinished_(self):
+    def __spellCheckFinished_(
+        self
+        ):
         """
         Called to inform this text dialog that spell checking has finished. This hides its spell
         checker box and clears any selection from its document's cursor.

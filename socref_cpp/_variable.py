@@ -27,7 +27,9 @@ class Variable(Template):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new variable block.
         """
@@ -43,7 +45,10 @@ class Variable(Template):
     ####################
 
 
-    def buildDeclaration(self, begin):
+    def buildDeclaration(
+        self
+        ,begin
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -76,7 +81,13 @@ class Variable(Template):
         return ret
 
 
-    def buildDefinition(self, definitions, scope, template, header):
+    def buildDefinition(
+        self
+        ,definitions
+        ,scope
+        ,template
+        ,header
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -112,7 +123,9 @@ class Variable(Template):
             return ([],[])
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -124,7 +137,9 @@ class Variable(Template):
         return ()
 
 
-    def buildSignature(self):
+    def buildSignature(
+        self
+        ):
         """
         Getter method.
 
@@ -136,7 +151,9 @@ class Variable(Template):
         return self._p_type.replace("@","").replace(" ","")
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -147,7 +164,9 @@ class Variable(Template):
         self._p_thread_local = "0"
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -168,7 +187,9 @@ class Variable(Template):
         return base + flags
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -181,7 +202,9 @@ class Variable(Template):
         return Template.displayView(self) + self.__flagsView_()
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -206,7 +229,9 @@ class Variable(Template):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -221,7 +246,9 @@ class Variable(Template):
             return qtg.QIcon(":/cpp/variable.svg")
 
 
-    def inClass(self):
+    def inClass(
+        self
+        ):
         """
         Getter method.
 
@@ -233,7 +260,9 @@ class Variable(Template):
         return self.parent()._TYPE_ == "Access"
 
 
-    def inUnion(self):
+    def inUnion(
+        self
+        ):
         """
         Getter method.
 
@@ -245,7 +274,9 @@ class Variable(Template):
         return self.parent()._TYPE_ == "Union"
 
 
-    def isArgument(self):
+    def isArgument(
+        self
+        ):
         """
         Getter method.
 
@@ -257,7 +288,9 @@ class Variable(Template):
         return self.parent()._TYPE_ == "Function"
 
 
-    def isConstExpr(self):
+    def isConstExpr(
+        self
+        ):
         """
         Getter method.
 
@@ -269,7 +302,9 @@ class Variable(Template):
         return bool(int(self._p_constexpr))
 
 
-    def isMutable(self):
+    def isMutable(
+        self
+        ):
         """
         Getter method.
 
@@ -281,7 +316,9 @@ class Variable(Template):
         return bool(int(self._p_mutable))
 
 
-    def isStatic(self):
+    def isStatic(
+        self
+        ):
         """
         Getter method.
 
@@ -293,7 +330,9 @@ class Variable(Template):
         return bool(int(self._p_static))
 
 
-    def isThreadLocal(self):
+    def isThreadLocal(
+        self
+        ):
         """
         Getter method.
 
@@ -305,7 +344,9 @@ class Variable(Template):
         return bool(int(self._p_thread_local))
 
 
-    def isVolatileAbove(self):
+    def isVolatileAbove(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -317,7 +358,9 @@ class Variable(Template):
         return self.isArgument()
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -335,7 +378,9 @@ class Variable(Template):
     #####################
 
 
-    def __buildFlags_(self):
+    def __buildFlags_(
+        self
+        ):
         """
         Getter method.
 
@@ -359,7 +404,9 @@ class Variable(Template):
         return ret
 
 
-    def __checkFlags_(self):
+    def __checkFlags_(
+        self
+        ):
         """
         Sets this variable's flags to legal values if it is an argument or not part of a class.
         """
@@ -371,7 +418,9 @@ class Variable(Template):
             self._p_mutable = "0"
 
 
-    def __flags_(self):
+    def __flags_(
+        self
+        ):
         """
         Getter method.
 
@@ -393,7 +442,9 @@ class Variable(Template):
         return ret
 
 
-    def __flagsView_(self):
+    def __flagsView_(
+        self
+        ):
         """
         Getter method.
 

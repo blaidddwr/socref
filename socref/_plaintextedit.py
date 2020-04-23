@@ -27,7 +27,13 @@ class PlainTextEdit(qtw.QPlainTextEdit):
     #######################
 
 
-    def __init__(self, text="", parent=None, speller=False, popup=False):
+    def __init__(
+        self
+        ,text=""
+        ,parent=None
+        ,speller=False
+        ,popup=False
+        ):
         """
         Initializes a new plain text editor with the given optional text and parent. Spelling and
         dialog popup can also be enabled or disabled.
@@ -57,7 +63,10 @@ class PlainTextEdit(qtw.QPlainTextEdit):
     ####################
 
 
-    def setSpellerEnabled(self, enabled):
+    def setSpellerEnabled(
+        self
+        ,enabled
+        ):
         """
         Sets the state of this editor's spelling highlighter to enabled or disabled.
 
@@ -80,7 +89,9 @@ class PlainTextEdit(qtw.QPlainTextEdit):
     #####################
 
 
-    def __setupActions_(self):
+    def __setupActions_(
+        self
+        ):
         """
         Initialize the qt action shortcuts of this new text editor.
         """
@@ -97,7 +108,9 @@ class PlainTextEdit(qtw.QPlainTextEdit):
 
 
     @qtc.Slot()
-    def __dialog_(self):
+    def __dialog_(
+        self
+        ):
         """
         Called to open a modal dialog text editor to edit this editor's text.
         """

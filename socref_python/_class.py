@@ -28,7 +28,9 @@ class Class(Descriptor):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new class block.
         """
@@ -41,7 +43,11 @@ class Class(Descriptor):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_python.block.Package interface.
 
@@ -78,7 +84,9 @@ class Class(Descriptor):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -90,7 +98,9 @@ class Class(Descriptor):
         return ("Access",)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -98,7 +108,9 @@ class Class(Descriptor):
         self._p_parents = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -110,7 +122,9 @@ class Class(Descriptor):
         return self._p_name + self._descriptorsName_()
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -127,7 +141,9 @@ class Class(Descriptor):
         return block.Package.displayView(self) + parents + self._descriptorsView_()
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -142,7 +158,9 @@ class Class(Descriptor):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -157,7 +175,9 @@ class Class(Descriptor):
             return qtg.QIcon(":/python/class.svg")
 
 
-    def isAbstract(self):
+    def isAbstract(
+        self
+        ):
         """
         Getter method.
 
@@ -172,7 +192,9 @@ class Class(Descriptor):
         return False
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -186,7 +208,9 @@ class Class(Descriptor):
     #####################
 
 
-    def __buildParents_(self):
+    def __buildParents_(
+        self
+        ):
         """
         Getter method.
 

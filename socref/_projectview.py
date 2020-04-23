@@ -37,7 +37,10 @@ class ProjectView(qtw.QTreeView):
     #######################
 
 
-    def __init__(self, parent=None):
+    def __init__(
+        self
+        ,parent=None
+        ):
         """
         Initializes a new project view with the given optional parent.
 
@@ -75,7 +78,9 @@ class ProjectView(qtw.QTreeView):
     ####################
 
 
-    def contextMenu(self):
+    def contextMenu(
+        self
+        ):
         """
         Getter method.
 
@@ -87,7 +92,9 @@ class ProjectView(qtw.QTreeView):
         return self.__contextMenu
 
 
-    def copyAction(self):
+    def copyAction(
+        self
+        ):
         """
         Getter method.
 
@@ -99,7 +106,9 @@ class ProjectView(qtw.QTreeView):
         return self.__copyAction
 
 
-    def cutAction(self):
+    def cutAction(
+        self
+        ):
         """
         Getter method.
 
@@ -111,7 +120,9 @@ class ProjectView(qtw.QTreeView):
         return self.__cutAction
 
 
-    def moveDownAction(self):
+    def moveDownAction(
+        self
+        ):
         """
         Getter method.
 
@@ -123,7 +134,9 @@ class ProjectView(qtw.QTreeView):
         return self.__moveDownAction
 
 
-    def moveUpAction(self):
+    def moveUpAction(
+        self
+        ):
         """
         Getter method.
 
@@ -135,7 +148,9 @@ class ProjectView(qtw.QTreeView):
         return self.__moveUpAction
 
 
-    def pasteAction(self):
+    def pasteAction(
+        self
+        ):
         """
         Getter method.
 
@@ -147,7 +162,9 @@ class ProjectView(qtw.QTreeView):
         return self.__pasteAction
 
 
-    def redoAction(self):
+    def redoAction(
+        self
+        ):
         """
         Getter method.
 
@@ -159,7 +176,9 @@ class ProjectView(qtw.QTreeView):
         return self.__redoAction
 
 
-    def removeAction(self):
+    def removeAction(
+        self
+        ):
         """
         Getter method.
 
@@ -171,7 +190,10 @@ class ProjectView(qtw.QTreeView):
         return self.__removeAction
 
 
-    def setModel(self, model):
+    def setModel(
+        self
+        ,model
+        ):
         """
         Sets this project's model to the one given.
 
@@ -193,7 +215,9 @@ class ProjectView(qtw.QTreeView):
         self.__updateContextMenu_()
 
 
-    def undoAction(self):
+    def undoAction(
+        self
+        ):
         """
         Getter method.
 
@@ -239,7 +263,9 @@ class ProjectView(qtw.QTreeView):
     #####################
 
 
-    def __canPaste_(self):
+    def __canPaste_(
+        self
+        ):
         """
         Getter method.
 
@@ -260,7 +286,9 @@ class ProjectView(qtw.QTreeView):
         return True
 
 
-    def __insertValues_(self):
+    def __insertValues_(
+        self
+        ):
         """
         Getter method.
 
@@ -294,7 +322,9 @@ class ProjectView(qtw.QTreeView):
         return (row,parent)
 
 
-    def __setupActions_(self):
+    def __setupActions_(
+        self
+        ):
         """
         Initialize the qt actions of this new project view.
         """
@@ -365,7 +395,9 @@ class ProjectView(qtw.QTreeView):
         action.triggered.connect(self.__insertAfter_)
 
 
-    def __setupContextMenu_(self):
+    def __setupContextMenu_(
+        self
+        ):
         """
         Initializes the context menu of this new project view.
         """
@@ -390,7 +422,9 @@ class ProjectView(qtw.QTreeView):
         self.__updateContextMenu_()
 
 
-    def __updateActions_(self):
+    def __updateActions_(
+        self
+        ):
         """
         Updates this project's actions. Updating includes rebuilding its add block actions and
         enabling or disabling appropriate actions based off its selection model state.
@@ -406,7 +440,9 @@ class ProjectView(qtw.QTreeView):
         self.__moveDownAction.setDisabled(not selected)
 
 
-    def __updateAddActions_(self):
+    def __updateAddActions_(
+        self
+        ):
         """
         Update this project's add actions list. Updating involves clearing the current list and
         building it again based off this project's selection model's current index.
@@ -429,7 +465,9 @@ class ProjectView(qtw.QTreeView):
                 self.__addActions.append(action)
 
 
-    def __updateContextMenu_(self):
+    def __updateContextMenu_(
+        self
+        ):
         """
         Updates this project's context menu with the new selection state of its model. Updating
         includes enabling or disabling appropriate actions and rebuilding the add block menu.
@@ -441,7 +479,10 @@ class ProjectView(qtw.QTreeView):
         self.__addMenu.setDisabled(self.__addMenu.isEmpty())
 
 
-    def __updateInsert_(self, option):
+    def __updateInsert_(
+        self
+        ,option
+        ):
         """
         Updates this project's insert option to the one given, setting all insert actions checked
         states appropriately.
@@ -464,7 +505,10 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot(str)
-    def __add_(self, blockType):
+    def __add_(
+        self
+        ,blockType
+        ):
         """
         Called to add a newly created block to this project's model at its current index using its
         selected insert option.
@@ -489,7 +533,10 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot(qtc.QPoint)
-    def __contextMenuRequested_(self, position):
+    def __contextMenuRequested_(
+        self
+        ,position
+        ):
         """
         Called to inform this project that its context menu has been requested by the GUI at the
         given relative point.
@@ -503,7 +550,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __copy_(self):
+    def __copy_(
+        self
+        ):
         """
         Called to copy all selected indexes from this project's model.
         """
@@ -521,7 +570,11 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)
-    def __currentChanged_(self, current, previous):
+    def __currentChanged_(
+        self
+        ,current
+        ,previous
+        ):
         """
         Called to inform this project that its selection model's current index has changed to the
         one given from the previous one given.
@@ -538,7 +591,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __cut_(self):
+    def __cut_(
+        self
+        ):
         """
         Called to cut all selected indexes from this project's model.
         """
@@ -548,7 +603,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __insertAfter_(self):
+    def __insertAfter_(
+        self
+        ):
         """
         Called to set this project's insert option to "after".
         """
@@ -556,7 +613,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __insertBefore_(self):
+    def __insertBefore_(
+        self
+        ):
         """
         Called to set this project's insert option to "before".
         """
@@ -564,7 +623,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __insertInto_(self):
+    def __insertInto_(
+        self
+        ):
         """
         Called to set this project's insert option to "into".
         """
@@ -572,7 +633,12 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)
-    def __modelDataChanged_(self, topLeft, bottomRight, roles):
+    def __modelDataChanged_(
+        self
+        ,topLeft
+        ,bottomRight
+        ,roles
+        ):
         """
         Called to inform this project that data has changed for the range of indexes from the given
         top left to the given bottom right with the given roles.
@@ -592,7 +658,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __modelDestroyed_(self):
+    def __modelDestroyed_(
+        self
+        ):
         """
         Called to inform this project that its model has been destroyed.
         """
@@ -602,7 +670,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __modelReset_(self):
+    def __modelReset_(
+        self
+        ):
         """
         Called to inform this project that its model has reset itself.
         """
@@ -611,7 +681,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __moveDown_(self):
+    def __moveDown_(
+        self
+        ):
         """
         Called to move the current index of this project's selection model down by one in its model.
         """
@@ -621,7 +693,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __moveUp_(self):
+    def __moveUp_(
+        self
+        ):
         """
         Called to move the current index of this project's selection model up by one in its model.
         """
@@ -631,7 +705,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __paste_(self):
+    def __paste_(
+        self
+        ):
         """
         Called to paste any globally copied blocks into this project's model at the current index
         using its selected insert option.
@@ -645,7 +721,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __redo_(self):
+    def __redo_(
+        self
+        ):
         """
         Called to redo the last undone action on this project's model.
         """
@@ -655,7 +733,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __remove_(self):
+    def __remove_(
+        self
+        ):
         """
         Called to remove all selected indexes from this project's model.
         """
@@ -669,7 +749,9 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot()
-    def __undo_(self):
+    def __undo_(
+        self
+        ):
         """
         Called to undo the last action done to this project's model.
         """

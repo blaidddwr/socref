@@ -29,7 +29,9 @@ class Function(Templatee):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new function block.
         """
@@ -53,7 +55,10 @@ class Function(Templatee):
     ####################
 
 
-    def buildDeclaration(self, begin):
+    def buildDeclaration(
+        self
+        ,begin
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -74,7 +79,13 @@ class Function(Templatee):
         return ret
 
 
-    def buildDefinition(self, definitions, scope, template, header):
+    def buildDefinition(
+        self
+        ,definitions
+        ,scope
+        ,template
+        ,header
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -113,7 +124,9 @@ class Function(Templatee):
             return ([],[])
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -125,7 +138,11 @@ class Function(Templatee):
         return ("Template","Variable")
 
 
-    def buildSource(self, definitions, path):
+    def buildSource(
+        self
+        ,definitions
+        ,path
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -149,7 +166,9 @@ class Function(Templatee):
         return ret
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -168,7 +187,9 @@ class Function(Templatee):
         self._p_abstract = "0"
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -186,7 +207,9 @@ class Function(Templatee):
         return ret
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -213,7 +236,9 @@ class Function(Templatee):
         )
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -249,7 +274,9 @@ class Function(Templatee):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -285,7 +312,9 @@ class Function(Templatee):
                 return qtg.QIcon(":/cpp/function.svg")
 
 
-    def isAbstract(self):
+    def isAbstract(
+        self
+        ):
         """
         Getter method.
 
@@ -297,7 +326,9 @@ class Function(Templatee):
         return bool(int(self._p_abstract))
 
 
-    def isConstant(self):
+    def isConstant(
+        self
+        ):
         """
         Getter method.
 
@@ -309,7 +340,9 @@ class Function(Templatee):
         return bool(int(self._p_const))
 
 
-    def isConstructor(self):
+    def isConstructor(
+        self
+        ):
         """
         Getter method.
 
@@ -321,7 +354,9 @@ class Function(Templatee):
         return self._p_name == "^"
 
 
-    def isDefault(self):
+    def isDefault(
+        self
+        ):
         """
         Getter method.
 
@@ -333,7 +368,9 @@ class Function(Templatee):
         return bool(int(self._p_default))
 
 
-    def isDeleted(self):
+    def isDeleted(
+        self
+        ):
         """
         Getter method.
 
@@ -345,7 +382,9 @@ class Function(Templatee):
         return bool(int(self._p_deleted))
 
 
-    def isDestructor(self):
+    def isDestructor(
+        self
+        ):
         """
         Getter method.
 
@@ -357,7 +396,9 @@ class Function(Templatee):
         return self._p_name == "~^"
 
 
-    def isExplicit(self):
+    def isExplicit(
+        self
+        ):
         """
         Getter method.
 
@@ -369,7 +410,9 @@ class Function(Templatee):
         return bool(int(self._p_explicit))
 
 
-    def isFinal(self):
+    def isFinal(
+        self
+        ):
         """
         Getter method.
 
@@ -381,7 +424,9 @@ class Function(Templatee):
         return bool(int(self._p_final))
 
 
-    def isMethod(self):
+    def isMethod(
+        self
+        ):
         """
         Getter method.
 
@@ -393,7 +438,9 @@ class Function(Templatee):
         return self.parent() and self.parent()._TYPE_ == "Access"
 
 
-    def isNoExcept(self):
+    def isNoExcept(
+        self
+        ):
         """
         Getter method.
 
@@ -405,7 +452,9 @@ class Function(Templatee):
         return bool(int(self._p_noexcept))
 
 
-    def isOperator(self):
+    def isOperator(
+        self
+        ):
         """
         Getter method.
 
@@ -417,7 +466,9 @@ class Function(Templatee):
         return self._p_name.startswith("operator")
 
 
-    def isOverride(self):
+    def isOverride(
+        self
+        ):
         """
         Getter method.
 
@@ -429,7 +480,9 @@ class Function(Templatee):
         return bool(int(self._p_override))
 
 
-    def isStatic(self):
+    def isStatic(
+        self
+        ):
         """
         Getter method.
 
@@ -441,7 +494,9 @@ class Function(Templatee):
         return bool(int(self._p_static))
 
 
-    def isVirtual(self):
+    def isVirtual(
+        self
+        ):
         """
         Getter method.
 
@@ -453,7 +508,9 @@ class Function(Templatee):
         return bool(int(self._p_virtual))
 
 
-    def isVolatileAbove(self):
+    def isVolatileAbove(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -465,7 +522,9 @@ class Function(Templatee):
         return self.isMethod()
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -490,7 +549,9 @@ class Function(Templatee):
     #####################
 
 
-    def __argumentsView_(self):
+    def __argumentsView_(
+        self
+        ):
         """
         Getter method.
 
@@ -507,7 +568,10 @@ class Function(Templatee):
         )
 
 
-    def __buildComments_(self, begin):
+    def __buildComments_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -533,7 +597,15 @@ class Function(Templatee):
         return ret
 
 
-    def __buildHeader_(self, scope, template, begin, end, beforeFlags, afterFlags):
+    def __buildHeader_(
+        self
+        ,scope
+        ,template
+        ,begin
+        ,end
+        ,beforeFlags
+        ,afterFlags
+        ):
         """
         Getter method.
 
@@ -595,7 +667,9 @@ class Function(Templatee):
         return ret
 
 
-    def __buildFlagDeclarations_(self):
+    def __buildFlagDeclarations_(
+        self
+        ):
         """
         Getter method.
 
@@ -631,7 +705,9 @@ class Function(Templatee):
         return (before,after)
 
 
-    def __buildFlagDefinitions_(self):
+    def __buildFlagDefinitions_(
+        self
+        ):
         """
         Getter method.
 
@@ -650,7 +726,9 @@ class Function(Templatee):
         return ("",ret)
 
 
-    def __buildNamespaceScope_(self):
+    def __buildNamespaceScope_(
+        self
+        ):
         """
         Getter method.
 
@@ -672,7 +750,9 @@ class Function(Templatee):
             return ""
 
 
-    def __checkFlags_(self):
+    def __checkFlags_(
+        self
+        ):
         """
         Sets this function's flags to legal values if it is not a method.
         """
@@ -688,7 +768,9 @@ class Function(Templatee):
             self._p_abstract = "0"
 
 
-    def __flags_(self):
+    def __flags_(
+        self
+        ):
         """
         Getter method.
 
@@ -722,7 +804,9 @@ class Function(Templatee):
         return ret
 
 
-    def __flagsList_(self):
+    def __flagsList_(
+        self
+        ):
         """
         Getter method.
 
@@ -756,7 +840,9 @@ class Function(Templatee):
         return flags
 
 
-    def __name_(self):
+    def __name_(
+        self
+        ):
         """
         Getter method.
 
@@ -771,7 +857,10 @@ class Function(Templatee):
             return self._p_name
 
 
-    def __signature_(self, scope):
+    def __signature_(
+        self
+        ,scope
+        ):
         """
         Getter method.
 

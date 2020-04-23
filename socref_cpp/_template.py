@@ -28,7 +28,9 @@ class Template(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new namespace block.
         """
@@ -42,7 +44,9 @@ class Template(Base):
     ####################
 
 
-    def argumentView(self):
+    def argumentView(
+        self
+        ):
         """
         Getter method.
 
@@ -60,7 +64,10 @@ class Template(Base):
         return ret
 
 
-    def buildArgument(self, isDeclaration):
+    def buildArgument(
+        self
+        ,isDeclaration
+        ):
         """
         Getter method.
 
@@ -82,7 +89,10 @@ class Template(Base):
         return ret
 
 
-    def buildComment(self, begin):
+    def buildComment(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -112,7 +122,9 @@ class Template(Base):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -124,7 +136,9 @@ class Template(Base):
         return ()
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -134,7 +148,9 @@ class Template(Base):
         self._p_assignment = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -146,7 +162,9 @@ class Template(Base):
         return self._p_name
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -160,7 +178,9 @@ class Template(Base):
         return Base.displayView(self) + type_ + assignment
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -175,7 +195,9 @@ class Template(Base):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -187,7 +209,9 @@ class Template(Base):
         return qtg.QIcon(":/cpp/template.svg")
 
 
-    def isVolatileAbove(self):
+    def isVolatileAbove(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -199,7 +223,9 @@ class Template(Base):
         return True
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

@@ -40,7 +40,9 @@ class AbstractParser(abc.ABC):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new abstract parser.
         """
@@ -57,7 +59,9 @@ class AbstractParser(abc.ABC):
 
 
     @abc.abstractmethod
-    def unknown(self):
+    def unknown(
+        self
+        ):
         """
         This interface is a getter method.
 
@@ -75,7 +79,10 @@ class AbstractParser(abc.ABC):
     ####################
 
 
-    def parse(self, update):
+    def parse(
+        self
+        ,update
+        ):
         """
         Parses the source code of the project of this parser's root block, updating its progress
         with the given callback object. The root path of this parser must be set.
@@ -111,7 +118,10 @@ class AbstractParser(abc.ABC):
         self.__blocks = []
 
 
-    def setRootPath(self, path):
+    def setRootPath(
+        self
+        ,path
+        ):
         """
         Sets the root path of this parser. This can only be called once when this parser's root path
         is empty.
@@ -132,7 +142,11 @@ class AbstractParser(abc.ABC):
 
 
     @abc.abstractmethod
-    def _build_(self, block, path):
+    def _build_(
+        self
+        ,block
+        ,path
+        ):
         """
         This interface is a getter method.
 
@@ -152,7 +166,9 @@ class AbstractParser(abc.ABC):
 
 
     @abc.abstractmethod
-    def _buildPathList_(self):
+    def _buildPathList_(
+        self
+        ):
         """
         This interface builds the path list.
         """
@@ -160,7 +176,10 @@ class AbstractParser(abc.ABC):
 
 
     @abc.abstractmethod
-    def _scan_(self, path):
+    def _scan_(
+        self
+        ,path
+        ):
         """
         This interface scans the source code file at the given path. The given path exists and is a
         regular file.
@@ -178,7 +197,11 @@ class AbstractParser(abc.ABC):
     #######################
 
 
-    def _addPath_(self, block, path):
+    def _addPath_(
+        self
+        ,block
+        ,path
+        ):
         """
         Adds the given source code file path and associated block to the list of paths and
         associated blocks to be scanned and built. This must be called within the build path list
@@ -204,7 +227,11 @@ class AbstractParser(abc.ABC):
     #####################
 
 
-    def __build_(self, block, path):
+    def __build_(
+        self
+        ,block
+        ,path
+        ):
         """
         Builds new contents for the source code at the given file path with the associated file. The
         file is overwritten with the new contents only if they are different from the current

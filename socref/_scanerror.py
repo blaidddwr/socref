@@ -21,7 +21,10 @@ class ScanError(Exception):
     #######################
 
 
-    def __init__(self, *args):
+    def __init__(
+        self
+        ,*args
+        ):
         """
         Initialize a new load error exception with any number of given positional arguments.
 

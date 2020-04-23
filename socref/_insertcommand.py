@@ -23,7 +23,13 @@ class InsertCommand(RemoveCommand):
     #######################
 
 
-    def __init__(self, row, blocks, parent, model):
+    def __init__(
+        self
+        ,row
+        ,blocks
+        ,parent
+        ,model
+        ):
         """
         Initializes a new insert command with the given row, blocks to insert, parent index, and
         project model.
@@ -48,14 +54,18 @@ class InsertCommand(RemoveCommand):
     ####################
 
 
-    def redo(self):
+    def redo(
+        self
+        ):
         """
         Implements the .command.Command interface.
         """
         RemoveCommand.undo(self)
 
 
-    def undo(self):
+    def undo(
+        self
+        ):
         """
         Implements the .command.Command interface.
         """

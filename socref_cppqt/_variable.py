@@ -24,7 +24,9 @@ class Variable(cppblock.Variable):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new variable block.
         """

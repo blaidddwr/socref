@@ -27,7 +27,11 @@ class CodeDialog(qtw.QDialog):
     #######################
 
 
-    def __init__(self, code, parent=None):
+    def __init__(
+        self
+        ,code
+        ,parent=None
+        ):
         """
         Initializes a new code dialog with the given code dictionary and optional parent.
 
@@ -50,7 +54,10 @@ class CodeDialog(qtw.QDialog):
     #######################
 
 
-    def closeEvent(self, event):
+    def closeEvent(
+        self
+        ,event
+        ):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
@@ -70,7 +77,9 @@ class CodeDialog(qtw.QDialog):
     #####################
 
 
-    def __restore_(self):
+    def __restore_(
+        self
+        ):
         """
         Restores the geometry of this dialog and the state of this dialog's qt splitter.
         """
@@ -83,7 +92,9 @@ class CodeDialog(qtw.QDialog):
             self.__splitter.restoreState(state)
 
 
-    def __setupButtons_(self):
+    def __setupButtons_(
+        self
+        ):
         """
         Initializes the GUI of this new dialog.
         """
@@ -98,7 +109,9 @@ class CodeDialog(qtw.QDialog):
         return ret
 
 
-    def __setupGui_(self):
+    def __setupGui_(
+        self
+        ):
         """
         Initializes the GUI of this new dialog.
         """
@@ -110,7 +123,9 @@ class CodeDialog(qtw.QDialog):
         self.__restore_()
 
 
-    def __setupView_(self):
+    def __setupView_(
+        self
+        ):
         """
         Initializes the GUI of this new dialog.
         """
@@ -128,7 +143,9 @@ class CodeDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __close_(self):
+    def __close_(
+        self
+        ):
         """
         Called to close this dialog.
         """
@@ -137,7 +154,9 @@ class CodeDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __copy_(self):
+    def __copy_(
+        self
+        ):
         """
         Called to copy this dialog's current code fragment to the system clipboard.
         """
@@ -146,7 +165,10 @@ class CodeDialog(qtw.QDialog):
 
 
     @qtc.Slot(str)
-    def __itemChanged_(self, key):
+    def __itemChanged_(
+        self
+        ,key
+        ):
         """
         Called to inform this dialog's the selected code fragment has changed to the one with the
         given key.

@@ -28,7 +28,9 @@ class Function(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new function block.
         """
@@ -42,7 +44,11 @@ class Function(Base):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_glsl.block.Base interface.
 
@@ -65,7 +71,9 @@ class Function(Base):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -77,7 +85,9 @@ class Function(Base):
         return ("Variable",)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -86,7 +96,9 @@ class Function(Base):
         self._p_returnDescription = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -98,7 +110,9 @@ class Function(Base):
         return self._p_name + "(%s)"%str(len(self))
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -117,7 +131,9 @@ class Function(Base):
         return Base.displayView(self)+self.__argumentsView_()+return_
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -132,7 +148,9 @@ class Function(Base):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -144,7 +162,9 @@ class Function(Base):
         return qtg.QIcon(":/glsl/function.svg")
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -159,7 +179,9 @@ class Function(Base):
     #####################
 
 
-    def __argumentsView_(self):
+    def __argumentsView_(
+        self
+        ):
         """
         Getter method.
 
@@ -176,7 +198,10 @@ class Function(Base):
         )
 
 
-    def __buildComments_(self, begin):
+    def __buildComments_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -211,7 +236,10 @@ class Function(Base):
         return ret
 
 
-    def __buildDeclaration_(self, begin):
+    def __buildDeclaration_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 

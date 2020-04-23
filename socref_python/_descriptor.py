@@ -25,7 +25,9 @@ class Descriptor(Package):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new descriptor block.
         """
@@ -38,7 +40,9 @@ class Descriptor(Package):
     ####################
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -46,7 +50,9 @@ class Descriptor(Package):
         self._p_descriptors = ""
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -59,7 +65,10 @@ class Descriptor(Package):
     #######################
 
 
-    def _buildDescriptors_(self, begin):
+    def _buildDescriptors_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -77,7 +86,9 @@ class Descriptor(Package):
         return [begin + "@" + line for line in self._p_descriptors.split("\n") if line]
 
 
-    def _descriptorsEditDefinition_(self):
+    def _descriptorsEditDefinition_(
+        self
+        ):
         """
         Getter Method.
 
@@ -89,7 +100,9 @@ class Descriptor(Package):
         return edit.textEdit("Descriptors:","_p_descriptors")
 
 
-    def _descriptorsName_(self):
+    def _descriptorsName_(
+        self
+        ):
         """
         Getter method.
 
@@ -105,7 +118,9 @@ class Descriptor(Package):
             return ""
 
 
-    def _descriptorsView_(self):
+    def _descriptorsView_(
+        self
+        ):
         """
         Getter method.
 

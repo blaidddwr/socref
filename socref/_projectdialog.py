@@ -25,7 +25,11 @@ class ProjectDialog(qtw.QDialog):
     #######################
 
 
-    def __init__(self, model, parent=None):
+    def __init__(
+        self
+        ,model
+        ,parent=None
+        ):
         """
         Initializes a new project dialog with the given model and optional parent.
 
@@ -50,7 +54,10 @@ class ProjectDialog(qtw.QDialog):
     #######################
 
 
-    def closeEvent(self, event):
+    def closeEvent(
+        self
+        ,event
+        ):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
@@ -69,7 +76,9 @@ class ProjectDialog(qtw.QDialog):
     #####################
 
 
-    def __restore_(self):
+    def __restore_(
+        self
+        ):
         """
         Restores the geometry of this dialog.
         """
@@ -79,7 +88,9 @@ class ProjectDialog(qtw.QDialog):
             self.restoreGeometry(geometry)
 
 
-    def __setupButtons_(self):
+    def __setupButtons_(
+        self
+        ):
         """
         Initializes the buttons of this new dialog.
         """
@@ -97,7 +108,9 @@ class ProjectDialog(qtw.QDialog):
         return ret
 
 
-    def __setupForm_(self):
+    def __setupForm_(
+        self
+        ):
         """
         Initializes the form of this new dialog.
         """
@@ -109,7 +122,9 @@ class ProjectDialog(qtw.QDialog):
         return ret
 
 
-    def __setupGui_(self):
+    def __setupGui_(
+        self
+        ):
         """
         Initializes the GUI of this new dialog.
         """
@@ -127,7 +142,9 @@ class ProjectDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __apply_(self):
+    def __apply_(
+        self
+        ):
         """
         Called to apply this dialog's edit widget values to its project model.
         """
@@ -136,7 +153,9 @@ class ProjectDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __cancel_(self):
+    def __cancel_(
+        self
+        ):
         """
         Called to cancel this dialog, closing it and not applying any changes made in its edit
         widgets.
@@ -146,7 +165,10 @@ class ProjectDialog(qtw.QDialog):
 
 
     @qtc.Slot(str)
-    def __nameChanged_(self, name):
+    def __nameChanged_(
+        self
+        ,name
+        ):
         """
         Called to inform this dialog its project model's name has changed.
 
@@ -159,7 +181,9 @@ class ProjectDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __ok_(self):
+    def __ok_(
+        self
+        ):
         """
         Called to apply this dialog's edit widget values to its project model and then close itself.
         """
@@ -169,7 +193,10 @@ class ProjectDialog(qtw.QDialog):
 
 
     @qtc.Slot(str)
-    def __parsePathChanged_(self, path):
+    def __parsePathChanged_(
+        self
+        ,path
+        ):
         """
         Called to inform this dialog its project model's parse path has changed.
 

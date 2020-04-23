@@ -26,7 +26,11 @@ class SpellHighlighter(qtg.QSyntaxHighlighter):
     #######################
 
 
-    def __init__(self, dictionary, parent):
+    def __init__(
+        self
+        ,dictionary
+        ,parent
+        ):
         """
         Initializes a new spell highlighter with the given dictionary and parent.
 
@@ -51,7 +55,10 @@ class SpellHighlighter(qtg.QSyntaxHighlighter):
     ####################
 
 
-    def highlightBlock(self, text):
+    def highlightBlock(
+        self
+        ,text
+        ):
         """
         Implements the qtg.QSyntaxHighlighter interface.
 

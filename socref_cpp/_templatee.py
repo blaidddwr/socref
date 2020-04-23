@@ -23,7 +23,9 @@ class Templatee(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new templatee block.
         """
@@ -35,7 +37,9 @@ class Templatee(Base):
     ####################
 
 
-    def hasTemplates(self):
+    def hasTemplates(
+        self
+        ):
         """
         Getter method.
 
@@ -50,7 +54,9 @@ class Templatee(Base):
         return False
 
 
-    def templateDeclaration(self):
+    def templateDeclaration(
+        self
+        ):
         """
         Getter method.
 
@@ -65,7 +71,9 @@ class Templatee(Base):
         return "template"+ret if ret else ""
 
 
-    def templateDefinition(self):
+    def templateDefinition(
+        self
+        ):
         """
         Getter method.
 
@@ -80,7 +88,9 @@ class Templatee(Base):
         return "template"+ret if ret else ""
 
 
-    def templateScope(self):
+    def templateScope(
+        self
+        ):
         """
         Getter method.
 
@@ -98,7 +108,9 @@ class Templatee(Base):
     #######################
 
 
-    def _templatesName_(self):
+    def _templatesName_(
+        self
+        ):
         """
         Getter method.
 
@@ -111,7 +123,9 @@ class Templatee(Base):
         return " <>" if self.hasTemplates() else ""
 
 
-    def _templatesView_(self):
+    def _templatesView_(
+        self
+        ):
         """
         Getter method.
 
@@ -133,7 +147,11 @@ class Templatee(Base):
     #####################
 
 
-    def __declaration_(self, withType, withInit):
+    def __declaration_(
+        self
+        ,withType
+        ,withInit
+        ):
         """
         Getter method.
 

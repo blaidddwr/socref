@@ -28,7 +28,9 @@ class Shader(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new shader block.
         """
@@ -41,7 +43,11 @@ class Shader(Base):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_glsl.block.Base interface.
 
@@ -70,7 +76,9 @@ class Shader(Base):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -82,7 +90,9 @@ class Shader(Base):
         return ("Variable","Structure","Function")
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -90,7 +100,9 @@ class Shader(Base):
         self._p_type = "Vertex"
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -103,7 +115,9 @@ class Shader(Base):
         return Base.displayView(self)+type_
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -124,7 +138,9 @@ class Shader(Base):
         return ret
 
 
-    def extension(self):
+    def extension(
+        self
+        ):
         """
         Getter method.
 
@@ -149,7 +165,9 @@ class Shader(Base):
             raise RuntimeError("Shader is invalid type.")
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -172,7 +190,9 @@ class Shader(Base):
             raise RuntimeError("Shader is invalid type.")
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

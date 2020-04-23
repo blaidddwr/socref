@@ -22,7 +22,12 @@ class MoveCommand(AbstractCommand):
     #######################
 
 
-    def __init__(self, change, index, model):
+    def __init__(
+        self
+        ,change
+        ,index
+        ,model
+        ):
         """
         Initializes a new move command with the given change, index, and project model.
 
@@ -47,7 +52,9 @@ class MoveCommand(AbstractCommand):
     ####################
 
 
-    def redo(self):
+    def redo(
+        self
+        ):
         """
         Implements the .command.Command interface.
         """
@@ -58,7 +65,9 @@ class MoveCommand(AbstractCommand):
         )
 
 
-    def undo(self):
+    def undo(
+        self
+        ):
         """
         Implements the .command.Command interface.
         """

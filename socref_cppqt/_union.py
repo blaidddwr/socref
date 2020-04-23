@@ -24,7 +24,9 @@ class Union(cppblock.Union):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new union block.
         """

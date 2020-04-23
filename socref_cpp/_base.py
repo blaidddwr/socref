@@ -26,7 +26,9 @@ class Base(abstract.AbstractBlock):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new base block.
         """
@@ -40,7 +42,10 @@ class Base(abstract.AbstractBlock):
     ####################
 
 
-    def buildDeclaration(self, begin):
+    def buildDeclaration(
+        self
+        ,begin
+        ):
         """
         This interface is a getter method. The default implementation returns an empty list.
 
@@ -57,7 +62,13 @@ class Base(abstract.AbstractBlock):
         return []
 
 
-    def buildDefinition(self, definitions, scope, template, header):
+    def buildDefinition(
+        self
+        ,definitions
+        ,scope
+        ,template
+        ,header
+        ):
         """
         This interface is a getter method. The default implementation returns a tuple with two empty
         lists.
@@ -85,7 +96,11 @@ class Base(abstract.AbstractBlock):
         return ([],[])
 
 
-    def buildHeader(self, definitions, path):
+    def buildHeader(
+        self
+        ,definitions
+        ,path
+        ):
         """
         This interface is a getter method. The default implementation returns an empty list.
 
@@ -106,7 +121,11 @@ class Base(abstract.AbstractBlock):
         return []
 
 
-    def buildSource(self, definitions, path):
+    def buildSource(
+        self
+        ,definitions
+        ,path
+        ):
         """
         This interface is a getter method. The default implementation returns an empty list.
 
@@ -127,7 +146,9 @@ class Base(abstract.AbstractBlock):
         return []
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -135,7 +156,9 @@ class Base(abstract.AbstractBlock):
         self._p_description = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -147,7 +170,9 @@ class Base(abstract.AbstractBlock):
         return self._p_name
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -159,7 +184,9 @@ class Base(abstract.AbstractBlock):
         return edit.richTextBlocks(1,"Description",html.escape(self._p_description))
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -174,7 +201,9 @@ class Base(abstract.AbstractBlock):
         return ret
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -186,7 +215,9 @@ class Base(abstract.AbstractBlock):
     #######################
 
 
-    def _buildHeaderGuard_(self):
+    def _buildHeaderGuard_(
+        self
+        ):
         """
         Getter method.
 
@@ -209,7 +240,11 @@ class Base(abstract.AbstractBlock):
         return ["#ifndef " + guard,"#define " + guard]
 
 
-    def _buildNamespaces_(self, body, commentLast=False):
+    def _buildNamespaces_(
+        self
+        ,body
+        ,commentLast=False
+        ):
         """
         Getter method.
 

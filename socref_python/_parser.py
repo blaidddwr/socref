@@ -32,7 +32,10 @@ class Parser(abstract.AbstractParser):
     ########################
 
 
-    def __init__(self, root):
+    def __init__(
+        self
+        ,root
+        ):
         """
         Initializes a new python parser with the given root package block.
 
@@ -59,7 +62,9 @@ class Parser(abstract.AbstractParser):
     ####################
 
 
-    def unknown(self):
+    def unknown(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -85,7 +90,11 @@ class Parser(abstract.AbstractParser):
     #######################
 
 
-    def _build_(self, block, path):
+    def _build_(
+        self
+        ,block
+        ,path
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -111,14 +120,19 @@ class Parser(abstract.AbstractParser):
         )
 
 
-    def _buildPathList_(self):
+    def _buildPathList_(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
         """
         self.__buildPaths_(self.__rootBlock,"")
 
 
-    def _scan_(self, path):
+    def _scan_(
+        self
+        ,path
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -156,7 +170,12 @@ class Parser(abstract.AbstractParser):
     #####################
 
 
-    def __addUnknownFunctions_(self, code, root_key, definition):
+    def __addUnknownFunctions_(
+        self
+        ,code
+        ,root_key
+        ,definition
+        ):
         """
         Adds unknown code fragment strings to the given dictionary using the given root key for any
         remaining function lines in the given definition of functions.
@@ -177,7 +196,11 @@ class Parser(abstract.AbstractParser):
                 code[root_key + "." + key] = "\n".join(function) + "\n"
 
 
-    def __buildPaths_(self, parent, path):
+    def __buildPaths_(
+        self
+        ,parent
+        ,path
+        ):
         """
         Recursively adds source code paths to be scanned using the given parent block and path.
 
@@ -199,7 +222,10 @@ class Parser(abstract.AbstractParser):
                 self._addPath_(block,os.path.join(path,"_"+block._p_name.lower()+".py"))
 
 
-    def __scanClass_(self, ifile):
+    def __scanClass_(
+        self
+        ,ifile
+        ):
         """
         Getter method.
 
@@ -223,7 +249,6 @@ class Parser(abstract.AbstractParser):
                 break
             match = self.__methodPattern.match(line)
             if match:
-                print(match.group(1),match.group(2))
                 edit.uniqueInsert(
                     ret["functions"]
                     ,match.group(1)
@@ -232,7 +257,11 @@ class Parser(abstract.AbstractParser):
         return ret
 
 
-    def __scanFunction_(self, ifile, end):
+    def __scanFunction_(
+        self
+        ,ifile
+        ,end
+        ):
         """
         Getter method.
 
@@ -253,7 +282,6 @@ class Parser(abstract.AbstractParser):
         if not end.strip().endswith("):"):
             line = ifile.readline()
             while not self.__functionEndPattern.match(line):
-                print(line)
                 if not line:
                     break
                 line = ifile.readline()
@@ -268,7 +296,10 @@ class Parser(abstract.AbstractParser):
         return ret
 
 
-    def __scanHeader_(self, ifile):
+    def __scanHeader_(
+        self
+        ,ifile
+        ):
         """
         Getter method.
 
@@ -299,7 +330,10 @@ class Parser(abstract.AbstractParser):
         return ret
 
 
-    def __skipDocString_(self, ifile):
+    def __skipDocString_(
+        self
+        ,ifile
+        ):
         """
         Seeks past any initial doc string starting at the current seek index of the given python
         script file. Blank lines also skipped and ignored.

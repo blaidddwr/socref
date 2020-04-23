@@ -28,7 +28,9 @@ class BlockFactory():
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new factory.
         """
@@ -43,7 +45,10 @@ class BlockFactory():
     ####################
 
 
-    def blocks(self, langName):
+    def blocks(
+        self
+        ,langName
+        ):
         """
         Getter method. The given language name must exist in this factory.
 
@@ -61,7 +66,11 @@ class BlockFactory():
         return self.__langs[langName].keys()
 
 
-    def create(self, langName, typeName):
+    def create(
+        self
+        ,langName
+        ,typeName
+        ):
         """
         Getter method. The given language name and block type name must exist in this factory.
 
@@ -80,7 +89,10 @@ class BlockFactory():
         return self.__langs[langName][typeName]()
 
 
-    def createRoot(self, langName):
+    def createRoot(
+        self
+        ,langName
+        ):
         """
         Getter method. The given language must exist in this factory.
 
@@ -97,7 +109,9 @@ class BlockFactory():
         return self.__langs[langName][self.__ROOT]()
 
 
-    def langs(self):
+    def langs(
+        self
+        ):
         """
         Getter method.
 
@@ -111,7 +125,11 @@ class BlockFactory():
         return ret
 
 
-    def load(self, langName, import_name):
+    def load(
+        self
+        ,langName
+        ,import_name
+        ):
         """
         Loads a new language into this factory. The given language name must be unique.
 
@@ -139,7 +157,11 @@ class BlockFactory():
             self.__importingLangName = None
 
 
-    def registerBlock(self, class_, name):
+    def registerBlock(
+        self
+        ,class_
+        ,name
+        ):
         """
         Registers the given block class with the given type name to the language currently being
         loaded by this factory. The given block class is assigned special attributes _LANG_ and
@@ -165,7 +187,10 @@ class BlockFactory():
         class_._TYPE_ = name
 
 
-    def registerRootBlock(self, class_):
+    def registerRootBlock(
+        self
+        ,class_
+        ):
         """
         Registers the given block class as the root block type of the language currently being
         loaded by this factory. Only one class object can be the root block of a language so this
@@ -185,7 +210,11 @@ class BlockFactory():
     #####################
 
 
-    def __registerBlock_(self, class_, key):
+    def __registerBlock_(
+        self
+        ,class_
+        ,key
+        ):
         """
         Registers the given block class with the given key to the language currently being loaded by
         this factory.

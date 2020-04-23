@@ -24,7 +24,10 @@ class Parser(abstract.AbstractParser):
     ########################
 
 
-    def __init__(self, root):
+    def __init__(
+        self
+        ,root
+        ):
         """
         Initializes a new GLSL parser with the given root program block.
 
@@ -44,7 +47,9 @@ class Parser(abstract.AbstractParser):
     ####################
 
 
-    def unknown(self):
+    def unknown(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -66,7 +71,11 @@ class Parser(abstract.AbstractParser):
     #######################
 
 
-    def _build_(self, block, path):
+    def _build_(
+        self
+        ,block
+        ,path
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -88,14 +97,19 @@ class Parser(abstract.AbstractParser):
         )
 
 
-    def _buildPathList_(self):
+    def _buildPathList_(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
         """
         self.__buildPaths_(self.__root,"")
 
 
-    def _scan_(self, path):
+    def _scan_(
+        self
+        ,path
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -127,7 +141,11 @@ class Parser(abstract.AbstractParser):
     #####################
 
 
-    def __buildPaths_(self, parent, path):
+    def __buildPaths_(
+        self
+        ,parent
+        ,path
+        ):
         """
         Recursively adds source code paths to be scanned using the given parent block and path.
 
@@ -145,7 +163,11 @@ class Parser(abstract.AbstractParser):
                 self._addPath_(block,os.path.join(path,block._p_name+block.extension()))
 
 
-    def __scanFunction_(self, ifile, end):
+    def __scanFunction_(
+        self
+        ,ifile
+        ,end
+        ):
         """
         Getter method.
 
@@ -185,7 +207,10 @@ class Parser(abstract.AbstractParser):
                     lines.append(line)
 
 
-    def __scanHeader_(self, ifile):
+    def __scanHeader_(
+        self
+        ,ifile
+        ):
         """
         Getter method.
 
