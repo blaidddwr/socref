@@ -63,12 +63,8 @@ class Class(Descriptor):
         ret0 : object
                See interface docs.
         """
-        ret = []
-        ret.append('"""')
-        ret += edit.wrapBlocks("Contains the %s class."%(self._p_name,),columns=settings.COLUMNS)
-        ret.append('"""')
-        ret += definition.pop("header")
-        script = definition.pop("script")
+        (header,footer) = self._build_(definition,begin,"Contains the %s class."%(self._p_name,))
+        ret = header
         definition = definition["classes"].get(self._p_name,{"functions": {}})
         ret += [""]*settings.H1LINES
         ret += self._buildDescriptors_(begin)
@@ -81,9 +77,7 @@ class Class(Descriptor):
         )
         ret.append(begin + " "*settings.INDENT + '"""')
         (regular,classes) = self._buildChildren_(definition,begin + " " * settings.INDENT)
-        ret += regular
-        if script:
-            ret += [""]*settings.H1LINES + [settings.SCRIPT_HEADER] + script
+        ret += regular+footer
         return ret
 
 

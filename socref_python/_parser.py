@@ -19,14 +19,15 @@ class Parser(abstract.AbstractParser):
     """
     This is the python parser class. It implements the Socrates' Reference abstract parser. When
     scanning source code it builds a definitions dictionary whose keys are the path of the source
-    code file scanned and values are another dictionary for that file containing four keys. The
-    first key is "headers" and contains lines of import statements at the head of the python file.
-    The second key is "script" and contains any scripting lines at the end of the python file after
-    the script header comment. The third key is "functions" and is a dictionary whose keys are
-    function names and values are their scanned lines of code. The fourth key is "classes" that is a
-    dictionary whose keys are class names and values are dictionaries with one key "functions" that
-    follows the same structure as the second "functions" key but for the methods of the class it is
-    contained within.
+    code file scanned and values are another dictionary for that file containing five keys. The
+    first key is "pre" and contains special comment lines before the doc string. The second key is
+    "headers" and contains lines of import statements at the head of the python file. The third key
+    is "script" and contains any scripting lines at the end of the python file after the script
+    header comment. The fourth key is "functions" and is a dictionary whose keys are function names
+    and values are their scanned lines of code. The fifth key is "classes" that is a dictionary
+    whose keys are class names and values are dictionaries with one key "functions" that follows the
+    same structure as the second "functions" key but for the methods of the class it is contained
+    within.
     """
 
 
@@ -50,7 +51,8 @@ class Parser(abstract.AbstractParser):
         """
         abstract.AbstractParser.__init__(self)
         self.__rootBlock = root
-        self.__docPattern = re.compile(' *"""')
+        self.__prePattern = re.compile('^ *#.*')
+        self.__docPattern = re.compile('^ *"""')
         self.__importPattern = re.compile('^(from|import).*')
         self.__classPattern = re.compile('^class +([a-zA-Z_]+\w*)\([\w\._,\s]*\):')
         self.__functionPattern = re.compile('^def +([a-zA-Z_]+\w*)\((.*)')
@@ -146,11 +148,14 @@ class Parser(abstract.AbstractParser):
         """
         with open(path,"r") as ifile:
             def_ = {
-                "header": self.__scanHeader_(ifile)
+                "pre": []
+                ,"header": []
                 ,"script": []
                 ,"functions": {}
                 ,"classes": {}
             }
+            def_["pre"] = self.__scanPre_(ifile)
+            def_["header"] = self.__scanHeader_(ifile)
             while True:
                 line = ifile.readline()
                 if not line:
@@ -333,6 +338,36 @@ class Parser(abstract.AbstractParser):
         while True:
             line = ifile.readline()
             if not line or line == '\n':
+                break
+            ret.append(line[:-1])
+        return ret
+
+
+    def __scanPre_(
+        self
+        ,ifile
+        ):
+        """
+        Getter method.
+
+        Parameters
+        ----------
+        ifile : file object
+                The python script whose comment script lines are scanned.
+
+        Returns
+        -------
+        ret0 : list
+               Comment script lines scanned from the beginning of the given python script file.
+        """
+        ret = []
+        while True:
+            last = ifile.tell()
+            line = ifile.readline()
+            if not line:
+                break
+            if not self.__prePattern.match(line):
+                ifile.seek(last)
                 break
             ret.append(line[:-1])
         return ret

@@ -8215,6 +8215,13 @@ Added to the beginning of every line of returned source code.
 </__p_description>
                                 <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
+                            <Object>
+                                <__p_name>description</__p_name>
+                                <__p_description>string
+If this is not set to none then this overrides the description of this block, using this given description instead.
+</__p_description>
+                                <__p_assignment>None</__p_assignment>
+                            </Object>
                         </Function>
                         <Function>
                             <__p_name>_buildChildren_</__p_name>
@@ -8250,7 +8257,7 @@ An indent that is appended to every line of the returned source code.
 </__p_description>
                 <Class>
                     <__p_name>Parser</__p_name>
-                    <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary whose keys are the path of the source code file scanned and values are another dictionary for that file containing four keys. The first key is &quot;headers&quot; and contains lines of import statements at the head of the python file. The second key is &quot;script&quot; and contains any scripting lines at the end of the python file after the script header comment. The third key is &quot;functions&quot; and is a dictionary whose keys are function names and values are their scanned lines of code. The fourth key is &quot;classes&quot; that is a dictionary whose keys are class names and values are dictionaries with one key &quot;functions&quot; that follows the same structure as the second &quot;functions&quot; key but for the methods of the class it is contained within.
+                    <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary whose keys are the path of the source code file scanned and values are another dictionary for that file containing five keys. The first key is &quot;pre&quot; and contains special comment lines before the doc string. The second key is &quot;headers&quot; and contains lines of import statements at the head of the python file. The third key is &quot;script&quot; and contains any scripting lines at the end of the python file after the script header comment. The fourth key is &quot;functions&quot; and is a dictionary whose keys are function names and values are their scanned lines of code. The fifth key is &quot;classes&quot; that is a dictionary whose keys are class names and values are dictionaries with one key &quot;functions&quot; that follows the same structure as the second &quot;functions&quot; key but for the methods of the class it is contained within.
 </__p_description>
                     <__p_parents>abstract.AbstractParser</__p_parents>
                     <Access>
@@ -8418,6 +8425,21 @@ Import code lines scanned from the header of the given python script file. It is
                                 <__p_name>ifile</__p_name>
                                 <__p_description>file object
 The python script whose import lines of code are scanned.
+</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__scanPre_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>list
+Comment script lines scanned from the beginning of the given python script file.
+</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>ifile</__p_name>
+                                <__p_description>file object
+The python script whose comment script lines are scanned.
 </__p_description>
                             </Object>
                         </Function>

@@ -187,6 +187,7 @@ class Package(abstract.AbstractBlock):
         self
         ,definition
         ,begin=""
+        ,description=None
         ):
         """
         Getter method.
@@ -198,14 +199,20 @@ class Package(abstract.AbstractBlock):
                      class.
         begin : string
                 Added to the beginning of every line of returned source code.
+        description : string
+                      If this is not set to none then this overrides the description of this block,
+                      using this given description instead.
 
         Returns
         -------
         ret0 : list
                Import code lines for this block.
         """
-        header = ['"""']
-        header += edit.wrapBlocks(self._p_description,columns=settings.COLUMNS)
+        if description is None:
+            description = self._p_description
+        header = definition.pop("pre")
+        header.append('"""')
+        header += edit.wrapBlocks(description,columns=settings.COLUMNS)
         header.append('"""')
         header += definition.pop("header")
         footer = []
