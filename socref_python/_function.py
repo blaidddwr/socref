@@ -299,16 +299,28 @@ class Function(Descriptor):
         Returns
         -------
         ret0 : list
-               The source code lines of this function's header. The header includes any descriptors
-               and the define line.
+               The source code lines of this function's header. The header includes any descriptor
+               and the define lines.
         """
         ret = self._buildDescriptors_(begin)
         if self.isAbstract():
             ret.append(begin + "@" + settings.ABSTRACT_DESCRIPTOR)
-        arguments = [arg.buildArgument() for arg in self]
+        args = [arg.buildArgument() for arg in self]
         if self.isMethod() and not self.isStatic():
-            arguments.insert(0,"self")
-        ret.append("%sdef %s(%s):" % (begin,self._p_name,", ".join(arguments)))
+            args.insert(0,"self")
+        if not args:
+            ret.append("%sdef %s():"%(begin,self._p_name))
+        else:
+            ret.append("%sdef %s("%(begin,self._p_name))
+            newBegin = begin + " "*settings.INDENT
+            end = newBegin+"):"
+            first = True
+            for arg in args:
+                ret.append(newBegin+arg)
+                if first:
+                    newBegin += ","
+                    first = False
+            ret.append(end)
         return ret
 
 

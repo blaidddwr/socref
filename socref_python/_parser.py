@@ -47,9 +47,10 @@ class Parser(abstract.AbstractParser):
         self.__docPattern = re.compile(' *"""')
         self.__importPattern = re.compile('^(from|import).*')
         self.__classPattern = re.compile('^class +([a-zA-Z_]+\w*)\([\w\._,\s]*\):')
-        self.__functionPattern = re.compile('^def +([a-zA-Z_]+\w*)\(.*\):')
+        self.__functionPattern = re.compile('^def +([a-zA-Z_]+\w*)\((.*)')
+        self.__functionEndPattern = re.compile('^ *\):')
         self.__commentPattern = re.compile('^( *#).*')
-        self.__methodPattern = re.compile('^ *def +([a-zA-Z_]+\w*)\(.*\):')
+        self.__methodPattern = re.compile('^ *def +([a-zA-Z_]+\w*)\((.*)')
         self.__definitions = {}
 
 
@@ -142,7 +143,11 @@ class Parser(abstract.AbstractParser):
                     edit.uniqueInsert(def_["classes"],match.group(1),self.__scanClass_(ifile))
                 match = self.__functionPattern.match(line)
                 if match:
-                    edit.uniqueInsert(def_["functions"],match.group(1),self.__scanFunction_(ifile))
+                    edit.uniqueInsert(
+                        def_["functions"]
+                        ,match.group(1)
+                        ,self.__scanFunction_(ifile,match.group(2))
+                    )
             self.__definitions[path] = def_
 
 
@@ -218,11 +223,16 @@ class Parser(abstract.AbstractParser):
                 break
             match = self.__methodPattern.match(line)
             if match:
-                edit.uniqueInsert(ret["functions"],match.group(1),self.__scanFunction_(ifile))
+                print(match.group(1),match.group(2))
+                edit.uniqueInsert(
+                    ret["functions"]
+                    ,match.group(1)
+                    ,self.__scanFunction_(ifile,match.group(2))
+                )
         return ret
 
 
-    def __scanFunction_(self, ifile):
+    def __scanFunction_(self, ifile, end):
         """
         Getter method.
 
@@ -230,6 +240,9 @@ class Parser(abstract.AbstractParser):
         ----------
         ifile : file object
                 The python script whose function at the current seek position is scanned.
+        end : string
+              The end of the function declaration, beginning after the opening parenthesis
+              character.
 
         Returns
         -------
@@ -237,6 +250,13 @@ class Parser(abstract.AbstractParser):
                Scanned function definition containing all lines of scanned code from the function
                definition in the given python script file at its current seek position.
         """
+        if not end.strip().endswith("):"):
+            line = ifile.readline()
+            while not self.__functionEndPattern.match(line):
+                print(line)
+                if not line:
+                    break
+                line = ifile.readline()
         self.__skipDocString_(ifile)
         ret = []
         scan = parser.Scanner(ifile)

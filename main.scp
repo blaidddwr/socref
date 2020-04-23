@@ -7807,7 +7807,7 @@ The indent that is added to the beginning of every line of returned code.
                             <__p_name>__buildHeader_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_returnDescription>list
-The source code lines of this function's header. The header includes any descriptors and the define line.</__p_returnDescription>
+The source code lines of this function's header. The header includes any descriptor and the define lines.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -8373,6 +8373,12 @@ Scanned function definition containing all lines of scanned code from the functi
                                 <__p_name>ifile</__p_name>
                                 <__p_description>file object
 The python script whose function at the current seek position is scanned.
+</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>end</__p_name>
+                                <__p_description>string
+The end of the function declaration, beginning after the opening parenthesis character.
 </__p_description>
                             </Object>
                         </Function>
