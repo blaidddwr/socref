@@ -151,6 +151,20 @@ class Variable(Base):
         return ()
 
 
+    def buildSignature(
+        self
+        ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        ret0 : string
+               The signature of this variable as an argument.
+        """
+        return "_".join(self._p_type.replace("@","").split())
+
+
     def clearProperties(
         self
         ):

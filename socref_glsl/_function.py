@@ -67,7 +67,7 @@ class Function(Base):
         ret = [""]*settings.H1LINES
         ret += self.__buildComments_(begin)
         ret += self.__buildDeclaration_(begin)
-        ret += definition["functions"].pop(self._p_name,["{"]) + ["}"]
+        ret += definition["functions"].pop(self.__signature_(),["{"]) + ["}"]
         return ret
 
 
@@ -273,4 +273,25 @@ class Function(Base):
                     newBegin = newBegin + ","
                     first = False
             ret.append(begin+")")
+        return ret
+
+
+    def __signature_(
+        self
+        ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        ret0 : string
+               The signature of this function used to lookup any scanned lines of code when building
+               its definition. This includes its name and argument types.
+        """
+        ret = self._p_name
+        args = []
+        for child in self:
+            args.append(child.buildSignature())
+        if args:
+            ret += ":" + ":".join(args)
         return ret

@@ -15,7 +15,12 @@ from socref import edit
 
 class Parser(abstract.AbstractParser):
     """
-    This is the GLSL parser class. It implements the Socrates' Reference abstract parser.
+    This is the GLSL parser class. It implements the Socrates' Reference abstract parser. When
+    scanning source code it builds a definitions dictionary whose keys are the paths of the source
+    code file scanned and values are another dictionary for that file containing two keys. The first
+    key is "header" and contains any special headers for the shader. The second key is "functions"
+    and is a dictionary whose keys are function signatures and values are their scanned lines of
+    code.
     """
 
 
@@ -128,9 +133,10 @@ class Parser(abstract.AbstractParser):
                 if line:
                     match = self.__functionPattern.match(line)
                     if match:
+                        signature = self.__scanSignature_(ifile,match.group(1),match.group(2))
                         edit.uniqueInsert(
                             def_["functions"]
-                            ,match.group(1)
+                            ,signature
                             ,self.__scanFunction_(ifile,match.group(2))
                         )
             self.__definitions[path] = def_
@@ -186,12 +192,6 @@ class Parser(abstract.AbstractParser):
                Scanned code lines from the given input file, assuming it is positioned right after
                the function declaration line.
         """
-        depth = end.count("(")-end.count(")")
-        while depth > 0:
-            line = ifile.readline()
-            if not line:
-                return []
-            depth += line.count("(")-line.count(")")
         depth = 0
         lines = []
         while True:
@@ -234,3 +234,49 @@ class Parser(abstract.AbstractParser):
                 lines.append(line)
             else:
                 return lines
+
+
+    def __scanSignature_(
+        self
+        ,ifile
+        ,name
+        ,end
+        ):
+        """
+        Getter method.
+
+        Parameters
+        ----------
+        ifile : file object
+                The input file positioned after the first declaration line of a function header
+                whose signature is scanned and returned.
+        name : string
+               The function name of the returned signature.
+        end : string
+              The ending of the first function declaration line of the returned signature, used for
+              functions that have no arguments.
+
+        Returns
+        -------
+        ret0 : The function signature scanned from the given input file, assuming it is positioned
+               at the line after the first declaration line. The given function name and ending is
+               used to generate the signature taken from the first declaration line.
+        """
+        depth = end.count("(")-end.count(")")
+        args = []
+        while depth > 0:
+            line = ifile.readline()
+            if not line:
+                return []
+            if "(" not in line and ")" not in line:
+                parts = line[:-1].split()
+                if len(parts)>=2:
+                    arg = "_".join(parts[:-1])
+                    if arg[0]==",":
+                        arg = arg[1:]
+                    args.append(arg)
+            depth += line.count("(")-line.count(")")
+        ret = name
+        if args:
+            ret += ":"+":".join(args)
+        return ret
