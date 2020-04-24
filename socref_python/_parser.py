@@ -231,7 +231,7 @@ class Parser(abstract.AbstractParser):
             elif block._TYPE_ == "Module":
                 self._addPath_(block,os.path.join(path,block._p_name+".py"))
                 self.__buildPaths_(block,path)
-            elif block._TYPE_ == "Class":
+            elif block._TYPE_ == "Class" and not block.isInfile():
                 self._addPath_(block,os.path.join(path,"_"+block._p_name.lower()+".py"))
 
 

@@ -1,5 +1,5 @@
 """
-Contains all global settings for the python language module.
+Contains all global settings for this language module.
 """
 
 

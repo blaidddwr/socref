@@ -6069,7 +6069,7 @@ The ending of the first function declaration line of the returned signature, use
             </Module>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Contains all global settings for the C++ language module.</__p_description>
+                <__p_description>Contains all global settings for this language module.</__p_description>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
                     <__p_description>The maximum number of columns for any one line of code.</__p_description>
@@ -7269,7 +7269,7 @@ The input file whose shader directive code lines are scanned.
             </Module>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Contains all global settings for the GLSL language module.</__p_description>
+                <__p_description>Contains all global settings for this language module.</__p_description>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
                     <__p_description>The maximum number of columns for any one line of code.</__p_description>
@@ -7324,7 +7324,7 @@ The input file whose shader directive code lines are scanned.
         </Package>
         <Package>
             <__p_name>socref_python</__p_name>
-            <__p_description>Contains the python language definition for Socrates' Reference.</__p_description>
+            <__p_description>Contains the Python language definition for Socrates' Reference.</__p_description>
             <Module>
                 <__p_name>block</__p_name>
                 <__p_description>Contains all block classes for this language.
@@ -7548,6 +7548,15 @@ See interface docs.
                             <__p_description>Getter method.</__p_description>
                             <__p_returnDescription>bool
 True if this class contains any abstract functions or false otherwise.
+</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isInfile</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>bool
+True if this class is in file or false otherwise. In file means its definition is included in the module it is part of, otherwise it is defined in its own special container module and imported into its module namespace.
 </__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -8517,7 +8526,7 @@ The next line of python source code read in from this scanner's input file. If t
             </Module>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Contains all global settings for the python language module.</__p_description>
+                <__p_description>Contains all global settings for this language module.</__p_description>
                 <Object>
                     <__p_name>ABSTRACT_DESCRIPTOR</__p_name>
                     <__p_description>The descriptor, without the leading ampersand, used to make a class's method abstract.</__p_description>

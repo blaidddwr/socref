@@ -36,6 +36,7 @@ class Class(Descriptor):
         """
         Descriptor.__init__(self)
         self._p_parents = ""
+        self._p_infile = "0"
 
 
     ####################
@@ -63,8 +64,16 @@ class Class(Descriptor):
         ret0 : object
                See interface docs.
         """
-        (header,footer) = self._build_(definition,begin,"Contains the %s class."%(self._p_name,))
-        ret = header
+        ret = []
+        header = []
+        footer = []
+        if not self.isInfile():
+            (header,footer) = self._build_(
+                definition
+                ,begin
+                ,"Contains the %s class."%(self._p_name,)
+            )
+            ret += header
         definition = definition["classes"].get(self._p_name,{"functions": {}})
         ret += [""]*settings.H1LINES
         ret += self._buildDescriptors_(begin)
@@ -77,7 +86,9 @@ class Class(Descriptor):
         )
         ret.append(begin + " "*settings.INDENT + '"""')
         (regular,classes) = self._buildChildren_(definition,begin + " " * settings.INDENT)
-        ret += regular+footer
+        ret += regular
+        if not self.isInfile():
+            ret += footer
         return ret
 
 
@@ -103,6 +114,7 @@ class Class(Descriptor):
         """
         Descriptor.clearProperties(self)
         self._p_parents = ""
+        self._p_infile = "0"
 
 
     def displayName(
@@ -135,7 +147,8 @@ class Class(Descriptor):
             ,"Parents"
             ,"".join(("<li>%s</li>" % parent for parent in self._p_parents.split("\n") if parent))
         )
-        return block.Package.displayView(self) + parents + self._descriptorsView_()
+        flags = edit.richTextList(2,"Flags",["Infile"] if self.isInfile() else [])
+        return block.Package.displayView(self) + parents + self._descriptorsView_() + flags
 
 
     def editDefinitions(
@@ -151,6 +164,7 @@ class Class(Descriptor):
         """
         ret = block.Package.editDefinitions(self)
         ret.append(edit.textEdit("Parents:","_p_parents"))
+        ret.append(edit.checkboxEdit("Infile","_p_infile"))
         ret.append(self._descriptorsEditDefinition_())
         return ret
 
@@ -189,6 +203,22 @@ class Class(Descriptor):
         return False
 
 
+    def isInfile(
+        self
+        ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        ret0 : bool
+               True if this class is in file or false otherwise. In file means its definition is
+               included in the module it is part of, otherwise it is defined in its own special
+               container module and imported into its module namespace.
+        """
+        return bool(int(self._p_infile))
+
+
     def setDefaultProperties(
         self
         ):
@@ -198,6 +228,7 @@ class Class(Descriptor):
         Descriptor.setDefaultProperties(self)
         self._p_name = "class"
         self._p_parents = ""
+        self._p_infile = "0"
 
 
     #####################

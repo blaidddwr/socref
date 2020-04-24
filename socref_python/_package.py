@@ -251,6 +251,8 @@ class Package(abstract.AbstractBlock):
         for block in self:
             if block._TYPE_!="Class":
                 regular += block.build(definition,begin)
+            elif block.isInfile():
+                regular += block.build(definition,begin)
             else:
                 classes += ["from ._%s import %s"%(block._p_name.lower(),block._p_name)]
         return (regular,classes)
