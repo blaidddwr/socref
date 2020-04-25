@@ -3806,6 +3806,20 @@ The initialized spell checker box widget.
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
+                            <__p_name>__cancel_</__p_name>
+                            <__p_description>Called to set this dialog's done status to rejected and then closing it.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__set_</__p_name>
+                            <__p_description>Called to set this dialog's done status to accepted and then closing it.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>__spellCheck_</__p_name>
                             <__p_description>Called to begin spell checking this text dialog's document. This shows its spell checker box and tells it to start checking.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>

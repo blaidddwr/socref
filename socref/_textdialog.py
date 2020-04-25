@@ -125,9 +125,9 @@ class TextDialog(qtw.QDialog):
                A layout of initialized buttons.
         """
         set_ = qtw.QPushButton("Set")
-        set_.clicked.connect(lambda : self.done(qtw.QDialog.Accepted))
+        set_.clicked.connect(self.__set_)
         cancel = qtw.QPushButton("Cancel")
-        cancel.clicked.connect(lambda : self.done(qtw.QDialog.Rejected))
+        cancel.clicked.connect(self.__cancel_)
         self.__spellButton.clicked.connect(self.__spellCheck_)
         self.__spellButton.setDisabled(not self.__speller)
         ret = qtw.QHBoxLayout()
@@ -174,6 +174,28 @@ class TextDialog(qtw.QDialog):
     ###################
     # PRIVATE - Slots #
     ###################
+
+
+    @qtc.Slot()
+    def __cancel_(
+        self
+        ):
+        """
+        Called to set this dialog's done status to rejected and then closing it.
+        """
+        self.done(qtw.QDialog.Rejected)
+        self.close()
+
+
+    @qtc.Slot()
+    def __set_(
+        self
+        ):
+        """
+        Called to set this dialog's done status to accepted and then closing it.
+        """
+        self.done(qtw.QDialog.Accepted)
+        self.close()
 
 
     @qtc.Slot()
