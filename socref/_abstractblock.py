@@ -85,9 +85,9 @@ class AbstractBlock(abc.ABC):
         self.__properties = {}
 
 
-    #####################
-    # PUBLIC - Abstract #
-    #####################
+    #######################
+    # PUBLIC - Interfaces #
+    #######################
 
 
     @abc.abstractmethod

@@ -52,7 +52,7 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Abstract</__p_name>
+                        <__p_name>Interfaces</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildList</__p_name>
@@ -812,27 +812,6 @@ The project model whose given index is moved.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Slots</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>start</__p_name>
-                            <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.
-
-This also catches any python exceptions and prints them to standard error because Qt thread's event loop ignores them.
-</__p_description>
-                            <__p_descriptors>qtc.Slot(AbstractParser)
-</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>parser</__p_name>
-                                <__p_description>socref.abstract.AbstractParser
-The abstract parser that is executed.
-</__p_description>
-                            </Object>
-                        </Function>
-                    </Access>
-                    <Access>
                         <__p_name>Signals</__p_name>
                         <__p_type>Public</__p_type>
                         <Object>
@@ -855,6 +834,27 @@ The abstract parser that is executed.
                             <__p_description>Signals this parser has started parsing.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>start</__p_name>
+                            <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.
+
+This also catches any python exceptions and prints them to standard error because Qt thread's event loop ignores them.
+</__p_description>
+                            <__p_descriptors>qtc.Slot(AbstractParser)
+</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>parser</__p_name>
+                                <__p_description>socref.abstract.AbstractParser
+The abstract parser that is executed.
+</__p_description>
+                            </Object>
+                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>

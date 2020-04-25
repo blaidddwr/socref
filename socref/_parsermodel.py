@@ -37,6 +37,36 @@ class ParserModel(qtc.QObject):
         self.__progress = 0
 
 
+    ####################
+    # PUBLIC - Signals #
+    ####################
+
+
+    #
+    # Signals this parser has finished parsing.
+    #
+    finished = qtc.Signal()
+
+
+    #
+    # Signals this parser has made the given percentage progress parsing. The range given is from 0
+    # to 100.
+    #
+    progressed = qtc.Signal(int)
+
+
+    #
+    # Signals this parser had remaining unknown code fragments after finishing the last parsing.
+    #
+    remained = qtc.Signal(dict)
+
+
+    #
+    # Signals this parser has started parsing.
+    #
+    started = qtc.Signal()
+
+
     ##################
     # PUBLIC - Slots #
     ##################
@@ -70,36 +100,6 @@ class ParserModel(qtc.QObject):
             traceback.print_exc()
         finally:
             self.finished.emit()
-
-
-    ####################
-    # PUBLIC - Signals #
-    ####################
-
-
-    #
-    # Signals this parser has finished parsing.
-    #
-    finished = qtc.Signal()
-
-
-    #
-    # Signals this parser has made the given percentage progress parsing. The range given is from 0
-    # to 100.
-    #
-    progressed = qtc.Signal(int)
-
-
-    #
-    # Signals this parser had remaining unknown code fragments after finishing the last parsing.
-    #
-    remained = qtc.Signal(dict)
-
-
-    #
-    # Signals this parser has started parsing.
-    #
-    started = qtc.Signal()
 
 
     #####################
