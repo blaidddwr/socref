@@ -32,7 +32,7 @@ class Scanner():
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The input file that is scanned.
         """
         self.__ifile = ifile

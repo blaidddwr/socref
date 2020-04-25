@@ -43,7 +43,7 @@ class Parser(abstract.AbstractParser):
         abstract.AbstractParser.__init__(self)
         self.__root_block = root
         self.__scopePattern = re.compile('^\s*namespace\s+(\w+)\s*$')
-        self.__functionPattern = re.compile('^(.*\s)?([\S]+)\((.*)$')
+        self.__functionPattern = re.compile('^(.*\s)?([\S]+)(\(.*)$')
         self.__functionPointerPattern = re.compile('^(.*)\(\*\w+\)\((.*)\)')
         self.__definitions = {"headers": {},"functions": {}}
 
@@ -182,7 +182,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The input file that is scanned for function definition code.
         scope : string
                 The namespace scope that any found function definitions are nested within.
@@ -254,7 +254,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The input file positioned at the beginning of a function definition whose lines of
                 code are scanned and returned.
 
@@ -292,7 +292,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The input file positioned at the beginning of the file whose preprocessor header
                 lines are scanned and returned.
 
@@ -320,21 +320,21 @@ class Parser(abstract.AbstractParser):
         self
         ,ifile
         ,name
-        ,ending
+        ,end
         ):
         """
         Getter method.
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The input file positioned after the first declaration line of a function header
                 whose signature is scanned and returned.
         name : string
                The function name of the returned signature.
-        ending : string
-                 The ending of the first function declaration line of the returned signature, used
-                 for functions that have no arguments.
+        end : string
+              The ending of the first function declaration line of the returned signature, used for
+              functions that have no arguments.
 
         Returns
         -------
@@ -344,25 +344,26 @@ class Parser(abstract.AbstractParser):
                used to generate the signature taken from the first declaration line. The returned
                signature does not include any scope.
         """
-        if not ")" in ending:
-            arguments = ""
-            while True:
-                line = ifile.readline()
-                if not line:
-                    break
-                line = line[:-1]
-                if line:
-                    if ")" in line and not "(" in line:
-                        if not ";" in line:
-                            if "const" in line:
-                                name += ":const"
-                            return name+":"+arguments
-                        break
-                    else:
-                        if arguments:
-                            arguments += "_"
-                        arguments += self.__scanArgument_(line)
-        elif not ";" in ending:
-            if "const" in ending:
-                name += ":const"
-            return name
+        depth = end.count("(")-end.count(")")
+        args = []
+        line = end
+        while depth>0:
+            line = ifile.readline()
+            if not line:
+                return None
+            if "(" not in line and ")" not in line:
+                parts = line[:-1].split()
+                if len(parts)>=2:
+                    arg = "_".join(parts[:-1])
+                    if arg[0]==",":
+                        arg = arg[1:]
+                    args.append(arg)
+            depth += line.count("(")-line.count(")")
+        if ";" in line:
+            return None
+        if "const" in line:
+            args.append("const")
+        ret = name
+        if args:
+            ret += ":"+":".join(args)
+        return ret

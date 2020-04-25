@@ -1,5 +1,5 @@
 """
-Contains all global settings for this language module.
+Contains all global settings for this language package.
 """
 
 

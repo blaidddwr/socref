@@ -148,7 +148,7 @@ class Variable(Template):
         ret0 : string
                The signature of this variable as an argument.
         """
-        return self._p_type.replace("@","").replace(" ","")
+        return "_".join(self._p_type.replace("@","").split())
 
 
     def clearProperties(

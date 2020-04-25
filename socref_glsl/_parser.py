@@ -179,7 +179,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The input file positioned right after a function declaration whose scanned lines are
                 returned.
         end : string
@@ -216,7 +216,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The input file whose shader directive code lines are scanned.
 
         Returns
@@ -247,7 +247,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The input file positioned after the first declaration line of a function header
                 whose signature is scanned and returned.
         name : string
@@ -264,7 +264,7 @@ class Parser(abstract.AbstractParser):
         """
         depth = end.count("(")-end.count(")")
         args = []
-        while depth > 0:
+        while depth>0:
             line = ifile.readline()
             if not line:
                 return []

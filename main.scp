@@ -6032,7 +6032,7 @@ The scope of the given parent block with double colons being replaced by an unde
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file that is scanned for function definition code.
 </__p_description>
                             </Object>
@@ -6068,7 +6068,7 @@ Code lines scanned from the given input file, assuming it is at the beginning of
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file positioned at the beginning of a function definition whose lines of code are scanned and returned.
 </__p_description>
                             </Object>
@@ -6083,7 +6083,7 @@ Preprocessor header lines scanned from the given input file, assuming it is at t
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file positioned at the beginning of the file whose preprocessor header lines are scanned and returned.
 </__p_description>
                             </Object>
@@ -6098,7 +6098,7 @@ The function signature scanned from the given input file, assuming it is positio
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file positioned after the first declaration line of a function header whose signature is scanned and returned.
 </__p_description>
                             </Object>
@@ -6109,7 +6109,7 @@ The function name of the returned signature.
 </__p_description>
                             </Object>
                             <Object>
-                                <__p_name>ending</__p_name>
+                                <__p_name>end</__p_name>
                                 <__p_description>string
 The ending of the first function declaration line of the returned signature, used for functions that have no arguments.
 </__p_description>
@@ -6120,7 +6120,7 @@ The ending of the first function declaration line of the returned signature, use
             </Module>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Contains all global settings for this language module.</__p_description>
+                <__p_description>Contains all global settings for this language package.</__p_description>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
                     <__p_description>The maximum number of columns for any one line of code.</__p_description>
@@ -7325,7 +7325,7 @@ Scanned code lines from the given input file, assuming it is positioned right af
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file positioned right after a function declaration whose scanned lines are returned.
 </__p_description>
                             </Object>
@@ -7346,7 +7346,7 @@ Shader directive code lines scanned from the header of the given shader file.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file whose shader directive code lines are scanned.
 </__p_description>
                             </Object>
@@ -7360,7 +7360,7 @@ The input file whose shader directive code lines are scanned.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file positioned after the first declaration line of a function header whose signature is scanned and returned.
 </__p_description>
                             </Object>
@@ -7382,7 +7382,7 @@ The ending of the first function declaration line of the returned signature, use
             </Module>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Contains all global settings for this language module.</__p_description>
+                <__p_description>Contains all global settings for this language package.</__p_description>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
                     <__p_description>The maximum number of columns for any one line of code.</__p_description>
@@ -8517,7 +8517,7 @@ Scanned class definition containing any found and scanned method's lines of code
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The python script whose class at the current seek position is scanned.
 </__p_description>
                             </Object>
@@ -8532,7 +8532,7 @@ Scanned function definition containing all lines of scanned code from the functi
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The python script whose function at the current seek position is scanned.
 </__p_description>
                             </Object>
@@ -8553,7 +8553,7 @@ Import code lines scanned from the header of the given python script file. It is
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The python script whose import lines of code are scanned.
 </__p_description>
                             </Object>
@@ -8568,7 +8568,7 @@ Comment script lines scanned from the beginning of the given python script file.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The python script whose comment script lines are scanned.
 </__p_description>
                             </Object>
@@ -8583,7 +8583,7 @@ Script code lines scanned from the end of the given python script file. It is as
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The python script whose script lines are scanned.
 </__p_description>
                             </Object>
@@ -8595,7 +8595,7 @@ The python script whose script lines are scanned.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The python script whose doc string, if any, is skipped.
 </__p_description>
                             </Object>
@@ -8616,7 +8616,7 @@ The python script whose doc string, if any, is skipped.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file that is scanned.
 </__p_description>
                             </Object>
@@ -8648,7 +8648,7 @@ The next line of python source code read in from this scanner's input file. If t
             </Module>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Contains all global settings for this language module.</__p_description>
+                <__p_description>Contains all global settings for this language package.</__p_description>
                 <Object>
                     <__p_name>ABSTRACT_DESCRIPTOR</__p_name>
                     <__p_description>The descriptor, without the leading ampersand, used to make a class's method abstract.</__p_description>

@@ -244,7 +244,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The python script whose class at the current seek position is scanned.
 
         Returns
@@ -280,7 +280,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The python script whose function at the current seek position is scanned.
         end : string
               The end of the function declaration, beginning after the opening parenthesis
@@ -318,7 +318,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The python script whose import lines of code are scanned.
 
         Returns
@@ -352,7 +352,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The python script whose comment script lines are scanned.
 
         Returns
@@ -382,7 +382,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The python script whose script lines are scanned.
 
         Returns
@@ -410,7 +410,7 @@ class Parser(abstract.AbstractParser):
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The python script whose doc string, if any, is skipped.
         """
         count = 0

@@ -880,19 +880,12 @@ class Function(Templatee):
             scope += "::"
         ret = self.__buildNamespaceScope_()
         ret += scope+self.__name_()
-        if self.isConstant():
-            ret += ":const"
         args = []
         for child in self:
             if child._TYPE_ == "Variable":
-                args.append(child)
+                args.append(child.buildSignature())
         if args:
-            first = True
-            for arg in args:
-                if first:
-                    ret += ":"
-                    first = False
-                else:
-                    ret += "_"
-                ret += arg.buildSignature()
+            ret += ":"+":".join(args)
+        if self.isConstant():
+            ret += ":const"
         return ret
