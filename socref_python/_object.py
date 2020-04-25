@@ -23,6 +23,53 @@ class Object(Package):
     """
 
 
+    ###########################
+    # PUBLIC - Static Methods #
+    ###########################
+
+
+    def comment(
+        name
+        ,description
+        ,begin
+        ):
+        """
+        Getter method.
+
+        Parameters
+        ----------
+        name : string
+               The name of the variable whose doc string is returned.
+        description : string
+                      Description of the variable separated by at least two lines. The first line is
+                      its type and all other lines is the actual description.
+        begin : string
+                The indent that is appended to every line of returned source code.
+
+        Returns
+        -------
+        ret0 : list
+               A doc string lines fragment for the given variable name and description as a function
+               argument or return value.
+        """
+        parts = description.split("\n")
+        if not parts:
+            parts = ["object",""]
+        elif len(parts)==1:
+            parts = ["object",parts[0]]
+        elif len(parts)>2:
+            parts = parts[:1]+[" ".join(parts[1:])]
+        initial = name + " : "
+        ret = edit.wrapText(
+            initial+parts[0]
+            ,begin=begin
+            ,after=" "*len(initial)
+            ,columns=settings.COLUMNS
+        )
+        ret += edit.wrapText(parts[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
+        return ret
+
+
     #######################
     # PUBLIC - Initialize #
     #######################
@@ -129,19 +176,7 @@ class Object(Package):
         ret0 : list
                The source code lines doc string fragment for this object as a function argument.
         """
-        desc = self._p_description.split("\n")
-        if len(desc) >= 2:
-            initial = self._p_name + " : "
-            ret = edit.wrapText(
-                initial+desc[0]
-                ,begin=begin
-                ,after=" "*len(initial)
-                ,columns=settings.COLUMNS
-            )
-            ret += edit.wrapText(desc[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
-            return ret
-        else:
-            return [begin+"UNKNOWN"]
+        return Object.comment(self._p_name,self._p_description,begin)
 
 
     def buildList(

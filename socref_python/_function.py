@@ -279,40 +279,25 @@ class Function(Descriptor):
         ret0 : list
                The source code doc string lines of this function.
         """
-        newIndent = begin + " "*settings.INDENT
-        ret = [newIndent+'"""']
+        newBegin = begin + " "*settings.INDENT
+        ret = [newBegin+'"""']
         ret += edit.wrapBlocks(
             self._p_description
-            ,begin=newIndent
+            ,begin=newBegin
             ,columns=settings.COLUMNS
         )
         args = []
         for arg in self:
-            args += arg.buildComment(newIndent)
+            args += arg.buildComment(newBegin)
         if args:
-            ret += ["",newIndent+"Parameters",newIndent+"----------"]
+            ret += ["",newBegin+"Parameters",newBegin+"----------"]
             ret += args
         returns = [desc for desc in self._p_returnDescription.split("\n\n") if desc]
         if returns:
-            ret += ["",newIndent+"Returns",newIndent+"-------"]
+            ret += ["",newBegin+"Returns",newBegin+"-------"]
             i = 0
             for desc in returns:
-                desc = desc.split("\n")
-                if len(desc) >= 2:
-                    initial = "ret"+str(i)+" : "
-                    ret += edit.wrapText(
-                        newIndent + initial + desc[0]
-                        ,begin=newIndent
-                        ,after=" "*len(initial)
-                        ,columns=settings.COLUMNS
-                    )
-                    ret += edit.wrapText(
-                        desc[1]
-                        ,begin=newIndent + " "*len(initial)
-                        ,columns=settings.COLUMNS
-                    )
-                else:
-                    ret += [newIndent+"UNKNOWN"]
+                ret += block.Object.comment("ret"+str(i),desc,newBegin)
                 i += 1
         ret.append(ret[0])
         return ret

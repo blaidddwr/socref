@@ -207,6 +207,8 @@ class Package(abstract.AbstractBlock):
         -------
         ret0 : list
                Import code lines for this block.
+        ret1 : list
+               Script code lines for this block.
         """
         if description is None:
             description = self._p_description

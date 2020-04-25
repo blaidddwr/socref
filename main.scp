@@ -1479,6 +1479,35 @@ The new properties dictionary of the block at the given index.
                         </Function>
                     </Access>
                     <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__COPY_TAG</__p_name>
+                            <__p_description>The root copy tag used for internal copy XML byte arrays.</__p_description>
+                            <__p_assignment>&quot;pysoref_copy&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__LANG_TAG</__p_name>
+                            <__p_description>The language tag used for the language name text element of XML project files.</__p_description>
+                            <__p_assignment>&quot;language&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__NAME_TAG</__p_name>
+                            <__p_description>The name tag used for the project name text element of XML project files.</__p_description>
+                            <__p_assignment>&quot;name&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__PARSE_PATH_TAG</__p_name>
+                            <__p_description>The parse path tag used for the parse path text element of XML project files.</__p_description>
+                            <__p_assignment>&quot;parse_path&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__PROJECT_TAG</__p_name>
+                            <__p_description>The root tag used for XML project files.</__p_description>
+                            <__p_assignment>&quot;scp_project&quot;</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
@@ -1538,35 +1567,6 @@ The parent index of this model whose children's data has changed due to the vola
 </__p_description>
                             </Object>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__COPY_TAG</__p_name>
-                            <__p_description>The root copy tag used for internal copy XML byte arrays.</__p_description>
-                            <__p_assignment>&quot;pysoref_copy&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__LANG_TAG</__p_name>
-                            <__p_description>The language tag used for the language name text element of XML project files.</__p_description>
-                            <__p_assignment>&quot;language&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__NAME_TAG</__p_name>
-                            <__p_description>The name tag used for the project name text element of XML project files.</__p_description>
-                            <__p_assignment>&quot;name&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__PARSE_PATH_TAG</__p_name>
-                            <__p_description>The parse path tag used for the parse path text element of XML project files.</__p_description>
-                            <__p_assignment>&quot;parse_path&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__PROJECT_TAG</__p_name>
-                            <__p_description>The root tag used for XML project files.</__p_description>
-                            <__p_assignment>&quot;scp_project&quot;</__p_assignment>
-                        </Object>
                     </Access>
                 </Class>
                 <Class>
@@ -2521,6 +2521,20 @@ See qt docs.
                         </Function>
                     </Access>
                     <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__GEOMETRY_KEY</__p_name>
+                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.dialog.code.geometry&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__STATE_KEY</__p_name>
+                            <__p_description>The key used to save this dialog's state using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.dialog.code.state&quot;</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
@@ -2578,20 +2592,6 @@ The new key of the selected code fragment.
 </__p_description>
                             </Object>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__GEOMETRY_KEY</__p_name>
-                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.dialog.code.geometry&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__STATE_KEY</__p_name>
-                            <__p_description>The key used to save this dialog's state using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.dialog.code.state&quot;</__p_assignment>
-                        </Object>
                     </Access>
                 </Class>
                 <Class>
@@ -2654,6 +2654,29 @@ See qt docs.
 </__p_description>
                             </Object>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__GEOMETRY_KEY</__p_name>
+                            <__p_description>The key used to save this window's geometry using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.window.main.geometry&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__STATE_KEY</__p_name>
+                            <__p_description>The key used to save this window's state using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.window.main.state&quot;</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Static Objects</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__instances</__p_name>
+                            <__p_description>List of all active main window instances. Used to make sure they are not prematurely deleted.</__p_description>
+                            <__p_assignment>[]</__p_assignment>
+                        </Object>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
@@ -2871,29 +2894,6 @@ True if the project was saved successfully or false otherwise.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
-                    <Access>
-                        <__p_name>Static Objects</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__instances</__p_name>
-                            <__p_description>List of all active main window instances. Used to make sure they are not prematurely deleted.</__p_description>
-                            <__p_assignment>[]</__p_assignment>
-                        </Object>
-                    </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__GEOMETRY_KEY</__p_name>
-                            <__p_description>The key used to save this window's geometry using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.window.main.geometry&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__STATE_KEY</__p_name>
-                            <__p_description>The key used to save this window's state using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.window.main.state&quot;</__p_assignment>
-                        </Object>
-                    </Access>
                 </Class>
                 <Class>
                     <__p_name>PlainTextEdit</__p_name>
@@ -3022,6 +3022,15 @@ See qt docs.
                         </Function>
                     </Access>
                     <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__GEOMETRY_KEY</__p_name>
+                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.dialog.project.geometry&quot;</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
@@ -3099,15 +3108,6 @@ The new parse path of this dialog's project model.
 </__p_description>
                             </Object>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__GEOMETRY_KEY</__p_name>
-                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.dialog.project.geometry&quot;</__p_assignment>
-                        </Object>
                     </Access>
                 </Class>
                 <Class>
@@ -3256,6 +3256,39 @@ The undo action of this project.
                             <__p_name>indexRemoved</__p_name>
                             <__p_description>Signals that the this project's current index is about to be removed from its model.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__AFTER</__p_name>
+                            <__p_description>The &quot;after&quot; insert option.</__p_description>
+                            <__p_assignment>2</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__BEFORE</__p_name>
+                            <__p_description>The &quot;before&quot; insert option.</__p_description>
+                            <__p_assignment>0</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__INTO</__p_name>
+                            <__p_description>The &quot;into&quot; insert option.</__p_description>
+                            <__p_assignment>1</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Static Objects</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__blockTypeSet</__p_name>
+                            <__p_description>Global set that stores all unique block types that have been copied to the global XML data. If no blocks have been copied then this is none. This is used to determine if the paste action can be enabled.</__p_description>
+                            <__p_assignment>None</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__xmlBlocks</__p_name>
+                            <__p_description>Global XML byte array that stored the data of copied blocks, if any. If no blocks have been copied then this is none.</__p_description>
+                            <__p_assignment>None</__p_assignment>
                         </Object>
                     </Access>
                     <Access>
@@ -3492,39 +3525,6 @@ Qt data roles that have changed in the given indexes.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Static Objects</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__blockTypeSet</__p_name>
-                            <__p_description>Global set that stores all unique block types that have been copied to the global XML data. If no blocks have been copied then this is none. This is used to determine if the paste action can be enabled.</__p_description>
-                            <__p_assignment>None</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__xmlBlocks</__p_name>
-                            <__p_description>Global XML byte array that stored the data of copied blocks, if any. If no blocks have been copied then this is none.</__p_description>
-                            <__p_assignment>None</__p_assignment>
-                        </Object>
-                    </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__AFTER</__p_name>
-                            <__p_description>The &quot;after&quot; insert option.</__p_description>
-                            <__p_assignment>2</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__BEFORE</__p_name>
-                            <__p_description>The &quot;before&quot; insert option.</__p_description>
-                            <__p_assignment>0</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__INTO</__p_name>
-                            <__p_description>The &quot;into&quot; insert option.</__p_description>
-                            <__p_assignment>1</__p_assignment>
-                        </Object>
                     </Access>
                 </Class>
                 <Class>
@@ -3769,6 +3769,15 @@ See qt docs.
                         </Function>
                     </Access>
                     <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__GEOMETRY_KEY</__p_name>
+                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.dialog.text.geometry&quot;</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
@@ -3833,15 +3842,6 @@ The initialized spell checker box widget.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__GEOMETRY_KEY</__p_name>
-                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.dialog.text.geometry&quot;</__p_assignment>
-                        </Object>
                     </Access>
                 </Class>
             </Module>
@@ -8057,6 +8057,37 @@ See interface docs.
 </__p_parents>
                     <__p_infile>0</__p_infile>
                     <Access>
+                        <__p_name>Static Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>comment</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>list
+A doc string lines fragment for the given variable name and description as a function argument or return value.
+</__p_returnDescription>
+                            <__p_static>1</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>name</__p_name>
+                                <__p_description>string
+The name of the variable whose doc string is returned.
+</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>description</__p_name>
+                                <__p_description>string
+Description of the variable separated by at least two lines. The first line is its type and all other lines is the actual description.
+</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>string
+The indent that is appended to every line of returned source code.
+</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
@@ -8326,6 +8357,7 @@ See interface docs.
                             <__p_description>Getter method.</__p_description>
                             <__p_returnDescription>list
 Import code lines for this block.
+
 list
 Script code lines for this block.
 </__p_returnDescription>

@@ -71,6 +71,17 @@ class ProjectDialog(qtw.QDialog):
         event.accept()
 
 
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The key used to save this dialog's geometry using qt settings to make it persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.project.geometry"
+
+
     #####################
     # PRIVATE - Methods #
     #####################
@@ -206,14 +217,3 @@ class ProjectDialog(qtw.QDialog):
                The new parse path of this dialog's project model.
         """
         self.__parsePathEdit.setText(path)
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.project.geometry"

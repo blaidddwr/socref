@@ -96,6 +96,17 @@ class TextDialog(qtw.QDialog):
         event.accept()
 
 
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The key used to save this dialog's geometry using qt settings to make it persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.text.geometry"
+
+
     #####################
     # PRIVATE - Methods #
     #####################
@@ -222,14 +233,3 @@ class TextDialog(qtw.QDialog):
         cursor = self.__textEdit.textCursor()
         cursor.clearSelection()
         self.__textEdit.setTextCursor(cursor)
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.text.geometry"

@@ -72,6 +72,23 @@ class CodeDialog(qtw.QDialog):
         event.accept()
 
 
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The key used to save this dialog's geometry using qt settings to make it persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.code.geometry"
+
+
+    #
+    # The key used to save this dialog's state using qt settings to make it persistent.
+    #
+    __STATE_KEY = "gui.dialog.code.state"
+
+
     #####################
     # PRIVATE - Methods #
     #####################
@@ -179,20 +196,3 @@ class CodeDialog(qtw.QDialog):
               The new key of the selected code fragment.
         """
         self.__view.setPlainText(self.__code[key])
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.code.geometry"
-
-
-    #
-    # The key used to save this dialog's state using qt settings to make it persistent.
-    #
-    __STATE_KEY = "gui.dialog.code.state"

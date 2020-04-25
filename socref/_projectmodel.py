@@ -980,6 +980,41 @@ class ProjectModel(qtc.QAbstractItemModel):
         self.__modified_()
 
 
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The root copy tag used for internal copy XML byte arrays.
+    #
+    __COPY_TAG = "pysoref_copy"
+
+
+    #
+    # The language tag used for the language name text element of XML project files.
+    #
+    __LANG_TAG = "language"
+
+
+    #
+    # The name tag used for the project name text element of XML project files.
+    #
+    __NAME_TAG = "name"
+
+
+    #
+    # The parse path tag used for the parse path text element of XML project files.
+    #
+    __PARSE_PATH_TAG = "parse_path"
+
+
+    #
+    # The root tag used for XML project files.
+    #
+    __PROJECT_TAG = "scp_project"
+
+
     #####################
     # PRIVATE - Methods #
     #####################
@@ -1081,38 +1116,3 @@ class ProjectModel(qtc.QAbstractItemModel):
             block = self.__block_(index)
             if block.isVolatileBelow():
                 self.__pushVolatileBelow_(index)
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The root copy tag used for internal copy XML byte arrays.
-    #
-    __COPY_TAG = "pysoref_copy"
-
-
-    #
-    # The language tag used for the language name text element of XML project files.
-    #
-    __LANG_TAG = "language"
-
-
-    #
-    # The name tag used for the project name text element of XML project files.
-    #
-    __NAME_TAG = "name"
-
-
-    #
-    # The parse path tag used for the parse path text element of XML project files.
-    #
-    __PARSE_PATH_TAG = "parse_path"
-
-
-    #
-    # The root tag used for XML project files.
-    #
-    __PROJECT_TAG = "scp_project"

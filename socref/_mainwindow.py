@@ -132,6 +132,34 @@ class MainWindow(qtw.QMainWindow):
             event.ignore()
 
 
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The key used to save this window's geometry using qt settings to make it persistent.
+    #
+    __GEOMETRY_KEY = "gui.window.main.geometry"
+
+
+    #
+    # The key used to save this window's state using qt settings to make it persistent.
+    #
+    __STATE_KEY = "gui.window.main.state"
+
+
+    ############################
+    # PRIVATE - Static Objects #
+    ############################
+
+
+    #
+    # List of all active main window instances. Used to make sure they are not prematurely deleted.
+    #
+    __instances = []
+
+
     #####################
     # PRIVATE - Methods #
     #####################
@@ -674,31 +702,3 @@ class MainWindow(qtw.QMainWindow):
         self.setWindowModified(False)
         self.__updateActions_()
         return True
-
-
-    ############################
-    # PRIVATE - Static Objects #
-    ############################
-
-
-    #
-    # List of all active main window instances. Used to make sure they are not prematurely deleted.
-    #
-    __instances = []
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this window's geometry using qt settings to make it persistent.
-    #
-    __GEOMETRY_KEY = "gui.window.main.geometry"
-
-
-    #
-    # The key used to save this window's state using qt settings to make it persistent.
-    #
-    __STATE_KEY = "gui.window.main.state"

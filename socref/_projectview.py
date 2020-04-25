@@ -258,6 +258,49 @@ class ProjectView(qtw.QTreeView):
     indexRemoved = qtc.Signal()
 
 
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The "after" insert option.
+    #
+    __AFTER = 2
+
+
+    #
+    # The "before" insert option.
+    #
+    __BEFORE = 0
+
+
+    #
+    # The "into" insert option.
+    #
+    __INTO = 1
+
+
+    ############################
+    # PRIVATE - Static Objects #
+    ############################
+
+
+    #
+    # Global set that stores all unique block types that have been copied to the global XML data. If
+    # no blocks have been copied then this is none. This is used to determine if the paste action
+    # can be enabled.
+    #
+    __blockTypeSet = None
+
+
+    #
+    # Global XML byte array that stored the data of copied blocks, if any. If no blocks have been
+    # copied then this is none.
+    #
+    __xmlBlocks = None
+
+
     #####################
     # PRIVATE - Methods #
     #####################
@@ -758,46 +801,3 @@ class ProjectView(qtw.QTreeView):
         if self.__model is not None:
             self.__model.undo()
             self.__updateContextMenu_()
-
-
-    ############################
-    # PRIVATE - Static Objects #
-    ############################
-
-
-    #
-    # Global set that stores all unique block types that have been copied to the global XML data. If
-    # no blocks have been copied then this is none. This is used to determine if the paste action
-    # can be enabled.
-    #
-    __blockTypeSet = None
-
-
-    #
-    # Global XML byte array that stored the data of copied blocks, if any. If no blocks have been
-    # copied then this is none.
-    #
-    __xmlBlocks = None
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The "after" insert option.
-    #
-    __AFTER = 2
-
-
-    #
-    # The "before" insert option.
-    #
-    __BEFORE = 0
-
-
-    #
-    # The "into" insert option.
-    #
-    __INTO = 1
