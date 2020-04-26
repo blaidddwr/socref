@@ -18,8 +18,8 @@ from . import settings
 @register("Access")
 class Access(abstract.AbstractBlock):
     """
-    This is the access block class. It implements the Socrates' Reference abstract block class. It
-    represents an access declaration for C++ class.
+    This is the access block class. It implements the Socrates' Reference
+    abstract block class. It represents an access declaration for C++ class.
     """
 
 
@@ -206,7 +206,8 @@ class Access(abstract.AbstractBlock):
         Returns
         -------
         ret0 : bool
-               True if this access block contains any abstract methods or false otherwise.
+               True if this access block contains any abstract methods or false
+               otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":
@@ -224,7 +225,8 @@ class Access(abstract.AbstractBlock):
         Returns
         -------
         ret0 : bool
-               True if this access block contains any virtual methods or false otherwise.
+               True if this access block contains any virtual methods or false
+               otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":
@@ -301,13 +303,14 @@ class Access(abstract.AbstractBlock):
         ,combo
         ):
         """
-        Adds the selection values available for modifying this access block's type to the given
-        combo edit definition.
+        Adds the selection values available for modifying this access block's
+        type to the given combo edit definition.
 
         Parameters
         ----------
         combo : PySide2.QtWidgets.QComboBox
-                The combo box that is populated with possible access type values.
+                The combo box that is populated with possible access type
+                values.
         """
         edit.addComboSelect(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
         edit.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))

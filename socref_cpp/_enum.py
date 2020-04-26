@@ -17,8 +17,8 @@ from ._base import Base
 @register("Enumeration")
 class Enum(Base):
     """
-    This is the enumeration block class. It implements the Socrates' Reference abstract block class.
-    It represents a C++ enumeration.
+    This is the enumeration block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ enumeration.
     """
 
 
@@ -174,7 +174,8 @@ class Enum(Base):
         Returns
         -------
         ret0 : bool
-               True if this is a class enumeration or false if it is a regular enumeration.
+               True if this is a class enumeration or false if it is a regular
+               enumeration.
         """
         return bool(int(self._p_class))
 

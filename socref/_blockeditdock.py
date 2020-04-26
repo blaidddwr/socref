@@ -16,19 +16,21 @@ from . import gui
 
 class BlockEditDock(qtw.QDockWidget):
     """
-    This is the block edit dock class. It attaches itself to a project view. It provides a GUI edit
-    form to the user for modifying a block's properties.
+    This is the block edit dock class. It attaches itself to a project view. It
+    provides a GUI edit form to the user for modifying a block's properties.
 
-    It attaches itself to a project view. It connects the appropriate signal to listen for the
-    current index of the view to change. When the index does change, it updates itself to reflect
-    the new block that can be edited by the user.
+    It attaches itself to a project view. It connects the appropriate signal to
+    listen for the current index of the view to change. When the index does
+    change, it updates itself to reflect the new block that can be edited by the
+    user.
 
-    It provides a GUI edit form to the user for modifying a block's properties. The specific edit
-    elements in the form is built based off the block's edit definitions, adding them all in the
-    form in the same order as the edit definitions list. An apply button is also added to the end of
-    the form to update the block's properties to the current values of all the edit widgets. If the
-    current index is changed and there are unsaved changes to the properties this will ask the user
-    if they want to save the changes.
+    It provides a GUI edit form to the user for modifying a block's properties.
+    The specific edit elements in the form is built based off the block's edit
+    definitions, adding them all in the form in the same order as the edit
+    definitions list. An apply button is also added to the end of the form to
+    update the block's properties to the current values of all the edit widgets.
+    If the current index is changed and there are unsaved changes to the
+    properties this will ask the user if they want to save the changes.
     """
 
 
@@ -68,8 +70,8 @@ class BlockEditDock(qtw.QDockWidget):
         ,view
         ):
         """
-        Sets this dock's view to the one given. If this dock currently has a view it is disconnected
-        from this dock.
+        Sets this dock's view to the one given. If this dock currently has a
+        view it is disconnected from this dock.
 
         Parameters
         ----------
@@ -104,13 +106,14 @@ class BlockEditDock(qtw.QDockWidget):
         definition : dictionary
                      The edit definition used to build the returned edit widget.
         properties : dictionary
-                     The properties of the block used to get the initial value of the returned edit
-                     widget.
+                     The properties of the block used to get the initial value
+                     of the returned edit widget.
 
         Returns
         -------
         ret0 : PySide2.QtWidgets.QCheckBox
-               A new checkbox configured for the given definition and properties.
+               A new checkbox configured for the given definition and
+               properties.
         ret1 : string
                A label for adding it to a form.
         """
@@ -137,13 +140,14 @@ class BlockEditDock(qtw.QDockWidget):
         definition : dictionary
                      The edit definition used to build the returned edit widget.
         properties : dictionary
-                     The properties of the block used to get the initial value of the returned edit
-                     widget.
+                     The properties of the block used to get the initial value
+                     of the returned edit widget.
 
         Returns
         -------
         ret0 : PySide2.QtWidgets.QComboBox
-               A new combo box configured for the given definition and properties.
+               A new combo box configured for the given definition and
+               properties.
         ret1 : string
                A label for adding it to a form.
         """
@@ -165,9 +169,10 @@ class BlockEditDock(qtw.QDockWidget):
         ,index
         ):
         """
-        Builds and initializes all edit widgets for all properties of the block at the given index
-        based off its edit definitions, adding them to this dock's list of edit widgets. This clears
-        any previous edit widgets from the last index that was built by this method.
+        Builds and initializes all edit widgets for all properties of the block
+        at the given index based off its edit definitions, adding them to this
+        dock's list of edit widgets. This clears any previous edit widgets from
+        the last index that was built by this method.
 
         Parameters
         ----------
@@ -247,13 +252,14 @@ class BlockEditDock(qtw.QDockWidget):
         definition : dictionary
                      The edit definition used to build the returned edit widget.
         properties : dictionary
-                     The properties of the block used to get the initial value of the returned edit
-                     widget.
+                     The properties of the block used to get the initial value
+                     of the returned edit widget.
 
         Returns
         -------
         ret0 : PySide2.QtWidgets.QLineEdit
-               A new line editor configured for the given definition and properties.
+               A new line editor configured for the given definition and
+               properties.
         ret1 : string
                A label for adding it to a form.
         """
@@ -277,13 +283,14 @@ class BlockEditDock(qtw.QDockWidget):
         definition : dictionary
                      The edit definition used to build the returned edit widget.
         properties : dictionary
-                     The properties of the block used to get the initial value of the returned edit
-                     widget.
+                     The properties of the block used to get the initial value
+                     of the returned edit widget.
 
         Returns
         -------
         ret0 : socref.gui.PlainTextEdit
-               A new text editor configured for the given definition and properties.
+               A new text editor configured for the given definition and
+               properties.
         ret1 : string
                A label for adding it to a form.
         """
@@ -324,8 +331,9 @@ class BlockEditDock(qtw.QDockWidget):
         self
         ):
         """
-        Called to set this dock's currently indexed block's properties to the current values of its
-        edit widgets. If the current index is not valid then this does nothing.
+        Called to set this dock's currently indexed block's properties to the
+        current values of its edit widgets. If the current index is not valid
+        then this does nothing.
         """
         if self.__index.isValid():
             self.__view.model().setData(
@@ -342,16 +350,18 @@ class BlockEditDock(qtw.QDockWidget):
         ,index
         ):
         """
-        Called to update the block this dock is editing to the new one at the given index. If the
-        given index is invalid then this dock returns to a null state with no form.
+        Called to update the block this dock is editing to the new one at the
+        given index. If the given index is invalid then this dock returns to a
+        null state with no form.
 
-        Garbage collection is required because rebuilding this dock's GUI causes large memory leaks
-        otherwise.
+        Garbage collection is required because rebuilding this dock's GUI causes
+        large memory leaks otherwise.
 
         Parameters
         ----------
         index : PySide2.QtCore.QModelIndex
-                The index of the new block whose properties are edited by this dock.
+                The index of the new block whose properties are edited by this
+                dock.
         """
         if self.__index.isValid() and self.__applyButton.isEnabled():
             answer = qtw.QMessageBox.question(
@@ -381,8 +391,9 @@ class BlockEditDock(qtw.QDockWidget):
         ,index
         ):
         """
-        Called to update the index of the block this dock is editing. It is assumed the same block
-        is being edited so the edit widget form is not rebuilt.
+        Called to update the index of the block this dock is editing. It is
+        assumed the same block is being edited so the edit widget form is not
+        rebuilt.
 
         Parameters
         ----------

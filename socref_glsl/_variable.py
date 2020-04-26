@@ -18,8 +18,8 @@ from ._base import Base
 @register("Variable")
 class Variable(Base):
     """
-    This is the variable block class. It implements the Socrates' Reference abstract block class. It
-    represents a GLSL variable.
+    This is the variable block class. It implements the Socrates' Reference
+    abstract block class. It represents a GLSL variable.
     """
 
 
@@ -125,8 +125,8 @@ class Variable(Base):
         Returns
         -------
         ret0 : list
-               Source code lines that is a comment fragment for this variable as an argument. This
-               returns the correct doxygen syntax.
+               Source code lines that is a comment fragment for this variable as
+               an argument. This returns the correct doxygen syntax.
         """
         header = "@param %s : " % self._p_name
         return edit.wrapText(
@@ -263,7 +263,8 @@ class Variable(Base):
         Returns
         -------
         ret0 : bool
-               True if this variable is an argument of a function or false otherwise.
+               True if this variable is an argument of a function or false
+               otherwise.
         """
         return self.parent()._TYPE_ == "Function"
 

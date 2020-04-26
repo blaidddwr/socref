@@ -18,8 +18,8 @@ from ._base import Base
 @register("Shader")
 class Shader(Base):
     """
-    This is the shader block class. It implements the Socrates' Reference abstract block class. It
-    represents a GLSL shader.
+    This is the shader block class. It implements the Socrates' Reference
+    abstract block class. It represents a GLSL shader.
     """
 
 

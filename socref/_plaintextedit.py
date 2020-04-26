@@ -15,10 +15,11 @@ from . import settings
 
 class PlainTextEdit(qtw.QPlainTextEdit):
     """
-    This is the plain text class. It provides additional functionality to its inherit class.
-    Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog
-    that has additional spell checking functionality. Misspelled word highlighting and the editor
-    dialog popup features can be enabled or disabled.
+    This is the plain text class. It provides additional functionality to its
+    inherit class. Misspelled words are highlighted. A shortcut is provided to
+    open a larger text editor dialog that has additional spell checking
+    functionality. Misspelled word highlighting and the editor dialog popup
+    features can be enabled or disabled.
     """
 
 
@@ -35,8 +36,8 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         ,popup=False
         ):
         """
-        Initializes a new plain text editor with the given optional text and parent. Spelling and
-        dialog popup can also be enabled or disabled.
+        Initializes a new plain text editor with the given optional text and
+        parent. Spelling and dialog popup can also be enabled or disabled.
 
         Parameters
         ----------
@@ -45,9 +46,11 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         parent : object
                  Optional qt object parent of this new plain text editor.
         speller : bool
-                  True to enable misspelled word highlighting or false to disable it.
+                  True to enable misspelled word highlighting or false to
+                  disable it.
         popup : bool
-                True to enable the popup edit dialog shortcut or false to disable it.
+                True to enable the popup edit dialog shortcut or false to
+                disable it.
         """
         qtw.QPlainTextEdit.__init__(self,text,parent)
         self.__speller = speller
@@ -68,12 +71,14 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         ,enabled
         ):
         """
-        Sets the state of this editor's spelling highlighter to enabled or disabled.
+        Sets the state of this editor's spelling highlighter to enabled or
+        disabled.
 
         Parameters
         ----------
         enabled : bool
-                  True to enable this editor's spelling highlighter or false to disable it.
+                  True to enable this editor's spelling highlighter or false to
+                  disable it.
         """
         if not enabled:
             if self.__highlighter is not None:

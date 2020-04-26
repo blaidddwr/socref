@@ -18,8 +18,8 @@ from ._base import Base
 @register("Enumeration_Value")
 class EnumValue(Base):
     """
-    This is the enumeration value block class. It implements the Socrates' Reference abstract block
-    class. It represents a C++ enumeration value.
+    This is the enumeration value block class. It implements the Socrates'
+    Reference abstract block class. It represents a C++ enumeration value.
     """
 
 
@@ -49,14 +49,16 @@ class EnumValue(Base):
         ,first
         ):
         """
-        Implements the socref_cpp.block.Base interface with one additional argument.
+        Implements the socref_cpp.block.Base interface with one additional
+        argument.
 
         Parameters
         ----------
         begin : object
                 See interface docs.
         first : bool
-                True if this is the first value in its enumeration parent or false otherwise.
+                True if this is the first value in its enumeration parent or
+                false otherwise.
 
         Returns
         -------

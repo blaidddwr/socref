@@ -4,9 +4,9 @@ Contains all global settings for this language package.
 
 
 #
-# The maximum number of columns for any one line of code.
+# The maximum number of columns for any one line of generated comments.
 #
-COLUMNS = 100
+COLUMNS = 80
 
 
 #

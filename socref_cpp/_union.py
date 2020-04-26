@@ -17,8 +17,8 @@ from ._base import Base
 @register("Union")
 class Union(Base):
     """
-    This is the union block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++ union.
+    This is the union block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ union.
     """
 
 

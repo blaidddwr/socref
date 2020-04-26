@@ -14,8 +14,8 @@ from socref_cpp import block as cppblock
 @register("Variable")
 class Variable(cppblock.Variable):
     """
-    This is the variable block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++/Qt variable.
+    This is the variable block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++/Qt variable.
     """
 
 

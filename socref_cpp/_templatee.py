@@ -13,8 +13,9 @@ from ._base import Base
 
 class Templatee(Base):
     """
-    This is the templatee class. It provides methods for handling template block children. This is
-    meant to act as a base class for any block that can have templates.
+    This is the templatee class. It provides methods for handling template block
+    children. This is meant to act as a base class for any block that can have
+    templates.
     """
 
 
@@ -63,9 +64,10 @@ class Templatee(Base):
         Returns
         -------
         ret0 : string
-               Template declaration code of this block based off its child template blocks or an
-               empty string if it has no templates. The returned declaration includes any initial
-               value of template children.
+               Template declaration code of this block based off its child
+               template blocks or an empty string if it has no templates. The
+               returned declaration includes any initial value of template
+               children.
         """
         ret = self.__declaration_(True,True)
         return "template"+ret if ret else ""
@@ -80,9 +82,10 @@ class Templatee(Base):
         Returns
         -------
         ret0 : string
-               Template definition code of this block based off its child template blocks or an
-               empty string if it has no templates. The returned declaration does not include any
-               initial value of template children.
+               Template definition code of this block based off its child
+               template blocks or an empty string if it has no templates. The
+               returned declaration does not include any initial value of
+               template children.
         """
         ret = self.__declaration_(True,False)
         return "template"+ret if ret else ""
@@ -97,8 +100,8 @@ class Templatee(Base):
         Returns
         -------
         ret0 : string
-               Template scope code of this block based off its child template blocks or an empty
-               string if it has no templates.
+               Template scope code of this block based off its child template
+               blocks or an empty string if it has no templates.
         """
         return self.__declaration_(False,False)
 
@@ -117,8 +120,9 @@ class Templatee(Base):
         Returns
         -------
         ret0 : string
-               A decoration for this block's display name providing information about its templates.
-               If this block has no templates then an empty string is returned.
+               A decoration for this block's display name providing information
+               about its templates. If this block has no templates then an empty
+               string is returned.
         """
         return " <>" if self.hasTemplates() else ""
 
@@ -132,8 +136,8 @@ class Templatee(Base):
         Returns
         -------
         ret0 : rich text
-               Providing detailed information about this block's templates. If this block has no
-               templates then an empty string is returned.
+               Providing detailed information about this block's templates. If
+               this block has no templates then an empty string is returned.
         """
         return edit.richText(
             2
@@ -158,18 +162,20 @@ class Templatee(Base):
         Parameters
         ----------
         withType : bool
-                   True to include the template type in the returned template code string or false
-                   otherwise.
+                   True to include the template type in the returned template
+                   code string or false otherwise.
         withInit : bool
-                   True to include any initial value of a template argument or false otherwise.
+                   True to include any initial value of a template argument or
+                   false otherwise.
 
         Returns
         -------
         ret0 : string
-               Template code that is the list of this block's children templates, optionally
-               including the template type and/or any initial value. If this block has no templates
-               then an empty string is returned. The returned code does not include the initial
-               "template" keyword for declarations.
+               Template code that is the list of this block's children
+               templates, optionally including the template type and/or any
+               initial value. If this block has no templates then an empty
+               string is returned. The returned code does not include the
+               initial "template" keyword for declarations.
         """
         args = []
         for child in self:

@@ -14,8 +14,8 @@ from socref_cpp import block as cppblock
 @register("Union")
 class Union(cppblock.Union):
     """
-    This is the union block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++/Qt union.
+    This is the union block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++/Qt union.
     """
 
 

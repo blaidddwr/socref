@@ -15,8 +15,8 @@ from socref_cpp import block as cppblock
 @register("Function")
 class Function(cppblock.Function):
     """
-    This is the function block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++/Qt function.
+    This is the function block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++/Qt function.
     """
 
 

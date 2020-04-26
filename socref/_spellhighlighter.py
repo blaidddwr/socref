@@ -15,9 +15,10 @@ from . import core
 
 class SpellHighlighter(qtg.QSyntaxHighlighter):
     """
-    This is the spell highlighter class. It implements the qt syntax highlighter class. It provides
-    highlighting of misspelled words in the document the highlighter is given on initialization. It
-    uses the Hunspell library for all speller functions.
+    This is the spell highlighter class. It implements the qt syntax highlighter
+    class. It provides highlighting of misspelled words in the document the
+    highlighter is given on initialization. It uses the Hunspell library for all
+    speller functions.
     """
 
 
@@ -32,16 +33,18 @@ class SpellHighlighter(qtg.QSyntaxHighlighter):
         ,parent
         ):
         """
-        Initializes a new spell highlighter with the given dictionary and parent.
+        Initializes a new spell highlighter with the given dictionary and
+        parent.
 
         Parameters
         ----------
         dictionary : string
-                     The Hunspell dictionary used for spell checking. This does not include the
-                     directory or file extensions, for example "en_US".
+                     The Hunspell dictionary used for spell checking. This does
+                     not include the directory or file extensions, for example
+                     "en_US".
         parent : PySide2.QtGui.QTextDocument
-                 The parent document that takes ownership of this highlighter and has its misspelled
-                 words highlighted.
+                 The parent document that takes ownership of this highlighter
+                 and has its misspelled words highlighted.
         """
         qtg.QSyntaxHighlighter.__init__(self,parent)
         format_ = self.__format = qtg.QTextCharFormat()

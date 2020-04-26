@@ -12,8 +12,9 @@ from ._abstractcommand import AbstractCommand
 
 class MoveCommand(AbstractCommand):
     """
-    This is the move command class. It implements the abstract command class. This command moves the
-    given from row to the given to row in the given parent index and project model.
+    This is the move command class. It implements the abstract command class.
+    This command moves the given from row to the given to row in the given
+    parent index and project model.
     """
 
 
@@ -29,13 +30,14 @@ class MoveCommand(AbstractCommand):
         ,model
         ):
         """
-        Initializes a new move command with the given change, index, and project model.
+        Initializes a new move command with the given change, index, and project
+        model.
 
         Parameters
         ----------
         change : int
-                 The change from the old row to the new row of the moved index. A negative change is
-                 up and positive down by the number given.
+                 The change from the old row to the new row of the moved index.
+                 A negative change is up and positive down by the number given.
         index : PySide2.QtCore.QModelIndex
                 The index in the given project model that is moved.
         model : socref.model.ProjectModel

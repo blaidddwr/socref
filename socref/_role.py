@@ -13,8 +13,8 @@ from PySide2 import QtCore as qtc
 
 class Role(enum.Enum):
     """
-    This is the role enumeration class. It defines all custom data roles the project model
-    implements.
+    This is the role enumeration class. It defines all custom data roles the
+    project model implements.
     """
 
 
@@ -48,6 +48,7 @@ class Role(enum.Enum):
 
 
     #
-    # Defines the edit definitions role which represents a block's edit definitions.
+    # Defines the edit definitions role which represents a block's edit
+    # definitions.
     #
     EDIT_DEFS = qtc.Qt.UserRole + 4

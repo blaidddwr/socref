@@ -18,8 +18,8 @@ from ._templatee import Templatee
 @register("Class")
 class Class(Templatee):
     """
-    This is the class block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++ class.
+    This is the class block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ class.
     """
 
 
@@ -137,8 +137,8 @@ class Class(Templatee):
         Returns
         -------
         ret0 : list
-               A single line that is the forward declaration of this class or an empty list if this
-               class has any templates.
+               A single line that is the forward declaration of this class or an
+               empty list if this class has any templates.
         """
         if not self.hasTemplates():
             return ["class "+self._p_name+";"]
@@ -295,7 +295,8 @@ class Class(Templatee):
         Returns
         -------
         ret0 : bool
-               True if this class contains any abstract functions or false otherwise.
+               True if this class contains any abstract functions or false
+               otherwise.
         """
         for child in self:
             if child._TYPE_ == "Access" and child.hasAbstract():
@@ -312,7 +313,8 @@ class Class(Templatee):
         Returns
         -------
         ret0 : bool
-               True if this class contains any virtual functions or false otherwise.
+               True if this class contains any virtual functions or false
+               otherwise.
         """
         for child in self:
             if child._TYPE_ == "Access" and child.hasVirtual():
@@ -366,8 +368,8 @@ class Class(Templatee):
         Returns
         -------
         ret0 : list
-               Class header code lines that are added to this classes built declaration just after
-               the initial opening bracket.
+               Class header code lines that are added to this classes built
+               declaration just after the initial opening bracket.
         """
         return [begin + line for line in self._p_header.split("\n") if line]
 
@@ -392,8 +394,9 @@ class Class(Templatee):
         Returns
         -------
         ret0 : list
-               Code lines, beginning with a colon, that are the parent declarations for this class.
-               If this class has no parents then an empty list is returned.
+               Code lines, beginning with a colon, that are the parent
+               declarations for this class. If this class has no parents then an
+               empty list is returned.
         """
         ret = []
         parents = [parent for parent in self._p_parents.split("\n") if parent]

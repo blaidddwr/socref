@@ -19,21 +19,24 @@ from . import settings
 
 class MainWindow(qtw.QMainWindow):
     """
-    This is the main window class. It is designed as a multiple window application. It is the main
-    window of the core application.
+    This is the main window class. It is designed as a multiple window
+    application. It is the main window of the core application.
 
-    It is designed as a multiple window application. Any number of these windows can be open, the
-    application itself will close when the last main window closes. Each main window can edit its
-    own project independent of all other main windows. A reference does not need to be saved for
-    main windows because it keeps its own list of global instances within its class object.
+    It is designed as a multiple window application. Any number of these windows
+    can be open, the application itself will close when the last main window
+    closes. Each main window can edit its own project independent of all other
+    main windows. A reference does not need to be saved for main windows because
+    it keeps its own list of global instances within its class object.
 
-    It is the main window of the core application. It provides a view, docks, menus, and a toolbar
-    that allows a user to work on any project in the application. The project view actually displays
-    the tree of blocks of an open project. The view dock provides a detailed view of the current
-    block in the project view. The edit dock provides an edit form for modifying the current block's
-    properties. The menus and toolbars provide shortcuts for actions that can be done in the project
-    view. They also provide basic actions that a main window handles itself such as opening or
-    saving projects.
+    It is the main window of the core application. It provides a view, docks,
+    menus, and a toolbar that allows a user to work on any project in the
+    application. The project view actually displays the tree of blocks of an
+    open project. The view dock provides a detailed view of the current block in
+    the project view. The edit dock provides an edit form for modifying the
+    current block's properties. The menus and toolbars provide shortcuts for
+    actions that can be done in the project view. They also provide basic
+    actions that a main window handles itself such as opening or saving
+    projects.
     """
 
 
@@ -76,8 +79,8 @@ class MainWindow(qtw.QMainWindow):
         ,path
         ):
         """
-        Opens a project at the given path in this window. If this window already has a project then
-        this does nothing.
+        Opens a project at the given path in this window. If this window already
+        has a project then this does nothing.
 
         Parameters
         ----------
@@ -99,7 +102,8 @@ class MainWindow(qtw.QMainWindow):
 
 
     #
-    # Signals this window has started parsing its current project with the given abstract parser.
+    # Signals this window has started parsing its current project with the given
+    # abstract parser.
     #
     parseRequested = qtc.Signal(abstract.AbstractParser)
 
@@ -138,13 +142,15 @@ class MainWindow(qtw.QMainWindow):
 
 
     #
-    # The key used to save this window's geometry using qt settings to make it persistent.
+    # The key used to save this window's geometry using qt settings to make it
+    # persistent.
     #
     __GEOMETRY_KEY = "gui.window.main.geometry"
 
 
     #
-    # The key used to save this window's state using qt settings to make it persistent.
+    # The key used to save this window's state using qt settings to make it
+    # persistent.
     #
     __STATE_KEY = "gui.window.main.state"
 
@@ -155,7 +161,8 @@ class MainWindow(qtw.QMainWindow):
 
 
     #
-    # List of all active main window instances. Used to make sure they are not prematurely deleted.
+    # List of all active main window instances. Used to make sure they are not
+    # prematurely deleted.
     #
     __instances = []
 
@@ -174,9 +181,10 @@ class MainWindow(qtw.QMainWindow):
         Returns
         -------
         ret0 : bool
-               True if it is OK to close this window or false otherwise. It is OK to close this
-               window if the user saves any unsaved changes to this window's project, chooses to
-               discard unsaved changes, or there are no unsaved changes to worry about.
+               True if it is OK to close this window or false otherwise. It is
+               OK to close this window if the user saves any unsaved changes to
+               this window's project, chooses to discard unsaved changes, or
+               there are no unsaved changes to worry about.
         """
         if not self.__model or not self.__model.isModified():
             return True
@@ -243,7 +251,8 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Adds this new window's project view's context menu as the window's edit menu.
+        Adds this new window's project view's context menu as the window's edit
+        menu.
         """
         self.menuBar().addMenu(self.__view.contextMenu())
 
@@ -322,8 +331,8 @@ class MainWindow(qtw.QMainWindow):
         """
         Initializes the GUI of this new window.
 
-        The status bar is also accessed that forces it to be visible before it is initially used in
-        this new window.
+        The status bar is also accessed that forces it to be visible before it
+        is initially used in this new window.
         """
         self.__instances.append(self)
         self.setWindowIcon(qtg.QIcon(":/socref/application.svg"))
@@ -379,7 +388,8 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Populates this window's list of new actions with all available languages.
+        Populates this window's list of new actions with all available
+        languages.
         """
         for lang in core.blockFactory.langs():
             self.__newActions.append(qtw.QAction(lang,self))
@@ -473,7 +483,8 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Called to open a modal about dialog describing this application to the user.
+        Called to open a modal about dialog describing this application to the
+        user.
         """
         ifile = qtc.QFile(":/socref/about.html")
         ifile.open(qtc.QIODevice.ReadOnly)
@@ -491,8 +502,9 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Called to close this window's current project. If this window has no project then this does
-        nothing. If the current project has unsaved changes the user is queried about what to do.
+        Called to close this window's current project. If this window has no
+        project then this does nothing. If the current project has unsaved
+        changes the user is queried about what to do.
         """
         if self.__model and self.__isOkToClose_():
             self.__model.close()
@@ -518,8 +530,8 @@ class MainWindow(qtw.QMainWindow):
         ,name
         ):
         """
-        Called to inform this window that its project's name has been changed. This updates the
-        window's title.
+        Called to inform this window that its project's name has been changed.
+        This updates the window's title.
 
         Parameters
         ----------
@@ -557,8 +569,8 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Called to open a project file for this window if it does not have a project or a new window
-        otherwise.
+        Called to open a project file for this window if it does not have a
+        project or a new window otherwise.
         """
         path,type_ = qtw.QFileDialog.getOpenFileName(
             self
@@ -586,8 +598,8 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Called to parse the source code of this window's project. If this window does not have a
-        project save path then this does nothing.
+        Called to parse the source code of this window's project. If this window
+        does not have a project save path then this does nothing.
         """
         if self.__path is not None:
             parser = self.__model.parser()
@@ -604,7 +616,8 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Called to inform this window that the singleton parser model has finished parsing.
+        Called to inform this window that the singleton parser model has
+        finished parsing.
         """
         if self.__progressBar is not None:
             self.__progressBar.deleteLater()
@@ -617,12 +630,14 @@ class MainWindow(qtw.QMainWindow):
         ,percent
         ):
         """
-        Called to inform this window that the singleton parser model has made progress parsing.
+        Called to inform this window that the singleton parser model has made
+        progress parsing.
 
         Parameters
         ----------
         percent : int
-                  The percentage progress the singleton parser model has made parsing from 0 to 100.
+                  The percentage progress the singleton parser model has made
+                  parsing from 0 to 100.
         """
         if self.__progressBar is not None:
             self.__progressBar.setValue(percent)
@@ -633,7 +648,8 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Called to inform this window that the singleton parser model has started parsing.
+        Called to inform this window that the singleton parser model has started
+        parsing.
         """
         if self.__progressBar is None:
             bar = self.__progressBar = qtw.QProgressBar()
@@ -648,8 +664,9 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Called to have this window bring up a modal project dialog to edit the basic properties of
-        its current project. If this window has no project then this does nothing.
+        Called to have this window bring up a modal project dialog to edit the
+        basic properties of its current project. If this window has no project
+        then this does nothing.
         """
         gui.ProjectDialog(self.__model).exec_()
 
@@ -659,8 +676,8 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Called to save this window's project. If this window has no project or its save path is none
-        then this does nothing.
+        Called to save this window's project. If this window has no project or
+        its save path is none then this does nothing.
 
         Returns
         -------
@@ -679,8 +696,8 @@ class MainWindow(qtw.QMainWindow):
         self
         ):
         """
-        Called to save this window's project to a new save file path selected by the user. If this
-        window has no project then this does nothing.
+        Called to save this window's project to a new save file path selected by
+        the user. If this window has no project then this does nothing.
         """
         if not self.__model:
             return False

@@ -17,8 +17,8 @@ from ._template import Template
 @register("Variable")
 class Variable(Template):
     """
-    This is the variable block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++ variable.
+    This is the variable block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ variable.
     """
 
 
@@ -283,7 +283,8 @@ class Variable(Template):
         Returns
         -------
         ret0 : bool
-               True if this variable is an argument of a function or false otherwise.
+               True if this variable is an argument of a function or false
+               otherwise.
         """
         return self.parent()._TYPE_ == "Function"
 
@@ -297,7 +298,8 @@ class Variable(Template):
         Returns
         -------
         ret0 : bool
-               True if this variable is a constant expression or false otherwise.
+               True if this variable is a constant expression or false
+               otherwise.
         """
         return bool(int(self._p_constexpr))
 
@@ -387,8 +389,9 @@ class Variable(Template):
         Returns
         -------
         ret0 : string
-               The code declarations for any flags this variable has enabled. The extern flag is
-               implicitly enabled of this variable is not a class member.
+               The code declarations for any flags this variable has enabled.
+               The extern flag is implicitly enabled of this variable is not a
+               class member.
         """
         ret = ""
         if not self.inClass():
@@ -408,7 +411,8 @@ class Variable(Template):
         self
         ):
         """
-        Sets this variable's flags to legal values if it is an argument or not part of a class.
+        Sets this variable's flags to legal values if it is an argument or not
+        part of a class.
         """
         if self.isArgument():
             self._p_constexpr = "0"
@@ -427,8 +431,8 @@ class Variable(Template):
         Returns
         -------
         ret0 : string
-               Character flags this block has enabled. If this block has no flags enabled then an
-               empty string is returned.
+               Character flags this block has enabled. If this block has no
+               flags enabled then an empty string is returned.
         """
         ret = ""
         if self.isConstExpr():
@@ -451,8 +455,8 @@ class Variable(Template):
         Returns
         -------
         ret0 : rich text
-               List of flags this block has enabled. If this block has no flags enabled then an
-               empty string is returned.
+               List of flags this block has enabled. If this block has no flags
+               enabled then an empty string is returned.
         """
         flags = []
         if self.isConstExpr():

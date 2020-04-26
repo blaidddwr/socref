@@ -19,8 +19,8 @@ from ._templatee import Templatee
 @register("Function")
 class Function(Templatee):
     """
-    This is the function block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++ function.
+    This is the function block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ function.
     """
 
 
@@ -405,7 +405,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : bool
-               True if this function is an explicit constructor or false otherwise.
+               True if this function is an explicit constructor or false
+               otherwise.
         """
         return bool(int(self._p_explicit))
 
@@ -419,7 +420,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : bool
-               True if this function is the final overriding virtual interface or false otherwise.
+               True if this function is the final overriding virtual interface
+               or false otherwise.
         """
         return bool(int(self._p_final))
 
@@ -447,7 +449,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : bool
-               True if this function does not throw exceptions or false otherwise.
+               True if this function does not throw exceptions or false
+               otherwise.
         """
         return bool(int(self._p_noexcept))
 
@@ -475,7 +478,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : bool
-               True if this function is overriding a virtual interface or false otherwise.
+               True if this function is overriding a virtual interface or false
+               otherwise.
         """
         return bool(int(self._p_override))
 
@@ -558,8 +562,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : rich text
-               Detailed view of all this function's arguments. If this function has no arguments
-               then this returns an empty string.
+               Detailed view of all this function's arguments. If this function
+               has no arguments then this returns an empty string.
         """
         return edit.richText(
             2
@@ -614,25 +618,27 @@ class Function(Templatee):
         scope : string
                 The scope that is appended to the returned functions name.
         template : string
-                   Any template declarations that is appended to its own line before the main
-                   function declaration.
+                   Any template declarations that is appended to its own line
+                   before the main function declaration.
         begin : string
                 Added to the beginning of every returned line of returned code.
         end : string
-              Added to the end of the returned declaration. If this string is a semicolon then a
-              declaration header is returned else a definition header is returned.
+              Added to the end of the returned declaration. If this string is a
+              semicolon then a declaration header is returned else a definition
+              header is returned.
         beforeFlags : string
-                      The flags added to the returned declaration before the function return type
-                      and name.
+                      The flags added to the returned declaration before the
+                      function return type and name.
         afterFlags : string
-                     The flags added to the returned declaration after the function name and
-                     arguments.
+                     The flags added to the returned declaration after the
+                     function name and arguments.
 
         Returns
         -------
         ret0 : list
-               Lines that is the declaration or definition header of this function. If this function
-               has no arguments or templates then a single line is returned.
+               Lines that is the declaration or definition header of this
+               function. If this function has no arguments or templates then a
+               single line is returned.
         """
         if scope:
             scope += "::"
@@ -676,7 +682,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : string
-               Flags for this function's declaration before its return type and name.
+               Flags for this function's declaration before its return type and
+               name.
         ret1 : string
                Flags for its declaration after its name and arguments.
         """
@@ -714,7 +721,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : string
-               Flags for this function's definition header before its return type and name.
+               Flags for this function's definition header before its return
+               type and name.
         ret1 : string
                Flags for its definition header after its name and arguments.
         """
@@ -735,7 +743,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : string
-               The namespace only scope of this function, not including any classes.
+               The namespace only scope of this function, not including any
+               classes.
         """
         namespaces = []
         up = self.parent()
@@ -777,8 +786,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : string
-               Character flags this block has enabled. If this block has no flags enabled then an
-               empty string is returned.
+               Character flags this block has enabled. If this block has no
+               flags enabled then an empty string is returned.
         """
         ret = ""
         if self.isDefault():
@@ -813,8 +822,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : list
-               Character flags this block has enabled. If this block has no flags enabled then an
-               empty list is returned.
+               Character flags this block has enabled. If this block has no
+               flags enabled then an empty list is returned.
         """
         flags = []
         if self.isDefault():
@@ -849,7 +858,8 @@ class Function(Templatee):
         Returns
         -------
         ret0 : string
-               The name of this function, taking into account if it is a constructor or destructor.
+               The name of this function, taking into account if it is a
+               constructor or destructor.
         """
         if self.isMethod():
             return self._p_name.replace("^",self.parent().parent()._p_name)
@@ -867,14 +877,16 @@ class Function(Templatee):
         Parameters
         ----------
         scope : string
-                The class only scope of this function, not including any namespaces.
+                The class only scope of this function, not including any
+                namespaces.
 
         Returns
         -------
         ret0 : string
-               The signature of this function used to lookup any scanned lines of code when building
-               its definition. This includes its full scope of any namespaces and classes, name of
-               the function, and its arguments because this is C++.
+               The signature of this function used to lookup any scanned lines
+               of code when building its definition. This includes its full
+               scope of any namespaces and classes, name of the function, and
+               its arguments because this is C++.
         """
         if scope:
             scope += "::"

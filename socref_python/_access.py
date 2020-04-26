@@ -19,11 +19,12 @@ from . import settings
 @register("Access")
 class Access(Package):
     """
-    This is the access block class. It implements the Socrates' Reference abstract block class. It
-    represents a fictitious access declaration for python classes. Since python does not actually
-    have any kind of access control, this is simply displayed as a comment inside of the class
-    source code. It is mostly helpful in the reference application's project tree view for
-    organizing different parts of a class.
+    This is the access block class. It implements the Socrates' Reference
+    abstract block class. It represents a fictitious access declaration for
+    python classes. Since python does not actually have any kind of access
+    control, this is simply displayed as a comment inside of the class source
+    code. It is mostly helpful in the reference application's project tree view
+    for organizing different parts of a class.
     """
 
 
@@ -163,7 +164,8 @@ class Access(Package):
         Returns
         -------
         ret0 : bool
-               True if this access block contains abstract methods or false otherwise.
+               True if this access block contains abstract methods or false
+               otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":

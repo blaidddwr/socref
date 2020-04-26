@@ -18,8 +18,8 @@ from ._base import Base
 @register("Template")
 class Template(Base):
     """
-    This is the template block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++ template.
+    This is the template block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ template.
     """
 
 
@@ -74,14 +74,14 @@ class Template(Base):
         Parameters
         ----------
         isDeclaration : bool
-                        True if this is returned for a function declaration or false if it is for a
-                        function definition.
+                        True if this is returned for a function declaration or
+                        false if it is for a function definition.
 
         Returns
         -------
         ret0 : string
-               Source code fragment that is the argument of this template, including any
-               initialization if this is for a declaration.
+               Source code fragment that is the argument of this template,
+               including any initialization if this is for a declaration.
         """
         ret = self._p_type.replace("@",self._p_name)
         if self._p_assignment and isDeclaration:
@@ -104,9 +104,9 @@ class Template(Base):
         Returns
         -------
         ret0 : list
-               Source code lines that is a comment fragment for this template as an argument. This
-               returns the correct doxygen syntax based off this block being an actual template or
-               variable argument.
+               Source code lines that is a comment fragment for this template as
+               an argument. This returns the correct doxygen syntax based off
+               this block being an actual template or variable argument.
         """
         header = ""
         if self._TYPE_ == "Template":

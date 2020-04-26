@@ -1,5 +1,6 @@
 """
-Contains all core classes, functions, and singleton instances of this application.
+Contains all core classes, functions, and singleton instances of this
+application.
 """
 import os
 import hunspell
@@ -19,8 +20,9 @@ from ._setcommand import SetCommand
 
 def initialize():
     """
-    Initializes the global singleton Hunspell speller used for spell checking through this
-    application. This must only be called once during initialization of the application.
+    Initializes the global singleton Hunspell speller used for spell checking
+    through this application. This must only be called once during
+    initialization of the application.
     """
     global speller
     speller = hunspell.HunSpell(

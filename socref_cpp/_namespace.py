@@ -18,8 +18,9 @@ from ._base import Base
 @register("Namespace",root=True)
 class Namespace(Base):
     """
-    This is the namespace block class. It implements the Socrates' Reference abstract block class.
-    It represents a C++ namespace. It is the root block type of a C++ project.
+    This is the namespace block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ namespace. It is the root block
+    type of a C++ project.
     """
 
 
@@ -218,7 +219,8 @@ class Namespace(Base):
         Returns
         -------
         ret0 : bool
-               True if this namespace has one or more functions or false otherwise.
+               True if this namespace has one or more functions or false
+               otherwise.
         """
         for child in self:
             if child._TYPE_ == "Function":
@@ -252,9 +254,10 @@ class Namespace(Base):
         Returns
         -------
         ret0 : bool
-               True if this is a hidden namespace that must not have its name added to the scoping
-               of source code files nor have its own header or source file. If this is a regular
-               visible namespace then false is returned.
+               True if this is a hidden namespace that must not have its name
+               added to the scoping of source code files nor have its own header
+               or source file. If this is a regular visible namespace then false
+               is returned.
         """
         return bool(int(self._p_hidden))
 

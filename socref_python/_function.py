@@ -19,8 +19,8 @@ from . import settings
 @register("Function")
 class Function(Descriptor):
     """
-    This is the function block class. It implements the Socrates' Reference abstract block class. It
-    represents a python function.
+    This is the function block class. It implements the Socrates' Reference
+    abstract block class. It represents a python function.
     """
 
 
@@ -256,8 +256,8 @@ class Function(Descriptor):
         Returns
         -------
         ret0 : rich text
-               Detailed view of all this function's arguments. If this function has no arguments
-               then this returns an empty string.
+               Detailed view of all this function's arguments. If this function
+               has no arguments then this returns an empty string.
         """
         return edit.richText(2,"Arguments","".join((arg.argumentView() for arg in self)))
 
@@ -272,7 +272,8 @@ class Function(Descriptor):
         Parameters
         ----------
         begin : string
-                The indent that is added to the beginning of every line of returned code.
+                The indent that is added to the beginning of every line of
+                returned code.
 
         Returns
         -------
@@ -313,13 +314,14 @@ class Function(Descriptor):
         Parameters
         ----------
         begin : string
-                The indent that is added to the beginning of every line of returned code.
+                The indent that is added to the beginning of every line of
+                returned code.
 
         Returns
         -------
         ret0 : list
-               The source code lines of this function's header. The header includes any descriptor
-               and the define lines.
+               The source code lines of this function's header. The header
+               includes any descriptor and the define lines.
         """
         ret = self._buildDescriptors_(begin)
         if self.isAbstract():
@@ -354,9 +356,11 @@ class Function(Descriptor):
         Parameters
         ----------
         lines : list
-                A list of code lines used to generate the returned source code lines.
+                A list of code lines used to generate the returned source code
+                lines.
         begin : string
-                The indent that is added to the beginning of every line of returned code.
+                The indent that is added to the beginning of every line of
+                returned code.
 
         Returns
         -------
@@ -390,8 +394,8 @@ class Function(Descriptor):
         Returns
         -------
         ret0 : list
-               Rich text list of flags this block has enabled. If this block has no flags enabled
-               then an empty string is returned.
+               Rich text list of flags this block has enabled. If this block has
+               no flags enabled then an empty string is returned.
         """
         flags = []
         if self.isStatic():

@@ -14,8 +14,8 @@ from socref_cpp import block as cppblock
 @register("Enumeration_Value")
 class EnumValue(cppblock.EnumValue):
     """
-    This is the enumeration value block class. It implements the Socrates' Reference abstract block
-    class. It represents a C++/Qt enumeration value.
+    This is the enumeration value block class. It implements the Socrates'
+    Reference abstract block class. It represents a C++/Qt enumeration value.
     """
 
 

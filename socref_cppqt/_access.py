@@ -16,8 +16,8 @@ from socref_cpp import block as cppblock
 @register("Access")
 class Access(cppblock.Access):
     """
-    This is the access block class. It implements the Socrates' Reference abstract block class. It
-    represents an access declaration for C++/Qt class.
+    This is the access block class. It implements the Socrates' Reference
+    abstract block class. It represents an access declaration for C++/Qt class.
     """
 
 
@@ -86,8 +86,8 @@ class Access(cppblock.Access):
         Returns
         -------
         ret0 : bool
-               True if this access is a public, protected, or private slots type. False is returned
-               otherwise.
+               True if this access is a public, protected, or private slots
+               type. False is returned otherwise.
         """
         return self._p_type.endswith("Slots")
 

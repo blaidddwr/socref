@@ -18,8 +18,8 @@ from ._base import Base
 @register("Function")
 class Function(Base):
     """
-    This is the function block class. It implements the Socrates' Reference abstract block class. It
-    represents a GLSL function.
+    This is the function block class. It implements the Socrates' Reference
+    abstract block class. It represents a GLSL function.
     """
 
 
@@ -188,8 +188,8 @@ class Function(Base):
         Returns
         -------
         ret0 : rich text
-               Detailed view of all this function's arguments. If this function has no arguments
-               then this returns an empty string.
+               Detailed view of all this function's arguments. If this function
+               has no arguments then this returns an empty string.
         """
         return edit.richText(
             2
@@ -251,8 +251,8 @@ class Function(Base):
         Returns
         -------
         ret0 : list
-               Lines that is the declaration, or header, of this function. If this function has no
-               arguments then a single line is returned.
+               Lines that is the declaration, or header, of this function. If
+               this function has no arguments then a single line is returned.
         """
         ret = []
         line = begin+self._p_returnType+" "+self._p_name+"("
@@ -285,8 +285,9 @@ class Function(Base):
         Returns
         -------
         ret0 : string
-               The signature of this function used to lookup any scanned lines of code when building
-               its definition. This includes its name and argument types.
+               The signature of this function used to lookup any scanned lines
+               of code when building its definition. This includes its name and
+               argument types.
         """
         ret = self._p_name
         args = []

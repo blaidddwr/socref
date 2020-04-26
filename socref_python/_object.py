@@ -18,8 +18,8 @@ from . import settings
 @register("Object")
 class Object(Package):
     """
-    This is the object block class. It implements the Socrates' Reference abstract block class. It
-    represents a python object.
+    This is the object block class. It implements the Socrates' Reference
+    abstract block class. It represents a python object.
     """
 
 
@@ -41,16 +41,18 @@ class Object(Package):
         name : string
                The name of the variable whose doc string is returned.
         description : string
-                      Description of the variable separated by at least two lines. The first line is
-                      its type and all other lines is the actual description.
+                      Description of the variable separated by at least two
+                      lines. The first line is its type and all other lines is
+                      the actual description.
         begin : string
-                The indent that is appended to every line of returned source code.
+                The indent that is appended to every line of returned source
+                code.
 
         Returns
         -------
         ret0 : list
-               A doc string lines fragment for the given variable name and description as a function
-               argument or return value.
+               A doc string lines fragment for the given variable name and
+               description as a function argument or return value.
         """
         parts = description.split("\n")
         if not parts:
@@ -99,7 +101,8 @@ class Object(Package):
         Returns
         -------
         ret0 : rich text
-               Paragraph that describes this object as an argument of a function.
+               Paragraph that describes this object as an argument of a
+               function.
         """
         ret = "<p><b>%s " % html.escape(self._p_name)
         if self._p_assignment:
@@ -169,12 +172,14 @@ class Object(Package):
         Parameters
         ----------
         begin : string
-                The indent that is appended to every line of returned source code.
+                The indent that is appended to every line of returned source
+                code.
 
         Returns
         -------
         ret0 : list
-               The source code lines doc string fragment for this object as a function argument.
+               The source code lines doc string fragment for this object as a
+               function argument.
         """
         return Object.comment(self._p_name,self._p_description,begin)
 
@@ -288,7 +293,8 @@ class Object(Package):
         Returns
         -------
         ret0 : bool
-               True if this object is an argument of a function or false otherwise.
+               True if this object is an argument of a function or false
+               otherwise.
         """
         return self.parent()._TYPE_ == "Function"
 

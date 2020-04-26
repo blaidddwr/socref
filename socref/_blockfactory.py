@@ -14,12 +14,13 @@ from . import exception
 
 class BlockFactory():
     """
-    This is the singleton block factory class. It creates new blocks. It loads new languages by
-    importing their module and registering their block types during the load process. It provides a
-    list of languages and block types per language.
-
-    It creates new blocks. Blocks can be created by language and type or the root type of a
+    This is the singleton block factory class. It creates new blocks. It loads
+    new languages by importing their module and registering their block types
+    during the load process. It provides a list of languages and block types per
     language.
+
+    It creates new blocks. Blocks can be created by language and type or the
+    root type of a language.
     """
 
 
@@ -55,13 +56,14 @@ class BlockFactory():
         Parameters
         ----------
         langName : string
-                   The language name whose list of registered block types are returned.
+                   The language name whose list of registered block types are
+                   returned.
 
         Returns
         -------
         ret0 : list
-               Registered block type names for a language with the given name that this factory has
-               loaded.
+               Registered block type names for a language with the given name
+               that this factory has loaded.
         """
         return self.__langs[langName].keys()
 
@@ -72,7 +74,8 @@ class BlockFactory():
         ,typeName
         ):
         """
-        Getter method. The given language name and block type name must exist in this factory.
+        Getter method. The given language name and block type name must exist in
+        this factory.
 
         Parameters
         ----------
@@ -131,7 +134,8 @@ class BlockFactory():
         ,import_name
         ):
         """
-        Loads a new language into this factory. The given language name must be unique.
+        Loads a new language into this factory. The given language name must be
+        unique.
 
         Parameters
         ----------
@@ -163,16 +167,17 @@ class BlockFactory():
         ,name
         ):
         """
-        Registers the given block class with the given type name to the language currently being
-        loaded by this factory. The given block class is assigned special attributes _LANG_ and
-        _TYPE_. A language must be currently loading by this factory. The given type name must be
-        unique within its language and cannot be the reserved name "##ROOT##".
+        Registers the given block class with the given type name to the language
+        currently being loaded by this factory. The given block class is
+        assigned special attributes _LANG_ and _TYPE_. A language must be
+        currently loading by this factory. The given type name must be unique
+        within its language and cannot be the reserved name "##ROOT##".
 
         Parameters
         ----------
         class_ : socref.abstract.AbstractBlock
-                 A class object that is registered as a block type of the currently loading
-                 language.
+                 A class object that is registered as a block type of the
+                 currently loading language.
         name : string
                The type name of the block that is registered.
         """
@@ -192,15 +197,16 @@ class BlockFactory():
         ,class_
         ):
         """
-        Registers the given block class as the root block type of the language currently being
-        loaded by this factory. Only one class object can be the root block of a language so this
-        can only be called once per language load.
+        Registers the given block class as the root block type of the language
+        currently being loaded by this factory. Only one class object can be the
+        root block of a language so this can only be called once per language
+        load.
 
         Parameters
         ----------
         class_ : socref.abstract.AbstractBlock
-                 A class object that is registered as the root block type of the currently loading
-                 language.
+                 A class object that is registered as the root block type of the
+                 currently loading language.
         """
         self.__registerBlock_(class_,self.__ROOT)
 
@@ -216,17 +222,17 @@ class BlockFactory():
         ,key
         ):
         """
-        Registers the given block class with the given key to the language currently being loaded by
-        this factory.
+        Registers the given block class with the given key to the language
+        currently being loaded by this factory.
 
         Parameters
         ----------
         class_ : socref.abstract.AbstractBlock
-                 A class object that is registered as a block type of the currently loading
-                 language.
+                 A class object that is registered as a block type of the
+                 currently loading language.
         key : string
-              The key used to add the class object to the language dictionary currently being loaded
-              by this factory.
+              The key used to add the class object to the language dictionary
+              currently being loaded by this factory.
         """
         if self.__importingLang is None:
             raise exception.RegisterError(

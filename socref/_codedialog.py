@@ -15,10 +15,11 @@ from . import settings
 
 class CodeDialog(qtw.QDialog):
     """
-    This is the code dialog class. It displays any unknown code fragments given to it. The fragments
-    must be organized into a flat dictionary where the key should provide a meaningful identity
-    about the code fragment to the user. The user is provided a list and read only text view to
-    navigate the fragments, along with a copy to clipboard button.
+    This is the code dialog class. It displays any unknown code fragments given
+    to it. The fragments must be organized into a flat dictionary where the key
+    should provide a meaningful identity about the code fragment to the user.
+    The user is provided a list and read only text view to navigate the
+    fragments, along with a copy to clipboard button.
     """
 
 
@@ -33,7 +34,8 @@ class CodeDialog(qtw.QDialog):
         ,parent=None
         ):
         """
-        Initializes a new code dialog with the given code dictionary and optional parent.
+        Initializes a new code dialog with the given code dictionary and
+        optional parent.
 
         Parameters
         ----------
@@ -78,13 +80,15 @@ class CodeDialog(qtw.QDialog):
 
 
     #
-    # The key used to save this dialog's geometry using qt settings to make it persistent.
+    # The key used to save this dialog's geometry using qt settings to make it
+    # persistent.
     #
     __GEOMETRY_KEY = "gui.dialog.code.geometry"
 
 
     #
-    # The key used to save this dialog's state using qt settings to make it persistent.
+    # The key used to save this dialog's state using qt settings to make it
+    # persistent.
     #
     __STATE_KEY = "gui.dialog.code.state"
 
@@ -98,7 +102,8 @@ class CodeDialog(qtw.QDialog):
         self
         ):
         """
-        Restores the geometry of this dialog and the state of this dialog's qt splitter.
+        Restores the geometry of this dialog and the state of this dialog's qt
+        splitter.
         """
         settings = qtc.QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
@@ -175,7 +180,8 @@ class CodeDialog(qtw.QDialog):
         self
         ):
         """
-        Called to copy this dialog's current code fragment to the system clipboard.
+        Called to copy this dialog's current code fragment to the system
+        clipboard.
         """
         clipboard = qtg.QClipboard()
         clipboard.setText(self.__view.toPlainText())
@@ -187,8 +193,8 @@ class CodeDialog(qtw.QDialog):
         ,key
         ):
         """
-        Called to inform this dialog's the selected code fragment has changed to the one with the
-        given key.
+        Called to inform this dialog's the selected code fragment has changed to
+        the one with the given key.
 
         Parameters
         ----------

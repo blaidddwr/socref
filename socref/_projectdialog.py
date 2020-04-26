@@ -14,9 +14,9 @@ from . import settings
 
 class ProjectDialog(qtw.QDialog):
     """
-    This is the project dialog class. It is a basic form dialog that allows the user to edit the
-    project name and parse path of the model it is given on initialization. It is a persistent
-    dialog that remembers its geometry.
+    This is the project dialog class. It is a basic form dialog that allows the
+    user to edit the project name and parse path of the model it is given on
+    initialization. It is a persistent dialog that remembers its geometry.
     """
 
 
@@ -31,7 +31,8 @@ class ProjectDialog(qtw.QDialog):
         ,parent=None
         ):
         """
-        Initializes a new project dialog with the given model and optional parent.
+        Initializes a new project dialog with the given model and optional
+        parent.
 
         Parameters
         ----------
@@ -77,7 +78,8 @@ class ProjectDialog(qtw.QDialog):
 
 
     #
-    # The key used to save this dialog's geometry using qt settings to make it persistent.
+    # The key used to save this dialog's geometry using qt settings to make it
+    # persistent.
     #
     __GEOMETRY_KEY = "gui.dialog.project.geometry"
 
@@ -168,8 +170,8 @@ class ProjectDialog(qtw.QDialog):
         self
         ):
         """
-        Called to cancel this dialog, closing it and not applying any changes made in its edit
-        widgets.
+        Called to cancel this dialog, closing it and not applying any changes
+        made in its edit widgets.
         """
         self.done(qtw.QDialog.Rejected)
         self.close()
@@ -196,7 +198,8 @@ class ProjectDialog(qtw.QDialog):
         self
         ):
         """
-        Called to apply this dialog's edit widget values to its project model and then close itself.
+        Called to apply this dialog's edit widget values to its project model
+        and then close itself.
         """
         self.__apply_()
         self.done(qtw.QDialog.Accepted)

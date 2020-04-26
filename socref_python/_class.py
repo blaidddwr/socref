@@ -18,8 +18,8 @@ from . import settings
 @register("Class")
 class Class(Descriptor):
     """
-    This is the class block class. It implements the Socrates' Reference abstract block class. It
-    represents a python class.
+    This is the class block class. It implements the Socrates' Reference
+    abstract block class. It represents a python class.
     """
 
 
@@ -195,7 +195,8 @@ class Class(Descriptor):
         Returns
         -------
         ret0 : bool
-               True if this class contains any abstract functions or false otherwise.
+               True if this class contains any abstract functions or false
+               otherwise.
         """
         for access in self:
             if access.hasAbstract():
@@ -212,9 +213,10 @@ class Class(Descriptor):
         Returns
         -------
         ret0 : bool
-               True if this class is in file or false otherwise. In file means its definition is
-               included in the module it is part of, otherwise it is defined in its own special
-               container module and imported into its module namespace.
+               True if this class is in file or false otherwise. In file means
+               its definition is included in the module it is part of, otherwise
+               it is defined in its own special container module and imported
+               into its module namespace.
         """
         return bool(int(self._p_infile))
 
@@ -245,7 +247,7 @@ class Class(Descriptor):
         Returns
         -------
         ret0 : string
-               The source code fragment of this class block's parents used in its source code header
-               line.
+               The source code fragment of this class block's parents used in
+               its source code header line.
         """
         return ", ".join((parent for parent in self._p_parents.split("\n") if parent))

@@ -16,8 +16,8 @@ from socref_cpp import block as cppblock
 @register("Class")
 class Class(cppblock.Class):
     """
-    This is the class block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++/Qt class.
+    This is the class block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++/Qt class.
     """
 
 

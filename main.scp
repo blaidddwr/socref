@@ -6123,8 +6123,9 @@ The ending of the first function declaration line of the returned signature, use
                 <__p_description>Contains all global settings for this language package.</__p_description>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
-                    <__p_description>The maximum number of columns for any one line of code.</__p_description>
-                    <__p_assignment>100</__p_assignment>
+                    <__p_description>The maximum number of columns for any one line of generated comments.
+</__p_description>
+                    <__p_assignment>80</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H1LINES</__p_name>
@@ -7385,8 +7386,9 @@ The ending of the first function declaration line of the returned signature, use
                 <__p_description>Contains all global settings for this language package.</__p_description>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
-                    <__p_description>The maximum number of columns for any one line of code.</__p_description>
-                    <__p_assignment>100</__p_assignment>
+                    <__p_description>The maximum number of columns for any one line of generated comments.
+</__p_description>
+                    <__p_assignment>80</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H1LINES</__p_name>
@@ -8688,8 +8690,9 @@ The next line of python source code read in from this scanner's input file. If t
                 </Object>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
-                    <__p_description>The maximum number of columns for any one line of code.</__p_description>
-                    <__p_assignment>100</__p_assignment>
+                    <__p_description>The maximum number of columns for any one line of generated doc strings.
+</__p_description>
+                    <__p_assignment>80</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H1LINES</__p_name>

@@ -15,11 +15,13 @@ from . import settings
 
 class Parser(abstract.AbstractParser):
     """
-    This is the python parser class. It implements the Socrates' Reference abstract parser. When
-    scanning source code it builds a definitions dictionary that contains two keys. The first key is
-    "headers" and contains another dictionary whose keys are scanned paths and values are scanned
-    preprocessor header lines. The second is "functions" and contains another dictionary whose keys
-    are function signatures and values are scanned function definition code lines.
+    This is the python parser class. It implements the Socrates' Reference
+    abstract parser. When scanning source code it builds a definitions
+    dictionary that contains two keys. The first key is "headers" and contains
+    another dictionary whose keys are scanned paths and values are scanned
+    preprocessor header lines. The second is "functions" and contains another
+    dictionary whose keys are function signatures and values are scanned
+    function definition code lines.
     """
 
 
@@ -143,15 +145,17 @@ class Parser(abstract.AbstractParser):
         ,scope
         ):
         """
-        Recursively adds source code paths using the given parent block and scope.
+        Recursively adds source code paths using the given parent block and
+        scope.
 
         Parameters
         ----------
         parent : socref.abstract.AbstractBlock
-                 The parent block whose children are scanned for potential paths.
+                 The parent block whose children are scanned for potential
+                 paths.
         scope : string
-                The scope of the given parent block with double colons being replaced by an
-                underscore.
+                The scope of the given parent block with double colons being
+                replaced by an underscore.
         """
         if scope:
             scope = scope + "_"
@@ -176,16 +180,17 @@ class Parser(abstract.AbstractParser):
         ,scope
         ):
         """
-        Recursively scans the given input file for code of function definitions enclosed in the
-        given namespace scope. Any scanned code of function definitions are added to this parser's
-        definitions dictionary.
+        Recursively scans the given input file for code of function definitions
+        enclosed in the given namespace scope. Any scanned code of function
+        definitions are added to this parser's definitions dictionary.
 
         Parameters
         ----------
         ifile : io.TextIOWrapper
                 The input file that is scanned for function definition code.
         scope : string
-                The namespace scope that any found function definitions are nested within.
+                The namespace scope that any found function definitions are
+                nested within.
         """
         depth = 0 if scope else 1
         if scope:
@@ -229,10 +234,11 @@ class Parser(abstract.AbstractParser):
         Returns
         -------
         ret0 : string
-               The argument signature of the given argument line. The signature removes any spaces
-               and the name of the argument, leaving only the type. This only works with arguments
-               where the last word is the variable name separated from its type, including asterisks
-               or ampersands. This also works with C style function pointers.
+               The argument signature of the given argument line. The signature
+               removes any spaces and the name of the argument, leaving only the
+               type. This only works with arguments where the last word is the
+               variable name separated from its type, including asterisks or
+               ampersands. This also works with C style function pointers.
         """
         line = line.lstrip()
         if line.startswith(","):
@@ -255,15 +261,16 @@ class Parser(abstract.AbstractParser):
         Parameters
         ----------
         ifile : io.TextIOWrapper
-                The input file positioned at the beginning of a function definition whose lines of
-                code are scanned and returned.
+                The input file positioned at the beginning of a function
+                definition whose lines of code are scanned and returned.
 
         Returns
         -------
         ret0 : list
-               Code lines scanned from the given input file, assuming it is at the beginning of a
-               function definition. It stops scanning lines when the final enclosing bracket is
-               found. The line with the last ending bracket is not included with the returned lines.
+               Code lines scanned from the given input file, assuming it is at
+               the beginning of a function definition. It stops scanning lines
+               when the final enclosing bracket is found. The line with the last
+               ending bracket is not included with the returned lines.
         """
         depth = 1
         lines = []
@@ -293,15 +300,15 @@ class Parser(abstract.AbstractParser):
         Parameters
         ----------
         ifile : io.TextIOWrapper
-                The input file positioned at the beginning of the file whose preprocessor header
-                lines are scanned and returned.
+                The input file positioned at the beginning of the file whose
+                preprocessor header lines are scanned and returned.
 
         Returns
         -------
         ret0 : list
-               Preprocessor header lines scanned from the given input file, assuming it is at the
-               beginning of the file. This will include the header guard lines if the given input
-               file is a C++ header.
+               Preprocessor header lines scanned from the given input file,
+               assuming it is at the beginning of the file. This will include
+               the header guard lines if the given input file is a C++ header.
         """
         lines = []
         while True:
@@ -328,20 +335,21 @@ class Parser(abstract.AbstractParser):
         Parameters
         ----------
         ifile : io.TextIOWrapper
-                The input file positioned after the first declaration line of a function header
-                whose signature is scanned and returned.
+                The input file positioned after the first declaration line of a
+                function header whose signature is scanned and returned.
         name : string
                The function name of the returned signature.
         end : string
-              The ending of the first function declaration line of the returned signature, used for
-              functions that have no arguments.
+              The ending of the first function declaration line of the returned
+              signature, used for functions that have no arguments.
 
         Returns
         -------
         ret0 : string
-               The function signature scanned from the given input file, assuming it is positioned
-               at the line after the first declaration line. The given function name and ending is
-               used to generate the signature taken from the first declaration line. The returned
+               The function signature scanned from the given input file,
+               assuming it is positioned at the line after the first declaration
+               line. The given function name and ending is used to generate the
+               signature taken from the first declaration line. The returned
                signature does not include any scope.
         """
         depth = end.count("(")-end.count(")")

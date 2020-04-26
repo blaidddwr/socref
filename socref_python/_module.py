@@ -16,8 +16,8 @@ from . import settings
 @register("Module")
 class Module(Package):
     """
-    This is the module block class. It implements the Socrates' Reference abstract block class. It
-    represents a python module.
+    This is the module block class. It implements the Socrates' Reference
+    abstract block class. It represents a python module.
     """
 
 

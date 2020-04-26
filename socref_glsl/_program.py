@@ -18,9 +18,10 @@ from . import parser
 @register("Program",root=True)
 class Program(abstract.AbstractBlock):
     """
-    This is the program block class. It implements the Socrates' Reference abstract block class. It
-    represents a GLSL program. It is the root block type of a GLSL project. A program simply
-    represents a folder that contains shader files.
+    This is the program block class. It implements the Socrates' Reference
+    abstract block class. It represents a GLSL program. It is the root block
+    type of a GLSL project. A program simply represents a folder that contains
+    shader files.
     """
 
 

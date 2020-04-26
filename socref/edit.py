@@ -1,6 +1,6 @@
 """
-Contains helper methods that language block classes can use for displaying rich text, creating edit
-definitions, and producing parsing output.
+Contains helper methods that language block classes can use for displaying rich
+text, creating edit definitions, and producing parsing output.
 """
 
 
@@ -12,12 +12,14 @@ def addComboSelect(
     ,icon=None
     ):
     """
-    Adds a selection to the given combo box edit definition with the given text and optional icon.
+    Adds a selection to the given combo box edit definition with the given text
+    and optional icon.
 
     Parameters
     ----------
     comboEdit : dictionary
-                A combo box edit definition dictionary that has a new selection value added to it.
+                A combo box edit definition dictionary that has a new selection
+                value added to it.
     text : string
            The text of the new selection value.
     icon : PySide2.QtGui.QIcon
@@ -72,7 +74,8 @@ def comboEdit(
     Returns
     -------
     ret0 : dictionary
-           An abstract block's edit definition for a combo box edit with no selections.
+           An abstract block's edit definition for a combo box edit with no
+           selections.
     """
     ret = edit("combobox",label,key)
     ret["selections"] = []
@@ -175,14 +178,15 @@ def richText(
     title : string
             The title used for the HTML header.
     body : string
-           The body that is wrapped in the returned rich text if it is not empty.
+           The body that is wrapped in the returned rich text if it is not
+           empty.
 
     Returns
     -------
     ret0 : rich text
-           Generated from the given body, header, and size. The body is wrapped in an HTML paragraph
-           and an HTML header added before it. If the given body is empty then an empty string is
-           returned.
+           Generated from the given body, header, and size. The body is wrapped
+           in an HTML paragraph and an HTML header added before it. If the given
+           body is empty then an empty string is returned.
     """
     ret = ""
     if body:
@@ -208,13 +212,14 @@ def richTextBlocks(
     title : string
             See rich text function.
     body : string
-           Same as rich text function with the added step of splitting it into paragraphs.
+           Same as rich text function with the added step of splitting it into
+           paragraphs.
 
     Returns
     -------
     ret0 : rich text
-           The richText function's return but with the body being divided into paragraphs using two
-           new lines as the delimiter.
+           The richText function's return but with the body being divided into
+           paragraphs using two new lines as the delimiter.
     """
     return richText(
         size
@@ -245,9 +250,9 @@ def richTextList(
     Returns
     -------
     ret0 : rich text
-           The richText function's return but with the body being replaced by the list that is
-           formatted as an unordered HTML list. The list being empty is the same of the body being
-           empty.
+           The richText function's return but with the body being replaced by
+           the list that is formatted as an unordered HTML list. The list being
+           empty is the same of the body being empty.
     """
     htmlList = "</li><li>".join(list_)
     if htmlList:
@@ -292,17 +297,17 @@ def uniqueInsert(
     ,item
     ):
     """
-    Inserts the given item into the given dictionary with the given key. If the given key already
-    exists in the dictionary a number is appended to the key string until a key is found that does
-    not exist in the dictionary.
+    Inserts the given item into the given dictionary with the given key. If the
+    given key already exists in the dictionary a number is appended to the key
+    string until a key is found that does not exist in the dictionary.
 
     Parameters
     ----------
     dict_ : dictionary
             Has an item inserted into it.
     key : string
-          The key used to insert the given item into the given dictionary. If the key already exists
-          this is modified.
+          The key used to insert the given item into the given dictionary. If
+          the key already exists this is modified.
     item : object
            The item that is inserted into the given dictionary.
     """
@@ -340,7 +345,8 @@ def wrapBlocks(
     Returns
     -------
     ret0 : list
-           The wrapText function's returned but with paragraphs being separated by the given line.
+           The wrapText function's returned but with paragraphs being separated
+           by the given line.
     """
     ret = []
     first = True
@@ -372,16 +378,16 @@ def wrapText(
     begin : string
             Added to the beginning of every line of wrapped text generated.
     after : string
-            Added to the beginning of every wrapped line of text, excluding the first line, after
-            the begin string.
+            Added to the beginning of every wrapped line of text, excluding the
+            first line, after the begin string.
     columns : int
               The maximum column length for each line of wrapped text.
 
     Returns
     -------
     ret0 : list
-           Wrapped string lines generated from the given text, optional begin and after strings, and
-           maximum line length.
+           Wrapped string lines generated from the given text, optional begin
+           and after strings, and maximum line length.
     """
     ret = []
     words = text.split()

@@ -18,8 +18,8 @@ from ._base import Base
 @register("Structure")
 class Structure(Base):
     """
-    This is the structure block class. It implements the Socrates' Reference abstract block class.
-    It represents a GLSL structure.
+    This is the structure block class. It implements the Socrates' Reference
+    abstract block class. It represents a GLSL structure.
     """
 
 

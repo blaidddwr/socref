@@ -14,9 +14,10 @@ from . import core
 
 class BlockViewDock(qtw.QDockWidget):
     """
-    This is the block view dock class. It attaches itself to a project view, providing a detailed
-    view of the currently indexed block. It connects the appropriate signal to listen for the
-    current index of the view to change. The detailed view is presented in a qt label as rich text.
+    This is the block view dock class. It attaches itself to a project view,
+    providing a detailed view of the currently indexed block. It connects the
+    appropriate signal to listen for the current index of the view to change.
+    The detailed view is presented in a qt label as rich text.
     """
 
 
@@ -57,8 +58,8 @@ class BlockViewDock(qtw.QDockWidget):
         ,view
         ):
         """
-        Sets this dock's view to the one given. If this dock currently has a view it is disconnected
-        from this dock.
+        Sets this dock's view to the one given. If this dock currently has a
+        view it is disconnected from this dock.
 
         Parameters
         ----------
@@ -99,8 +100,9 @@ class BlockViewDock(qtw.QDockWidget):
         self
         ):
         """
-        Called to update this dock's detailed view to its view's currently indexed block. If its
-        view's current index is invalid then this dock returns its view to a null state.
+        Called to update this dock's detailed view to its view's currently
+        indexed block. If its view's current index is invalid then this dock
+        returns its view to a null state.
         """
         index = self.__view.selectionModel().currentIndex()
         if index.isValid():

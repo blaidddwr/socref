@@ -15,12 +15,13 @@ from socref import edit
 
 class Parser(abstract.AbstractParser):
     """
-    This is the GLSL parser class. It implements the Socrates' Reference abstract parser. When
-    scanning source code it builds a definitions dictionary whose keys are the paths of the source
-    code file scanned and values are another dictionary for that file containing two keys. The first
-    key is "header" and contains any special headers for the shader. The second key is "functions"
-    and is a dictionary whose keys are function signatures and values are their scanned lines of
-    code.
+    This is the GLSL parser class. It implements the Socrates' Reference
+    abstract parser. When scanning source code it builds a definitions
+    dictionary whose keys are the paths of the source code file scanned and
+    values are another dictionary for that file containing two keys. The first
+    key is "header" and contains any special headers for the shader. The second
+    key is "functions" and is a dictionary whose keys are function signatures
+    and values are their scanned lines of code.
     """
 
 
@@ -153,14 +154,17 @@ class Parser(abstract.AbstractParser):
         ,path
         ):
         """
-        Recursively adds source code paths to be scanned using the given parent block and path.
+        Recursively adds source code paths to be scanned using the given parent
+        block and path.
 
         Parameters
         ----------
         parent : socref.abstract.AbstractBlock
-                 The parent block whose children are scanned for potential source code paths.
+                 The parent block whose children are scanned for potential
+                 source code paths.
         path : string
-               The path of the given parent block that is appended to any child block's path added.
+               The path of the given parent block that is appended to any child
+               block's path added.
         """
         for block in parent:
             if block._TYPE_ == "Program":
@@ -180,17 +184,17 @@ class Parser(abstract.AbstractParser):
         Parameters
         ----------
         ifile : io.TextIOWrapper
-                The input file positioned right after a function declaration whose scanned lines are
-                returned.
+                The input file positioned right after a function declaration
+                whose scanned lines are returned.
         end : string
-              The end part of function declaration, beginning with the first opening parenthesis
-              after the function name.
+              The end part of function declaration, beginning with the first
+              opening parenthesis after the function name.
 
         Returns
         -------
         ret0 : list
-               Scanned code lines from the given input file, assuming it is positioned right after
-               the function declaration line.
+               Scanned code lines from the given input file, assuming it is
+               positioned right after the function declaration line.
         """
         depth = 0
         lines = []
@@ -222,7 +226,8 @@ class Parser(abstract.AbstractParser):
         Returns
         -------
         ret0 : list
-               Shader directive code lines scanned from the header of the given shader file.
+               Shader directive code lines scanned from the header of the given
+               shader file.
         """
         lines = []
         while True:
@@ -248,19 +253,20 @@ class Parser(abstract.AbstractParser):
         Parameters
         ----------
         ifile : io.TextIOWrapper
-                The input file positioned after the first declaration line of a function header
-                whose signature is scanned and returned.
+                The input file positioned after the first declaration line of a
+                function header whose signature is scanned and returned.
         name : string
                The function name of the returned signature.
         end : string
-              The ending of the first function declaration line of the returned signature, used for
-              functions that have no arguments.
+              The ending of the first function declaration line of the returned
+              signature, used for functions that have no arguments.
 
         Returns
         -------
-        ret0 : The function signature scanned from the given input file, assuming it is positioned
-               at the line after the first declaration line. The given function name and ending is
-               used to generate the signature taken from the first declaration line.
+        ret0 : The function signature scanned from the given input file,
+               assuming it is positioned at the line after the first declaration
+               line. The given function name and ending is used to generate the
+               signature taken from the first declaration line.
         """
         depth = end.count("(")-end.count(")")
         args = []
