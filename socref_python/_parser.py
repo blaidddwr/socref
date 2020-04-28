@@ -120,7 +120,10 @@ class Parser(abstract.AbstractParser):
         return (
             "\n".join(
                 block.build(
-                    self.__definitions.get(path,{"header": [], "functions": {}, "classes": {}})
+                    self.__definitions.get(
+                        path
+                        ,{"pre": [],"header": [], "script": [], "functions": {}, "classes": {}}
+                    )
                 )
             )
             + "\n"
