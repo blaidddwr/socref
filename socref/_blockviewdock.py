@@ -106,6 +106,6 @@ class BlockViewDock(qtw.QDockWidget):
         """
         index = self.__view.selectionModel().currentIndex()
         if index.isValid():
-            self.__label.setText(self.__view.model().data(index,core.Role.VIEW))
+            self.__label.setText(self.__view.model().data(index,core.Role.View))
         else:
             self.__label.setText("")

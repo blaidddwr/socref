@@ -239,15 +239,15 @@ class ProjectModel(qtc.QAbstractItemModel):
                 return block.displayName()
             elif role == qtc.Qt.DecorationRole:
                 return block.icon()
-            elif role == core.Role.BUILD_LIST:
+            elif role == core.Role.BuildList:
                 return block.buildList()
-            elif role == core.Role.VIEW:
+            elif role == core.Role.View:
                 return block.displayView()
-            elif role == core.Role.EDIT_DEFS:
+            elif role == core.Role.EditDefs:
                 return block.editDefinitions()
-            elif role == core.Role.PROPERTIES:
+            elif role == core.Role.Properties:
                 return block.properties()
-            elif role == core.Role.BLOCK_TYPE:
+            elif role == core.Role.BlockType:
                 return block._TYPE_
 
 
@@ -748,7 +748,7 @@ class ProjectModel(qtc.QAbstractItemModel):
                See qt docs.
         """
         block = self.__block_(index)
-        if block is not None and role == core.Role.PROPERTIES:
+        if block is not None and role == core.Role.Properties:
             self.__push_(core.SetCommand(block.properties(),value,index,self))
             return True
         else:

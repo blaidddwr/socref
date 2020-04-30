@@ -330,7 +330,7 @@ class ProjectView(qtw.QTreeView):
         (row,parent) = self.__insertValues_()
         if parent is None:
             return False
-        if not ProjectView.__blockTypeSet & set(self.__model.data(parent,core.Role.BUILD_LIST)):
+        if not ProjectView.__blockTypeSet & set(self.__model.data(parent,core.Role.BuildList)):
             return False
         return True
 
@@ -505,7 +505,7 @@ class ProjectView(qtw.QTreeView):
         (row,index) = self.__insertValues_()
         if index is None:
             return
-        block_list = self.__model.data(index,core.Role.BUILD_LIST)
+        block_list = self.__model.data(index,core.Role.BuildList)
         if block_list is not None:
             for block_type in block_list:
                 action = qtw.QAction(block_type.replace("_"," "),self)

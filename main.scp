@@ -537,6 +537,35 @@ Optionally indicates the registered block is the root block of the language if s
                 <__p_name>core</__p_name>
                 <__p_description>Contains all core classes, functions, and singleton instances of this application.
 </__p_description>
+                <Enumeration>
+                    <__p_name>Role</__p_name>
+                    <__p_description>This enumerates all custom data roles the project model implements.</__p_description>
+                    <Enumeration_Value>
+                        <__p_name>BlockType</__p_name>
+                        <__p_description>Defines the block type role which represents a block's type name.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+0</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>View</__p_name>
+                        <__p_description>Defines the view role which represents a block's detailed rich text view.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+1</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>BuildList</__p_name>
+                        <__p_description>Defines the build list role which represents a block's build list.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+2</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>Properties</__p_name>
+                        <__p_description>Defines the properties role which represents a block's properties.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+3</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>EditDefs</__p_name>
+                        <__p_description>Defines the edit definitions role which represents a block's edit definitions.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+4</__p_assignment>
+                    </Enumeration_Value>
+                </Enumeration>
                 <Class>
                     <__p_name>BlockFactory</__p_name>
                     <__p_description>This is the singleton block factory class. It creates new blocks. It loads new languages by importing their module and registering their block types during the load process. It provides a list of languages and block types per language.
@@ -1625,41 +1654,6 @@ The project model whose given indexes are removed.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                </Class>
-                <Class>
-                    <__p_name>Role</__p_name>
-                    <__p_description>This is the role enumeration class. It defines all custom data roles the project model implements.</__p_description>
-                    <__p_parents>enum.Enum</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <Access>
-                        <__p_name>Enumerations</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Object>
-                            <__p_name>BLOCK_TYPE</__p_name>
-                            <__p_description>Defines the block type role which represents a block's type name.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 0</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>VIEW</__p_name>
-                            <__p_description>Defines the view role which represents a block's detailed rich text view.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 1</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>BUILD_LIST</__p_name>
-                            <__p_description>Defines the build list role which represents a block's build list.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 2</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>PROPERTIES</__p_name>
-                            <__p_description>Defines the properties role which represents a block's properties.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 3</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>EDIT_DEFS</__p_name>
-                            <__p_description>Defines the edit definitions role which represents a block's edit definitions.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 4</__p_assignment>
-                        </Object>
                     </Access>
                 </Class>
                 <Class>
@@ -7445,127 +7439,6 @@ The ending of the first function declaration line of the returned signature, use
                 <__p_description>Contains all block classes for this language.
 </__p_description>
                 <Class>
-                    <__p_name>EnumValue</__p_name>
-                    <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a python enumeration value object. The standard python library is used for the generated class as an integer enumeration. If no value is given the auto class is used from the python enumeration library.</__p_description>
-                    <__p_parents>Object</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
-                    <Access>
-                        <__p_name>Initialize</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new enumeration block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Methods</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Implements the socref_python.block.Package interface.</__p_description>
-                            <__p_returnDescription>See interface docs.</__p_returnDescription>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>icon</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnDescription>See interface docs.</__p_returnDescription>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>isArgument</__p_name>
-                            <__p_description>Implements the socref_python.block.Object interface.</__p_description>
-                            <__p_returnDescription>See interface docs.</__p_returnDescription>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>inClass</__p_name>
-                            <__p_description>Implements the socref_python.block.Object interface.</__p_description>
-                            <__p_returnDescription>See interface docs.</__p_returnDescription>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                </Class>
-                <Class>
-                    <__p_name>Enum</__p_name>
-                    <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a python enumeration class. The standard python library is used for the generated class as an integer enumeration.</__p_description>
-                    <__p_parents>Package</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
-                    <Access>
-                        <__p_name>Initialize</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new enumeration block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Methods</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Implements the socref_python.block.Package interface.</__p_description>
-                            <__p_returnDescription>See interface docs.</__p_returnDescription>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>buildList</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnDescription>See interface docs.</__p_returnDescription>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>icon</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnDescription>See interface docs.</__p_returnDescription>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                </Class>
-                <Class>
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.
 </__p_description>
@@ -7894,6 +7767,127 @@ A decoration for a block's display name providing information about its descript
                             <__p_returnDescription>rich text
 Detailed information about this block's descriptors. If this block has no descriptors then an empty string is returned.
 </__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Enum</__p_name>
+                    <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a python enumeration class. The standard python library is used for the generated class as an integer enumeration.</__p_description>
+                    <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
+                    <__p_parents>Package</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new enumeration block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the socref_python.block.Package interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>EnumValue</__p_name>
+                    <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a python enumeration value object. The standard python library is used for the generated class as an integer enumeration. If no value is given the auto class is used from the python enumeration library.</__p_description>
+                    <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
+                    <__p_parents>Object</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new enumeration block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the socref_python.block.Package interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isArgument</__p_name>
+                            <__p_description>Implements the socref_python.block.Object interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>inClass</__p_name>
+                            <__p_description>Implements the socref_python.block.Object interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -8365,9 +8359,9 @@ See interface docs.
                 <Class>
                     <__p_name>Package</__p_name>
                     <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project. It implements one additional interface method used by other block definitions of the python language.</__p_description>
+                    <__p_descriptors>register(&quot;Package&quot;,root=True)</__p_descriptors>
                     <__p_parents>abstract.AbstractBlock</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <__p_descriptors>register(&quot;Package&quot;,root=True)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>

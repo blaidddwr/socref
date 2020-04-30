@@ -186,8 +186,8 @@ class BlockEditDock(qtw.QDockWidget):
         """
         self.__edits.clear()
         try:
-            props = self.__view.model().data(index,core.Role.PROPERTIES)
-            defs = self.__view.model().data(index,core.Role.EDIT_DEFS)
+            props = self.__view.model().data(index,core.Role.Properties)
+            defs = self.__view.model().data(index,core.Role.EditDefs)
             layout = qtw.QFormLayout()
             for def_ in defs:
                 edit = None
@@ -339,7 +339,7 @@ class BlockEditDock(qtw.QDockWidget):
             self.__view.model().setData(
                 self.__index
                 ,{edit._key: edit._value_() for edit in self.__edits}
-                ,core.Role.PROPERTIES
+                ,core.Role.Properties
             )
             self.__applyButton.setEnabled(False)
 
