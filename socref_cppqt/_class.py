@@ -16,8 +16,8 @@ from socref_cpp import block as cppblock
 @register("Class")
 class Class(cppblock.Class):
     """
-    This is the class block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++/Qt class.
+    This is the class block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++/Qt class.
     """
 
 
@@ -26,7 +26,9 @@ class Class(cppblock.Class):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new class block.
         """
@@ -39,7 +41,9 @@ class Class(cppblock.Class):
     ####################
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -47,7 +51,9 @@ class Class(cppblock.Class):
         self._p_qtObject = "0"
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -61,7 +67,9 @@ class Class(cppblock.Class):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -81,7 +89,9 @@ class Class(cppblock.Class):
             return cppblock.Class.icon(self)
 
 
-    def isQtObject(self):
+    def isQtObject(
+        self
+        ):
         """
         Getter method.
 
@@ -93,7 +103,9 @@ class Class(cppblock.Class):
         return bool(int(self._p_qtObject))
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -106,7 +118,10 @@ class Class(cppblock.Class):
     #######################
 
 
-    def _buildClassHeader_(self, begin):
+    def _buildClassHeader_(
+        self
+        ,begin
+        ):
         """
         Extends the socref_cpp.block.Class method.
 

@@ -18,8 +18,9 @@ from ._base import Base
 @register("Namespace",root=True)
 class Namespace(Base):
     """
-    This is the namespace block class. It implements the Socrates' Reference abstract block class.
-    It represents a C++ namespace. It is the root block type of a C++ project.
+    This is the namespace block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ namespace. It is the root block
+    type of a C++ project.
     """
 
 
@@ -28,7 +29,9 @@ class Namespace(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new namespace block.
         """
@@ -41,7 +44,10 @@ class Namespace(Base):
     ####################
 
 
-    def buildDeclaration(self, begin):
+    def buildDeclaration(
+        self
+        ,begin
+        ):
         """
         Implements the .namespace.Base interface.
 
@@ -66,7 +72,13 @@ class Namespace(Base):
         return ret
 
 
-    def buildDefinition(self, definitions, scope, template, header):
+    def buildDefinition(
+        self
+        ,definitions
+        ,scope
+        ,template
+        ,header
+        ):
         """
         Implements the .namespace.Base interface.
 
@@ -96,7 +108,11 @@ class Namespace(Base):
         return (variables,functions)
 
 
-    def buildHeader(self, definitions, path):
+    def buildHeader(
+        self
+        ,definitions
+        ,path
+        ):
         """
         Implements the .namespace.Base interface.
 
@@ -124,7 +140,9 @@ class Namespace(Base):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -136,7 +154,11 @@ class Namespace(Base):
         return ("Namespace","Enumeration","Variable","Function","Class","Union")
 
 
-    def buildSource(self, definitions, path):
+    def buildSource(
+        self
+        ,definitions
+        ,path
+        ):
         """
         Implements the .namespace.Base interface.
 
@@ -162,7 +184,9 @@ class Namespace(Base):
         return ret
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -170,7 +194,9 @@ class Namespace(Base):
         self._p_hidden = "0"
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -184,14 +210,17 @@ class Namespace(Base):
         return ret
 
 
-    def hasFunctions(self):
+    def hasFunctions(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this namespace has one or more functions or false otherwise.
+               True if this namespace has one or more functions or false
+               otherwise.
         """
         for child in self:
             if child._TYPE_ == "Function":
@@ -199,7 +228,9 @@ class Namespace(Base):
         return False
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -214,21 +245,26 @@ class Namespace(Base):
             return qtg.QIcon(":/cpp/namespace.svg")
 
 
-    def isHidden(self):
+    def isHidden(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this is a hidden namespace that must not have its name added to the scoping
-               of source code files nor have its own header or source file. If this is a regular
-               visible namespace then false is returned.
+               True if this is a hidden namespace that must not have its name
+               added to the scoping of source code files nor have its own header
+               or source file. If this is a regular visible namespace then false
+               is returned.
         """
         return bool(int(self._p_hidden))
 
 
-    def parser(self):
+    def parser(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -240,7 +276,9 @@ class Namespace(Base):
         return parser.Parser(self)
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

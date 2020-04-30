@@ -18,8 +18,8 @@ from ._base import Base
 @register("Function")
 class Function(Base):
     """
-    This is the function block class. It implements the Socrates' Reference abstract block class. It
-    represents a GLSL function.
+    This is the function block class. It implements the Socrates' Reference
+    abstract block class. It represents a GLSL function.
     """
 
 
@@ -28,7 +28,9 @@ class Function(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new function block.
         """
@@ -42,7 +44,11 @@ class Function(Base):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_glsl.block.Base interface.
 
@@ -61,11 +67,13 @@ class Function(Base):
         ret = [""]*settings.H1LINES
         ret += self.__buildComments_(begin)
         ret += self.__buildDeclaration_(begin)
-        ret += definition["functions"].pop(self._p_name,["{"]) + ["}"]
+        ret += definition["functions"].pop(self.__signature_(),["{"]) + ["}"]
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -77,7 +85,9 @@ class Function(Base):
         return ("Variable",)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -86,7 +96,9 @@ class Function(Base):
         self._p_returnDescription = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -98,7 +110,9 @@ class Function(Base):
         return self._p_name + "(%s)"%str(len(self))
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -117,7 +131,9 @@ class Function(Base):
         return Base.displayView(self)+self.__argumentsView_()+return_
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -132,7 +148,9 @@ class Function(Base):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -144,7 +162,9 @@ class Function(Base):
         return qtg.QIcon(":/glsl/function.svg")
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -159,15 +179,17 @@ class Function(Base):
     #####################
 
 
-    def __argumentsView_(self):
+    def __argumentsView_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : rich text
-               Detailed view of all this function's arguments. If this function has no arguments
-               then this returns an empty string.
+               Detailed view of all this function's arguments. If this function
+               has no arguments then this returns an empty string.
         """
         return edit.richText(
             2
@@ -176,7 +198,10 @@ class Function(Base):
         )
 
 
-    def __buildComments_(self, begin):
+    def __buildComments_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -211,7 +236,10 @@ class Function(Base):
         return ret
 
 
-    def __buildDeclaration_(self, begin):
+    def __buildDeclaration_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -223,8 +251,8 @@ class Function(Base):
         Returns
         -------
         ret0 : list
-               Lines that is the declaration, or header, of this function. If this function has no
-               arguments then a single line is returned.
+               Lines that is the declaration, or header, of this function. If
+               this function has no arguments then a single line is returned.
         """
         ret = []
         line = begin+self._p_returnType+" "+self._p_name+"("
@@ -245,4 +273,26 @@ class Function(Base):
                     newBegin = newBegin + ","
                     first = False
             ret.append(begin+")")
+        return ret
+
+
+    def __signature_(
+        self
+        ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        ret0 : string
+               The signature of this function used to lookup any scanned lines
+               of code when building its definition. This includes its name and
+               argument types.
+        """
+        ret = self._p_name
+        args = []
+        for child in self:
+            args.append(child.buildSignature())
+        if args:
+            ret += ":" + ":".join(args)
         return ret

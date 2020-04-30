@@ -19,8 +19,8 @@ from ._templatee import Templatee
 @register("Function")
 class Function(Templatee):
     """
-    This is the function block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++ function.
+    This is the function block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ function.
     """
 
 
@@ -29,7 +29,9 @@ class Function(Templatee):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new function block.
         """
@@ -53,7 +55,10 @@ class Function(Templatee):
     ####################
 
 
-    def buildDeclaration(self, begin):
+    def buildDeclaration(
+        self
+        ,begin
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -74,7 +79,13 @@ class Function(Templatee):
         return ret
 
 
-    def buildDefinition(self, definitions, scope, template, header):
+    def buildDefinition(
+        self
+        ,definitions
+        ,scope
+        ,template
+        ,header
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -113,7 +124,9 @@ class Function(Templatee):
             return ([],[])
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -125,7 +138,11 @@ class Function(Templatee):
         return ("Template","Variable")
 
 
-    def buildSource(self, definitions, path):
+    def buildSource(
+        self
+        ,definitions
+        ,path
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -149,7 +166,9 @@ class Function(Templatee):
         return ret
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -168,7 +187,9 @@ class Function(Templatee):
         self._p_abstract = "0"
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -186,7 +207,9 @@ class Function(Templatee):
         return ret
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -213,7 +236,9 @@ class Function(Templatee):
         )
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -249,7 +274,9 @@ class Function(Templatee):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -285,7 +312,9 @@ class Function(Templatee):
                 return qtg.QIcon(":/cpp/function.svg")
 
 
-    def isAbstract(self):
+    def isAbstract(
+        self
+        ):
         """
         Getter method.
 
@@ -297,7 +326,9 @@ class Function(Templatee):
         return bool(int(self._p_abstract))
 
 
-    def isConstant(self):
+    def isConstant(
+        self
+        ):
         """
         Getter method.
 
@@ -309,7 +340,9 @@ class Function(Templatee):
         return bool(int(self._p_const))
 
 
-    def isConstructor(self):
+    def isConstructor(
+        self
+        ):
         """
         Getter method.
 
@@ -321,7 +354,9 @@ class Function(Templatee):
         return self._p_name == "^"
 
 
-    def isDefault(self):
+    def isDefault(
+        self
+        ):
         """
         Getter method.
 
@@ -333,7 +368,9 @@ class Function(Templatee):
         return bool(int(self._p_default))
 
 
-    def isDeleted(self):
+    def isDeleted(
+        self
+        ):
         """
         Getter method.
 
@@ -345,7 +382,9 @@ class Function(Templatee):
         return bool(int(self._p_deleted))
 
 
-    def isDestructor(self):
+    def isDestructor(
+        self
+        ):
         """
         Getter method.
 
@@ -357,31 +396,39 @@ class Function(Templatee):
         return self._p_name == "~^"
 
 
-    def isExplicit(self):
+    def isExplicit(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this function is an explicit constructor or false otherwise.
+               True if this function is an explicit constructor or false
+               otherwise.
         """
         return bool(int(self._p_explicit))
 
 
-    def isFinal(self):
+    def isFinal(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this function is the final overriding virtual interface or false otherwise.
+               True if this function is the final overriding virtual interface
+               or false otherwise.
         """
         return bool(int(self._p_final))
 
 
-    def isMethod(self):
+    def isMethod(
+        self
+        ):
         """
         Getter method.
 
@@ -393,19 +440,24 @@ class Function(Templatee):
         return self.parent() and self.parent()._TYPE_ == "Access"
 
 
-    def isNoExcept(self):
+    def isNoExcept(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this function does not throw exceptions or false otherwise.
+               True if this function does not throw exceptions or false
+               otherwise.
         """
         return bool(int(self._p_noexcept))
 
 
-    def isOperator(self):
+    def isOperator(
+        self
+        ):
         """
         Getter method.
 
@@ -417,19 +469,24 @@ class Function(Templatee):
         return self._p_name.startswith("operator")
 
 
-    def isOverride(self):
+    def isOverride(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this function is overriding a virtual interface or false otherwise.
+               True if this function is overriding a virtual interface or false
+               otherwise.
         """
         return bool(int(self._p_override))
 
 
-    def isStatic(self):
+    def isStatic(
+        self
+        ):
         """
         Getter method.
 
@@ -441,7 +498,9 @@ class Function(Templatee):
         return bool(int(self._p_static))
 
 
-    def isVirtual(self):
+    def isVirtual(
+        self
+        ):
         """
         Getter method.
 
@@ -453,7 +512,9 @@ class Function(Templatee):
         return bool(int(self._p_virtual))
 
 
-    def isVolatileAbove(self):
+    def isVolatileAbove(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -465,7 +526,9 @@ class Function(Templatee):
         return self.isMethod()
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -490,15 +553,17 @@ class Function(Templatee):
     #####################
 
 
-    def __argumentsView_(self):
+    def __argumentsView_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : rich text
-               Detailed view of all this function's arguments. If this function has no arguments
-               then this returns an empty string.
+               Detailed view of all this function's arguments. If this function
+               has no arguments then this returns an empty string.
         """
         return edit.richText(
             2
@@ -507,7 +572,10 @@ class Function(Templatee):
         )
 
 
-    def __buildComments_(self, begin):
+    def __buildComments_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -533,7 +601,15 @@ class Function(Templatee):
         return ret
 
 
-    def __buildHeader_(self, scope, template, begin, end, beforeFlags, afterFlags):
+    def __buildHeader_(
+        self
+        ,scope
+        ,template
+        ,begin
+        ,end
+        ,beforeFlags
+        ,afterFlags
+        ):
         """
         Getter method.
 
@@ -542,25 +618,27 @@ class Function(Templatee):
         scope : string
                 The scope that is appended to the returned functions name.
         template : string
-                   Any template declarations that is appended to its own line before the main
-                   function declaration.
+                   Any template declarations that is appended to its own line
+                   before the main function declaration.
         begin : string
                 Added to the beginning of every returned line of returned code.
         end : string
-              Added to the end of the returned declaration. If this string is a semicolon then a
-              declaration header is returned else a definition header is returned.
+              Added to the end of the returned declaration. If this string is a
+              semicolon then a declaration header is returned else a definition
+              header is returned.
         beforeFlags : string
-                      The flags added to the returned declaration before the function return type
-                      and name.
+                      The flags added to the returned declaration before the
+                      function return type and name.
         afterFlags : string
-                     The flags added to the returned declaration after the function name and
-                     arguments.
+                     The flags added to the returned declaration after the
+                     function name and arguments.
 
         Returns
         -------
         ret0 : list
-               Lines that is the declaration or definition header of this function. If this function
-               has no arguments or templates then a single line is returned.
+               Lines that is the declaration or definition header of this
+               function. If this function has no arguments or templates then a
+               single line is returned.
         """
         if scope:
             scope += "::"
@@ -595,14 +673,17 @@ class Function(Templatee):
         return ret
 
 
-    def __buildFlagDeclarations_(self):
+    def __buildFlagDeclarations_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : string
-               Flags for this function's declaration before its return type and name.
+               Flags for this function's declaration before its return type and
+               name.
         ret1 : string
                Flags for its declaration after its name and arguments.
         """
@@ -631,14 +712,17 @@ class Function(Templatee):
         return (before,after)
 
 
-    def __buildFlagDefinitions_(self):
+    def __buildFlagDefinitions_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : string
-               Flags for this function's definition header before its return type and name.
+               Flags for this function's definition header before its return
+               type and name.
         ret1 : string
                Flags for its definition header after its name and arguments.
         """
@@ -650,14 +734,17 @@ class Function(Templatee):
         return ("",ret)
 
 
-    def __buildNamespaceScope_(self):
+    def __buildNamespaceScope_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : string
-               The namespace only scope of this function, not including any classes.
+               The namespace only scope of this function, not including any
+               classes.
         """
         namespaces = []
         up = self.parent()
@@ -672,7 +759,9 @@ class Function(Templatee):
             return ""
 
 
-    def __checkFlags_(self):
+    def __checkFlags_(
+        self
+        ):
         """
         Sets this function's flags to legal values if it is not a method.
         """
@@ -688,15 +777,17 @@ class Function(Templatee):
             self._p_abstract = "0"
 
 
-    def __flags_(self):
+    def __flags_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : string
-               Character flags this block has enabled. If this block has no flags enabled then an
-               empty string is returned.
+               Character flags this block has enabled. If this block has no
+               flags enabled then an empty string is returned.
         """
         ret = ""
         if self.isDefault():
@@ -722,15 +813,17 @@ class Function(Templatee):
         return ret
 
 
-    def __flagsList_(self):
+    def __flagsList_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : list
-               Character flags this block has enabled. If this block has no flags enabled then an
-               empty list is returned.
+               Character flags this block has enabled. If this block has no
+               flags enabled then an empty list is returned.
         """
         flags = []
         if self.isDefault():
@@ -756,14 +849,17 @@ class Function(Templatee):
         return flags
 
 
-    def __name_(self):
+    def __name_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : string
-               The name of this function, taking into account if it is a constructor or destructor.
+               The name of this function, taking into account if it is a
+               constructor or destructor.
         """
         if self.isMethod():
             return self._p_name.replace("^",self.parent().parent()._p_name)
@@ -771,39 +867,37 @@ class Function(Templatee):
             return self._p_name
 
 
-    def __signature_(self, scope):
+    def __signature_(
+        self
+        ,scope
+        ):
         """
         Getter method.
 
         Parameters
         ----------
         scope : string
-                The class only scope of this function, not including any namespaces.
+                The class only scope of this function, not including any
+                namespaces.
 
         Returns
         -------
         ret0 : string
-               The signature of this function used to lookup any scanned lines of code when building
-               its definition. This includes its full scope of any namespaces and classes, name of
-               the function, and its arguments because this is C++.
+               The signature of this function used to lookup any scanned lines
+               of code when building its definition. This includes its full
+               scope of any namespaces and classes, name of the function, and
+               its arguments because this is C++.
         """
         if scope:
             scope += "::"
         ret = self.__buildNamespaceScope_()
         ret += scope+self.__name_()
-        if self.isConstant():
-            ret += ":const"
         args = []
         for child in self:
             if child._TYPE_ == "Variable":
-                args.append(child)
+                args.append(child.buildSignature())
         if args:
-            first = True
-            for arg in args:
-                if first:
-                    ret += ":"
-                    first = False
-                else:
-                    ret += "_"
-                ret += arg.buildSignature()
+            ret += ":"+":".join(args)
+        if self.isConstant():
+            ret += ":const"
         return ret

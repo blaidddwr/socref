@@ -11,8 +11,8 @@ Contains the ScanError class.
 
 class ScanError(Exception):
     """
-    This is the scan error exception class. It indicates an error occurred while scanning source
-    files while parsing a project.
+    This is the scan error exception class. It indicates an error occurred while
+    scanning source files while parsing a project.
     """
 
 
@@ -21,9 +21,13 @@ class ScanError(Exception):
     #######################
 
 
-    def __init__(self, *args):
+    def __init__(
+        self
+        ,*args
+        ):
         """
-        Initialize a new load error exception with any number of given positional arguments.
+        Initialize a new load error exception with any number of given
+        positional arguments.
 
         Parameters
         ----------

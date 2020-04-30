@@ -1,18 +1,19 @@
 """
-Contains all global settings for the python language module.
+Contains all global settings for this language package.
 """
 
 
 #
-# The descriptor, without the leading ampersand, used to make a class's method abstract.
+# The descriptor, without the leading ampersand, used to make a class's method
+# abstract.
 #
 ABSTRACT_DESCRIPTOR = "abc.abstractmethod"
 
 
 #
-# The maximum number of columns for any one line of code.
+# The maximum number of columns for any one line of generated doc strings.
 #
-COLUMNS = 100
+COLUMNS = 80
 
 
 #
@@ -37,3 +38,9 @@ H3LINES = 2
 # The number of spaces used for each indent.
 #
 INDENT = 4
+
+
+#
+# Detailed description.
+#
+SCRIPT_HEADER = "### __SCRIPT__ ###"

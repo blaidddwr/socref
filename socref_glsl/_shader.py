@@ -18,8 +18,8 @@ from ._base import Base
 @register("Shader")
 class Shader(Base):
     """
-    This is the shader block class. It implements the Socrates' Reference abstract block class. It
-    represents a GLSL shader.
+    This is the shader block class. It implements the Socrates' Reference
+    abstract block class. It represents a GLSL shader.
     """
 
 
@@ -28,7 +28,9 @@ class Shader(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new shader block.
         """
@@ -41,7 +43,11 @@ class Shader(Base):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_glsl.block.Base interface.
 
@@ -58,13 +64,21 @@ class Shader(Base):
                See interface docs.
         """
         ret = definition.pop("header")
-        ret += self._buildChildren_(definition,begin)
-        ret += [""]*settings.H1LINES + ["void main()"]
-        ret += definition["functions"].pop("main",["{"]) + ["}"]
+        ret += (
+            self._buildChildren_(definition,begin)
+            + [""]*settings.H1LINES
+            + ["/*!"]
+            + edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+            + [" */"]
+            + ["void main()"]
+            + definition["functions"].pop("main",["{"]) + ["}"]
+        )
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -76,7 +90,9 @@ class Shader(Base):
         return ("Variable","Structure","Function")
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -84,7 +100,9 @@ class Shader(Base):
         self._p_type = "Vertex"
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -97,7 +115,9 @@ class Shader(Base):
         return Base.displayView(self)+type_
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -118,7 +138,9 @@ class Shader(Base):
         return ret
 
 
-    def extension(self):
+    def extension(
+        self
+        ):
         """
         Getter method.
 
@@ -143,7 +165,9 @@ class Shader(Base):
             raise RuntimeError("Shader is invalid type.")
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -166,7 +190,9 @@ class Shader(Base):
             raise RuntimeError("Shader is invalid type.")
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

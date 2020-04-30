@@ -18,8 +18,8 @@ from . import settings
 @register("Access")
 class Access(abstract.AbstractBlock):
     """
-    This is the access block class. It implements the Socrates' Reference abstract block class. It
-    represents an access declaration for C++ class.
+    This is the access block class. It implements the Socrates' Reference
+    abstract block class. It represents an access declaration for C++ class.
     """
 
 
@@ -28,7 +28,9 @@ class Access(abstract.AbstractBlock):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new access block.
         """
@@ -43,7 +45,10 @@ class Access(abstract.AbstractBlock):
     ####################
 
 
-    def buildDeclaration(self, begin):
+    def buildDeclaration(
+        self
+        ,begin
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -81,7 +86,9 @@ class Access(abstract.AbstractBlock):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -93,7 +100,13 @@ class Access(abstract.AbstractBlock):
         return ("Enumeration","Variable","Function","Class","Union")
 
 
-    def buildDefinition(self, definitions, scope, template, header):
+    def buildDefinition(
+        self
+        ,definitions
+        ,scope
+        ,template
+        ,header
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -122,7 +135,9 @@ class Access(abstract.AbstractBlock):
         return (variables,functions)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -131,7 +146,9 @@ class Access(abstract.AbstractBlock):
         self._p_enclosure = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -143,7 +160,9 @@ class Access(abstract.AbstractBlock):
         return self._p_name + " (%i)" % len(self)
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -158,7 +177,9 @@ class Access(abstract.AbstractBlock):
         )
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -176,14 +197,17 @@ class Access(abstract.AbstractBlock):
         return ret
 
 
-    def hasAbstract(self):
+    def hasAbstract(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this access block contains any abstract methods or false otherwise.
+               True if this access block contains any abstract methods or false
+               otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":
@@ -192,14 +216,17 @@ class Access(abstract.AbstractBlock):
         return False
 
 
-    def hasVirtual(self):
+    def hasVirtual(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this access block contains any virtual methods or false otherwise.
+               True if this access block contains any virtual methods or false
+               otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":
@@ -208,7 +235,9 @@ class Access(abstract.AbstractBlock):
         return False
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -225,7 +254,9 @@ class Access(abstract.AbstractBlock):
             return qtg.QIcon(":/cpp/private.svg")
 
 
-    def isVolatileAbove(self):
+    def isVolatileAbove(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -237,7 +268,9 @@ class Access(abstract.AbstractBlock):
         return True
 
 
-    def isVolatileBelow(self):
+    def isVolatileBelow(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -249,7 +282,9 @@ class Access(abstract.AbstractBlock):
         return True
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -263,15 +298,19 @@ class Access(abstract.AbstractBlock):
     #######################
 
 
-    def _addComboSelects_(self, combo):
+    def _addComboSelects_(
+        self
+        ,combo
+        ):
         """
-        Adds the selection values available for modifying this access block's type to the given
-        combo edit definition.
+        Adds the selection values available for modifying this access block's
+        type to the given combo edit definition.
 
         Parameters
         ----------
         combo : PySide2.QtWidgets.QComboBox
-                The combo box that is populated with possible access type values.
+                The combo box that is populated with possible access type
+                values.
         """
         edit.addComboSelect(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
         edit.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))

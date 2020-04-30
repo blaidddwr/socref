@@ -14,38 +14,44 @@ from . import core
 
 class ProjectModel(qtc.QAbstractItemModel):
     """
-    This is the project model class. It implements the qt abstract item model class. It provides
-    additional methods above and beyond the basic model methods for added functionality. It provides
-    basic properties that are universal to a project. It has built in support for undo and redo of
-    any modification done to it.
+    This is the project model class. It implements the qt abstract item model
+    class. It provides additional methods above and beyond the basic model
+    methods for added functionality. It provides basic properties that are
+    universal to a project. It has built in support for undo and redo of any
+    modification done to it.
 
-    It implements the qt abstract item model class. The header data, index, parent, row count,
-    column count, data, set data, insert rows, remove rows, and insert row interfaces are
-    implemented from the abstract class. The header data provides a single horizontal title that is
-    the language name of the model's project if any. The column count always returns 1 since a
-    project model only has only column for a block's display name. Custom roles are implemented
-    using the roles defined in the role enumeration class. The only role supported for set data is
-    the property role. The model is structures like a tree, returning the number of children an
-    indexes block has for the row count interface.
+    It implements the qt abstract item model class. The header data, index,
+    parent, row count, column count, data, set data, insert rows, remove rows,
+    and insert row interfaces are implemented from the abstract class. The
+    header data provides a single horizontal title that is the language name of
+    the model's project if any. The column count always returns 1 since a
+    project model only has only column for a block's display name. Custom roles
+    are implemented using the roles defined in the role enumeration class. The
+    only role supported for set data is the property role. The model is
+    structures like a tree, returning the number of children an indexes block
+    has for the row count interface.
 
-    It provides additional methods and signals above and beyond the basic model methods for added
-    functionality. Methods are provided for making a new project, loading a project, saving the
-    current project, and closing the current project. A method and signal is provided to indicate if
-    the model has unsaved changes. Methods and a signal are provided for a project name property of
-    the current model's project. A read only method is also provided to query the language of the
-    currently loaded project, if any. A move row method is provided to move the row of a given
-    index. Methods are provided to copy any number of indexes to XML or insert copied XML blocks
-    back into the model. A parser method is provided to build a new abstract parser for the model's
-    current project, if any.
+    It provides additional methods and signals above and beyond the basic model
+    methods for added functionality. Methods are provided for making a new
+    project, loading a project, saving the current project, and closing the
+    current project. A method and signal is provided to indicate if the model
+    has unsaved changes. Methods and a signal are provided for a project name
+    property of the current model's project. A read only method is also provided
+    to query the language of the currently loaded project, if any. A move row
+    method is provided to move the row of a given index. Methods are provided to
+    copy any number of indexes to XML or insert copied XML blocks back into the
+    model. A parser method is provided to build a new abstract parser for the
+    model's current project, if any.
 
-    It provides basic properties that are universal to a project. There is a project name that is
-    purely for the convenience of the user to identify a project. A relative parse path property is
-    provided that informs how a project should be parsed. The parsing path used is the directory
-    path of a project's file with the relative parsing path appended to it.
+    It provides basic properties that are universal to a project. There is a
+    project name that is purely for the convenience of the user to identify a
+    project. A relative parse path property is provided that informs how a
+    project should be parsed. The parsing path used is the directory path of a
+    project's file with the relative parsing path appended to it.
 
-    It has built in support for undo and redo of any modification done to it. Methods are provided
-    to test if an undo or redo can be done on the model. Slots are provided to undo or redo a
-    modification to the project model.
+    It has built in support for undo and redo of any modification done to it.
+    Methods are provided to test if an undo or redo can be done on the model.
+    Slots are provided to undo or redo a modification to the project model.
     """
 
 
@@ -54,7 +60,10 @@ class ProjectModel(qtc.QAbstractItemModel):
     #######################
 
 
-    def __init__(self, parent=None):
+    def __init__(
+        self
+        ,parent=None
+        ):
         """
         Initializes a new project model with the given optional parent.
 
@@ -78,7 +87,9 @@ class ProjectModel(qtc.QAbstractItemModel):
     ######################
 
 
-    def __len__(self):
+    def __len__(
+        self
+        ):
         """
         Implements the length operator.
 
@@ -95,34 +106,42 @@ class ProjectModel(qtc.QAbstractItemModel):
     ####################
 
 
-    def canRedo(self):
+    def canRedo(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this model has a modification that can be redone or false otherwise.
+               True if this model has a modification that can be redone or false
+               otherwise.
         """
         return self.__undoStackIndex < len(self.__undoStack)
 
 
-    def canUndo(self):
+    def canUndo(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this model has a modification that can be undone or false otherwise.
+               True if this model has a modification that can be undone or false
+               otherwise.
         """
         return self.__undoStackIndex > 0
 
 
-    def close(self):
+    def close(
+        self
+        ):
         """
-        Closes any currently loaded project of this model. If this model has no loaded project then
-        this does nothing.
+        Closes any currently loaded project of this model. If this model has no
+        loaded project then this does nothing.
         """
         if self.__root is not None:
             self.beginResetModel()
@@ -136,7 +155,10 @@ class ProjectModel(qtc.QAbstractItemModel):
             self.endResetModel()
 
 
-    def columnCount(self, index):
+    def columnCount(
+        self
+        ,index
+        ):
         """
         Implements the PySide2.QtCore.QAbstractItemModel interface.
 
@@ -153,7 +175,10 @@ class ProjectModel(qtc.QAbstractItemModel):
         return 1
 
 
-    def copyToXml(self, indexes):
+    def copyToXml(
+        self
+        ,indexes
+        ):
         """
         Copies the given indexes to XML.
 
@@ -165,8 +190,9 @@ class ProjectModel(qtc.QAbstractItemModel):
         Returns
         -------
         ret0 : PySide2.QtCore.QByteArray
-               Copied blocks at the given indexes in the form of XML. The XML format is copy with
-               each index an element in the root XML copy tag.
+               Copied blocks at the given indexes in the form of XML. The XML
+               format is copy with each index an element in the root XML copy
+               tag.
         ret1 : set
                All block types that were copied.
         """
@@ -187,7 +213,11 @@ class ProjectModel(qtc.QAbstractItemModel):
         return (xml,blockTypes)
 
 
-    def data(self, index, role):
+    def data(
+        self
+        ,index
+        ,role
+        ):
         """
         Implements the PySide2.QtCore.QAbstractItemModel interface.
 
@@ -209,19 +239,24 @@ class ProjectModel(qtc.QAbstractItemModel):
                 return block.displayName()
             elif role == qtc.Qt.DecorationRole:
                 return block.icon()
-            elif role == core.Role.BUILD_LIST:
+            elif role == core.Role.BuildList:
                 return block.buildList()
-            elif role == core.Role.VIEW:
+            elif role == core.Role.View:
                 return block.displayView()
-            elif role == core.Role.EDIT_DEFS:
+            elif role == core.Role.EditDefs:
                 return block.editDefinitions()
-            elif role == core.Role.PROPERTIES:
+            elif role == core.Role.Properties:
                 return block.properties()
-            elif role == core.Role.BLOCK_TYPE:
+            elif role == core.Role.BlockType:
                 return block._TYPE_
 
 
-    def headerData(self, section, orientation, role):
+    def headerData(
+        self
+        ,section
+        ,orientation
+        ,role
+        ):
         """
         Implements the PySide2.QtCore.QAbstractItemModel interface.
 
@@ -245,7 +280,12 @@ class ProjectModel(qtc.QAbstractItemModel):
             return qtc.QAbstractItemModel.headerData(self,section,orientation,role)
 
 
-    def index(self, row, column, parent):
+    def index(
+        self
+        ,row
+        ,column
+        ,parent
+        ):
         """
         Implements the PySide2.QtCore.QAbstractItemModel interface.
 
@@ -271,17 +311,24 @@ class ProjectModel(qtc.QAbstractItemModel):
         return self.createIndex(row,column,parentBlock[row])
 
 
-    def insertFromXml(self, row, xml, parent):
+    def insertFromXml(
+        self
+        ,row
+        ,xml
+        ,parent
+        ):
         """
-        Inserts blocks into this model at the given parent index and row loaded from the given XML.
+        Inserts blocks into this model at the given parent index and row loaded
+        from the given XML.
 
         Parameters
         ----------
         row : int
-              The row in the given parent index where loaded blocks are inserted.
+              The row in the given parent index where loaded blocks are
+              inserted.
         xml : PySide2.QtCore.QByteArray
-              Contains the loaded blocks. This must conform to the XML copy standard produced by the
-              copy to XML method of this class.
+              Contains the loaded blocks. This must conform to the XML copy
+              standard produced by the copy to XML method of this class.
         parent : PySide2.QtCore.QModelIndex
                  The parent index where the loaded blocks are inserted.
 
@@ -316,7 +363,12 @@ class ProjectModel(qtc.QAbstractItemModel):
         return len(blocks)
 
 
-    def insertRow(self, row, blockType, parent):
+    def insertRow(
+        self
+        ,row
+        ,blockType
+        ,parent
+        ):
         """
         Implements the PySide2.QtCore.QAbstractItemModel interface.
 
@@ -337,7 +389,12 @@ class ProjectModel(qtc.QAbstractItemModel):
         return self.insertRows(row,(blockType,),parent)
 
 
-    def insertRows(self, row, blockTypes, parent):
+    def insertRows(
+        self
+        ,row
+        ,blockTypes
+        ,parent
+        ):
         """
         Implements the PySide2.QtCore.QAbstractItemModel interface.
 
@@ -346,8 +403,8 @@ class ProjectModel(qtc.QAbstractItemModel):
         row : object
               See qt docs.
         blockTypes : list
-                     Block types, where each one represents a new block that is created and inserted
-                     with the given type name.
+                     Block types, where each one represents a new block that is
+                     created and inserted with the given type name.
         parent : object
                  See qt docs.
 
@@ -368,35 +425,43 @@ class ProjectModel(qtc.QAbstractItemModel):
         return True
 
 
-    def isModified(self):
+    def isModified(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this model's currently loaded project has unsaved changes or false otherwise.
+               True if this model's currently loaded project has unsaved changes
+               or false otherwise.
         """
         return self.__modified
 
 
-    def langName(self):
+    def langName(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : string
-               The language name of this model's currently loaded project or none if it has no
-               project.
+               The language name of this model's currently loaded project or
+               none if it has no project.
         """
         return self.__langName
 
 
-    def load(self, path):
+    def load(
+        self
+        ,path
+        ):
         """
-        Loads a project to this model from the given file path, closing any currently loaded
-        project.
+        Loads a project to this model from the given file path, closing any
+        currently loaded project.
 
         Parameters
         ----------
@@ -437,14 +502,19 @@ class ProjectModel(qtc.QAbstractItemModel):
             raise
 
 
-    def moveRow(self, change, index):
+    def moveRow(
+        self
+        ,change
+        ,index
+        ):
         """
         Moves the given index's row by the amount given.
 
         Parameters
         ----------
         change : int
-                 The row change for the index that is moved. Negative is up and positive is down.
+                 The row change for the index that is moved. Negative is up and
+                 positive is down.
         index : PySide2.QtCore.QModelIndex
                 The qt model index that is moved.
 
@@ -465,22 +535,29 @@ class ProjectModel(qtc.QAbstractItemModel):
         return True
 
 
-    def name(self):
+    def name(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : object
-               The name of this model's currently loaded project or none if it has no project.
+               The name of this model's currently loaded project or none if it
+               has no project.
         """
         return self.__name
 
 
-    def new(self, langName):
+    def new(
+        self
+        ,langName
+        ):
         """
-        Creates a new project for this model with the given language name, closing any currently
-        loaded project. The given language name must be valid.
+        Creates a new project for this model with the given language name,
+        closing any currently loaded project. The given language name must be
+        valid.
 
         Parameters
         ----------
@@ -504,7 +581,10 @@ class ProjectModel(qtc.QAbstractItemModel):
             self.endResetModel()
 
 
-    def parent(self, child):
+    def parent(
+        self
+        ,child
+        ):
         """
         Implements the PySide2.QtCore.QAbstractItemModel interface.
 
@@ -527,28 +607,34 @@ class ProjectModel(qtc.QAbstractItemModel):
         return self.createIndex(parentBlock.index(),0,parentBlock)
 
 
-    def parsePath(self):
+    def parsePath(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : string
-               The relative parsing path of this model's currently loaded project or none if it has
-               no project.
+               The relative parsing path of this model's currently loaded
+               project or none if it has no project.
         """
         return self.__parsePath
 
 
-    def parser(self):
+    def parser(
+        self
+        ):
         """
-        Builds a new abstract parser that can be used to parse the source code of this model's
-        project. If this model has no project that this does nothing.
+        Builds a new abstract parser that can be used to parse the source code
+        of this model's project. If this model has no project that this does
+        nothing.
 
         Returns
         -------
         ret0 : object
-               The newly built abstract parser or none if this model has no project.
+               The newly built abstract parser or none if this model has no
+               project.
         """
         if self.__root is not None:
             ret = self.__root.parser()
@@ -557,7 +643,12 @@ class ProjectModel(qtc.QAbstractItemModel):
             return ret
 
 
-    def removeRows(self, row, count, parent):
+    def removeRows(
+        self
+        ,row
+        ,count
+        ,parent
+        ):
         """
         Implements the PySide2.QtCore.QAbstractItemModel interface.
 
@@ -582,7 +673,10 @@ class ProjectModel(qtc.QAbstractItemModel):
         return True
 
 
-    def rowCount(self, index):
+    def rowCount(
+        self
+        ,index
+        ):
         """
         Implements the PySide2.QtCore.QAbstractItemModel interface.
 
@@ -600,10 +694,13 @@ class ProjectModel(qtc.QAbstractItemModel):
         return 0 if block is None else len(block)
 
 
-    def save(self, path):
+    def save(
+        self
+        ,path
+        ):
         """
-        Saves this model's currently loaded project to the file with the given path. If this model
-        has no project then this does nothing.
+        Saves this model's currently loaded project to the file with the given
+        path. If this model has no project then this does nothing.
 
         Parameters
         ----------
@@ -627,7 +724,12 @@ class ProjectModel(qtc.QAbstractItemModel):
             self.__modified = False
 
 
-    def setData(self, index, value, role):
+    def setData(
+        self
+        ,index
+        ,value
+        ,role
+        ):
         """
         Implements the PySide2.QtCore.QAbstractItemModel interface.
 
@@ -646,17 +748,20 @@ class ProjectModel(qtc.QAbstractItemModel):
                See qt docs.
         """
         block = self.__block_(index)
-        if block is not None and role == core.Role.PROPERTIES:
+        if block is not None and role == core.Role.Properties:
             self.__push_(core.SetCommand(block.properties(),value,index,self))
             return True
         else:
             return False
 
 
-    def setName(self, name):
+    def setName(
+        self
+        ,name
+        ):
         """
-        Sets the name of this model's currently loaded project to the one given. This model must
-        have a loaded project.
+        Sets the name of this model's currently loaded project to the one given.
+        This model must have a loaded project.
 
         Parameters
         ----------
@@ -671,10 +776,13 @@ class ProjectModel(qtc.QAbstractItemModel):
             self.nameChanged.emit(name)
 
 
-    def setParsePath(self, path):
+    def setParsePath(
+        self
+        ,path
+        ):
         """
-        Sets the relative parsing path of this model's currently loaded project to the path given.
-        This model must have a loaded project.
+        Sets the relative parsing path of this model's currently loaded project
+        to the path given. This model must have a loaded project.
 
         Parameters
         ----------
@@ -718,10 +826,12 @@ class ProjectModel(qtc.QAbstractItemModel):
 
 
     @qtc.Slot()
-    def redo(self):
+    def redo(
+        self
+        ):
         """
-        Called to redo the last undone modification of this model. If this model cannot redo then
-        this does nothing.
+        Called to redo the last undone modification of this model. If this model
+        cannot redo then this does nothing.
         """
         if self.canRedo():
             self.__undoStack[self.__undoStackIndex].redo()
@@ -729,10 +839,12 @@ class ProjectModel(qtc.QAbstractItemModel):
 
 
     @qtc.Slot()
-    def undo(self):
+    def undo(
+        self
+        ):
         """
-        Called to undo the last modification that was done to this model. If this model cannot undo
-        then this does nothing.
+        Called to undo the last modification that was done to this model. If
+        this model cannot undo then this does nothing.
         """
         if self.canUndo():
             self.__undoStackIndex -= 1
@@ -744,10 +856,15 @@ class ProjectModel(qtc.QAbstractItemModel):
     #######################
 
 
-    def _insertRows_(self, row, blocks, parent):
+    def _insertRows_(
+        self
+        ,row
+        ,blocks
+        ,parent
+        ):
         """
-        Inserts the given blocks into the given parent index at the given row. The given parent
-        index and row must be valid.
+        Inserts the given blocks into the given parent index at the given row.
+        The given parent index and row must be valid.
 
         Parameters
         ----------
@@ -756,7 +873,8 @@ class ProjectModel(qtc.QAbstractItemModel):
         blocks : list
                  Blocks that are inserted into this model.
         parent : PySide2.QtCore.QModelIndex
-                 The parent index where the given blocks are inserted into as children.
+                 The parent index where the given blocks are inserted into as
+                 children.
         """
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or row > len(parentBlock):
@@ -774,10 +892,15 @@ class ProjectModel(qtc.QAbstractItemModel):
         self.__modified_()
 
 
-    def _moveRow_(self, fromRow, toRow, parent):
+    def _moveRow_(
+        self
+        ,fromRow
+        ,toRow
+        ,parent
+        ):
         """
-        Moves the block at the given from row to the given to row in the given parent index. The
-        given rows and parent index must all be valid.
+        Moves the block at the given from row to the given to row in the given
+        parent index. The given rows and parent index must all be valid.
 
         Parameters
         ----------
@@ -806,10 +929,15 @@ class ProjectModel(qtc.QAbstractItemModel):
         self.__modified_()
 
 
-    def _removeRows_(self, row, count, parent):
+    def _removeRows_(
+        self
+        ,row
+        ,count
+        ,parent
+        ):
         """
-        Removes the given count of blocks starting at the given row in the given parent index. The
-        given parent index, row, and count must all be valid.
+        Removes the given count of blocks starting at the given row in the given
+        parent index. The given parent index, row, and count must all be valid.
 
         Parameters
         ----------
@@ -842,17 +970,22 @@ class ProjectModel(qtc.QAbstractItemModel):
         return blocks
 
 
-    def _setProperties_(self, index, properties):
+    def _setProperties_(
+        self
+        ,index
+        ,properties
+        ):
         """
-        Sets the properties of the block at the given index in this model. The given index must be
-        valid.
+        Sets the properties of the block at the given index in this model. The
+        given index must be valid.
 
         Parameters
         ----------
         index : PySide2.QtCore.QModelIndex
                 The index of the updated block.
         properties : dictionary
-                     The new properties dictionary of the block at the given index.
+                     The new properties dictionary of the block at the given
+                     index.
         """
         block = self.__block_(index)
         if block is None:
@@ -864,95 +997,6 @@ class ProjectModel(qtc.QAbstractItemModel):
         if block.isVolatileBelow():
             self.__pushVolatileBelow_(index)
         self.__modified_()
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
-    def __block_(self, index):
-        """
-        Getter method.
-
-        Parameters
-        ----------
-        index : PySide2.QtCore.QModelIndex
-                The index whose block is returned.
-
-        Returns
-        -------
-        ret0 : object
-               The block of the given index. If the given index is invalid the root block is
-               returned, which is none if this model has no project.
-        """
-        if index.isValid():
-            return index.internalPointer()
-        else: return self.__root
-
-
-    def __modified_(self):
-        """
-        Marks this model as modified, emitting a signal if it was not modified before calling this
-        method.
-        """
-        if not self.__modified:
-            self.__modified = True
-            self.modified.emit()
-
-
-    def __push_(self, command):
-        """
-        Pushes the given command to this model, immediately calling its redo interface and then
-        adding it to this model's undo stack. Any undone commands on this model's undo stack are
-        removed.
-
-        Parameters
-        ----------
-        command : socref.command.Command
-                  The command that is immediately executed and added to this model's undo stack. Any
-                  commands that have been undone on the stack are erased.
-        """
-        self.__undoStack = self.__undoStack[:self.__undoStackIndex]
-        self.__undoStack.append(command)
-        self.__undoStackIndex += 1
-        command.redo()
-
-
-    def __pushVolatileAbove_(self, index):
-        """
-        Signals the given index of this model has changed its data if it is valid, recursively
-        calling itself on the given index's parent index if its block is also volatile above.
-
-        Parameters
-        ----------
-        index : PySide2.QtCore.QModelIndex
-                The index of this model whose data has changed due to volatile children.
-        """
-        if index.isValid():
-            self.dataChanged.emit(index,index)
-            block = self.__block_(index)
-            if block is not None and block.isVolatileAbove():
-                self.__pushVolatileAbove_(index.parent())
-
-
-    def __pushVolatileBelow_(self, parent):
-        """
-        Signals the given parent index of this model has changed its children's data if it is valid,
-        recursively calling itself on any child that is also volatile below.
-
-        Parameters
-        ----------
-        parent : PySide2.QtCore.QModelIndex
-                 The parent index of this model whose children's data has changed due to the
-                 volatile below parent.
-        """
-        for row in range(self.rowCount(parent)):
-            index = self.index(row,0,parent)
-            self.dataChanged.emit(index,index)
-            block = self.__block_(index)
-            if block.isVolatileBelow():
-                self.__pushVolatileBelow_(index)
 
 
     #######################
@@ -967,7 +1011,8 @@ class ProjectModel(qtc.QAbstractItemModel):
 
 
     #
-    # The language tag used for the language name text element of XML project files.
+    # The language tag used for the language name text element of XML project
+    # files.
     #
     __LANG_TAG = "language"
 
@@ -979,7 +1024,8 @@ class ProjectModel(qtc.QAbstractItemModel):
 
 
     #
-    # The parse path tag used for the parse path text element of XML project files.
+    # The parse path tag used for the parse path text element of XML project
+    # files.
     #
     __PARSE_PATH_TAG = "parse_path"
 
@@ -988,3 +1034,111 @@ class ProjectModel(qtc.QAbstractItemModel):
     # The root tag used for XML project files.
     #
     __PROJECT_TAG = "scp_project"
+
+
+    #####################
+    # PRIVATE - Methods #
+    #####################
+
+
+    def __block_(
+        self
+        ,index
+        ):
+        """
+        Getter method.
+
+        Parameters
+        ----------
+        index : PySide2.QtCore.QModelIndex
+                The index whose block is returned.
+
+        Returns
+        -------
+        ret0 : object
+               The block of the given index. If the given index is invalid the
+               root block is returned, which is none if this model has no
+               project.
+        """
+        if index.isValid():
+            return index.internalPointer()
+        else: return self.__root
+
+
+    def __modified_(
+        self
+        ):
+        """
+        Marks this model as modified, emitting a signal if it was not modified
+        before calling this method.
+        """
+        if not self.__modified:
+            self.__modified = True
+            self.modified.emit()
+
+
+    def __push_(
+        self
+        ,command
+        ):
+        """
+        Pushes the given command to this model, immediately calling its redo
+        interface and then adding it to this model's undo stack. Any undone
+        commands on this model's undo stack are removed.
+
+        Parameters
+        ----------
+        command : socref.command.Command
+                  The command that is immediately executed and added to this
+                  model's undo stack. Any commands that have been undone on the
+                  stack are erased.
+        """
+        self.__undoStack = self.__undoStack[:self.__undoStackIndex]
+        self.__undoStack.append(command)
+        self.__undoStackIndex += 1
+        command.redo()
+
+
+    def __pushVolatileAbove_(
+        self
+        ,index
+        ):
+        """
+        Signals the given index of this model has changed its data if it is
+        valid, recursively calling itself on the given index's parent index if
+        its block is also volatile above.
+
+        Parameters
+        ----------
+        index : PySide2.QtCore.QModelIndex
+                The index of this model whose data has changed due to volatile
+                children.
+        """
+        if index.isValid():
+            self.dataChanged.emit(index,index)
+            block = self.__block_(index)
+            if block is not None and block.isVolatileAbove():
+                self.__pushVolatileAbove_(index.parent())
+
+
+    def __pushVolatileBelow_(
+        self
+        ,parent
+        ):
+        """
+        Signals the given parent index of this model has changed its children's
+        data if it is valid, recursively calling itself on any child that is
+        also volatile below.
+
+        Parameters
+        ----------
+        parent : PySide2.QtCore.QModelIndex
+                 The parent index of this model whose children's data has
+                 changed due to the volatile below parent.
+        """
+        for row in range(self.rowCount(parent)):
+            index = self.index(row,0,parent)
+            self.dataChanged.emit(index,index)
+            block = self.__block_(index)
+            if block.isVolatileBelow():
+                self.__pushVolatileBelow_(index)

@@ -18,9 +18,10 @@ from . import parser
 @register("Program",root=True)
 class Program(abstract.AbstractBlock):
     """
-    This is the program block class. It implements the Socrates' Reference abstract block class. It
-    represents a GLSL program. It is the root block type of a GLSL project. A program simply
-    represents a folder that contains shader files.
+    This is the program block class. It implements the Socrates' Reference
+    abstract block class. It represents a GLSL program. It is the root block
+    type of a GLSL project. A program simply represents a folder that contains
+    shader files.
     """
 
 
@@ -29,7 +30,9 @@ class Program(abstract.AbstractBlock):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new program block.
         """
@@ -42,7 +45,9 @@ class Program(abstract.AbstractBlock):
     ####################
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -54,14 +59,18 @@ class Program(abstract.AbstractBlock):
         return ("Program","Shader")
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_name = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -73,7 +82,9 @@ class Program(abstract.AbstractBlock):
         return self._p_name
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -85,7 +96,9 @@ class Program(abstract.AbstractBlock):
         return "<h1>PROGRAM</h1><p>"+html.escape(self._p_name)+"</p>"
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -99,7 +112,9 @@ class Program(abstract.AbstractBlock):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -111,7 +126,9 @@ class Program(abstract.AbstractBlock):
         return qtg.QIcon(":/glsl/program.svg")
 
 
-    def parser(self):
+    def parser(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -123,7 +140,9 @@ class Program(abstract.AbstractBlock):
         return parser.Parser(self)
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

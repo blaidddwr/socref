@@ -17,8 +17,8 @@ from ._base import Base
 @register("Enumeration")
 class Enum(Base):
     """
-    This is the enumeration block class. It implements the Socrates' Reference abstract block class.
-    It represents a C++ enumeration.
+    This is the enumeration block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ enumeration.
     """
 
 
@@ -27,7 +27,9 @@ class Enum(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new enumeration block.
         """
@@ -40,7 +42,10 @@ class Enum(Base):
     ####################
 
 
-    def buildDeclaration(self, begin):
+    def buildDeclaration(
+        self
+        ,begin
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -74,7 +79,9 @@ class Enum(Base):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -86,7 +93,9 @@ class Enum(Base):
         return ("Enumeration_Value",)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -94,7 +103,9 @@ class Enum(Base):
         self._p_class = "0"
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -109,7 +120,9 @@ class Enum(Base):
         return ret
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -122,7 +135,9 @@ class Enum(Base):
         return Base.displayView(self) + class_
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -136,7 +151,9 @@ class Enum(Base):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -148,19 +165,24 @@ class Enum(Base):
         return qtg.QIcon(":/cpp/enumeration.svg")
 
 
-    def isClass(self):
+    def isClass(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this is a class enumeration or false if it is a regular enumeration.
+               True if this is a class enumeration or false if it is a regular
+               enumeration.
         """
         return bool(int(self._p_class))
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

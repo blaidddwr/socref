@@ -15,10 +15,10 @@ from . import settings
 
 class TextDialog(qtw.QDialog):
     """
-    This is the text dialog class. It is a plain text editor with optional spell checking and
-    correction. Any misspelled words are highlighted and a button is provided that begins spell
-    checking and correction. All spell checking features can be enabled or disabled at
-    initialization of the dialog.
+    This is the text dialog class. It is a plain text editor with optional spell
+    checking and correction. Any misspelled words are highlighted and a button
+    is provided that begins spell checking and correction. All spell checking
+    features can be enabled or disabled at initialization of the dialog.
     """
 
 
@@ -27,10 +27,15 @@ class TextDialog(qtw.QDialog):
     #######################
 
 
-    def __init__(self, text="", parent=None, speller=False):
+    def __init__(
+        self
+        ,text=""
+        ,parent=None
+        ,speller=False
+        ):
         """
-        Initializes a new text dialog with the given optional text and parent. Spelling features can
-        also be enabled or disabled.
+        Initializes a new text dialog with the given optional text and parent.
+        Spelling features can also be enabled or disabled.
 
         Parameters
         ----------
@@ -39,8 +44,8 @@ class TextDialog(qtw.QDialog):
         parent : object
                  The optional qt object parent of this new text dialog.
         speller : bool
-                  True to enable misspelled word highlighting and spell checking or false to disable
-                  it all.
+                  True to enable misspelled word highlighting and spell checking
+                  or false to disable it all.
         """
         qtw.QDialog.__init__(self,parent)
         self.__speller = speller
@@ -55,7 +60,9 @@ class TextDialog(qtw.QDialog):
     ####################
 
 
-    def text(self):
+    def text(
+        self
+        ):
         """
         Getter method.
 
@@ -72,7 +79,10 @@ class TextDialog(qtw.QDialog):
     #######################
 
 
-    def closeEvent(self, event):
+    def closeEvent(
+        self
+        ,event
+        ):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
@@ -86,12 +96,26 @@ class TextDialog(qtw.QDialog):
         event.accept()
 
 
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The key used to save this dialog's geometry using qt settings to make it
+    # persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.text.geometry"
+
+
     #####################
     # PRIVATE - Methods #
     #####################
 
 
-    def __restore_(self):
+    def __restore_(
+        self
+        ):
         """
         Restores the geometry of this dialog.
         """
@@ -101,7 +125,9 @@ class TextDialog(qtw.QDialog):
             self.restoreGeometry(geometry)
 
 
-    def __setupButtons_(self):
+    def __setupButtons_(
+        self
+        ):
         """
         Initializes the buttons of this new text dialog.
 
@@ -111,9 +137,9 @@ class TextDialog(qtw.QDialog):
                A layout of initialized buttons.
         """
         set_ = qtw.QPushButton("Set")
-        set_.clicked.connect(lambda : self.done(qtw.QDialog.Accepted))
+        set_.clicked.connect(self.__set_)
         cancel = qtw.QPushButton("Cancel")
-        cancel.clicked.connect(lambda : self.done(qtw.QDialog.Rejected))
+        cancel.clicked.connect(self.__cancel_)
         self.__spellButton.clicked.connect(self.__spellCheck_)
         self.__spellButton.setDisabled(not self.__speller)
         ret = qtw.QHBoxLayout()
@@ -124,7 +150,9 @@ class TextDialog(qtw.QDialog):
         return ret
 
 
-    def __setupGui_(self):
+    def __setupGui_(
+        self
+        ):
         """
         Initializes the GUI of this new text dialog.
         """
@@ -136,7 +164,9 @@ class TextDialog(qtw.QDialog):
         self.__restore_()
 
 
-    def __setupSpellChecker_(self):
+    def __setupSpellChecker_(
+        self
+        ):
         """
         Initializes the spell checker box of this new text dialog.
 
@@ -159,33 +189,49 @@ class TextDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __spellCheck_(self):
+    def __cancel_(
+        self
+        ):
         """
-        Called to begin spell checking this text dialog's document. This shows its spell checker box
-        and tells it to start checking.
+        Called to set this dialog's done status to rejected and then closing it.
+        """
+        self.done(qtw.QDialog.Rejected)
+        self.close()
+
+
+    @qtc.Slot()
+    def __set_(
+        self
+        ):
+        """
+        Called to set this dialog's done status to accepted and then closing it.
+        """
+        self.done(qtw.QDialog.Accepted)
+        self.close()
+
+
+    @qtc.Slot()
+    def __spellCheck_(
+        self
+        ):
+        """
+        Called to begin spell checking this text dialog's document. This shows
+        its spell checker box and tells it to start checking.
         """
         self.__spellerBox.show()
         self.__spellerBox.start(self.__textEdit.textCursor())
 
 
     @qtc.Slot()
-    def __spellCheckFinished_(self):
+    def __spellCheckFinished_(
+        self
+        ):
         """
-        Called to inform this text dialog that spell checking has finished. This hides its spell
-        checker box and clears any selection from its document's cursor.
+        Called to inform this text dialog that spell checking has finished. This
+        hides its spell checker box and clears any selection from its document's
+        cursor.
         """
         self.__spellerBox.hide()
         cursor = self.__textEdit.textCursor()
         cursor.clearSelection()
         self.__textEdit.setTextCursor(cursor)
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.text.geometry"

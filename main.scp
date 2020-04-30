@@ -40,6 +40,7 @@ Iteration and indexing of children blocks are supported through operators and me
 Saving a block to XML or loading it from XML is supported. A qt XML stream writer or reader is used for saving or loading to or from XML, respectively.
 </__p_description>
                     <__p_parents>abc.ABC</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -51,7 +52,7 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Abstract</__p_name>
+                        <__p_name>Interfaces</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildList</__p_name>
@@ -372,6 +373,7 @@ A parser is the interface implemented by a language to parse its source code fro
 The parsing process is separated into building a path list, scanning, building, and returning any unknown code fragments. The building a path list step builds a list of paths and associated blocks where source file codes should exist within the root path. The scanning step reads and scans every source code file for each path generated from the previous step. The build step generates new contents for each source code file generated from the first step, using the associated block from the first step and any scanned input from the previous step. The returning any unknown code fragments step returns any code fragments that were scanned but never used in the build step. If a file does not exist for a given path it is ignored in the scan step. Before parsing can begin the root path must be set.
 </__p_description>
                     <__p_parents>abc.ABC</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -535,12 +537,42 @@ Optionally indicates the registered block is the root block of the language if s
                 <__p_name>core</__p_name>
                 <__p_description>Contains all core classes, functions, and singleton instances of this application.
 </__p_description>
+                <Enumeration>
+                    <__p_name>Role</__p_name>
+                    <__p_description>This enumerates all custom data roles the project model implements.</__p_description>
+                    <Enumeration_Value>
+                        <__p_name>BlockType</__p_name>
+                        <__p_description>Defines the block type role which represents a block's type name.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+0</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>View</__p_name>
+                        <__p_description>Defines the view role which represents a block's detailed rich text view.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+1</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>BuildList</__p_name>
+                        <__p_description>Defines the build list role which represents a block's build list.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+2</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>Properties</__p_name>
+                        <__p_description>Defines the properties role which represents a block's properties.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+3</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>EditDefs</__p_name>
+                        <__p_description>Defines the edit definitions role which represents a block's edit definitions.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+4</__p_assignment>
+                    </Enumeration_Value>
+                </Enumeration>
                 <Class>
                     <__p_name>BlockFactory</__p_name>
                     <__p_description>This is the singleton block factory class. It creates new blocks. It loads new languages by importing their module and registering their block types during the load process. It provides a list of languages and block types per language.
 
 It creates new blocks. Blocks can be created by language and type or the root type of a language.
 </__p_description>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -690,6 +722,7 @@ The key used to add the class object to the language dictionary currently being 
                     <__p_name>InsertCommand</__p_name>
                     <__p_description>This is the insert command class. It implements the abstract command class.  It inherits from the remove command class because the insert command is simply the inverse of the remove command and therefore only needs to reverse the undo and redo commands.</__p_description>
                     <__p_parents>RemoveCommand</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -746,6 +779,7 @@ The project model where the given blocks are inserted.
                     <__p_description>This is the move command class. It implements the abstract command class. This command moves the given from row to the given to row in the given parent index and project model.</__p_description>
                     <__p_parents>AbstractCommand
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -795,6 +829,7 @@ The project model whose given index is moved.
                     <__p_name>ParserModel</__p_name>
                     <__p_description>This is the singleton parser model class. It handles execution of a given abstract parser. A slot is provided for starting a new abstract parser. Signals are provided for informing when parsing begins, makes progress, finishes, and has remaining unknown code fragments. This class is designed to run on its own thread because parsing can be a long process. Because of this the GUI must interface with this class exclusively through its signals and slots.</__p_description>
                     <__p_parents>qtc.QObject</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -803,27 +838,6 @@ The project model whose given index is moved.
                             <__p_description>Initializes a new parser.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Slots</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>start</__p_name>
-                            <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.
-
-This also catches any python exceptions and prints them to standard error because Qt thread's event loop ignores them.
-</__p_description>
-                            <__p_descriptors>qtc.Slot(AbstractParser)
-</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>parser</__p_name>
-                                <__p_description>socref.abstract.AbstractParser
-The abstract parser that is executed.
-</__p_description>
-                            </Object>
                         </Function>
                     </Access>
                     <Access>
@@ -849,6 +863,27 @@ The abstract parser that is executed.
                             <__p_description>Signals this parser has started parsing.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>start</__p_name>
+                            <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.
+
+This also catches any python exceptions and prints them to standard error because Qt thread's event loop ignores them.
+</__p_description>
+                            <__p_descriptors>qtc.Slot(AbstractParser)
+</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>parser</__p_name>
+                                <__p_description>socref.abstract.AbstractParser
+The abstract parser that is executed.
+</__p_description>
+                            </Object>
+                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
@@ -880,6 +915,7 @@ It provides basic properties that are universal to a project. There is a project
 It has built in support for undo and redo of any modification done to it. Methods are provided to test if an undo or redo can be done on the model. Slots are provided to undo or redo a modification to the project model.
 </__p_description>
                     <__p_parents>qtc.QAbstractItemModel</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -1472,6 +1508,35 @@ The new properties dictionary of the block at the given index.
                         </Function>
                     </Access>
                     <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__COPY_TAG</__p_name>
+                            <__p_description>The root copy tag used for internal copy XML byte arrays.</__p_description>
+                            <__p_assignment>&quot;pysoref_copy&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__LANG_TAG</__p_name>
+                            <__p_description>The language tag used for the language name text element of XML project files.</__p_description>
+                            <__p_assignment>&quot;language&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__NAME_TAG</__p_name>
+                            <__p_description>The name tag used for the project name text element of XML project files.</__p_description>
+                            <__p_assignment>&quot;name&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__PARSE_PATH_TAG</__p_name>
+                            <__p_description>The parse path tag used for the parse path text element of XML project files.</__p_description>
+                            <__p_assignment>&quot;parse_path&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__PROJECT_TAG</__p_name>
+                            <__p_description>The root tag used for XML project files.</__p_description>
+                            <__p_assignment>&quot;scp_project&quot;</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
@@ -1532,35 +1597,6 @@ The parent index of this model whose children's data has changed due to the vola
                             </Object>
                         </Function>
                     </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__COPY_TAG</__p_name>
-                            <__p_description>The root copy tag used for internal copy XML byte arrays.</__p_description>
-                            <__p_assignment>&quot;pysoref_copy&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__LANG_TAG</__p_name>
-                            <__p_description>The language tag used for the language name text element of XML project files.</__p_description>
-                            <__p_assignment>&quot;language&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__NAME_TAG</__p_name>
-                            <__p_description>The name tag used for the project name text element of XML project files.</__p_description>
-                            <__p_assignment>&quot;name&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__PARSE_PATH_TAG</__p_name>
-                            <__p_description>The parse path tag used for the parse path text element of XML project files.</__p_description>
-                            <__p_assignment>&quot;parse_path&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__PROJECT_TAG</__p_name>
-                            <__p_description>The root tag used for XML project files.</__p_description>
-                            <__p_assignment>&quot;scp_project&quot;</__p_assignment>
-                        </Object>
-                    </Access>
                 </Class>
                 <Class>
                     <__p_name>RemoveCommand</__p_name>
@@ -1568,6 +1604,7 @@ The parent index of this model whose children's data has changed due to the vola
 </__p_description>
                     <__p_parents>AbstractCommand
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -1620,44 +1657,11 @@ The project model whose given indexes are removed.
                     </Access>
                 </Class>
                 <Class>
-                    <__p_name>Role</__p_name>
-                    <__p_description>This is the role enumeration class. It defines all custom data roles the project model implements.</__p_description>
-                    <__p_parents>enum.Enum</__p_parents>
-                    <Access>
-                        <__p_name>Enumerations</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Object>
-                            <__p_name>BLOCK_TYPE</__p_name>
-                            <__p_description>Defines the block type role which represents a block's type name.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 0</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>VIEW</__p_name>
-                            <__p_description>Defines the view role which represents a block's detailed rich text view.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 1</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>BUILD_LIST</__p_name>
-                            <__p_description>Defines the build list role which represents a block's build list.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 2</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>PROPERTIES</__p_name>
-                            <__p_description>Defines the properties role which represents a block's properties.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 3</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>EDIT_DEFS</__p_name>
-                            <__p_description>Defines the edit definitions role which represents a block's edit definitions.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 4</__p_assignment>
-                        </Object>
-                    </Access>
-                </Class>
-                <Class>
                     <__p_name>SetCommand</__p_name>
                     <__p_description>This is the set command class. It implements the abstract command class. This command sets the properties of a given qt model index in the given project model.</__p_description>
                     <__p_parents>AbstractCommand
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -2089,6 +2093,7 @@ The maximum column length for each line of wrapped text.
                     <__p_name>LangError</__p_name>
                     <__p_description>This is the import error exception class. It indicates an error occurred while loading a language's module.</__p_description>
                     <__p_parents>Exception</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -2110,6 +2115,7 @@ Positional arguments passed on to the super exception class.
                     <__p_name>LoadError</__p_name>
                     <__p_description>This is the load error exception class. It indicates an error occurred attempting to load a project from its saved file.</__p_description>
                     <__p_parents>Exception</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -2131,6 +2137,7 @@ Positional arguments passed on to the super exception class.
                     <__p_name>RegisterError</__p_name>
                     <__p_description>This is the register error exception class. It indicates an error occurred attempting to register a block while loading a language's module.</__p_description>
                     <__p_parents>Exception</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -2152,6 +2159,7 @@ Positional arguments passed on to the super exception class.
                     <__p_name>ScanError</__p_name>
                     <__p_description>This is the scan error exception class. It indicates an error occurred while scanning source files while parsing a project.</__p_description>
                     <__p_parents>Exception</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -2183,6 +2191,7 @@ It attaches itself to a project view. It connects the appropriate signal to list
 It provides a GUI edit form to the user for modifying a block's properties. The specific edit elements in the form is built based off the block's edit definitions, adding them all in the form in the same order as the edit definitions list. An apply button is also added to the end of the form to update the block's properties to the current values of all the edit widgets. If the current index is changed and there are unsaved changes to the properties this will ask the user if they want to save the changes.
 </__p_description>
                     <__p_parents>qtw.QDockWidget</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -2405,6 +2414,7 @@ The new index of the block this dock is editing.
                     <__p_description>This is the block view dock class. It attaches itself to a project view, providing a detailed view of the currently indexed block. It connects the appropriate signal to listen for the current index of the view to change. The detailed view is presented in a qt label as rich text.
 </__p_description>
                     <__p_parents>qtw.QDockWidget</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -2464,6 +2474,7 @@ The new attached view of this dock.
                     <__p_name>CodeDialog</__p_name>
                     <__p_description>This is the code dialog class. It displays any unknown code fragments given to it. The fragments must be organized into a flat dictionary where the key should provide a meaningful identity about the code fragment to the user. The user is provided a list and read only text view to navigate the fragments, along with a copy to clipboard button.</__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -2502,6 +2513,20 @@ See qt docs.
 </__p_description>
                             </Object>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__GEOMETRY_KEY</__p_name>
+                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.dialog.code.geometry&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__STATE_KEY</__p_name>
+                            <__p_description>The key used to save this dialog's state using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.dialog.code.state&quot;</__p_assignment>
+                        </Object>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
@@ -2562,20 +2587,6 @@ The new key of the selected code fragment.
                             </Object>
                         </Function>
                     </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__GEOMETRY_KEY</__p_name>
-                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.dialog.code.geometry&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__STATE_KEY</__p_name>
-                            <__p_description>The key used to save this dialog's state using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.dialog.code.state&quot;</__p_assignment>
-                        </Object>
-                    </Access>
                 </Class>
                 <Class>
                     <__p_name>MainWindow</__p_name>
@@ -2586,6 +2597,7 @@ It is designed as a multiple window application. Any number of these windows can
 It is the main window of the core application. It provides a view, docks, menus, and a toolbar that allows a user to work on any project in the application. The project view actually displays the tree of blocks of an open project. The view dock provides a detailed view of the current block in the project view. The edit dock provides an edit form for modifying the current block's properties. The menus and toolbars provide shortcuts for actions that can be done in the project view. They also provide basic actions that a main window handles itself such as opening or saving projects.
 </__p_description>
                     <__p_parents>qtw.QMainWindow</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -2636,6 +2648,29 @@ See qt docs.
 </__p_description>
                             </Object>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__GEOMETRY_KEY</__p_name>
+                            <__p_description>The key used to save this window's geometry using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.window.main.geometry&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__STATE_KEY</__p_name>
+                            <__p_description>The key used to save this window's state using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.window.main.state&quot;</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Static Objects</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__instances</__p_name>
+                            <__p_description>List of all active main window instances. Used to make sure they are not prematurely deleted.</__p_description>
+                            <__p_assignment>[]</__p_assignment>
+                        </Object>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
@@ -2853,35 +2888,13 @@ True if the project was saved successfully or false otherwise.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
-                    <Access>
-                        <__p_name>Static Objects</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__instances</__p_name>
-                            <__p_description>List of all active main window instances. Used to make sure they are not prematurely deleted.</__p_description>
-                            <__p_assignment>[]</__p_assignment>
-                        </Object>
-                    </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__GEOMETRY_KEY</__p_name>
-                            <__p_description>The key used to save this window's geometry using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.window.main.geometry&quot;</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__STATE_KEY</__p_name>
-                            <__p_description>The key used to save this window's state using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.window.main.state&quot;</__p_assignment>
-                        </Object>
-                    </Access>
                 </Class>
                 <Class>
                     <__p_name>PlainTextEdit</__p_name>
                     <__p_description>This is the plain text class. It provides additional functionality to its inherit class. Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog that has additional spell checking functionality. Misspelled word highlighting and the editor dialog popup features can be enabled or disabled.
 </__p_description>
                     <__p_parents>qtw.QPlainTextEdit</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -2962,6 +2975,7 @@ True to enable this editor's spelling highlighter or false to disable it.
                     <__p_name>ProjectDialog</__p_name>
                     <__p_description>This is the project dialog class. It is a basic form dialog that allows the user to edit the project name and parse path of the model it is given on initialization. It is a persistent dialog that remembers its geometry.</__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3000,6 +3014,15 @@ See qt docs.
 </__p_description>
                             </Object>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__GEOMETRY_KEY</__p_name>
+                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.dialog.project.geometry&quot;</__p_assignment>
+                        </Object>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
@@ -3080,15 +3103,6 @@ The new parse path of this dialog's project model.
                             </Object>
                         </Function>
                     </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__GEOMETRY_KEY</__p_name>
-                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.dialog.project.geometry&quot;</__p_assignment>
-                        </Object>
-                    </Access>
                 </Class>
                 <Class>
                     <__p_name>ProjectView</__p_name>
@@ -3099,6 +3113,7 @@ It provides the main tree view for a project model. A view acts as the primary v
 Actions are provided for all basic editing actions done upon a view's model. These actions allow the user to edit the project tree with undo, redo, add, remove, cut, copy, paste, move up, and move down actions. For adding and pasting into the project an option is provided to insert before, into, or after the currently selected block. The individual qt actions are also provided if they need to be added to another custom menu or toolbar. The provided actions are enabled or disabled based off the current state of a view.
 </__p_description>
                     <__p_parents>qtw.QTreeView</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3235,6 +3250,39 @@ The undo action of this project.
                             <__p_name>indexRemoved</__p_name>
                             <__p_description>Signals that the this project's current index is about to be removed from its model.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__AFTER</__p_name>
+                            <__p_description>The &quot;after&quot; insert option.</__p_description>
+                            <__p_assignment>2</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__BEFORE</__p_name>
+                            <__p_description>The &quot;before&quot; insert option.</__p_description>
+                            <__p_assignment>0</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__INTO</__p_name>
+                            <__p_description>The &quot;into&quot; insert option.</__p_description>
+                            <__p_assignment>1</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Static Objects</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__blockTypeSet</__p_name>
+                            <__p_description>Global set that stores all unique block types that have been copied to the global XML data. If no blocks have been copied then this is none. This is used to determine if the paste action can be enabled.</__p_description>
+                            <__p_assignment>None</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__xmlBlocks</__p_name>
+                            <__p_description>Global XML byte array that stored the data of copied blocks, if any. If no blocks have been copied then this is none.</__p_description>
+                            <__p_assignment>None</__p_assignment>
                         </Object>
                     </Access>
                     <Access>
@@ -3472,39 +3520,6 @@ Qt data roles that have changed in the given indexes.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
-                    <Access>
-                        <__p_name>Static Objects</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__blockTypeSet</__p_name>
-                            <__p_description>Global set that stores all unique block types that have been copied to the global XML data. If no blocks have been copied then this is none. This is used to determine if the paste action can be enabled.</__p_description>
-                            <__p_assignment>None</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__xmlBlocks</__p_name>
-                            <__p_description>Global XML byte array that stored the data of copied blocks, if any. If no blocks have been copied then this is none.</__p_description>
-                            <__p_assignment>None</__p_assignment>
-                        </Object>
-                    </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__AFTER</__p_name>
-                            <__p_description>The &quot;after&quot; insert option.</__p_description>
-                            <__p_assignment>2</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__BEFORE</__p_name>
-                            <__p_description>The &quot;before&quot; insert option.</__p_description>
-                            <__p_assignment>0</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__INTO</__p_name>
-                            <__p_description>The &quot;into&quot; insert option.</__p_description>
-                            <__p_assignment>1</__p_assignment>
-                        </Object>
-                    </Access>
                 </Class>
                 <Class>
                     <__p_name>SpellChecker</__p_name>
@@ -3513,6 +3528,7 @@ Qt data roles that have changed in the given indexes.
 It provides a spell checking and correction interface. It begins spell checking with its start slot, providing it a qt text cursor that is uses to parse the entire document of the text cursor, checking for misspelled words. Each misspelled word is highlighted and waits on the user to correct. The user is given options to use a suggestion, replace, ignore, stop, or add to dictionary. The cursor is updated to highlight each misspelled word found while waiting for the user to make a choice about it. Adding to dictionary is currently defunct but will be fixed.
 </__p_description>
                     <__p_parents>qtw.QGroupBox</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3640,6 +3656,7 @@ True to skip the word this checker's cursor is currently under or false to check
                     <__p_name>SpellHighlighter</__p_name>
                     <__p_description>This is the spell highlighter class. It implements the qt syntax highlighter class. It provides highlighting of misspelled words in the document the highlighter is given on initialization. It uses the Hunspell library for all speller functions.</__p_description>
                     <__p_parents>qtg.QSyntaxHighlighter</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3684,6 +3701,7 @@ See qt docs.
                     <__p_description>This is the text dialog class. It is a plain text editor with optional spell checking and correction. Any misspelled words are highlighted and a button is provided that begins spell checking and correction. All spell checking features can be enabled or disabled at initialization of the dialog.
 </__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3745,6 +3763,15 @@ See qt docs.
                         </Function>
                     </Access>
                     <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__GEOMETRY_KEY</__p_name>
+                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.dialog.text.geometry&quot;</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
@@ -3782,6 +3809,20 @@ The initialized spell checker box widget.
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
+                            <__p_name>__cancel_</__p_name>
+                            <__p_description>Called to set this dialog's done status to rejected and then closing it.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__set_</__p_name>
+                            <__p_description>Called to set this dialog's done status to accepted and then closing it.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>__spellCheck_</__p_name>
                             <__p_description>Called to begin spell checking this text dialog's document. This shows its spell checker box and tells it to start checking.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
@@ -3795,15 +3836,6 @@ The initialized spell checker box widget.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Constants</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__GEOMETRY_KEY</__p_name>
-                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
-                            <__p_assignment>&quot;gui.dialog.text.geometry&quot;</__p_assignment>
-                        </Object>
                     </Access>
                 </Class>
             </Module>
@@ -3820,6 +3852,7 @@ A command is an abstract interface designed to do a single action upon a project
 It provides helper methods for converting a qt model index into a list of rows and rows back to an index. Because qt model indexes can become invalid when the model changes, the list of rows for each command must be saved instead. These rows are converted back to a valid index upon execution of the undo or redo action. The rows in the list start from the root down one level into the model tree for each row. An empty list represents the root index.
 </__p_description>
                     <__p_parents>abc.ABC</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3921,6 +3954,7 @@ Rows that represent a valid qt model index of this command's project model.
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents an access declaration for C++ class.</__p_description>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
                     <__p_parents>abstract.AbstractBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4099,6 +4133,7 @@ The combo box that is populated with possible access type values.
                     <__p_name>Base</__p_name>
                     <__p_description>This is the base block class. It implements the Socrates' Reference abstract block class. It is a base block class the many other C++ blocks use which contains name and description properties.</__p_description>
                     <__p_parents>abstract.AbstractBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4287,6 +4322,7 @@ True to add a description comment header to the last inner most namespace or fal
                     <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
                     <__p_parents>Templatee
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4533,6 +4569,7 @@ Added to the beginning of each returned line of code.
                     <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
                     <__p_parents>Base
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4636,6 +4673,7 @@ True if this is a class enumeration or false if it is a regular enumeration.
                     <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
                     <__p_parents>Base
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4726,6 +4764,7 @@ See interface docs.
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a C++ function.</__p_description>
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>Templatee</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5164,6 +5203,7 @@ The class only scope of this function, not including any namespaces.
                     <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++ namespace. It is the root block type of a C++ project.</__p_description>
                     <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5341,6 +5381,7 @@ See interface docs.
                     <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
                     <__p_parents>Base
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5466,6 +5507,7 @@ See interface docs.
                     <__p_description>This is the templatee class. It provides methods for handling template block children. This is meant to act as a base class for any block that can have templates.</__p_description>
                     <__p_parents>Base
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5570,6 +5612,7 @@ True to include any initial value of a template argument or false otherwise.
                     <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
                     <__p_parents>Base
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5631,6 +5674,7 @@ See interface docs.
                     <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
                     <__p_parents>Template
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5881,6 +5925,7 @@ List of flags this block has enabled. If this block has no flags enabled then an
                     <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary that contains two keys. The first key is &quot;headers&quot; and contains another dictionary whose keys are scanned paths and values are scanned preprocessor header lines. The second is &quot;functions&quot; and contains another dictionary whose keys are function signatures and values are scanned function definition code lines.
 </__p_description>
                     <__p_parents>abstract.AbstractParser</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initializer</__p_name>
                         <__p_type>Public</__p_type>
@@ -5981,7 +6026,7 @@ The scope of the given parent block with double colons being replaced by an unde
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file that is scanned for function definition code.
 </__p_description>
                             </Object>
@@ -6017,7 +6062,7 @@ Code lines scanned from the given input file, assuming it is at the beginning of
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file positioned at the beginning of a function definition whose lines of code are scanned and returned.
 </__p_description>
                             </Object>
@@ -6032,7 +6077,7 @@ Preprocessor header lines scanned from the given input file, assuming it is at t
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file positioned at the beginning of the file whose preprocessor header lines are scanned and returned.
 </__p_description>
                             </Object>
@@ -6047,7 +6092,7 @@ The function signature scanned from the given input file, assuming it is positio
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file positioned after the first declaration line of a function header whose signature is scanned and returned.
 </__p_description>
                             </Object>
@@ -6058,7 +6103,7 @@ The function name of the returned signature.
 </__p_description>
                             </Object>
                             <Object>
-                                <__p_name>ending</__p_name>
+                                <__p_name>end</__p_name>
                                 <__p_description>string
 The ending of the first function declaration line of the returned signature, used for functions that have no arguments.
 </__p_description>
@@ -6069,11 +6114,12 @@ The ending of the first function declaration line of the returned signature, use
             </Module>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Contains all global settings for the C++ language module.</__p_description>
+                <__p_description>Contains all global settings for this language package.</__p_description>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
-                    <__p_description>The maximum number of columns for any one line of code.</__p_description>
-                    <__p_assignment>100</__p_assignment>
+                    <__p_description>The maximum number of columns for any one line of generated comments.
+</__p_description>
+                    <__p_assignment>80</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H1LINES</__p_name>
@@ -6115,6 +6161,7 @@ The ending of the first function declaration line of the returned signature, use
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Access
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6180,6 +6227,7 @@ See method docs.
                     <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Class
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6260,6 +6308,7 @@ See method docs.
                     <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Enum
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6277,6 +6326,7 @@ See method docs.
                     <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
                     <__p_parents>cppblock.EnumValue
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6294,6 +6344,7 @@ See method docs.
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Function
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6357,6 +6408,7 @@ See interface docs.
                     <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
                     <__p_parents>cppblock.Namespace
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6374,6 +6426,7 @@ See interface docs.
                     <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Template
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6391,6 +6444,7 @@ See interface docs.
                     <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Union
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6408,6 +6462,7 @@ See interface docs.
                     <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Variable
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6432,6 +6487,7 @@ See interface docs.
                     <__p_name>Base</__p_name>
                     <__p_description>This is the base block class. It implements the Socrates' Reference abstract block class. It is a base block class other GLSL blocks use which contains name and description properties.</__p_description>
                     <__p_parents>abstract.AbstractBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6540,6 +6596,7 @@ Added to the beginning of every line of returned source code.
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>Base
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6676,6 +6733,15 @@ Added to the beginning of every returned line of code.
 </__p_description>
                             </Object>
                         </Function>
+                        <Function>
+                            <__p_name>__signature_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>string
+The signature of this function used to lookup any scanned lines of code when building its definition. This includes its name and argument types.
+</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                     </Access>
                 </Class>
                 <Class>
@@ -6683,6 +6749,7 @@ Added to the beginning of every returned line of code.
                     <__p_description>This is the program block class. It implements the Socrates' Reference abstract block class. It represents a GLSL program. It is the root block type of a GLSL project. A program simply represents a folder that contains shader files.</__p_description>
                     <__p_descriptors>register(&quot;Program&quot;,root=True)</__p_descriptors>
                     <__p_parents>abstract.AbstractBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6769,6 +6836,7 @@ See interface docs.
                     <__p_description>This is the shader block class. It implements the Socrates' Reference abstract block class. It represents a GLSL shader.</__p_description>
                     <__p_descriptors>register(&quot;Shader&quot;)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6870,6 +6938,7 @@ See interface docs.
                     <__p_descriptors>register(&quot;Structure&quot;)</__p_descriptors>
                     <__p_parents>Base
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6971,6 +7040,7 @@ See interface docs.
                     <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
                     <__p_parents>Base
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -7045,6 +7115,15 @@ Added to the beginning of returned lines of comment code.
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_returnDescription>object
 See interface docs.
+</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>buildSignature</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>string
+The signature of this variable as an argument.
 </__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -7133,8 +7212,11 @@ See interface docs.
 </__p_description>
                 <Class>
                     <__p_name>Parser</__p_name>
-                    <__p_description>This is the GLSL parser class. It implements the Socrates' Reference abstract parser.</__p_description>
-                    <__p_parents>abstract.AbstractParser</__p_parents>
+                    <__p_description>This is the GLSL parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary whose keys are the paths of the source code file scanned and values are another dictionary for that file containing two keys. The first key is &quot;header&quot; and contains any special headers for the shader. The second key is &quot;functions&quot; and is a dictionary whose keys are function signatures and values are their scanned lines of code.
+</__p_description>
+                    <__p_parents>abstract.AbstractParser
+</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initializer</__p_name>
                         <__p_type>Public</__p_type>
@@ -7238,7 +7320,7 @@ Scanned code lines from the given input file, assuming it is positioned right af
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file positioned right after a function declaration whose scanned lines are returned.
 </__p_description>
                             </Object>
@@ -7259,8 +7341,34 @@ Shader directive code lines scanned from the header of the given shader file.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file whose shader directive code lines are scanned.
+</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__scanSignature_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>The function signature scanned from the given input file, assuming it is positioned at the line after the first declaration line. The given function name and ending is used to generate the signature taken from the first declaration line.
+</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>ifile</__p_name>
+                                <__p_description>io.TextIOWrapper
+The input file positioned after the first declaration line of a function header whose signature is scanned and returned.
+</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>name</__p_name>
+                                <__p_description>string
+The function name of the returned signature.
+</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>end</__p_name>
+                                <__p_description>string
+The ending of the first function declaration line of the returned signature, used for functions that have no arguments.
 </__p_description>
                             </Object>
                         </Function>
@@ -7269,11 +7377,12 @@ The input file whose shader directive code lines are scanned.
             </Module>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Contains all global settings for the GLSL language module.</__p_description>
+                <__p_description>Contains all global settings for this language package.</__p_description>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
-                    <__p_description>The maximum number of columns for any one line of code.</__p_description>
-                    <__p_assignment>100</__p_assignment>
+                    <__p_description>The maximum number of columns for any one line of generated comments.
+</__p_description>
+                    <__p_assignment>80</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H1LINES</__p_name>
@@ -7293,38 +7402,38 @@ The input file whose shader directive code lines are scanned.
                 <Object>
                     <__p_name>VERTEX_EXTENSION</__p_name>
                     <__p_description>The file name extension for vertex shaders.</__p_description>
-                    <__p_assignment>&quot;.vert.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.v.glsl&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>FRAGMENT_EXTENSION</__p_name>
                     <__p_description>The file name extension for fragment shaders.</__p_description>
-                    <__p_assignment>&quot;.frag.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.f.glsl&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>TESS_CTRL_EXTENSION</__p_name>
                     <__p_description>The file name extension for tesselation control shaders.</__p_description>
-                    <__p_assignment>&quot;.tessctrl.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.tc.glsl&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>TESS_EVAL_EXTENSION</__p_name>
                     <__p_description>The file name extension for tesselation evaluation shaders.</__p_description>
-                    <__p_assignment>&quot;.tesseval.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.te.glsl&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>GEOMETRY_EXTENSION</__p_name>
                     <__p_description>The file name extension for geometry shaders.</__p_description>
-                    <__p_assignment>&quot;.geom.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.g.glsl&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>COMPUTE_EXTENSION</__p_name>
                     <__p_description>The file name extension for compute shaders.</__p_description>
-                    <__p_assignment>&quot;.comp.glsl&quot;</__p_assignment>
+                    <__p_assignment>&quot;.cp.glsl&quot;</__p_assignment>
                 </Object>
             </Module>
         </Package>
         <Package>
             <__p_name>socref_python</__p_name>
-            <__p_description>Contains the python language definition for Socrates' Reference.</__p_description>
+            <__p_description>Contains the Python language definition for Socrates' Reference.</__p_description>
             <Module>
                 <__p_name>block</__p_name>
                 <__p_description>Contains all block classes for this language.
@@ -7337,6 +7446,7 @@ The input file whose shader directive code lines are scanned.
 </__p_descriptors>
                     <__p_parents>Package
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -7456,6 +7566,7 @@ See interface docs.
                     <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
                     <__p_parents>Descriptor
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -7553,6 +7664,15 @@ True if this class contains any abstract functions or false otherwise.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>isInfile</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>bool
+True if this class is in file or false otherwise. In file means its definition is included in the module it is part of, otherwise it is defined in its own special container module and imported into its module namespace.
+</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
@@ -7578,6 +7698,7 @@ The source code fragment of this class block's parents used in its source code h
                     <__p_description>This is the descriptor class. It partially implements the Socrates' Reference abstract block class. This provides a descriptors property along with utility methods for it. This is meant to act as a base class for any block that has descriptors.</__p_description>
                     <__p_parents>Package
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -7652,10 +7773,132 @@ Detailed information about this block's descriptors. If this block has no descri
                     </Access>
                 </Class>
                 <Class>
+                    <__p_name>Enum</__p_name>
+                    <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a python enumeration class. The standard python library is used for the generated class as an integer enumeration.</__p_description>
+                    <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
+                    <__p_parents>Package</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new enumeration block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the socref_python.block.Package interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>EnumValue</__p_name>
+                    <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a python enumeration value object. The standard python library is used for the generated class as an integer enumeration. If no value is given the auto class is used from the python enumeration library.</__p_description>
+                    <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
+                    <__p_parents>Object</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new enumeration block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the socref_python.block.Package interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isArgument</__p_name>
+                            <__p_description>Implements the socref_python.block.Object interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>inClass</__p_name>
+                            <__p_description>Implements the socref_python.block.Object interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
                     <__p_name>Function</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>Descriptor</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -7807,7 +8050,7 @@ The indent that is added to the beginning of every line of returned code.
                             <__p_name>__buildHeader_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_returnDescription>list
-The source code lines of this function's header. The header includes any descriptors and the define line.</__p_returnDescription>
+The source code lines of this function's header. The header includes any descriptor and the define lines.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -7860,6 +8103,7 @@ Rich text list of flags this block has enabled. If this block has no flags enabl
                     <__p_descriptors>register(&quot;Module&quot;)</__p_descriptors>
                     <__p_parents>Package
 </__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -7928,6 +8172,38 @@ See interface docs.
                     <__p_descriptors>register(&quot;Object&quot;)</__p_descriptors>
                     <__p_parents>Package
 </__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Access>
+                        <__p_name>Static Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>comment</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>list
+A doc string lines fragment for the given variable name and description as a function argument or return value.
+</__p_returnDescription>
+                            <__p_static>1</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>name</__p_name>
+                                <__p_description>string
+The name of the variable whose doc string is returned.
+</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>description</__p_name>
+                                <__p_description>string
+Description of the variable separated by at least two lines. The first line is its type and all other lines is the actual description.
+</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>string
+The indent that is appended to every line of returned source code.
+</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -8049,19 +8325,17 @@ See interface docs.
                         </Function>
                         <Function>
                             <__p_name>inClass</__p_name>
-                            <__p_description>Getter method.</__p_description>
+                            <__p_description>This interface is a getter method.</__p_description>
                             <__p_returnDescription>bool
-True if this object is part of a class or false otherwise.
-</__p_returnDescription>
+True if this object is part of a class or false otherwise.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>isArgument</__p_name>
-                            <__p_description>Getter method.</__p_description>
+                            <__p_description>This interface is a getter method.</__p_description>
                             <__p_returnDescription>bool
-True if this object is an argument of a function or false otherwise.
-</__p_returnDescription>
+True if this object is an argument of a function or false otherwise.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -8084,9 +8358,10 @@ See interface docs.
                 </Class>
                 <Class>
                     <__p_name>Package</__p_name>
-                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project. It implements two additional interface methods used by other block definitions of the python language.</__p_description>
+                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project. It implements one additional interface method used by other block definitions of the python language.</__p_description>
                     <__p_descriptors>register(&quot;Package&quot;,root=True)</__p_descriptors>
                     <__p_parents>abstract.AbstractBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -8193,6 +8468,38 @@ See interface docs.
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
+                            <__p_name>_build_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>list
+Import code lines for this block.
+
+list
+Script code lines for this block.
+</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>dictionary
+Scanned lines of code generated by and described in the language's parser class.
+</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>string
+Added to the beginning of every line of returned source code.
+</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                            <Object>
+                                <__p_name>description</__p_name>
+                                <__p_description>string
+If this is not set to none then this overrides the description of this block, using this given description instead.
+</__p_description>
+                                <__p_assignment>None</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
                             <__p_name>_buildChildren_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_returnDescription>list
@@ -8226,9 +8533,10 @@ An indent that is appended to every line of the returned source code.
 </__p_description>
                 <Class>
                     <__p_name>Parser</__p_name>
-                    <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary whose keys are the path of the source code file scanned and values are another dictionary for that file containing three keys. The first key is &quot;headers&quot; and contains lines of import statements at the head of the python file. The second key is &quot;functions&quot; and is a dictionary whose keys are function names and values are their scanned lines of code. The third key is &quot;classes&quot; that is a dictionary whose keys are class names and values are dictionaries with one key &quot;functions&quot; that follows the same structure as the second &quot;functions&quot; key but for the methods of the class it is contained within.
+                    <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary whose keys are the path of the source code file scanned and values are another dictionary for that file containing five keys. The first key is &quot;pre&quot; and contains special comment lines before the doc string. The second key is &quot;headers&quot; and contains lines of import statements at the head of the python file. The third key is &quot;script&quot; and contains any scripting lines at the end of the python file after the script header comment. The fourth key is &quot;functions&quot; and is a dictionary whose keys are function names and values are their scanned lines of code. The fifth key is &quot;classes&quot; that is a dictionary whose keys are class names and values are dictionaries with one key &quot;functions&quot; that follows the same structure as the second &quot;functions&quot; key but for the methods of the class it is contained within.
 </__p_description>
                     <__p_parents>abstract.AbstractParser</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initializer</__p_name>
                         <__p_type>Public</__p_type>
@@ -8356,7 +8664,7 @@ Scanned class definition containing any found and scanned method's lines of code
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The python script whose class at the current seek position is scanned.
 </__p_description>
                             </Object>
@@ -8371,8 +8679,14 @@ Scanned function definition containing all lines of scanned code from the functi
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The python script whose function at the current seek position is scanned.
+</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>end</__p_name>
+                                <__p_description>string
+The end of the function declaration, beginning after the opening parenthesis character.
 </__p_description>
                             </Object>
                         </Function>
@@ -8386,8 +8700,38 @@ Import code lines scanned from the header of the given python script file. It is
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The python script whose import lines of code are scanned.
+</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__scanPre_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>list
+Comment script lines scanned from the beginning of the given python script file.
+</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>ifile</__p_name>
+                                <__p_description>io.TextIOWrapper
+The python script whose comment script lines are scanned.
+</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__scanScript_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>list
+Script code lines scanned from the end of the given python script file. It is assumed the next line to read is right after the script header comment.
+</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>ifile</__p_name>
+                                <__p_description>io.TextIOWrapper
+The python script whose script lines are scanned.
 </__p_description>
                             </Object>
                         </Function>
@@ -8398,7 +8742,7 @@ The python script whose import lines of code are scanned.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The python script whose doc string, if any, is skipped.
 </__p_description>
                             </Object>
@@ -8408,6 +8752,7 @@ The python script whose doc string, if any, is skipped.
                 <Class>
                     <__p_name>Scanner</__p_name>
                     <__p_description>This is the parser scanner class. It provides an object oriented scanner for an input file given to it at initialization. This scans python lines of code, skipping blank lines. It keeps track of the block of code it is scanning by the indent, stopping once a smaller indent is encountered.</__p_description>
+                    <__p_infile>0</__p_infile>
                     <Access>
                         <__p_name>Initializer</__p_name>
                         <__p_type>Public</__p_type>
@@ -8418,7 +8763,7 @@ The python script whose doc string, if any, is skipped.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>file object
+                                <__p_description>io.TextIOWrapper
 The input file that is scanned.
 </__p_description>
                             </Object>
@@ -8450,7 +8795,7 @@ The next line of python source code read in from this scanner's input file. If t
             </Module>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Contains all global settings for the python language module.</__p_description>
+                <__p_description>Contains all global settings for this language package.</__p_description>
                 <Object>
                     <__p_name>ABSTRACT_DESCRIPTOR</__p_name>
                     <__p_description>The descriptor, without the leading ampersand, used to make a class's method abstract.</__p_description>
@@ -8458,8 +8803,9 @@ The next line of python source code read in from this scanner's input file. If t
                 </Object>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
-                    <__p_description>The maximum number of columns for any one line of code.</__p_description>
-                    <__p_assignment>100</__p_assignment>
+                    <__p_description>The maximum number of columns for any one line of generated doc strings.
+</__p_description>
+                    <__p_assignment>80</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H1LINES</__p_name>
@@ -8480,6 +8826,11 @@ The next line of python source code read in from this scanner's input file. If t
                     <__p_name>INDENT</__p_name>
                     <__p_description>The number of spaces used for each indent.</__p_description>
                     <__p_assignment>4</__p_assignment>
+                </Object>
+                <Object>
+                    <__p_name>SCRIPT_HEADER</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_assignment>&quot;### __SCRIPT__ ###&quot;</__p_assignment>
                 </Object>
             </Module>
         </Package>

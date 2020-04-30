@@ -15,7 +15,13 @@ from socref import edit
 
 class Parser(abstract.AbstractParser):
     """
-    This is the GLSL parser class. It implements the Socrates' Reference abstract parser.
+    This is the GLSL parser class. It implements the Socrates' Reference
+    abstract parser. When scanning source code it builds a definitions
+    dictionary whose keys are the paths of the source code file scanned and
+    values are another dictionary for that file containing two keys. The first
+    key is "header" and contains any special headers for the shader. The second
+    key is "functions" and is a dictionary whose keys are function signatures
+    and values are their scanned lines of code.
     """
 
 
@@ -24,7 +30,10 @@ class Parser(abstract.AbstractParser):
     ########################
 
 
-    def __init__(self, root):
+    def __init__(
+        self
+        ,root
+        ):
         """
         Initializes a new GLSL parser with the given root program block.
 
@@ -44,7 +53,9 @@ class Parser(abstract.AbstractParser):
     ####################
 
 
-    def unknown(self):
+    def unknown(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -66,7 +77,11 @@ class Parser(abstract.AbstractParser):
     #######################
 
 
-    def _build_(self, block, path):
+    def _build_(
+        self
+        ,block
+        ,path
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -82,17 +97,25 @@ class Parser(abstract.AbstractParser):
         ret0 : object
                See interface docs.
         """
-        return "\n".join(block.build(self.__definitions[path]))+"\n"
+        return (
+            "\n".join(block.build(self.__definitions.get(path,{"header": [], "functions": {}})))
+            +"\n"
+        )
 
 
-    def _buildPathList_(self):
+    def _buildPathList_(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
         """
         self.__buildPaths_(self.__root,"")
 
 
-    def _scan_(self, path):
+    def _scan_(
+        self
+        ,path
+        ):
         """
         Implements the socref.abstract.AbstractParser interface.
 
@@ -111,9 +134,10 @@ class Parser(abstract.AbstractParser):
                 if line:
                     match = self.__functionPattern.match(line)
                     if match:
+                        signature = self.__scanSignature_(ifile,match.group(1),match.group(2))
                         edit.uniqueInsert(
                             def_["functions"]
-                            ,match.group(1)
+                            ,signature
                             ,self.__scanFunction_(ifile,match.group(2))
                         )
             self.__definitions[path] = def_
@@ -124,16 +148,23 @@ class Parser(abstract.AbstractParser):
     #####################
 
 
-    def __buildPaths_(self, parent, path):
+    def __buildPaths_(
+        self
+        ,parent
+        ,path
+        ):
         """
-        Recursively adds source code paths to be scanned using the given parent block and path.
+        Recursively adds source code paths to be scanned using the given parent
+        block and path.
 
         Parameters
         ----------
         parent : socref.abstract.AbstractBlock
-                 The parent block whose children are scanned for potential source code paths.
+                 The parent block whose children are scanned for potential
+                 source code paths.
         path : string
-               The path of the given parent block that is appended to any child block's path added.
+               The path of the given parent block that is appended to any child
+               block's path added.
         """
         for block in parent:
             if block._TYPE_ == "Program":
@@ -142,31 +173,29 @@ class Parser(abstract.AbstractParser):
                 self._addPath_(block,os.path.join(path,block._p_name+block.extension()))
 
 
-    def __scanFunction_(self, ifile, end):
+    def __scanFunction_(
+        self
+        ,ifile
+        ,end
+        ):
         """
         Getter method.
 
         Parameters
         ----------
-        ifile : file object
-                The input file positioned right after a function declaration whose scanned lines are
-                returned.
+        ifile : io.TextIOWrapper
+                The input file positioned right after a function declaration
+                whose scanned lines are returned.
         end : string
-              The end part of function declaration, beginning with the first opening parenthesis
-              after the function name.
+              The end part of function declaration, beginning with the first
+              opening parenthesis after the function name.
 
         Returns
         -------
         ret0 : list
-               Scanned code lines from the given input file, assuming it is positioned right after
-               the function declaration line.
+               Scanned code lines from the given input file, assuming it is
+               positioned right after the function declaration line.
         """
-        depth = end.count("(")-end.count(")")
-        while depth > 0:
-            line = ifile.readline()
-            if not line:
-                return []
-            depth += line.count("(")-line.count(")")
         depth = 0
         lines = []
         while True:
@@ -182,19 +211,23 @@ class Parser(abstract.AbstractParser):
                     lines.append(line)
 
 
-    def __scanHeader_(self, ifile):
+    def __scanHeader_(
+        self
+        ,ifile
+        ):
         """
         Getter method.
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The input file whose shader directive code lines are scanned.
 
         Returns
         -------
         ret0 : list
-               Shader directive code lines scanned from the header of the given shader file.
+               Shader directive code lines scanned from the header of the given
+               shader file.
         """
         lines = []
         while True:
@@ -206,3 +239,50 @@ class Parser(abstract.AbstractParser):
                 lines.append(line)
             else:
                 return lines
+
+
+    def __scanSignature_(
+        self
+        ,ifile
+        ,name
+        ,end
+        ):
+        """
+        Getter method.
+
+        Parameters
+        ----------
+        ifile : io.TextIOWrapper
+                The input file positioned after the first declaration line of a
+                function header whose signature is scanned and returned.
+        name : string
+               The function name of the returned signature.
+        end : string
+              The ending of the first function declaration line of the returned
+              signature, used for functions that have no arguments.
+
+        Returns
+        -------
+        ret0 : The function signature scanned from the given input file,
+               assuming it is positioned at the line after the first declaration
+               line. The given function name and ending is used to generate the
+               signature taken from the first declaration line.
+        """
+        depth = end.count("(")-end.count(")")
+        args = []
+        while depth>0:
+            line = ifile.readline()
+            if not line:
+                return []
+            if "(" not in line and ")" not in line:
+                parts = line[:-1].split()
+                if len(parts)>=2:
+                    arg = "_".join(parts[:-1])
+                    if arg[0]==",":
+                        arg = arg[1:]
+                    args.append(arg)
+            depth += line.count("(")-line.count(")")
+        ret = name
+        if args:
+            ret += ":"+":".join(args)
+        return ret

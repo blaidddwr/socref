@@ -18,8 +18,8 @@ from . import settings
 @register("Class")
 class Class(Descriptor):
     """
-    This is the class block class. It implements the Socrates' Reference abstract block class. It
-    represents a python class.
+    This is the class block class. It implements the Socrates' Reference
+    abstract block class. It represents a python class.
     """
 
 
@@ -28,12 +28,15 @@ class Class(Descriptor):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new class block.
         """
         Descriptor.__init__(self)
         self._p_parents = ""
+        self._p_infile = "0"
 
 
     ####################
@@ -41,7 +44,11 @@ class Class(Descriptor):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_python.block.Package interface.
 
@@ -58,27 +65,34 @@ class Class(Descriptor):
                See interface docs.
         """
         ret = []
-        ret.append('"""')
-        ret += edit.wrapBlocks("Contains the %s class."%(self._p_name,),columns=settings.COLUMNS)
-        ret.append('"""')
-        ret += definition.pop("header")
+        header = []
+        footer = []
+        if not self.isInfile():
+            (header,footer) = self._build_(
+                definition
+                ,begin
+                ,"Contains the %s class."%(self._p_name,)
+            )
+            ret += header
         definition = definition["classes"].get(self._p_name,{"functions": {}})
         ret += [""]*settings.H1LINES
         ret += self._buildDescriptors_(begin)
         ret.append("%sclass %s(%s):" % (begin,self._p_name,self.__buildParents_()))
-        ret.append(begin + " "*settings.INDENT + '"""')
-        ret += edit.wrapBlocks(
-            self._p_description
-            ,begin=begin + " "*settings.INDENT
-            ,columns=settings.COLUMNS
-        )
-        ret.append(begin + " "*settings.INDENT + '"""')
-        (regular,classes) = self._buildChildren_(definition,begin + " " * settings.INDENT)
+        newBegin = begin + " "*settings.INDENT
+        docString = newBegin+'"""'
+        ret.append(docString)
+        ret += edit.wrapBlocks(self._p_description,newBegin,columns=settings.COLUMNS)
+        ret.append(docString)
+        (regular,classes) = self._buildChildren_(definition,newBegin)
         ret += regular
+        if not self.isInfile():
+            ret += footer
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -90,15 +104,20 @@ class Class(Descriptor):
         return ("Access",)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
         Descriptor.clearProperties(self)
         self._p_parents = ""
+        self._p_infile = "0"
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -110,7 +129,9 @@ class Class(Descriptor):
         return self._p_name + self._descriptorsName_()
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -124,10 +145,13 @@ class Class(Descriptor):
             ,"Parents"
             ,"".join(("<li>%s</li>" % parent for parent in self._p_parents.split("\n") if parent))
         )
-        return block.Package.displayView(self) + parents + self._descriptorsView_()
+        flags = edit.richTextList(2,"Flags",["Infile"] if self.isInfile() else [])
+        return block.Package.displayView(self) + parents + self._descriptorsView_() + flags
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -138,11 +162,14 @@ class Class(Descriptor):
         """
         ret = block.Package.editDefinitions(self)
         ret.append(edit.textEdit("Parents:","_p_parents"))
+        ret.append(edit.checkboxEdit("Infile","_p_infile"))
         ret.append(self._descriptorsEditDefinition_())
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -157,14 +184,17 @@ class Class(Descriptor):
             return qtg.QIcon(":/python/class.svg")
 
 
-    def isAbstract(self):
+    def isAbstract(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this class contains any abstract functions or false otherwise.
+               True if this class contains any abstract functions or false
+               otherwise.
         """
         for access in self:
             if access.hasAbstract():
@@ -172,13 +202,33 @@ class Class(Descriptor):
         return False
 
 
-    def setDefaultProperties(self):
+    def isInfile(
+        self
+        ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        ret0 : bool
+               True if this class is in file or false otherwise. In file means
+               its definition is included in the module it is part of, otherwise
+               it is defined in its own special container module and imported
+               into its module namespace.
+        """
+        return bool(int(self._p_infile))
+
+
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
         Descriptor.setDefaultProperties(self)
         self._p_name = "class"
         self._p_parents = ""
+        self._p_infile = "0"
 
 
     #####################
@@ -186,14 +236,16 @@ class Class(Descriptor):
     #####################
 
 
-    def __buildParents_(self):
+    def __buildParents_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : string
-               The source code fragment of this class block's parents used in its source code header
-               line.
+               The source code fragment of this class block's parents used in
+               its source code header line.
         """
         return ", ".join((parent for parent in self._p_parents.split("\n") if parent))

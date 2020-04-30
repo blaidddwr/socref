@@ -11,10 +11,10 @@ Contains the Scanner class.
 
 class Scanner():
     """
-    This is the parser scanner class. It provides an object oriented scanner for an input file given
-    to it at initialization. This scans python lines of code, skipping blank lines. It keeps track
-    of the block of code it is scanning by the indent, stopping once a smaller indent is
-    encountered.
+    This is the parser scanner class. It provides an object oriented scanner for
+    an input file given to it at initialization. This scans python lines of
+    code, skipping blank lines. It keeps track of the block of code it is
+    scanning by the indent, stopping once a smaller indent is encountered.
     """
 
 
@@ -23,13 +23,16 @@ class Scanner():
     ########################
 
 
-    def __init__(self, ifile):
+    def __init__(
+        self
+        ,ifile
+        ):
         """
         Initializes a new scanner with the given input file.
 
         Parameters
         ----------
-        ifile : file object
+        ifile : io.TextIOWrapper
                 The input file that is scanned.
         """
         self.__ifile = ifile
@@ -41,32 +44,38 @@ class Scanner():
     ####################
 
 
-    def indent(self):
+    def indent(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : int
-               The indent size in spaces of the code block this scanner is reading. This must be
-               called after the read line method is called at least once.
+               The indent size in spaces of the code block this scanner is
+               reading. This must be called after the read line method is called
+               at least once.
         """
         if self.__indent is None:
             raise RuntimeError("indent has not been discovered.")
         return self.__indent
 
 
-    def readline(self):
+    def readline(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : string
-               The next line of python source code read in from this scanner's input file. If the
-               end of file is reached or the end of the code block with the determined indent then
-               this returns none. The first time this is called the indent of the block to be read
-               is determined with the first line of code encountered.
+               The next line of python source code read in from this scanner's
+               input file. If the end of file is reached or the end of the code
+               block with the determined indent then this returns none. The
+               first time this is called the indent of the block to be read is
+               determined with the first line of code encountered.
         """
         while True:
             last = self.__ifile.tell()

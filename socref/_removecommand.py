@@ -12,10 +12,11 @@ from ._abstractcommand import AbstractCommand
 
 class RemoveCommand(AbstractCommand):
     """
-    This is the remove command class. It implements the abstract command class. This command removes
-    the given count of indexes starting at the given row from the given parent index in the given
-    project model. This class saves the list of removed blocks and exposes it as a protected
-    function so the inverse command of insertion can reuse this class.
+    This is the remove command class. It implements the abstract command class.
+    This command removes the given count of indexes starting at the given row
+    from the given parent index in the given project model. This class saves the
+    list of removed blocks and exposes it as a protected function so the inverse
+    command of insertion can reuse this class.
     """
 
 
@@ -24,9 +25,16 @@ class RemoveCommand(AbstractCommand):
     #######################
 
 
-    def __init__(self, row, count, parent, model):
+    def __init__(
+        self
+        ,row
+        ,count
+        ,parent
+        ,model
+        ):
         """
-        Initializes a new remove command with the given row, count, parent index, and project model.
+        Initializes a new remove command with the given row, count, parent
+        index, and project model.
 
         Parameters
         ----------
@@ -51,7 +59,9 @@ class RemoveCommand(AbstractCommand):
     ####################
 
 
-    def redo(self):
+    def redo(
+        self
+        ):
         """
         Implements the .command.Command interface.
         """
@@ -63,7 +73,9 @@ class RemoveCommand(AbstractCommand):
             )
 
 
-    def undo(self):
+    def undo(
+        self
+        ):
         """
         Implements the .command.Command interface.
         """

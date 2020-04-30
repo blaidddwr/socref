@@ -14,57 +14,67 @@ from . import core
 
 class AbstractBlock(abc.ABC):
     """
-    This is the abstract block class. Blocks are the basic interface designed for languages to
-    implement themselves and communicate with the core application. Blocks are structured to form a
-    tree like structure to represent a single project. Properties are the basic concept used to save
-    all data of a specific block implementation. Interface methods are organized into basic,
-    property, and parsing categories. Edit definitions provide as a list of dictionaries through a
-    block's appropriate interface are used by the core application to provide an edit GUI for it.
-    Iteration and indexing of children blocks are supported through operators and methods. Saving a
-    block to XML or loading it from XML is supported.
+    This is the abstract block class. Blocks are the basic interface designed
+    for languages to implement themselves and communicate with the core
+    application. Blocks are structured to form a tree like structure to
+    represent a single project. Properties are the basic concept used to save
+    all data of a specific block implementation. Interface methods are organized
+    into basic, property, and parsing categories. Edit definitions provide as a
+    list of dictionaries through a block's appropriate interface are used by the
+    core application to provide an edit GUI for it. Iteration and indexing of
+    children blocks are supported through operators and methods. Saving a block
+    to XML or loading it from XML is supported.
 
-    Blocks are the basic interface designed for languages to implement themselves and communicate
-    with the core application. A block should represent an atomic element of a programming language,
-    such as a variable or function. In turn these blocks can form tree like relationships, such as
-    variables being children of a function that makes them the function's arguments.
+    Blocks are the basic interface designed for languages to implement
+    themselves and communicate with the core application. A block should
+    represent an atomic element of a programming language, such as a variable or
+    function. In turn these blocks can form tree like relationships, such as
+    variables being children of a function that makes them the function's
+    arguments.
 
-    Blocks are structured to form a tree like structure to represent a single project. Blocks can
-    have any number of children and only one parent. There is a root block for every project. A
-    specific block type is designated as the root block of a language and used to create a new
-    project.
+    Blocks are structured to form a tree like structure to represent a single
+    project. Blocks can have any number of children and only one parent. There
+    is a root block for every project. A specific block type is designated as
+    the root block of a language and used to create a new project.
 
-    Properties are the basic concept used to save all data of a specific block implementation.
-    Properties are stored in a block as a dictionary as key value pairs. Operator overloading for
-    attributes is implemented so any attribute that begins with "_p_" is intercepted and treated as
-    a property. In this fashion all properties must be attributes that start with "_p_".
+    Properties are the basic concept used to save all data of a specific block
+    implementation. Properties are stored in a block as a dictionary as key
+    value pairs. Operator overloading for attributes is implemented so any
+    attribute that begins with "_p_" is intercepted and treated as a property.
+    In this fashion all properties must be attributes that start with "_p_".
 
-    Interface methods are organized into basic, property, and parsing categories. The basic category
-    provides basic information about the block that is used to display it in different views, a
-    build list to tell the core application what block types can be a block's child, and "is
-    volatile" checks to inform the application's model if a block can effect the view of blocks
-    above or below it. The property category provides edit definitions that allow the core
-    application to build a form widget for editing all of a block's properties, setting default
-    properties, and clearing all properties. The parsing category provides a factory for abstract
-    parser implementations and two helper interfaces for determining if a block is the root of a
-    source code file or directory.
+    Interface methods are organized into basic, property, and parsing
+    categories. The basic category provides basic information about the block
+    that is used to display it in different views, a build list to tell the core
+    application what block types can be a block's child, and "is volatile"
+    checks to inform the application's model if a block can effect the view of
+    blocks above or below it. The property category provides edit definitions
+    that allow the core application to build a form widget for editing all of a
+    block's properties, setting default properties, and clearing all properties.
+    The parsing category provides a factory for abstract parser implementations
+    and two helper interfaces for determining if a block is the root of a source
+    code file or directory.
 
-    Edit definitions provide as a list of dictionaries through a block's appropriate interface are
-    used by the core application to provide an edit GUI for it. Helper functions are provided in the
-    utility module for producing edit definition dictionaries. The possible definition types are
-    line edit, text edit, checkbox edit, combo box edit, and hidden edit. A line edit provides a
-    single line to edit a property. A text edit provides a multi-line editor to edit a property,
-    along with a popup text editor and optional spell checking. A checkbox edit provides a true or
-    false checkbox to edit a property to "1" for true or "0" for false. A combo box edit provides a
-    list of provided text values to edit a property.
+    Edit definitions provide as a list of dictionaries through a block's
+    appropriate interface are used by the core application to provide an edit
+    GUI for it. Helper functions are provided in the utility module for
+    producing edit definition dictionaries. The possible definition types are
+    line edit, text edit, checkbox edit, combo box edit, and hidden edit. A line
+    edit provides a single line to edit a property. A text edit provides a
+    multi-line editor to edit a property, along with a popup text editor and
+    optional spell checking. A checkbox edit provides a true or false checkbox
+    to edit a property to "1" for true or "0" for false. A combo box edit
+    provides a list of provided text values to edit a property.
 
-    Iteration and indexing of children blocks are supported through operators and methods. Iteration
-    of child blocks is provided through the common python operators. Indexing is also supported
-    through the common python operators. Other common list methods are also implemented such as
-    insert and pop for manipulating a block's children. Index is also provided for determining the
+    Iteration and indexing of children blocks are supported through operators
+    and methods. Iteration of child blocks is provided through the common python
+    operators. Indexing is also supported through the common python operators.
+    Other common list methods are also implemented such as insert and pop for
+    manipulating a block's children. Index is also provided for determining the
     index of a block in its parent's list of children.
 
-    Saving a block to XML or loading it from XML is supported. A qt XML stream writer or reader is
-    used for saving or loading to or from XML, respectively.
+    Saving a block to XML or loading it from XML is supported. A qt XML stream
+    writer or reader is used for saving or loading to or from XML, respectively.
     """
 
 
@@ -73,7 +83,9 @@ class AbstractBlock(abc.ABC):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new abstract block.
         """
@@ -83,13 +95,15 @@ class AbstractBlock(abc.ABC):
         self.__properties = {}
 
 
-    #####################
-    # PUBLIC - Abstract #
-    #####################
+    #######################
+    # PUBLIC - Interfaces #
+    #######################
 
 
     @abc.abstractmethod
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         This interface is a getter method.
 
@@ -102,15 +116,20 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
-        This interface clears all of this block's properties to their null state.
+        This interface clears all of this block's properties to their null
+        state.
         """
         pass
 
 
     @abc.abstractmethod
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         This interface is a getter method.
 
@@ -123,7 +142,9 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         This interface is a getter method.
 
@@ -136,21 +157,25 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         This interface is a getter method.
 
         Returns
         -------
         ret0 : list
-               Edit definition dictionaries informing the core application how to build the edit GUI
-               for this block.
+               Edit definition dictionaries informing the core application how
+               to build the edit GUI for this block.
         """
         pass
 
 
     @abc.abstractmethod
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         This interface is a getter method.
 
@@ -163,9 +188,12 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
-        This interface sets all of this block's properties to their default state.
+        This interface sets all of this block's properties to their default
+        state.
         """
         pass
 
@@ -175,7 +203,10 @@ class AbstractBlock(abc.ABC):
     ######################
 
 
-    def __eq__(self, other):
+    def __eq__(
+        self
+        ,other
+        ):
         """
         Implements the equality operator.
 
@@ -192,7 +223,9 @@ class AbstractBlock(abc.ABC):
         return self is other
 
 
-    def __len__(self):
+    def __len__(
+        self
+        ):
         """
         Implements the length operator.
 
@@ -204,7 +237,10 @@ class AbstractBlock(abc.ABC):
         return len(self.__children)
 
 
-    def __contains__(self, block):
+    def __contains__(
+        self
+        ,block
+        ):
         """
         Implements the contain operator.
 
@@ -216,12 +252,15 @@ class AbstractBlock(abc.ABC):
         Returns
         -------
         ret0 : bool
-               True if the given block is a child of this block or false otherwise.
+               True if the given block is a child of this block or false
+               otherwise.
         """
         return block in self.__children
 
 
-    def __iter__(self):
+    def __iter__(
+        self
+        ):
         """
         Implements the iterator operator.
 
@@ -233,7 +272,10 @@ class AbstractBlock(abc.ABC):
         return self.__children.__iter__()
 
 
-    def __getitem__(self, index):
+    def __getitem__(
+        self
+        ,index
+        ):
         """
         Implements the get item operator.
 
@@ -250,10 +292,13 @@ class AbstractBlock(abc.ABC):
         return self.__children[index]
 
 
-    def __delitem__(self, index):
+    def __delitem__(
+        self
+        ,index
+        ):
         """
-        Implements the delete item operator. Deletes this block's child block with the given integer
-        index.
+        Implements the delete item operator. Deletes this block's child block
+        with the given integer index.
 
         Parameters
         ----------
@@ -263,9 +308,13 @@ class AbstractBlock(abc.ABC):
         del self.__children[index]
 
 
-    def __getattr__(self, key):
+    def __getattr__(
+        self
+        ,key
+        ):
         """
-        Implements the get attribute operator. Intercepts the value of any property attribute.
+        Implements the get attribute operator. Intercepts the value of any
+        property attribute.
 
         Parameters
         ----------
@@ -275,8 +324,8 @@ class AbstractBlock(abc.ABC):
         Returns
         -------
         ret0 : object
-               The property attribute that begins with "_p_" or the default get attribute operator
-               return value otherwise.
+               The property attribute that begins with "_p_" or the default get
+               attribute operator return value otherwise.
         """
         if key.startswith("_p_"):
             return self.__properties[key]
@@ -284,11 +333,15 @@ class AbstractBlock(abc.ABC):
             return object.__getattribute__(self,key)
 
 
-    def __setattr__(self, key, item):
+    def __setattr__(
+        self
+        ,key
+        ,item
+        ):
         """
-        Implements the set attribute operator. Intercepts and sets the value of any property
-        attribute that begins with "_p_" to the given item, else calls the default set attribute
-        operator to the given item.
+        Implements the set attribute operator. Intercepts and sets the value of
+        any property attribute that begins with "_p_" to the given item, else
+        calls the default set attribute operator to the given item.
 
         Parameters
         ----------
@@ -308,10 +361,13 @@ class AbstractBlock(abc.ABC):
     ####################
 
 
-    def append(self, block):
+    def append(
+        self
+        ,block
+        ):
         """
-        Appends the given block as a new child into this block's list of children. The given block
-        cannot already have a parent.
+        Appends the given block as a new child into this block's list of
+        children. The given block cannot already have a parent.
 
         Parameters
         ----------
@@ -321,29 +377,38 @@ class AbstractBlock(abc.ABC):
         self.insert(len(self),block)
 
 
-    def index(self):
+    def index(
+        self
+        ):
         """
         Getter method. This block must have a parent.
 
         Returns
         -------
         ret0 : int
-               The integer index of this block within its parent block's list of children.
+               The integer index of this block within its parent block's list of
+               children.
         """
         if self.parent() is None:
             raise RuntimeError("Cannot get index of block with no parent.")
         return self.parent().__children.index(self)
 
 
-    def insert(self, index, block):
+    def insert(
+        self
+        ,index
+        ,block
+        ):
         """
-        Inserts the given block as a new child into this block's list of children at the given
-        index. The given block cannot already have a parent.
+        Inserts the given block as a new child into this block's list of
+        children at the given index. The given block cannot already have a
+        parent.
 
         Parameters
         ----------
         index : int
-                The index where the given block is inserted into this block's list of children.
+                The index where the given block is inserted into this block's
+                list of children.
         block : socref.abstract.AbstractBlock
                 A block that is inserted as a new child to this block.
         """
@@ -353,60 +418,78 @@ class AbstractBlock(abc.ABC):
         block.__parent = weakref.ref(self)
 
 
-    def isVolatileAbove(self):
+    def isVolatileAbove(
+        self
+        ):
         """
-        This interface is a getter method. The default implementation returns false.
+        This interface is a getter method. The default implementation returns
+        false.
 
         Returns
         -------
         ret0 : bool
-               Indicates if a change in this block's properties can effect the blocks above it.
-               Above in this context is going up a block's parent. True if this block can effect the
-               blocks above it or false otherwise.
+               Indicates if a change in this block's properties can effect the
+               blocks above it. Above in this context is going up a block's
+               parent. True if this block can effect the blocks above it or
+               false otherwise.
         """
         return False
 
 
-    def isVolatileBelow(self):
+    def isVolatileBelow(
+        self
+        ):
         """
-        This interface is a getter method. The default implementation returns false.
+        This interface is a getter method. The default implementation returns
+        false.
 
         Returns
         -------
         ret0 : bool
-               Indicates if a change in this block's properties can effect the blocks below it.
-               Below in this context is going down a block's children. True if this block can effect
-               the blocks below it or false otherwise.
+               Indicates if a change in this block's properties can effect the
+               blocks below it. Below in this context is going down a block's
+               children. True if this block can effect the blocks below it or
+               false otherwise.
         """
         return False
 
 
-    def parent(self):
+    def parent(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : socref.abstract.AbstractBlock
-               The parent block of this block or none if this block has no parent.
+               The parent block of this block or none if this block has no
+               parent.
         """
         return self.__parent if self.__parent is None else self.__parent()
 
 
-    def parser(self):
+    def parser(
+        self
+        ):
         """
-        This interface is a getter method. The default implementation returns none.
+        This interface is a getter method. The default implementation returns
+        none.
 
         Returns
         -------
         ret0 : object
-               An abstract parser implementation used to parse the source code of a project if this
-               is the root block, else none if this is not the root block.
+               An abstract parser implementation used to parse the source code
+               of a project if this is the root block, else none if this is not
+               the root block.
         """
         pass
 
 
-    def pop(self, index):
+    def pop(
+        self
+        ,index
+        ):
         """
         Removes a child block of this block with the given index.
 
@@ -425,7 +508,9 @@ class AbstractBlock(abc.ABC):
         return orphan
 
 
-    def properties(self):
+    def properties(
+        self
+        ):
         """
         Getter method.
 
@@ -437,11 +522,14 @@ class AbstractBlock(abc.ABC):
         return self.__properties
 
 
-    def setFromXml(self, stream):
+    def setFromXml(
+        self
+        ,stream
+        ):
         """
-        Loads this block's properties and all children block's properties from XML using the given
-        qt reader stream. This overwrites any properties and children blocks this block may
-        currently contain.
+        Loads this block's properties and all children block's properties from
+        XML using the given qt reader stream. This overwrites any properties and
+        children blocks this block may currently contain.
 
         Parameters
         ----------
@@ -468,7 +556,10 @@ class AbstractBlock(abc.ABC):
                 break
 
 
-    def setProperties(self, properties):
+    def setProperties(
+        self
+        ,properties
+        ):
         """
         Sets this block's properties dictionary to the given dictionary.
 
@@ -480,10 +571,13 @@ class AbstractBlock(abc.ABC):
         self.__properties = properties
 
 
-    def toXml(self, stream):
+    def toXml(
+        self
+        ,stream
+        ):
         """
-        Saves this block's properties and all of its children block's properties to XML using the
-        given qt XML writer stream.
+        Saves this block's properties and all of its children block's properties
+        to XML using the given qt XML writer stream.
 
         Parameters
         ----------

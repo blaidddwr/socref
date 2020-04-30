@@ -18,8 +18,8 @@ from ._base import Base
 @register("Variable")
 class Variable(Base):
     """
-    This is the variable block class. It implements the Socrates' Reference abstract block class. It
-    represents a GLSL variable.
+    This is the variable block class. It implements the Socrates' Reference
+    abstract block class. It represents a GLSL variable.
     """
 
 
@@ -28,7 +28,9 @@ class Variable(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new variable block.
         """
@@ -42,7 +44,9 @@ class Variable(Base):
     ####################
 
 
-    def argumentView(self):
+    def argumentView(
+        self
+        ):
         """
         Getter method.
 
@@ -60,7 +64,11 @@ class Variable(Base):
         return ret
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_glsl.block.Base interface.
 
@@ -88,7 +96,9 @@ class Variable(Base):
         return ret
 
 
-    def buildArgument(self):
+    def buildArgument(
+        self
+        ):
         """
         Getter method.
 
@@ -100,7 +110,10 @@ class Variable(Base):
         return self._p_type.replace("@",self._p_name)
 
 
-    def buildComment(self, begin):
+    def buildComment(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -112,8 +125,8 @@ class Variable(Base):
         Returns
         -------
         ret0 : list
-               Source code lines that is a comment fragment for this variable as an argument. This
-               returns the correct doxygen syntax.
+               Source code lines that is a comment fragment for this variable as
+               an argument. This returns the correct doxygen syntax.
         """
         header = "@param %s : " % self._p_name
         return edit.wrapText(
@@ -124,7 +137,9 @@ class Variable(Base):
         )
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -136,7 +151,23 @@ class Variable(Base):
         return ()
 
 
-    def clearProperties(self):
+    def buildSignature(
+        self
+        ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        ret0 : string
+               The signature of this variable as an argument.
+        """
+        return "_".join(self._p_type.replace("@","").split())
+
+
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -145,7 +176,9 @@ class Variable(Base):
         self._p_assignment = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -160,7 +193,9 @@ class Variable(Base):
             return self._p_type.split()[-1]
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -174,7 +209,9 @@ class Variable(Base):
         return Base.displayView(self)+type_+assignment
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -189,7 +226,9 @@ class Variable(Base):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -201,7 +240,9 @@ class Variable(Base):
         return qtg.QIcon(":/glsl/variable.svg")
 
 
-    def inStructure(self):
+    def inStructure(
+        self
+        ):
         """
         Getter method.
 
@@ -213,19 +254,24 @@ class Variable(Base):
         return self.parent()._TYPE_ == "Structure"
 
 
-    def isArgument(self):
+    def isArgument(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this variable is an argument of a function or false otherwise.
+               True if this variable is an argument of a function or false
+               otherwise.
         """
         return self.parent()._TYPE_ == "Function"
 
 
-    def isVolatileAbove(self):
+    def isVolatileAbove(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -237,7 +283,9 @@ class Variable(Base):
         return self.isArgument()
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

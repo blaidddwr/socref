@@ -1,9 +1,10 @@
 """
-Contains the Module class.
+Contains the Enum class.
 """
-from PySide2 import QtGui as qtg
-from socref import register
 from ._package import Package
+from PySide2 import QtGui as qtg
+from socref import edit
+from socref import register
 from . import settings
 
 
@@ -13,11 +14,12 @@ from . import settings
 
 
 
-@register("Module")
-class Module(Package):
+@register("Enumeration")
+class Enum(Package):
     """
-    This is the module block class. It implements the Socrates' Reference
-    abstract block class. It represents a python module.
+    This is the enumeration block class. It implements the Socrates' Reference
+    abstract block class. It represents a python enumeration class. The standard
+    python library is used for the generated class as an integer enumeration.
     """
 
 
@@ -30,7 +32,7 @@ class Module(Package):
         self
         ):
         """
-        Initializes a new module block.
+        Initializes a new enumeration block.
         """
         Package.__init__(self)
 
@@ -60,16 +62,14 @@ class Module(Package):
         ret0 : object
                See interface docs.
         """
-        (header,footer) = Package._build_(self,definition,begin)
-        ret = header
-        (regular,classes) = self._buildChildren_(definition,begin)
-        if classes:
-            ret += [""]+classes
+        ret = [""]*settings.H3LINES
+        ret.append("%sclass %s(enum.IntEnum):" % (begin,self._p_name))
+        newBegin = begin + " "*settings.INDENT
+        ret.append(newBegin+'"""')
+        ret += edit.wrapBlocks(self._p_description,begin=newBegin,columns=settings.COLUMNS)
+        ret.append(newBegin+'"""')
+        (regular,classes) = self._buildChildren_(definition,newBegin)
         ret += regular
-        if self._p_name == "__main__":
-            ret += [""]*settings.H1LINES
-            ret.append('if __name__ == "__main__": main()')
-        ret += footer
         return ret
 
 
@@ -84,7 +84,7 @@ class Module(Package):
         ret0 : object
                See interface docs.
         """
-        return ("Object","Function","Class","Enumeration")
+        return ("Enumeration_Value",)
 
 
     def icon(
@@ -98,7 +98,7 @@ class Module(Package):
         ret0 : object
                See interface docs.
         """
-        return qtg.QIcon(":/python/module.svg")
+        return qtg.QIcon(":/python/enumeration.svg")
 
 
     def setDefaultProperties(
@@ -108,4 +108,4 @@ class Module(Package):
         Implements the socref.abstract.AbstractBlock interface.
         """
         Package.setDefaultProperties(self)
-        self._p_name = "module"
+        self._p_name = "enumeration"

@@ -15,15 +15,17 @@ from . import core
 
 class SpellChecker(qtw.QGroupBox):
     """
-    This is the spell checker class. It provides a spell checking and correction interface. It uses
-    the Hunspell library for all speller functions.
+    This is the spell checker class. It provides a spell checking and correction
+    interface. It uses the Hunspell library for all speller functions.
 
-    It provides a spell checking and correction interface. It begins spell checking with its start
-    slot, providing it a qt text cursor that is uses to parse the entire document of the text
-    cursor, checking for misspelled words. Each misspelled word is highlighted and waits on the user
-    to correct. The user is given options to use a suggestion, replace, ignore, stop, or add to
-    dictionary. The cursor is updated to highlight each misspelled word found while waiting for the
-    user to make a choice about it. Adding to dictionary is currently defunct but will be fixed.
+    It provides a spell checking and correction interface. It begins spell
+    checking with its start slot, providing it a qt text cursor that is uses to
+    parse the entire document of the text cursor, checking for misspelled words.
+    Each misspelled word is highlighted and waits on the user to correct. The
+    user is given options to use a suggestion, replace, ignore, stop, or add to
+    dictionary. The cursor is updated to highlight each misspelled word found
+    while waiting for the user to make a choice about it. Adding to dictionary
+    is currently defunct but will be fixed.
     """
 
 
@@ -32,17 +34,24 @@ class SpellChecker(qtw.QGroupBox):
     #######################
 
 
-    def __init__(self, title, dictionary, parent=None):
+    def __init__(
+        self
+        ,title
+        ,dictionary
+        ,parent=None
+        ):
         """
-        Initializes a new speller checker with the given title, dictionary, and optional parent.
+        Initializes a new speller checker with the given title, dictionary, and
+        optional parent.
 
         Parameters
         ----------
         title : string
                 The title of this new spell checker's qt group box.
         dictionary : string
-                     The Hunspell dictionary used for spell checking. This does not include the
-                     directory or file extensions, for example "en_US".
+                     The Hunspell dictionary used for spell checking. This does
+                     not include the directory or file extensions, for example
+                     "en_US".
         parent : object
                  An optional qt object parent for this new spell checker.
         """
@@ -66,7 +75,8 @@ class SpellChecker(qtw.QGroupBox):
 
 
     #
-    # Signals this spell checker has finished checking and correcting for misspelled words.
+    # Signals this spell checker has finished checking and correcting for
+    # misspelled words.
     #
     finished = qtc.Signal()
 
@@ -77,11 +87,15 @@ class SpellChecker(qtw.QGroupBox):
 
 
     @qtc.Slot(qtg.QTextCursor)
-    def start(self, cursor):
+    def start(
+        self
+        ,cursor
+        ):
         """
-        Called to have this spell checker begin checking for misspelled words in the document of the
-        given qt text cursor. The entire document is checked for misspelled words. If this spell
-        checker is already checking a document then this does nothing.
+        Called to have this spell checker begin checking for misspelled words in
+        the document of the given qt text cursor. The entire document is checked
+        for misspelled words. If this spell checker is already checking a
+        document then this does nothing.
 
         Parameters
         ----------
@@ -99,17 +113,21 @@ class SpellChecker(qtw.QGroupBox):
     #####################
 
 
-    def __findNextWord_(self, skip=False):
+    def __findNextWord_(
+        self
+        ,skip=False
+        ):
         """
-        Finds the next misspelled word in the current document this spell checker is checking,
-        optionally skipping the word this checker's cursor is currently under. If no misspelled word
-        is found once the end of the document is reached then it stops this spell checker.
+        Finds the next misspelled word in the current document this spell
+        checker is checking, optionally skipping the word this checker's cursor
+        is currently under. If no misspelled word is found once the end of the
+        document is reached then it stops this spell checker.
 
         Parameters
         ----------
         skip : bool
-               True to skip the word this checker's cursor is currently under or false to check it
-               for spelling.
+               True to skip the word this checker's cursor is currently under or
+               false to check it for spelling.
         """
         cursor = self.__cursor
         pattern = re.compile('\w+')
@@ -132,7 +150,9 @@ class SpellChecker(qtw.QGroupBox):
                 break
 
 
-    def __setupGui_(self):
+    def __setupGui_(
+        self
+        ):
         """
         Initializes the GUI of this new spell checker.
         """
@@ -164,22 +184,28 @@ class SpellChecker(qtw.QGroupBox):
 
 
     @qtc.Slot()
-    def __ignore_(self):
+    def __ignore_(
+        self
+        ):
         """
-        Called to ignore the selected misspelled word, simply skipping it and moving the cursor
-        forward looking for the next misspelled word. If this spell checker is not actively checking
-        a document then this does nothing.
+        Called to ignore the selected misspelled word, simply skipping it and
+        moving the cursor forward looking for the next misspelled word. If this
+        spell checker is not actively checking a document then this does
+        nothing.
         """
         if self.__cursor is not None:
             self.__findNextWord_(skip=True)
 
 
     @qtc.Slot()
-    def __ignoreAll_(self):
+    def __ignoreAll_(
+        self
+        ):
         """
-        Called to ignore all words matching the currently selected misspelled word by adding it to
-        the run time dictionary. This then moves the cursor forward looking for the next misspelled
-        word. If this spell checker is not actively checking a document then this does nothing.
+        Called to ignore all words matching the currently selected misspelled
+        word by adding it to the run time dictionary. This then moves the cursor
+        forward looking for the next misspelled word. If this spell checker is
+        not actively checking a document then this does nothing.
         """
         if self.__cursor is not None:
             core.speller.add(self.__wordLabel.text())
@@ -187,11 +213,14 @@ class SpellChecker(qtw.QGroupBox):
 
 
     @qtc.Slot()
-    def __replace_(self):
+    def __replace_(
+        self
+        ):
         """
-        Called to replace the selected misspelled word with the text of this spell checker's word
-        edit widget. This then moves the cursor forward looking for the next misspelled word. If
-        this spell checker is not actively checking a document then this does nothing.
+        Called to replace the selected misspelled word with the text of this
+        spell checker's word edit widget. This then moves the cursor forward
+        looking for the next misspelled word. If this spell checker is not
+        actively checking a document then this does nothing.
         """
         if self.__cursor is not None:
             self.__cursor.insertText(self.__wordEdit.text())
@@ -199,10 +228,13 @@ class SpellChecker(qtw.QGroupBox):
 
 
     @qtc.Slot()
-    def __stop_(self):
+    def __stop_(
+        self
+        ):
         """
-        Called to stop this spell checker, finishing its spell checking of the current document. If
-        this spell checker is not actively checking a document then this does nothing.
+        Called to stop this spell checker, finishing its spell checking of the
+        current document. If this spell checker is not actively checking a
+        document then this does nothing.
         """
         if self.__cursor is not None:
             self.__cursor = None
@@ -211,11 +243,14 @@ class SpellChecker(qtw.QGroupBox):
 
 
     @qtc.Slot()
-    def __suggest_(self):
+    def __suggest_(
+        self
+        ):
         """
-        Called to offer a suggested word in this spell checker's word edit widget. This finds the
-        next word in the list of suggestions. If this spell checker is not actively checking a
-        document then this does nothing.
+        Called to offer a suggested word in this spell checker's word edit
+        widget. This finds the next word in the list of suggestions. If this
+        spell checker is not actively checking a document then this does
+        nothing.
         """
         if self.__cursor is not None and self.__suggested:
             index = 1

@@ -13,25 +13,28 @@ import os
 
 class AbstractParser(abc.ABC):
     """
-    This is the abstract parser class. A parser is the interface implemented by a language to parse
-    its source code from a project. The parsing process is separated into building a path list,
-    scanning, and building.
+    This is the abstract parser class. A parser is the interface implemented by
+    a language to parse its source code from a project. The parsing process is
+    separated into building a path list, scanning, and building.
 
-    A parser is the interface implemented by a language to parse its source code from a project.
-    When the core application parses the source code of a project it creates a new abstract parser
-    from the root block of the project that is to be parsed. The abstract parser in turn handles
-    parsing all source code files using the root block of the project. A root path is also set that
+    A parser is the interface implemented by a language to parse its source code
+    from a project. When the core application parses the source code of a
+    project it creates a new abstract parser from the root block of the project
+    that is to be parsed. The abstract parser in turn handles parsing all source
+    code files using the root block of the project. A root path is also set that
     is used as the root location for all source code directories and/or files.
 
-    The parsing process is separated into building a path list, scanning, building, and returning
-    any unknown code fragments. The building a path list step builds a list of paths and associated
-    blocks where source file codes should exist within the root path. The scanning step reads and
-    scans every source code file for each path generated from the previous step. The build step
-    generates new contents for each source code file generated from the first step, using the
-    associated block from the first step and any scanned input from the previous step. The returning
-    any unknown code fragments step returns any code fragments that were scanned but never used in
-    the build step. If a file does not exist for a given path it is ignored in the scan step. Before
-    parsing can begin the root path must be set.
+    The parsing process is separated into building a path list, scanning,
+    building, and returning any unknown code fragments. The building a path list
+    step builds a list of paths and associated blocks where source file codes
+    should exist within the root path. The scanning step reads and scans every
+    source code file for each path generated from the previous step. The build
+    step generates new contents for each source code file generated from the
+    first step, using the associated block from the first step and any scanned
+    input from the previous step. The returning any unknown code fragments step
+    returns any code fragments that were scanned but never used in the build
+    step. If a file does not exist for a given path it is ignored in the scan
+    step. Before parsing can begin the root path must be set.
     """
 
 
@@ -40,7 +43,9 @@ class AbstractParser(abc.ABC):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new abstract parser.
         """
@@ -57,15 +62,17 @@ class AbstractParser(abc.ABC):
 
 
     @abc.abstractmethod
-    def unknown(self):
+    def unknown(
+        self
+        ):
         """
         This interface is a getter method.
 
         Returns
         -------
         ret0 : dictionary
-               A flat dictionary of scanned code that was unknown and not used in any built source
-               code.
+               A flat dictionary of scanned code that was unknown and not used
+               in any built source code.
         """
         pass
 
@@ -75,16 +82,20 @@ class AbstractParser(abc.ABC):
     ####################
 
 
-    def parse(self, update):
+    def parse(
+        self
+        ,update
+        ):
         """
-        Parses the source code of the project of this parser's root block, updating its progress
-        with the given callback object. The root path of this parser must be set.
+        Parses the source code of the project of this parser's root block,
+        updating its progress with the given callback object. The root path of
+        this parser must be set.
 
         Parameters
         ----------
         update : function
-                 Used to update the progress of this scan. It takes one argument that is the
-                 progress as a percentage from 1 to 99.
+                 Used to update the progress of this scan. It takes one argument
+                 that is the progress as a percentage from 1 to 99.
         """
         if self.__rootPath == "":
             raise RuntimeError("Root path is not set.")
@@ -111,10 +122,13 @@ class AbstractParser(abc.ABC):
         self.__blocks = []
 
 
-    def setRootPath(self, path):
+    def setRootPath(
+        self
+        ,path
+        ):
         """
-        Sets the root path of this parser. This can only be called once when this parser's root path
-        is empty.
+        Sets the root path of this parser. This can only be called once when
+        this parser's root path is empty.
 
         Parameters
         ----------
@@ -132,7 +146,11 @@ class AbstractParser(abc.ABC):
 
 
     @abc.abstractmethod
-    def _build_(self, block, path):
+    def _build_(
+        self
+        ,block
+        ,path
+        ):
         """
         This interface is a getter method.
 
@@ -146,13 +164,16 @@ class AbstractParser(abc.ABC):
         Returns
         -------
         ret0 : string
-               The new contents of the source code file at the given path and associated block.
+               The new contents of the source code file at the given path and
+               associated block.
         """
         pass
 
 
     @abc.abstractmethod
-    def _buildPathList_(self):
+    def _buildPathList_(
+        self
+        ):
         """
         This interface builds the path list.
         """
@@ -160,10 +181,13 @@ class AbstractParser(abc.ABC):
 
 
     @abc.abstractmethod
-    def _scan_(self, path):
+    def _scan_(
+        self
+        ,path
+        ):
         """
-        This interface scans the source code file at the given path. The given path exists and is a
-        regular file.
+        This interface scans the source code file at the given path. The given
+        path exists and is a regular file.
 
         Parameters
         ----------
@@ -178,11 +202,15 @@ class AbstractParser(abc.ABC):
     #######################
 
 
-    def _addPath_(self, block, path):
+    def _addPath_(
+        self
+        ,block
+        ,path
+        ):
         """
-        Adds the given source code file path and associated block to the list of paths and
-        associated blocks to be scanned and built. This must be called within the build path list
-        interface.
+        Adds the given source code file path and associated block to the list of
+        paths and associated blocks to be scanned and built. This must be called
+        within the build path list interface.
 
         Parameters
         ----------
@@ -204,11 +232,15 @@ class AbstractParser(abc.ABC):
     #####################
 
 
-    def __build_(self, block, path):
+    def __build_(
+        self
+        ,block
+        ,path
+        ):
         """
-        Builds new contents for the source code at the given file path with the associated file. The
-        file is overwritten with the new contents only if they are different from the current
-        contents or the file does not exist.
+        Builds new contents for the source code at the given file path with the
+        associated file. The file is overwritten with the new contents only if
+        they are different from the current contents or the file does not exist.
 
         Parameters
         ----------

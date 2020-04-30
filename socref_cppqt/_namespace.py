@@ -14,8 +14,9 @@ from socref_cpp import block as cppblock
 @register("Namespace",root=True)
 class Namespace(cppblock.Namespace):
     """
-    This is the namespace block class. It implements the Socrates' Reference abstract block class.
-    It represents a C++/Qt namespace. It is the root block type of a C++/Qt project.
+    This is the namespace block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++/Qt namespace. It is the root block
+    type of a C++/Qt project.
     """
 
 
@@ -24,7 +25,9 @@ class Namespace(cppblock.Namespace):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new namespace block.
         """

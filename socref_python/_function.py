@@ -19,8 +19,8 @@ from . import settings
 @register("Function")
 class Function(Descriptor):
     """
-    This is the function block class. It implements the Socrates' Reference abstract block class. It
-    represents a python function.
+    This is the function block class. It implements the Socrates' Reference
+    abstract block class. It represents a python function.
     """
 
 
@@ -29,7 +29,9 @@ class Function(Descriptor):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new function block.
         """
@@ -44,7 +46,11 @@ class Function(Descriptor):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_python.block.Package interface.
 
@@ -71,7 +77,9 @@ class Function(Descriptor):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -83,7 +91,9 @@ class Function(Descriptor):
         return ("Object",)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -93,7 +103,9 @@ class Function(Descriptor):
         self._p_abstract = "0"
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -109,7 +121,9 @@ class Function(Descriptor):
         return ret
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -129,7 +143,9 @@ class Function(Descriptor):
         )
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -150,7 +166,9 @@ class Function(Descriptor):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -169,7 +187,9 @@ class Function(Descriptor):
             return qtg.QIcon(":/python/function.svg")
 
 
-    def isAbstract(self):
+    def isAbstract(
+        self
+        ):
         """
         Getter method.
 
@@ -181,7 +201,9 @@ class Function(Descriptor):
         return bool(int(self._p_abstract))
 
 
-    def isMethod(self):
+    def isMethod(
+        self
+        ):
         """
         Getter method.
 
@@ -193,7 +215,9 @@ class Function(Descriptor):
         return self.parent()._TYPE_ == "Access"
 
 
-    def isStatic(self):
+    def isStatic(
+        self
+        ):
         """
         Getter method.
 
@@ -205,7 +229,9 @@ class Function(Descriptor):
         return bool(int(self._p_static))
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -221,107 +247,120 @@ class Function(Descriptor):
     #####################
 
 
-    def __argumentsView_(self):
+    def __argumentsView_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : rich text
-               Detailed view of all this function's arguments. If this function has no arguments
-               then this returns an empty string.
+               Detailed view of all this function's arguments. If this function
+               has no arguments then this returns an empty string.
         """
         return edit.richText(2,"Arguments","".join((arg.argumentView() for arg in self)))
 
 
-    def __buildDocString_(self, begin):
+    def __buildDocString_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
         Parameters
         ----------
         begin : string
-                The indent that is added to the beginning of every line of returned code.
+                The indent that is added to the beginning of every line of
+                returned code.
 
         Returns
         -------
         ret0 : list
                The source code doc string lines of this function.
         """
-        newIndent = begin + " "*settings.INDENT
-        ret = [newIndent+'"""']
+        newBegin = begin + " "*settings.INDENT
+        ret = [newBegin+'"""']
         ret += edit.wrapBlocks(
             self._p_description
-            ,begin=newIndent
+            ,begin=newBegin
             ,columns=settings.COLUMNS
         )
         args = []
         for arg in self:
-            args += arg.buildComment(newIndent)
+            args += arg.buildComment(newBegin)
         if args:
-            ret += ["",newIndent+"Parameters",newIndent+"----------"]
+            ret += ["",newBegin+"Parameters",newBegin+"----------"]
             ret += args
         returns = [desc for desc in self._p_returnDescription.split("\n\n") if desc]
         if returns:
-            ret += ["",newIndent+"Returns",newIndent+"-------"]
+            ret += ["",newBegin+"Returns",newBegin+"-------"]
             i = 0
             for desc in returns:
-                desc = desc.split("\n")
-                if len(desc) >= 2:
-                    initial = "ret"+str(i)+" : "
-                    ret += edit.wrapText(
-                        newIndent + initial + desc[0]
-                        ,begin=newIndent
-                        ,after=" "*len(initial)
-                        ,columns=settings.COLUMNS
-                    )
-                    ret += edit.wrapText(
-                        desc[1]
-                        ,begin=newIndent + " "*len(initial)
-                        ,columns=settings.COLUMNS
-                    )
-                else:
-                    ret += [newIndent+"UNKNOWN"]
+                ret += block.Object.comment("ret"+str(i),desc,newBegin)
                 i += 1
         ret.append(ret[0])
         return ret
 
 
-    def __buildHeader_(self, begin):
+    def __buildHeader_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
         Parameters
         ----------
         begin : string
-                The indent that is added to the beginning of every line of returned code.
+                The indent that is added to the beginning of every line of
+                returned code.
 
         Returns
         -------
         ret0 : list
-               The source code lines of this function's header. The header includes any descriptors
-               and the define line.
+               The source code lines of this function's header. The header
+               includes any descriptor and the define lines.
         """
         ret = self._buildDescriptors_(begin)
         if self.isAbstract():
             ret.append(begin + "@" + settings.ABSTRACT_DESCRIPTOR)
-        arguments = [arg.buildArgument() for arg in self]
+        args = [arg.buildArgument() for arg in self]
         if self.isMethod() and not self.isStatic():
-            arguments.insert(0,"self")
-        ret.append("%sdef %s(%s):" % (begin,self._p_name,", ".join(arguments)))
+            args.insert(0,"self")
+        if not args:
+            ret.append("%sdef %s():"%(begin,self._p_name))
+        else:
+            ret.append("%sdef %s("%(begin,self._p_name))
+            newBegin = begin + " "*settings.INDENT
+            end = newBegin+"):"
+            first = True
+            for arg in args:
+                ret.append(newBegin+arg)
+                if first:
+                    newBegin += ","
+                    first = False
+            ret.append(end)
         return ret
 
 
-    def __buildLines_(self, lines, begin):
+    def __buildLines_(
+        self
+        ,lines
+        ,begin
+        ):
         """
         Getter method.
 
         Parameters
         ----------
         lines : list
-                A list of code lines used to generate the returned source code lines.
+                A list of code lines used to generate the returned source code
+                lines.
         begin : string
-                The indent that is added to the beginning of every line of returned code.
+                The indent that is added to the beginning of every line of
+                returned code.
 
         Returns
         -------
@@ -335,7 +374,9 @@ class Function(Descriptor):
             return [newBegin+line for line in lines if line]
 
 
-    def __checkFlags_(self):
+    def __checkFlags_(
+        self
+        ):
         """
         Sets this function's flags to legal values if it is not a method.
         """
@@ -344,15 +385,17 @@ class Function(Descriptor):
             self._p_abstract = "0"
 
 
-    def __flagsView_(self):
+    def __flagsView_(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : list
-               Rich text list of flags this block has enabled. If this block has no flags enabled
-               then an empty string is returned.
+               Rich text list of flags this block has enabled. If this block has
+               no flags enabled then an empty string is returned.
         """
         flags = []
         if self.isStatic():

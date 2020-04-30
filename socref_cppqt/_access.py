@@ -16,8 +16,8 @@ from socref_cpp import block as cppblock
 @register("Access")
 class Access(cppblock.Access):
     """
-    This is the access block class. It implements the Socrates' Reference abstract block class. It
-    represents an access declaration for C++/Qt class.
+    This is the access block class. It implements the Socrates' Reference
+    abstract block class. It represents an access declaration for C++/Qt class.
     """
 
 
@@ -26,7 +26,9 @@ class Access(cppblock.Access):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new access block.
         """
@@ -38,7 +40,9 @@ class Access(cppblock.Access):
     ####################
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -59,7 +63,9 @@ class Access(cppblock.Access):
             return cppblock.Access.icon(self)
 
 
-    def isSignals(self):
+    def isSignals(
+        self
+        ):
         """
         Getter method.
 
@@ -71,15 +77,17 @@ class Access(cppblock.Access):
         return self._p_type == "Signals"
 
 
-    def isSlots(self):
+    def isSlots(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this access is a public, protected, or private slots type. False is returned
-               otherwise.
+               True if this access is a public, protected, or private slots
+               type. False is returned otherwise.
         """
         return self._p_type.endswith("Slots")
 
@@ -89,7 +97,10 @@ class Access(cppblock.Access):
     #######################
 
 
-    def _addComboSelects_(self, combo):
+    def _addComboSelects_(
+        self
+        ,combo
+        ):
         """
         Extends the socref_cpp.block.Access method.
 

@@ -14,8 +14,8 @@ from socref_cpp import block as cppblock
 @register("Template")
 class Template(cppblock.Template):
     """
-    This is the template block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++/Qt template.
+    This is the template block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++/Qt template.
     """
 
 
@@ -24,7 +24,9 @@ class Template(cppblock.Template):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new namespace block.
         """

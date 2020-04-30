@@ -18,8 +18,8 @@ from ._base import Base
 @register("Enumeration_Value")
 class EnumValue(Base):
     """
-    This is the enumeration value block class. It implements the Socrates' Reference abstract block
-    class. It represents a C++ enumeration value.
+    This is the enumeration value block class. It implements the Socrates'
+    Reference abstract block class. It represents a C++ enumeration value.
     """
 
 
@@ -28,7 +28,9 @@ class EnumValue(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new enumeration value block.
         """
@@ -41,16 +43,22 @@ class EnumValue(Base):
     ####################
 
 
-    def buildDeclaration(self, begin, first):
+    def buildDeclaration(
+        self
+        ,begin
+        ,first
+        ):
         """
-        Implements the socref_cpp.block.Base interface with one additional argument.
+        Implements the socref_cpp.block.Base interface with one additional
+        argument.
 
         Parameters
         ----------
         begin : object
                 See interface docs.
         first : bool
-                True if this is the first value in its enumeration parent or false otherwise.
+                True if this is the first value in its enumeration parent or
+                false otherwise.
 
         Returns
         -------
@@ -65,7 +73,9 @@ class EnumValue(Base):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -77,7 +87,9 @@ class EnumValue(Base):
         return ()
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -85,7 +97,9 @@ class EnumValue(Base):
         self._p_value = ""
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -98,7 +112,9 @@ class EnumValue(Base):
         return Base.displayView(self) + value
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -112,7 +128,9 @@ class EnumValue(Base):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -124,7 +142,9 @@ class EnumValue(Base):
         return qtg.QIcon(":/cpp/enumeration_value.svg")
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

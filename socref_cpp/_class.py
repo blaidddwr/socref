@@ -18,8 +18,8 @@ from ._templatee import Templatee
 @register("Class")
 class Class(Templatee):
     """
-    This is the class block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++ class.
+    This is the class block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ class.
     """
 
 
@@ -28,7 +28,9 @@ class Class(Templatee):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new class block.
         """
@@ -42,7 +44,10 @@ class Class(Templatee):
     ####################
 
 
-    def buildDeclaration(self, begin):
+    def buildDeclaration(
+        self
+        ,begin
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -79,7 +84,13 @@ class Class(Templatee):
         return ret
 
 
-    def buildDefinition(self, definitions, scope, template, header):
+    def buildDefinition(
+        self
+        ,definitions
+        ,scope
+        ,template
+        ,header
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -117,15 +128,17 @@ class Class(Templatee):
         return (variables,functions)
 
 
-    def buildForward(self):
+    def buildForward(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : list
-               A single line that is the forward declaration of this class or an empty list if this
-               class has any templates.
+               A single line that is the forward declaration of this class or an
+               empty list if this class has any templates.
         """
         if not self.hasTemplates():
             return ["class "+self._p_name+";"]
@@ -133,7 +146,11 @@ class Class(Templatee):
             return []
 
 
-    def buildHeader(self, definitions, path):
+    def buildHeader(
+        self
+        ,definitions
+        ,path
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -152,7 +169,9 @@ class Class(Templatee):
         return block.Namespace.buildHeader(self,definitions,path)
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -164,7 +183,11 @@ class Class(Templatee):
         return ("Template","Access")
 
 
-    def buildSource(self, definitions, path):
+    def buildSource(
+        self
+        ,definitions
+        ,path
+        ):
         """
         Implements the socref_cpp.block.Base interface.
 
@@ -183,7 +206,9 @@ class Class(Templatee):
         return block.Namespace.buildSource(self,definitions,path)
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -192,7 +217,9 @@ class Class(Templatee):
         self._p_header = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -204,7 +231,9 @@ class Class(Templatee):
         return self._p_name + self._templatesName_()
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -221,7 +250,9 @@ class Class(Templatee):
         return block.Base.displayView(self)+self._templatesView_()+parents
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -236,7 +267,9 @@ class Class(Templatee):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -253,14 +286,17 @@ class Class(Templatee):
             return qtg.QIcon(":/cpp/class.svg")
 
 
-    def isAbstract(self):
+    def isAbstract(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this class contains any abstract functions or false otherwise.
+               True if this class contains any abstract functions or false
+               otherwise.
         """
         for child in self:
             if child._TYPE_ == "Access" and child.hasAbstract():
@@ -268,14 +304,17 @@ class Class(Templatee):
         return False
 
 
-    def isVirtual(self):
+    def isVirtual(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this class contains any virtual functions or false otherwise.
+               True if this class contains any virtual functions or false
+               otherwise.
         """
         for child in self:
             if child._TYPE_ == "Access" and child.hasVirtual():
@@ -283,7 +322,9 @@ class Class(Templatee):
         return False
 
 
-    def isVolatileBelow(self):
+    def isVolatileBelow(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -295,7 +336,9 @@ class Class(Templatee):
         return True
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -310,7 +353,10 @@ class Class(Templatee):
     #######################
 
 
-    def _buildClassHeader_(self, begin):
+    def _buildClassHeader_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -322,8 +368,8 @@ class Class(Templatee):
         Returns
         -------
         ret0 : list
-               Class header code lines that are added to this classes built declaration just after
-               the initial opening bracket.
+               Class header code lines that are added to this classes built
+               declaration just after the initial opening bracket.
         """
         return [begin + line for line in self._p_header.split("\n") if line]
 
@@ -333,7 +379,10 @@ class Class(Templatee):
     #####################
 
 
-    def __buildParents_(self, begin):
+    def __buildParents_(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -345,8 +394,9 @@ class Class(Templatee):
         Returns
         -------
         ret0 : list
-               Code lines, beginning with a colon, that are the parent declarations for this class.
-               If this class has no parents then an empty list is returned.
+               Code lines, beginning with a colon, that are the parent
+               declarations for this class. If this class has no parents then an
+               empty list is returned.
         """
         ret = []
         parents = [parent for parent in self._p_parents.split("\n") if parent]

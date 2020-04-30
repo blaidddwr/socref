@@ -14,9 +14,9 @@ from . import settings
 
 class ProjectDialog(qtw.QDialog):
     """
-    This is the project dialog class. It is a basic form dialog that allows the user to edit the
-    project name and parse path of the model it is given on initialization. It is a persistent
-    dialog that remembers its geometry.
+    This is the project dialog class. It is a basic form dialog that allows the
+    user to edit the project name and parse path of the model it is given on
+    initialization. It is a persistent dialog that remembers its geometry.
     """
 
 
@@ -25,9 +25,14 @@ class ProjectDialog(qtw.QDialog):
     #######################
 
 
-    def __init__(self, model, parent=None):
+    def __init__(
+        self
+        ,model
+        ,parent=None
+        ):
         """
-        Initializes a new project dialog with the given model and optional parent.
+        Initializes a new project dialog with the given model and optional
+        parent.
 
         Parameters
         ----------
@@ -50,7 +55,10 @@ class ProjectDialog(qtw.QDialog):
     #######################
 
 
-    def closeEvent(self, event):
+    def closeEvent(
+        self
+        ,event
+        ):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
@@ -64,12 +72,26 @@ class ProjectDialog(qtw.QDialog):
         event.accept()
 
 
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The key used to save this dialog's geometry using qt settings to make it
+    # persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.project.geometry"
+
+
     #####################
     # PRIVATE - Methods #
     #####################
 
 
-    def __restore_(self):
+    def __restore_(
+        self
+        ):
         """
         Restores the geometry of this dialog.
         """
@@ -79,7 +101,9 @@ class ProjectDialog(qtw.QDialog):
             self.restoreGeometry(geometry)
 
 
-    def __setupButtons_(self):
+    def __setupButtons_(
+        self
+        ):
         """
         Initializes the buttons of this new dialog.
         """
@@ -97,7 +121,9 @@ class ProjectDialog(qtw.QDialog):
         return ret
 
 
-    def __setupForm_(self):
+    def __setupForm_(
+        self
+        ):
         """
         Initializes the form of this new dialog.
         """
@@ -109,7 +135,9 @@ class ProjectDialog(qtw.QDialog):
         return ret
 
 
-    def __setupGui_(self):
+    def __setupGui_(
+        self
+        ):
         """
         Initializes the GUI of this new dialog.
         """
@@ -127,7 +155,9 @@ class ProjectDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __apply_(self):
+    def __apply_(
+        self
+        ):
         """
         Called to apply this dialog's edit widget values to its project model.
         """
@@ -136,17 +166,22 @@ class ProjectDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __cancel_(self):
+    def __cancel_(
+        self
+        ):
         """
-        Called to cancel this dialog, closing it and not applying any changes made in its edit
-        widgets.
+        Called to cancel this dialog, closing it and not applying any changes
+        made in its edit widgets.
         """
         self.done(qtw.QDialog.Rejected)
         self.close()
 
 
     @qtc.Slot(str)
-    def __nameChanged_(self, name):
+    def __nameChanged_(
+        self
+        ,name
+        ):
         """
         Called to inform this dialog its project model's name has changed.
 
@@ -159,9 +194,12 @@ class ProjectDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __ok_(self):
+    def __ok_(
+        self
+        ):
         """
-        Called to apply this dialog's edit widget values to its project model and then close itself.
+        Called to apply this dialog's edit widget values to its project model
+        and then close itself.
         """
         self.__apply_()
         self.done(qtw.QDialog.Accepted)
@@ -169,7 +207,10 @@ class ProjectDialog(qtw.QDialog):
 
 
     @qtc.Slot(str)
-    def __parsePathChanged_(self, path):
+    def __parsePathChanged_(
+        self
+        ,path
+        ):
         """
         Called to inform this dialog its project model's parse path has changed.
 
@@ -179,14 +220,3 @@ class ProjectDialog(qtw.QDialog):
                The new parse path of this dialog's project model.
         """
         self.__parsePathEdit.setText(path)
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.project.geometry"

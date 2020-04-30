@@ -15,10 +15,11 @@ from . import settings
 
 class CodeDialog(qtw.QDialog):
     """
-    This is the code dialog class. It displays any unknown code fragments given to it. The fragments
-    must be organized into a flat dictionary where the key should provide a meaningful identity
-    about the code fragment to the user. The user is provided a list and read only text view to
-    navigate the fragments, along with a copy to clipboard button.
+    This is the code dialog class. It displays any unknown code fragments given
+    to it. The fragments must be organized into a flat dictionary where the key
+    should provide a meaningful identity about the code fragment to the user.
+    The user is provided a list and read only text view to navigate the
+    fragments, along with a copy to clipboard button.
     """
 
 
@@ -27,9 +28,14 @@ class CodeDialog(qtw.QDialog):
     #######################
 
 
-    def __init__(self, code, parent=None):
+    def __init__(
+        self
+        ,code
+        ,parent=None
+        ):
         """
-        Initializes a new code dialog with the given code dictionary and optional parent.
+        Initializes a new code dialog with the given code dictionary and
+        optional parent.
 
         Parameters
         ----------
@@ -50,7 +56,10 @@ class CodeDialog(qtw.QDialog):
     #######################
 
 
-    def closeEvent(self, event):
+    def closeEvent(
+        self
+        ,event
+        ):
         """
         Implements the PySide2.QtWidgets.QWidget interface.
 
@@ -65,14 +74,36 @@ class CodeDialog(qtw.QDialog):
         event.accept()
 
 
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The key used to save this dialog's geometry using qt settings to make it
+    # persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.code.geometry"
+
+
+    #
+    # The key used to save this dialog's state using qt settings to make it
+    # persistent.
+    #
+    __STATE_KEY = "gui.dialog.code.state"
+
+
     #####################
     # PRIVATE - Methods #
     #####################
 
 
-    def __restore_(self):
+    def __restore_(
+        self
+        ):
         """
-        Restores the geometry of this dialog and the state of this dialog's qt splitter.
+        Restores the geometry of this dialog and the state of this dialog's qt
+        splitter.
         """
         settings = qtc.QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
@@ -83,7 +114,9 @@ class CodeDialog(qtw.QDialog):
             self.__splitter.restoreState(state)
 
 
-    def __setupButtons_(self):
+    def __setupButtons_(
+        self
+        ):
         """
         Initializes the GUI of this new dialog.
         """
@@ -98,7 +131,9 @@ class CodeDialog(qtw.QDialog):
         return ret
 
 
-    def __setupGui_(self):
+    def __setupGui_(
+        self
+        ):
         """
         Initializes the GUI of this new dialog.
         """
@@ -110,7 +145,9 @@ class CodeDialog(qtw.QDialog):
         self.__restore_()
 
 
-    def __setupView_(self):
+    def __setupView_(
+        self
+        ):
         """
         Initializes the GUI of this new dialog.
         """
@@ -128,7 +165,9 @@ class CodeDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __close_(self):
+    def __close_(
+        self
+        ):
         """
         Called to close this dialog.
         """
@@ -137,19 +176,25 @@ class CodeDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __copy_(self):
+    def __copy_(
+        self
+        ):
         """
-        Called to copy this dialog's current code fragment to the system clipboard.
+        Called to copy this dialog's current code fragment to the system
+        clipboard.
         """
         clipboard = qtg.QClipboard()
         clipboard.setText(self.__view.toPlainText())
 
 
     @qtc.Slot(str)
-    def __itemChanged_(self, key):
+    def __itemChanged_(
+        self
+        ,key
+        ):
         """
-        Called to inform this dialog's the selected code fragment has changed to the one with the
-        given key.
+        Called to inform this dialog's the selected code fragment has changed to
+        the one with the given key.
 
         Parameters
         ----------
@@ -157,20 +202,3 @@ class CodeDialog(qtw.QDialog):
               The new key of the selected code fragment.
         """
         self.__view.setPlainText(self.__code[key])
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.code.geometry"
-
-
-    #
-    # The key used to save this dialog's state using qt settings to make it persistent.
-    #
-    __STATE_KEY = "gui.dialog.code.state"

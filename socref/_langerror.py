@@ -11,8 +11,8 @@ Contains the LangError class.
 
 class LangError(Exception):
     """
-    This is the import error exception class. It indicates an error occurred while loading a
-    language's module.
+    This is the import error exception class. It indicates an error occurred
+    while loading a language's module.
     """
 
 
@@ -21,9 +21,13 @@ class LangError(Exception):
     #######################
 
 
-    def __init__(self, *args):
+    def __init__(
+        self
+        ,*args
+        ):
         """
-        Initialize a new load error exception with any number of given positional arguments.
+        Initialize a new load error exception with any number of given
+        positional arguments.
 
         Parameters
         ----------

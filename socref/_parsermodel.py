@@ -14,11 +14,13 @@ from ._abstractparser import AbstractParser
 
 class ParserModel(qtc.QObject):
     """
-    This is the singleton parser model class. It handles execution of a given abstract parser. A
-    slot is provided for starting a new abstract parser. Signals are provided for informing when
-    parsing begins, makes progress, finishes, and has remaining unknown code fragments. This class
-    is designed to run on its own thread because parsing can be a long process. Because of this the
-    GUI must interface with this class exclusively through its signals and slots.
+    This is the singleton parser model class. It handles execution of a given
+    abstract parser. A slot is provided for starting a new abstract parser.
+    Signals are provided for informing when parsing begins, makes progress,
+    finishes, and has remaining unknown code fragments. This class is designed
+    to run on its own thread because parsing can be a long process. Because of
+    this the GUI must interface with this class exclusively through its signals
+    and slots.
     """
 
 
@@ -27,12 +29,45 @@ class ParserModel(qtc.QObject):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new parser.
         """
         qtc.QObject.__init__(self)
         self.__progress = 0
+
+
+    ####################
+    # PUBLIC - Signals #
+    ####################
+
+
+    #
+    # Signals this parser has finished parsing.
+    #
+    finished = qtc.Signal()
+
+
+    #
+    # Signals this parser has made the given percentage progress parsing. The
+    # range given is from 0 to 100.
+    #
+    progressed = qtc.Signal(int)
+
+
+    #
+    # Signals this parser had remaining unknown code fragments after finishing
+    # the last parsing.
+    #
+    remained = qtc.Signal(dict)
+
+
+    #
+    # Signals this parser has started parsing.
+    #
+    started = qtc.Signal()
 
 
     ##################
@@ -41,13 +76,16 @@ class ParserModel(qtc.QObject):
 
 
     @qtc.Slot(AbstractParser)
-    def start(self, parser):
+    def start(
+        self
+        ,parser
+        ):
         """
-        Called to start execution of the given abstract parser, returning when execution is
-        complete.
+        Called to start execution of the given abstract parser, returning when
+        execution is complete.
 
-        This also catches any python exceptions and prints them to standard error because Qt
-        thread's event loop ignores them.
+        This also catches any python exceptions and prints them to standard
+        error because Qt thread's event loop ignores them.
 
         Parameters
         ----------
@@ -67,51 +105,25 @@ class ParserModel(qtc.QObject):
             self.finished.emit()
 
 
-    ####################
-    # PUBLIC - Signals #
-    ####################
-
-
-    #
-    # Signals this parser has finished parsing.
-    #
-    finished = qtc.Signal()
-
-
-    #
-    # Signals this parser has made the given percentage progress parsing. The range given is from 0
-    # to 100.
-    #
-    progressed = qtc.Signal(int)
-
-
-    #
-    # Signals this parser had remaining unknown code fragments after finishing the last parsing.
-    #
-    remained = qtc.Signal(dict)
-
-
-    #
-    # Signals this parser has started parsing.
-    #
-    started = qtc.Signal()
-
-
     #####################
     # PRIVATE - Methods #
     #####################
 
 
-    def __update_(self, percent):
+    def __update_(
+        self
+        ,percent
+        ):
         """
-        Called by the abstract parser that this parser model is currently parsing to inform this
-        parser that progress of the given percentage has been made in parsing.
+        Called by the abstract parser that this parser model is currently
+        parsing to inform this parser that progress of the given percentage has
+        been made in parsing.
 
         Parameters
         ----------
         percent : int
-                  The percentage progress made by this parser model's abstract parser ranging from 0
-                  to 100.
+                  The percentage progress made by this parser model's abstract
+                  parser ranging from 0 to 100.
         """
         if percent > self.__progress:
             self.__progress = percent

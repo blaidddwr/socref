@@ -18,8 +18,8 @@ from ._base import Base
 @register("Template")
 class Template(Base):
     """
-    This is the template block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++ template.
+    This is the template block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ template.
     """
 
 
@@ -28,7 +28,9 @@ class Template(Base):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new namespace block.
         """
@@ -42,7 +44,9 @@ class Template(Base):
     ####################
 
 
-    def argumentView(self):
+    def argumentView(
+        self
+        ):
         """
         Getter method.
 
@@ -60,21 +64,24 @@ class Template(Base):
         return ret
 
 
-    def buildArgument(self, isDeclaration):
+    def buildArgument(
+        self
+        ,isDeclaration
+        ):
         """
         Getter method.
 
         Parameters
         ----------
         isDeclaration : bool
-                        True if this is returned for a function declaration or false if it is for a
-                        function definition.
+                        True if this is returned for a function declaration or
+                        false if it is for a function definition.
 
         Returns
         -------
         ret0 : string
-               Source code fragment that is the argument of this template, including any
-               initialization if this is for a declaration.
+               Source code fragment that is the argument of this template,
+               including any initialization if this is for a declaration.
         """
         ret = self._p_type.replace("@",self._p_name)
         if self._p_assignment and isDeclaration:
@@ -82,7 +89,10 @@ class Template(Base):
         return ret
 
 
-    def buildComment(self, begin):
+    def buildComment(
+        self
+        ,begin
+        ):
         """
         Getter method.
 
@@ -94,9 +104,9 @@ class Template(Base):
         Returns
         -------
         ret0 : list
-               Source code lines that is a comment fragment for this template as an argument. This
-               returns the correct doxygen syntax based off this block being an actual template or
-               variable argument.
+               Source code lines that is a comment fragment for this template as
+               an argument. This returns the correct doxygen syntax based off
+               this block being an actual template or variable argument.
         """
         header = ""
         if self._TYPE_ == "Template":
@@ -112,7 +122,9 @@ class Template(Base):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -124,7 +136,9 @@ class Template(Base):
         return ()
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -134,7 +148,9 @@ class Template(Base):
         self._p_assignment = ""
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -146,7 +162,9 @@ class Template(Base):
         return self._p_name
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -160,7 +178,9 @@ class Template(Base):
         return Base.displayView(self) + type_ + assignment
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -175,7 +195,9 @@ class Template(Base):
         return ret
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -187,7 +209,9 @@ class Template(Base):
         return qtg.QIcon(":/cpp/template.svg")
 
 
-    def isVolatileAbove(self):
+    def isVolatileAbove(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -199,7 +223,9 @@ class Template(Base):
         return True
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

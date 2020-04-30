@@ -19,11 +19,12 @@ from . import settings
 @register("Access")
 class Access(Package):
     """
-    This is the access block class. It implements the Socrates' Reference abstract block class. It
-    represents a fictitious access declaration for python classes. Since python does not actually
-    have any kind of access control, this is simply displayed as a comment inside of the class
-    source code. It is mostly helpful in the reference application's project tree view for
-    organizing different parts of a class.
+    This is the access block class. It implements the Socrates' Reference
+    abstract block class. It represents a fictitious access declaration for
+    python classes. Since python does not actually have any kind of access
+    control, this is simply displayed as a comment inside of the class source
+    code. It is mostly helpful in the reference application's project tree view
+    for organizing different parts of a class.
     """
 
 
@@ -32,7 +33,9 @@ class Access(Package):
     #######################
 
 
-    def __init__(self):
+    def __init__(
+        self
+        ):
         """
         Initializes a new access block.
         """
@@ -46,7 +49,11 @@ class Access(Package):
     ####################
 
 
-    def build(self, definition, begin=""):
+    def build(
+        self
+        ,definition
+        ,begin=""
+        ):
         """
         Implements the socref_python.block.Package interface.
 
@@ -72,7 +79,9 @@ class Access(Package):
         return ret
 
 
-    def buildList(self):
+    def buildList(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -81,10 +90,12 @@ class Access(Package):
         ret0 : object
                See interface docs.
         """
-        return ("Object","Function")
+        return ("Object","Function","Enumeration")
 
 
-    def clearProperties(self):
+    def clearProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -92,7 +103,9 @@ class Access(Package):
         self._p_type = "Public"
 
 
-    def displayName(self):
+    def displayName(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -104,7 +117,9 @@ class Access(Package):
         return self._p_name + " (%i)" % len(self)
 
 
-    def displayView(self):
+    def displayView(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -119,7 +134,9 @@ class Access(Package):
         )
 
 
-    def editDefinitions(self):
+    def editDefinitions(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -138,14 +155,17 @@ class Access(Package):
         return ret
 
 
-    def hasAbstract(self):
+    def hasAbstract(
+        self
+        ):
         """
         Getter method.
 
         Returns
         -------
         ret0 : bool
-               True if this access block contains abstract methods or false otherwise.
+               True if this access block contains abstract methods or false
+               otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":
@@ -154,7 +174,9 @@ class Access(Package):
         return False
 
 
-    def icon(self):
+    def icon(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -171,7 +193,9 @@ class Access(Package):
             return qtg.QIcon(":/python/private.svg")
 
 
-    def isVolatileAbove(self):
+    def isVolatileAbove(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -183,7 +207,9 @@ class Access(Package):
         return True
 
 
-    def setDefaultProperties(self):
+    def setDefaultProperties(
+        self
+        ):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
