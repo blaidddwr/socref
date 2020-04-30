@@ -7,7 +7,7 @@ Contains all global settings for this application.
 # The version of this application as a string. The string lists the major
 # version, minor version, and revision in that order and separated by periods.
 #
-VERSION = "0.8.4"
+VERSION = "0.8.5"
 
 
 #
