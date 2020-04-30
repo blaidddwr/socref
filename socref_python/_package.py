@@ -21,8 +21,8 @@ class Package(abstract.AbstractBlock):
     """
     This is the package block class. It implements the Socrates' Reference
     abstract block class. It represents a python package. It is the root block
-    type of a python project. It implements two additional interface methods
-    used by other block definitions of the python language.
+    type of a python project. It implements one additional interface method used
+    by other block definitions of the python language.
     """
 
 

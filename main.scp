@@ -7445,6 +7445,127 @@ The ending of the first function declaration line of the returned signature, use
                 <__p_description>Contains all block classes for this language.
 </__p_description>
                 <Class>
+                    <__p_name>EnumValue</__p_name>
+                    <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a python enumeration value object. The standard python library is used for the generated class as an integer enumeration. If no value is given the auto class is used from the python enumeration library.</__p_description>
+                    <__p_parents>Object</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new enumeration block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the socref_python.block.Package interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isArgument</__p_name>
+                            <__p_description>Implements the socref_python.block.Object interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>inClass</__p_name>
+                            <__p_description>Implements the socref_python.block.Object interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Enum</__p_name>
+                    <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a python enumeration class. The standard python library is used for the generated class as an integer enumeration.</__p_description>
+                    <__p_parents>Package</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new enumeration block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the socref_python.block.Package interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_returnDescription>See interface docs.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.
 </__p_description>
@@ -8210,19 +8331,17 @@ See interface docs.
                         </Function>
                         <Function>
                             <__p_name>inClass</__p_name>
-                            <__p_description>Getter method.</__p_description>
+                            <__p_description>This interface is a getter method.</__p_description>
                             <__p_returnDescription>bool
-True if this object is part of a class or false otherwise.
-</__p_returnDescription>
+True if this object is part of a class or false otherwise.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>isArgument</__p_name>
-                            <__p_description>Getter method.</__p_description>
+                            <__p_description>This interface is a getter method.</__p_description>
                             <__p_returnDescription>bool
-True if this object is an argument of a function or false otherwise.
-</__p_returnDescription>
+True if this object is an argument of a function or false otherwise.</__p_returnDescription>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -8245,10 +8364,10 @@ See interface docs.
                 </Class>
                 <Class>
                     <__p_name>Package</__p_name>
-                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project. It implements two additional interface methods used by other block definitions of the python language.</__p_description>
-                    <__p_descriptors>register(&quot;Package&quot;,root=True)</__p_descriptors>
+                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project. It implements one additional interface method used by other block definitions of the python language.</__p_description>
                     <__p_parents>abstract.AbstractBlock</__p_parents>
                     <__p_infile>0</__p_infile>
+                    <__p_descriptors>register(&quot;Package&quot;,root=True)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>

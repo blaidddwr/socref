@@ -78,14 +78,12 @@ class Class(Descriptor):
         ret += [""]*settings.H1LINES
         ret += self._buildDescriptors_(begin)
         ret.append("%sclass %s(%s):" % (begin,self._p_name,self.__buildParents_()))
-        ret.append(begin + " "*settings.INDENT + '"""')
-        ret += edit.wrapBlocks(
-            self._p_description
-            ,begin=begin + " "*settings.INDENT
-            ,columns=settings.COLUMNS
-        )
-        ret.append(begin + " "*settings.INDENT + '"""')
-        (regular,classes) = self._buildChildren_(definition,begin + " " * settings.INDENT)
+        newBegin = begin + " "*settings.INDENT
+        docString = newBegin+'"""'
+        ret.append(docString)
+        ret += edit.wrapBlocks(self._p_description,newBegin,columns=settings.COLUMNS)
+        ret.append(docString)
+        (regular,classes) = self._buildChildren_(definition,newBegin)
         ret += regular
         if not self.isInfile():
             ret += footer

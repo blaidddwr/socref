@@ -90,7 +90,7 @@ class Access(Package):
         ret0 : object
                See interface docs.
         """
-        return ("Object","Function")
+        return ("Object","Function","Enumeration")
 
 
     def clearProperties(

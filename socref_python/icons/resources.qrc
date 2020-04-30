@@ -13,5 +13,7 @@
         <file>public.svg</file>
         <file>protected.svg</file>
         <file>private.svg</file>
+        <file>enumeration.svg</file>
+        <file>enumeration_value.svg</file>
     </qresource>
 </RCC>

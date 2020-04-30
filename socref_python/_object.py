@@ -274,7 +274,7 @@ class Object(Package):
         self
         ):
         """
-        Getter method.
+        This interface is a getter method.
 
         Returns
         -------
@@ -288,7 +288,7 @@ class Object(Package):
         self
         ):
         """
-        Getter method.
+        This interface is a getter method.
 
         Returns
         -------
