@@ -3,6 +3,16 @@
 
 Description of all releases with most recent on the top.
 
+## Version 0.8.5
+
+* Fixed GLSL bugs.
+* Modified GLSL file extensions.
+* Added function signature support to GLSL.
+* Modified function output and object comments of python parsing.
+* Added scripting support, inline classes, and enumerations to python.
+* Modified default column size of comments to 80 for all languages.
+* Fixed GUI text dialog bug.
+
 ## Version 0.8.4
 
 * Modified python parsing so each class is contained in its own special module.

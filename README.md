@@ -18,7 +18,10 @@ The following languages are supported:
 
 ## Dependencies
 
-This requires Qt PySide2 and hunspell python packages. PySide2 is NOT included in the setup tools "install_requires" directive and will not be automatically installed when using pip. Hunspell is included and will be installed for you by pip.
+The following python packages are required:
+
+* PySide2
+* hunspell
 
 ## Installation
 

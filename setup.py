@@ -18,6 +18,6 @@ setup(
     name="socref"
     ,version=settings.VERSION
     ,packages=find_packages()
-    ,install_requires=["hunspell"]
+    ,install_requires=["PySide2","hunspell"]
     ,entry_points={"gui_scripts": ["socref = socref.__main__:main"]}
 )
