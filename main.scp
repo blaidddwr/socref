@@ -537,35 +537,6 @@ Optionally indicates the registered block is the root block of the language if s
                 <__p_name>core</__p_name>
                 <__p_description>Contains all core classes, functions, and singleton instances of this application.
 </__p_description>
-                <Enumeration>
-                    <__p_name>Role</__p_name>
-                    <__p_description>This enumerates all custom data roles the project model implements.</__p_description>
-                    <Enumeration_Value>
-                        <__p_name>BlockType</__p_name>
-                        <__p_description>Defines the block type role which represents a block's type name.</__p_description>
-                        <__p_assignment>qtc.Qt.UserRole+0</__p_assignment>
-                    </Enumeration_Value>
-                    <Enumeration_Value>
-                        <__p_name>View</__p_name>
-                        <__p_description>Defines the view role which represents a block's detailed rich text view.</__p_description>
-                        <__p_assignment>qtc.Qt.UserRole+1</__p_assignment>
-                    </Enumeration_Value>
-                    <Enumeration_Value>
-                        <__p_name>BuildList</__p_name>
-                        <__p_description>Defines the build list role which represents a block's build list.</__p_description>
-                        <__p_assignment>qtc.Qt.UserRole+2</__p_assignment>
-                    </Enumeration_Value>
-                    <Enumeration_Value>
-                        <__p_name>Properties</__p_name>
-                        <__p_description>Defines the properties role which represents a block's properties.</__p_description>
-                        <__p_assignment>qtc.Qt.UserRole+3</__p_assignment>
-                    </Enumeration_Value>
-                    <Enumeration_Value>
-                        <__p_name>EditDefs</__p_name>
-                        <__p_description>Defines the edit definitions role which represents a block's edit definitions.</__p_description>
-                        <__p_assignment>qtc.Qt.UserRole+4</__p_assignment>
-                    </Enumeration_Value>
-                </Enumeration>
                 <Class>
                     <__p_name>BlockFactory</__p_name>
                     <__p_description>This is the singleton block factory class. It creates new blocks. It loads new languages by importing their module and registering their block types during the load process. It provides a list of languages and block types per language.
@@ -1713,6 +1684,35 @@ The project model whose given index block properties are changed.
                         </Function>
                     </Access>
                 </Class>
+                <Enumeration>
+                    <__p_name>Role</__p_name>
+                    <__p_description>This enumerates all custom data roles the project model implements.</__p_description>
+                    <Enumeration_Value>
+                        <__p_name>BlockType</__p_name>
+                        <__p_description>Defines the block type role which represents a block's type name.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+0</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>View</__p_name>
+                        <__p_description>Defines the view role which represents a block's detailed rich text view.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+1</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>BuildList</__p_name>
+                        <__p_description>Defines the build list role which represents a block's build list.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+2</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>Properties</__p_name>
+                        <__p_description>Defines the properties role which represents a block's properties.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+3</__p_assignment>
+                    </Enumeration_Value>
+                    <Enumeration_Value>
+                        <__p_name>EditDefs</__p_name>
+                        <__p_description>Defines the edit definitions role which represents a block's edit definitions.</__p_description>
+                        <__p_assignment>qtc.Qt.UserRole+4</__p_assignment>
+                    </Enumeration_Value>
+                </Enumeration>
                 <Function>
                     <__p_name>initialize</__p_name>
                     <__p_description>Initializes the global singleton Hunspell speller used for spell checking through this application. This must only be called once during initialization of the application.

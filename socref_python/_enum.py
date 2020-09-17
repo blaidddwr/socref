@@ -62,7 +62,7 @@ class Enum(Package):
         ret0 : object
                See interface docs.
         """
-        ret = [""]*settings.H3LINES
+        ret = [""]*settings.H1LINES
         ret.append("%sclass %s(enum.IntEnum):" % (begin,self._p_name))
         newBegin = begin + " "*settings.INDENT
         ret.append(newBegin+'"""')

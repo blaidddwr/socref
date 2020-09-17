@@ -1,6 +1,7 @@
 """
 Contains the SpellChecker class.
 """
+import re
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
