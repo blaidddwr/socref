@@ -263,7 +263,8 @@ class Parser(abstract.AbstractParser):
 
         Returns
         -------
-        ret0 : The function signature scanned from the given input file,
+        ret0 : string
+               The function signature scanned from the given input file,
                assuming it is positioned at the line after the first declaration
                line. The given function name and ending is used to generate the
                signature taken from the first declaration line.

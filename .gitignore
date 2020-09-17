@@ -1,3 +1,5 @@
 *.pyc
 resources.py
 worklog.txt
+build
+*.egg-info
