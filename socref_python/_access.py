@@ -203,5 +203,5 @@ class Access(Package):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        self._p_name = "access"
+        self._p_name = "DEPRECATED"
         self._p_type = "Public"

@@ -167,14 +167,31 @@ class Function(Descriptor):
         ret0 : object
                See interface docs.
         """
-        if self._p_name.startswith("__") and self._p_name.endswith("__"):
-            return qtg.QIcon(":/python/operator.svg")
-        elif self.isStatic():
-            return qtg.QIcon(":/python/static_function.svg")
-        elif self.isAbstract():
-            return qtg.QIcon(":/python/abstract_function.svg")
-        else:
+        if not self.isMethod():
             return qtg.QIcon(":/python/function.svg")
+        elif self._p_name.startswith("__") and self._p_name.endswith("__"):
+            return qtg.QIcon(":/python/operator.svg")
+        elif self._p_name.startswith("__"):
+            if self.isStatic():
+                return qtg.QIcon(":/python/static_private_method.svg")
+            elif self.isAbstract():
+                return qtg.QIcon(":/python/abstract_private_method.svg")
+            else:
+                return qtg.QIcon(":/python/private_method.svg")
+        elif self._p_name.startswith("_"):
+            if self.isStatic():
+                return qtg.QIcon(":/python/static_protected_method.svg")
+            elif self.isAbstract():
+                return qtg.QIcon(":/python/abstract_protected_method.svg")
+            else:
+                return qtg.QIcon(":/python/protected_method.svg")
+        else:
+            if self.isStatic():
+                return qtg.QIcon(":/python/static_public_method.svg")
+            elif self.isAbstract():
+                return qtg.QIcon(":/python/abstract_public_method.svg")
+            else:
+                return qtg.QIcon(":/python/public_method.svg")
 
 
     def isAbstract(
@@ -202,7 +219,10 @@ class Function(Descriptor):
         ret0 : bool
                True if this function is a method of a class or false otherwise.
         """
-        return self.parent()._TYPE_ == "Class" or self.parent()._TYPE_ == "Access"
+        return (
+            self.parent()
+            and ( self.parent()._TYPE_ == "Class" or self.parent()._TYPE_ == "Access" )
+        )
 
 
     def isStatic(

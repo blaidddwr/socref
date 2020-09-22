@@ -91,7 +91,7 @@ class Class(Descriptor):
         ret0 : object
                See interface docs.
         """
-        return ("Access","Function","Object")
+        return ("Function","Object","Access")
 
 
     def clearProperties(

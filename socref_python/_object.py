@@ -252,7 +252,14 @@ class Object(Package):
         ret0 : object
                See interface docs.
         """
-        return qtg.QIcon(":/python/object.svg")
+        if self.isArgument():
+            return qtg.QIcon(":/python/object.svg")
+        elif self._p_name.startswith("__"):
+            return qtg.QIcon(":/python/private_member.svg")
+        elif self._p_name.startswith("_"):
+            return qtg.QIcon(":/python/protected_member.svg")
+        else:
+            return qtg.QIcon(":/python/public_member.svg")
 
 
     def inClass(
@@ -266,7 +273,7 @@ class Object(Package):
         ret0 : bool
                True if this object is part of a class or false otherwise.
         """
-        return self.parent()._TYPE_ == "Access"
+        return self.parent()._TYPE_ == "Class" or self.parent()._TYPE_ == "Access"
 
 
     def isArgument(
@@ -281,7 +288,7 @@ class Object(Package):
                True if this object is an argument of a function or false
                otherwise.
         """
-        return self.parent()._TYPE_ == "Function"
+        return not self.parent() or self.parent()._TYPE_ == "Function"
 
 
     def isVolatileAbove(
