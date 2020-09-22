@@ -18,11 +18,6 @@ class Scanner():
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
-
-
     def __init__(
         self
         ,ifile
@@ -37,11 +32,6 @@ class Scanner():
         """
         self.__ifile = ifile
         self.__indent = None
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def indent(

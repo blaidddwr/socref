@@ -25,11 +25,6 @@ class Parser(abstract.AbstractParser):
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
-
-
     def __init__(
         self
         ,root
@@ -50,11 +45,6 @@ class Parser(abstract.AbstractParser):
         self.__definitions = {"headers": {},"functions": {}}
 
 
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
     def unknown(
         self
         ):
@@ -70,11 +60,6 @@ class Parser(abstract.AbstractParser):
             key: "\n".join(self.__definitions["functions"][key])
             for key in self.__definitions["functions"]
         }
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _build_(
@@ -132,11 +117,6 @@ class Parser(abstract.AbstractParser):
                 headers = headers[2:]
             self.__definitions["headers"][path] = headers
             self.__scan_(ifile,"")
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __buildPaths_(

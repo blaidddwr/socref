@@ -23,11 +23,6 @@ class Access(abstract.AbstractBlock):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -38,11 +33,6 @@ class Access(abstract.AbstractBlock):
         self._p_name = ""
         self._p_type = "Public"
         self._p_enclosure = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(
@@ -291,11 +281,6 @@ class Access(abstract.AbstractBlock):
         self._p_name = "access"
         self._p_type = "Public"
         self._p_enclosure = ""
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _addComboSelects_(

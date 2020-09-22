@@ -19,11 +19,6 @@ class Variable(cppblock.Variable):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):

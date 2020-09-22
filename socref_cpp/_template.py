@@ -23,11 +23,6 @@ class Template(Base):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -37,11 +32,6 @@ class Template(Base):
         Base.__init__(self)
         self._p_type = ""
         self._p_assignment = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def argumentView(

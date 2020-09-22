@@ -21,11 +21,6 @@ class Descriptor(Package):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -34,11 +29,6 @@ class Descriptor(Package):
         """
         Package.__init__(self)
         self._p_descriptors = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def clearProperties(
@@ -59,11 +49,6 @@ class Descriptor(Package):
         """
         Package.setDefaultProperties(self)
         self._p_descriptors = ""
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _buildDescriptors_(

@@ -19,11 +19,6 @@ class Enum(cppblock.Enum):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):

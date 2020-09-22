@@ -19,11 +19,6 @@ class Template(cppblock.Template):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):

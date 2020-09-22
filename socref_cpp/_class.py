@@ -23,11 +23,6 @@ class Class(Templatee):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -37,11 +32,6 @@ class Class(Templatee):
         Templatee.__init__(self)
         self._p_parents = ""
         self._p_header = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(
@@ -348,11 +338,6 @@ class Class(Templatee):
         self._p_header = ""
 
 
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
     def _buildClassHeader_(
         self
         ,begin
@@ -372,11 +357,6 @@ class Class(Templatee):
                declaration just after the initial opening bracket.
         """
         return [begin + line for line in self._p_header.split("\n") if line]
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __buildParents_(

@@ -23,11 +23,6 @@ class Class(Descriptor):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -37,11 +32,6 @@ class Class(Descriptor):
         Descriptor.__init__(self)
         self._p_parents = ""
         self._p_infile = "0"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(
@@ -229,11 +219,6 @@ class Class(Descriptor):
         self._p_name = "class"
         self._p_parents = ""
         self._p_infile = "0"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __buildParents_(

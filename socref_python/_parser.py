@@ -33,11 +33,6 @@ class Parser(abstract.AbstractParser):
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
-
-
     def __init__(
         self
         ,root
@@ -64,11 +59,6 @@ class Parser(abstract.AbstractParser):
         self.__definitions = {}
 
 
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
     def unknown(
         self
         ):
@@ -90,11 +80,6 @@ class Parser(abstract.AbstractParser):
                 class_ = definition["classes"][ckey]
                 self.__addUnknownFunctions_(ret,key + "." + ckey,class_["functions"])
         return ret
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _build_(
@@ -181,11 +166,6 @@ class Parser(abstract.AbstractParser):
                                 ,self.__scanFunction_(ifile,match.group(2))
                             )
             self.__definitions[path] = def_
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __addUnknownFunctions_(

@@ -21,11 +21,6 @@ class Class(cppblock.Class):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -34,11 +29,6 @@ class Class(cppblock.Class):
         """
         cppblock.Class.__init__(self)
         self._p_qtObject = "0"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def clearProperties(
@@ -111,11 +101,6 @@ class Class(cppblock.Class):
         """
         cppblock.Class.setDefaultProperties(self)
         self._p_qtObject = "0"
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _buildClassHeader_(

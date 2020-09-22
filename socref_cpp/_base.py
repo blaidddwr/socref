@@ -22,11 +22,6 @@ class Base(abstract.AbstractBlock):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -36,11 +31,6 @@ class Base(abstract.AbstractBlock):
         abstract.AbstractBlock.__init__(self)
         self._p_name = ""
         self._p_description = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(
@@ -218,11 +208,6 @@ class Base(abstract.AbstractBlock):
         Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_description = "Detailed description."
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _buildHeaderGuard_(

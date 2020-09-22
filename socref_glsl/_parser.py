@@ -25,11 +25,6 @@ class Parser(abstract.AbstractParser):
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
-
-
     def __init__(
         self
         ,root
@@ -46,11 +41,6 @@ class Parser(abstract.AbstractParser):
         self.__root = root
         self.__functionPattern = re.compile('^.*\s+(\w+)(\(.*)$')
         self.__definitions = {}
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def unknown(
@@ -70,11 +60,6 @@ class Parser(abstract.AbstractParser):
             for fname in functions:
                 ret[path+":"+fname] = "\n".join(functions[fname])+"\n"
         return ret
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _build_(
@@ -141,11 +126,6 @@ class Parser(abstract.AbstractParser):
                             ,self.__scanFunction_(ifile,match.group(2))
                         )
             self.__definitions[path] = def_
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __buildPaths_(

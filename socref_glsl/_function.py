@@ -23,11 +23,6 @@ class Function(Base):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -37,11 +32,6 @@ class Function(Base):
         Base.__init__(self)
         self._p_returnType = ""
         self._p_returnDescription = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(
@@ -172,11 +162,6 @@ class Function(Base):
         self._p_name = "function"
         self._p_returnType = "void"
         self._p_returnDescription = ""
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __argumentsView_(

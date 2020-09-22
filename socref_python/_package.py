@@ -26,11 +26,6 @@ class Package(abstract.AbstractBlock):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -40,11 +35,6 @@ class Package(abstract.AbstractBlock):
         abstract.AbstractBlock.__init__(self)
         self._p_name = ""
         self._p_description = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(
@@ -178,11 +168,6 @@ class Package(abstract.AbstractBlock):
         """
         self._p_name = "package"
         self._p_description = "Detailed description."
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _build_(

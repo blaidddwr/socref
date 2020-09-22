@@ -28,11 +28,6 @@ class Access(Package):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -42,11 +37,6 @@ class Access(Package):
         abstract.AbstractBlock.__init__(self)
         self._p_name = ""
         self._p_type = "Public"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(

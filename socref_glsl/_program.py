@@ -25,11 +25,6 @@ class Program(abstract.AbstractBlock):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -38,11 +33,6 @@ class Program(abstract.AbstractBlock):
         """
         abstract.AbstractBlock.__init__(self)
         self._p_name = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildList(

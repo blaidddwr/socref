@@ -19,11 +19,6 @@ class Templatee(Base):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -31,11 +26,6 @@ class Templatee(Base):
         Initializes a new templatee block.
         """
         Base.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def hasTemplates(
@@ -106,11 +96,6 @@ class Templatee(Base):
         return self.__declaration_(False,False)
 
 
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
     def _templatesName_(
         self
         ):
@@ -144,11 +129,6 @@ class Templatee(Base):
             ,"Templates"
             ,"".join((child.argumentView() for child in self if child._TYPE_ == "Template"))
         )
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __declaration_(

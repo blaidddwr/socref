@@ -21,11 +21,6 @@ class Module(Package):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -33,11 +28,6 @@ class Module(Package):
         Initializes a new module block.
         """
         Package.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(

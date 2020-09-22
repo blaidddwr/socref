@@ -23,11 +23,6 @@ class Object(Package):
     """
 
 
-    ###########################
-    # PUBLIC - Static Methods #
-    ###########################
-
-
     def comment(
         name
         ,description
@@ -72,11 +67,6 @@ class Object(Package):
         return ret
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -85,11 +75,6 @@ class Object(Package):
         """
         Package.__init__(self)
         self._p_assignment = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def argumentView(

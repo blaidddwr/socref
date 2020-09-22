@@ -20,11 +20,6 @@ class Namespace(cppblock.Namespace):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):

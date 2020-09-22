@@ -23,11 +23,6 @@ class Structure(Base):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -36,11 +31,6 @@ class Structure(Base):
         """
         Base.__init__(self)
         self._p_type = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(

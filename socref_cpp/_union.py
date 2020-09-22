@@ -22,11 +22,6 @@ class Union(Base):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -34,11 +29,6 @@ class Union(Base):
         Initializes a new union block.
         """
         Base.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(

@@ -22,11 +22,6 @@ class Enum(Base):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -35,11 +30,6 @@ class Enum(Base):
         """
         Base.__init__(self)
         self._p_class = "0"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(

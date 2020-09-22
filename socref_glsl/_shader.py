@@ -23,11 +23,6 @@ class Shader(Base):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -36,11 +31,6 @@ class Shader(Base):
         """
         Base.__init__(self)
         self._p_type = "Vertex"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(

@@ -23,11 +23,6 @@ class Enum(Package):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -35,11 +30,6 @@ class Enum(Package):
         Initializes a new enumeration block.
         """
         Package.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(

@@ -25,11 +25,6 @@ class EnumValue(Object):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -37,11 +32,6 @@ class EnumValue(Object):
         Initializes a new enumeration block.
         """
         Object.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(

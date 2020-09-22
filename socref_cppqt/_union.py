@@ -19,11 +19,6 @@ class Union(cppblock.Union):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):

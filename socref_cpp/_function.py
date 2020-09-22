@@ -24,11 +24,6 @@ class Function(Templatee):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -48,11 +43,6 @@ class Function(Templatee):
         self._p_override = "0"
         self._p_final = "0"
         self._p_abstract = "0"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(
@@ -546,11 +536,6 @@ class Function(Templatee):
         self._p_override = "0"
         self._p_final = "0"
         self._p_abstract = "0"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __argumentsView_(

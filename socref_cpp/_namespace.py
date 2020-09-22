@@ -24,11 +24,6 @@ class Namespace(Base):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -37,11 +32,6 @@ class Namespace(Base):
         """
         Base.__init__(self)
         self._p_hidden = "0"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(

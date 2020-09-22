@@ -21,11 +21,6 @@ class Access(cppblock.Access):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -33,11 +28,6 @@ class Access(cppblock.Access):
         Initializes a new access block.
         """
         cppblock.Access.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def icon(
@@ -90,11 +80,6 @@ class Access(cppblock.Access):
                type. False is returned otherwise.
         """
         return self._p_type.endswith("Slots")
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _addComboSelects_(

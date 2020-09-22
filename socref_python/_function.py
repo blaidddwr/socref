@@ -24,11 +24,6 @@ class Function(Descriptor):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -39,11 +34,6 @@ class Function(Descriptor):
         self._p_returnDescription = ""
         self._p_static = "0"
         self._p_abstract = "0"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(
@@ -240,11 +230,6 @@ class Function(Descriptor):
         self._p_returnDescription = ""
         self._p_static = "0"
         self._p_abstract = "0"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __argumentsView_(

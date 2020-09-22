@@ -20,11 +20,6 @@ class Function(cppblock.Function):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -32,11 +27,6 @@ class Function(cppblock.Function):
         Initializes a new function block.
         """
         cppblock.Function.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDefinition(

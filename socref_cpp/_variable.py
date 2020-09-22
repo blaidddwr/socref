@@ -22,11 +22,6 @@ class Variable(Template):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -38,11 +33,6 @@ class Variable(Template):
         self._p_static = "0"
         self._p_mutable = "0"
         self._p_thread_local = "0"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(
@@ -373,11 +363,6 @@ class Variable(Template):
         self._p_static = "0"
         self._p_mutable = "0"
         self._p_thread_local = "0"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __buildFlags_(
