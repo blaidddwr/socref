@@ -212,7 +212,7 @@ class Function(Descriptor):
         ret0 : bool
                True if this function is a method of a class or false otherwise.
         """
-        return self.parent()._TYPE_ == "Access"
+        return self.parent()._TYPE_ == "Class" or self.parent()._TYPE_ == "Access"
 
 
     def isStatic(

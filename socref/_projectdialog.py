@@ -20,9 +20,11 @@ class ProjectDialog(qtw.QDialog):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
+    #
+    # The key used to save this dialog's geometry using qt settings to make it
+    # persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.project.geometry"
 
 
     def __init__(
@@ -50,11 +52,6 @@ class ProjectDialog(qtw.QDialog):
         self.__setupGui_()
 
 
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
     def closeEvent(
         self
         ,event
@@ -70,23 +67,6 @@ class ProjectDialog(qtw.QDialog):
         settings = qtc.QSettings()
         settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
         event.accept()
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it
-    # persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.project.geometry"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __restore_(
@@ -147,11 +127,6 @@ class ProjectDialog(qtw.QDialog):
         self.setLayout(layout)
         self.setWindowTitle("Project Properties")
         self.__restore_()
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot()

@@ -101,7 +101,7 @@ class Class(Descriptor):
         ret0 : object
                See interface docs.
         """
-        return ("Access",)
+        return ("Access","Function","Object")
 
 
     def clearProperties(
@@ -196,8 +196,8 @@ class Class(Descriptor):
                True if this class contains any abstract functions or false
                otherwise.
         """
-        for access in self:
-            if access.hasAbstract():
+        for block in self:
+            if block._TYPE_ == "Function" and block.isAbstract():
                 return True
         return False
 

@@ -22,11 +22,6 @@ class SpellHighlighter(qtg.QSyntaxHighlighter):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,dictionary
@@ -51,11 +46,6 @@ class SpellHighlighter(qtg.QSyntaxHighlighter):
         format_.setFontUnderline(True)
         format_.setUnderlineColor(qtc.Qt.red)
         format_.setUnderlineStyle(qtg.QTextCharFormat.WaveUnderline)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def highlightBlock(

@@ -21,11 +21,6 @@ class BlockViewDock(qtw.QDockWidget):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,parent=None
@@ -48,11 +43,6 @@ class BlockViewDock(qtw.QDockWidget):
         self.__setupGui_()
 
 
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
     def setView(
         self
         ,view
@@ -73,11 +63,6 @@ class BlockViewDock(qtw.QDockWidget):
         self.__view.indexDataChanged.connect(self.__indexChanged_)
 
 
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
     def __setupGui_(
         self
         ):
@@ -88,11 +73,6 @@ class BlockViewDock(qtw.QDockWidget):
         area = qtw.QScrollArea(widgetResizable=True)
         area.setWidget(self.__label)
         self.setWidget(area)
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot(qtc.QModelIndex)

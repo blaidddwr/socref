@@ -30,11 +30,6 @@ class SpellChecker(qtw.QGroupBox):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,title
@@ -64,11 +59,6 @@ class SpellChecker(qtw.QGroupBox):
         self.__setupGui_()
 
 
-    ####################
-    # PUBLIC - Signals #
-    ####################
-
-
     #
     # Signals this spell checker has changed the cursor given to it.
     #
@@ -80,11 +70,6 @@ class SpellChecker(qtw.QGroupBox):
     # misspelled words.
     #
     finished = qtc.Signal()
-
-
-    ##################
-    # PUBLIC - Slots #
-    ##################
 
 
     @qtc.Slot(qtg.QTextCursor)
@@ -107,11 +92,6 @@ class SpellChecker(qtw.QGroupBox):
             self.__cursor = cursor
             cursor.movePosition(qtg.QTextCursor.Start)
             self.__findNextWord_()
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __findNextWord_(
@@ -177,11 +157,6 @@ class SpellChecker(qtw.QGroupBox):
         layout.addWidget(ignore_all)
         layout.addWidget(stop)
         self.setLayout(layout)
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot()

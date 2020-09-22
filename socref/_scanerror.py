@@ -16,11 +16,6 @@ class ScanError(Exception):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,*args

@@ -36,9 +36,37 @@ class ProjectView(qtw.QTreeView):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
+    #
+    # The "after" insert option.
+    #
+    __AFTER = 2
+
+
+    #
+    # The "before" insert option.
+    #
+    __BEFORE = 0
+
+
+    #
+    # The "into" insert option.
+    #
+    __INTO = 1
+
+
+    #
+    # Global set that stores all unique block types that have been copied to the
+    # global XML data. If no blocks have been copied then this is none. This is
+    # used to determine if the paste action can be enabled.
+    #
+    __blockTypeSet = None
+
+
+    #
+    # Global XML byte array that stored the data of copied blocks, if any. If no
+    # blocks have been copied then this is none.
+    #
+    __xmlBlocks = None
 
 
     def __init__(
@@ -75,11 +103,6 @@ class ProjectView(qtw.QTreeView):
         self.setSelectionMode(qtw.QAbstractItemView.ExtendedSelection)
         self.setContextMenuPolicy(qtc.Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.__contextMenuRequested_)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def contextMenu(
@@ -233,11 +256,6 @@ class ProjectView(qtw.QTreeView):
         return self.__undoAction
 
 
-    ####################
-    # PUBLIC - Signals #
-    ####################
-
-
     #
     # Signals that the current index of this project has changed.
     #
@@ -262,54 +280,6 @@ class ProjectView(qtw.QTreeView):
     # its model.
     #
     indexRemoved = qtc.Signal()
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The "after" insert option.
-    #
-    __AFTER = 2
-
-
-    #
-    # The "before" insert option.
-    #
-    __BEFORE = 0
-
-
-    #
-    # The "into" insert option.
-    #
-    __INTO = 1
-
-
-    ############################
-    # PRIVATE - Static Objects #
-    ############################
-
-
-    #
-    # Global set that stores all unique block types that have been copied to the
-    # global XML data. If no blocks have been copied then this is none. This is
-    # used to determine if the paste action can be enabled.
-    #
-    __blockTypeSet = None
-
-
-    #
-    # Global XML byte array that stored the data of copied blocks, if any. If no
-    # blocks have been copied then this is none.
-    #
-    __xmlBlocks = None
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __canPaste_(
@@ -549,11 +519,6 @@ class ProjectView(qtw.QTreeView):
         self.__insertAfterAction.setChecked(option == self.__AFTER)
         self.__insert = option
         self.__updateContextMenu_()
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot(str)

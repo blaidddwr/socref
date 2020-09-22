@@ -55,9 +55,36 @@ class ProjectModel(qtc.QAbstractItemModel):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
+    #
+    # The root copy tag used for internal copy XML byte arrays.
+    #
+    __COPY_TAG = "pysoref_copy"
+
+
+    #
+    # The language tag used for the language name text element of XML project
+    # files.
+    #
+    __LANG_TAG = "language"
+
+
+    #
+    # The name tag used for the project name text element of XML project files.
+    #
+    __NAME_TAG = "name"
+
+
+    #
+    # The parse path tag used for the parse path text element of XML project
+    # files.
+    #
+    __PARSE_PATH_TAG = "parse_path"
+
+
+    #
+    # The root tag used for XML project files.
+    #
+    __PROJECT_TAG = "scp_project"
 
 
     def __init__(
@@ -82,11 +109,6 @@ class ProjectModel(qtc.QAbstractItemModel):
         self.__modified = False
 
 
-    ######################
-    # PUBLIC - Operators #
-    ######################
-
-
     def __len__(
         self
         ):
@@ -99,11 +121,6 @@ class ProjectModel(qtc.QAbstractItemModel):
                1 if this model has a project or 0 if it does not have a project.
         """
         return 0 if self.__root is None else 1
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def canRedo(
@@ -797,11 +814,6 @@ class ProjectModel(qtc.QAbstractItemModel):
             self.parsePathChanged.emit(path)
 
 
-    ####################
-    # PUBLIC - Signals #
-    ####################
-
-
     #
     # Signals this model's project has been modified with unsaved changes.
     #
@@ -818,11 +830,6 @@ class ProjectModel(qtc.QAbstractItemModel):
     # Signals this model's relative parsing path has changed to the value given.
     #
     parsePathChanged = qtc.Signal(str)
-
-
-    ##################
-    # PUBLIC - Slots #
-    ##################
 
 
     @qtc.Slot()
@@ -849,11 +856,6 @@ class ProjectModel(qtc.QAbstractItemModel):
         if self.canUndo():
             self.__undoStackIndex -= 1
             self.__undoStack[self.__undoStackIndex].undo()
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _insertRows_(
@@ -997,48 +999,6 @@ class ProjectModel(qtc.QAbstractItemModel):
         if block.isVolatileBelow():
             self.__pushVolatileBelow_(index)
         self.__modified_()
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The root copy tag used for internal copy XML byte arrays.
-    #
-    __COPY_TAG = "pysoref_copy"
-
-
-    #
-    # The language tag used for the language name text element of XML project
-    # files.
-    #
-    __LANG_TAG = "language"
-
-
-    #
-    # The name tag used for the project name text element of XML project files.
-    #
-    __NAME_TAG = "name"
-
-
-    #
-    # The parse path tag used for the parse path text element of XML project
-    # files.
-    #
-    __PARSE_PATH_TAG = "parse_path"
-
-
-    #
-    # The root tag used for XML project files.
-    #
-    __PROJECT_TAG = "scp_project"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __block_(

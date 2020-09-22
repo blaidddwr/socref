@@ -16,11 +16,6 @@ class LangError(Exception):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,*args

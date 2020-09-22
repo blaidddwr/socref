@@ -16,16 +16,11 @@ from . import settings
 class PlainTextEdit(qtw.QPlainTextEdit):
     """
     This is the plain text class. It provides additional functionality to its
-    inherit class. Misspelled words are highlighted. A shortcut is provided to
+    inherited class. Misspelled words are highlighted. A shortcut is provided to
     open a larger text editor dialog that has additional spell checking
     functionality. Misspelled word highlighting and the editor dialog popup
     features can be enabled or disabled.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
 
 
     def __init__(
@@ -61,11 +56,6 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         self.__setupActions_()
 
 
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
     def setSpellerEnabled(
         self
         ,enabled
@@ -89,11 +79,6 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         self.__speller = enabled
 
 
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
     def __setupActions_(
         self
         ):
@@ -105,11 +90,6 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         dialog.setShortcut(qtc.Qt.CTRL + qtc.Qt.Key_E)
         dialog.triggered.connect(self.__dialog_)
         self.addAction(dialog)
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot()

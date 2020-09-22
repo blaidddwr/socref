@@ -24,11 +24,6 @@ class ParserModel(qtc.QObject):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -37,11 +32,6 @@ class ParserModel(qtc.QObject):
         """
         qtc.QObject.__init__(self)
         self.__progress = 0
-
-
-    ####################
-    # PUBLIC - Signals #
-    ####################
 
 
     #
@@ -68,11 +58,6 @@ class ParserModel(qtc.QObject):
     # Signals this parser has started parsing.
     #
     started = qtc.Signal()
-
-
-    ##################
-    # PUBLIC - Slots #
-    ##################
 
 
     @qtc.Slot(AbstractParser)
@@ -103,11 +88,6 @@ class ParserModel(qtc.QObject):
             traceback.print_exc()
         finally:
             self.finished.emit()
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __update_(

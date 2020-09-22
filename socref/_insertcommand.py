@@ -19,11 +19,6 @@ class InsertCommand(RemoveCommand):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,row
@@ -49,11 +44,6 @@ class InsertCommand(RemoveCommand):
         """
         RemoveCommand.__init__(self,row,len(blocks),parent,model)
         self._blocks = blocks
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def redo(

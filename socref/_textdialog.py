@@ -22,9 +22,11 @@ class TextDialog(qtw.QDialog):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
+    #
+    # The key used to save this dialog's geometry using qt settings to make it
+    # persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.text.geometry"
 
 
     def __init__(
@@ -55,30 +57,6 @@ class TextDialog(qtw.QDialog):
         self.__setupGui_()
 
 
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def text(
-        self
-        ):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : string
-               The current of this text dialog.
-        """
-        return self.__textEdit.toPlainText()
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
     def closeEvent(
         self
         ,event
@@ -96,21 +74,18 @@ class TextDialog(qtw.QDialog):
         event.accept()
 
 
-    #######################
-    # PRIVATE - Constants #
-    #######################
+    def text(
+        self
+        ):
+        """
+        Getter method.
 
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it
-    # persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.text.geometry"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
+        Returns
+        -------
+        ret0 : string
+               The current of this text dialog.
+        """
+        return self.__textEdit.toPlainText()
 
 
     def __restore_(
@@ -181,11 +156,6 @@ class TextDialog(qtw.QDialog):
         )
         self.__spellerBox.finished.connect(self.__spellCheckFinished_)
         return self.__spellerBox
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot()

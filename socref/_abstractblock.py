@@ -78,11 +78,6 @@ class AbstractBlock(abc.ABC):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -93,114 +88,6 @@ class AbstractBlock(abc.ABC):
         self.__children = []
         self.__parent = None
         self.__properties = {}
-
-
-    #######################
-    # PUBLIC - Interfaces #
-    #######################
-
-
-    @abc.abstractmethod
-    def buildList(
-        self
-        ):
-        """
-        This interface is a getter method.
-
-        Returns
-        -------
-        ret0 : list
-               Block types that can be children of this block.
-        """
-        pass
-
-
-    @abc.abstractmethod
-    def clearProperties(
-        self
-        ):
-        """
-        This interface clears all of this block's properties to their null
-        state.
-        """
-        pass
-
-
-    @abc.abstractmethod
-    def displayName(
-        self
-        ):
-        """
-        This interface is a getter method.
-
-        Returns
-        -------
-        ret0 : string
-               The display name of this block.
-        """
-        pass
-
-
-    @abc.abstractmethod
-    def displayView(
-        self
-        ):
-        """
-        This interface is a getter method.
-
-        Returns
-        -------
-        ret0 : string
-               Qt rich text that gives a detailed description of this block.
-        """
-        pass
-
-
-    @abc.abstractmethod
-    def editDefinitions(
-        self
-        ):
-        """
-        This interface is a getter method.
-
-        Returns
-        -------
-        ret0 : list
-               Edit definition dictionaries informing the core application how
-               to build the edit GUI for this block.
-        """
-        pass
-
-
-    @abc.abstractmethod
-    def icon(
-        self
-        ):
-        """
-        This interface is a getter method.
-
-        Returns
-        -------
-        ret0 : PySide2.QtGui.QIcon
-               The icon of this block.
-        """
-        pass
-
-
-    @abc.abstractmethod
-    def setDefaultProperties(
-        self
-        ):
-        """
-        This interface sets all of this block's properties to their default
-        state.
-        """
-        pass
-
-
-    ######################
-    # PUBLIC - Operators #
-    ######################
 
 
     def __eq__(
@@ -356,9 +243,102 @@ class AbstractBlock(abc.ABC):
             object.__setattr__(self,key,item)
 
 
-    ####################
-    # PUBLIC - Methods #
-    ####################
+    @abc.abstractmethod
+    def buildList(
+        self
+        ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        ret0 : list
+               Block types that can be children of this block.
+        """
+        pass
+
+
+    @abc.abstractmethod
+    def clearProperties(
+        self
+        ):
+        """
+        This interface clears all of this block's properties to their null
+        state.
+        """
+        pass
+
+
+    @abc.abstractmethod
+    def displayName(
+        self
+        ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        ret0 : string
+               The display name of this block.
+        """
+        pass
+
+
+    @abc.abstractmethod
+    def displayView(
+        self
+        ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        ret0 : string
+               Qt rich text that gives a detailed description of this block.
+        """
+        pass
+
+
+    @abc.abstractmethod
+    def editDefinitions(
+        self
+        ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        ret0 : list
+               Edit definition dictionaries informing the core application how
+               to build the edit GUI for this block.
+        """
+        pass
+
+
+    @abc.abstractmethod
+    def icon(
+        self
+        ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        ret0 : PySide2.QtGui.QIcon
+               The icon of this block.
+        """
+        pass
+
+
+    @abc.abstractmethod
+    def setDefaultProperties(
+        self
+        ):
+        """
+        This interface sets all of this block's properties to their default
+        state.
+        """
+        pass
 
 
     def append(

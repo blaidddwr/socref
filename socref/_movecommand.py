@@ -18,11 +18,6 @@ class MoveCommand(AbstractCommand):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,change
@@ -47,11 +42,6 @@ class MoveCommand(AbstractCommand):
         self.__parentRows = self._buildRows_(index.parent())
         self.__fromRow = index.row()
         self.__toRow = index.row() + change
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def redo(

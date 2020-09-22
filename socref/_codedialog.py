@@ -23,9 +23,18 @@ class CodeDialog(qtw.QDialog):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
+    #
+    # The key used to save this dialog's geometry using qt settings to make it
+    # persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.code.geometry"
+
+
+    #
+    # The key used to save this dialog's state using qt settings to make it
+    # persistent.
+    #
+    __STATE_KEY = "gui.dialog.code.state"
 
 
     def __init__(
@@ -51,11 +60,6 @@ class CodeDialog(qtw.QDialog):
         self.__setupGui_()
 
 
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
     def closeEvent(
         self
         ,event
@@ -72,30 +76,6 @@ class CodeDialog(qtw.QDialog):
         settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
         settings.setValue(self.__STATE_KEY,self.__splitter.saveState())
         event.accept()
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it
-    # persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.code.geometry"
-
-
-    #
-    # The key used to save this dialog's state using qt settings to make it
-    # persistent.
-    #
-    __STATE_KEY = "gui.dialog.code.state"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __restore_(
@@ -157,11 +137,6 @@ class CodeDialog(qtw.QDialog):
         self.__splitter.addWidget(list_)
         self.__splitter.addWidget(self.__view)
         return self.__splitter
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot()

@@ -34,11 +34,6 @@ class BlockEditDock(qtw.QDockWidget):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,parent=None
@@ -58,11 +53,6 @@ class BlockEditDock(qtw.QDockWidget):
         self.__view = None
         self.__edits = []
         self.__setupGui_()
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def setView(
@@ -86,11 +76,6 @@ class BlockEditDock(qtw.QDockWidget):
         self.__view.indexChanged.connect(self.__indexChanged_)
         self.__view.indexMoved.connect(self.__indexMoved_)
         self.__view.indexRemoved.connect(self.__indexRemoved_)
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __buildCheckbox_(
@@ -319,11 +304,6 @@ class BlockEditDock(qtw.QDockWidget):
         central = qtw.QWidget()
         central.setLayout(layout)
         self.setWidget(central)
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot()

@@ -40,9 +40,25 @@ class MainWindow(qtw.QMainWindow):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
+    #
+    # The key used to save this window's geometry using qt settings to make it
+    # persistent.
+    #
+    __GEOMETRY_KEY = "gui.window.main.geometry"
+
+
+    #
+    # The key used to save this window's state using qt settings to make it
+    # persistent.
+    #
+    __STATE_KEY = "gui.window.main.state"
+
+
+    #
+    # List of all active main window instances. Used to make sure they are not
+    # prematurely deleted.
+    #
+    __instances = []
 
 
     def __init__(
@@ -69,9 +85,27 @@ class MainWindow(qtw.QMainWindow):
         self.__setupGui_()
 
 
-    ####################
-    # PUBLIC - Methods #
-    ####################
+    def closeEvent(
+        self
+        ,event
+        ):
+        """
+        Implements the PySide2.QtWidgets.QWidget interface.
+
+        Parameters
+        ----------
+        event : object
+                See qt docs.
+        """
+        if self.__isOkToClose_():
+            settings = qtc.QSettings()
+            settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
+            settings.setValue(self.__STATE_KEY,self.saveState())
+            self.__instances.remove(self)
+            self.deleteLater()
+            event.accept()
+        else:
+            event.ignore()
 
 
     def open_(
@@ -96,80 +130,11 @@ class MainWindow(qtw.QMainWindow):
         self.__updateActions_()
 
 
-    ####################
-    # PUBLIC - Signals #
-    ####################
-
-
     #
     # Signals this window has started parsing its current project with the given
     # abstract parser.
     #
     parseRequested = qtc.Signal(abstract.AbstractParser)
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
-    def closeEvent(
-        self
-        ,event
-        ):
-        """
-        Implements the PySide2.QtWidgets.QWidget interface.
-
-        Parameters
-        ----------
-        event : object
-                See qt docs.
-        """
-        if self.__isOkToClose_():
-            settings = qtc.QSettings()
-            settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
-            settings.setValue(self.__STATE_KEY,self.saveState())
-            self.__instances.remove(self)
-            self.deleteLater()
-            event.accept()
-        else:
-            event.ignore()
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this window's geometry using qt settings to make it
-    # persistent.
-    #
-    __GEOMETRY_KEY = "gui.window.main.geometry"
-
-
-    #
-    # The key used to save this window's state using qt settings to make it
-    # persistent.
-    #
-    __STATE_KEY = "gui.window.main.state"
-
-
-    ############################
-    # PRIVATE - Static Objects #
-    ############################
-
-
-    #
-    # List of all active main window instances. Used to make sure they are not
-    # prematurely deleted.
-    #
-    __instances = []
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __isOkToClose_(
@@ -471,11 +436,6 @@ class MainWindow(qtw.QMainWindow):
             )
         else:
             self.setWindowTitle("Socrates' Reference")
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot()
