@@ -6786,7 +6786,9 @@ An indent that is appended to every line of the returned source code.</__p_descr
                 <__p_description>Contains all parser related classes.</__p_description>
                 <Class>
                     <__p_name>Parser</__p_name>
-                    <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary whose keys are the path of the source code file scanned and values are another dictionary for that file containing five keys. The first key is &quot;pre&quot; and contains special comment lines before the doc string. The second key is &quot;headers&quot; and contains lines of import statements at the head of the python file. The third key is &quot;script&quot; and contains any scripting lines at the end of the python file after the script header comment. The fourth key is &quot;functions&quot; and is a dictionary whose keys are function names and values are their scanned lines of code. The fifth key is &quot;classes&quot; that is a dictionary whose keys are class names and values are dictionaries with one key &quot;functions&quot; that follows the same structure as the second &quot;functions&quot; key but for the methods of the class it is contained within.</__p_description>
+                    <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary whose keys are the path of the source code file scanned and values are another dictionary for that file containing five keys. The first key is &quot;pre&quot; and contains special comment lines before the doc string. The second key is &quot;headers&quot; and contains lines of import statements at the head of the python file. The third key is &quot;script&quot; and contains any scripting lines at the end of the python file after the script header comment. The fourth key is &quot;functions&quot; and is a dictionary whose keys are function names and values are their scanned lines of code. The fifth key is &quot;classes&quot; that is a class definition.
+
+The class definition contains two keys. The first key is &quot;lines&quot; and contains all lines of code for the class itself. The second key is &quot;functions&quot; and is a dictionary whose keys are the method names and values are a list of lines for each scanned method.</__p_description>
                     <__p_parents>abstract.AbstractParser</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -6877,9 +6879,9 @@ The path of the given parent block that is appended to any child block's path ad
                     </Function>
                     <Function>
                         <__p_name>__scanClass_</__p_name>
-                        <__p_description>Getter method.</__p_description>
+                        <__p_description>Scans a class from the given input file.</__p_description>
                         <__p_returnDescription>dictionary
-Scanned class definition containing any found and scanned method's lines of code from the class definition in the given python script file at its current seek position.</__p_returnDescription>
+Scanned class definition in the given python script file at its current seek position.</__p_returnDescription>
                         <__p_static>0</__p_static>
                         <__p_abstract>0</__p_abstract>
                         <Object>
@@ -6890,7 +6892,7 @@ The python script whose class at the current seek position is scanned.</__p_desc
                     </Function>
                     <Function>
                         <__p_name>__scanFunction_</__p_name>
-                        <__p_description>Getter method.</__p_description>
+                        <__p_description>Scans a function from the given input file.</__p_description>
                         <__p_returnDescription>list
 Scanned function definition containing all lines of scanned code from the function definition in the given python script file at its current seek position.</__p_returnDescription>
                         <__p_static>0</__p_static>
@@ -6908,7 +6910,7 @@ The end of the function declaration, beginning after the opening parenthesis cha
                     </Function>
                     <Function>
                         <__p_name>__scanHeader_</__p_name>
-                        <__p_description>Getter method.</__p_description>
+                        <__p_description>Scans header import lines from the given input file.</__p_description>
                         <__p_returnDescription>list
 Import code lines scanned from the header of the given python script file. It is assumed all import lines occur at the beginning of the file right after any initial doc string. It is also assumed the import lines end with at least one blank line.</__p_returnDescription>
                         <__p_static>0</__p_static>
@@ -6921,7 +6923,7 @@ The python script whose import lines of code are scanned.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>__scanPre_</__p_name>
-                        <__p_description>Getter method.</__p_description>
+                        <__p_description>Scans initial comment lines from the very beginning of the given input file.</__p_description>
                         <__p_returnDescription>list
 Comment script lines scanned from the beginning of the given python script file.</__p_returnDescription>
                         <__p_static>0</__p_static>
@@ -6934,7 +6936,7 @@ The python script whose comment script lines are scanned.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>__scanScript_</__p_name>
-                        <__p_description>Getter method.</__p_description>
+                        <__p_description>Scans script code lines from the end of the given input file.</__p_description>
                         <__p_returnDescription>list
 Script code lines scanned from the end of the given python script file. It is assumed the next line to read is right after the script header comment.</__p_returnDescription>
                         <__p_static>0</__p_static>
@@ -6971,12 +6973,17 @@ The python script whose doc string, if any, is skipped.</__p_description>
                             <__p_description>io.TextIOWrapper
 The input file that is scanned.</__p_description>
                         </Object>
+                        <Object>
+                            <__p_name>indent</__p_name>
+                            <__p_description>The indent size for the block of code scanned or none to automatically determine it with the indent of the first line of code scanned. The default is none.</__p_description>
+                            <__p_assignment>None</__p_assignment>
+                        </Object>
                     </Function>
                     <Function>
                         <__p_name>indent</__p_name>
-                        <__p_description>Getter method.</__p_description>
+                        <__p_description>Getter method. This must be called after the indent is known.</__p_description>
                         <__p_returnDescription>int
-The indent size in spaces of the code block this scanner is reading. This must be called after the read line method is called at least once.</__p_returnDescription>
+The indent size in spaces of the code block this scanner is reading.</__p_returnDescription>
                         <__p_static>0</__p_static>
                         <__p_abstract>0</__p_abstract>
                     </Function>

@@ -27,9 +27,12 @@ class Parser(abstract.AbstractParser):
     lines at the end of the python file after the script header comment. The
     fourth key is "functions" and is a dictionary whose keys are function names
     and values are their scanned lines of code. The fifth key is "classes" that
-    is a dictionary whose keys are class names and values are dictionaries with
-    one key "functions" that follows the same structure as the second
-    "functions" key but for the methods of the class it is contained within.
+    is a class definition.
+
+    The class definition contains two keys. The first key is "lines" and
+    contains all lines of code for the class itself. The second key is
+    "functions" and is a dictionary whose keys are the method names and values
+    are a list of lines for each scanned method.
     """
 
 
@@ -74,11 +77,13 @@ class Parser(abstract.AbstractParser):
         for key in self.__definitions:
             definition = self.__definitions[key]
             if "header" in definition:
-                ret[key + ".header"] = "\n".join(definition["header"]) + "\n"
+                ret[key+".header"] = "\n".join(definition["header"]) + "\n"
             self.__addUnknownFunctions_(ret,key,definition["functions"])
             for ckey in definition["classes"]:
                 class_ = definition["classes"][ckey]
-                self.__addUnknownFunctions_(ret,key + "." + ckey,class_["functions"])
+                if "lines" in class_:
+                    ret[key+"."+ckey] = "\n".join(class_["lines"]) + "\n"
+                self.__addUnknownFunctions_(ret,key+"."+ckey,class_["functions"])
         return ret
 
 
@@ -231,7 +236,7 @@ class Parser(abstract.AbstractParser):
         ,ifile
         ):
         """
-        Getter method.
+        Scans a class from the given input file.
 
         Parameters
         ----------
@@ -242,13 +247,23 @@ class Parser(abstract.AbstractParser):
         Returns
         -------
         ret0 : dictionary
-               Scanned class definition containing any found and scanned
-               method's lines of code from the class definition in the given
-               python script file at its current seek position.
+               Scanned class definition in the given python script file at its
+               current seek position.
         """
         self.__skipDocString_(ifile)
         ret = {"functions": {}}
-        scan = parser.Scanner(ifile)
+        indent = None
+        lines = []
+        while True:
+            line = ifile.readline()[:-1]
+            if not line:
+                break
+            if indent is None:
+                indent = len(line) - len(line.lstrip(' '))
+            lines.append(line)
+        if lines:
+            ret["lines"] = lines
+        scan = parser.Scanner(ifile,indent)
         while True:
             line = scan.readline()
             if line is None:
@@ -269,7 +284,7 @@ class Parser(abstract.AbstractParser):
         ,end
         ):
         """
-        Getter method.
+        Scans a function from the given input file.
 
         Parameters
         ----------
@@ -309,7 +324,7 @@ class Parser(abstract.AbstractParser):
         ,ifile
         ):
         """
-        Getter method.
+        Scans header import lines from the given input file.
 
         Parameters
         ----------
@@ -344,7 +359,8 @@ class Parser(abstract.AbstractParser):
         ,ifile
         ):
         """
-        Getter method.
+        Scans initial comment lines from the very beginning of the given input
+        file.
 
         Parameters
         ----------
@@ -375,7 +391,7 @@ class Parser(abstract.AbstractParser):
         ,ifile
         ):
         """
-        Getter method.
+        Scans script code lines from the end of the given input file.
 
         Parameters
         ----------
