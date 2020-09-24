@@ -32,7 +32,7 @@ class Package(abstract.AbstractBlock):
         """
         Initializes a new package block.
         """
-        abstract.AbstractBlock.__init__(self)
+        super().__init__()
         self._p_name = ""
         self._p_description = ""
 

@@ -33,7 +33,7 @@ class BlockViewDock(qtw.QDockWidget):
         parent : object
                  Optional qt object parent of this new block view dock.
         """
-        qtw.QDockWidget.__init__(self,parent)
+        super().__init__(parent)
         self.__label = qtw.QLabel(
             alignment=qtc.Qt.AlignTop
             ,wordWrap=True

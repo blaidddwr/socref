@@ -27,7 +27,7 @@ class Class(cppblock.Class):
         """
         Initializes a new class block.
         """
-        cppblock.Class.__init__(self)
+        super().__init__()
         self._p_qtObject = "0"
 
 

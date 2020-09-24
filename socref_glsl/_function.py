@@ -29,7 +29,7 @@ class Function(Base):
         """
         Initializes a new function block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_returnType = ""
         self._p_returnDescription = ""
 

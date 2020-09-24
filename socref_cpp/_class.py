@@ -29,7 +29,7 @@ class Class(Templatee):
         """
         Initializes a new class block.
         """
-        Templatee.__init__(self)
+        super().__init__()
         self._p_parents = ""
         self._p_header = ""
 

@@ -31,7 +31,7 @@ class Program(abstract.AbstractBlock):
         """
         Initializes a new program block.
         """
-        abstract.AbstractBlock.__init__(self)
+        super().__init__()
         self._p_name = ""
 
 

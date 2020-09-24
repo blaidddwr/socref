@@ -46,7 +46,7 @@ class BlockEditDock(qtw.QDockWidget):
         parent : object
                  Optional qt object parent of this new block edit dock.
         """
-        qtw.QDockWidget.__init__(self,parent)
+        super().__init__(parent)
         self.__area = qtw.QScrollArea(widgetResizable=True)
         self.__applyButton = qtw.QPushButton("Apply")
         self.__index = qtc.QModelIndex()

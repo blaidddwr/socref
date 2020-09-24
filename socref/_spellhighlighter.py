@@ -41,7 +41,7 @@ class SpellHighlighter(qtg.QSyntaxHighlighter):
                  The parent document that takes ownership of this highlighter
                  and has its misspelled words highlighted.
         """
-        qtg.QSyntaxHighlighter.__init__(self,parent)
+        super().__init__(parent)
         format_ = self.__format = qtg.QTextCharFormat()
         format_.setFontUnderline(True)
         format_.setUnderlineColor(qtc.Qt.red)

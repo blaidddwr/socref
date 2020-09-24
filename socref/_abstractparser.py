@@ -44,7 +44,7 @@ class AbstractParser(abc.ABC):
         """
         Initializes a new abstract parser.
         """
-        abc.ABC.__init__(self)
+        super().__init__()
         self.__rootPath = ""
         self.__paths = []
         self.__blocks = []

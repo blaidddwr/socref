@@ -49,7 +49,7 @@ class MainWindow(qtw.QMainWindow):
         """
         Initializes a new main window.
         """
-        qtw.QMainWindow.__init__(self)
+        super().__init__()
         self.__model = core.ProjectModel(self)
         self.__view = gui.ProjectView(self)
         self.__blockViewDock = gui.BlockViewDock(self)

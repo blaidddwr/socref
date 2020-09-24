@@ -29,7 +29,7 @@ class EnumValue(Base):
         """
         Initializes a new enumeration value block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_value = ""
 
 

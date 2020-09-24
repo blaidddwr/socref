@@ -30,7 +30,7 @@ class Namespace(Base):
         """
         Initializes a new namespace block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_hidden = "0"
 
 

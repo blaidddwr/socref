@@ -43,7 +43,7 @@ class TextDialog(qtw.QDialog):
                   True to enable misspelled word highlighting and spell checking
                   or false to disable it all.
         """
-        qtw.QDialog.__init__(self,parent)
+        super().__init__(parent)
         self.__speller = speller
         self.__textEdit = gui.PlainTextEdit(text,self,speller=speller,popup=False)
         self.__spellerBox = gui.SpellChecker("Spell Check",settings.DICTIONARY)

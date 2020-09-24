@@ -28,7 +28,7 @@ class Variable(Template):
         """
         Initializes a new variable block.
         """
-        Template.__init__(self)
+        super().__init__()
         self._p_constexpr = "0"
         self._p_static = "0"
         self._p_mutable = "0"

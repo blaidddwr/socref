@@ -27,7 +27,7 @@ class Access(cppblock.Access):
         """
         Initializes a new access block.
         """
-        cppblock.Access.__init__(self)
+        super().__init__()
 
 
     def icon(

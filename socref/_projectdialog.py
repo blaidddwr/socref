@@ -37,7 +37,7 @@ class ProjectDialog(qtw.QDialog):
         parent : object
                  The optional qt object parent of this dialog.
         """
-        qtw.QDialog.__init__(self,parent)
+        super().__init__(parent)
         self.__nameEdit = qtw.QLineEdit(self)
         self.__parsePathEdit = qtw.QLineEdit(self)
         self.__model = model

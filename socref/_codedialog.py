@@ -41,7 +41,7 @@ class CodeDialog(qtw.QDialog):
         parent : object
                  The optional qt object parent of this dialog.
         """
-        qtw.QDialog.__init__(self,parent)
+        super().__init__(parent)
         self.__code = code
         self.__splitter = qtw.QSplitter(self)
         self.__view = qtw.QPlainTextEdit(self,readOnly=True)

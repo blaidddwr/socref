@@ -27,7 +27,7 @@ class Descriptor(Package):
         """
         Initializes a new descriptor block.
         """
-        Package.__init__(self)
+        super().__init__()
         self._p_descriptors = ""
 
 

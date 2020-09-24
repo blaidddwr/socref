@@ -45,6 +45,7 @@ class AbstractCommand(abc.ABC):
         model : socref.model.ProjectModel
                 The project model that this new command acts upon.
         """
+        super().__init__()
         self._model = model
 
 

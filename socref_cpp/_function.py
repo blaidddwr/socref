@@ -30,7 +30,7 @@ class Function(Templatee):
         """
         Initializes a new function block.
         """
-        Templatee.__init__(self)
+        super().__init__()
         self._p_returnType = ""
         self._p_returnDescription = ""
         self._p_default = "0"

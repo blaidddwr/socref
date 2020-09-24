@@ -29,7 +29,7 @@ class Variable(Base):
         """
         Initializes a new variable block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_type = ""
         self._p_assignment = ""
 

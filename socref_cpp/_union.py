@@ -28,7 +28,7 @@ class Union(Base):
         """
         Initializes a new union block.
         """
-        Base.__init__(self)
+        super().__init__()
 
 
     def buildDeclaration(

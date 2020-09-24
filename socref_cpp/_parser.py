@@ -37,7 +37,7 @@ class Parser(abstract.AbstractParser):
         root : socref_cpp.namespace.Namespace
                The root block of a C++ project that this new parser will parse.
         """
-        abstract.AbstractParser.__init__(self)
+        super().__init__()
         self.__root_block = root
         self.__scopePattern = re.compile('^\s*namespace\s+(\w+)\s*$')
         self.__functionPattern = re.compile('^(.*\s)?([\S]+)(\(.*)$')

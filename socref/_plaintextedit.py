@@ -47,7 +47,7 @@ class PlainTextEdit(qtw.QPlainTextEdit):
                 True to enable the popup edit dialog shortcut or false to
                 disable it.
         """
-        qtw.QPlainTextEdit.__init__(self,text,parent)
+        super().__init__(text,parent)
         self.__speller = speller
         self.__popup = popup
         self.__highlighter = None

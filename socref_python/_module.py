@@ -27,7 +27,7 @@ class Module(Package):
         """
         Initializes a new module block.
         """
-        Package.__init__(self)
+        super().__init__()
 
 
     def build(
@@ -74,7 +74,7 @@ class Module(Package):
         ret0 : object
                See interface docs.
         """
-        return ("Object","Function","Class","Enumeration")
+        return ("Object","Function","Class")
 
 
     def icon(

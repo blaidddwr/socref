@@ -26,7 +26,7 @@ class Function(cppblock.Function):
         """
         Initializes a new function block.
         """
-        cppblock.Function.__init__(self)
+        super().__init__()
 
 
     def buildDefinition(

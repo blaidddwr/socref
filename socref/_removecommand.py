@@ -42,7 +42,7 @@ class RemoveCommand(AbstractCommand):
         model : socref.model.ProjectModel
                 The project model whose given indexes are removed.
         """
-        AbstractCommand.__init__(self,model)
+        super().__init__(model)
         self._blocks = None
         self.__parentRows = self._buildRows_(parent)
         self.__row = row

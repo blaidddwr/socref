@@ -38,7 +38,7 @@ class MoveCommand(AbstractCommand):
         model : socref.model.ProjectModel
                 The project model whose given index is moved.
         """
-        AbstractCommand.__init__(self,model)
+        super().__init__(model)
         self.__parentRows = self._buildRows_(index.parent())
         self.__fromRow = index.row()
         self.__toRow = index.row() + change

@@ -28,7 +28,7 @@ class Enum(Base):
         """
         Initializes a new enumeration block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_class = "0"
 
 

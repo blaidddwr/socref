@@ -29,7 +29,7 @@ class Shader(Base):
         """
         Initializes a new shader block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_type = "Vertex"
 
 

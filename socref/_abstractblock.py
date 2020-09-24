@@ -84,7 +84,7 @@ class AbstractBlock(abc.ABC):
         """
         Initializes a new abstract block.
         """
-        abc.ABC.__init__(self)
+        super().__init__()
         self.__children = []
         self.__parent = None
         self.__properties = {}

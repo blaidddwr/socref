@@ -37,7 +37,7 @@ class Parser(abstract.AbstractParser):
         root : socref_glsl.program.Program
                The root block of a GLSL project that this new parser will parse.
         """
-        abstract.AbstractParser.__init__(self)
+        super().__init__()
         self.__root = root
         self.__functionPattern = re.compile('^.*\s+(\w+)(\(.*)$')
         self.__definitions = {}

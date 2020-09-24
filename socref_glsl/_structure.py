@@ -29,7 +29,7 @@ class Structure(Base):
         """
         Initializes a new structure block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_type = ""
 
 

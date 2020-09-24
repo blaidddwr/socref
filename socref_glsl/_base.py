@@ -26,7 +26,7 @@ class Base(abstract.AbstractBlock):
         """
         Initializes a new base block.
         """
-        abstract.AbstractBlock.__init__(self)
+        super().__init__()
         self._p_name = ""
         self._p_description = ""
 

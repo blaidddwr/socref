@@ -53,7 +53,7 @@ class ProjectView(qtw.QTreeView):
         parent : object
                  Optional qt object parent of this new project.
         """
-        qtw.QTreeView.__init__(self, parent)
+        super().__init__(parent)
         self.__model = None
         self.__addActions = []
         self.__undoAction = qtw.QAction("Undo",self)

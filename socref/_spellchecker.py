@@ -51,7 +51,7 @@ class SpellChecker(qtw.QGroupBox):
         parent : object
                  An optional qt object parent for this new spell checker.
         """
-        qtw.QGroupBox.__init__(self,title,parent)
+        super().__init__(title,parent)
         self.__wordLabel = qtw.QLabel(self)
         self.__wordEdit = qtw.QLineEdit(self)
         self.__cursor = None

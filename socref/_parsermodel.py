@@ -30,7 +30,7 @@ class ParserModel(qtc.QObject):
         """
         Initializes a new parser.
         """
-        qtc.QObject.__init__(self)
+        super().__init__()
         self.__progress = 0
 
 

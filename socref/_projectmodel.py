@@ -72,7 +72,7 @@ class ProjectModel(qtc.QAbstractItemModel):
         parent : object
                  Optional qt object parent of this new model.
         """
-        qtc.QAbstractItemModel.__init__(self,parent)
+        super().__init__(parent)
         self.__name = None
         self.__parsePath = None
         self.__root = None

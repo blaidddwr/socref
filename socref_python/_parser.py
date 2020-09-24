@@ -49,7 +49,7 @@ class Parser(abstract.AbstractParser):
                A package block that is the root block of a python project that
                this new parser will parse.
         """
-        abstract.AbstractParser.__init__(self)
+        super().__init__()
         self.__rootBlock = root
         self.__prePattern = re.compile('^ *#.*')
         self.__docPattern = re.compile('^ *"""')

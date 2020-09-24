@@ -29,4 +29,4 @@ class RegisterError(Exception):
         *args : tuple
                 Positional arguments passed on to the super exception class.
         """
-        Exception.__init__(self,*args)
+        super().__init__(*args)

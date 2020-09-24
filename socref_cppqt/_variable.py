@@ -25,4 +25,4 @@ class Variable(cppblock.Variable):
         """
         Initializes a new variable block.
         """
-        cppblock.Variable.__init__(self)
+        super().__init__()

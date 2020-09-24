@@ -25,4 +25,4 @@ class EnumValue(cppblock.EnumValue):
         """
         Initializes a new enumeration value block.
         """
-        cppblock.EnumValue.__init__(self)
+        super().__init__()

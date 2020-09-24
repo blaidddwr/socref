@@ -73,7 +73,7 @@ class Object(Package):
         """
         Initializes a new object block.
         """
-        Package.__init__(self)
+        super().__init__()
         self._p_assignment = ""
 
 

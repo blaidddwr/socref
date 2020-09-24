@@ -29,7 +29,7 @@ class Class(Descriptor):
         """
         Initializes a new class block.
         """
-        Descriptor.__init__(self)
+        super().__init__()
         self._p_parents = ""
         self._p_infile = "0"
 

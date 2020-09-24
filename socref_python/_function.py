@@ -30,7 +30,7 @@ class Function(Descriptor):
         """
         Initializes a new function block.
         """
-        Descriptor.__init__(self)
+        super().__init__()
         self._p_returnDescription = ""
         self._p_static = "0"
         self._p_abstract = "0"

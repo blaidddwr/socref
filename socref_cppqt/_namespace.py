@@ -26,4 +26,4 @@ class Namespace(cppblock.Namespace):
         """
         Initializes a new namespace block.
         """
-        cppblock.Namespace.__init__(self)
+        super().__init__()

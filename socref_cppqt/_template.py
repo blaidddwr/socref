@@ -25,4 +25,4 @@ class Template(cppblock.Template):
         """
         Initializes a new namespace block.
         """
-        cppblock.Template.__init__(self)
+        super().__init__()

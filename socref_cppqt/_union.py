@@ -25,4 +25,4 @@ class Union(cppblock.Union):
         """
         Initializes a new union block.
         """
-        cppblock.Union.__init__(self)
+        super().__init__()
