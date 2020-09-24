@@ -74,7 +74,11 @@ class Class(Descriptor):
         ret += edit.wrapBlocks(self._p_description,newBegin,columns=settings.COLUMNS)
         ret.append(docString)
         (regular,classes) = self._buildChildren_(definition,newBegin)
-        ret += regular
+        body = definition.pop("lines",[]) + regular
+        if body:
+            ret += body
+        else:
+            ret += [newBegin+"pass"]
         if not self.isInfile():
             ret += footer
         return ret
