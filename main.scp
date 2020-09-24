@@ -722,31 +722,6 @@ It provides basic properties that are universal to a project. There is a project
 It has built in support for undo and redo of any modification done to it. Methods are provided to test if an undo or redo can be done on the model. Slots are provided to undo or redo a modification to the project model.</__p_description>
                     <__p_parents>qtc.QAbstractItemModel</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Object>
-                        <__p_name>__COPY_TAG</__p_name>
-                        <__p_description>The root copy tag used for internal copy XML byte arrays.</__p_description>
-                        <__p_assignment>&quot;pysoref_copy&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__LANG_TAG</__p_name>
-                        <__p_description>The language tag used for the language name text element of XML project files.</__p_description>
-                        <__p_assignment>&quot;language&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__NAME_TAG</__p_name>
-                        <__p_description>The name tag used for the project name text element of XML project files.</__p_description>
-                        <__p_assignment>&quot;name&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__PARSE_PATH_TAG</__p_name>
-                        <__p_description>The parse path tag used for the parse path text element of XML project files.</__p_description>
-                        <__p_assignment>&quot;parse_path&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__PROJECT_TAG</__p_name>
-                        <__p_description>The root tag used for XML project files.</__p_description>
-                        <__p_assignment>&quot;scp_project&quot;</__p_assignment>
-                    </Object>
                     <Function>
                         <__p_name>__init__</__p_name>
                         <__p_description>Initializes a new project model with the given optional parent.</__p_description>
@@ -1310,6 +1285,12 @@ The project model whose given indexes are removed.</__p_description>
                     </Function>
                 </Class>
                 <Class>
+                    <__p_name>Role</__p_name>
+                    <__p_description>This enumerates all custom data roles the project model implements.</__p_description>
+                    <__p_parents>enum.IntEnum</__p_parents>
+                    <__p_infile>1</__p_infile>
+                </Class>
+                <Class>
                     <__p_name>SetCommand</__p_name>
                     <__p_description>This is the set command class. It implements the abstract command class. This command sets the properties of a given qt model index in the given project model.</__p_description>
                     <__p_parents>AbstractCommand</__p_parents>
@@ -1353,35 +1334,6 @@ The project model whose given index block properties are changed.</__p_descripti
                         <__p_abstract>0</__p_abstract>
                     </Function>
                 </Class>
-                <Enumeration>
-                    <__p_name>Role</__p_name>
-                    <__p_description>This enumerates all custom data roles the project model implements.</__p_description>
-                    <Enumeration_Value>
-                        <__p_name>BlockType</__p_name>
-                        <__p_description>Defines the block type role which represents a block's type name.</__p_description>
-                        <__p_assignment>qtc.Qt.UserRole+0</__p_assignment>
-                    </Enumeration_Value>
-                    <Enumeration_Value>
-                        <__p_name>View</__p_name>
-                        <__p_description>Defines the view role which represents a block's detailed rich text view.</__p_description>
-                        <__p_assignment>qtc.Qt.UserRole+1</__p_assignment>
-                    </Enumeration_Value>
-                    <Enumeration_Value>
-                        <__p_name>BuildList</__p_name>
-                        <__p_description>Defines the build list role which represents a block's build list.</__p_description>
-                        <__p_assignment>qtc.Qt.UserRole+2</__p_assignment>
-                    </Enumeration_Value>
-                    <Enumeration_Value>
-                        <__p_name>Properties</__p_name>
-                        <__p_description>Defines the properties role which represents a block's properties.</__p_description>
-                        <__p_assignment>qtc.Qt.UserRole+3</__p_assignment>
-                    </Enumeration_Value>
-                    <Enumeration_Value>
-                        <__p_name>EditDefs</__p_name>
-                        <__p_description>Defines the edit definitions role which represents a block's edit definitions.</__p_description>
-                        <__p_assignment>qtc.Qt.UserRole+4</__p_assignment>
-                    </Enumeration_Value>
-                </Enumeration>
                 <Function>
                     <__p_name>initialize</__p_name>
                     <__p_description>Initializes the global singleton Hunspell speller used for spell checking through this application. This must only be called once during initialization of the application.</__p_description>
@@ -2009,16 +1961,6 @@ The new attached view of this dock.</__p_description>
                     <__p_description>This is the code dialog class. It displays any unknown code fragments given to it. The fragments must be organized into a flat dictionary where the key should provide a meaningful identity about the code fragment to the user. The user is provided a list and read only text view to navigate the fragments, along with a copy to clipboard button.</__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Object>
-                        <__p_name>__GEOMETRY_KEY</__p_name>
-                        <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
-                        <__p_assignment>&quot;gui.dialog.code.geometry&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__STATE_KEY</__p_name>
-                        <__p_description>The key used to save this dialog's state using qt settings to make it persistent.</__p_description>
-                        <__p_assignment>&quot;gui.dialog.code.state&quot;</__p_assignment>
-                    </Object>
                     <Function>
                         <__p_name>__init__</__p_name>
                         <__p_description>Initializes a new code dialog with the given code dictionary and optional parent.</__p_description>
@@ -2105,21 +2047,6 @@ It is designed as a multiple window application. Any number of these windows can
 It is the main window of the core application. It provides a view, docks, menus, and a toolbar that allows a user to work on any project in the application. The project view actually displays the tree of blocks of an open project. The view dock provides a detailed view of the current block in the project view. The edit dock provides an edit form for modifying the current block's properties. The menus and toolbars provide shortcuts for actions that can be done in the project view. They also provide basic actions that a main window handles itself such as opening or saving projects.</__p_description>
                     <__p_parents>qtw.QMainWindow</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Object>
-                        <__p_name>__GEOMETRY_KEY</__p_name>
-                        <__p_description>The key used to save this window's geometry using qt settings to make it persistent.</__p_description>
-                        <__p_assignment>&quot;gui.window.main.geometry&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__STATE_KEY</__p_name>
-                        <__p_description>The key used to save this window's state using qt settings to make it persistent.</__p_description>
-                        <__p_assignment>&quot;gui.window.main.state&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__instances</__p_name>
-                        <__p_description>List of all active main window instances. Used to make sure they are not prematurely deleted.</__p_description>
-                        <__p_assignment>[]</__p_assignment>
-                    </Object>
                     <Function>
                         <__p_name>__init__</__p_name>
                         <__p_description>Initializes a new main window.</__p_description>
@@ -2419,11 +2346,6 @@ True to enable this editor's spelling highlighter or false to disable it.</__p_d
                     <__p_description>This is the project dialog class. It is a basic form dialog that allows the user to edit the project name and parse path of the model it is given on initialization. It is a persistent dialog that remembers its geometry.</__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Object>
-                        <__p_name>__GEOMETRY_KEY</__p_name>
-                        <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
-                        <__p_assignment>&quot;gui.dialog.project.geometry&quot;</__p_assignment>
-                    </Object>
                     <Function>
                         <__p_name>__init__</__p_name>
                         <__p_description>Initializes a new project dialog with the given model and optional parent.</__p_description>
@@ -2529,31 +2451,6 @@ It provides the main tree view for a project model. A view acts as the primary v
 Actions are provided for all basic editing actions done upon a view's model. These actions allow the user to edit the project tree with undo, redo, add, remove, cut, copy, paste, move up, and move down actions. For adding and pasting into the project an option is provided to insert before, into, or after the currently selected block. The individual qt actions are also provided if they need to be added to another custom menu or toolbar. The provided actions are enabled or disabled based off the current state of a view.</__p_description>
                     <__p_parents>qtw.QTreeView</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Object>
-                        <__p_name>__AFTER</__p_name>
-                        <__p_description>The &quot;after&quot; insert option.</__p_description>
-                        <__p_assignment>2</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__BEFORE</__p_name>
-                        <__p_description>The &quot;before&quot; insert option.</__p_description>
-                        <__p_assignment>0</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__INTO</__p_name>
-                        <__p_description>The &quot;into&quot; insert option.</__p_description>
-                        <__p_assignment>1</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__blockTypeSet</__p_name>
-                        <__p_description>Global set that stores all unique block types that have been copied to the global XML data. If no blocks have been copied then this is none. This is used to determine if the paste action can be enabled.</__p_description>
-                        <__p_assignment>None</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>__xmlBlocks</__p_name>
-                        <__p_description>Global XML byte array that stored the data of copied blocks, if any. If no blocks have been copied then this is none.</__p_description>
-                        <__p_assignment>None</__p_assignment>
-                    </Object>
                     <Function>
                         <__p_name>__init__</__p_name>
                         <__p_description>Initializes a new project view with the given optional parent.</__p_description>
@@ -3025,11 +2922,6 @@ The parent document that takes ownership of this highlighter and has its misspel
                     <__p_description>This is the text dialog class. It is a plain text editor with optional spell checking and correction. Any misspelled words are highlighted and a button is provided that begins spell checking and correction. All spell checking features can be enabled or disabled at initialization of the dialog.</__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Object>
-                        <__p_name>__GEOMETRY_KEY</__p_name>
-                        <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
-                        <__p_assignment>&quot;gui.dialog.text.geometry&quot;</__p_assignment>
-                    </Object>
                     <Function>
                         <__p_name>__init__</__p_name>
                         <__p_description>Initializes a new text dialog with the given optional text and parent. Spelling features can also be enabled or disabled.</__p_description>
@@ -6169,111 +6061,6 @@ A decoration for a block's display name providing information about its descript
                         <__p_description>Getter method.</__p_description>
                         <__p_returnDescription>rich text
 Detailed information about this block's descriptors. If this block has no descriptors then an empty string is returned.</__p_returnDescription>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                </Class>
-                <Class>
-                    <__p_name>Enum</__p_name>
-                    <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a python enumeration class. The standard python library is used for the generated class as an integer enumeration.</__p_description>
-                    <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
-                    <__p_parents>Package</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new enumeration block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>build</__p_name>
-                        <__p_description>Implements the socref_python.block.Package interface.</__p_description>
-                        <__p_returnDescription>See interface docs.</__p_returnDescription>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>definition</__p_name>
-                            <__p_description>See interface docs.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>begin</__p_name>
-                            <__p_description>See interface docs.</__p_description>
-                            <__p_assignment>&quot;&quot;</__p_assignment>
-                        </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>buildList</__p_name>
-                        <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                        <__p_returnDescription>See interface docs.</__p_returnDescription>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>icon</__p_name>
-                        <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                        <__p_returnDescription>See interface docs.</__p_returnDescription>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>setDefaultProperties</__p_name>
-                        <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                </Class>
-                <Class>
-                    <__p_name>EnumValue</__p_name>
-                    <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a python enumeration value object. The standard python library is used for the generated class as an integer enumeration. If no value is given the auto class is used from the python enumeration library.</__p_description>
-                    <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
-                    <__p_parents>Object</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new enumeration block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>build</__p_name>
-                        <__p_description>Implements the socref_python.block.Package interface.</__p_description>
-                        <__p_returnDescription>See interface docs.</__p_returnDescription>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>definition</__p_name>
-                            <__p_description>See interface docs.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>begin</__p_name>
-                            <__p_description>See interface docs.</__p_description>
-                            <__p_assignment>&quot;&quot;</__p_assignment>
-                        </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>icon</__p_name>
-                        <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                        <__p_returnDescription>See interface docs.</__p_returnDescription>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>isArgument</__p_name>
-                        <__p_description>Implements the socref_python.block.Object interface.</__p_description>
-                        <__p_returnDescription>See interface docs.</__p_returnDescription>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>inClass</__p_name>
-                        <__p_description>Implements the socref_python.block.Object interface.</__p_description>
-                        <__p_returnDescription>See interface docs.</__p_returnDescription>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>setDefaultProperties</__p_name>
-                        <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_abstract>0</__p_abstract>
                     </Function>

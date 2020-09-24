@@ -34,38 +34,10 @@ class ProjectView(qtw.QTreeView):
     provided actions are enabled or disabled based off the current state of a
     view.
     """
-
-
-    #
-    # The "after" insert option.
-    #
-    __AFTER = 2
-
-
-    #
-    # The "before" insert option.
-    #
     __BEFORE = 0
-
-
-    #
-    # The "into" insert option.
-    #
     __INTO = 1
-
-
-    #
-    # Global set that stores all unique block types that have been copied to the
-    # global XML data. If no blocks have been copied then this is none. This is
-    # used to determine if the paste action can be enabled.
-    #
+    __AFTER = 2
     __blockTypeSet = None
-
-
-    #
-    # Global XML byte array that stored the data of copied blocks, if any. If no
-    # blocks have been copied then this is none.
-    #
     __xmlBlocks = None
 
 

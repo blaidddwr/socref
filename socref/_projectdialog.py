@@ -18,12 +18,6 @@ class ProjectDialog(qtw.QDialog):
     user to edit the project name and parse path of the model it is given on
     initialization. It is a persistent dialog that remembers its geometry.
     """
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it
-    # persistent.
-    #
     __GEOMETRY_KEY = "gui.dialog.project.geometry"
 
 

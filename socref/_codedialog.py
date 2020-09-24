@@ -21,19 +21,7 @@ class CodeDialog(qtw.QDialog):
     The user is provided a list and read only text view to navigate the
     fragments, along with a copy to clipboard button.
     """
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it
-    # persistent.
-    #
     __GEOMETRY_KEY = "gui.dialog.code.geometry"
-
-
-    #
-    # The key used to save this dialog's state using qt settings to make it
-    # persistent.
-    #
     __STATE_KEY = "gui.dialog.code.state"
 
 

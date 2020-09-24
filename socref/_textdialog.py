@@ -20,12 +20,6 @@ class TextDialog(qtw.QDialog):
     is provided that begins spell checking and correction. All spell checking
     features can be enabled or disabled at initialization of the dialog.
     """
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it
-    # persistent.
-    #
     __GEOMETRY_KEY = "gui.dialog.text.geometry"
 
 

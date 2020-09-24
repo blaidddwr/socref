@@ -27,21 +27,10 @@ class Role(enum.IntEnum):
     """
     This enumerates all custom data roles the project model implements.
     """
-    #
-    # Defines the block type role which represents a block's type name.
     BlockType = qtc.Qt.UserRole+0
-    #
-    # Defines the view role which represents a block's detailed rich text view.
     View = qtc.Qt.UserRole+1
-    #
-    # Defines the build list role which represents a block's build list.
     BuildList = qtc.Qt.UserRole+2
-    #
-    # Defines the properties role which represents a block's properties.
     Properties = qtc.Qt.UserRole+3
-    #
-    # Defines the edit definitions role which represents a block's edit
-    # definitions.
     EditDefs = qtc.Qt.UserRole+4
 
 
