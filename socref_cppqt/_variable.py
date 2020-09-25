@@ -17,12 +17,4 @@ class Variable(cppblock.Variable):
     This is the variable block class. It implements the Socrates' Reference
     abstract block class. It represents a C++/Qt variable.
     """
-
-
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new variable block.
-        """
-        super().__init__()
+    pass

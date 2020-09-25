@@ -19,15 +19,6 @@ class Templatee(Base):
     """
 
 
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new templatee block.
-        """
-        super().__init__()
-
-
     def hasTemplates(
         self
         ):

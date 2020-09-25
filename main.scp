@@ -1659,69 +1659,25 @@ The maximum column length for each line of wrapped text.</__p_description>
                     <__p_name>LangError</__p_name>
                     <__p_description>This is the import error exception class. It indicates an error occurred while loading a language's module.</__p_description>
                     <__p_parents>Exception</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>*args</__p_name>
-                            <__p_description>tuple
-Positional arguments passed on to the super exception class.</__p_description>
-                        </Object>
-                    </Function>
+                    <__p_infile>1</__p_infile>
                 </Class>
                 <Class>
                     <__p_name>LoadError</__p_name>
                     <__p_description>This is the load error exception class. It indicates an error occurred attempting to load a project from its saved file.</__p_description>
                     <__p_parents>Exception</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>*args</__p_name>
-                            <__p_description>tuple
-Positional arguments passed on to the super exception class.</__p_description>
-                        </Object>
-                    </Function>
+                    <__p_infile>1</__p_infile>
                 </Class>
                 <Class>
                     <__p_name>RegisterError</__p_name>
                     <__p_description>This is the register error exception class. It indicates an error occurred attempting to register a block while loading a language's module.</__p_description>
                     <__p_parents>Exception</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>*args</__p_name>
-                            <__p_description>tuple
-Positional arguments passed on to the super exception class.</__p_description>
-                        </Object>
-                    </Function>
+                    <__p_infile>1</__p_infile>
                 </Class>
                 <Class>
                     <__p_name>ScanError</__p_name>
                     <__p_description>This is the scan error exception class. It indicates an error occurred while scanning source files while parsing a project.</__p_description>
                     <__p_parents>Exception</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>*args</__p_name>
-                            <__p_description>tuple
-Positional arguments passed on to the super exception class.</__p_description>
-                        </Object>
-                    </Function>
+                    <__p_infile>1</__p_infile>
                 </Class>
             </Module>
             <Module>
@@ -4326,12 +4282,6 @@ Added to the beginning of returned lines of comment code.</__p_description>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new templatee block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>hasTemplates</__p_name>
                         <__p_description>Getter method.</__p_description>
                         <__p_returnDescription>bool
@@ -4404,12 +4354,6 @@ True to include any initial value of a template argument or false otherwise.</__
                     <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new union block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
                     <Function>
                         <__p_name>buildDeclaration</__p_name>
                         <__p_description>Implements the socref_cpp.block.Base interface.</__p_description>
@@ -4839,12 +4783,6 @@ The ending of the first function declaration line of the returned signature, use
                     <__p_parents>cppblock.Access</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new access block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>icon</__p_name>
                         <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                         <__p_returnDescription>See interface docs.</__p_returnDescription>
@@ -4942,12 +4880,6 @@ True if this class is a qt object or false otherwise.</__p_returnDescription>
                     <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Enum</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new enumeration block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
                 </Class>
                 <Class>
                     <__p_name>EnumValue</__p_name>
@@ -4955,12 +4887,6 @@ True if this class is a qt object or false otherwise.</__p_returnDescription>
                     <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
                     <__p_parents>cppblock.EnumValue</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new enumeration value block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
                 </Class>
                 <Class>
                     <__p_name>Function</__p_name>
@@ -4968,12 +4894,6 @@ True if this class is a qt object or false otherwise.</__p_returnDescription>
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Function</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new function block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
                     <Function>
                         <__p_name>buildDefinition</__p_name>
                         <__p_description>Implements the socref_cpp.namespace.Base interface.</__p_description>
@@ -5011,12 +4931,6 @@ True if this class is a qt object or false otherwise.</__p_returnDescription>
                     <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
                     <__p_parents>cppblock.Namespace</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new namespace block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
                 </Class>
                 <Class>
                     <__p_name>Template</__p_name>
@@ -5024,12 +4938,6 @@ True if this class is a qt object or false otherwise.</__p_returnDescription>
                     <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Template</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new namespace block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
                 </Class>
                 <Class>
                     <__p_name>Union</__p_name>
@@ -5037,12 +4945,6 @@ True if this class is a qt object or false otherwise.</__p_returnDescription>
                     <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Union</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new union block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
                 </Class>
                 <Class>
                     <__p_name>Variable</__p_name>
@@ -5050,12 +4952,6 @@ True if this class is a qt object or false otherwise.</__p_returnDescription>
                     <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Variable</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new variable block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
                 </Class>
             </Module>
         </Package>
@@ -6237,12 +6133,6 @@ Rich text list of flags this block has enabled. If this block has no flags enabl
                     <__p_descriptors>register(&quot;Module&quot;)</__p_descriptors>
                     <__p_parents>Package</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes a new module block.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
                     <Function>
                         <__p_name>build</__p_name>
                         <__p_description>Implements the socref_python.block.Package interface.</__p_description>

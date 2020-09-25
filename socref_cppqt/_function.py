@@ -20,15 +20,6 @@ class Function(cppblock.Function):
     """
 
 
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new function block.
-        """
-        super().__init__()
-
-
     def buildDefinition(
         self
         ,definitions

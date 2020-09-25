@@ -17,12 +17,4 @@ class EnumValue(cppblock.EnumValue):
     This is the enumeration value block class. It implements the Socrates'
     Reference abstract block class. It represents a C++/Qt enumeration value.
     """
-
-
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new enumeration value block.
-        """
-        super().__init__()
+    pass

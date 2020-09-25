@@ -22,15 +22,6 @@ class Union(Base):
     """
 
 
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new union block.
-        """
-        super().__init__()
-
-
     def buildDeclaration(
         self
         ,begin

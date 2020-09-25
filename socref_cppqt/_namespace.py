@@ -18,12 +18,4 @@ class Namespace(cppblock.Namespace):
     abstract block class. It represents a C++/Qt namespace. It is the root block
     type of a C++/Qt project.
     """
-
-
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new namespace block.
-        """
-        super().__init__()
+    pass

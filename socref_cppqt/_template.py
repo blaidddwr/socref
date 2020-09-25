@@ -17,12 +17,4 @@ class Template(cppblock.Template):
     This is the template block class. It implements the Socrates' Reference
     abstract block class. It represents a C++/Qt template.
     """
-
-
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new namespace block.
-        """
-        super().__init__()
+    pass

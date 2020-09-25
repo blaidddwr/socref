@@ -21,15 +21,6 @@ class Module(Package):
     """
 
 
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new module block.
-        """
-        super().__init__()
-
-
     def build(
         self
         ,definition
