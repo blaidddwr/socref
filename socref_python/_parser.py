@@ -151,25 +151,32 @@ class Parser(abstract.AbstractParser):
             }
             def_["pre"] = self.__scanPre_(ifile)
             def_["header"] = self.__scanHeader_(ifile)
+            script = []
             while True:
                 line = ifile.readline()
                 if not line:
                     break
                 line = line[:-1]
-                if line==settings.SCRIPT_HEADER:
-                    def_["script"] = self.__scanScript_(ifile)
-                else:
+                if line:
                     match = self.__classPattern.match(line)
                     if match:
                         edit.uniqueInsert(def_["classes"],match.group(1),self.__scanClass_(ifile))
-                    else:
-                        match = self.__functionPattern.match(line)
-                        if match:
-                            edit.uniqueInsert(
-                                def_["functions"]
-                                ,match.group(1)
-                                ,self.__scanFunction_(ifile,match.group(2))
-                            )
+                        continue
+                    match = self.__functionPattern.match(line)
+                    if match:
+                        edit.uniqueInsert(
+                            def_["functions"]
+                            ,match.group(1)
+                            ,self.__scanFunction_(ifile,match.group(2))
+                        )
+                        continue
+                    if self.__importPattern.match(line):
+                        continue
+                    script.append(line)
+                    break
+            if script:
+                script += self.__scanScript_(ifile)
+                def_["script"] = script
             self.__definitions[path] = def_
 
 

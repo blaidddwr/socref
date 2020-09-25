@@ -49,19 +49,9 @@ def initialize():
     )
 
 
-#
-# The global singleton instance of this application's block factory.
-#
 blockFactory = BlockFactory()
-
-
-#
-# The global singleton instance of this application's Hunspell speller.
-#
-speller = None
-
-
-#
-# The global singleton instance of this application's parser model.
-#
+speller = hunspell.HunSpell(
+    os.path.join(settings.HUNSPELL_ROOT,settings.DICTIONARY+".dic")
+    ,os.path.join(settings.HUNSPELL_ROOT,settings.DICTIONARY+".aff")
+)
 parser = ParserModel()
