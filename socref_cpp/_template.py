@@ -3,8 +3,7 @@ Contains the Template class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 from ._base import Base
 
@@ -15,7 +14,7 @@ from ._base import Base
 
 
 
-@register("Template")
+@scr.register("Template")
 class Template(Base):
     """
     This is the template block class. It implements the Socrates' Reference
@@ -103,7 +102,7 @@ class Template(Base):
             header = "@tparam %s : " % self._p_name
         else:
             header = "@param %s : " % self._p_name
-        ret = edit.wrapText(
+        ret = scr.wrapText(
             header + self._p_description
             ,begin
             ," "*len(header)
@@ -163,8 +162,8 @@ class Template(Base):
         ret0 : object
                See interface docs.
         """
-        type_ = edit.richText(2,"Type",html.escape(self._p_type))
-        assignment = edit.richText(2,"Assignment",html.escape(self._p_assignment))
+        type_ = scr.richText(2,"Type",html.escape(self._p_type))
+        assignment = scr.richText(2,"Assignment",html.escape(self._p_assignment))
         return Base.displayView(self) + type_ + assignment
 
 
@@ -180,8 +179,8 @@ class Template(Base):
                See interface docs.
         """
         ret = Base.editDefinitions(self)
-        ret.append(edit.lineEdit("Type:","_p_type"))
-        ret.append(edit.lineEdit("Assignment:","_p_assignment"))
+        ret.append(scr.lineEdit("Type:","_p_type"))
+        ret.append(scr.lineEdit("Assignment:","_p_assignment"))
         return ret
 
 

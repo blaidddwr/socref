@@ -4,7 +4,7 @@ Contains the Parser class.
 import os
 import re
 from socref import abstract
-from socref import edit
+from socref import public as scr
 from . import parser
 from . import settings
 
@@ -160,11 +160,11 @@ class Parser(abstract.AbstractParser):
                 if line:
                     match = self.__classPattern.match(line)
                     if match:
-                        edit.uniqueInsert(def_["classes"],match.group(1),self.__scanClass_(ifile))
+                        scr.uniqueInsert(def_["classes"],match.group(1),self.__scanClass_(ifile))
                         continue
                     match = self.__functionPattern.match(line)
                     if match:
-                        edit.uniqueInsert(
+                        scr.uniqueInsert(
                             def_["functions"]
                             ,match.group(1)
                             ,self.__scanFunction_(ifile,match.group(2))
@@ -277,7 +277,7 @@ class Parser(abstract.AbstractParser):
                 break
             match = self.__methodPattern.match(line)
             if match:
-                edit.uniqueInsert(
+                scr.uniqueInsert(
                     ret["functions"]
                     ,match.group(1)
                     ,self.__scanFunction_(ifile,match.group(2))

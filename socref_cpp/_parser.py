@@ -3,7 +3,7 @@ Contains the Parser class.
 """
 import re
 from socref import abstract
-from socref import edit
+from socref import public as scr
 from . import settings
 
 
@@ -192,7 +192,7 @@ class Parser(abstract.AbstractParser):
                     if match:
                         signature = self.__scanSignature_(ifile,match.group(2),match.group(3))
                         if signature:
-                            edit.uniqueInsert(
+                            scr.uniqueInsert(
                                 self.__definitions["functions"]
                                 ,scope+signature
                                 ,self.__scanFunction_(ifile)

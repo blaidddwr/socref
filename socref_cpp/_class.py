@@ -2,8 +2,7 @@
 Contains the Class class.
 """
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import block
 from . import settings
 from ._templatee import Templatee
@@ -15,7 +14,7 @@ from ._templatee import Templatee
 
 
 
-@register("Class")
+@scr.register("Class")
 class Class(Templatee):
     """
     This is the class block class. It implements the Socrates' Reference
@@ -53,7 +52,7 @@ class Class(Templatee):
         """
         ret = [""]*settings.H1LINES
         ret.append(begin+"/*!")
-        ret += edit.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        ret += scr.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
         accesses = []
         for child in self:
             if child._TYPE_ == "Template":
@@ -232,7 +231,7 @@ class Class(Templatee):
         ret0 : object
                See interface docs.
         """
-        parents = edit.richText(
+        parents = scr.richText(
             2
             ,"Parents"
             ,"".join(("<li>%s</li>" % parent for parent in self._p_parents.split("\n") if parent))
@@ -252,8 +251,8 @@ class Class(Templatee):
                See interface docs.
         """
         ret = block.Base.editDefinitions(self)
-        ret.append(edit.textEdit("Parents:","_p_parents"))
-        ret.append(edit.textEdit("Header:","_p_header"))
+        ret.append(scr.textEdit("Parents:","_p_parents"))
+        ret.append(scr.textEdit("Header:","_p_header"))
         return ret
 
 

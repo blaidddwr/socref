@@ -1,7 +1,7 @@
 """
 Contains the Template class.
 """
-from socref import register
+from socref import public as scr
 from socref_cpp import block as cppblock
 
 
@@ -11,7 +11,7 @@ from socref_cpp import block as cppblock
 
 
 
-@register("Template")
+@scr.register("Template")
 class Template(cppblock.Template):
     """
     This is the template block class. It implements the Socrates' Reference

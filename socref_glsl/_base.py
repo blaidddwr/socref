@@ -3,7 +3,7 @@ Contains the Base class.
 """
 import html
 from socref import abstract
-from socref import edit
+from socref import public as scr
 
 
 
@@ -106,8 +106,8 @@ class Base(abstract.AbstractBlock):
                See interface docs.
         """
         ret = []
-        ret.append(edit.lineEdit("Name:","_p_name"))
-        ret.append(edit.textEdit("Description:","_p_description",speller=True))
+        ret.append(scr.lineEdit("Name:","_p_name"))
+        ret.append(scr.textEdit("Description:","_p_description",speller=True))
         return ret
 
 

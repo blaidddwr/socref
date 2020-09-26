@@ -2,8 +2,7 @@
 Contains the Variable class.
 """
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 from ._template import Template
 
@@ -14,7 +13,7 @@ from ._template import Template
 
 
 
-@register("Variable")
+@scr.register("Variable")
 class Variable(Template):
     """
     This is the variable block class. It implements the Socrates' Reference
@@ -54,11 +53,11 @@ class Variable(Template):
         """
         ret = []
         if self.inUnion():
-            ret += edit.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
+            ret += scr.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
         else:
             ret += [""]*settings.H2LINES
             ret.append(begin + "/*!")
-            ret += edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+            ret += scr.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
             ret.append(begin + " */")
         line = begin+self.__buildFlags_()+self._p_type.replace("@",self._p_name)
         if (
@@ -205,17 +204,17 @@ class Variable(Template):
         """
         ret = Template.editDefinitions(self)
         if not self.isArgument():
-            ret.append(edit.checkboxEdit("Constant Expression","_p_constexpr"))
-            ret.append(edit.checkboxEdit("Thread Local","_p_thread_local"))
+            ret.append(scr.checkboxEdit("Constant Expression","_p_constexpr"))
+            ret.append(scr.checkboxEdit("Thread Local","_p_thread_local"))
         else:
-            ret.append(edit.hiddenEdit("_p_constexpr","0"))
-            ret.append(edit.hiddenEdit("_p_thread_local","0"))
+            ret.append(scr.hiddenEdit("_p_constexpr","0"))
+            ret.append(scr.hiddenEdit("_p_thread_local","0"))
         if self.inClass():
-            ret.append(edit.checkboxEdit("Static","_p_static"))
-            ret.append(edit.checkboxEdit("Mutable","_p_mutable"))
+            ret.append(scr.checkboxEdit("Static","_p_static"))
+            ret.append(scr.checkboxEdit("Mutable","_p_mutable"))
         else:
-            ret.append(edit.hiddenEdit("_p_static","0"))
-            ret.append(edit.hiddenEdit("_p_mutable","0"))
+            ret.append(scr.hiddenEdit("_p_static","0"))
+            ret.append(scr.hiddenEdit("_p_mutable","0"))
         return ret
 
 
@@ -452,4 +451,4 @@ class Variable(Template):
             flags.append("Mutable")
         if self.isThreadLocal():
             flags.append("Thread Local")
-        return edit.richTextList(2,"Flags",flags)
+        return scr.richTextList(2,"Flags",flags)

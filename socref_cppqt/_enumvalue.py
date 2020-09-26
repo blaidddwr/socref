@@ -1,7 +1,7 @@
 """
 Contains the EnumValue class.
 """
-from socref import register
+from socref import public as scr
 from socref_cpp import block as cppblock
 
 
@@ -11,7 +11,7 @@ from socref_cpp import block as cppblock
 
 
 
-@register("Enumeration_Value")
+@scr.register("Enumeration_Value")
 class EnumValue(cppblock.EnumValue):
     """
     This is the enumeration value block class. It implements the Socrates'

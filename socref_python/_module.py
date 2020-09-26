@@ -2,7 +2,7 @@
 Contains the Module class.
 """
 from PySide2 import QtGui as qtg
-from socref import register
+from socref import public as scr
 from ._package import Package
 from . import settings
 
@@ -13,7 +13,7 @@ from . import settings
 
 
 
-@register("Module")
+@scr.register("Module")
 class Module(Package):
     """
     This is the module block class. It implements the Socrates' Reference

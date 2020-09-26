@@ -3,8 +3,7 @@ Contains the Function class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from ._descriptor import Descriptor
 from . import block
 from . import settings
@@ -16,7 +15,7 @@ from . import settings
 
 
 
-@register("Function")
+@scr.register("Function")
 class Function(Descriptor):
     """
     This is the function block class. It implements the Socrates' Reference
@@ -123,7 +122,7 @@ class Function(Descriptor):
                See interface docs.
         """
         self.__checkFlags_()
-        return_ = edit.richText(2,"Return",html.escape(self._p_returnDescription))
+        return_ = scr.richText(2,"Return",html.escape(self._p_returnDescription))
         return (
             block.Package.displayView(self)
             + self.__argumentsView_()
@@ -145,13 +144,13 @@ class Function(Descriptor):
                See interface docs.
         """
         ret = block.Package.editDefinitions(self)
-        ret.append(edit.textEdit("Return:","_p_returnDescription",speller=True))
+        ret.append(scr.textEdit("Return:","_p_returnDescription",speller=True))
         if self.isMethod():
-            ret.append(edit.checkboxEdit("Static","_p_static"))
-            ret.append(edit.checkboxEdit("Abstract","_p_abstract"))
+            ret.append(scr.checkboxEdit("Static","_p_static"))
+            ret.append(scr.checkboxEdit("Abstract","_p_abstract"))
         else:
-            ret.append(edit.hiddenEdit("_p_static","0"))
-            ret.append(edit.hiddenEdit("_p_abstract","0"))
+            ret.append(scr.hiddenEdit("_p_static","0"))
+            ret.append(scr.hiddenEdit("_p_abstract","0"))
         ret.append(self._descriptorsEditDefinition_())
         return ret
 
@@ -264,7 +263,7 @@ class Function(Descriptor):
                Detailed view of all this function's arguments. If this function
                has no arguments then this returns an empty string.
         """
-        return edit.richText(2,"Arguments","".join((arg.argumentView() for arg in self)))
+        return scr.richText(2,"Arguments","".join((arg.argumentView() for arg in self)))
 
 
     def __buildDocString_(
@@ -287,7 +286,7 @@ class Function(Descriptor):
         """
         newBegin = begin + " "*settings.INDENT
         ret = [newBegin+'"""']
-        ret += edit.wrapBlocks(
+        ret += scr.wrapBlocks(
             self._p_description
             ,begin=newBegin
             ,columns=settings.COLUMNS
@@ -407,4 +406,4 @@ class Function(Descriptor):
             flags.append("Static")
         if self.isAbstract():
             flags.append("Abstract")
-        return edit.richTextList(2,"Flags",flags)
+        return scr.richTextList(2,"Flags",flags)

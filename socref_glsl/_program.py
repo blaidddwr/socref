@@ -4,8 +4,7 @@ Contains the Program class.
 import html
 from PySide2 import QtGui as qtg
 from socref import abstract
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import parser
 
 
@@ -15,7 +14,7 @@ from . import parser
 
 
 
-@register("Program",root=True)
+@scr.register("Program",root=True)
 class Program(abstract.AbstractBlock):
     """
     This is the program block class. It implements the Socrates' Reference
@@ -98,7 +97,7 @@ class Program(abstract.AbstractBlock):
                See interface docs.
         """
         ret = []
-        ret.append(edit.lineEdit("Name:","_p_name"))
+        ret.append(scr.lineEdit("Name:","_p_name"))
         return ret
 
 

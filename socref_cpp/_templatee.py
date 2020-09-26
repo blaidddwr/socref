@@ -1,7 +1,7 @@
 """
 Contains the Templatee class.
 """
-from socref import edit
+from socref import public as scr
 from ._base import Base
 
 
@@ -115,7 +115,7 @@ class Templatee(Base):
                Providing detailed information about this block's templates. If
                this block has no templates then an empty string is returned.
         """
-        return edit.richText(
+        return scr.richText(
             2
             ,"Templates"
             ,"".join((child.argumentView() for child in self if child._TYPE_ == "Template"))

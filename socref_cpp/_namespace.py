@@ -2,8 +2,7 @@
 Contains the Namespace class.
 """
 from PySide2 import QtGui as qtg
-from socref import register
-from socref import edit
+from socref import public as scr
 from . import parser
 from . import settings
 from ._base import Base
@@ -15,7 +14,7 @@ from ._base import Base
 
 
 
-@register("Namespace",root=True)
+@scr.register("Namespace",root=True)
 class Namespace(Base):
     """
     This is the namespace block class. It implements the Socrates' Reference
@@ -196,7 +195,7 @@ class Namespace(Base):
                See interface docs.
         """
         ret = Base.editDefinitions(self)
-        ret.append(edit.checkboxEdit("Hidden","_p_hidden"))
+        ret.append(scr.checkboxEdit("Hidden","_p_hidden"))
         return ret
 
 

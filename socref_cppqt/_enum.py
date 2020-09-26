@@ -1,7 +1,7 @@
 """
 Contains the Enum class.
 """
-from socref import register
+from socref import public as scr
 from socref_cpp import block as cppblock
 
 
@@ -11,7 +11,7 @@ from socref_cpp import block as cppblock
 
 
 
-@register("Enumeration")
+@scr.register("Enumeration")
 class Enum(cppblock.Enum):
     """
     This is the enumeration block class. It implements the Socrates' Reference

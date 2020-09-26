@@ -3,8 +3,7 @@ Contains the Object class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from ._package import Package
 from . import settings
 
@@ -15,7 +14,7 @@ from . import settings
 
 
 
-@register("Object")
+@scr.register("Object")
 class Object(Package):
     """
     This is the object block class. It implements the Socrates' Reference
@@ -57,13 +56,13 @@ class Object(Package):
         elif len(parts)>2:
             parts = parts[:1]+[" ".join(parts[1:])]
         initial = name + " : "
-        ret = edit.wrapText(
+        ret = scr.wrapText(
             initial+parts[0]
             ,begin=begin
             ,after=" "*len(initial)
             ,columns=settings.COLUMNS
         )
-        ret += edit.wrapText(parts[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
+        ret += scr.wrapText(parts[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
         return ret
 
 
@@ -121,7 +120,7 @@ class Object(Package):
         ret = [""]*settings.H3LINES
         blankCommentLine = begin + "#"
         ret.append(blankCommentLine)
-        ret += edit.wrapBlocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
+        ret += scr.wrapBlocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
         ret.append(blankCommentLine)
         line = begin + self._p_name
         if self._p_assignment:
@@ -221,7 +220,7 @@ class Object(Package):
         ret0 : object
                See interface docs.
         """
-        assignment = edit.richText(2,"Assignment",html.escape(self._p_assignment))
+        assignment = scr.richText(2,"Assignment",html.escape(self._p_assignment))
         return Package.displayView(self) + assignment
 
 
@@ -237,7 +236,7 @@ class Object(Package):
                See interface docs.
         """
         ret = Package.editDefinitions(self)
-        ret.append(edit.lineEdit("Assignment:","_p_assignment"))
+        ret.append(scr.lineEdit("Assignment:","_p_assignment"))
         return ret
 
 

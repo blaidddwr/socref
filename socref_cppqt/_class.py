@@ -2,8 +2,7 @@
 Contains the Class class.
 """
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from socref_cpp import block as cppblock
 
 
@@ -13,7 +12,7 @@ from socref_cpp import block as cppblock
 
 
 
-@register("Class")
+@scr.register("Class")
 class Class(cppblock.Class):
     """
     This is the class block class. It implements the Socrates' Reference
@@ -53,7 +52,7 @@ class Class(cppblock.Class):
                See interface docs.
         """
         ret = cppblock.Class.editDefinitions(self)
-        ret.append(edit.checkboxEdit("Qt Object","_p_qtObject"))
+        ret.append(scr.checkboxEdit("Qt Object","_p_qtObject"))
         return ret
 
 

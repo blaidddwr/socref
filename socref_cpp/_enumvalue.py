@@ -3,8 +3,7 @@ Contains the EnumValue class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 from ._base import Base
 
@@ -15,7 +14,7 @@ from ._base import Base
 
 
 
-@register("Enumeration_Value")
+@scr.register("Enumeration_Value")
 class EnumValue(Base):
     """
     This is the enumeration value block class. It implements the Socrates'
@@ -55,7 +54,7 @@ class EnumValue(Base):
         ret0 : object
                See interface docs.
         """
-        ret = edit.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
+        ret = scr.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
         line = begin+("" if first else ",")+self._p_name
         if self._p_value:
             line += " = "+self._p_value
@@ -98,7 +97,7 @@ class EnumValue(Base):
         ret0 : object
                See interface docs.
         """
-        value = edit.richText(2,"Value",html.escape(self._p_value))
+        value = scr.richText(2,"Value",html.escape(self._p_value))
         return Base.displayView(self) + value
 
 
@@ -114,7 +113,7 @@ class EnumValue(Base):
                See interface docs.
         """
         ret = Base.editDefinitions(self)
-        ret.append(edit.lineEdit("Value:","_p_value"))
+        ret.append(scr.lineEdit("Value:","_p_value"))
         return ret
 
 

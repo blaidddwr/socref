@@ -2,8 +2,7 @@
 Contains the Class class.
 """
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from ._descriptor import Descriptor
 from . import block
 from . import settings
@@ -15,7 +14,7 @@ from . import settings
 
 
 
-@register("Class")
+@scr.register("Class")
 class Class(Descriptor):
     """
     This is the class block class. It implements the Socrates' Reference
@@ -71,7 +70,7 @@ class Class(Descriptor):
         newBegin = begin + " "*settings.INDENT
         docString = newBegin+'"""'
         ret.append(docString)
-        ret += edit.wrapBlocks(self._p_description,newBegin,columns=settings.COLUMNS)
+        ret += scr.wrapBlocks(self._p_description,newBegin,columns=settings.COLUMNS)
         ret.append(docString)
         (regular,classes) = self._buildChildren_(definition,newBegin)
         body = definition.pop("lines",[]) + regular
@@ -134,12 +133,12 @@ class Class(Descriptor):
         ret0 : object
                See interface docs.
         """
-        parents = edit.richText(
+        parents = scr.richText(
             2
             ,"Parents"
             ,"".join(("<li>%s</li>" % parent for parent in self._p_parents.split("\n") if parent))
         )
-        flags = edit.richTextList(2,"Flags",["Infile"] if self.isInfile() else [])
+        flags = scr.richTextList(2,"Flags",["Infile"] if self.isInfile() else [])
         return block.Package.displayView(self) + parents + self._descriptorsView_() + flags
 
 
@@ -155,8 +154,8 @@ class Class(Descriptor):
                See interface docs.
         """
         ret = block.Package.editDefinitions(self)
-        ret.append(edit.textEdit("Parents:","_p_parents"))
-        ret.append(edit.checkboxEdit("Infile","_p_infile"))
+        ret.append(scr.textEdit("Parents:","_p_parents"))
+        ret.append(scr.checkboxEdit("Infile","_p_infile"))
         ret.append(self._descriptorsEditDefinition_())
         return ret
 

@@ -3,8 +3,7 @@ Contains the Variable class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 from ._base import Base
 
@@ -15,7 +14,7 @@ from ._base import Base
 
 
 
-@register("Variable")
+@scr.register("Variable")
 class Variable(Base):
     """
     This is the variable block class. It implements the Socrates' Reference
@@ -76,11 +75,11 @@ class Variable(Base):
         """
         ret = []
         if self.inStructure():
-            ret = edit.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
+            ret = scr.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
         else:
             ret = [""]*settings.H2LINES
             ret.append(begin+"/*!")
-            ret += edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+            ret += scr.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
             ret.append(begin+" */")
         ret.append(begin+self._p_type.replace("@",self._p_name)+";")
         return ret
@@ -119,7 +118,7 @@ class Variable(Base):
                an argument. This returns the correct doxygen syntax.
         """
         header = "@param %s : " % self._p_name
-        return edit.wrapText(
+        return scr.wrapText(
             header + self._p_description
             ,begin
             ,begin + " "*len(header)
@@ -195,7 +194,7 @@ class Variable(Base):
                See interface docs.
         """
         type_ = "<h2>Type</h2><p>"+html.escape(self._p_type)+"</p>"
-        assignment = edit.richText(2,"Assignment",html.escape(self._p_assignment))
+        assignment = scr.richText(2,"Assignment",html.escape(self._p_assignment))
         return Base.displayView(self)+type_+assignment
 
 
@@ -211,8 +210,8 @@ class Variable(Base):
                See interface docs.
         """
         ret = Base.editDefinitions(self)
-        ret.append(edit.lineEdit("Type:","_p_type"))
-        ret.append(edit.lineEdit("Assignment:","_p_assignment"))
+        ret.append(scr.lineEdit("Type:","_p_type"))
+        ret.append(scr.lineEdit("Assignment:","_p_assignment"))
         return ret
 
 

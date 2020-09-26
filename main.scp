@@ -19,7 +19,7 @@
             </Module>
             <Module>
                 <__p_name>abstract</__p_name>
-                <__p_description>Contains all abstract classes used implement a language and a function for registering its blocks.</__p_description>
+                <__p_description>Contains all abstract classes used to implement a language.</__p_description>
                 <Class>
                     <__p_name>AbstractBlock</__p_name>
                     <__p_description>This is the abstract block class. Blocks are the basic interface designed for languages to implement themselves and communicate with the core application. Blocks are structured to form a tree like structure to represent a single project. Properties are the basic concept used to save all data of a specific block implementation. Interface methods are organized into basic, property, and parsing categories. Edit definitions provide as a list of dictionaries through a block's appropriate interface are used by the core application to provide an edit GUI for it. Iteration and indexing of children blocks are supported through operators and methods. Saving a block to XML or loading it from XML is supported.
@@ -424,23 +424,6 @@ The path to the source code file that is built.</__p_description>
                         </Object>
                     </Function>
                 </Class>
-                <Function>
-                    <__p_name>register</__p_name>
-                    <__p_description>Registers the wrapped class object as a block with the given name for the language currently being loaded. The class object is also assigned special attributes _LANG_ and _TYPE_ that provide the language name and block name, respectively. This must be called when a language is being loaded.</__p_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>name</__p_name>
-                        <__p_description>string
-The block's type name that is being registered. This must be unique among all block names of any one language and only contain alphabetical and underscore characters. Underscore characters are replaced with spaces when displays the block type to the user.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>root</__p_name>
-                        <__p_description>bool
-Optionally indicates the registered block is the root block of the language if set to true. Only one block type can be the root of a language.</__p_description>
-                        <__p_assignment>False</__p_assignment>
-                    </Object>
-                </Function>
             </Module>
             <Module>
                 <__p_name>core</__p_name>
@@ -1334,302 +1317,6 @@ The project model whose given index block properties are changed.</__p_descripti
                         <__p_abstract>0</__p_abstract>
                     </Function>
                 </Class>
-            </Module>
-            <Module>
-                <__p_name>edit</__p_name>
-                <__p_description>Contains helper methods that language block classes can use for displaying rich text, creating edit definitions, and producing parsing output.</__p_description>
-                <Function>
-                    <__p_name>addComboSelect</__p_name>
-                    <__p_description>Adds a selection to the given combo box edit definition with the given text and optional icon.</__p_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>comboEdit</__p_name>
-                        <__p_description>dictionary
-A combo box edit definition dictionary that has a new selection value added to it.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>text</__p_name>
-                        <__p_description>string
-The text of the new selection value.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>icon</__p_name>
-                        <__p_description>PySide2.QtGui.QIcon
-The optional qt icon of the new selection value.</__p_description>
-                        <__p_assignment>None</__p_assignment>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>checkboxEdit</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>dictionary
-An abstract block's edit definition for a checkbox edit.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>label</__p_name>
-                        <__p_description>string
-The label for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>string
-The key for the edit definition.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>comboEdit</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>dictionary
-An abstract block's edit definition for a combo box edit with no selections.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>label</__p_name>
-                        <__p_description>string
-The label for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>string
-The key for the edit definition.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>edit</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>dictionary
-A generic abstract block's edit definition.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>type_</__p_name>
-                        <__p_description>string
-The type of the generic edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>label</__p_name>
-                        <__p_description>string
-The label of the generic edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>string
-The key of the generic edit definition.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>hiddenEdit</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>dictionary
-An abstract block's edit definition for a hidden edit.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>string
-The key for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>value</__p_name>
-                        <__p_description>string
-The value for the edit definition.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>lineEdit</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>dictionary
-An abstract block's edit definition for a line edit.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>label</__p_name>
-                        <__p_description>string
-The label for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>string
-The key for the edit definition.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>richText</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>rich text
-Generated from the given body, header, and size. The body is wrapped in an HTML paragraph and an HTML header added before it. If the given body is empty then an empty string is returned.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>size</__p_name>
-                        <__p_description>int
-The size of the header, if any, following the HTML standard.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>title</__p_name>
-                        <__p_description>string
-The title used for the HTML header.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>body</__p_name>
-                        <__p_description>string
-The body that is wrapped in the returned rich text if it is not empty.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>richTextBlocks</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>rich text
-The richText function's return but with the body being divided into paragraphs using two new lines as the delimiter.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>size</__p_name>
-                        <__p_description>int
-See rich text function.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>title</__p_name>
-                        <__p_description>string
-See rich text function.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>body</__p_name>
-                        <__p_description>string
-Same as rich text function with the added step of splitting it into paragraphs.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>richTextList</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>rich text
-The richText function's return but with the body being replaced by the list that is formatted as an unordered HTML list. The list being empty is the same of the body being empty.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>size</__p_name>
-                        <__p_description>int
-See rich text function.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>title</__p_name>
-                        <__p_description>string
-See rich text function.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>list_</__p_name>
-                        <__p_description>list
-Strings that are combined as an unordered HTML list.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>textEdit</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>dictionary
-An abstract block's edit definition for a text edit.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>label</__p_name>
-                        <__p_description>string
-The label for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>string
-The key for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>speller</__p_name>
-                        <__p_description>bool
-True to enable spelling or false to disable it.</__p_description>
-                        <__p_assignment>False</__p_assignment>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>uniqueInsert</__p_name>
-                    <__p_description>Inserts the given item into the given dictionary with the given key. If the given key already exists in the dictionary a number is appended to the key string until a key is found that does not exist in the dictionary.</__p_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>dict_</__p_name>
-                        <__p_description>dictionary
-Has an item inserted into it.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>string
-The key used to insert the given item into the given dictionary. If the key already exists this is modified.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>item</__p_name>
-                        <__p_description>The item that is inserted into the given dictionary.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>wrapBlocks</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>list
-The wrapText function's returned but with paragraphs being separated by the given line.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>text</__p_name>
-                        <__p_description>string
-Same as wrap text function.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>begin</__p_name>
-                        <__p_description>string
-Same as wrap text function.</__p_description>
-                        <__p_assignment>&quot;&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>separator</__p_name>
-                        <__p_description>string
-Used to separate each paragraph of text.</__p_description>
-                        <__p_assignment>&quot;&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>columns</__p_name>
-                        <__p_description>int
-Same as wrap text function.</__p_description>
-                        <__p_assignment>80</__p_assignment>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>wrapText</__p_name>
-                    <__p_description>Builder function.</__p_description>
-                    <__p_returnDescription>list
-Wrapped string lines generated from the given text, optional begin and after strings, and maximum line length.</__p_returnDescription>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>text</__p_name>
-                        <__p_description>string
-Text that is wrapped into multiple lines.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>begin</__p_name>
-                        <__p_description>string
-Added to the beginning of every line of wrapped text generated.</__p_description>
-                        <__p_assignment>&quot;&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>after</__p_name>
-                        <__p_description>string
-Added to the beginning of every wrapped line of text, excluding the first line, after the begin string.</__p_description>
-                        <__p_assignment>&quot;&quot;</__p_assignment>
-                    </Object>
-                    <Object>
-                        <__p_name>columns</__p_name>
-                        <__p_description>int
-The maximum column length for each line of wrapped text.</__p_description>
-                        <__p_assignment>80</__p_assignment>
-                    </Object>
-                </Function>
             </Module>
             <Module>
                 <__p_name>exception</__p_name>
@@ -3020,6 +2707,296 @@ Rows that represent a valid qt model index of this command's project model.</__p
                 </Class>
             </Module>
             <Module>
+                <__p_name>public</__p_name>
+                <__p_description>Contains all functions that can be used by language packages when interfacing with the core package.</__p_description>
+                <Function>
+                    <__p_name>addComboSelect</__p_name>
+                    <__p_description>Adds a selection to the given combo box edit definition with the given text and optional icon.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>comboEdit</__p_name>
+                        <__p_description>dictionary
+A combo box edit definition dictionary that has a new selection value added to it.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>text</__p_name>
+                        <__p_description>string
+The text of the new selection value.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>icon</__p_name>
+                        <__p_description>PySide2.QtGui.QIcon
+The optional qt icon of the new selection value.</__p_description>
+                        <__p_assignment>None</__p_assignment>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>checkboxEdit</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_returnDescription>dictionary
+An abstract block's edit definition for a checkbox edit.</__p_returnDescription>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>string
+The label for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>string
+The key for the edit definition.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>comboEdit</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_returnDescription>dictionary
+An abstract block's edit definition for a combo box edit with no selections.</__p_returnDescription>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>string
+The label for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>string
+The key for the edit definition.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>hiddenEdit</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_returnDescription>dictionary
+An abstract block's edit definition for a hidden edit.</__p_returnDescription>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>string
+The key for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>value</__p_name>
+                        <__p_description>string
+The value for the edit definition.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>lineEdit</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_returnDescription>dictionary
+An abstract block's edit definition for a line edit.</__p_returnDescription>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>string
+The label for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>string
+The key for the edit definition.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>register</__p_name>
+                    <__p_description>Registers the wrapped class object as a block with the given name for the language currently being loaded. The class object is also assigned special attributes _LANG_ and _TYPE_ that provide the language name and block name, respectively. This must be called when a language is being loaded.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>name</__p_name>
+                        <__p_description>string
+The block's type name that is being registered. This must be unique among all block names of any one language and only contain alphabetical and underscore characters. Underscore characters are replaced with spaces when displays the block type to the user.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>root</__p_name>
+                        <__p_description>bool
+Optionally indicates the registered block is the root block of the language if set to true. Only one block type can be the root of a language.</__p_description>
+                        <__p_assignment>False</__p_assignment>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>richText</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_returnDescription>rich text
+Generated from the given body, header, and size. The body is wrapped in an HTML paragraph and an HTML header added before it. If the given body is empty then an empty string is returned.</__p_returnDescription>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>size</__p_name>
+                        <__p_description>int
+The size of the header, if any, following the HTML standard.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>title</__p_name>
+                        <__p_description>string
+The title used for the HTML header.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>body</__p_name>
+                        <__p_description>string
+The body that is wrapped in the returned rich text if it is not empty.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>richTextBlocks</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_returnDescription>rich text
+The richText function's return but with the body being divided into paragraphs using two new lines as the delimiter.</__p_returnDescription>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>size</__p_name>
+                        <__p_description>int
+See rich text function.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>title</__p_name>
+                        <__p_description>string
+See rich text function.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>body</__p_name>
+                        <__p_description>string
+Same as rich text function with the added step of splitting it into paragraphs.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>richTextList</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_returnDescription>rich text
+The richText function's return but with the body being replaced by the list that is formatted as an unordered HTML list. The list being empty is the same of the body being empty.</__p_returnDescription>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>size</__p_name>
+                        <__p_description>int
+See rich text function.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>title</__p_name>
+                        <__p_description>string
+See rich text function.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>list_</__p_name>
+                        <__p_description>list
+Strings that are combined as an unordered HTML list.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>textEdit</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_returnDescription>dictionary
+An abstract block's edit definition for a text edit.</__p_returnDescription>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>string
+The label for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>string
+The key for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>speller</__p_name>
+                        <__p_description>bool
+True to enable spelling or false to disable it.</__p_description>
+                        <__p_assignment>False</__p_assignment>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>uniqueInsert</__p_name>
+                    <__p_description>Inserts the given item into the given dictionary with the given key. If the given key already exists in the dictionary a number is appended to the key string until a key is found that does not exist in the dictionary.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>dict_</__p_name>
+                        <__p_description>dictionary
+Has an item inserted into it.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>string
+The key used to insert the given item into the given dictionary. If the key already exists this is modified.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>item</__p_name>
+                        <__p_description>The item that is inserted into the given dictionary.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>wrapBlocks</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_returnDescription>list
+The wrapText function's returned but with paragraphs being separated by the given line.</__p_returnDescription>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>text</__p_name>
+                        <__p_description>string
+Same as wrap text function.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>begin</__p_name>
+                        <__p_description>string
+Same as wrap text function.</__p_description>
+                        <__p_assignment>&quot;&quot;</__p_assignment>
+                    </Object>
+                    <Object>
+                        <__p_name>separator</__p_name>
+                        <__p_description>string
+Used to separate each paragraph of text.</__p_description>
+                        <__p_assignment>&quot;&quot;</__p_assignment>
+                    </Object>
+                    <Object>
+                        <__p_name>columns</__p_name>
+                        <__p_description>int
+Same as wrap text function.</__p_description>
+                        <__p_assignment>80</__p_assignment>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>wrapText</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_returnDescription>list
+Wrapped string lines generated from the given text, optional begin and after strings, and maximum line length.</__p_returnDescription>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>text</__p_name>
+                        <__p_description>string
+Text that is wrapped into multiple lines.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>begin</__p_name>
+                        <__p_description>string
+Added to the beginning of every line of wrapped text generated.</__p_description>
+                        <__p_assignment>&quot;&quot;</__p_assignment>
+                    </Object>
+                    <Object>
+                        <__p_name>after</__p_name>
+                        <__p_description>string
+Added to the beginning of every wrapped line of text, excluding the first line, after the begin string.</__p_description>
+                        <__p_assignment>&quot;&quot;</__p_assignment>
+                    </Object>
+                    <Object>
+                        <__p_name>columns</__p_name>
+                        <__p_description>int
+The maximum column length for each line of wrapped text.</__p_description>
+                        <__p_assignment>80</__p_assignment>
+                    </Object>
+                </Function>
+            </Module>
+            <Module>
                 <__p_name>settings</__p_name>
                 <__p_description>Contains all global settings for this application.</__p_description>
             </Module>
@@ -3033,7 +3010,7 @@ Rows that represent a valid qt model index of this command's project model.</__p
                 <Class>
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents an access declaration for C++ class.</__p_description>
-                    <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Access&quot;)</__p_descriptors>
                     <__p_parents>abstract.AbstractBlock</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -3320,7 +3297,7 @@ True to add a description comment header to the last inner most namespace or fal
                 <Class>
                     <__p_name>Class</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a C++ class.</__p_description>
-                    <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Class&quot;)</__p_descriptors>
                     <__p_parents>Templatee</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -3501,7 +3478,7 @@ Added to the beginning of each returned line of code.</__p_description>
                 <Class>
                     <__p_name>Enum</__p_name>
                     <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration.</__p_description>
-                    <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Enumeration&quot;)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -3580,7 +3557,7 @@ True if this is a class enumeration or false if it is a regular enumeration.</__
                 <Class>
                     <__p_name>EnumValue</__p_name>
                     <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration value.</__p_description>
-                    <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Enumeration_Value&quot;)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -3649,7 +3626,7 @@ True if this is the first value in its enumeration parent or false otherwise.</_
                 <Class>
                     <__p_name>Function</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a C++ function.</__p_description>
-                    <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>Templatee</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -4009,7 +3986,7 @@ The class only scope of this function, not including any namespaces.</__p_descri
                 <Class>
                     <__p_name>Namespace</__p_name>
                     <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++ namespace. It is the root block type of a C++ project.</__p_description>
-                    <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Namespace&quot;,root=True)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -4142,7 +4119,7 @@ True if this is a hidden namespace that must not have its name added to the scop
                 <Class>
                     <__p_name>Template</__p_name>
                     <__p_description>This is the template block class. It implements the Socrates' Reference abstract block class. It represents a C++ template.</__p_description>
-                    <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Template&quot;)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -4315,7 +4292,7 @@ True to include any initial value of a template argument or false otherwise.</__
                 <Class>
                     <__p_name>Union</__p_name>
                     <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++ union.</__p_description>
-                    <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Union&quot;)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -4353,7 +4330,7 @@ True to include any initial value of a template argument or false otherwise.</__
                 <Class>
                     <__p_name>Variable</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++ variable.</__p_description>
-                    <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Variable&quot;)</__p_descriptors>
                     <__p_parents>Template</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -4713,7 +4690,7 @@ The ending of the first function declaration line of the returned signature, use
                 <Class>
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents an access declaration for C++/Qt class.</__p_description>
-                    <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Access&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Access</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -4753,7 +4730,7 @@ True if this access is a public, protected, or private slots type. False is retu
                 <Class>
                     <__p_name>Class</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt class.</__p_description>
-                    <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Class&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Class</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -4811,21 +4788,21 @@ True if this class is a qt object or false otherwise.</__p_returnDescription>
                 <Class>
                     <__p_name>Enum</__p_name>
                     <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt enumeration.</__p_description>
-                    <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Enumeration&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Enum</__p_parents>
                     <__p_infile>0</__p_infile>
                 </Class>
                 <Class>
                     <__p_name>EnumValue</__p_name>
                     <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt enumeration value.</__p_description>
-                    <__p_descriptors>register(&quot;Enumeration_Value&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Enumeration_Value&quot;)</__p_descriptors>
                     <__p_parents>cppblock.EnumValue</__p_parents>
                     <__p_infile>0</__p_infile>
                 </Class>
                 <Class>
                     <__p_name>Function</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt function.</__p_description>
-                    <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Function</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -4862,28 +4839,28 @@ True if this class is a qt object or false otherwise.</__p_returnDescription>
                 <Class>
                     <__p_name>Namespace</__p_name>
                     <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt namespace. It is the root block type of a C++/Qt project.</__p_description>
-                    <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Namespace&quot;,root=True)</__p_descriptors>
                     <__p_parents>cppblock.Namespace</__p_parents>
                     <__p_infile>0</__p_infile>
                 </Class>
                 <Class>
                     <__p_name>Template</__p_name>
                     <__p_description>This is the template block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt template.</__p_description>
-                    <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Template&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Template</__p_parents>
                     <__p_infile>0</__p_infile>
                 </Class>
                 <Class>
                     <__p_name>Union</__p_name>
                     <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt union.</__p_description>
-                    <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Union&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Union</__p_parents>
                     <__p_infile>0</__p_infile>
                 </Class>
                 <Class>
                     <__p_name>Variable</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt variable.</__p_description>
-                    <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Variable&quot;)</__p_descriptors>
                     <__p_parents>cppblock.Variable</__p_parents>
                     <__p_infile>0</__p_infile>
                 </Class>
@@ -4981,7 +4958,7 @@ Added to the beginning of every line of returned source code.</__p_description>
                 <Class>
                     <__p_name>Function</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a GLSL function.</__p_description>
-                    <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -5099,7 +5076,7 @@ The signature of this function used to lookup any scanned lines of code when bui
                 <Class>
                     <__p_name>Program</__p_name>
                     <__p_description>This is the program block class. It implements the Socrates' Reference abstract block class. It represents a GLSL program. It is the root block type of a GLSL project. A program simply represents a folder that contains shader files.</__p_description>
-                    <__p_descriptors>register(&quot;Program&quot;,root=True)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Program&quot;,root=True)</__p_descriptors>
                     <__p_parents>abstract.AbstractBlock</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -5166,7 +5143,7 @@ The signature of this function used to lookup any scanned lines of code when bui
                 <Class>
                     <__p_name>Shader</__p_name>
                     <__p_description>This is the shader block class. It implements the Socrates' Reference abstract block class. It represents a GLSL shader.</__p_description>
-                    <__p_descriptors>register(&quot;Shader&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Shader&quot;)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -5243,7 +5220,7 @@ A file extension based off this shader's type.</__p_returnDescription>
                 <Class>
                     <__p_name>Structure</__p_name>
                     <__p_description>This is the structure block class. It implements the Socrates' Reference abstract block class. It represents a GLSL structure.</__p_description>
-                    <__p_descriptors>register(&quot;Structure&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Structure&quot;)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -5319,7 +5296,7 @@ A file extension based off this shader's type.</__p_returnDescription>
                 <Class>
                     <__p_name>Variable</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a GLSL variable.</__p_description>
-                    <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Variable&quot;)</__p_descriptors>
                     <__p_parents>Base</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -5596,7 +5573,7 @@ The ending of the first function declaration line of the returned signature, use
                 <Class>
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.</__p_description>
-                    <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Access&quot;)</__p_descriptors>
                     <__p_parents>Package</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -5687,7 +5664,7 @@ True if this access block contains abstract methods or false otherwise.</__p_ret
                 <Class>
                     <__p_name>Class</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
-                    <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Class&quot;)</__p_descriptors>
                     <__p_parents>Descriptor</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -5848,7 +5825,7 @@ Detailed information about this block's descriptors. If this block has no descri
                 <Class>
                     <__p_name>Function</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
-                    <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>Descriptor</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -6014,7 +5991,7 @@ Rich text list of flags this block has enabled. If this block has no flags enabl
                 <Class>
                     <__p_name>Module</__p_name>
                     <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
-                    <__p_descriptors>register(&quot;Module&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Module&quot;)</__p_descriptors>
                     <__p_parents>Package</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -6057,7 +6034,7 @@ Rich text list of flags this block has enabled. If this block has no flags enabl
                 <Class>
                     <__p_name>Object</__p_name>
                     <__p_description>This is the object block class. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
-                    <__p_descriptors>register(&quot;Object&quot;)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Object&quot;)</__p_descriptors>
                     <__p_parents>Package</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -6208,7 +6185,7 @@ True if this object is an argument of a function or false otherwise.</__p_return
                 <Class>
                     <__p_name>Package</__p_name>
                     <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project. It implements one additional interface method used by other block definitions of the python language.</__p_description>
-                    <__p_descriptors>register(&quot;Package&quot;,root=True)</__p_descriptors>
+                    <__p_descriptors>scr.register(&quot;Package&quot;,root=True)</__p_descriptors>
                     <__p_parents>abstract.AbstractBlock</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>

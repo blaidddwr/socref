@@ -4,7 +4,7 @@ Contains the Parser class.
 import os
 import re
 from socref import abstract
-from socref import edit
+from socref import public as scr
 
 
 
@@ -120,7 +120,7 @@ class Parser(abstract.AbstractParser):
                     match = self.__functionPattern.match(line)
                     if match:
                         signature = self.__scanSignature_(ifile,match.group(1),match.group(2))
-                        edit.uniqueInsert(
+                        scr.uniqueInsert(
                             def_["functions"]
                             ,signature
                             ,self.__scanFunction_(ifile,match.group(2))

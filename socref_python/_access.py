@@ -4,8 +4,7 @@ Contains the Access class.
 import html
 from PySide2 import QtGui as qtg
 from socref import abstract
-from socref import edit
-from socref import register
+from socref import public as scr
 from ._package import Package
 from . import settings
 
@@ -16,7 +15,7 @@ from . import settings
 
 
 
-@register("Access")
+@scr.register("Access")
 class Access(Package):
     """
     This is the access block class. It implements the Socrates' Reference
@@ -136,11 +135,11 @@ class Access(Package):
                See interface docs.
         """
         ret = []
-        ret.append(edit.lineEdit("Name:","_p_name"))
-        combo = edit.comboEdit("Type:","_p_type")
-        edit.addComboSelect(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
-        edit.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
-        edit.addComboSelect(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
+        ret.append(scr.lineEdit("Name:","_p_name"))
+        combo = scr.comboEdit("Type:","_p_type")
+        scr.addComboSelect(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
+        scr.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
+        scr.addComboSelect(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
         ret.append(combo)
         return ret
 
