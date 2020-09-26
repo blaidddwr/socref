@@ -1334,27 +1334,6 @@ The project model whose given index block properties are changed.</__p_descripti
                         <__p_abstract>0</__p_abstract>
                     </Function>
                 </Class>
-                <Function>
-                    <__p_name>initialize</__p_name>
-                    <__p_description>Initializes the global singleton Hunspell speller used for spell checking through this application. This must only be called once during initialization of the application.</__p_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                </Function>
-                <Object>
-                    <__p_name>blockFactory</__p_name>
-                    <__p_description>The global singleton instance of this application's block factory.</__p_description>
-                    <__p_assignment>BlockFactory()</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>speller</__p_name>
-                    <__p_description>The global singleton instance of this application's Hunspell speller.</__p_description>
-                    <__p_assignment>None</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>parser</__p_name>
-                    <__p_description>The global singleton instance of this application's parser model.</__p_description>
-                    <__p_assignment>ParserModel()</__p_assignment>
-                </Object>
             </Module>
             <Module>
                 <__p_name>edit</__p_name>
@@ -3043,21 +3022,6 @@ Rows that represent a valid qt model index of this command's project model.</__p
             <Module>
                 <__p_name>settings</__p_name>
                 <__p_description>Contains all global settings for this application.</__p_description>
-                <Object>
-                    <__p_name>VERSION</__p_name>
-                    <__p_description>The version of this application as a string. The string lists the major version, minor version, and revision in that order and separated by periods.</__p_description>
-                    <__p_assignment>&quot;0.0.9999&quot;</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>DICTIONARY</__p_name>
-                    <__p_description>The Hunspell dictionary used for spell checking.</__p_description>
-                    <__p_assignment>&quot;en_US&quot;</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>HUNSPELL_ROOT</__p_name>
-                    <__p_description>The root directory where Hunspell dictionaries are located.</__p_description>
-                    <__p_assignment>&quot;/usr/share/hunspell&quot;</__p_assignment>
-                </Object>
             </Module>
         </Package>
         <Package>
@@ -4738,36 +4702,6 @@ The ending of the first function declaration line of the returned signature, use
             <Module>
                 <__p_name>settings</__p_name>
                 <__p_description>Contains all global settings for this language package.</__p_description>
-                <Object>
-                    <__p_name>COLUMNS</__p_name>
-                    <__p_description>The maximum number of columns for any one line of generated comments.</__p_description>
-                    <__p_assignment>80</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>H1LINES</__p_name>
-                    <__p_description>The number of lines for a first order header.</__p_description>
-                    <__p_assignment>4</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>H2LINES</__p_name>
-                    <__p_description>The number of lines for a second order header.</__p_description>
-                    <__p_assignment>2</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>INDENT</__p_name>
-                    <__p_description>The number of spaces used for each indent.</__p_description>
-                    <__p_assignment>4</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>HEADER_EXTENSION</__p_name>
-                    <__p_description>The file name extension for C++ header files.</__p_description>
-                    <__p_assignment>&quot;.h&quot;</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>SOURCE_EXTENSION</__p_name>
-                    <__p_description>The file name extension for C++ source files.</__p_description>
-                    <__p_assignment>&quot;.cpp&quot;</__p_assignment>
-                </Object>
             </Module>
         </Package>
         <Package>
@@ -5651,56 +5585,6 @@ The ending of the first function declaration line of the returned signature, use
             <Module>
                 <__p_name>settings</__p_name>
                 <__p_description>Contains all global settings for this language package.</__p_description>
-                <Object>
-                    <__p_name>COLUMNS</__p_name>
-                    <__p_description>The maximum number of columns for any one line of generated comments.</__p_description>
-                    <__p_assignment>80</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>H1LINES</__p_name>
-                    <__p_description>The number of lines for a first order header.</__p_description>
-                    <__p_assignment>4</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>H2LINES</__p_name>
-                    <__p_description>The number of lines for a second order header.</__p_description>
-                    <__p_assignment>2</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>INDENT</__p_name>
-                    <__p_description>The number of spaces used for each indent.</__p_description>
-                    <__p_assignment>4</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>VERTEX_EXTENSION</__p_name>
-                    <__p_description>The file name extension for vertex shaders.</__p_description>
-                    <__p_assignment>&quot;.v.glsl&quot;</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>FRAGMENT_EXTENSION</__p_name>
-                    <__p_description>The file name extension for fragment shaders.</__p_description>
-                    <__p_assignment>&quot;.f.glsl&quot;</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>TESS_CTRL_EXTENSION</__p_name>
-                    <__p_description>The file name extension for tesselation control shaders.</__p_description>
-                    <__p_assignment>&quot;.tc.glsl&quot;</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>TESS_EVAL_EXTENSION</__p_name>
-                    <__p_description>The file name extension for tesselation evaluation shaders.</__p_description>
-                    <__p_assignment>&quot;.te.glsl&quot;</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>GEOMETRY_EXTENSION</__p_name>
-                    <__p_description>The file name extension for geometry shaders.</__p_description>
-                    <__p_assignment>&quot;.g.glsl&quot;</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>COMPUTE_EXTENSION</__p_name>
-                    <__p_description>The file name extension for compute shaders.</__p_description>
-                    <__p_assignment>&quot;.cp.glsl&quot;</__p_assignment>
-                </Object>
             </Module>
         </Package>
         <Package>
@@ -6677,41 +6561,6 @@ The next line of python source code read in from this scanner's input file. If t
             <Module>
                 <__p_name>settings</__p_name>
                 <__p_description>Contains all global settings for this language package.</__p_description>
-                <Object>
-                    <__p_name>ABSTRACT_DESCRIPTOR</__p_name>
-                    <__p_description>The descriptor, without the leading ampersand, used to make a class's method abstract.</__p_description>
-                    <__p_assignment>&quot;abc.abstractmethod&quot;</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>COLUMNS</__p_name>
-                    <__p_description>The maximum number of columns for any one line of generated doc strings.</__p_description>
-                    <__p_assignment>80</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>H1LINES</__p_name>
-                    <__p_description>The number of lines for a first order header.</__p_description>
-                    <__p_assignment>8</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>H2LINES</__p_name>
-                    <__p_description>The number of lines for a second order header.</__p_description>
-                    <__p_assignment>4</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>H3LINES</__p_name>
-                    <__p_description>The number of lines for a third order header.</__p_description>
-                    <__p_assignment>2</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>INDENT</__p_name>
-                    <__p_description>The number of spaces used for each indent.</__p_description>
-                    <__p_assignment>4</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>SCRIPT_HEADER</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_assignment>&quot;### __SCRIPT__ ###&quot;</__p_assignment>
-                </Object>
             </Module>
         </Package>
     </Package>

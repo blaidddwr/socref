@@ -46,11 +46,7 @@ class Module(Package):
         (regular,classes) = self._buildChildren_(definition,begin)
         if classes:
             ret += [""]+classes
-        ret += regular
-        if self._p_name == "__main__":
-            ret += [""]*settings.H1LINES
-            ret.append('if __name__ == "__main__": main()')
-        ret += footer
+        ret += regular+footer
         return ret
 
 

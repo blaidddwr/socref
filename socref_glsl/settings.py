@@ -3,6 +3,12 @@ Contains all global settings for this language package.
 """
 
 
+
+
+
+
+
+
 COLUMNS = 80
 H1LINES = 4
 H2LINES = 2

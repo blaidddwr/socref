@@ -170,7 +170,7 @@ class Parser(abstract.AbstractParser):
                             ,self.__scanFunction_(ifile,match.group(2))
                         )
                         continue
-                    if self.__importPattern.match(line):
+                    if self.__importPattern.match(line) or line.startswith("@"):
                         continue
                     script.append(line)
                     break

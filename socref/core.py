@@ -36,17 +36,8 @@ class Role(enum.IntEnum):
 
 
 
-def initialize():
-    """
-    Initializes the global singleton Hunspell speller used for spell checking
-    through this application. This must only be called once during
-    initialization of the application.
-    """
-    global speller
-    speller = hunspell.HunSpell(
-        os.path.join(settings.HUNSPELL_ROOT,settings.DICTIONARY+".dic")
-        ,os.path.join(settings.HUNSPELL_ROOT,settings.DICTIONARY+".aff")
-    )
+
+
 
 
 blockFactory = BlockFactory()
