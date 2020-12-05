@@ -492,6 +492,12 @@ class ProjectModel(qtc.QAbstractItemModel):
             raise
 
 
+    #
+    # Signals this model's project has been modified with unsaved changes.
+    #
+    modified = qtc.Signal()
+
+
     def moveRow(
         self
         ,change
@@ -538,6 +544,12 @@ class ProjectModel(qtc.QAbstractItemModel):
                has no project.
         """
         return self.__name
+
+
+    #
+    # Signals this model's project name has changed to the value given.
+    #
+    nameChanged = qtc.Signal(str)
 
 
     def new(
@@ -612,6 +624,12 @@ class ProjectModel(qtc.QAbstractItemModel):
         return self.__parsePath
 
 
+    #
+    # Signals this model's relative parsing path has changed to the value given.
+    #
+    parsePathChanged = qtc.Signal(str)
+
+
     def parser(
         self
         ):
@@ -631,6 +649,19 @@ class ProjectModel(qtc.QAbstractItemModel):
             if not isinstance(ret,abstract.AbstractParser):
                 raise RuntimeError("Generated parser is not an abstract parser.")
             return ret
+
+
+    @qtc.Slot()
+    def redo(
+        self
+        ):
+        """
+        Called to redo the last undone modification of this model. If this model
+        cannot redo then this does nothing.
+        """
+        if self.canRedo():
+            self.__undoStack[self.__undoStackIndex].redo()
+            self.__undoStackIndex += 1
 
 
     def removeRows(
@@ -785,37 +816,6 @@ class ProjectModel(qtc.QAbstractItemModel):
             self.__parsePath = path
             self.__modified_()
             self.parsePathChanged.emit(path)
-
-
-    #
-    # Signals this model's project has been modified with unsaved changes.
-    #
-    modified = qtc.Signal()
-
-
-    #
-    # Signals this model's project name has changed to the value given.
-    #
-    nameChanged = qtc.Signal(str)
-
-
-    #
-    # Signals this model's relative parsing path has changed to the value given.
-    #
-    parsePathChanged = qtc.Signal(str)
-
-
-    @qtc.Slot()
-    def redo(
-        self
-        ):
-        """
-        Called to redo the last undone modification of this model. If this model
-        cannot redo then this does nothing.
-        """
-        if self.canRedo():
-            self.__undoStack[self.__undoStackIndex].redo()
-            self.__undoStackIndex += 1
 
 
     @qtc.Slot()

@@ -119,6 +119,42 @@ class MainWindow(qtw.QMainWindow):
     parseRequested = qtc.Signal(abstract.AbstractParser)
 
 
+    @qtc.Slot()
+    def __about_(
+        self
+        ):
+        """
+        Called to open a modal about dialog describing this application to the
+        user.
+        """
+        ifile = qtc.QFile(":/socref/about.html")
+        ifile.open(qtc.QIODevice.ReadOnly)
+        text = ifile.readAll().data().decode(encoding="utf-8")
+        ifile.close()
+        qtw.QMessageBox.about(
+            self
+            ,"About Socrates' Reference"
+            ,text.replace("%SOCREF_VER%",settings.VERSION)
+        )
+
+
+    @qtc.Slot()
+    def __close_(
+        self
+        ):
+        """
+        Called to close this window's current project. If this window has no
+        project then this does nothing. If the current project has unsaved
+        changes the user is queried about what to do.
+        """
+        if self.__model and self.__isOkToClose_():
+            self.__model.close()
+            self.__path = None
+            self.__updateTitle_()
+            self.setWindowModified(False)
+            self.__updateActions_()
+
+
     def __isOkToClose_(
         self
         ):
@@ -153,6 +189,163 @@ class MainWindow(qtw.QMainWindow):
             return True
 
 
+    @qtc.Slot()
+    def __modified_(
+        self
+        ):
+        """
+        Called to inform this window that its project has been modified.
+        """
+        self.setWindowModified(True)
+
+
+    @qtc.Slot(str)
+    def __nameChanged_(
+        self
+        ,name
+        ):
+        """
+        Called to inform this window that its project's name has been changed.
+        This updates the window's title.
+
+        Parameters
+        ----------
+        name : string
+               The new name of this window's model's project.
+        """
+        self.__updateTitle_()
+
+
+    @qtc.Slot(str)
+    def __new_(
+        self
+        ,langName
+        ):
+        """
+        Called to create a new project of the given language for this window.
+
+        Parameters
+        ----------
+        langName : string
+                   The name of the language used to create a new project.
+        """
+        window = self
+        if self.__model:
+            window = MainWindow()
+        window.__model.new(langName)
+        window.__updateTitle_()
+        window.setWindowModified(False)
+        window.__updateActions_()
+        window.show()
+
+
+    @qtc.Slot()
+    def __open_(
+        self
+        ):
+        """
+        Called to open a project file for this window if it does not have a
+        project or a new window otherwise.
+        """
+        path,type_ = qtw.QFileDialog.getOpenFileName(
+            self
+            ,"Open Project"
+            ,""
+            ,"Socrates' Project File (*.scp)"
+        )
+        if not path:
+            return
+        path = os.path.abspath(path)
+        window = self
+        if self.__model:
+            window = MainWindow()
+        try:
+            window.open_(path)
+        except:
+            if window is not self:
+                window.deleteLater()
+            raise
+        window.show()
+
+
+    @qtc.Slot()
+    def __parse_(
+        self
+        ):
+        """
+        Called to parse the source code of this window's project. If this window
+        does not have a project save path then this does nothing.
+        """
+        if self.__path is not None:
+            parser = self.__model.parser()
+            parser.setRootPath(
+                os.path.abspath(
+                    os.path.join(os.path.dirname(self.__path),self.__model.parsePath())
+                )
+            )
+            self.parseRequested.emit(parser)
+
+
+    @qtc.Slot()
+    def __parseFinished_(
+        self
+        ):
+        """
+        Called to inform this window that the singleton parser model has
+        finished parsing.
+        """
+        if self.__progressBar is not None:
+            self.__progressBar.deleteLater()
+            self.__progressBar = None
+
+
+    @qtc.Slot(int)
+    def __parseProgressed_(
+        self
+        ,percent
+        ):
+        """
+        Called to inform this window that the singleton parser model has made
+        progress parsing.
+
+        Parameters
+        ----------
+        percent : int
+                  The percentage progress the singleton parser model has made
+                  parsing from 0 to 100.
+        """
+        if self.__progressBar is not None:
+            self.__progressBar.setValue(percent)
+
+
+    @qtc.Slot()
+    def __parseStarted_(
+        self
+        ):
+        """
+        Called to inform this window that the singleton parser model has started
+        parsing.
+        """
+        if self.__progressBar is None:
+            bar = self.__progressBar = qtw.QProgressBar()
+            bar.setRange(0,100)
+            bar.setValue(0)
+            self.statusBar().addWidget(bar)
+            bar.show()
+
+
+    @qtc.Slot()
+    def __properties_(
+        self
+        ):
+        """
+        Called to have this window bring up a modal project dialog to edit the
+        basic properties of its current project. If this window has no project
+        then this does nothing.
+        """
+        gui.ProjectDialog(self.__model).exec_()
+
+
     def __restore_(
         self
         ):
@@ -166,6 +359,56 @@ class MainWindow(qtw.QMainWindow):
             self.restoreGeometry(geometry)
         if state:
             self.restoreState(state)
+
+
+    @qtc.Slot()
+    def __save_(
+        self
+        ):
+        """
+        Called to save this window's project. If this window has no project or
+        its save path is none then this does nothing.
+
+        Returns
+        -------
+        ret0 : bool
+               True if the project was saved successfully or false otherwise.
+        """
+        if not self.__model or self.__path is None:
+            return False
+        self.__model.save(self.__path)
+        self.setWindowModified(False)
+        return True
+
+
+    @qtc.Slot()
+    def __saveAs_(
+        self
+        ):
+        """
+        Called to save this window's project to a new save file path selected by
+        the user. If this window has no project then this does nothing.
+        """
+        if not self.__model:
+            return False
+        path,type_ = qtw.QFileDialog.getSaveFileName(
+            self
+            ,"Save Project"
+            ,""
+            ,"Socrates' Project File (*.scp)"
+        )
+        if not path:
+            return False
+        oldpath = self.__path
+        self.__path = os.path.abspath(path)
+        try:
+            self.__model.save(self.__path)
+        except:
+            self.__path = oldpath
+            raise
+        self.setWindowModified(False)
+        self.__updateActions_()
+        return True
 
 
     def __setupActions_(
@@ -418,246 +661,3 @@ class MainWindow(qtw.QMainWindow):
             )
         else:
             self.setWindowTitle("Socrates' Reference")
-
-
-    @qtc.Slot()
-    def __about_(
-        self
-        ):
-        """
-        Called to open a modal about dialog describing this application to the
-        user.
-        """
-        ifile = qtc.QFile(":/socref/about.html")
-        ifile.open(qtc.QIODevice.ReadOnly)
-        text = ifile.readAll().data().decode(encoding="utf-8")
-        ifile.close()
-        qtw.QMessageBox.about(
-            self
-            ,"About Socrates' Reference"
-            ,text.replace("%SOCREF_VER%",settings.VERSION)
-        )
-
-
-    @qtc.Slot()
-    def __close_(
-        self
-        ):
-        """
-        Called to close this window's current project. If this window has no
-        project then this does nothing. If the current project has unsaved
-        changes the user is queried about what to do.
-        """
-        if self.__model and self.__isOkToClose_():
-            self.__model.close()
-            self.__path = None
-            self.__updateTitle_()
-            self.setWindowModified(False)
-            self.__updateActions_()
-
-
-    @qtc.Slot()
-    def __modified_(
-        self
-        ):
-        """
-        Called to inform this window that its project has been modified.
-        """
-        self.setWindowModified(True)
-
-
-    @qtc.Slot(str)
-    def __nameChanged_(
-        self
-        ,name
-        ):
-        """
-        Called to inform this window that its project's name has been changed.
-        This updates the window's title.
-
-        Parameters
-        ----------
-        name : string
-               The new name of this window's model's project.
-        """
-        self.__updateTitle_()
-
-
-    @qtc.Slot(str)
-    def __new_(
-        self
-        ,langName
-        ):
-        """
-        Called to create a new project of the given language for this window.
-
-        Parameters
-        ----------
-        langName : string
-                   The name of the language used to create a new project.
-        """
-        window = self
-        if self.__model:
-            window = MainWindow()
-        window.__model.new(langName)
-        window.__updateTitle_()
-        window.setWindowModified(False)
-        window.__updateActions_()
-        window.show()
-
-
-    @qtc.Slot()
-    def __open_(
-        self
-        ):
-        """
-        Called to open a project file for this window if it does not have a
-        project or a new window otherwise.
-        """
-        path,type_ = qtw.QFileDialog.getOpenFileName(
-            self
-            ,"Open Project"
-            ,""
-            ,"Socrates' Project File (*.scp)"
-        )
-        if not path:
-            return
-        path = os.path.abspath(path)
-        window = self
-        if self.__model:
-            window = MainWindow()
-        try:
-            window.open_(path)
-        except:
-            if window is not self:
-                window.deleteLater()
-            raise
-        window.show()
-
-
-    @qtc.Slot()
-    def __parse_(
-        self
-        ):
-        """
-        Called to parse the source code of this window's project. If this window
-        does not have a project save path then this does nothing.
-        """
-        if self.__path is not None:
-            parser = self.__model.parser()
-            parser.setRootPath(
-                os.path.abspath(
-                    os.path.join(os.path.dirname(self.__path),self.__model.parsePath())
-                )
-            )
-            self.parseRequested.emit(parser)
-
-
-    @qtc.Slot()
-    def __parseFinished_(
-        self
-        ):
-        """
-        Called to inform this window that the singleton parser model has
-        finished parsing.
-        """
-        if self.__progressBar is not None:
-            self.__progressBar.deleteLater()
-            self.__progressBar = None
-
-
-    @qtc.Slot(int)
-    def __parseProgressed_(
-        self
-        ,percent
-        ):
-        """
-        Called to inform this window that the singleton parser model has made
-        progress parsing.
-
-        Parameters
-        ----------
-        percent : int
-                  The percentage progress the singleton parser model has made
-                  parsing from 0 to 100.
-        """
-        if self.__progressBar is not None:
-            self.__progressBar.setValue(percent)
-
-
-    @qtc.Slot()
-    def __parseStarted_(
-        self
-        ):
-        """
-        Called to inform this window that the singleton parser model has started
-        parsing.
-        """
-        if self.__progressBar is None:
-            bar = self.__progressBar = qtw.QProgressBar()
-            bar.setRange(0,100)
-            bar.setValue(0)
-            self.statusBar().addWidget(bar)
-            bar.show()
-
-
-    @qtc.Slot()
-    def __properties_(
-        self
-        ):
-        """
-        Called to have this window bring up a modal project dialog to edit the
-        basic properties of its current project. If this window has no project
-        then this does nothing.
-        """
-        gui.ProjectDialog(self.__model).exec_()
-
-
-    @qtc.Slot()
-    def __save_(
-        self
-        ):
-        """
-        Called to save this window's project. If this window has no project or
-        its save path is none then this does nothing.
-
-        Returns
-        -------
-        ret0 : bool
-               True if the project was saved successfully or false otherwise.
-        """
-        if not self.__model or self.__path is None:
-            return False
-        self.__model.save(self.__path)
-        self.setWindowModified(False)
-        return True
-
-
-    @qtc.Slot()
-    def __saveAs_(
-        self
-        ):
-        """
-        Called to save this window's project to a new save file path selected by
-        the user. If this window has no project then this does nothing.
-        """
-        if not self.__model:
-            return False
-        path,type_ = qtw.QFileDialog.getSaveFileName(
-            self
-            ,"Save Project"
-            ,""
-            ,"Socrates' Project File (*.scp)"
-        )
-        if not path:
-            return False
-        oldpath = self.__path
-        self.__path = os.path.abspath(path)
-        try:
-            self.__model.save(self.__path)
-        except:
-            self.__path = oldpath
-            raise
-        self.setWindowModified(False)
-        self.__updateActions_()
-        return True

@@ -63,18 +63,6 @@ class BlockViewDock(qtw.QDockWidget):
         self.__view.indexDataChanged.connect(self.__indexChanged_)
 
 
-    def __setupGui_(
-        self
-        ):
-        """
-        Initialize the GUI of this new block view dock.
-        """
-        self.__label.setContentsMargins(4,16,4,4)
-        area = qtw.QScrollArea(widgetResizable=True)
-        area.setWidget(self.__label)
-        self.setWidget(area)
-
-
     @qtc.Slot(qtc.QModelIndex)
     def __indexChanged_(
         self
@@ -89,3 +77,15 @@ class BlockViewDock(qtw.QDockWidget):
             self.__label.setText(self.__view.model().data(index,core.Role.View))
         else:
             self.__label.setText("")
+
+
+    def __setupGui_(
+        self
+        ):
+        """
+        Initialize the GUI of this new block view dock.
+        """
+        self.__label.setContentsMargins(4,16,4,4)
+        area = qtw.QScrollArea(widgetResizable=True)
+        area.setWidget(self.__label)
+        self.setWidget(area)

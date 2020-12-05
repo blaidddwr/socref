@@ -82,6 +82,17 @@ class TextDialog(qtw.QDialog):
         return self.__textEdit.toPlainText()
 
 
+    @qtc.Slot()
+    def __cancel_(
+        self
+        ):
+        """
+        Called to set this dialog's done status to rejected and then closing it.
+        """
+        self.done(qtw.QDialog.Rejected)
+        self.close()
+
+
     def __restore_(
         self
         ):
@@ -92,6 +103,17 @@ class TextDialog(qtw.QDialog):
         geometry = settings.value(self.__GEOMETRY_KEY)
         if geometry:
             self.restoreGeometry(geometry)
+
+
+    @qtc.Slot()
+    def __set_(
+        self
+        ):
+        """
+        Called to set this dialog's done status to accepted and then closing it.
+        """
+        self.done(qtw.QDialog.Accepted)
+        self.close()
 
 
     def __setupButtons_(
@@ -150,28 +172,6 @@ class TextDialog(qtw.QDialog):
         )
         self.__spellerBox.finished.connect(self.__spellCheckFinished_)
         return self.__spellerBox
-
-
-    @qtc.Slot()
-    def __cancel_(
-        self
-        ):
-        """
-        Called to set this dialog's done status to rejected and then closing it.
-        """
-        self.done(qtw.QDialog.Rejected)
-        self.close()
-
-
-    @qtc.Slot()
-    def __set_(
-        self
-        ):
-        """
-        Called to set this dialog's done status to accepted and then closing it.
-        """
-        self.done(qtw.QDialog.Accepted)
-        self.close()
 
 
     @qtc.Slot()

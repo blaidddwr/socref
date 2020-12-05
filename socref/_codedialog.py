@@ -66,6 +66,46 @@ class CodeDialog(qtw.QDialog):
         event.accept()
 
 
+    @qtc.Slot()
+    def __close_(
+        self
+        ):
+        """
+        Called to close this dialog.
+        """
+        self.done(qtw.QDialog.Accepted)
+        self.close()
+
+
+    @qtc.Slot()
+    def __copy_(
+        self
+        ):
+        """
+        Called to copy this dialog's current code fragment to the system
+        clipboard.
+        """
+        clipboard = qtg.QClipboard()
+        clipboard.setText(self.__view.toPlainText())
+
+
+    @qtc.Slot(str)
+    def __itemChanged_(
+        self
+        ,key
+        ):
+        """
+        Called to inform this dialog's the selected code fragment has changed to
+        the one with the given key.
+
+        Parameters
+        ----------
+        key : string
+              The new key of the selected code fragment.
+        """
+        self.__view.setPlainText(self.__code[key])
+
+
     def __restore_(
         self
         ):
@@ -125,43 +165,3 @@ class CodeDialog(qtw.QDialog):
         self.__splitter.addWidget(list_)
         self.__splitter.addWidget(self.__view)
         return self.__splitter
-
-
-    @qtc.Slot()
-    def __close_(
-        self
-        ):
-        """
-        Called to close this dialog.
-        """
-        self.done(qtw.QDialog.Accepted)
-        self.close()
-
-
-    @qtc.Slot()
-    def __copy_(
-        self
-        ):
-        """
-        Called to copy this dialog's current code fragment to the system
-        clipboard.
-        """
-        clipboard = qtg.QClipboard()
-        clipboard.setText(self.__view.toPlainText())
-
-
-    @qtc.Slot(str)
-    def __itemChanged_(
-        self
-        ,key
-        ):
-        """
-        Called to inform this dialog's the selected code fragment has changed to
-        the one with the given key.
-
-        Parameters
-        ----------
-        key : string
-              The new key of the selected code fragment.
-        """
-        self.__view.setPlainText(self.__code[key])

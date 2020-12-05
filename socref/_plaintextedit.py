@@ -79,19 +79,6 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         self.__speller = enabled
 
 
-    def __setupActions_(
-        self
-        ):
-        """
-        Initialize the qt action shortcuts of this new text editor.
-        """
-        dialog = qtw.QAction(self)
-        dialog.setShortcutContext(qtc.Qt.WidgetShortcut)
-        dialog.setShortcut(qtc.Qt.CTRL + qtc.Qt.Key_E)
-        dialog.triggered.connect(self.__dialog_)
-        self.addAction(dialog)
-
-
     @qtc.Slot()
     def __dialog_(
         self
@@ -104,3 +91,16 @@ class PlainTextEdit(qtw.QPlainTextEdit):
             dialog.setWindowTitle("Text Editor - Socrates' Reference")
             if dialog.exec_():
                 self.setPlainText(dialog.text())
+
+
+    def __setupActions_(
+        self
+        ):
+        """
+        Initialize the qt action shortcuts of this new text editor.
+        """
+        dialog = qtw.QAction(self)
+        dialog.setShortcutContext(qtc.Qt.WidgetShortcut)
+        dialog.setShortcut(qtc.Qt.CTRL + qtc.Qt.Key_E)
+        dialog.triggered.connect(self.__dialog_)
+        self.addAction(dialog)

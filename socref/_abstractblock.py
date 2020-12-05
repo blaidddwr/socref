@@ -90,40 +90,6 @@ class AbstractBlock(abc.ABC):
         self.__properties = {}
 
 
-    def __eq__(
-        self
-        ,other
-        ):
-        """
-        Implements the equality operator.
-
-        Parameters
-        ----------
-        other : socref.abstract.AbstractBlock
-                Another block that is evaluated for equality with this one.
-
-        Returns
-        -------
-        ret0 : bool
-               True if the other object is this instance or false otherwise.
-        """
-        return self is other
-
-
-    def __len__(
-        self
-        ):
-        """
-        Implements the length operator.
-
-        Returns
-        -------
-        ret0 : int
-               Total number of children of this block.
-        """
-        return len(self.__children)
-
-
     def __contains__(
         self
         ,block
@@ -145,40 +111,6 @@ class AbstractBlock(abc.ABC):
         return block in self.__children
 
 
-    def __iter__(
-        self
-        ):
-        """
-        Implements the iterator operator.
-
-        Returns
-        -------
-        ret0 : iterator
-               Iterator of this block's list of children.
-        """
-        return self.__children.__iter__()
-
-
-    def __getitem__(
-        self
-        ,index
-        ):
-        """
-        Implements the get item operator.
-
-        Parameters
-        ----------
-        index : int
-                The index of this block's child block that is returned.
-
-        Returns
-        -------
-        ret0 : socref.abstract.AbstractBlock
-               This block's child block with the given index.
-        """
-        return self.__children[index]
-
-
     def __delitem__(
         self
         ,index
@@ -193,6 +125,26 @@ class AbstractBlock(abc.ABC):
                 The index of this block's child block that is deleted.
         """
         del self.__children[index]
+
+
+    def __eq__(
+        self
+        ,other
+        ):
+        """
+        Implements the equality operator.
+
+        Parameters
+        ----------
+        other : socref.abstract.AbstractBlock
+                Another block that is evaluated for equality with this one.
+
+        Returns
+        -------
+        ret0 : bool
+               True if the other object is this instance or false otherwise.
+        """
+        return self is other
 
 
     def __getattr__(
@@ -220,6 +172,54 @@ class AbstractBlock(abc.ABC):
             return object.__getattribute__(self,key)
 
 
+    def __getitem__(
+        self
+        ,index
+        ):
+        """
+        Implements the get item operator.
+
+        Parameters
+        ----------
+        index : int
+                The index of this block's child block that is returned.
+
+        Returns
+        -------
+        ret0 : socref.abstract.AbstractBlock
+               This block's child block with the given index.
+        """
+        return self.__children[index]
+
+
+    def __iter__(
+        self
+        ):
+        """
+        Implements the iterator operator.
+
+        Returns
+        -------
+        ret0 : iterator
+               Iterator of this block's list of children.
+        """
+        return self.__children.__iter__()
+
+
+    def __len__(
+        self
+        ):
+        """
+        Implements the length operator.
+
+        Returns
+        -------
+        ret0 : int
+               Total number of children of this block.
+        """
+        return len(self.__children)
+
+
     def __setattr__(
         self
         ,key
@@ -241,6 +241,22 @@ class AbstractBlock(abc.ABC):
             self.__properties[key] = item
         else:
             object.__setattr__(self,key,item)
+
+
+    def append(
+        self
+        ,block
+        ):
+        """
+        Appends the given block as a new child into this block's list of
+        children. The given block cannot already have a parent.
+
+        Parameters
+        ----------
+        block : socref.abstract.AbstractBlock
+                A block that is appended as a new child to this block.
+        """
+        self.insert(len(self),block)
 
 
     @abc.abstractmethod
@@ -328,33 +344,6 @@ class AbstractBlock(abc.ABC):
                The icon of this block.
         """
         pass
-
-
-    @abc.abstractmethod
-    def setDefaultProperties(
-        self
-        ):
-        """
-        This interface sets all of this block's properties to their default
-        state.
-        """
-        pass
-
-
-    def append(
-        self
-        ,block
-        ):
-        """
-        Appends the given block as a new child into this block's list of
-        children. The given block cannot already have a parent.
-
-        Parameters
-        ----------
-        block : socref.abstract.AbstractBlock
-                A block that is appended as a new child to this block.
-        """
-        self.insert(len(self),block)
 
 
     def index(
@@ -500,6 +489,17 @@ class AbstractBlock(abc.ABC):
                Properties of this block.
         """
         return self.__properties
+
+
+    @abc.abstractmethod
+    def setDefaultProperties(
+        self
+        ):
+        """
+        This interface sets all of this block's properties to their default
+        state.
+        """
+        pass
 
 
     def setFromXml(

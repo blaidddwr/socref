@@ -22,50 +22,6 @@ class Object(Package):
     """
 
 
-    def comment(
-        name
-        ,description
-        ,begin
-        ):
-        """
-        Getter method.
-
-        Parameters
-        ----------
-        name : string
-               The name of the variable whose doc string is returned.
-        description : string
-                      Description of the variable separated by at least two
-                      lines. The first line is its type and all other lines is
-                      the actual description.
-        begin : string
-                The indent that is appended to every line of returned source
-                code.
-
-        Returns
-        -------
-        ret0 : list
-               A doc string lines fragment for the given variable name and
-               description as a function argument or return value.
-        """
-        parts = description.split("\n")
-        if not parts:
-            parts = ["object",""]
-        elif len(parts)==1:
-            parts = ["object",parts[0]]
-        elif len(parts)>2:
-            parts = parts[:1]+[" ".join(parts[1:])]
-        initial = name + " : "
-        ret = scr.wrapText(
-            initial+parts[0]
-            ,begin=begin
-            ,after=" "*len(initial)
-            ,columns=settings.COLUMNS
-        )
-        ret += scr.wrapText(parts[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
-        return ret
-
-
     def __init__(
         self
         ):
@@ -190,6 +146,50 @@ class Object(Package):
         """
         Package.clearProperties(self)
         self._p_assignment = ""
+
+
+    def comment(
+        name
+        ,description
+        ,begin
+        ):
+        """
+        Getter method.
+
+        Parameters
+        ----------
+        name : string
+               The name of the variable whose doc string is returned.
+        description : string
+                      Description of the variable separated by at least two
+                      lines. The first line is its type and all other lines is
+                      the actual description.
+        begin : string
+                The indent that is appended to every line of returned source
+                code.
+
+        Returns
+        -------
+        ret0 : list
+               A doc string lines fragment for the given variable name and
+               description as a function argument or return value.
+        """
+        parts = description.split("\n")
+        if not parts:
+            parts = ["object",""]
+        elif len(parts) == 1:
+            parts = ["object",parts[0]]
+        elif len(parts) > 2:
+            parts = parts[:1]+[" ".join(parts[1:])]
+        initial = name + " : "
+        ret = scr.wrapText(
+            initial+parts[0]
+            ,begin=begin
+            ,after=" "*len(initial)
+            ,columns=settings.COLUMNS
+        )
+        ret += scr.wrapText(parts[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
+        return ret
 
 
     def displayName(

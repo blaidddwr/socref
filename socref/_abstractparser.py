@@ -51,22 +51,6 @@ class AbstractParser(abc.ABC):
         self.__buildingPaths = False
 
 
-    @abc.abstractmethod
-    def unknown(
-        self
-        ):
-        """
-        This interface is a getter method.
-
-        Returns
-        -------
-        ret0 : dictionary
-               A flat dictionary of scanned code that was unknown and not used
-               in any built source code.
-        """
-        pass
-
-
     def parse(
         self
         ,update
@@ -123,6 +107,22 @@ class AbstractParser(abc.ABC):
         if self.__rootPath != "":
             raise RuntimeError("Root path already set.")
         self.__rootPath = path
+
+
+    @abc.abstractmethod
+    def unknown(
+        self
+        ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        ret0 : dictionary
+               A flat dictionary of scanned code that was unknown and not used
+               in any built source code.
+        """
+        pass
 
 
     @abc.abstractmethod

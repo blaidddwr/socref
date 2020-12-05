@@ -54,12 +54,6 @@ class ParserModel(qtc.QObject):
     remained = qtc.Signal(dict)
 
 
-    #
-    # Signals this parser has started parsing.
-    #
-    started = qtc.Signal()
-
-
     @qtc.Slot(AbstractParser)
     def start(
         self
@@ -88,6 +82,12 @@ class ParserModel(qtc.QObject):
             traceback.print_exc()
         finally:
             self.finished.emit()
+
+
+    #
+    # Signals this parser has started parsing.
+    #
+    started = qtc.Signal()
 
 
     def __update_(

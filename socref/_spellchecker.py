@@ -131,34 +131,6 @@ class SpellChecker(qtw.QGroupBox):
                 break
 
 
-    def __setupGui_(
-        self
-        ):
-        """
-        Initializes the GUI of this new spell checker.
-        """
-        suggest = qtw.QPushButton("Suggest")
-        suggest.clicked.connect(self.__suggest_)
-        replace = qtw.QPushButton("Replace")
-        replace.clicked.connect(self.__replace_)
-        ignore = qtw.QPushButton("Ignore")
-        ignore.clicked.connect(self.__ignore_)
-        ignore_all = qtw.QPushButton("Ignore All")
-        ignore_all.clicked.connect(self.__ignoreAll_)
-        stop = qtw.QPushButton("Stop")
-        stop.clicked.connect(self.__stop_)
-        layout = qtw.QHBoxLayout()
-        layout.addWidget(self.__wordLabel)
-        layout.addWidget(self.__wordEdit)
-        layout.addStretch()
-        layout.addWidget(suggest)
-        layout.addWidget(replace)
-        layout.addWidget(ignore)
-        layout.addWidget(ignore_all)
-        layout.addWidget(stop)
-        self.setLayout(layout)
-
-
     @qtc.Slot()
     def __ignore_(
         self
@@ -201,6 +173,34 @@ class SpellChecker(qtw.QGroupBox):
         if self.__cursor is not None:
             self.__cursor.insertText(self.__wordEdit.text())
             self.__findNextWord_()
+
+
+    def __setupGui_(
+        self
+        ):
+        """
+        Initializes the GUI of this new spell checker.
+        """
+        suggest = qtw.QPushButton("Suggest")
+        suggest.clicked.connect(self.__suggest_)
+        replace = qtw.QPushButton("Replace")
+        replace.clicked.connect(self.__replace_)
+        ignore = qtw.QPushButton("Ignore")
+        ignore.clicked.connect(self.__ignore_)
+        ignore_all = qtw.QPushButton("Ignore All")
+        ignore_all.clicked.connect(self.__ignoreAll_)
+        stop = qtw.QPushButton("Stop")
+        stop.clicked.connect(self.__stop_)
+        layout = qtw.QHBoxLayout()
+        layout.addWidget(self.__wordLabel)
+        layout.addWidget(self.__wordEdit)
+        layout.addStretch()
+        layout.addWidget(suggest)
+        layout.addWidget(replace)
+        layout.addWidget(ignore)
+        layout.addWidget(ignore_all)
+        layout.addWidget(stop)
+        self.setLayout(layout)
 
 
     @qtc.Slot()
