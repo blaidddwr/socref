@@ -3,6 +3,13 @@
 
 Description of all releases with most recent on the top.
 
+## Version 0.8.6
+
+* Fixed core spell checker bug.
+* Updated python to more follow the mainline standard.
+* Added custom code line parsing for python classes.
+* Refined custom code line parsing for python modules.
+
 ## Version 0.8.5
 
 * Fixed GLSL bugs.
