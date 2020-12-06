@@ -267,7 +267,7 @@ class Parser(abstract.AbstractParser):
                 break
             if indent is None:
                 indent = len(line) - len(line.lstrip(' '))
-            lines.append(line)
+            lines.append(line[indent:])
         if lines:
             ret["lines"] = lines
         scan = parser.Scanner(ifile,indent)

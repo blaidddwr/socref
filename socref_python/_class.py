@@ -73,7 +73,7 @@ class Class(Descriptor):
         ret += scr.wrapBlocks(self._p_description,newBegin,columns=settings.COLUMNS)
         ret.append(docString)
         (regular,classes) = self._buildChildren_(definition,newBegin)
-        body = definition.pop("lines",[]) + regular
+        body = [newBegin+l for l in definition.pop("lines",[])] + regular
         if body:
             ret += body
         else:

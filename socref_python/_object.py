@@ -148,6 +148,7 @@ class Object(Package):
         self._p_assignment = ""
 
 
+    @staticmethod
     def comment(
         name
         ,description

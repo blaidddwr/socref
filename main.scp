@@ -5900,6 +5900,14 @@ True if this function is abstract or false otherwise.</__p_returnDescription>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>isClass</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnDescription>bool
+True if this function is a class method or false otherwise.</__p_returnDescription>
+                        <__p_static>0</__p_static>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>isMethod</__p_name>
                         <__p_description>Getter method.</__p_description>
                         <__p_returnDescription>bool
