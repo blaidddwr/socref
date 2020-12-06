@@ -16,16 +16,11 @@ from . import settings
 class PlainTextEdit(qtw.QPlainTextEdit):
     """
     This is the plain text class. It provides additional functionality to its
-    inherit class. Misspelled words are highlighted. A shortcut is provided to
+    inherited class. Misspelled words are highlighted. A shortcut is provided to
     open a larger text editor dialog that has additional spell checking
     functionality. Misspelled word highlighting and the editor dialog popup
     features can be enabled or disabled.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
 
 
     def __init__(
@@ -52,18 +47,13 @@ class PlainTextEdit(qtw.QPlainTextEdit):
                 True to enable the popup edit dialog shortcut or false to
                 disable it.
         """
-        qtw.QPlainTextEdit.__init__(self,text,parent)
+        super().__init__(text,parent)
         self.__speller = speller
         self.__popup = popup
         self.__highlighter = None
         if speller:
             self.setSpellerEnabled(True)
         self.__setupActions_()
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def setSpellerEnabled(
@@ -89,9 +79,18 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         self.__speller = enabled
 
 
-    #####################
-    # PRIVATE - Methods #
-    #####################
+    @qtc.Slot()
+    def __dialog_(
+        self
+        ):
+        """
+        Called to open a modal dialog text editor to edit this editor's text.
+        """
+        if self.__popup:
+            dialog = gui.TextDialog(self.toPlainText(),self,speller=self.__speller)
+            dialog.setWindowTitle("Text Editor - Socrates' Reference")
+            if dialog.exec_():
+                self.setPlainText(dialog.text())
 
 
     def __setupActions_(
@@ -105,22 +104,3 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         dialog.setShortcut(qtc.Qt.CTRL + qtc.Qt.Key_E)
         dialog.triggered.connect(self.__dialog_)
         self.addAction(dialog)
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
-
-
-    @qtc.Slot()
-    def __dialog_(
-        self
-        ):
-        """
-        Called to open a modal dialog text editor to edit this editor's text.
-        """
-        if self.__popup:
-            dialog = gui.TextDialog(self.toPlainText(),self,speller=self.__speller)
-            dialog.setWindowTitle("Text Editor - Socrates' Reference")
-            if dialog.exec_():
-                self.setPlainText(dialog.text())

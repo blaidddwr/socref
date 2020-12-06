@@ -23,7 +23,6 @@ def main():
     application = qtw.QApplication(sys.argv)
     qtc.QCoreApplication.setOrganizationName("Socrates' Gaming Republic")
     qtc.QCoreApplication.setApplicationName("Socrates' Reference")
-    core.initialize()
     parserThread = qtc.QThread()
     core.parser.remained.connect(lambda code : gui.CodeDialog(code).exec_())
     core.parser.moveToThread(parserThread)
@@ -46,4 +45,5 @@ def main():
 
 
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()

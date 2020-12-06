@@ -3,8 +3,7 @@ Contains the Function class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 from ._base import Base
 
@@ -15,17 +14,12 @@ from ._base import Base
 
 
 
-@register("Function")
+@scr.register("Function")
 class Function(Base):
     """
     This is the function block class. It implements the Socrates' Reference
     abstract block class. It represents a GLSL function.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
 
 
     def __init__(
@@ -34,14 +28,9 @@ class Function(Base):
         """
         Initializes a new function block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_returnType = ""
         self._p_returnDescription = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(
@@ -127,7 +116,7 @@ class Function(Base):
                 "<p><b>%s</b> : %s</p>"
                 % (html.escape(self._p_returnType),html.escape(self._p_returnDescription))
             )
-        return_ = edit.richText(2,"Return",return_)
+        return_ = scr.richText(2,"Return",return_)
         return Base.displayView(self)+self.__argumentsView_()+return_
 
 
@@ -143,8 +132,8 @@ class Function(Base):
                See interface docs.
         """
         ret = Base.editDefinitions(self)
-        ret.append(edit.lineEdit("Return Type:","_p_returnType"))
-        ret.append(edit.textEdit("Return Description:","_p_returnDescription",speller=True))
+        ret.append(scr.lineEdit("Return Type:","_p_returnType"))
+        ret.append(scr.textEdit("Return Description:","_p_returnDescription",speller=True))
         return ret
 
 
@@ -174,11 +163,6 @@ class Function(Base):
         self._p_returnDescription = ""
 
 
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
     def __argumentsView_(
         self
         ):
@@ -191,7 +175,7 @@ class Function(Base):
                Detailed view of all this function's arguments. If this function
                has no arguments then this returns an empty string.
         """
-        return edit.richText(
+        return scr.richText(
             2
             ,"Arguments"
             ,"".join((child.argumentView() for child in self if child._TYPE_ == "Variable"))
@@ -218,14 +202,14 @@ class Function(Base):
         ret = [begin+"/*!"]
         commentBlank = begin+" *"
         commentBegin = commentBlank+" "
-        ret += edit.wrapText(self._p_description,commentBegin,columns=settings.COLUMNS)
+        ret += scr.wrapText(self._p_description,commentBegin,columns=settings.COLUMNS)
         for arg in self:
             ret += [commentBlank] + arg.buildComment(commentBegin)
         if self._p_returnDescription:
             initial = "@return : "
             ret += (
                 [commentBlank]
-                + edit.wrapText(
+                + scr.wrapText(
                     initial+self._p_returnDescription
                     ,commentBegin
                     ," "*len(initial)

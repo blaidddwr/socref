@@ -2,7 +2,7 @@
 Contains the Function class.
 """
 from PySide2 import QtGui as qtg
-from socref import register
+from socref import public as scr
 from socref_cpp import block as cppblock
 
 
@@ -12,31 +12,12 @@ from socref_cpp import block as cppblock
 
 
 
-@register("Function")
+@scr.register("Function")
 class Function(cppblock.Function):
     """
     This is the function block class. It implements the Socrates' Reference
     abstract block class. It represents a C++/Qt function.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new function block.
-        """
-        cppblock.Function.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDefinition(

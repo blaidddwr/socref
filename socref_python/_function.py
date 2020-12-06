@@ -3,8 +3,7 @@ Contains the Function class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from ._descriptor import Descriptor
 from . import block
 from . import settings
@@ -16,17 +15,12 @@ from . import settings
 
 
 
-@register("Function")
+@scr.register("Function")
 class Function(Descriptor):
     """
     This is the function block class. It implements the Socrates' Reference
     abstract block class. It represents a python function.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
 
 
     def __init__(
@@ -35,15 +29,11 @@ class Function(Descriptor):
         """
         Initializes a new function block.
         """
-        Descriptor.__init__(self)
+        super().__init__()
         self._p_returnDescription = ""
         self._p_static = "0"
+        self._p_class = "0"
         self._p_abstract = "0"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(
@@ -100,6 +90,7 @@ class Function(Descriptor):
         Descriptor.clearProperties(self)
         self._p_returnDescription = ""
         self._p_static = "0"
+        self._p_class = "0"
         self._p_abstract = "0"
 
 
@@ -133,7 +124,7 @@ class Function(Descriptor):
                See interface docs.
         """
         self.__checkFlags_()
-        return_ = edit.richText(2,"Return",html.escape(self._p_returnDescription))
+        return_ = scr.richText(2,"Return",html.escape(self._p_returnDescription))
         return (
             block.Package.displayView(self)
             + self.__argumentsView_()
@@ -155,13 +146,15 @@ class Function(Descriptor):
                See interface docs.
         """
         ret = block.Package.editDefinitions(self)
-        ret.append(edit.textEdit("Return:","_p_returnDescription",speller=True))
+        ret.append(scr.textEdit("Return:","_p_returnDescription",speller=True))
         if self.isMethod():
-            ret.append(edit.checkboxEdit("Static","_p_static"))
-            ret.append(edit.checkboxEdit("Abstract","_p_abstract"))
+            ret.append(scr.checkboxEdit("Static","_p_static"))
+            ret.append(scr.checkboxEdit("Class","_p_class"))
+            ret.append(scr.checkboxEdit("Abstract","_p_abstract"))
         else:
-            ret.append(edit.hiddenEdit("_p_static","0"))
-            ret.append(edit.hiddenEdit("_p_abstract","0"))
+            ret.append(scr.hiddenEdit("_p_static","0"))
+            ret.append(scr.hiddenEdit("_p_class","0"))
+            ret.append(scr.hiddenEdit("_p_abstract","0"))
         ret.append(self._descriptorsEditDefinition_())
         return ret
 
@@ -177,14 +170,37 @@ class Function(Descriptor):
         ret0 : object
                See interface docs.
         """
-        if self._p_name.startswith("__") and self._p_name.endswith("__"):
-            return qtg.QIcon(":/python/operator.svg")
-        elif self.isStatic():
-            return qtg.QIcon(":/python/static_function.svg")
-        elif self.isAbstract():
-            return qtg.QIcon(":/python/abstract_function.svg")
-        else:
+        if not self.isMethod():
             return qtg.QIcon(":/python/function.svg")
+        elif self._p_name.startswith("__") and self._p_name.endswith("__"):
+            return qtg.QIcon(":/python/operator.svg")
+        elif self._p_name.startswith("__"):
+            if self.isStatic():
+                return qtg.QIcon(":/python/static_private_method.svg")
+            elif self.isClass():
+                return qtg.QIcon(":/python/class_private_method.svg")
+            elif self.isAbstract():
+                return qtg.QIcon(":/python/abstract_private_method.svg")
+            else:
+                return qtg.QIcon(":/python/private_method.svg")
+        elif self._p_name.startswith("_"):
+            if self.isStatic():
+                return qtg.QIcon(":/python/static_protected_method.svg")
+            elif self.isClass():
+                return qtg.QIcon(":/python/class_protected_method.svg")
+            elif self.isAbstract():
+                return qtg.QIcon(":/python/abstract_protected_method.svg")
+            else:
+                return qtg.QIcon(":/python/protected_method.svg")
+        else:
+            if self.isStatic():
+                return qtg.QIcon(":/python/static_public_method.svg")
+            elif self.isClass():
+                return qtg.QIcon(":/python/class_public_method.svg")
+            elif self.isAbstract():
+                return qtg.QIcon(":/python/abstract_public_method.svg")
+            else:
+                return qtg.QIcon(":/python/public_method.svg")
 
 
     def isAbstract(
@@ -201,6 +217,20 @@ class Function(Descriptor):
         return bool(int(self._p_abstract))
 
 
+    def isClass(
+        self
+        ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        ret0 : bool
+               True if this function is a class method or false otherwise.
+        """
+        return bool(int(self._p_class))
+
+
     def isMethod(
         self
         ):
@@ -212,7 +242,10 @@ class Function(Descriptor):
         ret0 : bool
                True if this function is a method of a class or false otherwise.
         """
-        return self.parent()._TYPE_ == "Access"
+        return (
+            self.parent()
+            and ( self.parent()._TYPE_ == "Class" or self.parent()._TYPE_ == "Access" )
+        )
 
 
     def isStatic(
@@ -239,12 +272,8 @@ class Function(Descriptor):
         self._p_name = "function"
         self._p_returnDescription = ""
         self._p_static = "0"
+        self._p_class = "0"
         self._p_abstract = "0"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __argumentsView_(
@@ -259,7 +288,7 @@ class Function(Descriptor):
                Detailed view of all this function's arguments. If this function
                has no arguments then this returns an empty string.
         """
-        return edit.richText(2,"Arguments","".join((arg.argumentView() for arg in self)))
+        return scr.richText(2,"Arguments","".join((arg.argumentView() for arg in self)))
 
 
     def __buildDocString_(
@@ -282,7 +311,7 @@ class Function(Descriptor):
         """
         newBegin = begin + " "*settings.INDENT
         ret = [newBegin+'"""']
-        ret += edit.wrapBlocks(
+        ret += scr.wrapBlocks(
             self._p_description
             ,begin=newBegin
             ,columns=settings.COLUMNS
@@ -324,11 +353,18 @@ class Function(Descriptor):
                includes any descriptor and the define lines.
         """
         ret = self._buildDescriptors_(begin)
-        if self.isAbstract():
-            ret.append(begin + "@" + settings.ABSTRACT_DESCRIPTOR)
+        if self.isStatic():
+            ret.append(begin+"@"+settings.STATIC_DESCRIPTOR)
+        elif self.isClass():
+            ret.append(begin+"@"+settings.CLASS_DESCRIPTOR)
+        elif self.isAbstract():
+            ret.append(begin+"@"+settings.ABSTRACT_DESCRIPTOR)
         args = [arg.buildArgument() for arg in self]
         if self.isMethod() and not self.isStatic():
-            args.insert(0,"self")
+            if self.isClass():
+                args.insert(0,"cls")
+            else:
+                args.insert(0,"self")
         if not args:
             ret.append("%sdef %s():"%(begin,self._p_name))
         else:
@@ -400,6 +436,8 @@ class Function(Descriptor):
         flags = []
         if self.isStatic():
             flags.append("Static")
+        if self.isClass():
+            flags.append("Class")
         if self.isAbstract():
             flags.append("Abstract")
-        return edit.richTextList(2,"Flags",flags)
+        return scr.richTextList(2,"Flags",flags)

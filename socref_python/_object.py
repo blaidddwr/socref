@@ -3,8 +3,7 @@ Contains the Object class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from ._package import Package
 from . import settings
 
@@ -15,66 +14,12 @@ from . import settings
 
 
 
-@register("Object")
+@scr.register("Object")
 class Object(Package):
     """
     This is the object block class. It implements the Socrates' Reference
     abstract block class. It represents a python object.
     """
-
-
-    ###########################
-    # PUBLIC - Static Methods #
-    ###########################
-
-
-    def comment(
-        name
-        ,description
-        ,begin
-        ):
-        """
-        Getter method.
-
-        Parameters
-        ----------
-        name : string
-               The name of the variable whose doc string is returned.
-        description : string
-                      Description of the variable separated by at least two
-                      lines. The first line is its type and all other lines is
-                      the actual description.
-        begin : string
-                The indent that is appended to every line of returned source
-                code.
-
-        Returns
-        -------
-        ret0 : list
-               A doc string lines fragment for the given variable name and
-               description as a function argument or return value.
-        """
-        parts = description.split("\n")
-        if not parts:
-            parts = ["object",""]
-        elif len(parts)==1:
-            parts = ["object",parts[0]]
-        elif len(parts)>2:
-            parts = parts[:1]+[" ".join(parts[1:])]
-        initial = name + " : "
-        ret = edit.wrapText(
-            initial+parts[0]
-            ,begin=begin
-            ,after=" "*len(initial)
-            ,columns=settings.COLUMNS
-        )
-        ret += edit.wrapText(parts[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
-        return ret
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
 
 
     def __init__(
@@ -83,13 +28,8 @@ class Object(Package):
         """
         Initializes a new object block.
         """
-        Package.__init__(self)
+        super().__init__()
         self._p_assignment = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def argumentView(
@@ -136,7 +76,7 @@ class Object(Package):
         ret = [""]*settings.H3LINES
         blankCommentLine = begin + "#"
         ret.append(blankCommentLine)
-        ret += edit.wrapBlocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
+        ret += scr.wrapBlocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
         ret.append(blankCommentLine)
         line = begin + self._p_name
         if self._p_assignment:
@@ -208,6 +148,51 @@ class Object(Package):
         self._p_assignment = ""
 
 
+    @staticmethod
+    def comment(
+        name
+        ,description
+        ,begin
+        ):
+        """
+        Getter method.
+
+        Parameters
+        ----------
+        name : string
+               The name of the variable whose doc string is returned.
+        description : string
+                      Description of the variable separated by at least two
+                      lines. The first line is its type and all other lines is
+                      the actual description.
+        begin : string
+                The indent that is appended to every line of returned source
+                code.
+
+        Returns
+        -------
+        ret0 : list
+               A doc string lines fragment for the given variable name and
+               description as a function argument or return value.
+        """
+        parts = description.split("\n")
+        if not parts:
+            parts = ["object",""]
+        elif len(parts) == 1:
+            parts = ["object",parts[0]]
+        elif len(parts) > 2:
+            parts = parts[:1]+[" ".join(parts[1:])]
+        initial = name + " : "
+        ret = scr.wrapText(
+            initial+parts[0]
+            ,begin=begin
+            ,after=" "*len(initial)
+            ,columns=settings.COLUMNS
+        )
+        ret += scr.wrapText(parts[1],begin=begin + " "*len(initial),columns=settings.COLUMNS)
+        return ret
+
+
     def displayName(
         self
         ):
@@ -236,7 +221,7 @@ class Object(Package):
         ret0 : object
                See interface docs.
         """
-        assignment = edit.richText(2,"Assignment",html.escape(self._p_assignment))
+        assignment = scr.richText(2,"Assignment",html.escape(self._p_assignment))
         return Package.displayView(self) + assignment
 
 
@@ -252,7 +237,7 @@ class Object(Package):
                See interface docs.
         """
         ret = Package.editDefinitions(self)
-        ret.append(edit.lineEdit("Assignment:","_p_assignment"))
+        ret.append(scr.lineEdit("Assignment:","_p_assignment"))
         return ret
 
 
@@ -267,7 +252,14 @@ class Object(Package):
         ret0 : object
                See interface docs.
         """
-        return qtg.QIcon(":/python/object.svg")
+        if self.isArgument():
+            return qtg.QIcon(":/python/object.svg")
+        elif self._p_name.startswith("__"):
+            return qtg.QIcon(":/python/private_member.svg")
+        elif self._p_name.startswith("_"):
+            return qtg.QIcon(":/python/protected_member.svg")
+        else:
+            return qtg.QIcon(":/python/public_member.svg")
 
 
     def inClass(
@@ -281,7 +273,7 @@ class Object(Package):
         ret0 : bool
                True if this object is part of a class or false otherwise.
         """
-        return self.parent()._TYPE_ == "Access"
+        return self.parent()._TYPE_ == "Class" or self.parent()._TYPE_ == "Access"
 
 
     def isArgument(
@@ -296,7 +288,7 @@ class Object(Package):
                True if this object is an argument of a function or false
                otherwise.
         """
-        return self.parent()._TYPE_ == "Function"
+        return not self.parent() or self.parent()._TYPE_ == "Function"
 
 
     def isVolatileAbove(

@@ -3,7 +3,7 @@ Contains the Parser class.
 """
 import re
 from socref import abstract
-from socref import edit
+from socref import public as scr
 from . import settings
 
 
@@ -25,11 +25,6 @@ class Parser(abstract.AbstractParser):
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
-
-
     def __init__(
         self
         ,root
@@ -42,17 +37,12 @@ class Parser(abstract.AbstractParser):
         root : socref_cpp.namespace.Namespace
                The root block of a C++ project that this new parser will parse.
         """
-        abstract.AbstractParser.__init__(self)
+        super().__init__()
         self.__root_block = root
         self.__scopePattern = re.compile('^\s*namespace\s+(\w+)\s*$')
         self.__functionPattern = re.compile('^(.*\s)?([\S]+)(\(.*)$')
         self.__functionPointerPattern = re.compile('^(.*)\(\*\w+\)\((.*)\)')
         self.__definitions = {"headers": {},"functions": {}}
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def unknown(
@@ -70,11 +60,6 @@ class Parser(abstract.AbstractParser):
             key: "\n".join(self.__definitions["functions"][key])
             for key in self.__definitions["functions"]
         }
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _build_(
@@ -132,11 +117,6 @@ class Parser(abstract.AbstractParser):
                 headers = headers[2:]
             self.__definitions["headers"][path] = headers
             self.__scan_(ifile,"")
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __buildPaths_(
@@ -212,7 +192,7 @@ class Parser(abstract.AbstractParser):
                     if match:
                         signature = self.__scanSignature_(ifile,match.group(2),match.group(3))
                         if signature:
-                            edit.uniqueInsert(
+                            scr.uniqueInsert(
                                 self.__definitions["functions"]
                                 ,scope+signature
                                 ,self.__scanFunction_(ifile)

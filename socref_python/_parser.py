@@ -4,7 +4,7 @@ Contains the Parser class.
 import os
 import re
 from socref import abstract
-from socref import edit
+from socref import public as scr
 from . import parser
 from . import settings
 
@@ -27,15 +27,13 @@ class Parser(abstract.AbstractParser):
     lines at the end of the python file after the script header comment. The
     fourth key is "functions" and is a dictionary whose keys are function names
     and values are their scanned lines of code. The fifth key is "classes" that
-    is a dictionary whose keys are class names and values are dictionaries with
-    one key "functions" that follows the same structure as the second
-    "functions" key but for the methods of the class it is contained within.
+    is a class definition.
+
+    The class definition contains two keys. The first key is "lines" and
+    contains all lines of code for the class itself. The second key is
+    "functions" and is a dictionary whose keys are the method names and values
+    are a list of lines for each scanned method.
     """
-
-
-    ########################
-    # PUBLIC - Initializer #
-    ########################
 
 
     def __init__(
@@ -51,7 +49,7 @@ class Parser(abstract.AbstractParser):
                A package block that is the root block of a python project that
                this new parser will parse.
         """
-        abstract.AbstractParser.__init__(self)
+        super().__init__()
         self.__rootBlock = root
         self.__prePattern = re.compile('^ *#.*')
         self.__docPattern = re.compile('^ *"""')
@@ -62,11 +60,6 @@ class Parser(abstract.AbstractParser):
         self.__commentPattern = re.compile('^( *#).*')
         self.__methodPattern = re.compile('^ *def +([a-zA-Z_]+\w*)\((.*)')
         self.__definitions = {}
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def unknown(
@@ -84,17 +77,14 @@ class Parser(abstract.AbstractParser):
         for key in self.__definitions:
             definition = self.__definitions[key]
             if "header" in definition:
-                ret[key + ".header"] = "\n".join(definition["header"]) + "\n"
+                ret[key+".header"] = "\n".join(definition["header"]) + "\n"
             self.__addUnknownFunctions_(ret,key,definition["functions"])
             for ckey in definition["classes"]:
                 class_ = definition["classes"][ckey]
-                self.__addUnknownFunctions_(ret,key + "." + ckey,class_["functions"])
+                if "lines" in class_:
+                    ret[key+"."+ckey] = "\n".join(class_["lines"]) + "\n"
+                self.__addUnknownFunctions_(ret,key+"."+ckey,class_["functions"])
         return ret
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _build_(
@@ -161,31 +151,33 @@ class Parser(abstract.AbstractParser):
             }
             def_["pre"] = self.__scanPre_(ifile)
             def_["header"] = self.__scanHeader_(ifile)
+            script = []
             while True:
                 line = ifile.readline()
                 if not line:
                     break
                 line = line[:-1]
-                if line==settings.SCRIPT_HEADER:
-                    def_["script"] = self.__scanScript_(ifile)
-                else:
+                if line:
                     match = self.__classPattern.match(line)
                     if match:
-                        edit.uniqueInsert(def_["classes"],match.group(1),self.__scanClass_(ifile))
-                    else:
-                        match = self.__functionPattern.match(line)
-                        if match:
-                            edit.uniqueInsert(
-                                def_["functions"]
-                                ,match.group(1)
-                                ,self.__scanFunction_(ifile,match.group(2))
-                            )
+                        scr.uniqueInsert(def_["classes"],match.group(1),self.__scanClass_(ifile))
+                        continue
+                    match = self.__functionPattern.match(line)
+                    if match:
+                        scr.uniqueInsert(
+                            def_["functions"]
+                            ,match.group(1)
+                            ,self.__scanFunction_(ifile,match.group(2))
+                        )
+                        continue
+                    if self.__importPattern.match(line) or line.startswith("@"):
+                        continue
+                    script.append(line)
+                    break
+            if script:
+                script += self.__scanScript_(ifile)
+                def_["script"] = script
             self.__definitions[path] = def_
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __addUnknownFunctions_(
@@ -251,7 +243,7 @@ class Parser(abstract.AbstractParser):
         ,ifile
         ):
         """
-        Getter method.
+        Scans a class from the given input file.
 
         Parameters
         ----------
@@ -262,20 +254,30 @@ class Parser(abstract.AbstractParser):
         Returns
         -------
         ret0 : dictionary
-               Scanned class definition containing any found and scanned
-               method's lines of code from the class definition in the given
-               python script file at its current seek position.
+               Scanned class definition in the given python script file at its
+               current seek position.
         """
         self.__skipDocString_(ifile)
         ret = {"functions": {}}
-        scan = parser.Scanner(ifile)
+        indent = None
+        lines = []
+        while True:
+            line = ifile.readline()[:-1]
+            if not line:
+                break
+            if indent is None:
+                indent = len(line) - len(line.lstrip(' '))
+            lines.append(line[indent:])
+        if lines:
+            ret["lines"] = lines
+        scan = parser.Scanner(ifile,indent)
         while True:
             line = scan.readline()
             if line is None:
                 break
             match = self.__methodPattern.match(line)
             if match:
-                edit.uniqueInsert(
+                scr.uniqueInsert(
                     ret["functions"]
                     ,match.group(1)
                     ,self.__scanFunction_(ifile,match.group(2))
@@ -289,7 +291,7 @@ class Parser(abstract.AbstractParser):
         ,end
         ):
         """
-        Getter method.
+        Scans a function from the given input file.
 
         Parameters
         ----------
@@ -329,7 +331,7 @@ class Parser(abstract.AbstractParser):
         ,ifile
         ):
         """
-        Getter method.
+        Scans header import lines from the given input file.
 
         Parameters
         ----------
@@ -364,7 +366,8 @@ class Parser(abstract.AbstractParser):
         ,ifile
         ):
         """
-        Getter method.
+        Scans initial comment lines from the very beginning of the given input
+        file.
 
         Parameters
         ----------
@@ -395,7 +398,7 @@ class Parser(abstract.AbstractParser):
         ,ifile
         ):
         """
-        Getter method.
+        Scans script code lines from the end of the given input file.
 
         Parameters
         ----------

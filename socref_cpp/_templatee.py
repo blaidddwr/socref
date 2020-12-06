@@ -1,7 +1,7 @@
 """
 Contains the Templatee class.
 """
-from socref import edit
+from socref import public as scr
 from ._base import Base
 
 
@@ -17,25 +17,6 @@ class Templatee(Base):
     children. This is meant to act as a base class for any block that can have
     templates.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new templatee block.
-        """
-        Base.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def hasTemplates(
@@ -106,11 +87,6 @@ class Templatee(Base):
         return self.__declaration_(False,False)
 
 
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
     def _templatesName_(
         self
         ):
@@ -139,16 +115,11 @@ class Templatee(Base):
                Providing detailed information about this block's templates. If
                this block has no templates then an empty string is returned.
         """
-        return edit.richText(
+        return scr.richText(
             2
             ,"Templates"
             ,"".join((child.argumentView() for child in self if child._TYPE_ == "Template"))
         )
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __declaration_(

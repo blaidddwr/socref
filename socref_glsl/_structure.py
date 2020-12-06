@@ -3,8 +3,7 @@ Contains the Structure class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 from ._base import Base
 
@@ -15,17 +14,12 @@ from ._base import Base
 
 
 
-@register("Structure")
+@scr.register("Structure")
 class Structure(Base):
     """
     This is the structure block class. It implements the Socrates' Reference
     abstract block class. It represents a GLSL structure.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
 
 
     def __init__(
@@ -34,13 +28,8 @@ class Structure(Base):
         """
         Initializes a new structure block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_type = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(
@@ -65,7 +54,7 @@ class Structure(Base):
         """
         ret = [""]*settings.H2LINES
         ret.append(begin+"/*!")
-        ret += edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+        ret += scr.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
         ret.append(begin+" */")
         ret.append(begin+self._p_type)
         ret.append("{")
@@ -148,7 +137,7 @@ class Structure(Base):
                See interface docs.
         """
         ret = Base.editDefinitions(self)
-        ret.append(edit.lineEdit("Type:","_p_type"))
+        ret.append(scr.lineEdit("Type:","_p_type"))
         return ret
 
 

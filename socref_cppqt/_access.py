@@ -2,8 +2,7 @@
 Contains the Access class.
 """
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from socref_cpp import block as cppblock
 
 
@@ -13,31 +12,12 @@ from socref_cpp import block as cppblock
 
 
 
-@register("Access")
+@scr.register("Access")
 class Access(cppblock.Access):
     """
     This is the access block class. It implements the Socrates' Reference
     abstract block class. It represents an access declaration for C++/Qt class.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new access block.
-        """
-        cppblock.Access.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def icon(
@@ -92,11 +72,6 @@ class Access(cppblock.Access):
         return self._p_type.endswith("Slots")
 
 
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
     def _addComboSelects_(
         self
         ,combo
@@ -110,7 +85,7 @@ class Access(cppblock.Access):
                 See method docs.
         """
         cppblock.Access._addComboSelects_(self,combo)
-        edit.addComboSelect(combo,"Signals",icon=qtg.QIcon(":/cppqt/signals.svg"))
-        edit.addComboSelect(combo,"Public Slots",icon=qtg.QIcon(":/cppqt/public_slots.svg"))
-        edit.addComboSelect(combo,"Protected Slots",icon=qtg.QIcon(":/cppqt/protected_slots.svg"))
-        edit.addComboSelect(combo,"Private Slots",icon=qtg.QIcon(":/cppqt/private_slots.svg"))
+        scr.addComboSelect(combo,"Signals",icon=qtg.QIcon(":/cppqt/signals.svg"))
+        scr.addComboSelect(combo,"Public Slots",icon=qtg.QIcon(":/cppqt/public_slots.svg"))
+        scr.addComboSelect(combo,"Protected Slots",icon=qtg.QIcon(":/cppqt/protected_slots.svg"))
+        scr.addComboSelect(combo,"Private Slots",icon=qtg.QIcon(":/cppqt/private_slots.svg"))

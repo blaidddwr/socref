@@ -38,48 +38,17 @@ class AbstractParser(abc.ABC):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
         """
         Initializes a new abstract parser.
         """
-        abc.ABC.__init__(self)
+        super().__init__()
         self.__rootPath = ""
         self.__paths = []
         self.__blocks = []
         self.__buildingPaths = False
-
-
-    #######################
-    # PUBLIC - Interfaces #
-    #######################
-
-
-    @abc.abstractmethod
-    def unknown(
-        self
-        ):
-        """
-        This interface is a getter method.
-
-        Returns
-        -------
-        ret0 : dictionary
-               A flat dictionary of scanned code that was unknown and not used
-               in any built source code.
-        """
-        pass
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def parse(
@@ -140,9 +109,20 @@ class AbstractParser(abc.ABC):
         self.__rootPath = path
 
 
-    ##########################
-    # PROTECTED - Interfaces #
-    ##########################
+    @abc.abstractmethod
+    def unknown(
+        self
+        ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        ret0 : dictionary
+               A flat dictionary of scanned code that was unknown and not used
+               in any built source code.
+        """
+        pass
 
 
     @abc.abstractmethod
@@ -197,11 +177,6 @@ class AbstractParser(abc.ABC):
         pass
 
 
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
     def _addPath_(
         self
         ,block
@@ -225,11 +200,6 @@ class AbstractParser(abc.ABC):
             raise RuntimeError("Calling add path outside of building paths.")
         self.__paths.append(os.path.join(self.__rootPath,path))
         self.__blocks.append(block)
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __build_(

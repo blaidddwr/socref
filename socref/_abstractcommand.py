@@ -33,11 +33,6 @@ class AbstractCommand(abc.ABC):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,model
@@ -50,12 +45,8 @@ class AbstractCommand(abc.ABC):
         model : socref.model.ProjectModel
                 The project model that this new command acts upon.
         """
+        super().__init__()
         self._model = model
-
-
-    #######################
-    # PUBLIC - Interfaces #
-    #######################
 
 
     @abc.abstractmethod
@@ -76,11 +67,6 @@ class AbstractCommand(abc.ABC):
         This interface acts on this command's project model to undo its command.
         """
         pass
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _buildRows_(

@@ -19,11 +19,6 @@ class InsertCommand(RemoveCommand):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,row
@@ -47,13 +42,8 @@ class InsertCommand(RemoveCommand):
         model : socref.model.ProjectModel
                 The project model where the given blocks are inserted.
         """
-        RemoveCommand.__init__(self,row,len(blocks),parent,model)
+        super().__init__(row,len(blocks),parent,model)
         self._blocks = blocks
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def redo(

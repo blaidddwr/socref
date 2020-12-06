@@ -3,9 +3,22 @@
         <file>package.svg</file>
         <file>module.svg</file>
         <file>object.svg</file>
+        <file>public_member.svg</file>
+        <file>protected_member.svg</file>
+        <file>private_member.svg</file>
         <file>function.svg</file>
-        <file>static_function.svg</file>
-        <file>abstract_function.svg</file>
+        <file>public_method.svg</file>
+        <file>protected_method.svg</file>
+        <file>private_method.svg</file>
+        <file>static_public_method.svg</file>
+        <file>static_protected_method.svg</file>
+        <file>static_private_method.svg</file>
+        <file>class_public_method.svg</file>
+        <file>class_protected_method.svg</file>
+        <file>class_private_method.svg</file>
+        <file>abstract_public_method.svg</file>
+        <file>abstract_protected_method.svg</file>
+        <file>abstract_private_method.svg</file>
         <file>class.svg</file>
         <file>parent.svg</file>
         <file>abstract_class.svg</file>

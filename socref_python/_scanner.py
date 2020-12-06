@@ -18,14 +18,10 @@ class Scanner():
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
-
-
     def __init__(
         self
         ,ifile
+        ,indent=None
         ):
         """
         Initializes a new scanner with the given input file.
@@ -34,28 +30,26 @@ class Scanner():
         ----------
         ifile : io.TextIOWrapper
                 The input file that is scanned.
+        indent : object
+                 The indent size for the block of code scanned or none to
+                 automatically determine it with the indent of the first line of
+                 code scanned. The default is none.
         """
         self.__ifile = ifile
-        self.__indent = None
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
+        self.__indent = indent
 
 
     def indent(
         self
         ):
         """
-        Getter method.
+        Getter method. This must be called after the indent is known.
 
         Returns
         -------
         ret0 : int
                The indent size in spaces of the code block this scanner is
-               reading. This must be called after the read line method is called
-               at least once.
+               reading.
         """
         if self.__indent is None:
             raise RuntimeError("indent has not been discovered.")

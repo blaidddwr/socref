@@ -4,7 +4,7 @@ Contains the Parser class.
 import os
 import re
 from socref import abstract
-from socref import edit
+from socref import public as scr
 
 
 
@@ -25,11 +25,6 @@ class Parser(abstract.AbstractParser):
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
-
-
     def __init__(
         self
         ,root
@@ -42,15 +37,10 @@ class Parser(abstract.AbstractParser):
         root : socref_glsl.program.Program
                The root block of a GLSL project that this new parser will parse.
         """
-        abstract.AbstractParser.__init__(self)
+        super().__init__()
         self.__root = root
         self.__functionPattern = re.compile('^.*\s+(\w+)(\(.*)$')
         self.__definitions = {}
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def unknown(
@@ -70,11 +60,6 @@ class Parser(abstract.AbstractParser):
             for fname in functions:
                 ret[path+":"+fname] = "\n".join(functions[fname])+"\n"
         return ret
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _build_(
@@ -135,17 +120,12 @@ class Parser(abstract.AbstractParser):
                     match = self.__functionPattern.match(line)
                     if match:
                         signature = self.__scanSignature_(ifile,match.group(1),match.group(2))
-                        edit.uniqueInsert(
+                        scr.uniqueInsert(
                             def_["functions"]
                             ,signature
                             ,self.__scanFunction_(ifile,match.group(2))
                         )
             self.__definitions[path] = def_
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __buildPaths_(
@@ -263,7 +243,8 @@ class Parser(abstract.AbstractParser):
 
         Returns
         -------
-        ret0 : The function signature scanned from the given input file,
+        ret0 : string
+               The function signature scanned from the given input file,
                assuming it is positioned at the line after the first declaration
                line. The given function name and ending is used to generate the
                signature taken from the first declaration line.

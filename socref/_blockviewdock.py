@@ -21,11 +21,6 @@ class BlockViewDock(qtw.QDockWidget):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,parent=None
@@ -38,7 +33,7 @@ class BlockViewDock(qtw.QDockWidget):
         parent : object
                  Optional qt object parent of this new block view dock.
         """
-        qtw.QDockWidget.__init__(self,parent)
+        super().__init__(parent)
         self.__label = qtw.QLabel(
             alignment=qtc.Qt.AlignTop
             ,wordWrap=True
@@ -46,11 +41,6 @@ class BlockViewDock(qtw.QDockWidget):
         )
         self.__view = None
         self.__setupGui_()
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def setView(
@@ -73,28 +63,6 @@ class BlockViewDock(qtw.QDockWidget):
         self.__view.indexDataChanged.connect(self.__indexChanged_)
 
 
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
-    def __setupGui_(
-        self
-        ):
-        """
-        Initialize the GUI of this new block view dock.
-        """
-        self.__label.setContentsMargins(4,16,4,4)
-        area = qtw.QScrollArea(widgetResizable=True)
-        area.setWidget(self.__label)
-        self.setWidget(area)
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
-
-
     @qtc.Slot(qtc.QModelIndex)
     def __indexChanged_(
         self
@@ -109,3 +77,15 @@ class BlockViewDock(qtw.QDockWidget):
             self.__label.setText(self.__view.model().data(index,core.Role.View))
         else:
             self.__label.setText("")
+
+
+    def __setupGui_(
+        self
+        ):
+        """
+        Initialize the GUI of this new block view dock.
+        """
+        self.__label.setContentsMargins(4,16,4,4)
+        area = qtw.QScrollArea(widgetResizable=True)
+        area.setWidget(self.__label)
+        self.setWidget(area)

@@ -53,11 +53,11 @@ class ProjectModel(qtc.QAbstractItemModel):
     Methods are provided to test if an undo or redo can be done on the model.
     Slots are provided to undo or redo a modification to the project model.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
+    __COPY_TAG = "pysoref_copy"
+    __LANG_TAG = "language"
+    __NAME_TAG = "name"
+    __PARSE_PATH_TAG = "parse_path"
+    __PROJECT_TAG = "scp_project"
 
 
     def __init__(
@@ -72,7 +72,7 @@ class ProjectModel(qtc.QAbstractItemModel):
         parent : object
                  Optional qt object parent of this new model.
         """
-        qtc.QAbstractItemModel.__init__(self,parent)
+        super().__init__(parent)
         self.__name = None
         self.__parsePath = None
         self.__root = None
@@ -80,11 +80,6 @@ class ProjectModel(qtc.QAbstractItemModel):
         self.__undoStack = []
         self.__undoStackIndex = 0
         self.__modified = False
-
-
-    ######################
-    # PUBLIC - Operators #
-    ######################
 
 
     def __len__(
@@ -99,11 +94,6 @@ class ProjectModel(qtc.QAbstractItemModel):
                1 if this model has a project or 0 if it does not have a project.
         """
         return 0 if self.__root is None else 1
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def canRedo(
@@ -502,6 +492,12 @@ class ProjectModel(qtc.QAbstractItemModel):
             raise
 
 
+    #
+    # Signals this model's project has been modified with unsaved changes.
+    #
+    modified = qtc.Signal()
+
+
     def moveRow(
         self
         ,change
@@ -548,6 +544,12 @@ class ProjectModel(qtc.QAbstractItemModel):
                has no project.
         """
         return self.__name
+
+
+    #
+    # Signals this model's project name has changed to the value given.
+    #
+    nameChanged = qtc.Signal(str)
 
 
     def new(
@@ -622,6 +624,12 @@ class ProjectModel(qtc.QAbstractItemModel):
         return self.__parsePath
 
 
+    #
+    # Signals this model's relative parsing path has changed to the value given.
+    #
+    parsePathChanged = qtc.Signal(str)
+
+
     def parser(
         self
         ):
@@ -641,6 +649,19 @@ class ProjectModel(qtc.QAbstractItemModel):
             if not isinstance(ret,abstract.AbstractParser):
                 raise RuntimeError("Generated parser is not an abstract parser.")
             return ret
+
+
+    @qtc.Slot()
+    def redo(
+        self
+        ):
+        """
+        Called to redo the last undone modification of this model. If this model
+        cannot redo then this does nothing.
+        """
+        if self.canRedo():
+            self.__undoStack[self.__undoStackIndex].redo()
+            self.__undoStackIndex += 1
 
 
     def removeRows(
@@ -797,47 +818,6 @@ class ProjectModel(qtc.QAbstractItemModel):
             self.parsePathChanged.emit(path)
 
 
-    ####################
-    # PUBLIC - Signals #
-    ####################
-
-
-    #
-    # Signals this model's project has been modified with unsaved changes.
-    #
-    modified = qtc.Signal()
-
-
-    #
-    # Signals this model's project name has changed to the value given.
-    #
-    nameChanged = qtc.Signal(str)
-
-
-    #
-    # Signals this model's relative parsing path has changed to the value given.
-    #
-    parsePathChanged = qtc.Signal(str)
-
-
-    ##################
-    # PUBLIC - Slots #
-    ##################
-
-
-    @qtc.Slot()
-    def redo(
-        self
-        ):
-        """
-        Called to redo the last undone modification of this model. If this model
-        cannot redo then this does nothing.
-        """
-        if self.canRedo():
-            self.__undoStack[self.__undoStackIndex].redo()
-            self.__undoStackIndex += 1
-
-
     @qtc.Slot()
     def undo(
         self
@@ -849,11 +829,6 @@ class ProjectModel(qtc.QAbstractItemModel):
         if self.canUndo():
             self.__undoStackIndex -= 1
             self.__undoStack[self.__undoStackIndex].undo()
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _insertRows_(
@@ -997,48 +972,6 @@ class ProjectModel(qtc.QAbstractItemModel):
         if block.isVolatileBelow():
             self.__pushVolatileBelow_(index)
         self.__modified_()
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The root copy tag used for internal copy XML byte arrays.
-    #
-    __COPY_TAG = "pysoref_copy"
-
-
-    #
-    # The language tag used for the language name text element of XML project
-    # files.
-    #
-    __LANG_TAG = "language"
-
-
-    #
-    # The name tag used for the project name text element of XML project files.
-    #
-    __NAME_TAG = "name"
-
-
-    #
-    # The parse path tag used for the parse path text element of XML project
-    # files.
-    #
-    __PARSE_PATH_TAG = "parse_path"
-
-
-    #
-    # The root tag used for XML project files.
-    #
-    __PROJECT_TAG = "scp_project"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __block_(

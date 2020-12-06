@@ -34,11 +34,6 @@ class BlockEditDock(qtw.QDockWidget):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,parent=None
@@ -51,18 +46,13 @@ class BlockEditDock(qtw.QDockWidget):
         parent : object
                  Optional qt object parent of this new block edit dock.
         """
-        qtw.QDockWidget.__init__(self,parent)
+        super().__init__(parent)
         self.__area = qtw.QScrollArea(widgetResizable=True)
         self.__applyButton = qtw.QPushButton("Apply")
         self.__index = qtc.QModelIndex()
         self.__view = None
         self.__edits = []
         self.__setupGui_()
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def setView(
@@ -88,9 +78,22 @@ class BlockEditDock(qtw.QDockWidget):
         self.__view.indexRemoved.connect(self.__indexRemoved_)
 
 
-    #####################
-    # PRIVATE - Methods #
-    #####################
+    @qtc.Slot()
+    def __apply_(
+        self
+        ):
+        """
+        Called to set this dock's currently indexed block's properties to the
+        current values of its edit widgets. If the current index is not valid
+        then this does nothing.
+        """
+        if self.__index.isValid():
+            self.__view.model().setData(
+                self.__index
+                ,{edit._key: edit._value_() for edit in self.__edits}
+                ,core.Role.Properties
+            )
+            self.__applyButton.setEnabled(False)
 
 
     def __buildCheckbox_(
@@ -302,48 +305,6 @@ class BlockEditDock(qtw.QDockWidget):
         return (edit,definition["label"])
 
 
-    def __setupGui_(
-        self
-        ):
-        """
-        Initializes the GUI of this new block edit dock.
-        """
-        self.__applyButton.clicked.connect(self.__apply_)
-        self.__applyButton.setEnabled(False)
-        bottom = qtw.QHBoxLayout()
-        bottom.addWidget(self.__applyButton)
-        bottom.addStretch()
-        layout = qtw.QVBoxLayout()
-        layout.addWidget(self.__area)
-        layout.addLayout(bottom)
-        central = qtw.QWidget()
-        central.setLayout(layout)
-        self.setWidget(central)
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
-
-
-    @qtc.Slot()
-    def __apply_(
-        self
-        ):
-        """
-        Called to set this dock's currently indexed block's properties to the
-        current values of its edit widgets. If the current index is not valid
-        then this does nothing.
-        """
-        if self.__index.isValid():
-            self.__view.model().setData(
-                self.__index
-                ,{edit._key: edit._value_() for edit in self.__edits}
-                ,core.Role.Properties
-            )
-            self.__applyButton.setEnabled(False)
-
-
     @qtc.Slot(qtc.QModelIndex)
     def __indexChanged_(
         self
@@ -411,3 +372,22 @@ class BlockEditDock(qtw.QDockWidget):
         Called to remove this dock's current index, setting it to invalid.
         """
         self.__index = qtc.QModelIndex()
+
+
+    def __setupGui_(
+        self
+        ):
+        """
+        Initializes the GUI of this new block edit dock.
+        """
+        self.__applyButton.clicked.connect(self.__apply_)
+        self.__applyButton.setEnabled(False)
+        bottom = qtw.QHBoxLayout()
+        bottom.addWidget(self.__applyButton)
+        bottom.addStretch()
+        layout = qtw.QVBoxLayout()
+        layout.addWidget(self.__area)
+        layout.addLayout(bottom)
+        central = qtw.QWidget()
+        central.setLayout(layout)
+        self.setWidget(central)

@@ -3,8 +3,7 @@ Contains the Shader class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 from ._base import Base
 
@@ -15,17 +14,12 @@ from ._base import Base
 
 
 
-@register("Shader")
+@scr.register("Shader")
 class Shader(Base):
     """
     This is the shader block class. It implements the Socrates' Reference
     abstract block class. It represents a GLSL shader.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
 
 
     def __init__(
@@ -34,13 +28,8 @@ class Shader(Base):
         """
         Initializes a new shader block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_type = "Vertex"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def build(
@@ -68,7 +57,7 @@ class Shader(Base):
             self._buildChildren_(definition,begin)
             + [""]*settings.H1LINES
             + ["/*!"]
-            + edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+            + scr.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
             + [" */"]
             + ["void main()"]
             + definition["functions"].pop("main",["{"]) + ["}"]
@@ -127,13 +116,13 @@ class Shader(Base):
                See interface docs.
         """
         ret = Base.editDefinitions(self)
-        combo = edit.comboEdit("Type:","_p_type")
-        edit.addComboSelect(combo,"Vertex",qtg.QIcon(":/glsl/vertex_shader.svg"))
-        edit.addComboSelect(combo,"Fragment",qtg.QIcon(":/glsl/fragment_shader.svg"))
-        edit.addComboSelect(combo,"Tesselation Control",qtg.QIcon(":/glsl/tesselation_shader.svg"))
-        edit.addComboSelect(combo,"Tesselation Evaluation",qtg.QIcon(":/glsl/tesselation_shader.svg"))
-        edit.addComboSelect(combo,"Geometry",qtg.QIcon(":/glsl/geometry_shader.svg"))
-        edit.addComboSelect(combo,"Compute",qtg.QIcon(":/glsl/compute_shader.svg"))
+        combo = scr.comboEdit("Type:","_p_type")
+        scr.addComboSelect(combo,"Vertex",qtg.QIcon(":/glsl/vertex_shader.svg"))
+        scr.addComboSelect(combo,"Fragment",qtg.QIcon(":/glsl/fragment_shader.svg"))
+        scr.addComboSelect(combo,"Tesselation Control",qtg.QIcon(":/glsl/tesselation_shader.svg"))
+        scr.addComboSelect(combo,"Tesselation Evaluation",qtg.QIcon(":/glsl/tesselation_shader.svg"))
+        scr.addComboSelect(combo,"Geometry",qtg.QIcon(":/glsl/geometry_shader.svg"))
+        scr.addComboSelect(combo,"Compute",qtg.QIcon(":/glsl/compute_shader.svg"))
         ret.append(combo)
         return ret
 

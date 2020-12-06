@@ -2,8 +2,7 @@
 Contains the Union class.
 """
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 from ._base import Base
 
@@ -14,31 +13,12 @@ from ._base import Base
 
 
 
-@register("Union")
+@scr.register("Union")
 class Union(Base):
     """
     This is the union block class. It implements the Socrates' Reference
     abstract block class. It represents a C++ union.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(
-        self
-        ):
-        """
-        Initializes a new union block.
-        """
-        Base.__init__(self)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(
@@ -60,7 +40,7 @@ class Union(Base):
         """
         ret = [""]*settings.H2LINES
         ret.append(begin+"/*!")
-        ret += edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+        ret += scr.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
         ret.append(begin+" */")
         ret.append(begin+"union "+self._p_name)
         ret.append(begin+"{")

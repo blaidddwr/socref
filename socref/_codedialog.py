@@ -21,11 +21,8 @@ class CodeDialog(qtw.QDialog):
     The user is provided a list and read only text view to navigate the
     fragments, along with a copy to clipboard button.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
+    __GEOMETRY_KEY = "gui.dialog.code.geometry"
+    __STATE_KEY = "gui.dialog.code.state"
 
 
     def __init__(
@@ -44,16 +41,11 @@ class CodeDialog(qtw.QDialog):
         parent : object
                  The optional qt object parent of this dialog.
         """
-        qtw.QDialog.__init__(self,parent)
+        super().__init__(parent)
         self.__code = code
         self.__splitter = qtw.QSplitter(self)
         self.__view = qtw.QPlainTextEdit(self,readOnly=True)
         self.__setupGui_()
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def closeEvent(
@@ -74,28 +66,44 @@ class CodeDialog(qtw.QDialog):
         event.accept()
 
 
-    #######################
-    # PRIVATE - Constants #
-    #######################
+    @qtc.Slot()
+    def __close_(
+        self
+        ):
+        """
+        Called to close this dialog.
+        """
+        self.done(qtw.QDialog.Accepted)
+        self.close()
 
 
-    #
-    # The key used to save this dialog's geometry using qt settings to make it
-    # persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.code.geometry"
+    @qtc.Slot()
+    def __copy_(
+        self
+        ):
+        """
+        Called to copy this dialog's current code fragment to the system
+        clipboard.
+        """
+        clipboard = qtg.QClipboard()
+        clipboard.setText(self.__view.toPlainText())
 
 
-    #
-    # The key used to save this dialog's state using qt settings to make it
-    # persistent.
-    #
-    __STATE_KEY = "gui.dialog.code.state"
+    @qtc.Slot(str)
+    def __itemChanged_(
+        self
+        ,key
+        ):
+        """
+        Called to inform this dialog's the selected code fragment has changed to
+        the one with the given key.
 
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
+        Parameters
+        ----------
+        key : string
+              The new key of the selected code fragment.
+        """
+        self.__view.setPlainText(self.__code[key])
 
 
     def __restore_(
@@ -157,48 +165,3 @@ class CodeDialog(qtw.QDialog):
         self.__splitter.addWidget(list_)
         self.__splitter.addWidget(self.__view)
         return self.__splitter
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
-
-
-    @qtc.Slot()
-    def __close_(
-        self
-        ):
-        """
-        Called to close this dialog.
-        """
-        self.done(qtw.QDialog.Accepted)
-        self.close()
-
-
-    @qtc.Slot()
-    def __copy_(
-        self
-        ):
-        """
-        Called to copy this dialog's current code fragment to the system
-        clipboard.
-        """
-        clipboard = qtg.QClipboard()
-        clipboard.setText(self.__view.toPlainText())
-
-
-    @qtc.Slot(str)
-    def __itemChanged_(
-        self
-        ,key
-        ):
-        """
-        Called to inform this dialog's the selected code fragment has changed to
-        the one with the given key.
-
-        Parameters
-        ----------
-        key : string
-              The new key of the selected code fragment.
-        """
-        self.__view.setPlainText(self.__code[key])

@@ -1,6 +1,7 @@
 """
 Contains the SpellChecker class.
 """
+import re
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
@@ -29,11 +30,6 @@ class SpellChecker(qtw.QGroupBox):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,title
@@ -55,17 +51,12 @@ class SpellChecker(qtw.QGroupBox):
         parent : object
                  An optional qt object parent for this new spell checker.
         """
-        qtw.QGroupBox.__init__(self,title,parent)
+        super().__init__(title,parent)
         self.__wordLabel = qtw.QLabel(self)
         self.__wordEdit = qtw.QLineEdit(self)
         self.__cursor = None
         self.__suggested = []
         self.__setupGui_()
-
-
-    ####################
-    # PUBLIC - Signals #
-    ####################
 
 
     #
@@ -79,11 +70,6 @@ class SpellChecker(qtw.QGroupBox):
     # misspelled words.
     #
     finished = qtc.Signal()
-
-
-    ##################
-    # PUBLIC - Slots #
-    ##################
 
 
     @qtc.Slot(qtg.QTextCursor)
@@ -106,11 +92,6 @@ class SpellChecker(qtw.QGroupBox):
             self.__cursor = cursor
             cursor.movePosition(qtg.QTextCursor.Start)
             self.__findNextWord_()
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __findNextWord_(
@@ -148,39 +129,6 @@ class SpellChecker(qtw.QGroupBox):
             if not cursor.movePosition(qtg.QTextCursor.NextWord):
                 self.__stop_()
                 break
-
-
-    def __setupGui_(
-        self
-        ):
-        """
-        Initializes the GUI of this new spell checker.
-        """
-        suggest = qtw.QPushButton("Suggest")
-        suggest.clicked.connect(self.__suggest_)
-        replace = qtw.QPushButton("Replace")
-        replace.clicked.connect(self.__replace_)
-        ignore = qtw.QPushButton("Ignore")
-        ignore.clicked.connect(self.__ignore_)
-        ignore_all = qtw.QPushButton("Ignore All")
-        ignore_all.clicked.connect(self.__ignoreAll_)
-        stop = qtw.QPushButton("Stop")
-        stop.clicked.connect(self.__stop_)
-        layout = qtw.QHBoxLayout()
-        layout.addWidget(self.__wordLabel)
-        layout.addWidget(self.__wordEdit)
-        layout.addStretch()
-        layout.addWidget(suggest)
-        layout.addWidget(replace)
-        layout.addWidget(ignore)
-        layout.addWidget(ignore_all)
-        layout.addWidget(stop)
-        self.setLayout(layout)
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot()
@@ -225,6 +173,34 @@ class SpellChecker(qtw.QGroupBox):
         if self.__cursor is not None:
             self.__cursor.insertText(self.__wordEdit.text())
             self.__findNextWord_()
+
+
+    def __setupGui_(
+        self
+        ):
+        """
+        Initializes the GUI of this new spell checker.
+        """
+        suggest = qtw.QPushButton("Suggest")
+        suggest.clicked.connect(self.__suggest_)
+        replace = qtw.QPushButton("Replace")
+        replace.clicked.connect(self.__replace_)
+        ignore = qtw.QPushButton("Ignore")
+        ignore.clicked.connect(self.__ignore_)
+        ignore_all = qtw.QPushButton("Ignore All")
+        ignore_all.clicked.connect(self.__ignoreAll_)
+        stop = qtw.QPushButton("Stop")
+        stop.clicked.connect(self.__stop_)
+        layout = qtw.QHBoxLayout()
+        layout.addWidget(self.__wordLabel)
+        layout.addWidget(self.__wordEdit)
+        layout.addStretch()
+        layout.addWidget(suggest)
+        layout.addWidget(replace)
+        layout.addWidget(ignore)
+        layout.addWidget(ignore_all)
+        layout.addWidget(stop)
+        self.setLayout(layout)
 
 
     @qtc.Slot()

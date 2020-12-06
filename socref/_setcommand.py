@@ -18,11 +18,6 @@ class SetCommand(AbstractCommand):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ,fromProperties
@@ -47,15 +42,10 @@ class SetCommand(AbstractCommand):
                 The project model whose given index block properties are
                 changed.
         """
-        AbstractCommand.__init__(self,model)
+        super().__init__(model)
         self.__rows = self._buildRows_(index)
         self.__fromProperties = fromProperties
         self.__toProperties = toProperties
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def redo(

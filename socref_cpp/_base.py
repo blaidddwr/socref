@@ -3,8 +3,7 @@ Contains the Base class.
 """
 import html
 from socref import abstract
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 
 
@@ -22,25 +21,15 @@ class Base(abstract.AbstractBlock):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
         """
         Initializes a new base block.
         """
-        abstract.AbstractBlock.__init__(self)
+        super().__init__()
         self._p_name = ""
         self._p_description = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(
@@ -191,7 +180,7 @@ class Base(abstract.AbstractBlock):
         ret0 : object
                See interface docs.
         """
-        return edit.richTextBlocks(1,"Description",html.escape(self._p_description))
+        return scr.richTextBlocks(1,"Description",html.escape(self._p_description))
 
 
     def editDefinitions(
@@ -206,8 +195,8 @@ class Base(abstract.AbstractBlock):
                See interface docs.
         """
         ret = []
-        ret.append(edit.lineEdit("Name:","_p_name"))
-        ret.append(edit.textEdit("Description:","_p_description",speller=True))
+        ret.append(scr.lineEdit("Name:","_p_name"))
+        ret.append(scr.textEdit("Description:","_p_description",speller=True))
         return ret
 
 
@@ -218,11 +207,6 @@ class Base(abstract.AbstractBlock):
         Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_description = "Detailed description."
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _buildHeaderGuard_(
@@ -289,7 +273,7 @@ class Base(abstract.AbstractBlock):
                 ret += ["namespace "+namespace._p_name,"{"]
             if commentLast:
                 ret += ["/*"]
-                ret += edit.wrapBlocks(last._p_description," * ",columns=settings.COLUMNS)
+                ret += scr.wrapBlocks(last._p_description," * ",columns=settings.COLUMNS)
                 ret += [" */"]
             ret += ["namespace "+last._p_name,"{"]
             namespaces.append(last)

@@ -2,8 +2,7 @@
 Contains the Enum class.
 """
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 from ._base import Base
 
@@ -14,17 +13,12 @@ from ._base import Base
 
 
 
-@register("Enumeration")
+@scr.register("Enumeration")
 class Enum(Base):
     """
     This is the enumeration block class. It implements the Socrates' Reference
     abstract block class. It represents a C++ enumeration.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
 
 
     def __init__(
@@ -33,13 +27,8 @@ class Enum(Base):
         """
         Initializes a new enumeration block.
         """
-        Base.__init__(self)
+        super().__init__()
         self._p_class = "0"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(
@@ -61,7 +50,7 @@ class Enum(Base):
         """
         ret = [""]*settings.H2LINES
         ret.append(begin+"/*!")
-        ret += edit.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+        ret += scr.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
         ret.append(begin+" */")
         line = begin+"enum "
         if self.isClass():
@@ -147,7 +136,7 @@ class Enum(Base):
                See interface docs.
         """
         ret = Base.editDefinitions(self)
-        ret.append(edit.checkboxEdit("Class","_p_class"))
+        ret.append(scr.checkboxEdit("Class","_p_class"))
         return ret
 
 

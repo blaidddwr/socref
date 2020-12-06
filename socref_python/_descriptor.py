@@ -2,7 +2,7 @@
 Contains the Descriptor class.
 """
 import html
-from socref import edit
+from socref import public as scr
 from ._package import Package
 
 
@@ -21,24 +21,14 @@ class Descriptor(Package):
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
         """
         Initializes a new descriptor block.
         """
-        Package.__init__(self)
+        super().__init__()
         self._p_descriptors = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def clearProperties(
@@ -59,11 +49,6 @@ class Descriptor(Package):
         """
         Package.setDefaultProperties(self)
         self._p_descriptors = ""
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def _buildDescriptors_(
@@ -99,7 +84,7 @@ class Descriptor(Package):
         ret0 : dictionary
                The edit definition for this block's descriptors property.
         """
-        return edit.textEdit("Descriptors:","_p_descriptors")
+        return scr.textEdit("Descriptors:","_p_descriptors")
 
 
     def _descriptorsName_(
@@ -133,7 +118,7 @@ class Descriptor(Package):
                Detailed information about this block's descriptors. If this
                block has no descriptors then an empty string is returned.
         """
-        return edit.richText(
+        return scr.richText(
             2
             ,"Descriptors"
             ,"".join(

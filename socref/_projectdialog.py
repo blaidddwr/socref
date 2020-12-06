@@ -18,11 +18,7 @@ class ProjectDialog(qtw.QDialog):
     user to edit the project name and parse path of the model it is given on
     initialization. It is a persistent dialog that remembers its geometry.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
+    __GEOMETRY_KEY = "gui.dialog.project.geometry"
 
 
     def __init__(
@@ -41,18 +37,13 @@ class ProjectDialog(qtw.QDialog):
         parent : object
                  The optional qt object parent of this dialog.
         """
-        qtw.QDialog.__init__(self,parent)
+        super().__init__(parent)
         self.__nameEdit = qtw.QLineEdit(self)
         self.__parsePathEdit = qtw.QLineEdit(self)
         self.__model = model
         model.nameChanged.connect(self.__nameChanged_)
         model.parsePathChanged.connect(self.__parsePathChanged_)
         self.__setupGui_()
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def closeEvent(
@@ -70,88 +61,6 @@ class ProjectDialog(qtw.QDialog):
         settings = qtc.QSettings()
         settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
         event.accept()
-
-
-    #######################
-    # PRIVATE - Constants #
-    #######################
-
-
-    #
-    # The key used to save this dialog's geometry using qt settings to make it
-    # persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.project.geometry"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
-    def __restore_(
-        self
-        ):
-        """
-        Restores the geometry of this dialog.
-        """
-        settings = qtc.QSettings()
-        geometry = settings.value(self.__GEOMETRY_KEY)
-        if geometry:
-            self.restoreGeometry(geometry)
-
-
-    def __setupButtons_(
-        self
-        ):
-        """
-        Initializes the buttons of this new dialog.
-        """
-        ok = qtw.QPushButton("Ok")
-        ok.clicked.connect(self.__ok_)
-        apply_ = qtw.QPushButton("Apply")
-        apply_.clicked.connect(self.__apply_)
-        cancel = qtw.QPushButton("Cancel")
-        cancel.clicked.connect(self.__cancel_)
-        ret = qtw.QHBoxLayout()
-        ret.addWidget(ok)
-        ret.addWidget(apply_)
-        ret.addStretch()
-        ret.addWidget(cancel)
-        return ret
-
-
-    def __setupForm_(
-        self
-        ):
-        """
-        Initializes the form of this new dialog.
-        """
-        self.__nameEdit.setText(self.__model.name())
-        self.__parsePathEdit.setText(self.__model.parsePath())
-        ret = qtw.QFormLayout()
-        ret.addRow("Project Name:",self.__nameEdit)
-        ret.addRow("Parsing Path:",self.__parsePathEdit)
-        return ret
-
-
-    def __setupGui_(
-        self
-        ):
-        """
-        Initializes the GUI of this new dialog.
-        """
-        layout = qtw.QVBoxLayout()
-        layout.addLayout(self.__setupForm_())
-        layout.addLayout(self.__setupButtons_())
-        self.setLayout(layout)
-        self.setWindowTitle("Project Properties")
-        self.__restore_()
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
 
 
     @qtc.Slot()
@@ -220,3 +129,63 @@ class ProjectDialog(qtw.QDialog):
                The new parse path of this dialog's project model.
         """
         self.__parsePathEdit.setText(path)
+
+
+    def __restore_(
+        self
+        ):
+        """
+        Restores the geometry of this dialog.
+        """
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        if geometry:
+            self.restoreGeometry(geometry)
+
+
+    def __setupButtons_(
+        self
+        ):
+        """
+        Initializes the buttons of this new dialog.
+        """
+        ok = qtw.QPushButton("Ok")
+        ok.clicked.connect(self.__ok_)
+        apply_ = qtw.QPushButton("Apply")
+        apply_.clicked.connect(self.__apply_)
+        cancel = qtw.QPushButton("Cancel")
+        cancel.clicked.connect(self.__cancel_)
+        ret = qtw.QHBoxLayout()
+        ret.addWidget(ok)
+        ret.addWidget(apply_)
+        ret.addStretch()
+        ret.addWidget(cancel)
+        return ret
+
+
+    def __setupForm_(
+        self
+        ):
+        """
+        Initializes the form of this new dialog.
+        """
+        self.__nameEdit.setText(self.__model.name())
+        self.__parsePathEdit.setText(self.__model.parsePath())
+        ret = qtw.QFormLayout()
+        ret.addRow("Project Name:",self.__nameEdit)
+        ret.addRow("Parsing Path:",self.__parsePathEdit)
+        return ret
+
+
+    def __setupGui_(
+        self
+        ):
+        """
+        Initializes the GUI of this new dialog.
+        """
+        layout = qtw.QVBoxLayout()
+        layout.addLayout(self.__setupForm_())
+        layout.addLayout(self.__setupButtons_())
+        self.setLayout(layout)
+        self.setWindowTitle("Project Properties")
+        self.__restore_()

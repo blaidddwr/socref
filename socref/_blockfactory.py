@@ -24,11 +24,6 @@ class BlockFactory():
     """
 
 
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
     def __init__(
         self
         ):
@@ -39,11 +34,6 @@ class BlockFactory():
         self.__langs = {}
         self.__importingLang = None
         self.__importingLangName = None
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def blocks(
@@ -209,11 +199,6 @@ class BlockFactory():
                  currently loading language.
         """
         self.__registerBlock_(class_,self.__ROOT)
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
 
 
     def __registerBlock_(

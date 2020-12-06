@@ -4,8 +4,7 @@ Contains the Access class.
 import html
 from PySide2 import QtGui as qtg
 from socref import abstract
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import settings
 
 
@@ -15,17 +14,12 @@ from . import settings
 
 
 
-@register("Access")
+@scr.register("Access")
 class Access(abstract.AbstractBlock):
     """
     This is the access block class. It implements the Socrates' Reference
     abstract block class. It represents an access declaration for C++ class.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
 
 
     def __init__(
@@ -34,15 +28,10 @@ class Access(abstract.AbstractBlock):
         """
         Initializes a new access block.
         """
-        abstract.AbstractBlock.__init__(self)
+        super().__init__()
         self._p_name = ""
         self._p_type = "Public"
         self._p_enclosure = ""
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(
@@ -189,11 +178,11 @@ class Access(abstract.AbstractBlock):
                See interface docs.
         """
         ret = []
-        ret.append(edit.lineEdit("Name:","_p_name"))
-        combo = edit.comboEdit("Type:","_p_type")
+        ret.append(scr.lineEdit("Name:","_p_name"))
+        combo = scr.comboEdit("Type:","_p_type")
         self._addComboSelects_(combo)
         ret.append(combo)
-        ret.append(edit.textEdit("Enclosure:","_p_enclosure"))
+        ret.append(scr.textEdit("Enclosure:","_p_enclosure"))
         return ret
 
 
@@ -293,11 +282,6 @@ class Access(abstract.AbstractBlock):
         self._p_enclosure = ""
 
 
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
     def _addComboSelects_(
         self
         ,combo
@@ -312,6 +296,6 @@ class Access(abstract.AbstractBlock):
                 The combo box that is populated with possible access type
                 values.
         """
-        edit.addComboSelect(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
-        edit.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))
-        edit.addComboSelect(combo,"Private",icon=qtg.QIcon(":/cpp/private.svg"))
+        scr.addComboSelect(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
+        scr.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))
+        scr.addComboSelect(combo,"Private",icon=qtg.QIcon(":/cpp/private.svg"))

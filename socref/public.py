@@ -1,7 +1,8 @@
 """
-Contains helper methods that language block classes can use for displaying rich
-text, creating edit definitions, and producing parsing output.
+Contains all functions that can be used by language packages when interfacing
+with the core package.
 """
+from . import core
 
 
 
@@ -52,7 +53,11 @@ def checkboxEdit(
     ret0 : dictionary
            An abstract block's edit definition for a checkbox edit.
     """
-    return edit("checkbox",label,key)
+    return {
+        "type": "checkbox"
+        ,"label": label
+        ,"key": key
+    }
 
 
 
@@ -77,38 +82,12 @@ def comboEdit(
            An abstract block's edit definition for a combo box edit with no
            selections.
     """
-    ret = edit("combobox",label,key)
-    ret["selections"] = []
-    return ret
-
-
-
-
-def edit(
-    type_
-    ,label
-    ,key
-    ):
-    """
-    Builder function.
-
-    Parameters
-    ----------
-    type_ : string
-            The type of the generic edit definition.
-    label : string
-            The label of the generic edit definition.
-    key : string
-          The key of the generic edit definition.
-
-    Returns
-    -------
-    ret0 : dictionary
-           A generic abstract block's edit definition.
-    """
-    return {"type": type_
-            ,"label": label
-            ,"key": key}
+    return {
+        "type": "combobox"
+        ,"label": label
+        ,"key": key
+        ,"selections": []
+    }
 
 
 
@@ -132,9 +111,11 @@ def hiddenEdit(
     ret0 : dictionary
            An abstract block's edit definition for a hidden edit.
     """
-    return {"type": "hidden"
-            ,"key": key
-            ,"value": value}
+    return {
+        "type": "hidden"
+        ,"key": key
+        ,"value": value
+    }
 
 
 
@@ -158,7 +139,43 @@ def lineEdit(
     ret0 : dictionary
            An abstract block's edit definition for a line edit.
     """
-    return edit("line",label,key)
+    return {
+        "type": "line"
+        ,"label": label
+        ,"key": key
+    }
+
+
+
+
+def register(
+    name
+    ,root=False
+    ):
+    """
+    Registers the wrapped class object as a block with the given name for the
+    language currently being loaded. The class object is also assigned special
+    attributes _LANG_ and _TYPE_ that provide the language name and block name,
+    respectively. This must be called when a language is being loaded.
+
+    Parameters
+    ----------
+    name : string
+           The block's type name that is being registered. This must be unique
+           among all block names of any one language and only contain
+           alphabetical and underscore characters. Underscore characters are
+           replaced with spaces when displays the block type to the user.
+    root : bool
+           Optionally indicates the registered block is the root block of the
+           language if set to true. Only one block type can be the root of a
+           language.
+    """
+    def wrapper(class_):
+        core.blockFactory.registerBlock(class_,name)
+        if root:
+            core.blockFactory.registerRootBlock(class_)
+        return class_
+    return wrapper
 
 
 
@@ -284,9 +301,12 @@ def textEdit(
     ret0 : dictionary
            An abstract block's edit definition for a text edit.
     """
-    ret = edit("text",label,key)
-    ret["speller"] = speller
-    return ret
+    return {
+        "type": "text"
+        ,"label": label
+        ,"key": key
+        ,"speller": speller
+    }
 
 
 

@@ -3,8 +3,7 @@ Contains the Function class.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import edit
-from socref import register
+from socref import public as scr
 from . import block
 from . import settings
 from ._templatee import Templatee
@@ -16,17 +15,12 @@ from ._templatee import Templatee
 
 
 
-@register("Function")
+@scr.register("Function")
 class Function(Templatee):
     """
     This is the function block class. It implements the Socrates' Reference
     abstract block class. It represents a C++ function.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
 
 
     def __init__(
@@ -35,7 +29,7 @@ class Function(Templatee):
         """
         Initializes a new function block.
         """
-        Templatee.__init__(self)
+        super().__init__()
         self._p_returnType = ""
         self._p_returnDescription = ""
         self._p_default = "0"
@@ -48,11 +42,6 @@ class Function(Templatee):
         self._p_override = "0"
         self._p_final = "0"
         self._p_abstract = "0"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def buildDeclaration(
@@ -225,8 +214,8 @@ class Function(Templatee):
                 "<p><b>%s</b> : %s</p>"
                 % (html.escape(self._p_returnType),html.escape(self._p_returnDescription))
             )
-        return_ = edit.richText(2,"Return",return_)
-        flags = edit.richTextList(2,"Flags",self.__flagsList_())
+        return_ = scr.richText(2,"Return",return_)
+        flags = scr.richTextList(2,"Flags",self.__flagsList_())
         return (
             block.Base.displayView(self)
             + self._templatesView_()
@@ -248,29 +237,29 @@ class Function(Templatee):
                See interface docs.
         """
         ret = block.Base.editDefinitions(self)
-        ret.append(edit.lineEdit("Return Type:","_p_returnType"))
-        ret.append(edit.textEdit("Return Description:","_p_returnDescription",speller=True))
-        ret.append(edit.checkboxEdit("No Exceptions","_p_noexcept"))
+        ret.append(scr.lineEdit("Return Type:","_p_returnType"))
+        ret.append(scr.textEdit("Return Description:","_p_returnDescription",speller=True))
+        ret.append(scr.checkboxEdit("No Exceptions","_p_noexcept"))
         if self.isMethod():
-            ret.append(edit.checkboxEdit("Default","_p_default"))
-            ret.append(edit.checkboxEdit("Deleted","_p_deleted"))
-            ret.append(edit.checkboxEdit("Explicit","_p_explicit"))
-            ret.append(edit.checkboxEdit("Constant","_p_const"))
-            ret.append(edit.checkboxEdit("Static","_p_static"))
-            ret.append(edit.checkboxEdit("Virtual","_p_virtual"))
-            ret.append(edit.checkboxEdit("Override","_p_override"))
-            ret.append(edit.checkboxEdit("Final","_p_final"))
-            ret.append(edit.checkboxEdit("Abstract","_p_abstract"))
+            ret.append(scr.checkboxEdit("Default","_p_default"))
+            ret.append(scr.checkboxEdit("Deleted","_p_deleted"))
+            ret.append(scr.checkboxEdit("Explicit","_p_explicit"))
+            ret.append(scr.checkboxEdit("Constant","_p_const"))
+            ret.append(scr.checkboxEdit("Static","_p_static"))
+            ret.append(scr.checkboxEdit("Virtual","_p_virtual"))
+            ret.append(scr.checkboxEdit("Override","_p_override"))
+            ret.append(scr.checkboxEdit("Final","_p_final"))
+            ret.append(scr.checkboxEdit("Abstract","_p_abstract"))
         else:
-            ret.append(edit.hiddenEdit("_p_default","0"))
-            ret.append(edit.hiddenEdit("_p_deleted","0"))
-            ret.append(edit.hiddenEdit("_p_explicit","0"))
-            ret.append(edit.hiddenEdit("_p_const","0"))
-            ret.append(edit.hiddenEdit("_p_static","0"))
-            ret.append(edit.hiddenEdit("_p_virtual","0"))
-            ret.append(edit.hiddenEdit("_p_override","0"))
-            ret.append(edit.hiddenEdit("_p_final","0"))
-            ret.append(edit.hiddenEdit("_p_abstract","0"))
+            ret.append(scr.hiddenEdit("_p_default","0"))
+            ret.append(scr.hiddenEdit("_p_deleted","0"))
+            ret.append(scr.hiddenEdit("_p_explicit","0"))
+            ret.append(scr.hiddenEdit("_p_const","0"))
+            ret.append(scr.hiddenEdit("_p_static","0"))
+            ret.append(scr.hiddenEdit("_p_virtual","0"))
+            ret.append(scr.hiddenEdit("_p_override","0"))
+            ret.append(scr.hiddenEdit("_p_final","0"))
+            ret.append(scr.hiddenEdit("_p_abstract","0"))
         return ret
 
 
@@ -548,11 +537,6 @@ class Function(Templatee):
         self._p_abstract = "0"
 
 
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
     def __argumentsView_(
         self
         ):
@@ -565,7 +549,7 @@ class Function(Templatee):
                Detailed view of all this function's arguments. If this function
                has no arguments then this returns an empty string.
         """
-        return edit.richText(
+        return scr.richText(
             2
             ,"Arguments"
             ,"".join((child.argumentView() for child in self if child._TYPE_ == "Variable"))
@@ -590,13 +574,13 @@ class Function(Templatee):
                Source code lines that is the block comment for this function.
         """
         ret = [begin+"/*!"]
-        ret += edit.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        ret += scr.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
         for child in self:
             ret += [begin+" *"] + child.buildComment(begin+" * ")
         if self._p_returnType != "void":
             header = "@return : "
             ret.append(begin+" *")
-            ret += edit.wrapText(header + self._p_returnDescription,begin+" * "," "*len(header),100)
+            ret += scr.wrapText(header + self._p_returnDescription,begin+" * "," "*len(header),100)
         ret.append(begin+" */")
         return ret
 

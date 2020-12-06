@@ -20,11 +20,7 @@ class TextDialog(qtw.QDialog):
     is provided that begins spell checking and correction. All spell checking
     features can be enabled or disabled at initialization of the dialog.
     """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
+    __GEOMETRY_KEY = "gui.dialog.text.geometry"
 
 
     def __init__(
@@ -47,36 +43,12 @@ class TextDialog(qtw.QDialog):
                   True to enable misspelled word highlighting and spell checking
                   or false to disable it all.
         """
-        qtw.QDialog.__init__(self,parent)
+        super().__init__(parent)
         self.__speller = speller
         self.__textEdit = gui.PlainTextEdit(text,self,speller=speller,popup=False)
         self.__spellerBox = gui.SpellChecker("Spell Check",settings.DICTIONARY)
         self.__spellButton = qtw.QPushButton("Spell Check",self)
         self.__setupGui_()
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def text(
-        self
-        ):
-        """
-        Getter method.
-
-        Returns
-        -------
-        ret0 : string
-               The current of this text dialog.
-        """
-        return self.__textEdit.toPlainText()
-
-
-    #######################
-    # PROTECTED - Methods #
-    #######################
 
 
     def closeEvent(
@@ -96,21 +68,29 @@ class TextDialog(qtw.QDialog):
         event.accept()
 
 
-    #######################
-    # PRIVATE - Constants #
-    #######################
+    def text(
+        self
+        ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        ret0 : string
+               The current of this text dialog.
+        """
+        return self.__textEdit.toPlainText()
 
 
-    #
-    # The key used to save this dialog's geometry using qt settings to make it
-    # persistent.
-    #
-    __GEOMETRY_KEY = "gui.dialog.text.geometry"
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
+    @qtc.Slot()
+    def __cancel_(
+        self
+        ):
+        """
+        Called to set this dialog's done status to rejected and then closing it.
+        """
+        self.done(qtw.QDialog.Rejected)
+        self.close()
 
 
     def __restore_(
@@ -123,6 +103,17 @@ class TextDialog(qtw.QDialog):
         geometry = settings.value(self.__GEOMETRY_KEY)
         if geometry:
             self.restoreGeometry(geometry)
+
+
+    @qtc.Slot()
+    def __set_(
+        self
+        ):
+        """
+        Called to set this dialog's done status to accepted and then closing it.
+        """
+        self.done(qtw.QDialog.Accepted)
+        self.close()
 
 
     def __setupButtons_(
@@ -181,33 +172,6 @@ class TextDialog(qtw.QDialog):
         )
         self.__spellerBox.finished.connect(self.__spellCheckFinished_)
         return self.__spellerBox
-
-
-    ###################
-    # PRIVATE - Slots #
-    ###################
-
-
-    @qtc.Slot()
-    def __cancel_(
-        self
-        ):
-        """
-        Called to set this dialog's done status to rejected and then closing it.
-        """
-        self.done(qtw.QDialog.Rejected)
-        self.close()
-
-
-    @qtc.Slot()
-    def __set_(
-        self
-        ):
-        """
-        Called to set this dialog's done status to accepted and then closing it.
-        """
-        self.done(qtw.QDialog.Accepted)
-        self.close()
 
 
     @qtc.Slot()
