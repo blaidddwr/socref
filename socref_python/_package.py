@@ -58,8 +58,13 @@ class Package(abstract.AbstractBlock):
         ret0 : list
                Source code lines for this block.
         """
-        (header,footer) = self._build_(definition,begin)
-        return header+footer
+        (header,footer) = Package._build_(self,definition,begin)
+        ret = header
+        (regular,classes) = self._buildChildren_(definition,begin)
+        if classes:
+            ret += [""]+classes
+        ret += regular+footer
+        return ret
 
 
     def buildList(
@@ -73,7 +78,10 @@ class Package(abstract.AbstractBlock):
         ret0 : object
                See interface docs.
         """
-        return ("Package","Module")
+        if self.parent() is None:
+            return ("Package","Module","Class")
+        else:
+            return ("Package","Module","Class","Function")
 
 
     def clearProperties(
@@ -239,7 +247,9 @@ class Package(abstract.AbstractBlock):
         regular = []
         classes = []
         for block in self:
-            if block._TYPE_!="Class":
+            if block._TYPE_== "Module":
+                continue
+            elif block._TYPE_!="Class":
                 regular += block.build(definition,begin)
             elif block.isInfile():
                 regular += block.build(definition,begin)
