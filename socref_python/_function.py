@@ -309,6 +309,8 @@ class Function(Descriptor):
         ret0 : list
                The source code doc string lines of this function.
         """
+        if not self._p_returnDescription:
+            return []
         newBegin = begin + " "*settings.INDENT
         ret = [newBegin+'"""']
         ret += scr.wrapBlocks(
@@ -370,7 +372,7 @@ class Function(Descriptor):
         else:
             ret.append("%sdef %s("%(begin,self._p_name))
             newBegin = begin + " "*settings.INDENT
-            end = newBegin+"):"
+            end = begin+"):"
             first = True
             for arg in args:
                 ret.append(newBegin+arg)
