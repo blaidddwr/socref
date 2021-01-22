@@ -54,7 +54,7 @@ class Parser(abstract.AbstractParser):
         self.__prePattern = re.compile('^ *#.*')
         self.__docPattern = re.compile('^ *"""')
         self.__importPattern = re.compile('^(from|import).*')
-        self.__classPattern = re.compile('^class +([a-zA-Z_]+\w*)\([\w\._,\s]*\):')
+        self.__classPattern = re.compile('^ *class +([a-zA-Z_]+\w*)\([\w\._,\s]*\):')
         self.__functionPattern = re.compile('^def +([a-zA-Z_]+\w*)\((.*)')
         self.__functionEndPattern = re.compile('^ *\):')
         self.__commentPattern = re.compile('^( *#).*')
@@ -258,7 +258,7 @@ class Parser(abstract.AbstractParser):
                current seek position.
         """
         self.__skipDocString_(ifile)
-        ret = {"functions": {}}
+        ret = {"classes": {}, "functions": {}}
         indent = None
         lines = []
         while True:
@@ -275,6 +275,10 @@ class Parser(abstract.AbstractParser):
             line = scan.readline()
             if line is None:
                 break
+            match = self.__classPattern.match(line)
+            if match:
+                scr.uniqueInsert(ret["classes"],match.group(1),self.__scanClass_(ifile))
+                continue
             match = self.__methodPattern.match(line)
             if match:
                 scr.uniqueInsert(

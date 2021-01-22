@@ -94,7 +94,7 @@ class Class(Descriptor):
         ret0 : object
                See interface docs.
         """
-        return ("Function","Object","Access")
+        return ("Function","Class")
 
 
     def clearProperties(
@@ -155,7 +155,10 @@ class Class(Descriptor):
         """
         ret = block.Package.editDefinitions(self)
         ret.append(scr.textEdit("Parents:","_p_parents"))
-        ret.append(scr.checkboxEdit("Infile","_p_infile"))
+        if self.parent()._TYPE_ == "Class":
+            ret.append(scr.hiddenEdit("Infile","0"))
+        else:
+            ret.append(scr.checkboxEdit("Infile","_p_infile"))
         ret.append(self._descriptorsEditDefinition_())
         return ret
 
@@ -209,7 +212,7 @@ class Class(Descriptor):
                it is defined in its own special container module and imported
                into its module namespace.
         """
-        return bool(int(self._p_infile))
+        return self.parent()._TYPE_ == "Class" or bool(int(self._p_infile))
 
 
     def setDefaultProperties(

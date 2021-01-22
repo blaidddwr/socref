@@ -61,7 +61,7 @@ class Module(Package):
         ret0 : object
                See interface docs.
         """
-        return ("Object","Function","Class")
+        return ("Function","Class")
 
 
     def icon(
