@@ -56,11 +56,7 @@ class Function(Descriptor):
         ret0 : object
                See interface docs.
         """
-        ret = []
-        if self.isMethod():
-            ret += [""]*settings.H3LINES
-        else:
-            ret += [""]*settings.H2LINES
+        ret = [""]*settings.H3LINES
         ret += self.__buildHeader_(begin)
         ret += self.__buildDocString_(begin)
         ret += self.__buildLines_(definition["functions"].pop(self._p_name,[]),begin)

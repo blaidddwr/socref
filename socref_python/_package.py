@@ -210,7 +210,7 @@ class Package(abstract.AbstractBlock):
         footer = []
         script = definition.pop("script")
         if script:
-            footer += [""]*settings.H1LINES + script
+            footer += [""]*settings.H3LINES + script
         return (header,footer)
 
 
