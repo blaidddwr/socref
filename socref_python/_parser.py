@@ -235,7 +235,7 @@ class Parser(abstract.AbstractParser):
                 self._addPath_(block,os.path.join(path,block._p_name+".py"))
                 self.__buildPaths_(block,path)
             elif block._TYPE_ == "Class" and not block.isInfile():
-                self._addPath_(block,os.path.join(path,"_"+block._p_name.lower()+".py"))
+                self._addPath_(block,os.path.join(path,block._p_name+".py"))
 
 
     def __scanClass_(

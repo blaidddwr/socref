@@ -42,12 +42,7 @@ class Module(Package):
                See interface docs.
         """
         (header,footer) = Package._build_(self,definition,begin)
-        ret = header
-        (regular,classes) = self._buildChildren_(definition,begin)
-        if classes:
-            ret += [""]+classes
-        ret += regular+footer
-        return ret
+        return header+self._buildChildren_(definition,begin)+footer
 
 
     def buildList(

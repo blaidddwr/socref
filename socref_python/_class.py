@@ -63,7 +63,7 @@ class Class(Descriptor):
                 ,"Contains the %s class."%(self._p_name,)
             )
             ret += header
-        definition = definition["classes"].get(self._p_name,{"functions": {}})
+        definition = definition["classes"].get(self._p_name,{"classes": {}, "functions": {}})
         ret += [""]*settings.H1LINES
         ret += self._buildDescriptors_(begin)
         ret.append("%sclass %s(%s):" % (begin,self._p_name,self.__buildParents_()))
@@ -72,8 +72,10 @@ class Class(Descriptor):
         ret.append(docString)
         ret += scr.wrapBlocks(self._p_description,newBegin,columns=settings.COLUMNS)
         ret.append(docString)
-        (regular,classes) = self._buildChildren_(definition,newBegin)
-        body = [newBegin+l for l in definition.pop("lines",[])] + regular
+        body = (
+            [newBegin+l for l in definition.pop("lines",[])]
+            + self._buildChildren_(definition,newBegin)
+        )
         if body:
             ret += body
         else:

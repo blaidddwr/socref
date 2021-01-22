@@ -59,12 +59,7 @@ class Package(abstract.AbstractBlock):
                Source code lines for this block.
         """
         (header,footer) = Package._build_(self,definition,begin)
-        ret = header
-        (regular,classes) = self._buildChildren_(definition,begin)
-        if classes:
-            ret += [""]+classes
-        ret += regular+footer
-        return ret
+        return header+self._buildChildren_(definition,begin)+footer
 
 
     def buildList(
@@ -244,15 +239,12 @@ class Package(abstract.AbstractBlock):
                Source code import lines that import any classes within this
                module that is created in its own special module file.
         """
-        regular = []
-        classes = []
+        ret = []
         for block in self:
             if block._TYPE_== "Module":
                 continue
             elif block._TYPE_!="Class":
-                regular += block.build(definition,begin)
+                ret += block.build(definition,begin)
             elif block.isInfile():
-                regular += block.build(definition,begin)
-            else:
-                classes += ["from ._%s import %s"%(block._p_name.lower(),block._p_name)]
-        return (regular,classes)
+                ret += block.build(definition,begin)
+        return ret
