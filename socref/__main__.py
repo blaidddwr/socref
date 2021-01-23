@@ -8,8 +8,6 @@ from . import core
 from . import gui
 
 
-
-
 def main():
     """
     Begins execution of the program.
@@ -37,12 +35,6 @@ def main():
         parserThread.quit()
         parserThread.wait()
     sys.exit(ret)
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
