@@ -305,7 +305,7 @@ class Function(Descriptor):
         ret0 : list
                The source code doc string lines of this function.
         """
-        if not self._p_returnDescription:
+        if not self._p_description:
             return []
         newBegin = begin + " "*settings.INDENT
         ret = [newBegin+'"""']
