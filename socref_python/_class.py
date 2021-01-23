@@ -64,7 +64,10 @@ class Class(Descriptor):
             )
             ret += header
         definition = definition["classes"].get(self._p_name,{"classes": {}, "functions": {}})
-        ret += [""]*settings.H1LINES
+        if self.parent()._TYPE_ == "Class":
+            ret += [""]*settings.H3LINES
+        else:
+            ret += [""]*settings.H1LINES
         ret += self._buildDescriptors_(begin)
         ret.append("%sclass %s(%s):" % (begin,self._p_name,self.__buildParents_()))
         newBegin = begin + " "*settings.INDENT
