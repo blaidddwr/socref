@@ -241,9 +241,9 @@ class Package(abstract.AbstractBlock):
         """
         ret = []
         for block in self:
-            if block._TYPE_== "Module":
+            if block._TYPE_== "Module" or block._TYPE_ == "Package":
                 continue
-            elif block._TYPE_!="Class":
+            elif block._TYPE_ != "Class":
                 ret += block.build(definition,begin)
             elif block.isInfile():
                 ret += block.build(definition,begin)
