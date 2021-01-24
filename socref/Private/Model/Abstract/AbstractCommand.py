@@ -1,11 +1,14 @@
 """
 Contains the AbstractCommand class.
 """
+from PySide2.QtCore import QModelIndex
+from abc import ABC
+from abc import abstractmethod
 
 
 
 
-class AbstractCommand(abc.ABC):
+class AbstractCommand(ABC):
     """
     This is the abstract command class. A command is an abstract interface
     designed to do a single action upon a project model. It provides helper
@@ -39,10 +42,11 @@ class AbstractCommand(abc.ABC):
         model : socref.model.ProjectModel
                 The project model that this new command acts upon.
         """
-        pass
+        super().__init__()
+        self._model = model
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def redo(
         self
     ):
@@ -52,7 +56,7 @@ class AbstractCommand(abc.ABC):
         pass
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def undo(
         self
     ):
@@ -81,7 +85,12 @@ class AbstractCommand(abc.ABC):
                Rows that represent the given qt model index of this command's
                project model. An empty list is the root index.
         """
-        pass
+        rows = []
+        while index.isValid():
+            rows.append(index.row())
+            index = index.parent()
+        rows.reverse()
+        return rows
 
 
     def _getIndex_(
@@ -104,4 +113,9 @@ class AbstractCommand(abc.ABC):
                given list of rows. In this context valid can also be an invalid
                null index that represents the root.
         """
-        pass
+        index = QModelIndex()
+        for row in rows:
+            index = self._model.index(row,0,index)
+            if not index.isValid():
+                raise RuntimeError("Rows are invalid.")
+        return index

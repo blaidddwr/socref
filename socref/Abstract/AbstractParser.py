@@ -1,13 +1,18 @@
 """
 Contains the AbstractParser class.
 """
-import abc
-import os
+from abc import ABC
+from abc import abstractmethod
+from os import makedirs
+from os.path import dirname
+from os.path import exists as pathExists
+from os.path import isfile
+from os.path import join as pathJoin
 
 
 
 
-class AbstractParser(abc.ABC):
+class AbstractParser(ABC):
     """
     This is the abstract parser class. A parser is the interface implemented by
     a language to parse its source code from a project. The parsing process is
@@ -37,9 +42,6 @@ class AbstractParser(abc.ABC):
     def __init__(
         self
     ):
-        """
-        Initializes a new abstract parser.
-        """
         super().__init__()
         self.__rootPath = ""
         self.__paths = []
@@ -74,15 +76,15 @@ class AbstractParser(abc.ABC):
                                       " block.")
         count = 0
         for path in self.__paths:
-            if os.path.isfile(path):
+            if isfile(path):
                 self._scan_(path)
             count += 1
-            update(count * 50 // len(self.__paths))
+            update(count*50//len(self.__paths))
         count = 0
         for path,block in zip(self.__paths,self.__blocks):
             self.__build_(block,path)
             count += 1
-            update(50 + (count * 50 // len(self.__paths)))
+            update(50 + count*50//len(self.__paths))
         self.__paths = []
         self.__blocks = []
 
@@ -105,7 +107,7 @@ class AbstractParser(abc.ABC):
         self.__rootPath = path
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def unknown(
         self
     ):
@@ -121,7 +123,7 @@ class AbstractParser(abc.ABC):
         pass
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def _build_(
         self
         ,block
@@ -132,7 +134,7 @@ class AbstractParser(abc.ABC):
 
         Parameters
         ----------
-        block : socref.abstract.AbstractBlock
+        block : socref.Abstract.AbstractBlock
                 The block associated with the given source code file path.
         path : string
                The path of the source code file whose contents are returned.
@@ -146,7 +148,7 @@ class AbstractParser(abc.ABC):
         pass
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def _buildPathList_(
         self
     ):
@@ -156,7 +158,7 @@ class AbstractParser(abc.ABC):
         pass
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def _scan_(
         self
         ,path
@@ -185,7 +187,7 @@ class AbstractParser(abc.ABC):
 
         Parameters
         ----------
-        block : socref.abstract.AbstractBlock
+        block : socref.Abstract.AbstractBlock
                 The block associated with the source code file path.
         path : string
                The source code file path.
@@ -194,7 +196,7 @@ class AbstractParser(abc.ABC):
             raise RuntimeError("Root path is not set.")
         if not self.__buildingPaths:
             raise RuntimeError("Calling add path outside of building paths.")
-        self.__paths.append(os.path.join(self.__rootPath,path))
+        self.__paths.append(pathJoin(self.__rootPath,path))
         self.__blocks.append(block)
 
 
@@ -210,14 +212,14 @@ class AbstractParser(abc.ABC):
 
         Parameters
         ----------
-        block : socref.abstract.AbstractBlock
+        block : socref.Abstract.AbstractBlock
                 The block associated with the source code file path.
         path : string
                The path to the source code file that is built.
         """
-        if not os.path.exists(os.path.dirname(path)):
-            os.makedirs(os.path.dirname(path))
-        if os.path.exists(path):
+        if not pathExists(dirname(path)):
+            makedirs(dirname(path))
+        if pathExists(path):
             old = open(path,"r").read()
             new = self._build_(block,path)
             if old != new:

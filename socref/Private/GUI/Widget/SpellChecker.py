@@ -1,16 +1,21 @@
 """
 Contains the SpellChecker class.
 """
-import re
-from PySide2 import QtCore as qtc
-from PySide2 import QtGui as qtg
-from PySide2 import QtWidgets as qtw
-from . import core
+from ...Model import speller
+from re import compile as reCompile
+from PySide2.QtCore import Signal
+from PySide2.QtCore import Slot
+from PySide2.QtGui import QTextCursor
+from PySide2.QtWidgets import QGroupBox
+from PySide2.QtWidgets import QHBoxLayout
+from PySide2.QtWidgets import QLabel
+from PySide2.QtWidgets import QLineEdit
+from PySide2.QtWidgets import QPushButton
 
 
 
 
-class SpellChecker(qtw.QGroupBox):
+class SpellChecker(QGroupBox):
     """
     This is the spell checker class. It provides a spell checking and correction
     interface. It uses the Hunspell library for all speller functions.
@@ -24,19 +29,20 @@ class SpellChecker(qtw.QGroupBox):
     while waiting for the user to make a choice about it. Adding to dictionary
     is currently defunct but will be fixed.
     """
+    __wordPattern = reCompile('\w+')
 
 
     #
     # Signals this spell checker has changed the cursor given to it.
     #
-    cursorChanged = qtc.Signal(qtg.QTextCursor)
+    cursorChanged = Signal(QTextCursor)
 
 
     #
     # Signals this spell checker has finished checking and correcting for
     # misspelled words.
     #
-    finished = qtc.Signal()
+    finished = Signal()
 
 
     def __init__(
@@ -68,7 +74,7 @@ class SpellChecker(qtw.QGroupBox):
         self.__setupGui_()
 
 
-    @qtc.Slot(qtg.QTextCursor)
+    @Slot(QTextCursor)
     def start(
         self
         ,cursor
@@ -86,7 +92,7 @@ class SpellChecker(qtw.QGroupBox):
         """
         if self.__cursor is None:
             self.__cursor = cursor
-            cursor.movePosition(qtg.QTextCursor.Start)
+            cursor.movePosition(QTextCursor.Start)
             self.__findNextWord_()
 
 
@@ -107,27 +113,25 @@ class SpellChecker(qtw.QGroupBox):
                false to check it for spelling.
         """
         cursor = self.__cursor
-        pattern = re.compile('\w+')
         while True:
             if not skip:
-                cursor.select(qtg.QTextCursor.WordUnderCursor)
-                if pattern.fullmatch(cursor.selectedText()):
-                    hun = core.speller
+                cursor.select(QTextCursor.WordUnderCursor)
+                if self.__wordPattern.fullmatch(cursor.selectedText()):
                     word = cursor.selectedText()
-                    if not hun.spell(word):
+                    if not speller.spell(word):
                         self.cursorChanged.emit(cursor)
                         self.__wordLabel.setText(word)
                         self.__wordEdit.setText(word)
-                        self.__suggested = hun.suggest(word)
+                        self.__suggested = speller.suggest(word)
                         break
             else:
                 skip = False
-            if not cursor.movePosition(qtg.QTextCursor.NextWord):
+            if not cursor.movePosition(QTextCursor.NextWord):
                 self.__stop_()
                 break
 
 
-    @qtc.Slot()
+    @Slot()
     def __ignore_(
         self
     ):
@@ -141,7 +145,7 @@ class SpellChecker(qtw.QGroupBox):
             self.__findNextWord_(skip=True)
 
 
-    @qtc.Slot()
+    @Slot()
     def __ignoreAll_(
         self
     ):
@@ -152,11 +156,11 @@ class SpellChecker(qtw.QGroupBox):
         not actively checking a document then this does nothing.
         """
         if self.__cursor is not None:
-            core.speller.add(self.__wordLabel.text())
+            speller.add(self.__wordLabel.text())
             self.__findNextWord_(skip=True)
 
 
-    @qtc.Slot()
+    @Slot()
     def __replace_(
         self
     ):
@@ -199,7 +203,7 @@ class SpellChecker(qtw.QGroupBox):
         self.setLayout(layout)
 
 
-    @qtc.Slot()
+    @Slot()
     def __stop_(
         self
     ):
@@ -214,7 +218,7 @@ class SpellChecker(qtw.QGroupBox):
             self.finished.emit()
 
 
-    @qtc.Slot()
+    @Slot()
     def __suggest_(
         self
     ):

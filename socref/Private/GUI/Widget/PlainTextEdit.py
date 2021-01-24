@@ -1,15 +1,18 @@
 """
 Contains the PlainTextEdit class.
 """
-from PySide2 import QtCore as qtc
-from PySide2 import QtWidgets as qtw
-from . import gui
-from . import settings
+from .... import DICTIONARY
+from ..Controller.SpellHighlighter import *
+from ..Dialog.TextDialog import *
+from PySide2.QtCore import Qt
+from PySide2.QtCore import Slot
+from PySide2.QtWidgets import QAction
+from PySide2.QtWidgets import QPlainTextEdit
 
 
 
 
-class PlainTextEdit(qtw.QPlainTextEdit):
+class PlainTextEdit(QPlainTextEdit):
     """
     This is the plain text class. It provides additional functionality to its
     inherited class. Misspelled words are highlighted. A shortcut is provided to
@@ -71,11 +74,11 @@ class PlainTextEdit(qtw.QPlainTextEdit):
                 self.__highlighter.deleteLater()
                 self.__highlighter = None
         elif self.__highlighter is None:
-            self.__highlighter = gui.SpellHighlighter(settings.DICTIONARY,self.document())
+            self.__highlighter = SpellHighlighter(DICTIONARY,self.document())
         self.__speller = enabled
 
 
-    @qtc.Slot()
+    @Slot()
     def __dialog_(
         self
     ):
@@ -83,7 +86,7 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         Called to open a modal dialog text editor to edit this editor's text.
         """
         if self.__popup:
-            dialog = gui.TextDialog(self.toPlainText(),self,speller=self.__speller)
+            dialog = TextDialog(self.toPlainText(),self,speller=self.__speller)
             dialog.setWindowTitle("Text Editor - Socrates' Reference")
             if dialog.exec_():
                 self.setPlainText(dialog.text())
@@ -95,8 +98,8 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         """
         Initialize the qt action shortcuts of this new text editor.
         """
-        dialog = qtw.QAction(self)
-        dialog.setShortcutContext(qtc.Qt.WidgetShortcut)
-        dialog.setShortcut(qtc.Qt.CTRL + qtc.Qt.Key_E)
+        dialog = QAction(self)
+        dialog.setShortcutContext(Qt.WidgetShortcut)
+        dialog.setShortcut(Qt.CTRL + Qt.Key_E)
         dialog.triggered.connect(self.__dialog_)
         self.addAction(dialog)

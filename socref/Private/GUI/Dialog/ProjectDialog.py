@@ -1,14 +1,19 @@
 """
 Contains the ProjectDialog class.
 """
-from PySide2 import QtCore as qtc
-from PySide2 import QtWidgets as qtw
-from . import settings
+from PySide2.QtCore import QSettings
+from PySide2.QtCore import Slot
+from PySide2.QtWidgets import QDialog
+from PySide2.QtWidgets import QFormLayout
+from PySide2.QtWidgets import QHBoxLayout
+from PySide2.QtWidgets import QLineEdit
+from PySide2.QtWidgets import QPushButton
+from PySide2.QtWidgets import QVBoxLayout
 
 
 
 
-class ProjectDialog(qtw.QDialog):
+class ProjectDialog(QDialog):
     """
     This is the project dialog class. It is a basic form dialog that allows the
     user to edit the project name and parse path of the model it is given on
@@ -28,14 +33,14 @@ class ProjectDialog(qtw.QDialog):
 
         Parameters
         ----------
-        model : socref.model.ProjectModel
+        model : socref.Private.Model.ProjectModel
                 The project model that this dialog edits with its form.
         parent : object
                  The optional qt object parent of this dialog.
         """
         super().__init__(parent)
-        self.__nameEdit = qtw.QLineEdit(self)
-        self.__parsePathEdit = qtw.QLineEdit(self)
+        self.__nameEdit = QLineEdit(self)
+        self.__parsePathEdit = QLineEdit(self)
         self.__model = model
         model.nameChanged.connect(self.__nameChanged_)
         model.parsePathChanged.connect(self.__parsePathChanged_)
@@ -51,7 +56,7 @@ class ProjectDialog(qtw.QDialog):
         event.accept()
 
 
-    @qtc.Slot()
+    @Slot()
     def __apply_(
         self
     ):
@@ -62,7 +67,7 @@ class ProjectDialog(qtw.QDialog):
         self.__model.setParsePath(self.__parsePathEdit.text())
 
 
-    @qtc.Slot()
+    @Slot()
     def __cancel_(
         self
     ):
@@ -70,11 +75,11 @@ class ProjectDialog(qtw.QDialog):
         Called to cancel this dialog, closing it and not applying any changes
         made in its edit widgets.
         """
-        self.done(qtw.QDialog.Rejected)
+        self.done(QDialog.Rejected)
         self.close()
 
 
-    @qtc.Slot(str)
+    @Slot(str)
     def __nameChanged_(
         self
         ,name
@@ -90,7 +95,7 @@ class ProjectDialog(qtw.QDialog):
         self.__nameEdit.setText(name)
 
 
-    @qtc.Slot()
+    @Slot()
     def __ok_(
         self
     ):
@@ -99,11 +104,11 @@ class ProjectDialog(qtw.QDialog):
         and then close itself.
         """
         self.__apply_()
-        self.done(qtw.QDialog.Accepted)
+        self.done(QDialog.Accepted)
         self.close()
 
 
-    @qtc.Slot(str)
+    @Slot(str)
     def __parsePathChanged_(
         self
         ,path
@@ -137,13 +142,13 @@ class ProjectDialog(qtw.QDialog):
         """
         Initializes the buttons of this new dialog.
         """
-        ok = qtw.QPushButton("Ok")
+        ok = QPushButton("Ok")
         ok.clicked.connect(self.__ok_)
-        apply_ = qtw.QPushButton("Apply")
+        apply_ = QPushButton("Apply")
         apply_.clicked.connect(self.__apply_)
-        cancel = qtw.QPushButton("Cancel")
+        cancel = QPushButton("Cancel")
         cancel.clicked.connect(self.__cancel_)
-        ret = qtw.QHBoxLayout()
+        ret = QHBoxLayout()
         ret.addWidget(ok)
         ret.addWidget(apply_)
         ret.addStretch()
@@ -159,7 +164,7 @@ class ProjectDialog(qtw.QDialog):
         """
         self.__nameEdit.setText(self.__model.name())
         self.__parsePathEdit.setText(self.__model.parsePath())
-        ret = qtw.QFormLayout()
+        ret = QFormLayout()
         ret.addRow("Project Name:",self.__nameEdit)
         ret.addRow("Parsing Path:",self.__parsePathEdit)
         return ret
@@ -171,7 +176,7 @@ class ProjectDialog(qtw.QDialog):
         """
         Initializes the GUI of this new dialog.
         """
-        layout = qtw.QVBoxLayout()
+        layout = QVBoxLayout()
         layout.addLayout(self.__setupForm_())
         layout.addLayout(self.__setupButtons_())
         self.setLayout(layout)

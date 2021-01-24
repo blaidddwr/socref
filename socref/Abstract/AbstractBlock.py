@@ -1,14 +1,15 @@
 """
 Contains the AbstractBlock class.
 """
-import abc
-import weakref
-from . import core
+from ..Private.Model.Factory import blockFactory
+from abc import ABC
+from abc import abstractmethod
+from weakref import ref as WeakReference
 
 
 
 
-class AbstractBlock(abc.ABC):
+class AbstractBlock(ABC):
     """
     This is the abstract block class. Blocks are the basic interface designed
     for languages to implement themselves and communicate with the core
@@ -77,9 +78,6 @@ class AbstractBlock(abc.ABC):
     def __init__(
         self
     ):
-        """
-        Initializes a new abstract block.
-        """
         super().__init__()
         self.__children = []
         self.__parent = None
@@ -90,20 +88,6 @@ class AbstractBlock(abc.ABC):
         self
         ,block
     ):
-        """
-        Implements the contain operator.
-
-        Parameters
-        ----------
-        block : socref.abstract.AbstractBlock
-                Another block that is evaluated.
-
-        Returns
-        -------
-        ret0 : bool
-               True if the given block is a child of this block or false
-               otherwise.
-        """
         return block in self.__children
 
 
@@ -111,15 +95,6 @@ class AbstractBlock(abc.ABC):
         self
         ,index
     ):
-        """
-        Implements the delete item operator. Deletes this block's child block
-        with the given integer index.
-
-        Parameters
-        ----------
-        index : int
-                The index of this block's child block that is deleted.
-        """
         del self.__children[index]
 
 
@@ -127,19 +102,6 @@ class AbstractBlock(abc.ABC):
         self
         ,other
     ):
-        """
-        Implements the equality operator.
-
-        Parameters
-        ----------
-        other : socref.abstract.AbstractBlock
-                Another block that is evaluated for equality with this one.
-
-        Returns
-        -------
-        ret0 : bool
-               True if the other object is this instance or false otherwise.
-        """
         return self is other
 
 
@@ -147,21 +109,6 @@ class AbstractBlock(abc.ABC):
         self
         ,key
     ):
-        """
-        Implements the get attribute operator. Intercepts the value of any
-        property attribute.
-
-        Parameters
-        ----------
-        key : string
-              The key of the attribute whose value is returned.
-
-        Returns
-        -------
-        ret0 : object
-               The property attribute that begins with "_p_" or the default get
-               attribute operator return value otherwise.
-        """
         if key.startswith("_p_"):
             return self.__properties[key]
         else:
@@ -172,47 +119,18 @@ class AbstractBlock(abc.ABC):
         self
         ,index
     ):
-        """
-        Implements the get item operator.
-
-        Parameters
-        ----------
-        index : int
-                The index of this block's child block that is returned.
-
-        Returns
-        -------
-        ret0 : socref.abstract.AbstractBlock
-               This block's child block with the given index.
-        """
         return self.__children[index]
 
 
     def __iter__(
         self
     ):
-        """
-        Implements the iterator operator.
-
-        Returns
-        -------
-        ret0 : iterator
-               Iterator of this block's list of children.
-        """
         return self.__children.__iter__()
 
 
     def __len__(
         self
     ):
-        """
-        Implements the length operator.
-
-        Returns
-        -------
-        ret0 : int
-               Total number of children of this block.
-        """
         return len(self.__children)
 
 
@@ -221,18 +139,6 @@ class AbstractBlock(abc.ABC):
         ,key
         ,item
     ):
-        """
-        Implements the set attribute operator. Intercepts and sets the value of
-        any property attribute that begins with "_p_" to the given item, else
-        calls the default set attribute operator to the given item.
-
-        Parameters
-        ----------
-        key : string
-              The key of the attribute whose value is set to the given item.
-        item : object
-               An item used to set the attribute with the given key.
-        """
         if key.startswith("_p_"):
             self.__properties[key] = item
         else:
@@ -249,13 +155,13 @@ class AbstractBlock(abc.ABC):
 
         Parameters
         ----------
-        block : socref.abstract.AbstractBlock
+        block : socref.Abstract.AbstractBlock
                 A block that is appended as a new child to this block.
         """
         self.insert(len(self),block)
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def buildList(
         self
     ):
@@ -270,7 +176,7 @@ class AbstractBlock(abc.ABC):
         pass
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def clearProperties(
         self
     ):
@@ -281,7 +187,7 @@ class AbstractBlock(abc.ABC):
         pass
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def displayName(
         self
     ):
@@ -296,7 +202,7 @@ class AbstractBlock(abc.ABC):
         pass
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def displayView(
         self
     ):
@@ -311,7 +217,7 @@ class AbstractBlock(abc.ABC):
         pass
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def editDefinitions(
         self
     ):
@@ -327,7 +233,7 @@ class AbstractBlock(abc.ABC):
         pass
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def icon(
         self
     ):
@@ -374,13 +280,13 @@ class AbstractBlock(abc.ABC):
         index : int
                 The index where the given block is inserted into this block's
                 list of children.
-        block : socref.abstract.AbstractBlock
+        block : socref.Abstract.AbstractBlock
                 A block that is inserted as a new child to this block.
         """
         if block.parent() is not None:
             raise RuntimeError("Block is already a child of another block.")
         self.__children.insert(index,block)
-        block.__parent = weakref.ref(self)
+        block.__parent = WeakReference(self)
 
 
     def isVolatileAbove(
@@ -427,7 +333,7 @@ class AbstractBlock(abc.ABC):
 
         Returns
         -------
-        ret0 : socref.abstract.AbstractBlock
+        ret0 : socref.Abstract.AbstractBlock
                The parent block of this block or none if this block has no
                parent.
         """
@@ -465,7 +371,7 @@ class AbstractBlock(abc.ABC):
 
         Returns
         -------
-        ret0 : socref.abstract.AbstractBlock
+        ret0 : socref.Abstract.AbstractBlock
                Removed child block of this block with the given index.
         """
         orphan = self.__children.pop(index)
@@ -487,7 +393,7 @@ class AbstractBlock(abc.ABC):
         return self.__properties
 
 
-    @abc.abstractmethod
+    @abstractmethod
     def setDefaultProperties(
         self
     ):
@@ -525,7 +431,7 @@ class AbstractBlock(abc.ABC):
                     if key in self.__properties:
                         self.__properties[key] = stream.readElementText()
                 else:
-                    child = core.blockFactory.create(self._LANG_,name)
+                    child = blockFactory.create(self._LANG_,name)
                     child.setFromXml(stream)
                     self.append(child)
             elif stream.isEndElement() and stream.name() == endName:

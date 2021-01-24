@@ -1,6 +1,7 @@
 """
 Contains the InsertCommand class.
 """
+from .RemoveCommand import *
 
 
 
@@ -37,7 +38,8 @@ class InsertCommand(RemoveCommand):
         model : socref.model.ProjectModel
                 The project model where the given blocks are inserted.
         """
-        pass
+        super().__init__(row,len(blocks),parent,model)
+        self._blocks = blocks
 
 
     def redo(
@@ -46,7 +48,7 @@ class InsertCommand(RemoveCommand):
         """
         Implements the .command.Command interface.
         """
-        pass
+        super().undo()
 
 
     def undo(
@@ -55,4 +57,4 @@ class InsertCommand(RemoveCommand):
         """
         Implements the .command.Command interface.
         """
-        pass
+        super().redo()

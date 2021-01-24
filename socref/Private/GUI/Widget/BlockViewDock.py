@@ -1,14 +1,18 @@
 """
 Contains the BlockViewDock class.
 """
-from PySide2 import QtCore as qtc
-from PySide2 import QtWidgets as qtw
-from . import core
+from ...Model.ProjectModel import Role
+from PySide2.QtCore import QModelIndex
+from PySide2.QtCore import Qt
+from PySide2.QtCore import Slot
+from PySide2.QtWidgets import QDockWidget
+from PySide2.QtWidgets import QLabel
+from PySide2.QtWidgets import QScrollArea
 
 
 
 
-class BlockViewDock(qtw.QDockWidget):
+class BlockViewDock(QDockWidget):
     """
     This is the block view dock class. It attaches itself to a project view,
     providing a detailed view of the currently indexed block. It connects the
@@ -30,10 +34,10 @@ class BlockViewDock(qtw.QDockWidget):
                  Optional qt object parent of this new block view dock.
         """
         super().__init__(parent)
-        self.__label = qtw.QLabel(
-            alignment=qtc.Qt.AlignTop
+        self.__label = QLabel(
+            alignment=Qt.AlignTop
             ,wordWrap=True
-            ,textFormat=qtc.Qt.RichText
+            ,textFormat=Qt.RichText
         )
         self.__view = None
         self.__setupGui_()
@@ -49,7 +53,7 @@ class BlockViewDock(qtw.QDockWidget):
 
         Parameters
         ----------
-        view : socref.gui.ProjectView
+        view : socref.Private.GUI.Widget.ProjectView
                The new attached view of this dock.
         """
         if self.__view is not None:
@@ -59,7 +63,7 @@ class BlockViewDock(qtw.QDockWidget):
         self.__view.indexDataChanged.connect(self.__indexChanged_)
 
 
-    @qtc.Slot(qtc.QModelIndex)
+    @Slot(QModelIndex)
     def __indexChanged_(
         self
     ):
@@ -70,7 +74,7 @@ class BlockViewDock(qtw.QDockWidget):
         """
         index = self.__view.selectionModel().currentIndex()
         if index.isValid():
-            self.__label.setText(self.__view.model().data(index,core.Role.View))
+            self.__label.setText(self.__view.model().data(index,Role.View))
         else:
             self.__label.setText("")
 
@@ -82,6 +86,6 @@ class BlockViewDock(qtw.QDockWidget):
         Initialize the GUI of this new block view dock.
         """
         self.__label.setContentsMargins(4,16,4,4)
-        area = qtw.QScrollArea(widgetResizable=True)
+        area = QScrollArea(widgetResizable=True)
         area.setWidget(self.__label)
         self.setWidget(area)

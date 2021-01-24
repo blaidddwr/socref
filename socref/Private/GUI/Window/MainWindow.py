@@ -1,19 +1,35 @@
 """
 Contains the MainWindow class.
 """
-import os
-from PySide2 import QtCore as qtc
-from PySide2 import QtGui as qtg
-from PySide2 import QtWidgets as qtw
-from . import abstract
-from . import core
-from . import gui
-from . import settings
+from .... import VERSION
+from ....Abstract.AbstractParser import *
+from ...Model import parserModel
+from ...Model.Factory import blockFactory
+from ...Model.ProjectModel import *
+from ..Widget.BlockEditDock import *
+from ..Widget.BlockViewDock import *
+from ..Dialog.ProjectDialog import *
+from ..Widget.ProjectView import *
+from PySide2.QtCore import QFile
+from PySide2.QtCore import QIODevice
+from PySide2.QtCore import QSettings
+from PySide2.QtCore import Qt
+from PySide2.QtCore import Signal
+from PySide2.QtCore import Slot
+from PySide2.QtGui import QIcon
+from PySide2.QtGui import QKeySequence
+from PySide2.QtWidgets import QAction
+from PySide2.QtWidgets import QFileDialog
+from PySide2.QtWidgets import QMessageBox
+from PySide2.QtWidgets import QProgressBar
+from os.path import abspath
+from os.path import dirname
+from os.path import join as pathJoin
 
 
 
 
-class MainWindow(qtw.QMainWindow):
+class MainWindow(QMainWindow):
     """
     This is the main window class. It is designed as a multiple window
     application. It is the main window of the core application.
@@ -43,28 +59,25 @@ class MainWindow(qtw.QMainWindow):
     # Signals this window has started parsing its current project with the given
     # abstract parser.
     #
-    parseRequested = qtc.Signal(abstract.AbstractParser)
+    parseRequested = Signal(AbstractParser)
 
 
     def __init__(
         self
     ):
-        """
-        Initializes a new main window.
-        """
         super().__init__()
-        self.__model = core.ProjectModel(self)
-        self.__view = gui.ProjectView(self)
-        self.__blockViewDock = gui.BlockViewDock(self)
-        self.__blockEditDock = gui.BlockEditDock(self)
+        self.__model = ProjectModel(self)
+        self.__view = ProjectView(self)
+        self.__blockViewDock = BlockViewDock(self)
+        self.__blockEditDock = BlockEditDock(self)
         self.__progressBar = None
-        self.__openAction = qtw.QAction("Open",self)
-        self.__saveAction = qtw.QAction("Save",self)
-        self.__saveAsAction = qtw.QAction("Save As",self)
-        self.__closeAction = qtw.QAction("Close",self)
-        self.__propertiesAction = qtw.QAction("Properties",self)
-        self.__parseAction = qtw.QAction("Parse",self)
-        self.__exitAction = qtw.QAction("Exit",self)
+        self.__openAction = QAction("Open",self)
+        self.__saveAction = QAction("Save",self)
+        self.__saveAsAction = QAction("Save As",self)
+        self.__closeAction = QAction("Close",self)
+        self.__propertiesAction = QAction("Properties",self)
+        self.__parseAction = QAction("Parse",self)
+        self.__exitAction = QAction("Exit",self)
         self.__newActions = []
         self.__path = None
         self.__setupGui_()
@@ -75,7 +88,7 @@ class MainWindow(qtw.QMainWindow):
         ,event
     ):
         if self.__isOkToClose_():
-            settings = qtc.QSettings()
+            settings = QSettings()
             settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
             settings.setValue(self.__STATE_KEY,self.saveState())
             self.__instances.remove(self)
@@ -107,7 +120,7 @@ class MainWindow(qtw.QMainWindow):
         self.__updateActions_()
 
 
-    @qtc.Slot()
+    @Slot()
     def __about_(
         self
     ):
@@ -115,18 +128,18 @@ class MainWindow(qtw.QMainWindow):
         Called to open a modal about dialog describing this application to the
         user.
         """
-        ifile = qtc.QFile(":/socref/about.html")
-        ifile.open(qtc.QIODevice.ReadOnly)
+        ifile = QFile(":/socref/about.html")
+        ifile.open(QIODevice.ReadOnly)
         text = ifile.readAll().data().decode(encoding="utf-8")
         ifile.close()
-        qtw.QMessageBox.about(
+        QMessageBox.about(
             self
             ,"About Socrates' Reference"
-            ,text.replace("%SOCREF_VER%",settings.VERSION)
+            ,text.replace("%SOCREF_VER%",VERSION)
         )
 
 
-    @qtc.Slot()
+    @Slot()
     def __close_(
         self
     ):
@@ -159,25 +172,25 @@ class MainWindow(qtw.QMainWindow):
         """
         if not self.__model or not self.__model.isModified():
             return True
-        answer = qtw.QMessageBox.question(
+        answer = QMessageBox.question(
             self
             ,"Unsaved Project Changes"
             ,"The currently open project has unsaved changes. Closing the project will cause all"
              " unsaved changes to be lost!"
-            ,qtw.QMessageBox.Save|qtw.QMessageBox.Cancel|qtw.QMessageBox.Discard
+            ,QMessageBox.Save|QMessageBox.Cancel|QMessageBox.Discard
         )
-        if answer == qtw.QMessageBox.Save:
+        if answer == QMessageBox.Save:
             if self.__path is None:
                 return self.__saveAs_()
             else:
                 return self.__save_()
-        elif answer == qtw.QMessageBox.Cancel:
+        elif answer == QMessageBox.Cancel:
             return False
         else:
             return True
 
 
-    @qtc.Slot()
+    @Slot()
     def __modified_(
         self
     ):
@@ -187,7 +200,7 @@ class MainWindow(qtw.QMainWindow):
         self.setWindowModified(True)
 
 
-    @qtc.Slot(str)
+    @Slot(str)
     def __nameChanged_(
         self
         ,name
@@ -204,7 +217,7 @@ class MainWindow(qtw.QMainWindow):
         self.__updateTitle_()
 
 
-    @qtc.Slot(str)
+    @Slot(str)
     def __new_(
         self
         ,langName
@@ -227,7 +240,7 @@ class MainWindow(qtw.QMainWindow):
         window.show()
 
 
-    @qtc.Slot()
+    @Slot()
     def __open_(
         self
     ):
@@ -235,7 +248,7 @@ class MainWindow(qtw.QMainWindow):
         Called to open a project file for this window if it does not have a
         project or a new window otherwise.
         """
-        path,type_ = qtw.QFileDialog.getOpenFileName(
+        path,type_ = QFileDialog.getOpenFileName(
             self
             ,"Open Project"
             ,""
@@ -243,7 +256,7 @@ class MainWindow(qtw.QMainWindow):
         )
         if not path:
             return
-        path = os.path.abspath(path)
+        path = abspath(path)
         window = self
         if self.__model:
             window = MainWindow()
@@ -256,7 +269,7 @@ class MainWindow(qtw.QMainWindow):
         window.show()
 
 
-    @qtc.Slot()
+    @Slot()
     def __parse_(
         self
     ):
@@ -267,14 +280,14 @@ class MainWindow(qtw.QMainWindow):
         if self.__path is not None:
             parser = self.__model.parser()
             parser.setRootPath(
-                os.path.abspath(
-                    os.path.join(os.path.dirname(self.__path),self.__model.parsePath())
+                abspath(
+                    pathJoin(dirname(self.__path),self.__model.parsePath())
                 )
             )
             self.parseRequested.emit(parser)
 
 
-    @qtc.Slot()
+    @Slot()
     def __parseFinished_(
         self
     ):
@@ -287,7 +300,7 @@ class MainWindow(qtw.QMainWindow):
             self.__progressBar = None
 
 
-    @qtc.Slot(int)
+    @Slot(int)
     def __parseProgressed_(
         self
         ,percent
@@ -306,7 +319,7 @@ class MainWindow(qtw.QMainWindow):
             self.__progressBar.setValue(percent)
 
 
-    @qtc.Slot()
+    @Slot()
     def __parseStarted_(
         self
     ):
@@ -315,14 +328,14 @@ class MainWindow(qtw.QMainWindow):
         parsing.
         """
         if self.__progressBar is None:
-            bar = self.__progressBar = qtw.QProgressBar()
+            bar = self.__progressBar = QProgressBar()
             bar.setRange(0,100)
             bar.setValue(0)
             self.statusBar().addWidget(bar)
             bar.show()
 
 
-    @qtc.Slot()
+    @Slot()
     def __properties_(
         self
     ):
@@ -331,7 +344,7 @@ class MainWindow(qtw.QMainWindow):
         basic properties of its current project. If this window has no project
         then this does nothing.
         """
-        gui.ProjectDialog(self.__model).exec_()
+        ProjectDialog(self.__model).exec_()
 
 
     def __restore_(
@@ -340,7 +353,7 @@ class MainWindow(qtw.QMainWindow):
         """
         Restores the geometry and state of this window.
         """
-        settings = qtc.QSettings()
+        settings = QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
         state = settings.value(self.__STATE_KEY)
         if geometry:
@@ -349,7 +362,7 @@ class MainWindow(qtw.QMainWindow):
             self.restoreState(state)
 
 
-    @qtc.Slot()
+    @Slot()
     def __save_(
         self
     ):
@@ -369,7 +382,7 @@ class MainWindow(qtw.QMainWindow):
         return True
 
 
-    @qtc.Slot()
+    @Slot()
     def __saveAs_(
         self
     ):
@@ -379,7 +392,7 @@ class MainWindow(qtw.QMainWindow):
         """
         if not self.__model:
             return False
-        path,type_ = qtw.QFileDialog.getSaveFileName(
+        path,type_ = QFileDialog.getSaveFileName(
             self
             ,"Save Project"
             ,""
@@ -388,7 +401,7 @@ class MainWindow(qtw.QMainWindow):
         if not path:
             return False
         oldpath = self.__path
-        self.__path = os.path.abspath(path)
+        self.__path = abspath(path)
         try:
             self.__model.save(self.__path)
         except:
@@ -421,8 +434,8 @@ class MainWindow(qtw.QMainWindow):
         self.__blockEditDock.setWindowTitle("Edit")
         self.__blockViewDock.setView(self.__view)
         self.__blockEditDock.setView(self.__view)
-        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__blockViewDock)
-        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__blockEditDock)
+        self.addDockWidget(Qt.RightDockWidgetArea,self.__blockViewDock)
+        self.addDockWidget(Qt.RightDockWidgetArea,self.__blockEditDock)
 
 
     def __setupEditMenu_(
@@ -442,26 +455,26 @@ class MainWindow(qtw.QMainWindow):
         Initializes the qt actions of this new window's file menu.
         """
         action = self.__openAction
-        action.setIcon(qtg.QIcon.fromTheme("document-open"))
+        action.setIcon(QIcon.fromTheme("document-open"))
         action.setStatusTip("Open an existing project.")
-        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Open))
+        action.setShortcut(QKeySequence(QKeySequence.Open))
         action.triggered.connect(self.__open_)
         self.addAction(action)
         action = self.__saveAction
-        action.setIcon(qtg.QIcon.fromTheme("document-save"))
+        action.setIcon(QIcon.fromTheme("document-save"))
         action.setStatusTip("Save the current project.")
-        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Save))
+        action.setShortcut(QKeySequence(QKeySequence.Save))
         action.triggered.connect(self.__save_)
         self.addAction(action)
         action = self.__saveAsAction
-        action.setIcon(qtg.QIcon.fromTheme("document-save-as"))
+        action.setIcon(QIcon.fromTheme("document-save-as"))
         action.setStatusTip("Save the current project to a provided file path.")
-        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.SaveAs))
+        action.setShortcut(QKeySequence(QKeySequence.SaveAs))
         action.triggered.connect(self.__saveAs_)
         self.addAction(action)
         action = self.__closeAction
         action.setStatusTip("Close the current project.")
-        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Close))
+        action.setShortcut(QKeySequence(QKeySequence.Close))
         action.triggered.connect(self.__close_)
         self.addAction(action)
         action = self.__propertiesAction
@@ -469,15 +482,15 @@ class MainWindow(qtw.QMainWindow):
         action.triggered.connect(self.__properties_)
         self.addAction(action)
         action = self.__parseAction
-        action.setIcon(qtg.QIcon.fromTheme("view-refresh"))
+        action.setIcon(QIcon.fromTheme("view-refresh"))
         action.setStatusTip("Parse all source code files with the current project.")
-        action.setShortcut(qtg.QKeySequence(qtc.Qt.CTRL + qtc.Qt.Key_P))
+        action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_P))
         action.triggered.connect(self.__parse_)
         self.addAction(action)
         action = self.__exitAction
-        action.setIcon(qtg.QIcon.fromTheme("application-exit"))
+        action.setIcon(QIcon.fromTheme("application-exit"))
         action.setStatusTip("Exit this window.")
-        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Quit))
+        action.setShortcut(QKeySequence(QKeySequence.Quit))
         action.triggered.connect(self.close)
         self.addAction(action)
 
@@ -513,7 +526,7 @@ class MainWindow(qtw.QMainWindow):
         is initially used in this new window.
         """
         self.__instances.append(self)
-        self.setWindowIcon(qtg.QIcon(":/socref/application.svg"))
+        self.setWindowIcon(QIcon(":/socref/application.svg"))
         self.__model.modified.connect(self.__modified_)
         self.__model.nameChanged.connect(self.__nameChanged_)
         self.__view.setModel(self.__model)
@@ -522,10 +535,10 @@ class MainWindow(qtw.QMainWindow):
         self.__setupActions_()
         self.__setupMenus_()
         self.__setupToolbars_()
-        self.parseRequested.connect(core.parser.start)
-        core.parser.started.connect(self.__parseStarted_)
-        core.parser.progressed.connect(self.__parseProgressed_)
-        core.parser.finished.connect(self.__parseFinished_)
+        self.parseRequested.connect(parser.start)
+        parserModel.started.connect(self.__parseStarted_)
+        parserModel.progressed.connect(self.__parseProgressed_)
+        parserModel.finished.connect(self.__parseFinished_)
         self.__restore_()
         self.statusBar()
         self.__updateTitle_()
@@ -538,12 +551,12 @@ class MainWindow(qtw.QMainWindow):
         """
         Initializes the help menu for this new window.
         """
-        about = qtw.QAction("About",self)
+        about = QAction("About",self)
         about.setStatusTip("Toggle the visibility of the block view dock.")
         about.triggered.connect(self.__about_)
-        aboutqt = qtw.QAction("About Qt",self)
+        aboutqt = QAction("About Qt",self)
         aboutqt.setStatusTip("Toggle the visibility of the block edit dock.")
-        aboutqt.triggered.connect(lambda : qtw.QMessageBox.aboutQt(self))
+        aboutqt.triggered.connect(lambda : QMessageBox.aboutQt(self))
         menu = self.menuBar().addMenu("Help")
         menu.addAction(about)
         menu.addAction(aboutqt)
@@ -569,8 +582,8 @@ class MainWindow(qtw.QMainWindow):
         Populates this window's list of new actions with all available
         languages.
         """
-        for lang in core.blockFactory.langs():
-            self.__newActions.append(qtw.QAction(lang,self))
+        for lang in blockFactory.langs():
+            self.__newActions.append(QAction(lang,self))
             self.__newActions[-1].triggered.connect(
                 lambda checked=False,name=lang : self.__new_(name)
             )
@@ -607,13 +620,13 @@ class MainWindow(qtw.QMainWindow):
         """
         Initializes the view menu for this new window.
         """
-        view = qtw.QAction("View Dock",self)
+        view = QAction("View Dock",self)
         view.setStatusTip("Toggle the visibility of the block view dock.")
         view.setCheckable(True)
         view.setChecked(self.__blockViewDock.isVisible())
         view.toggled.connect(self.__blockViewDock.setVisible)
         self.__blockViewDock.visibilityChanged.connect(view.setChecked)
-        edit = qtw.QAction("Edit Dock",self)
+        edit = QAction("Edit Dock",self)
         edit.setStatusTip("Toggle the visibility of the block edit dock.")
         edit.setCheckable(True)
         edit.setChecked(self.__blockEditDock.isVisible())

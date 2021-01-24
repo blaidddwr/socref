@@ -1,6 +1,11 @@
 """
 Contains the MoveCommand class.
 """
+from ..Abstract.AbstractCommand import *
+
+
+
+
 
 
 
@@ -18,7 +23,7 @@ class MoveCommand(AbstractCommand):
         ,change
         ,index
         ,model
-    ):
+        ):
         """
         Initializes a new move command with the given change, index, and project
         model.
@@ -33,22 +38,33 @@ class MoveCommand(AbstractCommand):
         model : socref.model.ProjectModel
                 The project model whose given index is moved.
         """
-        pass
+        super().__init__(model)
+        self.__parentRows = self._buildRows_(index.parent())
+        self.__fromRow = index.row()
+        self.__toRow = index.row()+change
 
 
     def redo(
         self
-    ):
+        ):
         """
         Implements the .command.Command interface.
         """
-        pass
+        self._model._moveRow_(
+            self.__fromRow
+            ,self.__toRow
+            ,self._getIndex_(self.__parentRows)
+        )
 
 
     def undo(
         self
-    ):
+        ):
         """
         Implements the .command.Command interface.
         """
-        pass
+        self._model._moveRow_(
+            self.__toRow
+            ,self.__fromRow
+            ,self._getIndex_(self.__parentRows)
+        )

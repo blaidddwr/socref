@@ -1,15 +1,16 @@
 """
 Contains the SpellHighlighter class.
 """
-import re
-from PySide2 import QtCore as qtc
-from PySide2 import QtGui as qtg
-from . import core
+from ...Model import speller
+from PySide2.QtCore import Qt
+from PySide2.QtGui import QSyntaxHighlighter
+from PySide2.QtGui import QTextCharFormat
+from re import reCompile
 
 
 
 
-class SpellHighlighter(qtg.QSyntaxHighlighter):
+class SpellHighlighter(QSyntaxHighlighter):
     """
     This is the spell highlighter class. It implements the qt syntax highlighter
     class. It provides highlighting of misspelled words in the document the
@@ -38,10 +39,10 @@ class SpellHighlighter(qtg.QSyntaxHighlighter):
                  and has its misspelled words highlighted.
         """
         super().__init__(parent)
-        format_ = self.__format = qtg.QTextCharFormat()
+        format_ = self.__format = QTextCharFormat()
         format_.setFontUnderline(True)
-        format_.setUnderlineColor(qtc.Qt.red)
-        format_.setUnderlineStyle(qtg.QTextCharFormat.WaveUnderline)
+        format_.setUnderlineColor(Qt.red)
+        format_.setUnderlineStyle(QTextCharFormat.WaveUnderline)
 
 
     def highlightBlock(
@@ -49,11 +50,11 @@ class SpellHighlighter(qtg.QSyntaxHighlighter):
         ,text
     ):
         start = 0
-        pattern = re.compile('\w+')
+        pattern = reCompile('\w+')
         while True:
             match = pattern.search(text,start)
             if not match:
                 break
-            if not core.speller.spell(match.group(0)):
+            if not speller.spell(match.group(0)):
                 self.setFormat(match.start(),match.end() - match.start(),self.__format)
             start = match.end()

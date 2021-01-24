@@ -1,15 +1,21 @@
 """
 Contains the CodeDialog class.
 """
-from PySide2 import QtCore as qtc
-from PySide2 import QtGui as qtg
-from PySide2 import QtWidgets as qtw
-from . import settings
+from PySide2.QtCore import QSettings
+from PySide2.QtCore import Slot
+from PySide2.QtGui import QClipboard
+from PySide2.QtWidgets import QDialog
+from PySide2.QtWidgets import QHBoxLayout
+from PySide2.QtWidgets import QListWidget
+from PySide2.QtWidgets import QPlainTextEdit
+from PySide2.QtWidgets import QPushButton
+from PySide2.QtWidgets import QSplitter
+from PySide2.QtWidgets import QVBoxLayout
 
 
 
 
-class CodeDialog(qtw.QDialog):
+class CodeDialog(QDialog):
     """
     This is the code dialog class. It displays any unknown code fragments given
     to it. The fragments must be organized into a flat dictionary where the key
@@ -39,8 +45,8 @@ class CodeDialog(qtw.QDialog):
         """
         super().__init__(parent)
         self.__code = code
-        self.__splitter = qtw.QSplitter(self)
-        self.__view = qtw.QPlainTextEdit(self,readOnly=True)
+        self.__splitter = QSplitter(self)
+        self.__view = QPlainTextEdit(self,readOnly=True)
         self.__setupGui_()
 
 
@@ -54,18 +60,18 @@ class CodeDialog(qtw.QDialog):
         event.accept()
 
 
-    @qtc.Slot()
+    @Slot()
     def __close_(
         self
     ):
         """
         Called to close this dialog.
         """
-        self.done(qtw.QDialog.Accepted)
+        self.done(QDialog.Accepted)
         self.close()
 
 
-    @qtc.Slot()
+    @Slot()
     def __copy_(
         self
     ):
@@ -73,11 +79,11 @@ class CodeDialog(qtw.QDialog):
         Called to copy this dialog's current code fragment to the system
         clipboard.
         """
-        clipboard = qtg.QClipboard()
+        clipboard = QClipboard()
         clipboard.setText(self.__view.toPlainText())
 
 
-    @qtc.Slot(str)
+    @Slot(str)
     def __itemChanged_(
         self
         ,key
@@ -116,11 +122,11 @@ class CodeDialog(qtw.QDialog):
         """
         Initializes the GUI of this new dialog.
         """
-        close = qtw.QPushButton("Close")
+        close = QPushButton("Close")
         close.clicked.connect(self.__close_)
-        copy = qtw.QPushButton("Copy to Clipboard")
+        copy = QPushButton("Copy to Clipboard")
         copy.clicked.connect(self.__copy_)
-        ret = qtw.QHBoxLayout()
+        ret = QHBoxLayout()
         ret.addWidget(close)
         ret.addStretch()
         ret.addWidget(copy)
@@ -133,7 +139,7 @@ class CodeDialog(qtw.QDialog):
         """
         Initializes the GUI of this new dialog.
         """
-        layout = qtw.QVBoxLayout()
+        layout = QVBoxLayout()
         layout.addWidget(self.__setupView_())
         layout.addLayout(self.__setupButtons_())
         self.setLayout(layout)
@@ -147,7 +153,7 @@ class CodeDialog(qtw.QDialog):
         """
         Initializes the GUI of this new dialog.
         """
-        list_ = qtw.QListWidget()
+        list_ = QListWidget()
         list_.currentTextChanged.connect(self.__itemChanged_)
         list_.addItems(list(self.__code.keys()))
         self.__splitter.addWidget(list_)

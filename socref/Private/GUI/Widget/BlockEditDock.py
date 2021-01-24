@@ -1,16 +1,28 @@
 """
 Contains the BlockEditDock class.
 """
-import gc
-from PySide2 import QtCore as qtc
-from PySide2 import QtWidgets as qtw
-from . import core
-from . import gui
+from ...Model.ProjectModel import Role
+from .PlainTextEdit import *
+from PySide2.QtCore import QModelIndex
+from PySide2.QtCore import Qt
+from PySide2.QtCore import Slot
+from PySide2.QtWidgets import QCheckBox
+from PySide2.QtWidgets import QComboBox
+from PySide2.QtWidgets import QDockWidget
+from PySide2.QtWidgets import QFormLayout
+from PySide2.QtWidgets import QHBoxLayout
+from PySide2.QtWidgets import QLineEdit
+from PySide2.QtWidgets import QMessageBox
+from PySide2.QtWidgets import QPushButton
+from PySide2.QtWidgets import QScrollArea
+from PySide2.QtWidgets import QVBoxLayout
+from PySide2.QtWidgets import QWidget
+from gc import collect as gCollect
 
 
 
 
-class BlockEditDock(qtw.QDockWidget):
+class BlockEditDock(QDockWidget):
     """
     This is the block edit dock class. It attaches itself to a project view. It
     provides a GUI edit form to the user for modifying a block's properties.
@@ -43,8 +55,8 @@ class BlockEditDock(qtw.QDockWidget):
                  Optional qt object parent of this new block edit dock.
         """
         super().__init__(parent)
-        self.__area = qtw.QScrollArea(widgetResizable=True)
-        self.__applyButton = qtw.QPushButton("Apply")
+        self.__area = QScrollArea(widgetResizable=True)
+        self.__applyButton = QPushButton("Apply")
         self.__index = qtc.QModelIndex()
         self.__view = None
         self.__edits = []
@@ -61,7 +73,7 @@ class BlockEditDock(qtw.QDockWidget):
 
         Parameters
         ----------
-        view : socref.gui.ProjectView
+        view : socref.Private.GUI.Widget.ProjectView
                The new attached view of this dock.
         """
         if self.__view is not None:
@@ -87,7 +99,7 @@ class BlockEditDock(qtw.QDockWidget):
             self.__view.model().setData(
                 self.__index
                 ,{edit._key: edit._value_() for edit in self.__edits}
-                ,core.Role.Properties
+                ,Role.Properties
             )
             self.__applyButton.setEnabled(False)
 
@@ -116,7 +128,7 @@ class BlockEditDock(qtw.QDockWidget):
         ret1 : string
                A label for adding it to a form.
         """
-        edit = qtw.QCheckBox(definition["label"])
+        edit = QCheckBox(definition["label"])
         edit.setCheckState(
             qtc.Qt.Checked if int(properties[definition["key"]]) else qtc.Qt.Unchecked
         )
@@ -150,7 +162,7 @@ class BlockEditDock(qtw.QDockWidget):
         ret1 : string
                A label for adding it to a form.
         """
-        edit = qtw.QComboBox()
+        edit = QComboBox()
         for selection in definition["selections"]:
             if "icon" in selection:
                 edit.addItem(selection["icon"],selection["text"])
@@ -185,9 +197,9 @@ class BlockEditDock(qtw.QDockWidget):
         """
         self.__edits.clear()
         try:
-            props = self.__view.model().data(index,core.Role.Properties)
-            defs = self.__view.model().data(index,core.Role.EditDefs)
-            layout = qtw.QFormLayout()
+            props = self.__view.model().data(index,Role.Properties)
+            defs = self.__view.model().data(index,Role.EditDefs)
+            layout = QFormLayout()
             for def_ in defs:
                 edit = None
                 label = None
@@ -206,7 +218,7 @@ class BlockEditDock(qtw.QDockWidget):
                 if label is not None:
                     layout.addRow(label,edit)
                 self.__edits.append(edit)
-            ret = qtw.QWidget()
+            ret = QWidget()
             ret.setContentsMargins(0,16,0,4)
             ret.setLayout(layout)
             return ret
@@ -232,7 +244,7 @@ class BlockEditDock(qtw.QDockWidget):
         ret0 : PySide2.QtWidgets.QWidget
                A new hidden edit widget configured for the given definition.
         """
-        edit = qtw.QWidget()
+        edit = QWidget()
         edit._value_ = lambda val=definition["value"] : val
         edit._key = definition["key"]
         return edit
@@ -262,7 +274,7 @@ class BlockEditDock(qtw.QDockWidget):
         ret1 : string
                A label for adding it to a form.
         """
-        edit = qtw.QLineEdit(properties[definition["key"]])
+        edit = QLineEdit(properties[definition["key"]])
         edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
         edit._value_ = lambda e=edit : e.text()
         edit._key = definition["key"]
@@ -287,13 +299,13 @@ class BlockEditDock(qtw.QDockWidget):
 
         Returns
         -------
-        ret0 : socref.gui.PlainTextEdit
+        ret0 : socref.Private.GUI.Widget.PlainTextEdit
                A new text editor configured for the given definition and
                properties.
         ret1 : string
                A label for adding it to a form.
         """
-        edit = gui.PlainTextEdit(speller=definition.get("speller",False),popup=True)
+        edit = PlainTextEdit(speller=definition.get("speller",False),popup=True)
         edit.setPlainText(properties[definition["key"]])
         edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
         edit._value_ = lambda e=edit : e.toPlainText()
@@ -321,19 +333,19 @@ class BlockEditDock(qtw.QDockWidget):
                 dock.
         """
         if self.__index.isValid() and self.__applyButton.isEnabled():
-            answer = qtw.QMessageBox.question(
+            answer = QMessageBox.question(
                 self
                 ,"Unsaved Changes"
                 ,"The current block has unsaved modifications. Discarding will cause modifications"
                  " to be lost!"
-                ,qtw.QMessageBox.Save | qtw.QMessageBox.Discard
+                ,QMessageBox.Save|QMessageBox.Discard
             )
-            if answer == qtw.QMessageBox.Save:
+            if answer == QMessageBox.Save:
                 self.__apply_()
         self.__index = index
         if self.__area.widget():
             self.__area.widget().deleteLater()
-            gc.collect()
+            gCollect()
         if index.isValid():
             self.__area.setWidget(self.__buildFormWidget_(index))
             self.__applyButton.setEnabled(False)
@@ -378,12 +390,12 @@ class BlockEditDock(qtw.QDockWidget):
         """
         self.__applyButton.clicked.connect(self.__apply_)
         self.__applyButton.setEnabled(False)
-        bottom = qtw.QHBoxLayout()
+        bottom = QHBoxLayout()
         bottom.addWidget(self.__applyButton)
         bottom.addStretch()
-        layout = qtw.QVBoxLayout()
+        layout = QVBoxLayout()
         layout.addWidget(self.__area)
         layout.addLayout(bottom)
-        central = qtw.QWidget()
+        central = QWidget()
         central.setLayout(layout)
         self.setWidget(central)

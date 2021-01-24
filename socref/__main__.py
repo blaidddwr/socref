@@ -1,40 +1,45 @@
 """
 Contains the main function where execution begins.
 """
-import sys
-from PySide2 import QtCore as qtc
-from PySide2 import QtWidgets as qtw
-from . import core
-from . import gui
+from .Private.GUI.Dialog.CodeDialog import *
+from .Private.GUI.Window.MainWindow import *
+from .Private.Model import blockFactory
+from .Private.Model import parserModel
+from PySide2.QWidgets import QApplication
+from PySide2.QtCore import QCoreApplication
+from PySide2.QtCore import QThread
+from PySide2.QtCore import Qt
+from sys import argv
+from sys import exit
 
 
 def main():
     """
     Begins execution of the program.
     """
-    core.blockFactory.load("C++","socref_cpp")
-    core.blockFactory.load("C++/Qt","socref_cppqt")
-    core.blockFactory.load("GLSL","socref_glsl")
-    core.blockFactory.load("Python","socref_python")
-    qtc.QCoreApplication.setAttribute(qtc.Qt.AA_UseHighDpiPixmaps)
-    qtc.QCoreApplication.setAttribute(qtc.Qt.AA_EnableHighDpiScaling)
-    application = qtw.QApplication(sys.argv)
-    qtc.QCoreApplication.setOrganizationName("Socrates' Gaming Republic")
-    qtc.QCoreApplication.setApplicationName("Socrates' Reference")
-    parserThread = qtc.QThread()
-    core.parser.remained.connect(lambda code : gui.CodeDialog(code).exec_())
-    core.parser.moveToThread(parserThread)
+    blockFactory.load("C++","socref_cpp")
+    blockFactory.load("C++/Qt","socref_cppqt")
+    blockFactory.load("GLSL","socref_glsl")
+    blockFactory.load("Python","socref_python")
+    QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
+    QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+    application = QApplication(argv)
+    QCoreApplication.setOrganizationName("Socrates' Gaming Republic")
+    QCoreApplication.setApplicationName("Socrates' Reference")
+    parserThread = QThread()
+    parserModel.remained.connect(lambda code : CodeDialog(code).exec_())
+    parserModel.moveToThread(parserThread)
     parserThread.start()
     try:
-        main = gui.MainWindow()
-        if len(sys.argv) > 1:
-            main.open_(sys.argv[1])
+        main = MainWindow()
+        if len(argv) > 1:
+            main.open_(argv[1])
         main.show()
         ret = application.exec_()
     finally:
         parserThread.quit()
         parserThread.wait()
-    sys.exit(ret)
+    exit(ret)
 
 
 if __name__ == "__main__":
