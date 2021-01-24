@@ -51,7 +51,7 @@ class ProjectDialog(QDialog):
         self
         ,event
     ):
-        settings = qtc.QSettings()
+        settings = QSettings()
         settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
         event.accept()
 
@@ -130,7 +130,7 @@ class ProjectDialog(QDialog):
         """
         Restores the geometry of this dialog.
         """
-        settings = qtc.QSettings()
+        settings = QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
         if geometry:
             self.restoreGeometry(geometry)

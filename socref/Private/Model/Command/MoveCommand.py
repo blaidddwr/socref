@@ -6,10 +6,6 @@ from ..Abstract.AbstractCommand import *
 
 
 
-
-
-
-
 class MoveCommand(AbstractCommand):
     """
     This is the move command class. It implements the abstract command class.
@@ -23,7 +19,7 @@ class MoveCommand(AbstractCommand):
         ,change
         ,index
         ,model
-        ):
+    ):
         """
         Initializes a new move command with the given change, index, and project
         model.
@@ -46,7 +42,7 @@ class MoveCommand(AbstractCommand):
 
     def redo(
         self
-        ):
+    ):
         """
         Implements the .command.Command interface.
         """
@@ -59,7 +55,7 @@ class MoveCommand(AbstractCommand):
 
     def undo(
         self
-        ):
+    ):
         """
         Implements the .command.Command interface.
         """

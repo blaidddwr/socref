@@ -67,8 +67,8 @@ class SpellChecker(QGroupBox):
                  An optional qt object parent for this new spell checker.
         """
         super().__init__(title,parent)
-        self.__wordLabel = qtw.QLabel(self)
-        self.__wordEdit = qtw.QLineEdit(self)
+        self.__wordLabel = QLabel(self)
+        self.__wordEdit = QLineEdit(self)
         self.__cursor = None
         self.__suggested = []
         self.__setupGui_()
@@ -181,17 +181,17 @@ class SpellChecker(QGroupBox):
         """
         Initializes the GUI of this new spell checker.
         """
-        suggest = qtw.QPushButton("Suggest")
+        suggest = QPushButton("Suggest")
         suggest.clicked.connect(self.__suggest_)
-        replace = qtw.QPushButton("Replace")
+        replace = QPushButton("Replace")
         replace.clicked.connect(self.__replace_)
-        ignore = qtw.QPushButton("Ignore")
+        ignore = QPushButton("Ignore")
         ignore.clicked.connect(self.__ignore_)
-        ignore_all = qtw.QPushButton("Ignore All")
+        ignore_all = QPushButton("Ignore All")
         ignore_all.clicked.connect(self.__ignoreAll_)
-        stop = qtw.QPushButton("Stop")
+        stop = QPushButton("Stop")
         stop.clicked.connect(self.__stop_)
-        layout = qtw.QHBoxLayout()
+        layout = QHBoxLayout()
         layout.addWidget(self.__wordLabel)
         layout.addWidget(self.__wordEdit)
         layout.addStretch()

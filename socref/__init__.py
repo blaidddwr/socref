@@ -1,6 +1,7 @@
 """
 Contains the core application for Socrates' Reference.
 """
+from . import resources
 
 
 VERSION = "0.0.9999"

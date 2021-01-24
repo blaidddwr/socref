@@ -20,6 +20,7 @@ from PySide2.QtGui import QIcon
 from PySide2.QtGui import QKeySequence
 from PySide2.QtWidgets import QAction
 from PySide2.QtWidgets import QFileDialog
+from PySide2.QtWidgets import QMainWindow
 from PySide2.QtWidgets import QMessageBox
 from PySide2.QtWidgets import QProgressBar
 from os.path import abspath
@@ -279,7 +280,7 @@ class MainWindow(QMainWindow):
         """
         if self.__path is not None:
             parser = self.__model.parser()
-            parser.setRootPath(
+            parserModel.setRootPath(
                 abspath(
                     pathJoin(dirname(self.__path),self.__model.parsePath())
                 )
@@ -535,7 +536,7 @@ class MainWindow(QMainWindow):
         self.__setupActions_()
         self.__setupMenus_()
         self.__setupToolbars_()
-        self.parseRequested.connect(parser.start)
+        self.parseRequested.connect(parserModel.start)
         parserModel.started.connect(self.__parseStarted_)
         parserModel.progressed.connect(self.__parseProgressed_)
         parserModel.finished.connect(self.__parseFinished_)

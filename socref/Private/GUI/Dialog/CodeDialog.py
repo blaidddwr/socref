@@ -54,7 +54,7 @@ class CodeDialog(QDialog):
         self
         ,event
     ):
-        settings = qtc.QSettings()
+        settings = QSettings()
         settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
         settings.setValue(self.__STATE_KEY,self.__splitter.saveState())
         event.accept()
@@ -107,7 +107,7 @@ class CodeDialog(QDialog):
         Restores the geometry of this dialog and the state of this dialog's qt
         splitter.
         """
-        settings = qtc.QSettings()
+        settings = QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
         state = settings.value(self.__STATE_KEY)
         if geometry:

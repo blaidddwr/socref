@@ -1,7 +1,7 @@
 
 # Coding Standard
 
-This describes the coding standard used by this application. Its primary purpose is to make it as identical as possible between python and C++, with Qt as a shared platform. Any differences between the two languages are indicated in different subsections. The built in formating this application produces is also described.
+This describes the coding standard used by this application. Its primary purpose is to make it as identical as possible between python and C++, with Qt as a shared platform. Any differences between the two languages are indicated in different subsections. The built in formatting this application produces is also described.
 
 File structure is defined in regard to how directories and files should relate to the code structure.
 
@@ -39,13 +39,13 @@ Since directories are strictly defined as packages, the usual init module exists
 
 A header and source file that provides forward class declarations for all classes declared within a namespace, exists in each namespace directory. The name of these files are '\_\_init\_\_'.
 
-## Special Entrypoint
+## Special Entry Point
 
 This only applies to applications.
 
 ### Python
 
-The special main module provides an entrypoint for an application in the root package. A global main function, to be defined as the entrypoint of an application, is allowed in this main module. The required if statement is also allowed in this main module.
+The special main module provides an entry point for an application in the root package. A global main function, to be defined as the entry point of an application, is allowed in this main module. The required if statement is also allowed in this main module.
 
 ### C++
 
@@ -71,7 +71,7 @@ Global objects within namespaces are dangerous and never used if possible.
 
 ### Python
 
-Only class definitions and class singleton instances are named globally within any package. The one special case exception is the special main module and its main entrypoint.
+Only class definitions and class singleton instances are named globally within any package. The one special case exception is the special main module and its main entry point.
 
 ### C++
 
@@ -88,6 +88,8 @@ from one import oneSingleton
 from . import one as localOneSingleton
 from .FooClass import *
 ```
+
+The one exception to importing objects and not modules or packages is if there is a circular dependency between two classes that cannot be resolved. In this case one of the class modules is allowed to import the module or package itself.
 
 ### C++
 

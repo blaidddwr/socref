@@ -1,6 +1,7 @@
 """
 Contains the SetCommand class.
 """
+from ..Abstract.AbstractCommand import *
 
 
 
@@ -37,7 +38,10 @@ class SetCommand(AbstractCommand):
                 The project model whose given index block properties are
                 changed.
         """
-        pass
+        super().__init__(model)
+        self.__rows = self._buildRows_(index)
+        self.__fromProperties = fromProperties
+        self.__toProperties = toProperties
 
 
     def redo(
@@ -46,7 +50,7 @@ class SetCommand(AbstractCommand):
         """
         Implements the .command.Command interface.
         """
-        pass
+        self._model._setProperties_(self._getIndex_(self.__rows),self.__toProperties)
 
 
     def undo(
@@ -55,4 +59,4 @@ class SetCommand(AbstractCommand):
         """
         Implements the .command.Command interface.
         """
-        pass
+        self._model._setProperties_(self._getIndex_(self.__rows),self.__fromProperties)

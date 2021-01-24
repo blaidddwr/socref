@@ -1,9 +1,10 @@
 """
 Contains the BlockFactory class.
 """
-import importlib
-from . import abstract
-from . import exception
+from ....Abstract.AbstractBlock import *
+from ....Error.LangError import *
+from ....Error.RegisterError import *
+from importlib import import_module
 
 
 
@@ -23,9 +24,6 @@ class BlockFactory():
     def __init__(
         self
     ):
-        """
-        Initializes a new factory.
-        """
         self.__ROOT = "##ROOT##"
         self.__langs = {}
         self.__importingLang = None
@@ -72,7 +70,7 @@ class BlockFactory():
 
         Returns
         -------
-        ret0 : socref.abstract.AbstractBlock
+        ret0 : socref.Abstract.AbstractBlock
                A new block of the given type from the given language.
         """
         return self.__langs[langName][typeName]()
@@ -92,7 +90,7 @@ class BlockFactory():
 
         Returns
         -------
-        ret0 : socref.abstract.AbstractBlock
+        ret0 : socref.Abstract.AbstractBlock
                A new root block from the given language.
         """
         return self.__langs[langName][self.__ROOT]()
@@ -136,7 +134,7 @@ class BlockFactory():
         self.__importingLang = self.__langs[langName]
         self.__importingLangName = langName
         try:
-            module = importlib.import_module(import_name)
+            import_module(import_name)
             if self.__ROOT not in self.__importingLang:
                 raise exception.LangError("Language did not register a root block.")
         except:
@@ -161,7 +159,7 @@ class BlockFactory():
 
         Parameters
         ----------
-        class_ : socref.abstract.AbstractBlock
+        class_ : socref.Abstract.AbstractBlock
                  A class object that is registered as a block type of the
                  currently loading language.
         name : string
@@ -190,7 +188,7 @@ class BlockFactory():
 
         Parameters
         ----------
-        class_ : socref.abstract.AbstractBlock
+        class_ : socref.Abstract.AbstractBlock
                  A class object that is registered as the root block type of the
                  currently loading language.
         """
@@ -208,7 +206,7 @@ class BlockFactory():
 
         Parameters
         ----------
-        class_ : socref.abstract.AbstractBlock
+        class_ : socref.Abstract.AbstractBlock
                  A class object that is registered as a block type of the
                  currently loading language.
         key : string
@@ -223,6 +221,6 @@ class BlockFactory():
             raise exception.RegisterError("Block type name cannot start with an underscore.")
         if key in self.__importingLang.keys():
             raise exception.RegisterError("Block class is already registered with the same name.")
-        if not issubclass(class_,abstract.AbstractBlock):
+        if not issubclass(class_,AbstractBlock):
             raise exception.RegisterError("Block class is not an Abstract Block.")
         self.__importingLang[key] = class_;

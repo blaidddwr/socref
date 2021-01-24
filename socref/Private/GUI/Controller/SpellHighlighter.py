@@ -5,7 +5,7 @@ from ...Model import speller
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QSyntaxHighlighter
 from PySide2.QtGui import QTextCharFormat
-from re import reCompile
+from re import compile as reCompile
 
 
 

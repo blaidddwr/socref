@@ -1,7 +1,7 @@
 """
 Contains the ProjectView class.
 """
-from ...Model.ProjectModel import Role
+from ...Model.ProjectModel import *
 from ...Model.Factory import blockFactory
 from PySide2.QtCore import QItemSelectionModel
 from PySide2.QtCore import QModelIndex
@@ -759,3 +759,6 @@ class ProjectView(QTreeView):
         self.__insertAfterAction.setChecked(option == self.__AFTER)
         self.__insert = option
         self.__updateContextMenu_()
+
+
+Role = ProjectModel.Role

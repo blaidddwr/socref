@@ -1,7 +1,7 @@
 """
 Contains the AbstractBlock class.
 """
-from ..Private.Model.Factory import blockFactory
+from ..Private.Model import Factory
 from abc import ABC
 from abc import abstractmethod
 from weakref import ref as WeakReference
@@ -431,7 +431,7 @@ class AbstractBlock(ABC):
                     if key in self.__properties:
                         self.__properties[key] = stream.readElementText()
                 else:
-                    child = blockFactory.create(self._LANG_,name)
+                    child = Factory.blockFactory.create(self._LANG_,name)
                     child.setFromXml(stream)
                     self.append(child)
             elif stream.isEndElement() and stream.name() == endName:

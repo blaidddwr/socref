@@ -1,6 +1,7 @@
 """
 Contains the RemoveCommand class.
 """
+from ..Abstract.AbstractCommand import *
 
 
 
@@ -37,7 +38,11 @@ class RemoveCommand(AbstractCommand):
         model : socref.model.ProjectModel
                 The project model whose given indexes are removed.
         """
-        pass
+        super().__init__(model)
+        self._blocks = None
+        self.__parentRows = self._buildRows_(parent)
+        self.__row = row
+        self.__count = count
 
 
     def redo(
@@ -46,7 +51,12 @@ class RemoveCommand(AbstractCommand):
         """
         Implements the .command.Command interface.
         """
-        pass
+        if self._blocks is None:
+            self._blocks = self._model._removeRows_(
+                self.__row
+                ,self.__count
+                ,self._getIndex_(self.__parentRows)
+            )
 
 
     def undo(
@@ -55,4 +65,10 @@ class RemoveCommand(AbstractCommand):
         """
         Implements the .command.Command interface.
         """
-        pass
+        if self._blocks is not None:
+            self._model._insertRows_(
+                self.__row
+                ,self._blocks
+                ,self._getIndex_(self.__parentRows)
+            )
+            self._blocks = None

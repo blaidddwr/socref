@@ -1,7 +1,7 @@
 """
 Contains the BlockViewDock class.
 """
-from ...Model.ProjectModel import Role
+from ...Model.ProjectModel import *
 from PySide2.QtCore import QModelIndex
 from PySide2.QtCore import Qt
 from PySide2.QtCore import Slot
@@ -89,3 +89,6 @@ class BlockViewDock(QDockWidget):
         area = QScrollArea(widgetResizable=True)
         area.setWidget(self.__label)
         self.setWidget(area)
+
+
+Role = ProjectModel.Role

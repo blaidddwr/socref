@@ -1,14 +1,26 @@
 """
 Contains the ProjectModel class.
 """
-from PySide2 import QtCore as qtc
-from . import abstract
-from . import core
+from ...Abstract.AbstractParser import *
+from .Command.InsertCommand import *
+from .Command.MoveCommand import *
+from .Command.RemoveCommand import *
+from .Command.SetCommand import *
+from .Factory import blockFactory
+from PySide2.QtCore import QAbstractItemModel
+from PySide2.QtCore import QByteArray
+from PySide2.QtCore import QModelIndex
+from PySide2.QtCore import QXmlStreamReader
+from PySide2.QtCore import QXmlStreamWriter
+from PySide2.QtCore import Signal
+from PySide2.QtCore import Slot
+from PySide2.QtCore import Qt
+from enum import IntEnum
 
 
 
 
-class ProjectModel(qtc.QAbstractItemModel):
+class ProjectModel(QAbstractItemModel):
     """
     This is the project model class. It implements the qt abstract item model
     class. It provides additional methods above and beyond the basic model
@@ -56,33 +68,33 @@ class ProjectModel(qtc.QAbstractItemModel):
     __PROJECT_TAG = "scp_project"
 
 
-    class Role(enum.IntEnum):
+    class Role(IntEnum):
         """
         This enumerates all custom data roles the project model implements.
         """
-        BlockType = qtc.Qt.UserRole+0
-        View = qtc.Qt.UserRole+1
-        BuildList = qtc.Qt.UserRole+2
-        Properties = qtc.Qt.UserRole+3
-        EditDefs = qtc.Qt.UserRole+4
+        BlockType = Qt.UserRole+0
+        View = Qt.UserRole+1
+        BuildList = Qt.UserRole+2
+        Properties = Qt.UserRole+3
+        EditDefs = Qt.UserRole+4
 
 
     #
     # Signals this model's project has been modified with unsaved changes.
     #
-    modified = qtc.Signal()
+    modified = Signal()
 
 
     #
     # Signals this model's project name has changed to the value given.
     #
-    nameChanged = qtc.Signal(str)
+    nameChanged = Signal(str)
 
 
     #
     # Signals this model's relative parsing path has changed to the value given.
     #
-    parsePathChanged = qtc.Signal(str)
+    parsePathChanged = Signal(str)
 
 
     def __init__(
@@ -191,8 +203,8 @@ class ProjectModel(qtc.QAbstractItemModel):
                All block types that were copied.
         """
         blockTypes = set()
-        xml = qtc.QByteArray()
-        stream = qtc.QXmlStreamWriter(xml)
+        xml = QByteArray()
+        stream = QXmlStreamWriter(xml)
         stream.setAutoFormatting(True)
         stream.writeStartDocument()
         stream.writeStartElement(self.__COPY_TAG)
@@ -214,19 +226,19 @@ class ProjectModel(qtc.QAbstractItemModel):
     ):
         block = self.__block_(index)
         if block is not None:
-            if role == qtc.Qt.DisplayRole:
+            if role == Qt.DisplayRole:
                 return block.displayName()
-            elif role == qtc.Qt.DecorationRole:
+            elif role == Qt.DecorationRole:
                 return block.icon()
-            elif role == core.Role.BuildList:
+            elif role == self.Role.BuildList:
                 return block.buildList()
-            elif role == core.Role.View:
+            elif role == self.Role.View:
                 return block.displayView()
-            elif role == core.Role.EditDefs:
+            elif role == self.Role.EditDefs:
                 return block.editDefinitions()
-            elif role == core.Role.Properties:
+            elif role == self.Role.Properties:
                 return block.properties()
-            elif role == core.Role.BlockType:
+            elif role == self.Role.BlockType:
                 return block._TYPE_
 
 
@@ -236,10 +248,10 @@ class ProjectModel(qtc.QAbstractItemModel):
         ,orientation
         ,role
     ):
-        if orientation == qtc.Qt.Horizontal and section == 0 and role == qtc.Qt.DisplayRole:
+        if orientation == Qt.Horizontal and section == 0 and role == Qt.DisplayRole:
             return self.__langName
         else:
-            return qtc.QAbstractItemModel.headerData(self,section,orientation,role)
+            return QAbstractItemModel.headerData(self,section,orientation,role)
 
 
     def index(
@@ -249,10 +261,10 @@ class ProjectModel(qtc.QAbstractItemModel):
         ,parent
     ):
         if row < 0 or column != 0:
-            return qtc.QModelIndex()
+            return QModelIndex()
         parentBlock = self.__block_(parent)
         if parentBlock is None or row >= len(parentBlock):
-            return qtc.QModelIndex()
+            return QModelIndex()
         return self.createIndex(row,column,parentBlock[row])
 
 
@@ -285,7 +297,7 @@ class ProjectModel(qtc.QAbstractItemModel):
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or row > len(parentBlock):
             return 0
-        stream = qtc.QXmlStreamReader(xml)
+        stream = QXmlStreamReader(xml)
         stream.readNextStartElement()
         if not stream.isStartElement() or stream.name() != self.__COPY_TAG:
             return 0
@@ -300,11 +312,11 @@ class ProjectModel(qtc.QAbstractItemModel):
             stream.readNext()
             if stream.isStartElement():
                 name = stream.name()
-                block_ = core.blockFactory.create(langName,name)
+                block_ = blockFactory.create(langName,name)
                 block_.setFromXml(stream)
                 if name in parentBlock.buildList():
                     blocks.append(block_)
-        self.__push_(core.InsertCommand(row,blocks,parent,self))
+        self.__push_(InsertCommand(row,blocks,parent,self))
         return len(blocks)
 
 
@@ -357,10 +369,10 @@ class ProjectModel(qtc.QAbstractItemModel):
             return False
         blocks = []
         for blockType in blockTypes:
-            block_ = core.blockFactory.create(self.__langName,blockType)
+            block_ = blockFactory.create(self.__langName,blockType)
             block_.setDefaultProperties()
             blocks.append(block_)
-        self.__push_(core.InsertCommand(row,blocks,parent,self))
+        self.__push_(InsertCommand(row,blocks,parent,self))
         return True
 
 
@@ -410,7 +422,7 @@ class ProjectModel(qtc.QAbstractItemModel):
         xml = None
         with open(path,"br") as ifile:
             xml = ifile.read()
-        stream = qtc.QXmlStreamReader(xml)
+        stream = QXmlStreamReader(xml)
         stream.readNextStartElement()
         if not stream.isStartElement() or stream.name() != self.__PROJECT_TAG:
             raise exception.LoadError("Invalid XML project tag.")
@@ -470,7 +482,7 @@ class ProjectModel(qtc.QAbstractItemModel):
         toRow = index.row() + change
         if toRow < 0 or toRow >= len(block):
             return False
-        self.__push_(core.MoveCommand(change,index,self))
+        self.__push_(MoveCommand(change,index,self))
         return True
 
 
@@ -510,7 +522,7 @@ class ProjectModel(qtc.QAbstractItemModel):
             self.__name = "New Project"
             self.__parsePath = "."
             self.__langName = langName
-            self.__root = core.blockFactory.createRoot(self.__langName)
+            self.__root = blockFactory.createRoot(self.__langName)
         except:
             self.__name = None
             self.__langName = None
@@ -526,10 +538,10 @@ class ProjectModel(qtc.QAbstractItemModel):
     ):
         childBlock = self.__block_(child)
         if childBlock is None:
-            return qtc.QModelIndex()
+            return QModelIndex()
         parentBlock = childBlock.parent()
         if parentBlock is None or parentBlock.parent() is None:
-            return qtc.QModelIndex()
+            return QModelIndex()
         return self.createIndex(parentBlock.index(),0,parentBlock)
 
 
@@ -564,12 +576,12 @@ class ProjectModel(qtc.QAbstractItemModel):
         """
         if self.__root is not None:
             ret = self.__root.parser()
-            if not isinstance(ret,abstract.AbstractParser):
+            if not isinstance(ret,AbstractParser):
                 raise RuntimeError("Generated parser is not an abstract parser.")
             return ret
 
 
-    @qtc.Slot()
+    @Slot()
     def redo(
         self
     ):
@@ -591,7 +603,7 @@ class ProjectModel(qtc.QAbstractItemModel):
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or count < 0 or (row + count) > len(parentBlock):
             return False
-        self.__push_(core.RemoveCommand(row,count,parent,self))
+        self.__push_(RemoveCommand(row,count,parent,self))
         return True
 
 
@@ -617,8 +629,8 @@ class ProjectModel(qtc.QAbstractItemModel):
                The path to the save file of this model's project.
         """
         if self.__root is not None:
-            xml = qtc.QByteArray()
-            stream = qtc.QXmlStreamWriter(xml)
+            xml = QByteArray()
+            stream = QXmlStreamWriter(xml)
             stream.setAutoFormatting(True)
             stream.writeStartDocument()
             stream.writeStartElement(self.__PROJECT_TAG)
@@ -640,8 +652,8 @@ class ProjectModel(qtc.QAbstractItemModel):
         ,role
     ):
         block = self.__block_(index)
-        if block is not None and role == core.Role.Properties:
-            self.__push_(core.SetCommand(block.properties(),value,index,self))
+        if block is not None and role == self.Role.Properties:
+            self.__push_(SetCommand(block.properties(),value,index,self))
             return True
         else:
             return False
@@ -689,7 +701,7 @@ class ProjectModel(qtc.QAbstractItemModel):
             self.parsePathChanged.emit(path)
 
 
-    @qtc.Slot()
+    @Slot()
     def undo(
         self
     ):
@@ -892,7 +904,7 @@ class ProjectModel(qtc.QAbstractItemModel):
 
         Parameters
         ----------
-        command : socref.command.Command
+        command : socref.Private.Model.Abstract.AbstractCommand
                   The command that is immediately executed and added to this
                   model's undo stack. Any commands that have been undone on the
                   stack are erased.

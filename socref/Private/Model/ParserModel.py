@@ -1,14 +1,16 @@
 """
 Contains the ParserModel class.
 """
-import traceback
-from PySide2 import QtCore as qtc
-from ._abstractparser import AbstractParser
+from ...Abstract.AbstractParser import *
+from PySide2.QtCore import QObject
+from PySide2.QtCore import Signal
+from PySide2.QtCore import Slot
+from traceback import print_exc
 
 
 
 
-class ParserModel(qtc.QObject):
+class ParserModel(QObject):
     """
     This is the singleton parser model class. It handles execution of a given
     abstract parser. A slot is provided for starting a new abstract parser.
@@ -23,27 +25,27 @@ class ParserModel(qtc.QObject):
     #
     # Signals this parser has finished parsing.
     #
-    finished = qtc.Signal()
+    finished = Signal()
 
 
     #
     # Signals this parser has made the given percentage progress parsing. The
     # range given is from 0 to 100.
     #
-    progressed = qtc.Signal(int)
+    progressed = Signal(int)
 
 
     #
     # Signals this parser had remaining unknown code fragments after finishing
     # the last parsing.
     #
-    remained = qtc.Signal(dict)
+    remained = Signal(dict)
 
 
     #
     # Signals this parser has started parsing.
     #
-    started = qtc.Signal()
+    started = Signal()
 
 
     def __init__(
@@ -56,7 +58,7 @@ class ParserModel(qtc.QObject):
         self.__progress = 0
 
 
-    @qtc.Slot(AbstractParser)
+    @Slot(AbstractParser)
     def start(
         self
         ,parser
@@ -70,7 +72,7 @@ class ParserModel(qtc.QObject):
 
         Parameters
         ----------
-        parser : socref.abstract.AbstractParser
+        parser : socref.Abstract.AbstractParser
                  The abstract parser that is executed.
         """
         self.__progress = 0
@@ -81,7 +83,7 @@ class ParserModel(qtc.QObject):
             if unknown:
                 self.remained.emit(unknown)
         except Exception as ok:
-            traceback.print_exc()
+            print_exc()
         finally:
             self.finished.emit()
 

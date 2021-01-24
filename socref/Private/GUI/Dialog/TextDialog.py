@@ -45,8 +45,8 @@ class TextDialog(QDialog):
         """
         super().__init__(parent)
         self.__speller = speller
-        self.__textEdit = gui.PlainTextEdit(text,self,speller=speller,popup=False)
-        self.__spellerBox = gui.SpellChecker("Spell Check",settings.DICTIONARY)
+        self.__textEdit = PlainTextEdit(text,self,speller=speller,popup=False)
+        self.__spellerBox = SpellChecker("Spell Check",settings.DICTIONARY)
         self.__spellButton = QPushButton("Spell Check",self)
         self.__setupGui_()
 
@@ -55,7 +55,7 @@ class TextDialog(QDialog):
         self
         ,event
     ):
-        settings = qtc.QSettings()
+        settings = QSettings()
         settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
         event.accept()
 
@@ -91,7 +91,7 @@ class TextDialog(QDialog):
         """
         Restores the geometry of this dialog.
         """
-        settings = qtc.QSettings()
+        settings = QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
         if geometry:
             self.restoreGeometry(geometry)

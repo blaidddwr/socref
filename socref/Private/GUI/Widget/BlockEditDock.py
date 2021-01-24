@@ -1,7 +1,7 @@
 """
 Contains the BlockEditDock class.
 """
-from ...Model.ProjectModel import Role
+from ...Model.ProjectModel import *
 from .PlainTextEdit import *
 from PySide2.QtCore import QModelIndex
 from PySide2.QtCore import Qt
@@ -57,7 +57,7 @@ class BlockEditDock(QDockWidget):
         super().__init__(parent)
         self.__area = QScrollArea(widgetResizable=True)
         self.__applyButton = QPushButton("Apply")
-        self.__index = qtc.QModelIndex()
+        self.__index = QModelIndex()
         self.__view = None
         self.__edits = []
         self.__setupGui_()
@@ -86,7 +86,7 @@ class BlockEditDock(QDockWidget):
         self.__view.indexRemoved.connect(self.__indexRemoved_)
 
 
-    @qtc.Slot()
+    @Slot()
     def __apply_(
         self
     ):
@@ -130,10 +130,10 @@ class BlockEditDock(QDockWidget):
         """
         edit = QCheckBox(definition["label"])
         edit.setCheckState(
-            qtc.Qt.Checked if int(properties[definition["key"]]) else qtc.Qt.Unchecked
+            Qt.Checked if int(properties[definition["key"]]) else Qt.Unchecked
         )
         edit.stateChanged.connect(lambda : self.__applyButton.setEnabled(True))
-        edit._value_ = lambda e=edit : str(int(e.checkState() == qtc.Qt.Checked))
+        edit._value_ = lambda e=edit : str(int(e.checkState() == Qt.Checked))
         edit._key = definition["key"]
         return (edit,"")
 
@@ -313,7 +313,7 @@ class BlockEditDock(QDockWidget):
         return (edit,definition["label"])
 
 
-    @qtc.Slot(qtc.QModelIndex)
+    @Slot(QModelIndex)
     def __indexChanged_(
         self
         ,index
@@ -354,7 +354,7 @@ class BlockEditDock(QDockWidget):
             self.__area.setWidget(None)
 
 
-    @qtc.Slot(qtc.QModelIndex)
+    @Slot(QModelIndex)
     def __indexMoved_(
         self
         ,index
@@ -372,14 +372,14 @@ class BlockEditDock(QDockWidget):
         self.__index = index
 
 
-    @qtc.Slot()
+    @Slot()
     def __indexRemoved_(
         self
     ):
         """
         Called to remove this dock's current index, setting it to invalid.
         """
-        self.__index = qtc.QModelIndex()
+        self.__index = QModelIndex()
 
 
     def __setupGui_(
@@ -399,3 +399,6 @@ class BlockEditDock(QDockWidget):
         central = QWidget()
         central.setLayout(layout)
         self.setWidget(central)
+
+
+Role = ProjectModel.Role
