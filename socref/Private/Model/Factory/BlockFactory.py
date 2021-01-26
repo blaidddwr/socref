@@ -27,6 +27,13 @@ class BlockFactory():
         self.__rl = None
 
 
+    def __contains__(
+        self
+        ,language
+    ):
+        return language in self.__langRootBlocks
+
+
     def beginRegistration(
         self
         ,language
@@ -41,8 +48,7 @@ class BlockFactory():
         language : string
                    The language's name that will begin registration.
         """
-        if language in self.__langRootBlocks.keys():
-            raise LangError('Language already loaded with the same name')
+        assert(not language in self.__langRootBlocks.keys())
         self.__langBlocks[language] = {}
         self.__langRootBlocks[language] = None
         self.__rn = language
@@ -81,16 +87,12 @@ class BlockFactory():
         Ends registration of the language currently being registered. This must
         be called only during a registration process to end it.
         """
-        if self.__rn is None:
-            raise LangError('Cannot end registration when to language is being registered.')
-        try:
-            if self.__langRootBlocks[self.__rn] is None:
-                del self.__langBlocks[self.__rn]
-                del self.__langRootBlocks[self.__rn]
-                raise LangError('Language did not register a root block.')
-        finally:
-            self.__rn = None
-            self.__rl = None
+        assert(self.__rn is not None)
+        if self.__langRootBlocks[self.__rn] is None:
+            del self.__langBlocks[self.__rn]
+            del self.__langRootBlocks[self.__rn]
+        self.__rn = None
+        self.__rl = None
 
 
     def rootBlock(
@@ -184,5 +186,4 @@ class BlockFactory():
             raise LangError('Cannot register a block when no language is being registered.')
         if not issubclass(class_,AbstractBlock):
             raise RegisterError('Given object is not an AbstractBlock class.')
-        if not name[:1].isalpha():
         self.__langRootBlocks[self.__rn] = class_

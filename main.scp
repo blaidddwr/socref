@@ -2140,6 +2140,32 @@ The project model whose given index block properties are changed.</__p_descripti
                         </Class>
                     </Package>
                     <Package>
+                        <__p_name>Controller</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <Class>
+                            <__p_name>LangController</__p_name>
+                            <__p_description>This is the singleton language controller class. This controls the loading of new languages by preparing the required factories and importing the language's package or module.</__p_description>
+                            <__p_infile>0</__p_infile>
+                            <Function>
+                                <__p_name>load</__p_name>
+                                <__p_description>Loads a new language for this application by importing its package or module with the given name. The given language name must be unique among any other loaded language.</__p_description>
+                                <__p_static>0</__p_static>
+                                <__p_class>0</__p_class>
+                                <__p_abstract>0</__p_abstract>
+                                <Object>
+                                    <__p_name>language</__p_name>
+                                    <__p_description>string
+The language's name that is loaded.</__p_description>
+                                </Object>
+                                <Object>
+                                    <__p_name>name</__p_name>
+                                    <__p_description>string
+The name of the language's package or module that is imported.</__p_description>
+                                </Object>
+                            </Function>
+                        </Class>
+                    </Package>
+                    <Package>
                         <__p_name>Factory</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <Class>
@@ -2151,6 +2177,15 @@ The project model whose given index block properties are changed.</__p_descripti
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
+                            </Function>
+                            <Function>
+                                <__p_name>__contains__</__p_name>
+                                <__p_static>0</__p_static>
+                                <__p_class>0</__p_class>
+                                <__p_abstract>0</__p_abstract>
+                                <Object>
+                                    <__p_name>language</__p_name>
+                                </Object>
                             </Function>
                             <Function>
                                 <__p_name>beginRegistration</__p_name>

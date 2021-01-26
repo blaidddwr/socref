@@ -4,7 +4,7 @@ Contains the main function where execution begins.
 from .Private.GUI.Dialog.CodeDialog import *
 from .Private.GUI.Window.MainWindow import *
 from .Private.Model import parserModel
-from .Private.Model.Factory import blockFactory
+from .Private.Model.Controller import langController
 from PySide2.QtWidgets import QApplication
 from PySide2.QtCore import QCoreApplication
 from PySide2.QtCore import QThread
@@ -17,10 +17,10 @@ def main():
     """
     Begins execution of the program.
     """
-    #blockFactory.load("C++","socref_cpp")
-    #blockFactory.load("C++/Qt","socref_cppqt")
-    #blockFactory.load("GLSL","socref_glsl")
-    #blockFactory.load("Python","socref_python")
+    #langController.load("C++","socref_cpp")
+    #langController.load("C++/Qt","socref_cppqt")
+    #langController.load("GLSL","socref_glsl")
+    #langController.load("Python","socref_python")
     QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
     QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     application = QApplication(argv)

@@ -583,7 +583,7 @@ class MainWindow(QMainWindow):
         Populates this window's list of new actions with all available
         languages.
         """
-        for lang in blockFactory.langs():
+        for lang in blockFactory.languages():
             self.__newActions.append(QAction(lang,self))
             self.__newActions[-1].triggered.connect(
                 lambda checked=False,name=lang : self.__new_(name)
