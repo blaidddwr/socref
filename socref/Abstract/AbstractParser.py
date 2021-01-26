@@ -36,6 +36,8 @@ class AbstractParser(ABC):
     returns any code fragments that were scanned but never used in the build
     step. If a file does not exist for a given path it is ignored in the scan
     step. Before parsing can begin the root path must be set.
+
+    _DEPRECATED_
     """
 
 
@@ -44,9 +46,32 @@ class AbstractParser(ABC):
     ):
         super().__init__()
         self.__rootPath = ""
+        self.__readers = {}
         self.__paths = []
-        self.__blocks = []
-        self.__buildingPaths = False
+        self.__update = None
+        self.__io = None
+        self.__stack = []
+
+
+    def lookup(
+        self
+        ,*keys
+    ):
+        """
+        Detailed description.
+
+        Parameters
+        ----------
+        *keys : object
+                Detailed description.
+        """
+        if not keys:
+            return None
+        rkey = keys.pop(0)
+        reader = self.__readers.get(rkey,None)
+        while reader is not None and keys:
+            reader = reader[keys.pop(0)]
+        return reader
 
 
     def parse(
@@ -64,29 +89,71 @@ class AbstractParser(ABC):
                  Used to update the progress of this scan. It takes one argument
                  that is the progress as a percentage from 1 to 99.
         """
-        if self.__rootPath == "":
-            raise RuntimeError("Root path is not set.")
-        self.__buildingPaths = True
-        self._buildPathList_()
-        self.__buildingPaths = False
-        if len(set(self.__paths)) != len(self.__paths):
-            raise exception.ScanError("Duplicate file names generated for parsing. This is caused"
-                                      " by two blocks generating an identical file name. Perhaps"
-                                      " check for blocks with the same display name and parent"
-                                      " block.")
-        count = 0
-        for path in self.__paths:
-            if isfile(path):
-                self._scan_(path)
-            count += 1
-            update(count*50//len(self.__paths))
-        count = 0
-        for path,block in zip(self.__paths,self.__blocks):
-            self.__build_(block,path)
-            count += 1
-            update(50 + count*50//len(self.__paths))
-        self.__paths = []
-        self.__blocks = []
+        assert(self.__rootPath):
+        try:
+            self.__update = update
+            self.__paths = self._pathList_()
+            if len(set(self.__paths)) != len(self.__paths):
+                raise ScanError("Duplicate file names generated for parsing. This is caused by two"
+                                " blocks generating an identical file name. Perhaps check for"
+                                " blocks with the same display name and parent block.")
+            self.__readAll_()
+            self.__writeAll_()
+        finally:
+            self.__update = None
+            self.__paths = []
+            self.__readers = {}
+
+
+    def peakLine(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        self.save()
+        ret = self.readLine()
+        self.restore()
+        return ret
+
+
+    def readLine(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        if self.__io is None:
+            raise ScanError()!!!!!!!!!!
+        line = self.__io.readline()
+        if not line:
+            return None
+        indent = len(line)-len(line.lstrip(' '))
+        return (indent,line.strip())
+
+
+    def restore(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        if self.__io is None:
+            raise ScanError()!!!!!!!!!!
+        if not self.__stack:
+            raise ScanError()!!!!!!!!!!
+        self.__io.seek(self.__stack.pop())
+
+
+    def save(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        if self.__io is None:
+            raise ScanError()!!!!!!!!!!
+        self.__stack.append(self.__io.tell())
 
 
     def setRootPath(
@@ -102,127 +169,37 @@ class AbstractParser(ABC):
         path : string
                The root path of this parser.
         """
-        if self.__rootPath != "":
-            raise RuntimeError("Root path already set.")
+        assert(not self.__rootPath)
         self.__rootPath = path
 
 
-    @abstractmethod
-    def unknown(
+    def __readAll_(
         self
     ):
         """
-        This interface is a getter method.
+        Detailed description.
+        """
+        count = 0
+        for path in self.__paths:
+            if pathExists(path):
+                self.__io = open(pathJoin(self.__rootPath,path),"r")
+                try:
+                    self.__ifile = ifile
+                    reader = self._rootReader_(path)
+                    reader()
+                    if reader.key() in self.__readers:
+                        raise ScanError()!!!!!!!!
+                    self.__readers[reader.key()] = reader
+                finally:
+                    self.__io = None
+            count += 1
+            self.__update(count*50/len(self.__paths))
 
-        Returns
-        -------
-        ret0 : dictionary
-               A flat dictionary of scanned code that was unknown and not used
-               in any built source code.
+
+    def __writeAll_(
+        self
+    ):
+        """
+        Detailed description.
         """
         pass
-
-
-    @abstractmethod
-    def _build_(
-        self
-        ,block
-        ,path
-    ):
-        """
-        This interface is a getter method.
-
-        Parameters
-        ----------
-        block : socref.Abstract.AbstractBlock
-                The block associated with the given source code file path.
-        path : string
-               The path of the source code file whose contents are returned.
-
-        Returns
-        -------
-        ret0 : string
-               The new contents of the source code file at the given path and
-               associated block.
-        """
-        pass
-
-
-    @abstractmethod
-    def _buildPathList_(
-        self
-    ):
-        """
-        This interface builds the path list.
-        """
-        pass
-
-
-    @abstractmethod
-    def _scan_(
-        self
-        ,path
-    ):
-        """
-        This interface scans the source code file at the given path. The given
-        path exists and is a regular file.
-
-        Parameters
-        ----------
-        path : string
-               The path of the source code file that is scanned.
-        """
-        pass
-
-
-    def _addPath_(
-        self
-        ,block
-        ,path
-    ):
-        """
-        Adds the given source code file path and associated block to the list of
-        paths and associated blocks to be scanned and built. This must be called
-        within the build path list interface.
-
-        Parameters
-        ----------
-        block : socref.Abstract.AbstractBlock
-                The block associated with the source code file path.
-        path : string
-               The source code file path.
-        """
-        if self.__rootPath == "":
-            raise RuntimeError("Root path is not set.")
-        if not self.__buildingPaths:
-            raise RuntimeError("Calling add path outside of building paths.")
-        self.__paths.append(pathJoin(self.__rootPath,path))
-        self.__blocks.append(block)
-
-
-    def __build_(
-        self
-        ,block
-        ,path
-    ):
-        """
-        Builds new contents for the source code at the given file path with the
-        associated file. The file is overwritten with the new contents only if
-        they are different from the current contents or the file does not exist.
-
-        Parameters
-        ----------
-        block : socref.Abstract.AbstractBlock
-                The block associated with the source code file path.
-        path : string
-               The path to the source code file that is built.
-        """
-        if not pathExists(dirname(path)):
-            makedirs(dirname(path))
-        if pathExists(path):
-            old = open(path,"r").read()
-            new = self._build_(block,path)
-            if old != new:
-                open(path,"w").write(new)
-        else:
-            open(path,"w").write(self._build_(block,path))
