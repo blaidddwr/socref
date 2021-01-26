@@ -327,7 +327,8 @@ class ProjectModel(QAbstractItemModel):
         ,parent
     ):
         """
-        _DEPRECATED_
+        Implements the PySide2.QtCore.QAbstractItemModel interface, adding one
+        additional argument that is described.
 
         Parameters
         ----------
@@ -347,15 +348,17 @@ class ProjectModel(QAbstractItemModel):
         ,parent
     ):
         """
-        _DEPRECATED_
+        Implements the PySide2.QtCore.QAbstractItemModel interface, adding one
+        additional argument that is described.
 
         Parameters
         ----------
         row : object
               See qt docs.
         blockTypes : list
-                     Block types, where each one represents a new block that is
-                     created and inserted with the given type name.
+                     Block type name strings, where each one represents a new
+                     block that is created and inserted with the given type
+                     name.
         parent : object
                  See qt docs.
 
