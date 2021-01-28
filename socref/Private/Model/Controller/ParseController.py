@@ -1,7 +1,7 @@
 """
-Contains the ParserModel class.
+Contains the ParseController class.
 """
-from ...Abstract.AbstractParser import *
+from ....Abstract.AbstractParser import *
 from PySide2.QtCore import QObject
 from PySide2.QtCore import Signal
 from PySide2.QtCore import Slot
@@ -10,7 +10,7 @@ from traceback import print_exc
 
 
 
-class ParserModel(QObject):
+class ParseController(QObject):
     """
     This is the singleton parser model class. It handles execution of a given
     abstract parser. A slot is provided for starting a new abstract parser.
@@ -19,6 +19,8 @@ class ParserModel(QObject):
     to run on its own thread because parsing can be a long process. Because of
     this the GUI must interface with this class exclusively through its signals
     and slots.
+
+    _DEPCRECATED_
     """
 
 
@@ -78,8 +80,7 @@ class ParserModel(QObject):
         self.__progress = 0
         self.started.emit()
         try:
-            parser.parse(self.__update_)
-            unknown = parser.unknown()
+            unknown = parser(self.__update_)
             if unknown:
                 self.remained.emit(unknown)
         except Exception as ok:

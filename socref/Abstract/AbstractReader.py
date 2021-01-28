@@ -58,6 +58,15 @@ class AbstractReader(ABC):
         return self.__lookups.get(key,None)
 
 
+    def __iter__(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        return self.__lookups.__iter__()
+
+
     def peak(
         self
     ):
@@ -92,6 +101,16 @@ class AbstractReader(ABC):
         Detailed description.
         """
         self.__parser.save()
+
+
+    @abstractmethod
+    def unknown(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        pass
 
 
     @abstractmethod

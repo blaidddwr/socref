@@ -3,6 +3,7 @@ Contains the LangController class.
 """
 from ....Error.LangError import *
 from ..Factory import blockFactory
+from ..Factory import parserFactory
 from importlib import import_module
 
 
@@ -34,12 +35,13 @@ class LangController():
                The name of the language's package or module that is imported.
         """
         if language in blockFactory:
-            raise exception.LangError("Language already loaded with the same name")
-        # begin parser factory registration
+            raise LangError("Language already loaded with the same name")
+        parserFactory.beginRegistration(language)
         blockFactory.beginRegistration(language)
         import_module(import_name)
         blockFactory.endRegistration()
-        # end parser factory registration
+        parserFactory.endRegistration()
         if not language in blockFactory:
-            raise exception.LangError("Language did not register a root block.")
-        # make sure parser was registered
+            raise LangError("Language did not register a root block.")
+        if not language in parserFactory:
+            raise LangError("Language did not register a parser.")

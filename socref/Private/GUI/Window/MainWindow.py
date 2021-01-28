@@ -3,7 +3,7 @@ Contains the MainWindow class.
 """
 from .... import VERSION
 from ....Abstract.AbstractParser import *
-from ...Model import parserModel
+from ...Model.Controller import parseController
 from ...Model.Factory import blockFactory
 from ...Model.ProjectModel import *
 from ..Widget.BlockEditDock import *
@@ -280,7 +280,7 @@ class MainWindow(QMainWindow):
         """
         if self.__path is not None:
             parser = self.__model.parser()
-            parserModel.setRootPath(
+            parser.setRootPath(
                 abspath(
                     pathJoin(dirname(self.__path),self.__model.parsePath())
                 )
@@ -536,10 +536,10 @@ class MainWindow(QMainWindow):
         self.__setupActions_()
         self.__setupMenus_()
         self.__setupToolbars_()
-        self.parseRequested.connect(parserModel.start)
-        parserModel.started.connect(self.__parseStarted_)
-        parserModel.progressed.connect(self.__parseProgressed_)
-        parserModel.finished.connect(self.__parseFinished_)
+        self.parseRequested.connect(parseController.start)
+        parseController.started.connect(self.__parseStarted_)
+        parseController.progressed.connect(self.__parseProgressed_)
+        parseController.finished.connect(self.__parseFinished_)
         self.__restore_()
         self.statusBar()
         self.__updateTitle_()

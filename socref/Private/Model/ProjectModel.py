@@ -2,11 +2,13 @@
 Contains the ProjectModel class.
 """
 from ...Abstract.AbstractParser import *
+from ...Error.LoadError import *
 from .Command.InsertCommand import *
 from .Command.MoveCommand import *
 from .Command.RemoveCommand import *
 from .Command.SetCommand import *
 from .Factory import blockFactory
+from .Factory import parserFactory
 from PySide2.QtCore import QAbstractItemModel
 from PySide2.QtCore import QByteArray
 from PySide2.QtCore import QModelIndex
@@ -428,18 +430,18 @@ class ProjectModel(QAbstractItemModel):
         stream = QXmlStreamReader(xml)
         stream.readNextStartElement()
         if not stream.isStartElement() or stream.name() != self.__PROJECT_TAG:
-            raise exception.LoadError("Invalid XML project tag.")
+            raise LoadError("Invalid XML project tag.")
         stream.readNextStartElement()
         if stream.name() != self.__LANG_TAG:
-            raise exception.LoadError("Invalid/missing XML language tag.")
+            raise LoadError("Invalid/missing XML language tag.")
         lang_name = stream.readElementText()
         stream.readNextStartElement()
         if stream.name() != self.__NAME_TAG:
-            raise exception.LoadError("Invalid/missing XML name tag.")
+            raise LoadError("Invalid/missing XML name tag.")
         name = stream.readElementText()
         stream.readNextStartElement()
         if stream.name() != self.__PARSE_PATH_TAG:
-            raise exception.LoadError("Invalid/missing XML parse path tag.")
+            raise LoadError("Invalid/missing XML parse path tag.")
         parse_path = stream.readElementText()
         self.new(lang_name)
         self.__name = name
@@ -447,10 +449,10 @@ class ProjectModel(QAbstractItemModel):
         try:
             stream.readNextStartElement()
             if stream.name() != self.__root._TYPE_:
-                raise exception.LoadError("Invalid/missing XML root block tag.")
+                raise LoadError("Invalid/missing XML root block tag.")
             self.__root.setFromXml(stream)
             if stream.hasError():
-                raise exception.LoadError("Failed loading XML: "+stream.errorString())
+                raise LoadError("Failed loading XML: "+stream.errorString())
         except:
             self.close()
             raise
@@ -525,7 +527,7 @@ class ProjectModel(QAbstractItemModel):
             self.__name = "New Project"
             self.__parsePath = "."
             self.__langName = langName
-            self.__root = blockFactory.createRoot(self.__langName)
+            self.__root = blockFactory.create(self.__langName)
         except:
             self.__name = None
             self.__langName = None
@@ -578,9 +580,8 @@ class ProjectModel(QAbstractItemModel):
                project.
         """
         if self.__root is not None:
-            ret = self.__root.parser()
-            if not isinstance(ret,AbstractParser):
-                raise RuntimeError("Generated parser is not an abstract parser.")
+            ret = parserFactory.create(self.__root)
+            assert(isinstance(ret,AbstractParser))
             return ret
 
 

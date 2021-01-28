@@ -21,8 +21,8 @@ class BlockFactory():
     def __init__(
         self
     ):
-        self.__langBlocks = {}
-        self.__langRootBlocks = {}
+        self.__blocks = {}
+        self.__rootBlocks = {}
         self.__rn = None
         self.__rl = None
 
@@ -31,7 +31,7 @@ class BlockFactory():
         self
         ,language
     ):
-        return language in self.__langRootBlocks
+        return language in self.__rootBlocks
 
 
     def beginRegistration(
@@ -48,36 +48,42 @@ class BlockFactory():
         language : string
                    The language's name that will begin registration.
         """
-        assert(not language in self.__langRootBlocks.keys())
-        self.__langBlocks[language] = {}
-        self.__langRootBlocks[language] = None
+        if language in self.__rootBlocks.keys():
+            raise LangError("Language already registered with given name.")
+        self.__blocks[language] = {}
+        self.__rootBlocks[language] = None
         self.__rn = language
-        self.__rl = self.__langBlocks[language]
+        self.__rl = self.__blocks[language]
 
 
-    def block(
+    def create(
         self
         ,language
-        ,name
+        ,name=None
     ):
         """
-        Getter method. The given language name and block type name must exist in
-        this factory.
+        Getter method. The given language name and block type name, if one is
+        given, must exist in this factory.
 
         Parameters
         ----------
         language : string
                    The returned block's language name.
-        name : string
-               The returned block's type name.
+        name : object
+               The returned block's type name string or None for the special
+               root block.
 
         Returns
         -------
         ret0 : socref.Abstract.AbstractBlock
-               A new block of the given type from the given language.
+               A new block of the given type or a root block if no type is given
+               from the given language.
         """
         assert(self.__rn is None)
-        return self.__langBlocks[language][name]()
+        if name is None:
+            return self.__rootBlocks[language]()
+        else:
+            return self.__blocks[language][name]()
 
 
     def endRegistration(
@@ -88,32 +94,11 @@ class BlockFactory():
         be called only during a registration process to end it.
         """
         assert(self.__rn is not None)
-        if self.__langRootBlocks[self.__rn] is None:
-            del self.__langBlocks[self.__rn]
-            del self.__langRootBlocks[self.__rn]
+        if self.__rootBlocks[self.__rn] is None:
+            del self.__blocks[self.__rn]
+            del self.__rootBlocks[self.__rn]
         self.__rn = None
         self.__rl = None
-
-
-    def rootBlock(
-        self
-        ,language
-    ):
-        """
-        Getter method. The given language must exist in this factory.
-
-        Parameters
-        ----------
-        language : string
-                   The returned block's language name.
-
-        Returns
-        -------
-        ret0 : socref.Abstract.AbstractBlock
-               A new root block from the given language.
-        """
-        assert(self.__rn is None)
-        return self.__langRootBlocks[language]()
 
 
     def languages(
@@ -128,7 +113,7 @@ class BlockFactory():
                Sorted language names this factory has loaded.
         """
         assert(self.__rn is None)
-        ret = list(self.__langRootBlocks.keys())
+        ret = list(self.__rootBlocks.keys())
         ret.sort()
         return ret
 
@@ -155,12 +140,12 @@ class BlockFactory():
         if self.__rn is None:
             raise LangError("Cannot register a block when no language is being registered.")
         if not issubclass(class_,AbstractBlock):
-            raise RegisterError("Given object is not an AbstractBlock class.")
+            raise RegisterError("Given object is not an abstract block class.")
         if not name[:1].isalpha():
             raise RegisterError("Block type name must begin with alphabetical character.")
         if not name.isalnum():
             raise RegisterError("Block type name must be alphanumeric.")
-        if name in self.__rl.keys():
+        if name in self.__rl:
             raise RegisterError("Block class is already registered with the same name.")
         self.__rl[name] = class_
         class_._LANG_ = self._rn
@@ -185,5 +170,7 @@ class BlockFactory():
         if self.__rn is None:
             raise LangError("Cannot register a block when no language is being registered.")
         if not issubclass(class_,AbstractBlock):
-            raise RegisterError("Given object is not an AbstractBlock class.")
-        self.__langRootBlocks[self.__rn] = class_
+            raise RegisterError("Given object is not an abstract block class.")
+        if self.__rn in self.__rootBlocks:
+            raise RegisterError("Parser class is already registered for registering language.")
+        self.__rootBlocks[self.__rn] = class_

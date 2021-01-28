@@ -55,6 +55,39 @@ class AbstractParser(ABC):
         self.__stack = []
 
 
+    def __call__(
+        self
+        ,update
+    ):
+        """
+        Parses the source code of the project of this parser's root block,
+        updating its progress with the given callback object. The root path of
+        this parser must be set.
+
+        Parameters
+        ----------
+        update : function
+                 Used to update the progress of this scan. It takes one argument
+                 that is the progress as a percentage from 1 to 99.
+        """
+        assert(self.__rootPath):
+        ret = {}
+        try:
+            self.__update = update
+            self.__paths = self._pathList_()
+            filePaths = [p[0] for p in self.__paths]
+            if len(set(filePaths)) != len(filePaths):
+                raise ScanError("Duplicate file names generated for parsing.")
+            self.__readAll_()
+            self.__writeAll_()
+            ret = self.__unknowns_()
+        finally:
+            self.__readers = {}
+            self.__paths = []
+            self.__update = None
+        return ret
+
+
     def lookup(
         self
         ,*keys
@@ -74,36 +107,6 @@ class AbstractParser(ABC):
         while reader is not None and keys:
             reader = reader[keys.pop(0)]
         return reader
-
-
-    def parse(
-        self
-        ,update
-    ):
-        """
-        Parses the source code of the project of this parser's root block,
-        updating its progress with the given callback object. The root path of
-        this parser must be set.
-
-        Parameters
-        ----------
-        update : function
-                 Used to update the progress of this scan. It takes one argument
-                 that is the progress as a percentage from 1 to 99.
-        """
-        assert(self.__rootPath):
-        try:
-            self.__update = update
-            self.__paths = self._pathList_()
-            filePaths = [p[0] for p in self.__paths]
-            if len(set(filePaths)) != len(filePaths):
-                raise ScanError("Duplicate file names generated for parsing.")
-            self.__readAll_()
-            self.__writeAll_()
-        finally:
-            self.__readers = {}
-            self.__paths = []
-            self.__update = None
 
 
     def peak(
@@ -250,13 +253,29 @@ class AbstractParser(ABC):
                         raise ScanError("Returned object is not an abstract reader.")
                     reader()
                     if reader.key() in self.__readers:
-                        raise ScanError()!!!!!!!!
+                        raise ScanError("An abstract reader set a duplicate key.")
                     self.__readers[reader.key()] = reader
                 finally:
                     self.__io = None
                     self.__stack = []
             count += 1
             self.__update(count*50/len(self.__paths))
+
+
+    def __unknown_(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        ret = {}
+        def rec(reader,lkey):
+            ret[lkey] = reader.unknown()
+            for key in reader:
+                rec(reader[key],lkey+"."+key)
+        for key in self.__readers:
+            rec(self.__readers[key],key)
+        return ret
 
 
     def __writeAll_(
