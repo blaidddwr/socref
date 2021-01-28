@@ -153,15 +153,15 @@ class BlockFactory():
                The registered block's type name.
         """
         if self.__rn is None:
-            raise LangError('Cannot register a block when no language is being registered.')
+            raise LangError("Cannot register a block when no language is being registered.")
         if not issubclass(class_,AbstractBlock):
-            raise RegisterError('Given object is not an AbstractBlock class.')
+            raise RegisterError("Given object is not an AbstractBlock class.")
         if not name[:1].isalpha():
-            raise RegisterError('Block type name must begin with alphabetical character.')
+            raise RegisterError("Block type name must begin with alphabetical character.")
         if not name.isalnum():
-            raise RegisterError('Block type name must be alphanumeric.')
+            raise RegisterError("Block type name must be alphanumeric.")
         if name in self.__rl.keys():
-            raise RegisterError('Block class is already registered with the same name.')
+            raise RegisterError("Block class is already registered with the same name.")
         self.__rl[name] = class_
         class_._LANG_ = self._rn
         class_._TYPE_ = name
@@ -183,7 +183,7 @@ class BlockFactory():
                  currently loading language.
         """
         if self.__rn is None:
-            raise LangError('Cannot register a block when no language is being registered.')
+            raise LangError("Cannot register a block when no language is being registered.")
         if not issubclass(class_,AbstractBlock):
-            raise RegisterError('Given object is not an AbstractBlock class.')
+            raise RegisterError("Given object is not an AbstractBlock class.")
         self.__langRootBlocks[self.__rn] = class_

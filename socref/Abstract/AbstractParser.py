@@ -1,6 +1,8 @@
 """
 Contains the AbstractParser class.
 """
+from .AbstractReader import *
+from .AbstractWriter import *
 from abc import ABC
 from abc import abstractmethod
 from os import makedirs
@@ -93,43 +95,40 @@ class AbstractParser(ABC):
         try:
             self.__update = update
             self.__paths = self._pathList_()
-            if len(set(self.__paths)) != len(self.__paths):
-                raise ScanError("Duplicate file names generated for parsing. This is caused by two"
-                                " blocks generating an identical file name. Perhaps check for"
-                                " blocks with the same display name and parent block.")
+            filePaths = [p[0] for p in self.__paths]
+            if len(set(filePaths)) != len(filePaths):
+                raise ScanError("Duplicate file names generated for parsing.")
             self.__readAll_()
             self.__writeAll_()
         finally:
-            self.__update = None
-            self.__paths = []
             self.__readers = {}
+            self.__paths = []
+            self.__update = None
 
 
-    def peakLine(
-        self
-    ):
-        """
-        Detailed description.
-        """
-        self.save()
-        ret = self.readLine()
-        self.restore()
-        return ret
-
-
-    def readLine(
+    def peak(
         self
     ):
         """
         Detailed description.
         """
         if self.__io is None:
-            raise ScanError()!!!!!!!!!!
-        line = self.__io.readline()
-        if not line:
-            return None
-        indent = len(line)-len(line.lstrip(' '))
-        return (indent,line.strip())
+            raise ScanError("Parser cannot peak without open file.")
+        i = self.__io.tell()
+        ret = self.__read_()
+        self.__io.seek(i)
+        return ret
+
+
+    def read(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        if self.__io is None:
+            raise ScanError("Parser cannot read without open file.")
+        return self.__read_()
 
 
     def restore(
@@ -139,9 +138,9 @@ class AbstractParser(ABC):
         Detailed description.
         """
         if self.__io is None:
-            raise ScanError()!!!!!!!!!!
+            raise ScanError("Parser cannot restore without open file.")
         if not self.__stack:
-            raise ScanError()!!!!!!!!!!
+            raise ScanError("Parser cannot restore when position stack is empty.")
         self.__io.seek(self.__stack.pop())
 
 
@@ -152,7 +151,7 @@ class AbstractParser(ABC):
         Detailed description.
         """
         if self.__io is None:
-            raise ScanError()!!!!!!!!!!
+            raise ScanError("Parser cannot save without open file.")
         self.__stack.append(self.__io.tell())
 
 
@@ -173,6 +172,67 @@ class AbstractParser(ABC):
         self.__rootPath = path
 
 
+    @abstractmethod
+    def _pathList_(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        pass
+
+
+    @abstractmethod
+    def _reader_(
+        self
+        ,path
+        ,block
+    ):
+        """
+        Detailed description.
+
+        Parameters
+        ----------
+        path : object
+               Detailed description.
+        block : object
+                Detailed description.
+        """
+        pass
+
+
+    @abstractmethod
+    def _writer_(
+        self
+        ,path
+        ,block
+    ):
+        """
+        Detailed description.
+
+        Parameters
+        ----------
+        path : object
+               Detailed description.
+        block : object
+                Detailed description.
+        """
+        pass
+
+
+    def __read_(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        line = self.__io.readline()
+        if not line:
+            return None
+        indent = len(line)-len(line.lstrip(' '))
+        return (indent,line.strip())
+
+
     def __readAll_(
         self
     ):
@@ -180,18 +240,21 @@ class AbstractParser(ABC):
         Detailed description.
         """
         count = 0
-        for path in self.__paths:
-            if pathExists(path):
+        for (path,block) in self.__paths:
+            if isfile(path):
                 self.__io = open(pathJoin(self.__rootPath,path),"r")
                 try:
                     self.__ifile = ifile
-                    reader = self._rootReader_(path)
+                    reader = self._reader_(path,block)
+                    if not isinstance(reader,AbstractReader):
+                        raise ScanError("Returned object is not an abstract reader.")
                     reader()
                     if reader.key() in self.__readers:
                         raise ScanError()!!!!!!!!
                     self.__readers[reader.key()] = reader
                 finally:
                     self.__io = None
+                    self.__stack = []
             count += 1
             self.__update(count*50/len(self.__paths))
 
@@ -202,4 +265,20 @@ class AbstractParser(ABC):
         """
         Detailed description.
         """
-        pass
+        count = 0
+        for (path,block) in self.__paths:
+            if not pathExists(dirname(path)):
+                makedirs(dirname(path))
+            writer = self._writer_(path,block)
+            if not isinstance(reader,AbstractWriter):
+                raise ScanError("Returned object is not an abstract writer.")
+            rp = open(pathJoin(self.__rootPath,path),"r")
+            new = "\n".join(writer()) + "\n"
+            if pathExists(path):
+                old = open(rp,"r").read()
+                if old != new:
+                    open(rp,"w").write(new)
+            else:
+                open(rp,"w").write(new)
+            count += 1
+            self.__update(50 + count*50/len(self.__paths))

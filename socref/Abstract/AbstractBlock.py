@@ -72,6 +72,8 @@ class AbstractBlock(ABC):
 
     Saving a block to XML or loading it from XML is supported. A qt XML stream
     writer or reader is used for saving or loading to or from XML, respectively.
+
+    _DEPRECATED_
     """
 
 
@@ -338,23 +340,6 @@ class AbstractBlock(ABC):
                parent.
         """
         return self.__parent if self.__parent is None else self.__parent()
-
-
-    def parser(
-        self
-    ):
-        """
-        This interface is a getter method. The default implementation returns
-        none.
-
-        Returns
-        -------
-        ret0 : object
-               An abstract parser implementation used to parse the source code
-               of a project if this is the root block, else none if this is not
-               the root block.
-        """
-        pass
 
 
     def pop(

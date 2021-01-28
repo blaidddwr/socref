@@ -26,7 +26,9 @@ Edit definitions provide as a list of dictionaries through a block's appropriate
 
 Iteration and indexing of children blocks are supported through operators and methods. Iteration of child blocks is provided through the common python operators. Indexing is also supported through the common python operators. Other common list methods are also implemented such as insert and pop for manipulating a block's children. Index is also provided for determining the index of a block in its parent's list of children.
 
-Saving a block to XML or loading it from XML is supported. A qt XML stream writer or reader is used for saving or loading to or from XML, respectively.</__p_description>
+Saving a block to XML or loading it from XML is supported. A qt XML stream writer or reader is used for saving or loading to or from XML, respectively.
+
+_DEPRECATED_</__p_description>
                     <__p_parents>ABC</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -222,14 +224,6 @@ The parent block of this block or none if this block has no parent.</__p_returnD
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>parser</__p_name>
-                        <__p_description>This interface is a getter method. The default implementation returns none.</__p_description>
-                        <__p_returnDescription>An abstract parser implementation used to parse the source code of a project if this is the root block, else none if this is not the root block.</__p_returnDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>pop</__p_name>
                         <__p_description>Removes a child block of this block with the given index.</__p_description>
                         <__p_returnDescription>socref.Abstract.AbstractBlock
@@ -337,14 +331,14 @@ Used to update the progress of this scan. It takes one argument that is the prog
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>peakLine</__p_name>
+                        <__p_name>peak</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>readLine</__p_name>
+                        <__p_name>read</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -375,6 +369,50 @@ Used to update the progress of this scan. It takes one argument that is the prog
                             <__p_description>string
 The root path of this parser.</__p_description>
                         </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_pathList_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>1</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_reader_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>1</__p_abstract>
+                        <Object>
+                            <__p_name>path</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_writer_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>1</__p_abstract>
+                        <Object>
+                            <__p_name>path</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__read_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__readAll_</__p_name>
@@ -424,14 +462,14 @@ The root path of this parser.</__p_description>
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>peakLine</__p_name>
+                        <__p_name>peak</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>readLine</__p_name>
+                        <__p_name>read</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -450,6 +488,73 @@ The root path of this parser.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>1</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_setKey_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>key</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>AbstractWriter</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>ABC</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>asdf</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__call__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>lookup</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>*keys</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>1</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>1</__p_abstract>
                     </Function>
                 </Class>
             </Package>
