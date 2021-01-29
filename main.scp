@@ -580,6 +580,234 @@ The root path of this parser.</__p_description>
                 </Class>
             </Package>
             <Package>
+                <__p_name>Edit</__p_name>
+                <__p_description>Detailed description.</__p_description>
+                <Class>
+                    <__p_name>CheckBoxEdit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>label</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>key</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>label</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>ComboEdit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>label</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>key</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>selections</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>label</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>selections</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>EditDefinitions</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__iter__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>append</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>edit</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>HiddenEdit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>key</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>value</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>value</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>LineEdit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>CheckBoxEdit</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>label</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>key</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>label</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>TextEdit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>label</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>key</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>spellCheck</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>False</__p_assignment>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>label</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>spellCheck</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+            </Package>
+            <Package>
                 <__p_name>Error</__p_name>
                 <__p_description>Detailed description.</__p_description>
                 <Class>
@@ -605,6 +833,152 @@ The root path of this parser.</__p_description>
                     <__p_description>This is the scan error exception class. It indicates an error occurred while scanning source files while parsing a project.</__p_description>
                     <__p_parents>Exception</__p_parents>
                     <__p_infile>0</__p_infile>
+                </Class>
+            </Package>
+            <Package>
+                <__p_name>Output</__p_name>
+                <__p_description>Detailed description.</__p_description>
+                <Class>
+                    <__p_name>Code</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>indent</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__iter__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>add</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>lines</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>addText</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>text</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>maxCols</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>begin</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>&quot;&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>after</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>&quot;&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>sep</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>&quot;&quot;</__p_assignment>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>setIndent</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>level</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>RichText</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__str__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>addHeader</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>title</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>level</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>addList</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>items</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>addMap</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>items</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>addText</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>text</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
                 </Class>
             </Package>
             <Package>
@@ -1275,9 +1649,9 @@ A label for adding it to a form.</__p_returnDescription>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
-                                    <__p_name>definition</__p_name>
-                                    <__p_description>dictionary
-The edit definition used to build the returned edit widget.</__p_description>
+                                    <__p_name>edit</__p_name>
+                                    <__p_description>socref.Edit.CheckBoxEdit
+The edit class instance used to build the returned edit widget.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>properties</__p_name>
@@ -1297,9 +1671,9 @@ A label for adding it to a form.</__p_returnDescription>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
-                                    <__p_name>definition</__p_name>
-                                    <__p_description>dictionary
-The edit definition used to build the returned edit widget.</__p_description>
+                                    <__p_name>edit</__p_name>
+                                    <__p_description>socref.Edit.ComboEdit
+The edit class instance used to build the returned edit widget.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>properties</__p_name>
@@ -1330,9 +1704,9 @@ A new hidden edit widget configured for the given definition.</__p_returnDescrip
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
-                                    <__p_name>definition</__p_name>
-                                    <__p_description>dictionary
-The edit definition used to build the returned edit widget.</__p_description>
+                                    <__p_name>edit</__p_name>
+                                    <__p_description>socref.Edit.HiddenEdit
+The edit class instance used to build the returned edit widget.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -1347,9 +1721,9 @@ A label for adding it to a form.</__p_returnDescription>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
-                                    <__p_name>definition</__p_name>
-                                    <__p_description>dictionary
-The edit definition used to build the returned edit widget.</__p_description>
+                                    <__p_name>edit</__p_name>
+                                    <__p_description>socref.Edit.LineEdit
+The edit class instance used to build the returned edit widget.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>properties</__p_name>
@@ -1369,9 +1743,9 @@ A label for adding it to a form.</__p_returnDescription>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
-                                    <__p_name>definition</__p_name>
-                                    <__p_description>dictionary
-The edit definition used to build the returned edit widget.</__p_description>
+                                    <__p_name>edit</__p_name>
+                                    <__p_description>socref.Edit.TextEdit
+The edit class instance used to build the returned edit widget.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>properties</__p_name>

@@ -1,6 +1,11 @@
 """
 Contains the BlockEditDock class.
 """
+from ....Edit.CheckBoxEdit import *
+from ....Edit.ComboEdit import *
+from ....Edit.HiddenEdit import *
+from ....Edit.LineEdit import *
+from ....Edit.TextEdit import *
 from ...Model.ProjectModel import *
 from .PlainTextEdit import *
 from PySide2.QtCore import QModelIndex
@@ -106,7 +111,7 @@ class BlockEditDock(QDockWidget):
 
     def __buildCheckbox_(
         self
-        ,definition
+        ,edit
         ,properties
     ):
         """
@@ -114,8 +119,8 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        definition : dictionary
-                     The edit definition used to build the returned edit widget.
+        edit : socref.Edit.CheckBoxEdit
+               The edit class instance used to build the returned edit widget.
         properties : dictionary
                      The properties of the block used to get the initial value
                      of the returned edit widget.
@@ -128,19 +133,19 @@ class BlockEditDock(QDockWidget):
         ret1 : string
                A label for adding it to a form.
         """
-        edit = QCheckBox(definition["label"])
-        edit.setCheckState(
-            Qt.Checked if int(properties[definition["key"]]) else Qt.Unchecked
+        editWdgt = QCheckBox(edit.label())
+        editWdgt.setCheckState(
+            Qt.Checked if int(properties[edit.key()]) else Qt.Unchecked
         )
-        edit.stateChanged.connect(lambda : self.__applyButton.setEnabled(True))
-        edit._value_ = lambda e=edit : str(int(e.checkState() == Qt.Checked))
-        edit._key = definition["key"]
-        return (edit,"")
+        editWdgt.stateChanged.connect(lambda : self.__applyButton.setEnabled(True))
+        editWdgt._value_ = lambda e=editWdgt : str(int(e.checkState() == Qt.Checked))
+        editWdgt._key = edit.key()
+        return (editWdgt,"")
 
 
     def __buildCombo_(
         self
-        ,definition
+        ,edit
         ,properties
     ):
         """
@@ -148,8 +153,8 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        definition : dictionary
-                     The edit definition used to build the returned edit widget.
+        edit : socref.Edit.ComboEdit
+               The edit class instance used to build the returned edit widget.
         properties : dictionary
                      The properties of the block used to get the initial value
                      of the returned edit widget.
@@ -162,17 +167,17 @@ class BlockEditDock(QDockWidget):
         ret1 : string
                A label for adding it to a form.
         """
-        edit = QComboBox()
-        for selection in definition["selections"]:
-            if "icon" in selection:
-                edit.addItem(selection["icon"],selection["text"])
+        editWdgt = QComboBox()
+        for (icon,text) in edit.selections():
+            if icon:
+                editWdgt.addItem(icon,text)
             else:
-                edit.addItem(selection["text"])
-        edit.setCurrentText(properties[definition["key"]])
-        edit.currentTextChanged.connect(lambda : self.__applyButton.setEnabled(True))
-        edit._value_ = lambda e=edit : e.currentText()
-        edit._key = definition["key"]
-        return (edit,definition["label"])
+                editWdgt.addItem(text)
+        editWdgt.setCurrentText(properties[edit.key()])
+        editWdgt.currentTextChanged.connect(lambda : self.__applyButton.setEnabled(True))
+        editWdgt._value_ = lambda e=editWdgt : e.currentText()
+        editWdgt._key = edit.key()
+        return (editWdgt,edit.label())
 
 
     def __buildFormWidget_(
@@ -198,26 +203,26 @@ class BlockEditDock(QDockWidget):
         self.__edits.clear()
         try:
             props = self.__view.model().data(index,Role.Properties)
-            defs = self.__view.model().data(index,Role.EditDefs)
+            editDefs = self.__view.model().data(index,Role.EditDefs)
             layout = QFormLayout()
-            for def_ in defs:
-                edit = None
+            for edit in editDefs:
+                editWdgt = None
                 label = None
-                if def_["type"] == "line":
-                    (edit,label) = self.__buildLine_(def_,props)
-                elif def_["type"] == "text":
-                    (edit,label) = self.__buildText_(def_,props)
-                elif def_["type"] == "checkbox":
-                    (edit,label) = self.__buildCheckbox_(def_,props)
-                elif def_["type"] == "combobox":
-                    (edit,label) = self.__buildCombo_(def_,props)
-                elif def_["type"] == "hidden":
-                    edit = self.__buildHidden_(def_)
+                if isinstance(edit,LineEdit):
+                    (editWdgt,label) = self.__buildLine_(edit,props)
+                elif isinstance(edit,TextEdit):
+                    (editWdgt,label) = self.__buildText_(edit,props)
+                elif isinstance(edit,CheckBoxEdit):
+                    (editWdgt,label) = self.__buildCheckbox_(edit,props)
+                elif isinstance(edit,ComboEdit):
+                    (editWdgt,label) = self.__buildCombo_(edit,props)
+                elif isinstance(edit,HiddenEdit):
+                    editWdgt = self.__buildHidden_(edit)
                 else:
-                    raise RuntimeError("Unknown edit definition.")
+                    raise RuntimeError("Unknown edit class.")
                 if label is not None:
-                    layout.addRow(label,edit)
-                self.__edits.append(edit)
+                    layout.addRow(label,editWdgt)
+                self.__edits.append(editWdgt)
             ret = QWidget()
             ret.setContentsMargins(0,16,0,4)
             ret.setLayout(layout)
@@ -229,30 +234,30 @@ class BlockEditDock(QDockWidget):
 
     def __buildHidden_(
         self
-        ,definition
+        ,edit
     ):
         """
         Getter method.
 
         Parameters
         ----------
-        definition : dictionary
-                     The edit definition used to build the returned edit widget.
+        edit : socref.Edit.HiddenEdit
+               The edit class instance used to build the returned edit widget.
 
         Returns
         -------
         ret0 : PySide2.QtWidgets.QWidget
                A new hidden edit widget configured for the given definition.
         """
-        edit = QWidget()
-        edit._value_ = lambda val=definition["value"] : val
-        edit._key = definition["key"]
-        return edit
+        editWdgt = QWidget()
+        editWdgt._value_ = lambda val=edit.value() : val
+        editWdgt._key = edit.key()
+        return editWdgt
 
 
     def __buildLine_(
         self
-        ,definition
+        ,edit
         ,properties
     ):
         """
@@ -260,8 +265,8 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        definition : dictionary
-                     The edit definition used to build the returned edit widget.
+        edit : socref.Edit.LineEdit
+               The edit class instance used to build the returned edit widget.
         properties : dictionary
                      The properties of the block used to get the initial value
                      of the returned edit widget.
@@ -274,16 +279,16 @@ class BlockEditDock(QDockWidget):
         ret1 : string
                A label for adding it to a form.
         """
-        edit = QLineEdit(properties[definition["key"]])
-        edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
-        edit._value_ = lambda e=edit : e.text()
-        edit._key = definition["key"]
-        return (edit,definition["label"])
+        editWdgt = QLineEdit(properties[edit.key()])
+        editWdgt.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
+        editWdgt._value_ = lambda e=editWdgt : e.text()
+        editWdgt._key = edit.key()
+        return (editWdgt,edit.label())
 
 
     def __buildText_(
         self
-        ,definition
+        ,edit
         ,properties
     ):
         """
@@ -291,8 +296,8 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        definition : dictionary
-                     The edit definition used to build the returned edit widget.
+        edit : socref.Edit.TextEdit
+               The edit class instance used to build the returned edit widget.
         properties : dictionary
                      The properties of the block used to get the initial value
                      of the returned edit widget.
@@ -305,12 +310,12 @@ class BlockEditDock(QDockWidget):
         ret1 : string
                A label for adding it to a form.
         """
-        edit = PlainTextEdit(speller=definition.get("speller",False),popup=True)
-        edit.setPlainText(properties[definition["key"]])
-        edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
-        edit._value_ = lambda e=edit : e.toPlainText()
-        edit._key = definition["key"]
-        return (edit,definition["label"])
+        editWdgt = PlainTextEdit(speller=edit.spellCheck(),popup=True)
+        editWdgt.setPlainText(properties[edit.key()])
+        editWdgt.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
+        editWdgt._value_ = lambda e=editWdgt : e.toPlainText()
+        editWdgt._key = edit.key()
+        return (editWdgt,edit.label())
 
 
     @Slot(QModelIndex)
