@@ -3,8 +3,8 @@ Contains the MainWindow class.
 """
 from .... import VERSION
 from ....Abstract.AbstractParser import *
-from ...Model.Controller import parseController
-from ...Model.Factory import blockFactory
+from ...Controller import parseController
+from ...Factory import blockFactory
 from ...Model.ProjectModel import *
 from ..Widget.BlockEditDock import *
 from ..Widget.BlockViewDock import *

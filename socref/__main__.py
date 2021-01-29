@@ -1,10 +1,10 @@
 """
 Contains the main function where execution begins.
 """
+from .Private.Controller import langController
 from .Private.GUI.Dialog.CodeDialog import *
 from .Private.GUI.Window.MainWindow import *
 from .Private.Model import parserModel
-from .Private.Model.Controller import langController
 from PySide2.QtWidgets import QApplication
 from PySide2.QtCore import QCoreApplication
 from PySide2.QtCore import QThread

@@ -269,12 +269,12 @@ class AbstractParser(ABC):
         Detailed description.
         """
         ret = {}
-        def rec(reader,lkey):
+        def generate(reader,lkey):
             ret[lkey] = reader.unknown()
             for key in reader:
-                rec(reader[key],lkey+"."+key)
+                generate(reader[key],lkey+"."+key)
         for key in self.__readers:
-            rec(self.__readers[key],key)
+            generate(self.__readers[key],key)
         return ret
 
 

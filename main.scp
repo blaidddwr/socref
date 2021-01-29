@@ -611,6 +611,261 @@ The root path of this parser.</__p_description>
                 <__p_name>Private</__p_name>
                 <__p_description>Detailed description.</__p_description>
                 <Package>
+                    <__p_name>Controller</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <Class>
+                        <__p_name>LangController</__p_name>
+                        <__p_description>This is the singleton language controller class. This controls the loading of new languages by preparing the required factories and importing the language's package or module.</__p_description>
+                        <__p_infile>0</__p_infile>
+                        <Function>
+                            <__p_name>load</__p_name>
+                            <__p_description>Loads a new language for this application by importing its package or module with the given name. The given language name must be unique among any other loaded language.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>language</__p_name>
+                                <__p_description>string
+The language's name that is loaded.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>name</__p_name>
+                                <__p_description>string
+The name of the language's package or module that is imported.</__p_description>
+                            </Object>
+                        </Function>
+                    </Class>
+                    <Class>
+                        <__p_name>ParseController</__p_name>
+                        <__p_description>This is the singleton parser model class. It handles execution of a given abstract parser. A slot is provided for starting a new abstract parser. Signals are provided for informing when parsing begins, makes progress, finishes, and has remaining unknown code fragments. This class is designed to run on its own thread because parsing can be a long process. Because of this the GUI must interface with this class exclusively through its signals and slots.
+
+_DEPCRECATED_</__p_description>
+                        <__p_parents>QObject</__p_parents>
+                        <__p_infile>0</__p_infile>
+                        <Object>
+                            <__p_name>finished</__p_name>
+                            <__p_description>Signals this parser has finished parsing.</__p_description>
+                            <__p_assignment>Signal()</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>progressed</__p_name>
+                            <__p_description>Signals this parser has made the given percentage progress parsing. The range given is from 0 to 100.</__p_description>
+                            <__p_assignment>Signal(int)</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>remained</__p_name>
+                            <__p_description>Signals this parser had remaining unknown code fragments after finishing the last parsing.</__p_description>
+                            <__p_assignment>Signal(dict)</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>started</__p_name>
+                            <__p_description>Signals this parser has started parsing.</__p_description>
+                            <__p_assignment>Signal()</__p_assignment>
+                        </Object>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new parser.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>start</__p_name>
+                            <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.
+
+This also catches any python exceptions and prints them to standard error because Qt thread's event loop ignores them.</__p_description>
+                            <__p_descriptors>Slot(AbstractParser)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>parser</__p_name>
+                                <__p_description>socref.Abstract.AbstractParser
+The abstract parser that is executed.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__update_</__p_name>
+                            <__p_description>Called by the abstract parser that this parser model is currently parsing to inform this parser that progress of the given percentage has been made in parsing.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>percent</__p_name>
+                                <__p_description>int
+The percentage progress made by this parser model's abstract parser ranging from 0 to 100.</__p_description>
+                            </Object>
+                        </Function>
+                    </Class>
+                </Package>
+                <Package>
+                    <__p_name>Factory</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <Class>
+                        <__p_name>BlockFactory</__p_name>
+                        <__p_description>This is the singleton block factory class. It registers block classes for a new language and creates new blocks of registered languages from the registered classes. Languages are registered using a unique name. Block classes are registered using a unique name within its language. One and only one special root block class must be registered for each language.</__p_description>
+                        <__p_infile>0</__p_infile>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__contains__</__p_name>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>language</__p_name>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>beginRegistration</__p_name>
+                            <__p_description>Begins registration of a new language with the given name. The name must not already exist as a language. This cannot be called when registration of another language is ongoing.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>language</__p_name>
+                                <__p_description>string
+The language's name that will begin registration.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>create</__p_name>
+                            <__p_description>Getter method. The given language name and block type name, if one is given, must exist in this factory.</__p_description>
+                            <__p_returnDescription>socref.Abstract.AbstractBlock
+A new block of the given type or a root block if no type is given from the given language.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>language</__p_name>
+                                <__p_description>string
+The returned block's language name.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>name</__p_name>
+                                <__p_description>object
+The returned block's type name string or None for the special root block.</__p_description>
+                                <__p_assignment>None</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>endRegistration</__p_name>
+                            <__p_description>Ends registration of the language currently being registered. This must be called only during a registration process to end it.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>languages</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>list
+Sorted language names this factory has loaded.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>register</__p_name>
+                            <__p_description>Registers the given block class with the given type name to the language currently being registered. The given block class is assigned special attributes _LANG_ and _TYPE_. This must be called during registration of a new language. The given type name must be unique within its language.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>class_</__p_name>
+                                <__p_description>socref.Abstract.AbstractBlock
+A class object that is registered as a block type of the currently loading language.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>name</__p_name>
+                                <__p_description>string
+The registered block's type name.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>registerRoot</__p_name>
+                            <__p_description>Registers the given block class as the root block type of the language currently being registered. Only one class object can be the root block of a language.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>class_</__p_name>
+                                <__p_description>socref.Abstract.AbstractBlock
+A class object that is registered as the root block type of the currently loading language.</__p_description>
+                            </Object>
+                        </Function>
+                    </Class>
+                    <Class>
+                        <__p_name>ParserFactory</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_infile>0</__p_infile>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__contains__</__p_name>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>language</__p_name>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>beginRegistration</__p_name>
+                            <__p_description>Begins registration of a new language with the given name. The name must not already exist as a language. This cannot be called when registration of another language is ongoing.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>language</__p_name>
+                                <__p_description>string
+The language's name that will begin registration.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>create</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnDescription>socref.Abstract.AbstractParser
+A new parser from the project with the given root block.</__p_returnDescription>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>block</__p_name>
+                                <__p_description>socref.Abstract.AbstractBlock
+The root block of the project used to create the returned parser.
+</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>endRegistration</__p_name>
+                            <__p_description>Ends registration of the language currently being registered. This must be called only during a registration process to end it.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>register</__p_name>
+                            <__p_description>Registers the given parser class the language currently being registered.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>class_</__p_name>
+                                <__p_description>socref.Abstract.AbstractParser
+A class object that is registered as the parser of the currently loading language.</__p_description>
+                            </Object>
+                        </Function>
+                    </Class>
+                </Package>
+                <Package>
                     <__p_name>GUI</__p_name>
                     <__p_description>Detailed description.</__p_description>
                     <Package>
@@ -2300,261 +2555,6 @@ The project model whose given index block properties are changed.</__p_descripti
                             </Function>
                         </Class>
                     </Package>
-                    <Package>
-                        <__p_name>Controller</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <Class>
-                            <__p_name>LangController</__p_name>
-                            <__p_description>This is the singleton language controller class. This controls the loading of new languages by preparing the required factories and importing the language's package or module.</__p_description>
-                            <__p_infile>0</__p_infile>
-                            <Function>
-                                <__p_name>load</__p_name>
-                                <__p_description>Loads a new language for this application by importing its package or module with the given name. The given language name must be unique among any other loaded language.</__p_description>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>language</__p_name>
-                                    <__p_description>string
-The language's name that is loaded.</__p_description>
-                                </Object>
-                                <Object>
-                                    <__p_name>name</__p_name>
-                                    <__p_description>string
-The name of the language's package or module that is imported.</__p_description>
-                                </Object>
-                            </Function>
-                        </Class>
-                        <Class>
-                            <__p_name>ParseController</__p_name>
-                            <__p_description>This is the singleton parser model class. It handles execution of a given abstract parser. A slot is provided for starting a new abstract parser. Signals are provided for informing when parsing begins, makes progress, finishes, and has remaining unknown code fragments. This class is designed to run on its own thread because parsing can be a long process. Because of this the GUI must interface with this class exclusively through its signals and slots.
-
-_DEPCRECATED_</__p_description>
-                            <__p_parents>QObject</__p_parents>
-                            <__p_infile>0</__p_infile>
-                            <Object>
-                                <__p_name>finished</__p_name>
-                                <__p_description>Signals this parser has finished parsing.</__p_description>
-                                <__p_assignment>Signal()</__p_assignment>
-                            </Object>
-                            <Object>
-                                <__p_name>progressed</__p_name>
-                                <__p_description>Signals this parser has made the given percentage progress parsing. The range given is from 0 to 100.</__p_description>
-                                <__p_assignment>Signal(int)</__p_assignment>
-                            </Object>
-                            <Object>
-                                <__p_name>remained</__p_name>
-                                <__p_description>Signals this parser had remaining unknown code fragments after finishing the last parsing.</__p_description>
-                                <__p_assignment>Signal(dict)</__p_assignment>
-                            </Object>
-                            <Object>
-                                <__p_name>started</__p_name>
-                                <__p_description>Signals this parser has started parsing.</__p_description>
-                                <__p_assignment>Signal()</__p_assignment>
-                            </Object>
-                            <Function>
-                                <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new parser.</__p_description>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                            </Function>
-                            <Function>
-                                <__p_name>start</__p_name>
-                                <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.
-
-This also catches any python exceptions and prints them to standard error because Qt thread's event loop ignores them.</__p_description>
-                                <__p_descriptors>Slot(AbstractParser)</__p_descriptors>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>parser</__p_name>
-                                    <__p_description>socref.Abstract.AbstractParser
-The abstract parser that is executed.</__p_description>
-                                </Object>
-                            </Function>
-                            <Function>
-                                <__p_name>__update_</__p_name>
-                                <__p_description>Called by the abstract parser that this parser model is currently parsing to inform this parser that progress of the given percentage has been made in parsing.</__p_description>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>percent</__p_name>
-                                    <__p_description>int
-The percentage progress made by this parser model's abstract parser ranging from 0 to 100.</__p_description>
-                                </Object>
-                            </Function>
-                        </Class>
-                    </Package>
-                    <Package>
-                        <__p_name>Factory</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <Class>
-                            <__p_name>BlockFactory</__p_name>
-                            <__p_description>This is the singleton block factory class. It registers block classes for a new language and creates new blocks of registered languages from the registered classes. Languages are registered using a unique name. Block classes are registered using a unique name within its language. One and only one special root block class must be registered for each language.</__p_description>
-                            <__p_infile>0</__p_infile>
-                            <Function>
-                                <__p_name>__init__</__p_name>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                            </Function>
-                            <Function>
-                                <__p_name>__contains__</__p_name>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>language</__p_name>
-                                </Object>
-                            </Function>
-                            <Function>
-                                <__p_name>beginRegistration</__p_name>
-                                <__p_description>Begins registration of a new language with the given name. The name must not already exist as a language. This cannot be called when registration of another language is ongoing.</__p_description>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>language</__p_name>
-                                    <__p_description>string
-The language's name that will begin registration.</__p_description>
-                                </Object>
-                            </Function>
-                            <Function>
-                                <__p_name>create</__p_name>
-                                <__p_description>Getter method. The given language name and block type name, if one is given, must exist in this factory.</__p_description>
-                                <__p_returnDescription>socref.Abstract.AbstractBlock
-A new block of the given type or a root block if no type is given from the given language.</__p_returnDescription>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>language</__p_name>
-                                    <__p_description>string
-The returned block's language name.</__p_description>
-                                </Object>
-                                <Object>
-                                    <__p_name>name</__p_name>
-                                    <__p_description>object
-The returned block's type name string or None for the special root block.</__p_description>
-                                    <__p_assignment>None</__p_assignment>
-                                </Object>
-                            </Function>
-                            <Function>
-                                <__p_name>endRegistration</__p_name>
-                                <__p_description>Ends registration of the language currently being registered. This must be called only during a registration process to end it.</__p_description>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                            </Function>
-                            <Function>
-                                <__p_name>languages</__p_name>
-                                <__p_description>Getter method.</__p_description>
-                                <__p_returnDescription>list
-Sorted language names this factory has loaded.</__p_returnDescription>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                            </Function>
-                            <Function>
-                                <__p_name>registerBlock</__p_name>
-                                <__p_description>Registers the given block class with the given type name to the language currently being registered. The given block class is assigned special attributes _LANG_ and _TYPE_. This must be called during registration of a new language. The given type name must be unique within its language.</__p_description>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>class_</__p_name>
-                                    <__p_description>socref.Abstract.AbstractBlock
-A class object that is registered as a block type of the currently loading language.</__p_description>
-                                </Object>
-                                <Object>
-                                    <__p_name>name</__p_name>
-                                    <__p_description>string
-The registered block's type name.</__p_description>
-                                </Object>
-                            </Function>
-                            <Function>
-                                <__p_name>registerRootBlock</__p_name>
-                                <__p_description>Registers the given block class as the root block type of the language currently being registered. Only one class object can be the root block of a language.</__p_description>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>class_</__p_name>
-                                    <__p_description>socref.Abstract.AbstractBlock
-A class object that is registered as the root block type of the currently loading language.</__p_description>
-                                </Object>
-                            </Function>
-                        </Class>
-                        <Class>
-                            <__p_name>ParserFactory</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_infile>0</__p_infile>
-                            <Function>
-                                <__p_name>__init__</__p_name>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                            </Function>
-                            <Function>
-                                <__p_name>__contains__</__p_name>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>language</__p_name>
-                                </Object>
-                            </Function>
-                            <Function>
-                                <__p_name>beginRegistration</__p_name>
-                                <__p_description>Begins registration of a new language with the given name. The name must not already exist as a language. This cannot be called when registration of another language is ongoing.</__p_description>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>language</__p_name>
-                                    <__p_description>string
-The language's name that will begin registration.</__p_description>
-                                </Object>
-                            </Function>
-                            <Function>
-                                <__p_name>create</__p_name>
-                                <__p_description>Getter method.</__p_description>
-                                <__p_returnDescription>socref.Abstract.AbstractParser
-A new parser from the project with the given root block.</__p_returnDescription>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>block</__p_name>
-                                    <__p_description>socref.Abstract.AbstractBlock
-The root block of the project used to create the returned parser.
-</__p_description>
-                                </Object>
-                            </Function>
-                            <Function>
-                                <__p_name>endRegistration</__p_name>
-                                <__p_description>Ends registration of the language currently being registered. This must be called only during a registration process to end it.</__p_description>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                            </Function>
-                            <Function>
-                                <__p_name>register</__p_name>
-                                <__p_description>Registers the given parser class the language currently being registered.</__p_description>
-                                <__p_static>0</__p_static>
-                                <__p_class>0</__p_class>
-                                <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>class_</__p_name>
-                                    <__p_description>socref.Abstract.AbstractParser
-A class object that is registered as the parser of the currently loading language.</__p_description>
-                                </Object>
-                            </Function>
-                        </Class>
-                    </Package>
                     <Class>
                         <__p_name>ProjectModel</__p_name>
                         <__p_description>This is the project model class. It implements the qt abstract item model class. It provides additional methods above and beyond the basic model methods for added functionality. It provides basic properties that are universal to a project. It has built in support for undo and redo of any modification done to it.
@@ -3105,6 +3105,33 @@ The parent index of this model whose children's data has changed due to the vola
                     <__p_abstract>0</__p_abstract>
                 </Function>
             </Module>
+            <Function>
+                <__p_name>block</__p_name>
+                <__p_description>Detailed description.</__p_description>
+                <__p_static>0</__p_static>
+                <__p_class>0</__p_class>
+                <__p_abstract>0</__p_abstract>
+                <Object>
+                    <__p_name>name</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                </Object>
+                <Object>
+                    <__p_name>root</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_assignment>False</__p_assignment>
+                </Object>
+            </Function>
+            <Function>
+                <__p_name>parser</__p_name>
+                <__p_description>Detailed description.</__p_description>
+                <__p_static>0</__p_static>
+                <__p_class>0</__p_class>
+                <__p_abstract>0</__p_abstract>
+                <Object>
+                    <__p_name>class_</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                </Object>
+            </Function>
         </Package>
         <Package>
             <__p_name>old</__p_name>

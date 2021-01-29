@@ -118,7 +118,7 @@ class BlockFactory():
         return ret
 
 
-    def registerBlock(
+    def register(
         self
         ,class_
         ,name
@@ -152,7 +152,7 @@ class BlockFactory():
         class_._TYPE_ = name
 
 
-    def registerRootBlock(
+    def registerRoot(
         self
         ,class_
     ):
