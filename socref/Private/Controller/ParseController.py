@@ -1,7 +1,7 @@
 """
 Contains the ParseController class.
 """
-from ....Abstract.AbstractParser import *
+from ...Abstract.AbstractParser import *
 from PySide2.QtCore import QObject
 from PySide2.QtCore import Signal
 from PySide2.QtCore import Slot

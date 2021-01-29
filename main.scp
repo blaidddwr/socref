@@ -728,7 +728,6 @@ The root path of this parser.</__p_description>
                 <Class>
                     <__p_name>LineEdit</__p_name>
                     <__p_description>Detailed description.</__p_description>
-                    <__p_parents>CheckBoxEdit</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
@@ -938,11 +937,11 @@ The root path of this parser.</__p_description>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
-                            <__p_name>title</__p_name>
+                            <__p_name>level</__p_name>
                             <__p_description>Detailed description.</__p_description>
                         </Object>
                         <Object>
-                            <__p_name>level</__p_name>
+                            <__p_name>title</__p_name>
                             <__p_description>Detailed description.</__p_description>
                         </Object>
                     </Function>
@@ -3506,6 +3505,108 @@ The parent index of this model whose children's data has changed due to the vola
                     <__p_description>Detailed description.</__p_description>
                 </Object>
             </Function>
+        </Package>
+        <Package>
+            <__p_name>socref_python</__p_name>
+            <__p_description>Contains the Python language definition for Socrates' Reference.</__p_description>
+            <Package>
+                <__p_name>Block</__p_name>
+                <__p_description>Detailed description.</__p_description>
+                <Class>
+                    <__p_name>PackageBlock</__p_name>
+                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project.</__p_description>
+                    <__p_parents>AbstractBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_descriptors>block(&quot;Package&quot;,root=True)</__p_descriptors>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>clearProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayName</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayView</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>editDefinitions</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+            </Package>
+            <Package>
+                <__p_name>Reader</__p_name>
+                <__p_description>Detailed description.</__p_description>
+                <Class>
+                    <__p_name>PackageReader</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>ABC</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>asdf</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>unknown</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+            </Package>
+            <Package>
+                <__p_name>Writer</__p_name>
+                <__p_description>Detailed description.</__p_description>
+            </Package>
         </Package>
         <Package>
             <__p_name>old</__p_name>

@@ -2,6 +2,8 @@
 Contains the AbstractWriter class.
 """
 from . import AbstractParser
+from abc import ABC
+from abc import abstractmethod
 
 
 
@@ -29,7 +31,7 @@ class AbstractWriter(ABC):
             self.__parent.__children.append(self)
         elif isinstance(parent,AbstractParser.AbstractParser):
             self.__parser = parent
-        else
+        else:
             raise ScanError("Given parent is not an abstract parser or writer.")
         self.__children = []
 

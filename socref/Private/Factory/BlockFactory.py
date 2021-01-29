@@ -1,9 +1,9 @@
 """
 Contains the BlockFactory class.
 """
-from ....Abstract.AbstractBlock import *
-from ....Error.LangError import *
-from ....Error.RegisterError import *
+from ...Abstract.AbstractBlock import *
+from ...Error.LangError import *
+from ...Error.RegisterError import *
 
 
 

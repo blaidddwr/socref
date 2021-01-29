@@ -1,7 +1,7 @@
 """
 Contains the LangController class.
 """
-from ....Error.LangError import *
+from ...Error.LangError import *
 from ..Factory import blockFactory
 from ..Factory import parserFactory
 from importlib import import_module

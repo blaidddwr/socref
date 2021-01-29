@@ -3,6 +3,8 @@ Contains the AbstractReader class.
 """
 from . import AbstractParser
 from ..Error.ScanError import *
+from abc import ABC
+from abc import abstractmethod
 
 
 
@@ -30,7 +32,7 @@ class AbstractReader(ABC):
             self.__parser = parent.__parser
         elif isinstance(parent,AbstractParser.AbstractParser):
             self.__parser = parent
-        else
+        else:
             raise ScanError("Given parent is not an abstract parser or reader.")
         self.__key = None
         self.__lookups = {}

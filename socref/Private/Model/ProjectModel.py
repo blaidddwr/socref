@@ -3,12 +3,12 @@ Contains the ProjectModel class.
 """
 from ...Abstract.AbstractParser import *
 from ...Error.LoadError import *
+from ..Factory import blockFactory
+from ..Factory import parserFactory
 from .Command.InsertCommand import *
 from .Command.MoveCommand import *
 from .Command.RemoveCommand import *
 from .Command.SetCommand import *
-from .Factory import blockFactory
-from .Factory import parserFactory
 from PySide2.QtCore import QAbstractItemModel
 from PySide2.QtCore import QByteArray
 from PySide2.QtCore import QModelIndex

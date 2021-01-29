@@ -32,17 +32,17 @@ class RichText():
 
     def addHeader(
         self
-        ,title
         ,level
+        ,title
     ):
         """
         Detailed description.
 
         Parameters
         ----------
-        title : object
-                Detailed description.
         level : object
+                Detailed description.
+        title : object
                 Detailed description.
         """
         level = max(5,min(2,level+1))

@@ -70,7 +70,7 @@ class AbstractParser(ABC):
                  Used to update the progress of this scan. It takes one argument
                  that is the progress as a percentage from 1 to 99.
         """
-        assert(self.__rootPath):
+        assert(self.__rootPath)
         ret = {}
         try:
             self.__update = update

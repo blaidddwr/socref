@@ -2,9 +2,9 @@
 Contains the main function where execution begins.
 """
 from .Private.Controller import langController
+from .Private.Controller import parseController
 from .Private.GUI.Dialog.CodeDialog import *
 from .Private.GUI.Window.MainWindow import *
-from .Private.Model import parserModel
 from PySide2.QtWidgets import QApplication
 from PySide2.QtCore import QCoreApplication
 from PySide2.QtCore import QThread
@@ -27,8 +27,8 @@ def main():
     QCoreApplication.setOrganizationName("Socrates' Gaming Republic")
     QCoreApplication.setApplicationName("Socrates' Reference")
     parserThread = QThread()
-    parserModel.remained.connect(lambda code : CodeDialog(code).exec_())
-    parserModel.moveToThread(parserThread)
+    parseController.remained.connect(lambda code : CodeDialog(code).exec_())
+    parseController.moveToThread(parserThread)
     parserThread.start()
     try:
         main = MainWindow()

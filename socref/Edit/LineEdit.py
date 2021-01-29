@@ -5,7 +5,7 @@ Contains the LineEdit class.
 
 
 
-class LineEdit(CheckBoxEdit):
+class LineEdit():
     """
     Detailed description.
     """

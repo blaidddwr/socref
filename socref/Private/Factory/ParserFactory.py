@@ -1,9 +1,9 @@
 """
 Contains the ParserFactory class.
 """
-from ....Abstract.AbstractParser import *
-from ....Error.LangError import *
-from ....Error.RegisterError import *
+from ...Abstract.AbstractParser import *
+from ...Error.LangError import *
+from ...Error.RegisterError import *
 
 
 

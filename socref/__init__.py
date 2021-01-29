@@ -2,8 +2,6 @@
 Contains the core application for Socrates' Reference.
 """
 from . import resources
-from .Private.Factory import blockFactory
-from .Private.Factory import parserFactory
 
 
 def block(
@@ -46,3 +44,7 @@ def parser(
 VERSION = "0.0.9999"
 DICTIONARY = "en_US"
 HUNSPELL_ROOT = "/usr/share/hunspell"
+
+
+from .Private.Factory import blockFactory
+from .Private.Factory import parserFactory

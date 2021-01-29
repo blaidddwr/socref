@@ -1,7 +1,7 @@
 """
 Contains the AbstractBlock class.
 """
-from ..Private.Model import Factory
+from ..Private import Factory
 from abc import ABC
 from abc import abstractmethod
 from weakref import ref as WeakReference
