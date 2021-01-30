@@ -3518,11 +3518,123 @@ The parent index of this model whose children's data has changed due to the vola
                 <__p_name>Block</__p_name>
                 <__p_description>Detailed description.</__p_description>
                 <Class>
-                    <__p_name>PackageBlock</__p_name>
-                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project.</__p_description>
+                    <__p_name>FunctionBlock</__p_name>
+                    <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
+                    <__p_parents>ModuleBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_descriptors>block(&quot;Function&quot;)</__p_descriptors>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>clearProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>descriptors</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayName</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayView</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>editDefinitions</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>flags</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isAbstract</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnDescription>bool
+True if this function is abstract or false otherwise.</__p_returnDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isClass</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnDescription>bool
+True if this function is a class method or false otherwise.</__p_returnDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isMethod</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnDescription>bool
+True if this function is a method of a class or false otherwise.</__p_returnDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isStatic</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnDescription>bool
+True if this function is static or false otherwise.</__p_returnDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>returns</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>ModuleBlock</__p_name>
+                    <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
                     <__p_parents>AbstractBlock</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <__p_descriptors>block(&quot;Package&quot;,root=True)</__p_descriptors>
+                    <__p_descriptors>block(&quot;Module&quot;)</__p_descriptors>
                     <Function>
                         <__p_name>__init__</__p_name>
                         <__p_static>0</__p_static>
@@ -3568,6 +3680,31 @@ The parent index of this model whose children's data has changed due to the vola
                     <Function>
                         <__p_name>key</__p_name>
                         <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>PackageBlock</__p_name>
+                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project.</__p_description>
+                    <__p_parents>ModuleBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_descriptors>block(&quot;Package&quot;,root=True)</__p_descriptors>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

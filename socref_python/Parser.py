@@ -33,7 +33,9 @@ class Parser(AbstractParser):
         def build(path,parent):
             ret = []
             for block in parent:
-                if block._TYPE_ == "Package":
+                if block._TYPE_ == "Module":
+                    ret.append((pathJoin(path,block._p_name+".py"),block))
+                elif block._TYPE_ == "Package":
                     ret.append((pathJoin(path,block._p_name,"__init__.py"),block))
                     ret += build(pathJoin(path,block._p_name),block)
             return ret
@@ -52,7 +54,7 @@ class Parser(AbstractParser):
         block : object
                 Detailed description.
         """
-        if block._TYPE_ == "Package":
+        if block._TYPE_ == "Module" or block._TYPE_ == "Package":
             return ModuleReader(block,self)
         else:
             raise RuntimeError("Unsupported block type given for reader.")
@@ -70,7 +72,7 @@ class Parser(AbstractParser):
         block : object
                 Detailed description.
         """
-        if block._TYPE_ == "Package":
+        if block._TYPE_ == "Module" or block._TYPE_ == "Package":
             return ModuleWriter(block,self)
         else:
             raise RuntimeError("Unsupported block type given for writer.")

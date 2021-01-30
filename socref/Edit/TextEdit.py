@@ -40,7 +40,7 @@ class TextEdit():
         """
         Detailed description.
         """
-        return self.__label
+        return self.__key
 
 
     def label(
@@ -49,7 +49,7 @@ class TextEdit():
         """
         Detailed description.
         """
-        return self.__key
+        return self.__label
 
 
     def spellCheck(

@@ -36,7 +36,7 @@ class CheckBoxEdit():
         """
         Detailed description.
         """
-        return self.__label
+        return self.__key
 
 
     def label(
@@ -45,4 +45,4 @@ class CheckBoxEdit():
         """
         Detailed description.
         """
-        return self.__key
+        return self.__label

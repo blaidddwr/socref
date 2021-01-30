@@ -235,7 +235,7 @@ class ProjectModel(QAbstractItemModel):
             elif role == self.Role.BuildList:
                 return block.buildList()
             elif role == self.Role.View:
-                return block.displayView()
+                return str(block.displayView())
             elif role == self.Role.EditDefs:
                 return block.editDefinitions()
             elif role == self.Role.Properties:
