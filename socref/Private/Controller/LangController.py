@@ -35,7 +35,7 @@ class LangController():
                The name of the language's package or module that is imported.
         """
         if language in blockFactory:
-            raise LangError("Language already loaded with the same name")
+            raise LangError("Language already loaded with the same name.")
         parserFactory.beginRegistration(language)
         blockFactory.beginRegistration(language)
         import_module(import_name)

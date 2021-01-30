@@ -320,6 +320,13 @@ Used to update the progress of this scan. It takes one argument that is the prog
                         </Object>
                     </Function>
                     <Function>
+                        <__p_name>discard</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>lookup</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
@@ -384,10 +391,6 @@ The root path of this parser.</__p_description>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
-                            <__p_name>path</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                        </Object>
-                        <Object>
                             <__p_name>block</__p_name>
                             <__p_description>Detailed description.</__p_description>
                         </Object>
@@ -398,10 +401,6 @@ The root path of this parser.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
-                        <Object>
-                            <__p_name>path</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                        </Object>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>Detailed description.</__p_description>
@@ -470,6 +469,13 @@ The root path of this parser.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>__iter__</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>discard</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -554,6 +560,17 @@ The root path of this parser.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>lookup</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>*keys</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>setLookupBase</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -3561,6 +3578,13 @@ The parent index of this model whose children's data has changed due to the vola
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>setDefaultProperties</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -3572,9 +3596,9 @@ The parent index of this model whose children's data has changed due to the vola
                 <__p_name>Reader</__p_name>
                 <__p_description>Detailed description.</__p_description>
                 <Class>
-                    <__p_name>PackageReader</__p_name>
+                    <__p_name>ModuleReader</__p_name>
                     <__p_description>Detailed description.</__p_description>
-                    <__p_parents>ABC</__p_parents>
+                    <__p_parents>AbstractReader</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
@@ -3583,9 +3607,34 @@ The parent index of this model whose children's data has changed due to the vola
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>Detailed description.</__p_description>
                         </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>footer</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>header</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>preHeader</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>unknown</__p_name>
@@ -3601,12 +3650,129 @@ The parent index of this model whose children's data has changed due to the vola
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
+                    <Function>
+                        <__p_name>__scanBody_</__p_name>
+                        <__p_description>Scans the body of code looking for functions or classes, ending at the first nonempty line that is not a definition of either one or end of file.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__scanFooter_</__p_name>
+                        <__p_description>Scans script code lines from the end.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__scanHeader_</__p_name>
+                        <__p_description>Scans header import lines.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__scanPreHeader_</__p_name>
+                        <__p_description>Scans initial comment lines from the very beginning.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__skipDocString_</__p_name>
+                        <__p_description>Skips any documentation string. Blank lines also skipped and ignored.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
                 </Class>
             </Package>
             <Package>
                 <__p_name>Writer</__p_name>
                 <__p_description>Detailed description.</__p_description>
+                <Class>
+                    <__p_name>ModuleWriter</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>AbstractWriter</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>asdf</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
             </Package>
+            <Class>
+                <__p_name>Parser</__p_name>
+                <__p_description>
+_DEPRECATED_</__p_description>
+                <__p_parents>AbstractParser</__p_parents>
+                <__p_infile>0</__p_infile>
+                <__p_descriptors>parser</__p_descriptors>
+                <Function>
+                    <__p_name>__init__</__p_name>
+                    <__p_static>0</__p_static>
+                    <__p_class>0</__p_class>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>root</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>_pathList_</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_class>0</__p_class>
+                    <__p_abstract>0</__p_abstract>
+                </Function>
+                <Function>
+                    <__p_name>_reader_</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_class>0</__p_class>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>block</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>_writer_</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_class>0</__p_class>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>block</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                    </Object>
+                </Function>
+            </Class>
         </Package>
         <Package>
             <__p_name>old</__p_name>

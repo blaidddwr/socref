@@ -20,7 +20,7 @@ def main():
     #langController.load("C++","socref_cpp")
     #langController.load("C++/Qt","socref_cppqt")
     #langController.load("GLSL","socref_glsl")
-    #langController.load("Python","socref_python")
+    langController.load("Python","socref_python")
     QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
     QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
     application = QApplication(argv)

@@ -34,6 +34,7 @@ class AbstractWriter(ABC):
         else:
             raise ScanError("Given parent is not an abstract parser or writer.")
         self.__children = []
+        self.__base = []
 
 
     def __call__(
@@ -61,7 +62,22 @@ class AbstractWriter(ABC):
         *keys : object
                 Detailed description.
         """
-        return self.__parser.lookup(*keys)
+        return self.__parser.lookup(*(self.__base+keys))
+
+
+    def setLookupBase(
+        self
+        ,*keys
+    ):
+        """
+        Detailed description.
+
+        Parameters
+        ----------
+        *keys : object
+                Detailed description.
+        """
+        self.__base = keys
 
 
     @abstractmethod

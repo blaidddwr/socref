@@ -69,6 +69,15 @@ class AbstractReader(ABC):
         return self.__lookups.__iter__()
 
 
+    def discard(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        self.__parser.discard()
+
+
     def peak(
         self
     ):

@@ -88,6 +88,19 @@ class AbstractParser(ABC):
         return ret
 
 
+    def discard(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        if self.__io is None:
+            raise ScanError("Parser cannot discard without open file.")
+        if not self.__stack:
+            raise ScanError("Parser cannot discard when position stack is empty.")
+        self.__stack.pop()
+
+
     def lookup(
         self
         ,*keys
@@ -188,7 +201,6 @@ class AbstractParser(ABC):
     @abstractmethod
     def _reader_(
         self
-        ,path
         ,block
     ):
         """
@@ -196,8 +208,6 @@ class AbstractParser(ABC):
 
         Parameters
         ----------
-        path : object
-               Detailed description.
         block : object
                 Detailed description.
         """
@@ -207,7 +217,6 @@ class AbstractParser(ABC):
     @abstractmethod
     def _writer_(
         self
-        ,path
         ,block
     ):
         """
@@ -215,8 +224,6 @@ class AbstractParser(ABC):
 
         Parameters
         ----------
-        path : object
-               Detailed description.
         block : object
                 Detailed description.
         """
@@ -231,7 +238,7 @@ class AbstractParser(ABC):
         """
         line = self.__io.readline()
         if not line:
-            return None
+            return (None,None)
         indent = len(line)-len(line.lstrip(' '))
         return (indent,line.strip())
 
