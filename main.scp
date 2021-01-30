@@ -320,6 +320,21 @@ Used to update the progress of this scan. It takes one argument that is the prog
                         </Object>
                     </Function>
                     <Function>
+                        <__p_name>addLookup</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>key</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>reader</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
                         <__p_name>discard</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
@@ -333,7 +348,7 @@ Used to update the progress of this scan. It takes one argument that is the prog
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
-                            <__p_name>*keys</__p_name>
+                            <__p_name>key</__p_name>
                             <__p_description>Detailed description.</__p_description>
                         </Object>
                     </Function>
@@ -459,22 +474,6 @@ The root path of this parser.</__p_description>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>__getitem__</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>key</__p_name>
-                        </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>__iter__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>discard</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
@@ -565,18 +564,7 @@ The root path of this parser.</__p_description>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
-                            <__p_name>*keys</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                        </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>setLookupBase</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>*keys</__p_name>
+                            <__p_name>key</__p_name>
                             <__p_description>Detailed description.</__p_description>
                         </Object>
                     </Function>

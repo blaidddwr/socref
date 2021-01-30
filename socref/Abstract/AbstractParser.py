@@ -88,6 +88,26 @@ class AbstractParser(ABC):
         return ret
 
 
+    def addLookup(
+        self
+        ,key
+        ,reader
+    ):
+        """
+        Detailed description.
+
+        Parameters
+        ----------
+        key : object
+              Detailed description.
+        reader : object
+                 Detailed description.
+        """
+        if key in self.__readers:
+            raise ScanError("An abstract reader set a duplicate key.")
+        self.__readers[key] = reader
+
+
     def discard(
         self
     ):
@@ -103,23 +123,17 @@ class AbstractParser(ABC):
 
     def lookup(
         self
-        ,*keys
+        ,key
     ):
         """
         Detailed description.
 
         Parameters
         ----------
-        *keys : object
-                Detailed description.
+        key : object
+              Detailed description.
         """
-        if not keys:
-            return None
-        rkey = keys.pop(0)
-        reader = self.__readers.get(rkey,None)
-        while reader is not None and keys:
-            reader = reader[keys.pop(0)]
-        return reader
+        return self.__readers.get(key,None)
 
 
     def peak(
@@ -259,9 +273,6 @@ class AbstractParser(ABC):
                     if not isinstance(reader,AbstractReader):
                         raise ScanError("Returned object is not an abstract reader.")
                     reader()
-                    if reader.key() in self.__readers:
-                        raise ScanError("An abstract reader set a duplicate key.")
-                    self.__readers[reader.key()] = reader
                 finally:
                     self.__io = None
                     self.__stack = []

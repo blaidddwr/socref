@@ -29,8 +29,8 @@ class ModuleWriter(AbstractWriter):
                  Detailed description.
         """
         super().__init__(parent)
-        self.setLookupBase(block.key())
         self.__b = block
+        self.__r = self.lookup(block.key())
 
 
     def _footer_(
@@ -40,11 +40,10 @@ class ModuleWriter(AbstractWriter):
         Detailed description.
         """
         ret = Code()
-        r = self.lookup()
-        if r:
+        if self.__r:
             footer = r.footer()
             if footer:
-                ret.add([""]*2 + r.footer())
+                ret.add([""]*2 + self.__r.footer())
         return ret
 
 
@@ -55,11 +54,10 @@ class ModuleWriter(AbstractWriter):
         Detailed description.
         """
         ret = Code()
-        r = self.lookup()
-        if r:
-            ret.add(r.preHeader())
+        if self.__r:
+            ret.add(self.__r.preHeader())
             ret.add('"""')
             ret.addText(self.__b._p_description,80)
             ret.add('"""')
-            ret.add(r.header())
+            ret.add(self.__r.header())
         return ret

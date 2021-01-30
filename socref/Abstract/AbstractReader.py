@@ -27,7 +27,6 @@ class AbstractReader(ABC):
         parent : object
                  Detailed description.
         """
-        self.__parent = parent
         if isinstance(parent,AbstractReader):
             self.__parser = parent.__parser
         elif isinstance(parent,AbstractParser.AbstractParser):
@@ -35,7 +34,6 @@ class AbstractReader(ABC):
         else:
             raise ScanError("Given parent is not an abstract parser or reader.")
         self.__key = None
-        self.__lookups = {}
 
 
     def __call__(
@@ -45,28 +43,9 @@ class AbstractReader(ABC):
         Detailed description.
         """
         self._scan_()
-        if isinstance(self.__parent,AbstractReader):
-            if self.__key is None:
-                raise ScanError("An abstract reader failed to set its key after scanning.")
-            if self.__key in self.__parent.__lookups:
-                raise ScanError("An abstract reader set a duplicate key.")
-            self.__parent.__lookups[self.__key] = self
-
-
-    def __getitem__(
-        self
-        ,key
-    ):
-        return self.__lookups.get(key,None)
-
-
-    def __iter__(
-        self
-    ):
-        """
-        Detailed description.
-        """
-        return self.__lookups.__iter__()
+        if self.__key is None:
+            raise ScanError("An abstract reader failed to set its key after scanning.")
+        self.__parser.addLookup(self.__key,self)
 
 
     def discard(
