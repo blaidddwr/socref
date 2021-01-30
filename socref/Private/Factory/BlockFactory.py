@@ -51,7 +51,6 @@ class BlockFactory():
         if language in self.__rootBlocks.keys():
             raise LangError("Language already registered with given name.")
         self.__blocks[language] = {}
-        self.__rootBlocks[language] = None
         self.__rn = language
         self.__rl = self.__blocks[language]
 
@@ -148,7 +147,7 @@ class BlockFactory():
         if name in self.__rl:
             raise RegisterError("Block class is already registered with the same name.")
         self.__rl[name] = class_
-        class_._LANG_ = self._rn
+        class_._LANG_ = self.__rn
         class_._TYPE_ = name
 
 
@@ -172,5 +171,6 @@ class BlockFactory():
         if not issubclass(class_,AbstractBlock):
             raise RegisterError("Given object is not an abstract block class.")
         if self.__rn in self.__rootBlocks:
-            raise RegisterError("Parser class is already registered for registering language.")
+            print(self.__rootBlocks)
+            raise RegisterError("Root block class is already registered for registering language.")
         self.__rootBlocks[self.__rn] = class_

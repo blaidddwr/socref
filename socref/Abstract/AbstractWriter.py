@@ -42,10 +42,10 @@ class AbstractWriter(ABC):
         """
         Detailed description.
         """
-        ret = self._header_()
+        ret = list(self._header_())
         for child in self.__children:
             ret += child()
-        ret = self._footer_()
+        ret += self._footer_()
         return ret
 
 

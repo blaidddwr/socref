@@ -45,7 +45,7 @@ class RichText():
         title : object
                 Detailed description.
         """
-        level = max(5,min(2,level+1))
+        level = min(3,max(1,level))
         self.__frags.append("<h%i>%s</h%i>"%(level,escape(title),level))
 
 

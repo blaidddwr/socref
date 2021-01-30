@@ -38,7 +38,7 @@ class LangController():
             raise LangError("Language already loaded with the same name.")
         parserFactory.beginRegistration(language)
         blockFactory.beginRegistration(language)
-        import_module(import_name)
+        import_module(name)
         blockFactory.endRegistration()
         parserFactory.endRegistration()
         if not language in blockFactory:

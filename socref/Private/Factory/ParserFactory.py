@@ -66,7 +66,7 @@ class ParserFactory():
                A new parser from the project with the given root block.
         """
         assert(self.__rn is None)
-        return self.__rootBlocks[block._LANG_](block)
+        return self.__parsers[block._LANG_](block)
 
 
     def endRegistration(

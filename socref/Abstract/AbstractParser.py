@@ -80,7 +80,7 @@ class AbstractParser(ABC):
                 raise ScanError("Duplicate file names generated for parsing.")
             self.__readAll_()
             self.__writeAll_()
-            ret = self.__unknowns_()
+            ret = self.__unknown_()
         finally:
             self.__readers = {}
             self.__paths = []
@@ -265,11 +265,11 @@ class AbstractParser(ABC):
         """
         count = 0
         for (path,block) in self.__paths:
-            if isfile(path):
-                self.__io = open(pathJoin(self.__rootPath,path),"r")
+            rp = pathJoin(self.__rootPath,path)
+            if isfile(rp):
+                self.__io = open(rp,"r")
                 try:
-                    self.__ifile = ifile
-                    reader = self._reader_(path,block)
+                    reader = self._reader_(block)
                     if not isinstance(reader,AbstractReader):
                         raise ScanError("Returned object is not an abstract reader.")
                     reader()
@@ -287,12 +287,10 @@ class AbstractParser(ABC):
         Detailed description.
         """
         ret = {}
-        def generate(reader,lkey):
-            ret[lkey] = reader.unknown()
-            for key in reader:
-                generate(reader[key],lkey+"."+key)
         for key in self.__readers:
-            generate(self.__readers[key],key)
+            u = self.__readers[key].unknown()
+            if u:
+                ret[key] = u
         return ret
 
 
@@ -304,12 +302,12 @@ class AbstractParser(ABC):
         """
         count = 0
         for (path,block) in self.__paths:
-            if not pathExists(dirname(path)):
-                makedirs(dirname(path))
-            writer = self._writer_(path,block)
-            if not isinstance(reader,AbstractWriter):
+            rp = pathJoin(self.__rootPath,path)
+            if not pathExists(dirname(rp)):
+                makedirs(dirname(rp))
+            writer = self._writer_(block)
+            if not isinstance(writer,AbstractWriter):
                 raise ScanError("Returned object is not an abstract writer.")
-            rp = open(pathJoin(self.__rootPath,path),"r")
             new = "\n".join(writer()) + "\n"
             if pathExists(path):
                 old = open(rp,"r").read()

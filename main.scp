@@ -906,13 +906,13 @@ The root path of this parser.</__p_description>
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>setIndent</__p_name>
+                        <__p_name>setDepth</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
-                            <__p_name>level</__p_name>
+                            <__p_name>depth</__p_name>
                             <__p_description>Detailed description.</__p_description>
                         </Object>
                     </Function>

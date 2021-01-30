@@ -95,7 +95,7 @@ class ModuleReader(AbstractReader):
         Detailed description.
         """
         self.__scanPreHeader_()
-        self.__skipDoc_()
+        self.__skipDocString_()
         self.__scanHeader_()
         self.__scanBody_()
         self.__scanFooter_()
@@ -190,7 +190,7 @@ class ModuleReader(AbstractReader):
         count = 0
         while count < 2:
             self.save()
-            (i,line) = ifile.readline()
+            (i,line) = self.read()
             if line is None:
                 return
             if line == '"""':

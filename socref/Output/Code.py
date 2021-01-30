@@ -23,8 +23,8 @@ class Code():
         indent : object
                  Detailed description.
         """
-        self.__i = ""
-        self.__indent = indent
+        self.__a = ""
+        self.__andent = indent
         self.__lines = []
 
 
@@ -50,9 +50,9 @@ class Code():
                 Detailed description.
         """
         if isinstance(lines,list):
-            self.__lines += [self.__i+line for line in lines]
+            self.__lines += [self.__a+line for line in lines]
         else:
-            self.__lines.append(self.__i+lines)
+            self.__lines.append(self.__a+lines)
 
 
     def addText(
@@ -93,22 +93,22 @@ class Code():
                     line = begin+words.pop(0)
                     firstW = False
                 else:
-                    line = self.__i+begin+after+words.pop(0)
-                while words and (len(line) + len(words[0]) + 1) <= columns:
+                    line = self.__a+begin+after+words.pop(0)
+                while words and (len(line) + len(words[0]) + 1) <= maxCols:
                     line += " "+words.pop(0)
                 self.add(line)
 
 
-    def setIndent(
+    def setDepth(
         self
-        ,level
+        ,depth
     ):
         """
         Detailed description.
 
         Parameters
         ----------
-        level : object
+        depth : object
                 Detailed description.
         """
-        self.__i = self.__indent*level
+        self.__a = self.__andent*depth

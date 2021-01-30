@@ -39,11 +39,11 @@ class ModuleWriter(AbstractWriter):
         """
         Detailed description.
         """
-        ret = Code()
+        ret = Code("    ")
         if self.__r:
-            footer = r.footer()
-            if footer:
-                ret.add([""]*2 + self.__r.footer())
+            f = self.__r.footer()
+            if f:
+                ret.add([""]*2 + f)
         return ret
 
 
@@ -53,11 +53,12 @@ class ModuleWriter(AbstractWriter):
         """
         Detailed description.
         """
-        ret = Code()
+        ret = Code("    ")
         if self.__r:
             ret.add(self.__r.preHeader())
-            ret.add('"""')
-            ret.addText(self.__b._p_description,80)
-            ret.add('"""')
+        ret.add('"""')
+        ret.addText(self.__b._p_description,80)
+        ret.add('"""')
+        if self.__r:
             ret.add(self.__r.header())
         return ret

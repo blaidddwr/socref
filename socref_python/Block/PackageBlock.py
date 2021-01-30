@@ -4,6 +4,7 @@ Contains the PackageBlock class.
 from PySide2.QtGui import QIcon
 from socref import block
 from socref.Abstract.AbstractBlock import *
+from socref.Edit.EditDefinitions import *
 from socref.Edit.LineEdit import *
 from socref.Edit.TextEdit import *
 from socref.Output.RichText import *
