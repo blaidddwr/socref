@@ -21,7 +21,7 @@ class Parser(AbstractParser):
         ,root
     ):
         super().__init__()
-        self.__r = root
+        self.__root = root
 
 
     def _pathList_(
@@ -35,11 +35,14 @@ class Parser(AbstractParser):
             for block in parent:
                 if block._TYPE_ == "Module":
                     ret.append((pathJoin(path,block._p_name+".py"),block))
+                    ret += build(path,block)
                 elif block._TYPE_ == "Package":
                     ret.append((pathJoin(path,block._p_name,"__init__.py"),block))
                     ret += build(pathJoin(path,block._p_name),block)
+                elif block._TYPE_ == "Class" and not block.isInfile():
+                    ret.append((pathJoin(path,block._p_name+".py"),block))
             return ret
-        return build("",self.__r)
+        return build("",self.__root)
 
 
     def _reader_(
@@ -54,7 +57,7 @@ class Parser(AbstractParser):
         block : object
                 Detailed description.
         """
-        if block._TYPE_ == "Module" or block._TYPE_ == "Package":
+        if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
             return ModuleReader(block,self)
         else:
             raise RuntimeError("Unsupported block type given for reader.")
@@ -72,7 +75,7 @@ class Parser(AbstractParser):
         block : object
                 Detailed description.
         """
-        if block._TYPE_ == "Module" or block._TYPE_ == "Package":
+        if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
             return ModuleWriter(block,self)
         else:
             raise RuntimeError("Unsupported block type given for writer.")

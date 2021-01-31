@@ -73,14 +73,14 @@ class ObjectBlock(ModuleBlock):
     def icon(
         self
     ):
-        if self.isArgument():
-            return QIcon(":/python/object.svg")
+        if self.isArgument() or self.parent() is None:
+            return QIcon(":/socref_python/object.svg")
         elif self._p_name.startswith("__"):
-            return QIcon(":/python/private_member.svg")
+            return QIcon(":/socref_python/private_member.svg")
         elif self._p_name.startswith("_"):
-            return QIcon(":/python/protected_member.svg")
+            return QIcon(":/socref_python/protected_member.svg")
         else:
-            return QIcon(":/python/public_member.svg")
+            return QIcon(":/socref_python/public_member.svg")
 
 
     def isArgument(
@@ -95,7 +95,7 @@ class ObjectBlock(ModuleBlock):
                True if this object is an argument of a function or false
                otherwise.
         """
-        return self.parent() and self.parent()._TYPE_ == "Class"
+        return self.parent() and self.parent()._TYPE_ == "Function"
 
 
     def isVolatileAbove(

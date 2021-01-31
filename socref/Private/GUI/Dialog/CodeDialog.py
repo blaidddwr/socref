@@ -97,7 +97,7 @@ class CodeDialog(QDialog):
         key : string
               The new key of the selected code fragment.
         """
-        self.__view.setPlainText(self.__code[key])
+        self.__view.setPlainText("\n".join(self.__code[key]))
 
 
     def __restore_(

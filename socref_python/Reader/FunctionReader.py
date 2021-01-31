@@ -65,10 +65,16 @@ class FunctionReader(AbstractReader):
         """
         self.__skipEnd_()
         skipDocString(self)
-        self.__skipBlank_()
-        (i,line) = self.read()
-        ind = i
-        self.__lines.append(line)
+        self.__scanLines_()
+
+
+    def __scanLines_(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        ind = None
         while True:
             self.save()
             (i,line) = self.read()
@@ -77,6 +83,8 @@ class FunctionReader(AbstractReader):
             if not line:
                 self.__lines.append("")
             else:
+                if ind is None:
+                    ind = i
                 diff = i-ind
                 if diff >= 0:
                     self.__lines.append(" "*diff + line)
@@ -86,22 +94,6 @@ class FunctionReader(AbstractReader):
             self.discard()
         while self.__lines[-1] == "":
             self.__lines.pop()
-
-
-    def __skipBlank_(
-        self
-    ):
-        """
-        Detailed description.
-        """
-        while True:
-            self.save()
-            (i,line) = self.read()
-            if line is None or line:
-                self.restore()
-                return
-            self.__lines.append("")
-            self.discard()
 
 
     def __skipEnd_(

@@ -30,6 +30,24 @@ class RichText():
         return "".join(self.__frags)
 
 
+    def addBox(
+        self
+        ,text
+        ,title
+    ):
+        """
+        Detailed description.
+
+        Parameters
+        ----------
+        text : object
+               Detailed description.
+        title : object
+                Detailed description.
+        """
+        self.__frags += ["<p><b>",escape(title),"</b><br/>",escape(text),"</p>"]
+
+
     def addHeader(
         self
         ,level
@@ -62,8 +80,13 @@ class RichText():
                 Detailed description.
         """
         self.__frags.append("<p>")
+        first = True
         for item in items:
-            self.__frags += [escape(item),"<br/>"]
+            if first:
+                first = False
+            else:
+                self.__frags.append("<br/>")
+            self.__frags.append(escape(item))
         self.__frags.append("</p>")
 
 
@@ -80,8 +103,13 @@ class RichText():
                 Detailed description.
         """
         self.__frags.append("<p>")
+        first = True
         for (header,text) in items:
-            self.__frags += ["<b>",escape(header),"</b>",escape(text),"<br/>"]
+            if first:
+                first = False
+            else:
+                self.__frags.append("<br/>")
+            self.__frags += ["<b>",escape(header),"</b>",escape(text)]
         self.__frags.append("</p>")
 
 

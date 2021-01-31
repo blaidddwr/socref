@@ -2,6 +2,7 @@
 Contains the ModuleReader class.
 """
 from . import skipDocString
+from .ClassReader import *
 from .FunctionReader import *
 from re import compile as reCompile
 from socref.Abstract.AbstractReader import *
@@ -126,7 +127,8 @@ class ModuleReader(AbstractReader):
             match = self.__classRE.match(line)
             if match:
                 name = match.group(1)
-                # class
+                reader = ClassReader(name,self)
+                reader()
                 continue
             if line:
                 self.restore()

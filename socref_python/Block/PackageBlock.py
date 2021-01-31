@@ -21,17 +21,15 @@ class PackageBlock(ModuleBlock):
         self
     ):
         if self.parent() is None:
-            #return ("Package","Module","Class")
-            return ("Package","Module")
+            return ("Package","Module","Class")
         else:
-            #return ("Package","Module","Function","Class")
-            return ("Package","Module","Function")
+            return ("Package","Module","Function","Class")
 
 
     def icon(
         self
     ):
-        return QIcon(":/python/package.svg")
+        return QIcon(":/socref_python/package.svg")
 
 
     def setDefaultProperties(

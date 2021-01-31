@@ -117,14 +117,12 @@ class FunctionBlock(ModuleBlock):
         if returns:
             rt.addHeader(1,"Returns")
             for (name,type_,text) in returns:
-                rt.addHeader(3,name+" : "+type_)
-                rt.addText(text)
+                rt.addBox(text,name+" : "+type_)
         arguments = self.arguments(False)
         if arguments:
             rt.addHeader(1,"Arguments")
             for (name,assignment,type_,text) in arguments:
-                rt.addHeader(3,name+(" = "+assignment if assignment else "")+" : "+type_)
-                rt.addText(text)
+                rt.addBox(text,name+(" = "+assignment if assignment else "")+" : "+type_)
         flags = self.flags()
         if flags:
             rt.addHeader(1,"Flags")
@@ -132,7 +130,7 @@ class FunctionBlock(ModuleBlock):
         decorators = self.decorators(False)
         if decorators:
             rt.addHeader(1,"Decorators")
-            rt.addList(self.decorators(False))
+            rt.addList(decorators)
         return rt
 
 
@@ -149,7 +147,7 @@ class FunctionBlock(ModuleBlock):
             edits.append(HiddenEdit("_p_static","0"))
             edits.append(HiddenEdit("_p_class","0"))
             edits.append(HiddenEdit("_p_abstract","0"))
-        edits.append(TextEdit("Descriptors:","_p_decorators"))
+        edits.append(TextEdit("Decorators:","_p_decorators"))
         return edits
 
 
@@ -173,36 +171,36 @@ class FunctionBlock(ModuleBlock):
         self
     ):
         if not self.isMethod():
-            return QIcon(":/python/function.svg")
+            return QIcon(":/socref_python/function.svg")
         elif self._p_name.startswith("__") and self._p_name.endswith("__"):
-            return QIcon(":/python/operator.svg")
+            return QIcon(":/socref_python/operator.svg")
         elif self._p_name.startswith("__"):
             if self.isStatic():
-                return QIcon(":/python/static_private_method.svg")
+                return QIcon(":/socref_python/static_private_method.svg")
             elif self.isClass():
-                return QIcon(":/python/class_private_method.svg")
+                return QIcon(":/socref_python/class_private_method.svg")
             elif self.isAbstract():
-                return QIcon(":/python/abstract_private_method.svg")
+                return QIcon(":/socref_python/abstract_private_method.svg")
             else:
-                return QIcon(":/python/private_method.svg")
+                return QIcon(":/socref_python/private_method.svg")
         elif self._p_name.startswith("_"):
             if self.isStatic():
-                return QIcon(":/python/static_protected_method.svg")
+                return QIcon(":/socref_python/static_protected_method.svg")
             elif self.isClass():
-                return QIcon(":/python/class_protected_method.svg")
+                return QIcon(":/socref_python/class_protected_method.svg")
             elif self.isAbstract():
-                return QIcon(":/python/abstract_protected_method.svg")
+                return QIcon(":/socref_python/abstract_protected_method.svg")
             else:
-                return QIcon(":/python/protected_method.svg")
+                return QIcon(":/socref_python/protected_method.svg")
         else:
             if self.isStatic():
-                return QIcon(":/python/static_public_method.svg")
+                return QIcon(":/socref_python/static_public_method.svg")
             elif self.isClass():
-                return QIcon(":/python/class_public_method.svg")
+                return QIcon(":/socref_python/class_public_method.svg")
             elif self.isAbstract():
-                return QIcon(":/python/abstract_public_method.svg")
+                return QIcon(":/socref_python/abstract_public_method.svg")
             else:
-                return QIcon(":/python/public_method.svg")
+                return QIcon(":/socref_python/public_method.svg")
 
 
     def isAbstract(

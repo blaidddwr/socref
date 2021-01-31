@@ -1,6 +1,7 @@
 """
 Contains the ModuleWriter class.
 """
+from .ClassWriter import *
 from .FunctionWriter import *
 from socref.Abstract.AbstractWriter import *
 from socref.Output.Code import *
@@ -32,9 +33,14 @@ class ModuleWriter(AbstractWriter):
         super().__init__(parent)
         self.__block = block
         self.__reader = self.lookup(block.key())
-        for child in block:
-            if child._TYPE_ == "Function":
-                FunctionWriter(child,0,self)
+        if block._TYPE_ == "Class":
+            ClassWriter(block,0,self)
+        else:
+            for child in block:
+                if child._TYPE_ == "Function":
+                    FunctionWriter(child,0,self)
+                elif child._TYPE_ == "Class" and child.isInfile():
+                    ClassWriter(child,0,self)
 
 
     def _footer_(
@@ -62,7 +68,10 @@ class ModuleWriter(AbstractWriter):
         if self.__reader:
             ret.add(self.__reader.preHeader())
         ret.add('"""')
-        ret.addText(self.__block._p_description,80)
+        if self.__block._TYPE_ == "Class":
+            ret.addText("Contains the "+self.__block._p_name+" class.",80)
+        else:
+            ret.addText(self.__block._p_description,80)
         ret.add('"""')
         if self.__reader:
             ret.add(self.__reader.header())

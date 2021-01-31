@@ -31,8 +31,7 @@ class ModuleBlock(AbstractBlock):
     def buildList(
         self
     ):
-        #return ("Function","Class")
-        return ("Function",)
+        return ("Function","Class")
 
 
     def clearProperties(
@@ -69,7 +68,7 @@ class ModuleBlock(AbstractBlock):
     def icon(
         self
     ):
-        return QIcon(":/python/module.svg")
+        return QIcon(":/socref_python/module.svg")
 
 
     def key(

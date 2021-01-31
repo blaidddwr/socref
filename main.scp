@@ -954,6 +954,21 @@ The root path of this parser.</__p_description>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>addBox</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>text</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>title</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
                         <__p_name>addHeader</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
@@ -3536,6 +3551,112 @@ The parent index of this model whose children's data has changed due to the vola
                 <__p_name>Block</__p_name>
                 <__p_description>Detailed description.</__p_description>
                 <Class>
+                    <__p_name>ClassBlock</__p_name>
+                    <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
+                    <__p_parents>ModuleBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_descriptors>block(&quot;Class&quot;)</__p_descriptors>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>clearProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>clsParents</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>decorators</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayName</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayView</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>editDefinitions</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>flags</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isAbstract</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnDescription>bool
+True if this class contains any abstract functions or false otherwise.</__p_returnDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isInfile</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnDescription>bool
+True if this class is in file or false otherwise. In file means its definition is included in the module it is part of, otherwise it is defined in its own special module named identically to this class.</__p_returnDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>isMod</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>True</__p_assignment>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
                     <__p_name>FunctionBlock</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
                     <__p_descriptors>block(&quot;Function&quot;)</__p_descriptors>
@@ -3832,6 +3953,62 @@ True if this object is an argument of a function or false otherwise.</__p_return
                 <__p_name>Reader</__p_name>
                 <__p_description>Detailed description.</__p_description>
                 <Class>
+                    <__p_name>ClassReader</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>AbstractReader</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>asdf</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>name</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>lines</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>unknown</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__scanDefs_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__scanLines_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
                     <__p_name>FunctionReader</__p_name>
                     <__p_description>Detailed description.</__p_description>
                     <__p_parents>AbstractReader</__p_parents>
@@ -3877,7 +4054,7 @@ True if this object is an argument of a function or false otherwise.</__p_return
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>__skipBlank_</__p_name>
+                        <__p_name>__scanLines_</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -3990,6 +4167,45 @@ True if this object is an argument of a function or false otherwise.</__p_return
             <Package>
                 <__p_name>Writer</__p_name>
                 <__p_description>Detailed description.</__p_description>
+                <Class>
+                    <__p_name>ClassWriter</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>AbstractWriter</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>asdf</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>depth</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
                 <Class>
                     <__p_name>FunctionWriter</__p_name>
                     <__p_description>Detailed description.</__p_description>

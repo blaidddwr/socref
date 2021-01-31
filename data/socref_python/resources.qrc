@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/python">
+    <qresource prefix="/socref_python">
         <file>package.svg</file>
         <file>module.svg</file>
         <file>object.svg</file>
