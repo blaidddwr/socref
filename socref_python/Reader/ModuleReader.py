@@ -36,7 +36,7 @@ class ModuleReader(AbstractReader):
                  Detailed description.
         """
         super().__init__(parent)
-        self._setKey_(block.key())
+        self._setKey_(block.key(True))
         self.__preHeader = []
         self.__header = []
         self.__footer = []
@@ -130,7 +130,7 @@ class ModuleReader(AbstractReader):
                 reader = ClassReader(name,self)
                 reader()
                 continue
-            if line:
+            if line and not line.startswith("@"):
                 self.restore()
                 return
             self.discard()

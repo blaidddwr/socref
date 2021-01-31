@@ -73,15 +73,23 @@ class ModuleBlock(AbstractBlock):
 
     def key(
         self
+        ,isMod=False
     ):
         """
         Detailed description.
+
+        Parameters
+        ----------
+        isMod : object
+                Detailed description.
         """
         names = []
         b = self
         while b is not None:
             if b._p_name:
                 names.append(b._p_name)
+                if b._TYPE_ == "Class" and not b.isInfile() and not isMod:
+                    names.append(b._p_name)
             b = b.parent()
         names.reverse()
         return ".".join(names)

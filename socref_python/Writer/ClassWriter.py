@@ -35,7 +35,7 @@ class ClassWriter(AbstractWriter):
         super().__init__(parent)
         self.__block = block
         self.__depth = depth
-        self.__reader = self.lookup(block.key(False))
+        self.__reader = self.lookup(block.key())
         for child in block:
             if child._TYPE_ == "Function":
                 FunctionWriter(child,depth+1,self)

@@ -155,30 +155,6 @@ class ClassBlock(ModuleBlock):
         return bool(int(self._p_infile)) or (self.parent() and self.parent()._TYPE_ == "Class")
 
 
-    def key(
-        self
-        ,isMod=True
-    ):
-        """
-        Detailed description.
-
-        Parameters
-        ----------
-        isMod : object
-                Detailed description.
-        """
-        names = []
-        b = self
-        while b is not None:
-            if b._p_name:
-                names.append(b._p_name)
-                if b._TYPE_ == "Class" and not b.isInfile() and not isMod:
-                    names.append(b._p_name)
-            b = b.parent()
-        names.reverse()
-        return ".".join(names)
-
-
     def setDefaultProperties(
         self
     ):

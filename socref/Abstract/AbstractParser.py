@@ -309,7 +309,7 @@ class AbstractParser(ABC):
             if not isinstance(writer,AbstractWriter):
                 raise ScanError("Returned object is not an abstract writer.")
             new = "\n".join(writer()) + "\n"
-            if pathExists(path):
+            if pathExists(rp):
                 old = open(rp,"r").read()
                 if old != new:
                     open(rp,"w").write(new)

@@ -32,7 +32,7 @@ class ModuleWriter(AbstractWriter):
         """
         super().__init__(parent)
         self.__block = block
-        self.__reader = self.lookup(block.key())
+        self.__reader = self.lookup(block.key(True))
         if block._TYPE_ == "Class":
             ClassWriter(block,0,self)
         else:

@@ -66,17 +66,18 @@ class FunctionWriter(AbstractWriter):
         else:
             ret.add("def "+self.__block._p_name+"():")
         ret.setDepth(self.__depth+1)
-        ret.add('"""')
-        ret.addText(self.__block._p_description,80)
-        arguments = self.__block.arguments(False)
-        if arguments:
-            ret.addBlank(1)
-            self.__docArguments_(ret,arguments)
-        returns = self.__block.returns()
-        if returns:
-            ret.addBlank(1)
-            self.__returns_(ret,returns)
-        ret.add('"""')
+        if self.__block._p_description:
+            ret.add('"""')
+            ret.addText(self.__block._p_description,80)
+            arguments = self.__block.arguments(False)
+            if arguments:
+                ret.addBlank(1)
+                self.__docArguments_(ret,arguments)
+            returns = self.__block.returns()
+            if returns:
+                ret.addBlank(1)
+                self.__returns_(ret,returns)
+            ret.add('"""')
         if self.__reader:
             ret.add(self.__reader.lines())
         else:
@@ -108,7 +109,7 @@ class FunctionWriter(AbstractWriter):
                 l.append(",")
             l.append(name)
             if assignment:
-                l += [" = ",assignment]
+                l += ["=",assignment]
             code.add("".join(l))
 
 
