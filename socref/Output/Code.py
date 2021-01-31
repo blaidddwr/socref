@@ -108,8 +108,8 @@ class Code():
                     line = begin+words.pop(0)
                     firstW = False
                 else:
-                    line = self.__a+begin+after+words.pop(0)
-                while words and (len(line) + len(words[0]) + 1) <= maxCols:
+                    line = begin+after+words.pop(0)
+                while words and (len(self.__a)+len(line)+len(words[0])) <= maxCols:
                     line += " "+words.pop(0)
                 self.add(line)
 

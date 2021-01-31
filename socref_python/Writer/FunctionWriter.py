@@ -32,9 +32,9 @@ class FunctionWriter(AbstractWriter):
                  Detailed description.
         """
         super().__init__(parent)
-        self.__b = block
+        self.__block = block
         self.__depth = depth
-        self.__r = self.lookup(block.key())
+        self.__reader = self.lookup(block.key())
 
 
     def _footer_(
@@ -55,29 +55,39 @@ class FunctionWriter(AbstractWriter):
         ret = Code("    ")
         ret.addBlank(2)
         ret.setDepth(self.__depth)
-        ret.add(self.__b.decorators())
-        if self.__b.hasArguments():
-            ret.add("def "+self.__b._p_name+"(")
+        ret.add(self.__block.decorators())
+        arguments = self.__block.arguments()
+        if arguments:
+            ret.add("def "+self.__block._p_name+"(")
             ret.setDepth(self.__depth+1)
-            self.__arguments_(ret)
+            self.__arguments_(ret,arguments)
             ret.setDepth(self.__depth)
             ret.add("):")
         else:
-            ret.add("def "+self.__b._p_name+"():")
+            ret.add("def "+self.__block._p_name+"():")
         ret.setDepth(self.__depth+1)
         ret.add('"""')
-        ret.addText(self.__b._p_description,80)
+        ret.addText(self.__block._p_description,80)
+        arguments = self.__block.arguments(False)
+        if arguments:
+            ret.addBlank(1)
+            self.__docArguments_(ret,arguments)
+        returns = self.__block.returns()
+        if returns:
+            ret.addBlank(1)
+            self.__returns_(ret,returns)
         ret.add('"""')
-        if self.__r:
-            ret.add(self.__r.lines())
+        if self.__reader:
+            ret.add(self.__reader.lines())
         else:
             ret.add("pass")
         return ret
 
 
+    @staticmethod
     def __arguments_(
-        self
-        ,code
+        code
+        ,arguments
     ):
         """
         Detailed description.
@@ -86,14 +96,63 @@ class FunctionWriter(AbstractWriter):
         ----------
         code : object
                Detailed description.
+        arguments : object
+                    Detailed description.
         """
         first = True
-        for (name,assignment,t,d) in self.__b.arguments():
+        for (name,assignment,t,d) in arguments:
             l = []
             if first:
                 first = False
+            else:
                 l.append(",")
             l.append(name)
             if assignment:
                 l += [" = ",assignment]
-            ret.add("".join(l))
+            code.add("".join(l))
+
+
+    @staticmethod
+    def __docArguments_(
+        code
+        ,arguments
+    ):
+        """
+        Detailed description.
+
+        Parameters
+        ----------
+        code : object
+               Detailed description.
+        arguments : object
+                    Detailed description.
+        """
+        code.add(["Parameters","----------"])
+        for (name,a,type_,text) in arguments:
+            h1 = name+" : "
+            l = len(h1)
+            code.add(h1+type_)
+            code.addText(text,80," "*l)
+
+
+    @staticmethod
+    def __returns_(
+        code
+        ,returns
+    ):
+        """
+        Detailed description.
+
+        Parameters
+        ----------
+        code : object
+               Detailed description.
+        returns : object
+                  Detailed description.
+        """
+        code.add(["Returns","-------"])
+        for (name,type_,text) in returns:
+            h1 = name+" : "
+            l = len(h1)
+            code.add(h1+type_)
+            code.addText(text,80," "*l)

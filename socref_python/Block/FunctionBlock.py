@@ -32,18 +32,18 @@ class FunctionBlock(ModuleBlock):
 
     def arguments(
         self
-        ,method=True
+        ,mSelf=True
     ):
         """
         Detailed description.
 
         Parameters
         ----------
-        method : object
-                 Detailed description.
+        mSelf : object
+                Detailed description.
         """
         ret = []
-        if self.isMethod() and method:
+        if self.isMethod() and mSelf:
             ret.append(("cls" if self.isClass() else "self","","",""))
         for child in self:
             type_ = ""
@@ -52,15 +52,14 @@ class FunctionBlock(ModuleBlock):
                 (type_,description) = child._p_description.split("\n")
             except:
                 pass
-            ret.append(child._p_name,child._p_assignment,type_,description)
+            ret.append((child._p_name,child._p_assignment,type_,description))
         return ret
 
 
     def buildList(
         self
     ):
-        #return ("Object",)
-        return ()
+        return ("Object",)
 
 
     def clearProperties(
@@ -114,18 +113,26 @@ class FunctionBlock(ModuleBlock):
         self
     ):
         rt = super().displayView()
-        rt.addHeader(1,"Returns")
-        for (name,type_,text) in self.returns():
-            rt.addHeader(3,name+" : "+type_)
-            rt.addText(text)
-        rt.addHeader(1,"Arguments")
-        for (name,assignment,type_,text) in self.arguments(False):
-            rt.addHeader(3,name+(" = "+assignment if assignment else "")+" : "+type_)
-            rt.addText(text)
-        rt.addHeader(1,"Flags")
-        rt.addList(self.flags())
-        rt.addHeader(1,"Decorators")
-        rt.addList(self.decorators(False))
+        returns = self.returns()
+        if returns:
+            rt.addHeader(1,"Returns")
+            for (name,type_,text) in returns:
+                rt.addHeader(3,name+" : "+type_)
+                rt.addText(text)
+        arguments = self.arguments(False)
+        if arguments:
+            rt.addHeader(1,"Arguments")
+            for (name,assignment,type_,text) in arguments:
+                rt.addHeader(3,name+(" = "+assignment if assignment else "")+" : "+type_)
+                rt.addText(text)
+        flags = self.flags()
+        if flags:
+            rt.addHeader(1,"Flags")
+            rt.addList(self.flags())
+        decorators = self.decorators(False)
+        if decorators:
+            rt.addHeader(1,"Decorators")
+            rt.addList(self.decorators(False))
         return rt
 
 
@@ -160,15 +167,6 @@ class FunctionBlock(ModuleBlock):
         if self.isAbstract():
             ret.append("Abstract")
         return ret
-
-
-    def hasArguments(
-        self
-    ):
-        """
-        Detailed description.
-        """
-        return len(self) > 0 or self.isMethod()
 
 
     def icon(
@@ -261,6 +259,12 @@ class FunctionBlock(ModuleBlock):
                True if this function is static or false otherwise.
         """
         return bool(int(self._p_static))
+
+
+    def isVolatileAbove(
+        self
+    ):
+        return True
 
 
     def returns(

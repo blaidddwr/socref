@@ -3538,9 +3538,9 @@ The parent index of this model whose children's data has changed due to the vola
                 <Class>
                     <__p_name>FunctionBlock</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
+                    <__p_descriptors>block(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>ModuleBlock</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <__p_descriptors>block(&quot;Function&quot;)</__p_descriptors>
                     <Function>
                         <__p_name>__init__</__p_name>
                         <__p_static>0</__p_static>
@@ -3554,7 +3554,7 @@ The parent index of this model whose children's data has changed due to the vola
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
-                            <__p_name>method</__p_name>
+                            <__p_name>mSelf</__p_name>
                             <__p_description>Detailed description.</__p_description>
                             <__p_assignment>True</__p_assignment>
                         </Object>
@@ -3609,13 +3609,6 @@ The parent index of this model whose children's data has changed due to the vola
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>hasArguments</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>icon</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -3658,6 +3651,12 @@ True if this function is static or false otherwise.</__p_returnDescription>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>isVolatileAbove</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>returns</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
@@ -3674,9 +3673,9 @@ True if this function is static or false otherwise.</__p_returnDescription>
                 <Class>
                     <__p_name>ModuleBlock</__p_name>
                     <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
+                    <__p_descriptors>block(&quot;Module&quot;)</__p_descriptors>
                     <__p_parents>AbstractBlock</__p_parents>
                     <__p_infile>0</__p_infile>
-                    <__p_descriptors>block(&quot;Module&quot;)</__p_descriptors>
                     <Function>
                         <__p_name>__init__</__p_name>
                         <__p_static>0</__p_static>
@@ -3734,11 +3733,81 @@ True if this function is static or false otherwise.</__p_returnDescription>
                     </Function>
                 </Class>
                 <Class>
-                    <__p_name>PackageBlock</__p_name>
-                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project.</__p_description>
+                    <__p_name>ObjectBlock</__p_name>
+                    <__p_description>This is the object block class. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
+                    <__p_descriptors>block(&quot;Object&quot;)</__p_descriptors>
                     <__p_parents>ModuleBlock</__p_parents>
                     <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>clearProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayName</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayView</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>editDefinitions</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isArgument</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnDescription>bool
+True if this object is an argument of a function or false otherwise.</__p_returnDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isVolatileAbove</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>PackageBlock</__p_name>
+                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project.</__p_description>
                     <__p_descriptors>block(&quot;Package&quot;,root=True)</__p_descriptors>
+                    <__p_parents>ModuleBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>buildList</__p_name>
                         <__p_static>0</__p_static>
@@ -3809,13 +3878,6 @@ True if this function is static or false otherwise.</__p_returnDescription>
                     </Function>
                     <Function>
                         <__p_name>__skipBlank_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>__skipDocString_</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -3912,14 +3974,18 @@ True if this function is static or false otherwise.</__p_returnDescription>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
-                    <Function>
-                        <__p_name>__skipDocString_</__p_name>
-                        <__p_description>Skips any documentation string. Blank lines also skipped and ignored.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
                 </Class>
+                <Function>
+                    <__p_name>skipDocString</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_class>0</__p_class>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>reader</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                    </Object>
+                </Function>
             </Package>
             <Package>
                 <__p_name>Writer</__p_name>
@@ -3965,11 +4031,45 @@ True if this function is static or false otherwise.</__p_returnDescription>
                     <Function>
                         <__p_name>__arguments_</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
+                        <__p_static>1</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>code</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>arguments</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__docArguments_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>1</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>code</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>arguments</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__returns_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>1</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>code</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>returns</__p_name>
                             <__p_description>Detailed description.</__p_description>
                         </Object>
                     </Function>
@@ -4014,9 +4114,9 @@ True if this function is static or false otherwise.</__p_returnDescription>
                 <__p_name>Parser</__p_name>
                 <__p_description>
 _DEPRECATED_</__p_description>
+                <__p_descriptors>parser</__p_descriptors>
                 <__p_parents>AbstractParser</__p_parents>
                 <__p_infile>0</__p_infile>
-                <__p_descriptors>parser</__p_descriptors>
                 <Function>
                     <__p_name>__init__</__p_name>
                     <__p_static>0</__p_static>

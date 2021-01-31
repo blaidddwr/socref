@@ -1,6 +1,7 @@
 """
 Contains the FunctionReader class.
 """
+from . import skipDocString
 from socref.Abstract.AbstractReader import *
 
 
@@ -63,7 +64,7 @@ class FunctionReader(AbstractReader):
         Detailed description.
         """
         self.__skipEnd_()
-        self.__skipDocString_()
+        skipDocString(self)
         self.__skipBlank_()
         (i,line) = self.read()
         ind = i
@@ -100,26 +101,6 @@ class FunctionReader(AbstractReader):
                 self.restore()
                 return
             self.__lines.append("")
-            self.discard()
-
-
-    def __skipDocString_(
-        self
-    ):
-        """
-        Detailed description.
-        """
-        count = 0
-        while count < 2:
-            self.save()
-            (i,line) = self.read()
-            if line is None:
-                return
-            if line == '"""':
-                count += 1
-            elif line and count == 0:
-                self.restore()
-                return
             self.discard()
 
 

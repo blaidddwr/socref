@@ -1,6 +1,7 @@
 """
 Contains the ModuleReader class.
 """
+from . import skipDocString
 from .FunctionReader import *
 from re import compile as reCompile
 from socref.Abstract.AbstractReader import *
@@ -96,7 +97,7 @@ class ModuleReader(AbstractReader):
         Detailed description.
         """
         self.__scanPreHeader_()
-        self.__skipDocString_()
+        skipDocString(self)
         self.__scanHeader_()
         self.__scanBody_()
         self.__scanFooter_()
@@ -180,24 +181,4 @@ class ModuleReader(AbstractReader):
                 self.restore()
                 return
             self.__preHeader.append(line)
-            self.discard()
-
-
-    def __skipDocString_(
-        self
-    ):
-        """
-        Skips any documentation string. Blank lines also skipped and ignored.
-        """
-        count = 0
-        while count < 2:
-            self.save()
-            (i,line) = self.read()
-            if line is None:
-                return
-            if line == '"""':
-                count += 1
-            elif line and count == 0:
-                self.restore()
-                return
             self.discard()

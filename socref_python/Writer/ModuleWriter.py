@@ -30,8 +30,8 @@ class ModuleWriter(AbstractWriter):
                  Detailed description.
         """
         super().__init__(parent)
-        self.__b = block
-        self.__r = self.lookup(block.key())
+        self.__block = block
+        self.__reader = self.lookup(block.key())
         for child in block:
             if child._TYPE_ == "Function":
                 FunctionWriter(child,0,self)
@@ -44,8 +44,8 @@ class ModuleWriter(AbstractWriter):
         Detailed description.
         """
         ret = Code("    ")
-        if self.__r:
-            f = self.__r.footer()
+        if self.__reader:
+            f = self.__reader.footer()
             if f:
                 ret.addBlank(2)
                 ret.add(f)
@@ -59,11 +59,11 @@ class ModuleWriter(AbstractWriter):
         Detailed description.
         """
         ret = Code("    ")
-        if self.__r:
-            ret.add(self.__r.preHeader())
+        if self.__reader:
+            ret.add(self.__reader.preHeader())
         ret.add('"""')
-        ret.addText(self.__b._p_description,80)
+        ret.addText(self.__block._p_description,80)
         ret.add('"""')
-        if self.__r:
-            ret.add(self.__r.header())
+        if self.__reader:
+            ret.add(self.__reader.header())
         return ret
