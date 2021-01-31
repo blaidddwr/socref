@@ -13,10 +13,8 @@ def block(
 
     Parameters
     ----------
-    name : object
-           Detailed description.
-    root : object
-           Detailed description.
+    name : 
+    root : 
     """
     def wrapper(class_):
         blockFactory.register(class_,name)
@@ -34,8 +32,7 @@ def parser(
 
     Parameters
     ----------
-    class_ : object
-             Detailed description.
+    class_ : 
     """
     parserFactory.register(class_)
     return class_

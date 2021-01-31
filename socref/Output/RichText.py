@@ -40,10 +40,8 @@ class RichText():
 
         Parameters
         ----------
-        text : object
-               Detailed description.
-        title : object
-                Detailed description.
+        text : 
+        title : 
         """
         self.__frags += ["<p><b>",escape(title),"</b><br/>",escape(text),"</p>"]
 
@@ -58,10 +56,8 @@ class RichText():
 
         Parameters
         ----------
-        level : object
-                Detailed description.
-        title : object
-                Detailed description.
+        level : 
+        title : 
         """
         level = min(3,max(1,level))
         self.__frags.append("<h%i>%s</h%i>"%(level,escape(title),level))
@@ -76,8 +72,7 @@ class RichText():
 
         Parameters
         ----------
-        items : object
-                Detailed description.
+        items : 
         """
         self.__frags.append("<p>")
         first = True
@@ -99,8 +94,7 @@ class RichText():
 
         Parameters
         ----------
-        items : object
-                Detailed description.
+        items : 
         """
         self.__frags.append("<p>")
         first = True
@@ -122,8 +116,7 @@ class RichText():
 
         Parameters
         ----------
-        text : object
-               Detailed description.
+        text : 
         """
         self.__frags.append("<p>")
         for sub in text.split("\n\n"):

@@ -135,9 +135,9 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : bool
-               True if this model has a modification that can be redone or false
-               otherwise.
+        result : bool
+                 True if this model has a modification that can be redone or
+                 false otherwise.
         """
         return self.__undoStackIndex < len(self.__undoStack)
 
@@ -150,9 +150,9 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : bool
-               True if this model has a modification that can be undone or false
-               otherwise.
+        result : bool
+                 True if this model has a modification that can be undone or
+                 false otherwise.
         """
         return self.__undoStackIndex > 0
 
@@ -197,12 +197,12 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : PySide2.QtCore.QByteArray
+        data : PySide2.QtCore.QByteArray
                Copied blocks at the given indexes in the form of XML. The XML
                format is copy with each index an element in the root XML copy
                tag.
-        ret1 : set
-               All block types that were copied.
+        copied : set
+                 All block types that were copied.
         """
         blockTypes = set()
         xml = QByteArray()
@@ -293,8 +293,8 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : int
-               Total number of blocks that were inserted into this model.
+        result : int
+                 Total number of blocks that were inserted into this model.
         """
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or row > len(parentBlock):
@@ -335,6 +335,7 @@ class ProjectModel(QAbstractItemModel):
         Parameters
         ----------
         row : object
+              See qt docs.
         blockType : string
                     The block type that is created and inserted into this model.
         parent : object
@@ -363,11 +364,6 @@ class ProjectModel(QAbstractItemModel):
                      name.
         parent : object
                  See qt docs.
-
-        Returns
-        -------
-        ret0 : object
-               See qt docs.
         """
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or row > len(parentBlock):
@@ -389,9 +385,9 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : bool
-               True if this model's currently loaded project has unsaved changes
-               or false otherwise.
+        result : bool
+                 True if this model's currently loaded project has unsaved
+                 changes or false otherwise.
         """
         return self.__modified
 
@@ -404,9 +400,9 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : string
-               The language name of this model's currently loaded project or
-               none if it has no project.
+        result : string
+                 The language name of this model's project or none if it has no
+                 project.
         """
         return self.__langName
 
@@ -476,8 +472,8 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : bool
-               True if the move was successful or false otherwise.
+        result : bool
+                 True if the move was successful or false otherwise.
         """
         if not change or not index.isValid():
             return False
@@ -499,9 +495,8 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : object
-               The name of this model's currently loaded project or none if it
-               has no project.
+        result : string
+                 The name of this model's project or none if it has no project.
         """
         return self.__name
 
@@ -558,9 +553,9 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : string
-               The relative parsing path of this model's currently loaded
-               project or none if it has no project.
+        result : string
+                 The relative parsing path of this model's project or none if it
+                 has no project.
         """
         return self.__parsePath
 
@@ -569,15 +564,13 @@ class ProjectModel(QAbstractItemModel):
         self
     ):
         """
-        Builds a new abstract parser that can be used to parse the source code
-        of this model's project. If this model has no project that this does
-        nothing.
+        Getter method.
 
         Returns
         -------
-        ret0 : object
-               The newly built abstract parser or none if this model has no
-               project.
+        result : object
+                 A newly built parser for this model's project or none if it has
+                 no project.
         """
         if self.__root is not None:
             ret = parserFactory.create(self.__root)
@@ -812,8 +805,8 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : list
-               Removed blocks.
+        result : list
+                 Removed blocks.
         """
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or count < 0 or (row + count) > len(parentBlock):
@@ -875,10 +868,10 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        ret0 : object
-               The block of the given index. If the given index is invalid the
-               root block is returned, which is none if this model has no
-               project.
+        result : socref.Abstract.AbstractBlock
+                 The block of the given index. If the given index is invalid the
+                 root block is returned, which is none if this model has no
+                 project.
         """
         if index.isValid():
             return index.internalPointer()

@@ -24,12 +24,9 @@ class FunctionWriter(AbstractWriter):
 
         Parameters
         ----------
-        block : object
-                Detailed description.
-        depth : object
-                Detailed description.
-        parent : object
-                 Detailed description.
+        block : 
+        depth : 
+        parent : 
         """
         super().__init__(parent)
         self.__block = block
@@ -95,10 +92,8 @@ class FunctionWriter(AbstractWriter):
 
         Parameters
         ----------
-        code : object
-               Detailed description.
-        arguments : object
-                    Detailed description.
+        code : 
+        arguments : 
         """
         first = True
         for (name,assignment,t,d) in arguments:
@@ -123,10 +118,8 @@ class FunctionWriter(AbstractWriter):
 
         Parameters
         ----------
-        code : object
-               Detailed description.
-        arguments : object
-                    Detailed description.
+        code : 
+        arguments : 
         """
         code.add(["Parameters","----------"])
         for (name,a,type_,text) in arguments:
@@ -146,10 +139,8 @@ class FunctionWriter(AbstractWriter):
 
         Parameters
         ----------
-        code : object
-               Detailed description.
-        returns : object
-                  Detailed description.
+        code : 
+        returns : 
         """
         code.add(["Returns","-------"])
         for (name,type_,text) in returns:

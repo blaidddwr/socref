@@ -22,12 +22,9 @@ class TextEdit():
 
         Parameters
         ----------
-        label : object
-                Detailed description.
-        key : object
-              Detailed description.
-        spellCheck : object
-                     Detailed description.
+        label : 
+        key : 
+        spellCheck : 
         """
         self.__label = label
         self.__key = key

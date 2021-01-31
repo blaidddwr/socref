@@ -24,12 +24,9 @@ class ObjectWriter(AbstractWriter):
 
         Parameters
         ----------
-        block : object
-                Detailed description.
-        depth : object
-                Detailed description.
-        parent : object
-                 Detailed description.
+        block : 
+        depth : 
+        parent : 
         """
         super().__init__(parent)
         self.__block = block

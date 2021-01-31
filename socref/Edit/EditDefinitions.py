@@ -38,7 +38,6 @@ class EditDefinitions():
 
         Parameters
         ----------
-        edit : object
-               Detailed description.
+        edit : 
         """
         self.__edits.append(edit)

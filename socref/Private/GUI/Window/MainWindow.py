@@ -165,11 +165,11 @@ class MainWindow(QMainWindow):
 
         Returns
         -------
-        ret0 : bool
-               True if it is OK to close this window or false otherwise. It is
-               OK to close this window if the user saves any unsaved changes to
-               this window's project, chooses to discard unsaved changes, or
-               there are no unsaved changes to worry about.
+        result : bool
+                 True if it is OK to close this window or false otherwise. It is
+                 OK to close this window if the user saves any unsaved changes
+                 to this window's project, chooses to discard unsaved changes,
+                 or there are no unsaved changes to worry about.
         """
         if not self.__model or not self.__model.isModified():
             return True
@@ -373,8 +373,8 @@ class MainWindow(QMainWindow):
 
         Returns
         -------
-        ret0 : bool
-               True if the project was saved successfully or false otherwise.
+        result : bool
+                 True if the project was saved successfully or false otherwise.
         """
         if not self.__model or self.__path is None:
             return False

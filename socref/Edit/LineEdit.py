@@ -21,10 +21,8 @@ class LineEdit():
 
         Parameters
         ----------
-        label : object
-                Detailed description.
-        key : object
-              Detailed description.
+        label : 
+        key : 
         """
         self.__label = label
         self.__key = key

@@ -128,9 +128,9 @@ class ClassBlock(ModuleBlock):
 
         Returns
         -------
-        ret0 : bool
-               True if this class contains any abstract functions or false
-               otherwise.
+        result : bool
+                 True if this class contains any abstract functions or false
+                 otherwise.
         """
         for child in self:
             if child._TYPE_ == "Function" and child.isAbstract():
@@ -146,11 +146,11 @@ class ClassBlock(ModuleBlock):
 
         Returns
         -------
-        ret0 : bool
-               True if this class is in file or false otherwise. In file means
-               its definition is included in the module it is part of, otherwise
-               it is defined in its own special module named identically to this
-               class.
+        result : bool
+                 True if this class is in file or false otherwise. In file means
+                 its definition is included in the module it is part of,
+                 otherwise it is defined in its own special module named
+                 identically to this class.
         """
         return bool(int(self._p_infile)) or (self.parent() and self.parent()._TYPE_ == "Class")
 

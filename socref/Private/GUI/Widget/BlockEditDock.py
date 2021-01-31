@@ -127,11 +127,11 @@ class BlockEditDock(QDockWidget):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QCheckBox
-               A new checkbox configured for the given definition and
-               properties.
-        ret1 : string
-               A label for adding it to a form.
+        widget : PySide2.QtWidgets.QCheckBox
+                 A new checkbox configured for the given definition and
+                 properties.
+        label : string
+                A label for adding it to a form.
         """
         editWdgt = QCheckBox(edit.label())
         editWdgt.setCheckState(
@@ -161,11 +161,11 @@ class BlockEditDock(QDockWidget):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QComboBox
-               A new combo box configured for the given definition and
-               properties.
-        ret1 : string
-               A label for adding it to a form.
+        widget : PySide2.QtWidgets.QComboBox
+                 A new combo box configured for the given definition and
+                 properties.
+        label : string
+                A label for adding it to a form.
         """
         editWdgt = QComboBox()
         for (icon,text) in edit.selections():
@@ -197,8 +197,8 @@ class BlockEditDock(QDockWidget):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QWidget
-               Contains all built edit widgets.
+        result : PySide2.QtWidgets.QWidget
+                 Contains all built edit widgets.
         """
         self.__edits.clear()
         try:
@@ -246,8 +246,8 @@ class BlockEditDock(QDockWidget):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QWidget
-               A new hidden edit widget configured for the given definition.
+        result : PySide2.QtWidgets.QWidget
+                 A new hidden edit widget configured for the given definition.
         """
         editWdgt = QWidget()
         editWdgt._value_ = lambda val=edit.value() : val
@@ -273,11 +273,11 @@ class BlockEditDock(QDockWidget):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QLineEdit
-               A new line editor configured for the given definition and
-               properties.
-        ret1 : string
-               A label for adding it to a form.
+        widget : PySide2.QtWidgets.QLineEdit
+                 A new line editor configured for the given definition and
+                 properties.
+        label : string
+                A label for adding it to a form.
         """
         editWdgt = QLineEdit(properties[edit.key()])
         editWdgt.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
@@ -304,11 +304,11 @@ class BlockEditDock(QDockWidget):
 
         Returns
         -------
-        ret0 : socref.Private.GUI.Widget.PlainTextEdit
-               A new text editor configured for the given definition and
-               properties.
-        ret1 : string
-               A label for adding it to a form.
+        widget : socref.Private.GUI.Widget.PlainTextEdit
+                 A new text editor configured for the given definition and
+                 properties.
+        label : string
+                A label for adding it to a form.
         """
         editWdgt = PlainTextEdit(speller=edit.spellCheck(),popup=True)
         editWdgt.setPlainText(properties[edit.key()])

@@ -27,10 +27,8 @@ class ClassReader(AbstractReader):
 
         Parameters
         ----------
-        name : object
-               Detailed description.
-        parent : object
-                 Detailed description.
+        name : 
+        parent : 
         """
         super().__init__(parent)
         self._setKey_(parent.key()+"."+name)

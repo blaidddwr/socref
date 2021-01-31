@@ -25,10 +25,8 @@ class ModuleWriter(AbstractWriter):
 
         Parameters
         ----------
-        block : object
-                Detailed description.
-        parent : object
-                 Detailed description.
+        block : 
+        parent : 
         """
         super().__init__(parent)
         self.__block = block

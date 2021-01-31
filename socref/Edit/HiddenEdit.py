@@ -21,10 +21,8 @@ class HiddenEdit():
 
         Parameters
         ----------
-        key : object
-              Detailed description.
-        value : object
-                Detailed description.
+        key : 
+        value : 
         """
         self.__key = key
         self.__value = value

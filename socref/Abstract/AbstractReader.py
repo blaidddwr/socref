@@ -24,8 +24,7 @@ class AbstractReader(ABC):
 
         Parameters
         ----------
-        parent : object
-                 Detailed description.
+        parent : 
         """
         if isinstance(parent,AbstractReader):
             self.__parser = parent.__parser
@@ -133,8 +132,7 @@ class AbstractReader(ABC):
 
         Parameters
         ----------
-        key : object
-              Detailed description.
+        key : 
         """
         if self.__key is not None:
             raise ScanError("An abstract reader attempted to overwrite its key.")

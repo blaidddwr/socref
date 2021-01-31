@@ -68,8 +68,8 @@ class TextDialog(QDialog):
 
         Returns
         -------
-        ret0 : string
-               The current of this text dialog.
+        result : string
+                 The current of this text dialog.
         """
         return self.__textEdit.toPlainText()
 
@@ -116,8 +116,8 @@ class TextDialog(QDialog):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QHBoxLayout
-               A layout of initialized buttons.
+        result : PySide2.QtWidgets.QHBoxLayout
+                 A layout of initialized buttons.
         """
         set_ = QPushButton("Set")
         set_.clicked.connect(self.__set_)
@@ -155,8 +155,8 @@ class TextDialog(QDialog):
 
         Returns
         -------
-        ret0 : socref.Private.GUI.Widget.SpellChecker
-               The initialized spell checker box widget.
+        result : socref.Private.GUI.Widget.SpellChecker
+                 The initialized spell checker box widget.
         """
         self.__spellerBox.hide()
         self.__spellerBox.cursorChanged.connect(

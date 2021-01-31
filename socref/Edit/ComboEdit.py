@@ -22,12 +22,9 @@ class ComboEdit():
 
         Parameters
         ----------
-        label : object
-                Detailed description.
-        key : object
-              Detailed description.
-        selections : object
-                     Detailed description.
+        label : 
+        key : 
+        selections : 
         """
         self.__label = label
         self.__key = key

@@ -20,8 +20,7 @@ class Code():
 
         Parameters
         ----------
-        indent : object
-                 Detailed description.
+        indent : 
         """
         self.__a = ""
         self.__andent = indent
@@ -46,8 +45,7 @@ class Code():
 
         Parameters
         ----------
-        lines : object
-                Detailed description.
+        lines : 
         """
         if isinstance(lines,list):
             self.__lines += [self.__a+line if line else "" for line in lines]
@@ -64,8 +62,7 @@ class Code():
 
         Parameters
         ----------
-        amount : object
-                 Detailed description.
+        amount : 
         """
         self.__lines += [""]*amount
 
@@ -83,16 +80,11 @@ class Code():
 
         Parameters
         ----------
-        text : object
-               Detailed description.
-        maxCols : object
-                  Detailed description.
-        begin : object
-                Detailed description.
-        after : object
-                Detailed description.
-        sep : object
-              Detailed description.
+        text : 
+        maxCols : 
+        begin : 
+        after : 
+        sep : 
         """
         blocks = [b for b in text.split("\n\n") if b]
         firstW = True
@@ -123,7 +115,6 @@ class Code():
 
         Parameters
         ----------
-        depth : object
-                Detailed description.
+        depth : 
         """
         self.__a = self.__andent*depth

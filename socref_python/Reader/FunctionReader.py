@@ -24,12 +24,9 @@ class FunctionReader(AbstractReader):
 
         Parameters
         ----------
-        name : object
-               Detailed description.
-        end : object
-              Detailed description.
-        parent : object
-                 Detailed description.
+        name : 
+        end : 
+        parent : 
         """
         super().__init__(parent)
         self._setKey_(parent.key()+"."+name)

@@ -39,8 +39,7 @@ class FunctionBlock(ModuleBlock):
 
         Parameters
         ----------
-        mSelf : object
-                Detailed description.
+        mSelf : 
         """
         ret = []
         if self.isMethod() and not self.isStatic() and mSelf:
@@ -82,8 +81,7 @@ class FunctionBlock(ModuleBlock):
 
         Parameters
         ----------
-        flags : object
-                Detailed description.
+        flags : 
         """
         ret = []
         if flags:
@@ -211,8 +209,8 @@ class FunctionBlock(ModuleBlock):
 
         Returns
         -------
-        ret0 : bool
-               True if this function is abstract or false otherwise.
+        result : bool
+                 True if this function is abstract or false otherwise.
         """
         return bool(int(self._p_abstract))
 
@@ -225,8 +223,8 @@ class FunctionBlock(ModuleBlock):
 
         Returns
         -------
-        ret0 : bool
-               True if this function is a class method or false otherwise.
+        result : bool
+                 True if this function is a class method or false otherwise.
         """
         return bool(int(self._p_class))
 
@@ -239,8 +237,9 @@ class FunctionBlock(ModuleBlock):
 
         Returns
         -------
-        ret0 : bool
-               True if this function is a method of a class or false otherwise.
+        result : bool
+                 True if this function is a method of a class or false
+                 otherwise.
         """
         return self.parent() and self.parent()._TYPE_ == "Class"
 
@@ -253,8 +252,8 @@ class FunctionBlock(ModuleBlock):
 
         Returns
         -------
-        ret0 : bool
-               True if this function is static or false otherwise.
+        result : bool
+                 True if this function is static or false otherwise.
         """
         return bool(int(self._p_static))
 

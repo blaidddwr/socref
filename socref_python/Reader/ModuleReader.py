@@ -30,10 +30,8 @@ class ModuleReader(AbstractReader):
 
         Parameters
         ----------
-        block : object
-                Detailed description.
-        parent : object
-                 Detailed description.
+        block : 
+        parent : 
         """
         super().__init__(parent)
         self._setKey_(block.key(True))

@@ -117,8 +117,8 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QMenu
-               The context menu of this project.
+        result : PySide2.QtWidgets.QMenu
+                 The context menu of this project.
         """
         return self.__contextMenu
 
@@ -131,8 +131,8 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QAction
-               The copy action of this project.
+        result : PySide2.QtWidgets.QAction
+                 The copy action of this project.
         """
         return self.__copyAction
 
@@ -145,8 +145,8 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QAction
-               The cut action of this project.
+        result : PySide2.QtWidgets.QAction
+                 The cut action of this project.
         """
         return self.__cutAction
 
@@ -159,8 +159,8 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QAction
-               The move down action of this project.
+        result : PySide2.QtWidgets.QAction
+                 The move down action of this project.
         """
         return self.__moveDownAction
 
@@ -173,8 +173,8 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QAction
-               The move up action of this project.
+        result : PySide2.QtWidgets.QAction
+                 The move up action of this project.
         """
         return self.__moveUpAction
 
@@ -187,8 +187,8 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QAction
-               The paste action of this project.
+        result : PySide2.QtWidgets.QAction
+                 The paste action of this project.
         """
         return self.__pasteAction
 
@@ -201,8 +201,8 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QAction
-               The redo action of this project.
+        result : PySide2.QtWidgets.QAction
+                 The redo action of this project.
         """
         return self.__redoAction
 
@@ -215,8 +215,8 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QAction
-               The remove action of this project.
+        result : PySide2.QtWidgets.QAction
+                 The remove action of this project.
         """
         return self.__removeAction
 
@@ -254,8 +254,8 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : PySide2.QtWidgets.QAction
-               The undo action of this project.
+        result : PySide2.QtWidgets.QAction
+                 The undo action of this project.
         """
         return self.__undoAction
 
@@ -297,10 +297,10 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : bool
-               True if any of this project's global copied blocks can be pasted
-               into its model at the current index with the current insertion
-               type. False if no copied block can be pasted.
+        result : bool
+                 True if any of this project's global copied blocks can be
+                 pasted into its model at the current index with the current
+                 insertion type. False if no copied block can be pasted.
         """
         if self.__model is None or not self.__model or ProjectView.__xmlBlocks is None:
             return False
@@ -421,14 +421,15 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        ret0 : object
-               The row where blocks must be inserted into this project's model
-               by either adding new ones or pasting copied ones. If there is no
-               valid target for insertion then none is returned.
-        ret1 : object
-               The parent qt model index where blocks must be inserted into this
-               project's model by either adding new ones or pasting copied ones.
-               If there is no valid target for insertion then none is returned.
+        row : int
+              The row where blocks must be inserted into this project's model by
+              either adding new ones or pasting copied ones. If there is no
+              valid target for insertion then none is returned.
+        index : PySide2.QtCore.QModelIndex
+                The parent qt model index where blocks must be inserted into
+                this project's model by either adding new ones or pasting copied
+                ones. If there is no valid target for insertion then none is
+                returned.
         """
         index = self.selectionModel().currentIndex()
         parent = None

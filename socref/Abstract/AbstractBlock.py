@@ -172,8 +172,8 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : list
-               Block types that can be children of this block.
+        result : list
+                 Block types that can be children of this block.
         """
         pass
 
@@ -198,8 +198,8 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : string
-               The display name of this block.
+        result : string
+                 The display name of this block.
         """
         pass
 
@@ -213,8 +213,8 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : string
-               Qt rich text that gives a detailed description of this block.
+        result : string
+                 Qt rich text that gives a detailed description of this block.
         """
         pass
 
@@ -228,9 +228,9 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : list
-               Edit definition dictionaries informing the core application how
-               to build the edit GUI for this block.
+        result : list
+                 Edit definition dictionaries informing the core application how
+                 to build the edit GUI for this block.
         """
         pass
 
@@ -244,8 +244,8 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : PySide2.QtGui.QIcon
-               The icon of this block.
+        result : PySide2.QtGui.QIcon
+                 The icon of this block.
         """
         pass
 
@@ -258,9 +258,9 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : int
-               The integer index of this block within its parent block's list of
-               children.
+        result : int
+                 The integer index of this block within its parent block's list
+                 of children.
         """
         if self.parent() is None:
             raise RuntimeError("Cannot get index of block with no parent.")
@@ -300,11 +300,11 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : bool
-               Indicates if a change in this block's properties can effect the
-               blocks above it. Above in this context is going up a block's
-               parent. True if this block can effect the blocks above it or
-               false otherwise.
+        result : bool
+                 Indicates if a change in this block's properties can effect the
+                 blocks above it. Above in this context is going up a block's
+                 parent. True if this block can effect the blocks above it or
+                 false otherwise.
         """
         return False
 
@@ -318,11 +318,11 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : bool
-               Indicates if a change in this block's properties can effect the
-               blocks below it. Below in this context is going down a block's
-               children. True if this block can effect the blocks below it or
-               false otherwise.
+        result : bool
+                 Indicates if a change in this block's properties can effect the
+                 blocks below it. Below in this context is going down a block's
+                 children. True if this block can effect the blocks below it or
+                 false otherwise.
         """
         return False
 
@@ -335,9 +335,9 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : socref.Abstract.AbstractBlock
-               The parent block of this block or none if this block has no
-               parent.
+        result : socref.Abstract.AbstractBlock
+                 The parent block of this block or none if this block has no
+                 parent.
         """
         return self.__parent if self.__parent is None else self.__parent()
 
@@ -356,8 +356,8 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : socref.Abstract.AbstractBlock
-               Removed child block of this block with the given index.
+        result : socref.Abstract.AbstractBlock
+                 Removed child block of this block with the given index.
         """
         orphan = self.__children.pop(index)
         orphan.__parent = None
@@ -372,8 +372,8 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        ret0 : dictionary
-               Properties of this block.
+        result : dictionary
+                 Properties of this block.
         """
         return self.__properties
 

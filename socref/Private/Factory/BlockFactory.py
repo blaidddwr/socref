@@ -74,9 +74,9 @@ class BlockFactory():
 
         Returns
         -------
-        ret0 : socref.Abstract.AbstractBlock
-               A new block of the given type or a root block if no type is given
-               from the given language.
+        result : socref.Abstract.AbstractBlock
+                 A new block of the given type or a root block if no type is
+                 given from the given language.
         """
         assert(self.__rn is None)
         if name is None:
@@ -108,8 +108,8 @@ class BlockFactory():
 
         Returns
         -------
-        ret0 : list
-               Sorted language names this factory has loaded.
+        result : list
+                 Sorted language names this factory has loaded.
         """
         assert(self.__rn is None)
         ret = list(self.__rootBlocks.keys())

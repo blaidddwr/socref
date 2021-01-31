@@ -11,8 +11,7 @@ def skipDocString(
 
     Parameters
     ----------
-    reader : object
-             Detailed description.
+    reader : 
     """
     count = 0
     while count < 2:

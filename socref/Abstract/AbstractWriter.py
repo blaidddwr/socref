@@ -23,8 +23,7 @@ class AbstractWriter(ABC):
 
         Parameters
         ----------
-        parent : object
-                 Detailed description.
+        parent : 
         """
         if isinstance(parent,AbstractWriter):
             self.__parser = parent.__parser
@@ -58,8 +57,7 @@ class AbstractWriter(ABC):
 
         Parameters
         ----------
-        key : object
-              Detailed description.
+        key : 
         """
         return self.__parser.lookup(key)
 

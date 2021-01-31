@@ -81,9 +81,9 @@ class AbstractCommand(ABC):
 
         Returns
         -------
-        ret0 : list
-               Rows that represent the given qt model index of this command's
-               project model. An empty list is the root index.
+        result : list
+                 Rows that represent the given qt model index of this command's
+                 project model. An empty list is the root index.
         """
         rows = []
         while index.isValid():
@@ -108,10 +108,10 @@ class AbstractCommand(ABC):
 
         Returns
         -------
-        ret0 : PySide2.QtCore.QModelIndex
-               A valid index created from this command's project model with the
-               given list of rows. In this context valid can also be an invalid
-               null index that represents the root.
+        result : PySide2.QtCore.QModelIndex
+                 A valid index created from this command's project model with
+                 the given list of rows. In this context valid can also be an
+                 invalid null index that represents the root.
         """
         index = QModelIndex()
         for row in rows:

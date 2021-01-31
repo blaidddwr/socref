@@ -98,10 +98,8 @@ class AbstractParser(ABC):
 
         Parameters
         ----------
-        key : object
-              Detailed description.
-        reader : object
-                 Detailed description.
+        key : 
+        reader : 
         """
         if key in self.__readers:
             raise ScanError("An abstract reader set a duplicate key.")
@@ -130,8 +128,7 @@ class AbstractParser(ABC):
 
         Parameters
         ----------
-        key : object
-              Detailed description.
+        key : 
         """
         return self.__readers.get(key,None)
 
@@ -222,8 +219,7 @@ class AbstractParser(ABC):
 
         Parameters
         ----------
-        block : object
-                Detailed description.
+        block : 
         """
         pass
 
@@ -238,8 +234,7 @@ class AbstractParser(ABC):
 
         Parameters
         ----------
-        block : object
-                Detailed description.
+        block : 
         """
         pass
 

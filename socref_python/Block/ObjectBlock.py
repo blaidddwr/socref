@@ -91,9 +91,9 @@ class ObjectBlock(ModuleBlock):
 
         Returns
         -------
-        ret0 : bool
-               True if this object is an argument of a function or false
-               otherwise.
+        result : bool
+                 True if this object is an argument of a function or false
+                 otherwise.
         """
         return self.parent() and self.parent()._TYPE_ == "Function"
 

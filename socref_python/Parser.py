@@ -54,8 +54,7 @@ class Parser(AbstractParser):
 
         Parameters
         ----------
-        block : object
-                Detailed description.
+        block : 
         """
         if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
             return ModuleReader(block,self)
@@ -72,8 +71,7 @@ class Parser(AbstractParser):
 
         Parameters
         ----------
-        block : object
-                Detailed description.
+        block : 
         """
         if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
             return ModuleWriter(block,self)

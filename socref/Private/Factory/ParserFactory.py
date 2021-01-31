@@ -56,14 +56,12 @@ class ParserFactory():
 
         Parameters
         ----------
-        block : socref.Abstract.AbstractBlock
-                The root block of the project used to create the returned
-                parser.
+        block : 
 
         Returns
         -------
-        ret0 : socref.Abstract.AbstractParser
-               A new parser from the project with the given root block.
+        result : socref.Abstract.AbstractParser
+                 A new parser from the project with the given root block.
         """
         assert(self.__rn is None)
         return self.__parsers[block._LANG_](block)

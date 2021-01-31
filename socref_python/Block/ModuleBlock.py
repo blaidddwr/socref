@@ -80,8 +80,7 @@ class ModuleBlock(AbstractBlock):
 
         Parameters
         ----------
-        isMod : object
-                Detailed description.
+        isMod : 
         """
         names = []
         b = self
