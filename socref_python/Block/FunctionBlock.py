@@ -43,7 +43,7 @@ class FunctionBlock(ModuleBlock):
                 Detailed description.
         """
         ret = []
-        if self.isMethod() and mSelf:
+        if self.isMethod() and not self.isStatic() and mSelf:
             ret.append(("cls" if self.isClass() else "self","","",""))
         for child in self:
             type_ = ""
