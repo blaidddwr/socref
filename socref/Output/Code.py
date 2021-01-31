@@ -50,9 +50,24 @@ class Code():
                 Detailed description.
         """
         if isinstance(lines,list):
-            self.__lines += [self.__a+line for line in lines]
+            self.__lines += [self.__a+line if line else "" for line in lines]
         else:
-            self.__lines.append(self.__a+lines)
+            self.__lines.append(self.__a+lines if lines else "")
+
+
+    def addBlank(
+        self
+        ,amount
+    ):
+        """
+        Detailed description.
+
+        Parameters
+        ----------
+        amount : object
+                 Detailed description.
+        """
+        self.__lines += [""]*amount
 
 
     def addText(

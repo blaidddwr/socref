@@ -57,6 +57,17 @@ class AbstractReader(ABC):
         self.__parser.discard()
 
 
+    def key(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        if self.__key is None:
+            raise ScanError("Cannot return reader key not yet set.")
+        return self.__key
+
+
     def peak(
         self
     ):

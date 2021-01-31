@@ -1,6 +1,7 @@
 """
 Contains the ModuleWriter class.
 """
+from .FunctionWriter import *
 from socref.Abstract.AbstractWriter import *
 from socref.Output.Code import *
 
@@ -31,6 +32,9 @@ class ModuleWriter(AbstractWriter):
         super().__init__(parent)
         self.__b = block
         self.__r = self.lookup(block.key())
+        for child in block:
+            if child._TYPE_ == "Function":
+                FunctionWriter(child,0,self)
 
 
     def _footer_(
@@ -43,7 +47,8 @@ class ModuleWriter(AbstractWriter):
         if self.__r:
             f = self.__r.footer()
             if f:
-                ret.add([""]*2 + f)
+                ret.addBlank(2)
+                ret.add(f)
         return ret
 
 

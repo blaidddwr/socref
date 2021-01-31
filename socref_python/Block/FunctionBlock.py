@@ -27,7 +27,33 @@ class FunctionBlock(ModuleBlock):
         self._p_static = "0"
         self._p_class = "0"
         self._p_abstract = "0"
-        self._p_descriptors = ""
+        self._p_decorators = ""
+
+
+    def arguments(
+        self
+        ,method=True
+    ):
+        """
+        Detailed description.
+
+        Parameters
+        ----------
+        method : object
+                 Detailed description.
+        """
+        ret = []
+        if self.isMethod() and method:
+            ret.append(("cls" if self.isClass() else "self","","",""))
+        for child in self:
+            type_ = ""
+            description = ""
+            try:
+                (type_,description) = child._p_description.split("\n")
+            except:
+                pass
+            ret.append(child._p_name,child._p_assignment,type_,description)
+        return ret
 
 
     def buildList(
@@ -45,16 +71,31 @@ class FunctionBlock(ModuleBlock):
         self._p_static = "0"
         self._p_class = "0"
         self._p_abstract = "0"
-        self._p_descriptors = ""
+        self._p_decorators = ""
 
 
-    def descriptors(
+    def decorators(
         self
+        ,flags=True
     ):
         """
         Detailed description.
+
+        Parameters
+        ----------
+        flags : object
+                Detailed description.
         """
-        return ["@"+d for d in self._p_descriptors.split("\n") if d]
+        ret = []
+        if flags:
+            if self.isStatic():
+                ret.append("@staticmethod")
+            if self.isClass():
+                ret.append("@classmethod")
+            if self.isAbstract():
+                ret.append("@abstractmethod")
+        ret += ["@"+d for d in self._p_decorators.split("\n") if d]
+        return ret
 
 
     def displayName(
@@ -62,7 +103,7 @@ class FunctionBlock(ModuleBlock):
     ):
         ret = ""
         ret += "%s(%i)" % (self._p_name,len(self))
-        if self._p_descriptors:
+        if self._p_decorators:
             ret += " @"
         if self._p_returnsDescription:
             ret += " ..."
@@ -77,11 +118,14 @@ class FunctionBlock(ModuleBlock):
         for (name,type_,text) in self.returns():
             rt.addHeader(3,name+" : "+type_)
             rt.addText(text)
-        # Arguments
+        rt.addHeader(1,"Arguments")
+        for (name,assignment,type_,text) in self.arguments(False):
+            rt.addHeader(3,name+(" = "+assignment if assignment else "")+" : "+type_)
+            rt.addText(text)
         rt.addHeader(1,"Flags")
         rt.addList(self.flags())
-        rt.addHeader(1,"Descriptors")
-        rt.addList(self.descriptors())
+        rt.addHeader(1,"Decorators")
+        rt.addList(self.decorators(False))
         return rt
 
 
@@ -98,7 +142,7 @@ class FunctionBlock(ModuleBlock):
             edits.append(HiddenEdit("_p_static","0"))
             edits.append(HiddenEdit("_p_class","0"))
             edits.append(HiddenEdit("_p_abstract","0"))
-        edits.append(TextEdit("Descriptors:","_p_descriptors"))
+        edits.append(TextEdit("Descriptors:","_p_decorators"))
         return edits
 
 
@@ -116,6 +160,15 @@ class FunctionBlock(ModuleBlock):
         if self.isAbstract():
             ret.append("Abstract")
         return ret
+
+
+    def hasArguments(
+        self
+    ):
+        """
+        Detailed description.
+        """
+        return len(self) > 0 or self.isMethod()
 
 
     def icon(
@@ -234,4 +287,4 @@ class FunctionBlock(ModuleBlock):
         self._p_static = "0"
         self._p_class = "0"
         self._p_abstract = "0"
-        self._p_descriptors = ""
+        self._p_decorators = ""

@@ -1,6 +1,7 @@
 """
 Contains the ModuleReader class.
 """
+from .FunctionReader import *
 from re import compile as reCompile
 from socref.Abstract.AbstractReader import *
 
@@ -118,7 +119,8 @@ class ModuleReader(AbstractReader):
             if match:
                 name = match.group(1)
                 end = match.group(2)
-                # function
+                reader = FunctionReader(name,end,self)
+                reader()
                 continue
             match = self.__classRE.match(line)
             if match:

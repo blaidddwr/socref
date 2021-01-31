@@ -28,7 +28,7 @@ class AbstractWriter(ABC):
         """
         if isinstance(parent,AbstractWriter):
             self.__parser = parent.__parser
-            self.__parent.__children.append(self)
+            parent.__children.append(self)
         elif isinstance(parent,AbstractParser.AbstractParser):
             self.__parser = parent
         else:
