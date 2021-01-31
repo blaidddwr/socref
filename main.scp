@@ -4318,6 +4318,45 @@ True if this object is an argument of a function or false otherwise.</__p_return
                         <__p_abstract>0</__p_abstract>
                     </Function>
                 </Class>
+                <Class>
+                    <__p_name>ObjectWriter</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>AbstractWriter</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>asdf</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>depth</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
             </Package>
             <Class>
                 <__p_name>Parser</__p_name>

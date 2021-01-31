@@ -2,6 +2,7 @@
 Contains the ClassWriter class.
 """
 from .FunctionWriter import *
+from .ObjectWriter import *
 from socref.Abstract.AbstractWriter import *
 from socref.Output.Code import *
 
@@ -39,6 +40,8 @@ class ClassWriter(AbstractWriter):
         for child in block:
             if child._TYPE_ == "Function":
                 FunctionWriter(child,depth+1,self)
+            elif child._TYPE_ == "Object":
+                ObjectWriter(child,depth+1,self)
             elif child._TYPE_ == "Class":
                 ClassWriter(child,depth+1,self)
 
@@ -64,6 +67,7 @@ class ClassWriter(AbstractWriter):
         else:
             ret.addBlank(4)
         ret.setDepth(self.__depth)
+        ret.add(self.__block.decorators())
         ret.add("class "+self.__block._p_name+"("+",".join(self.__block.clsParents())+"):")
         ret.setDepth(self.__depth+1)
         ret.add('"""')
