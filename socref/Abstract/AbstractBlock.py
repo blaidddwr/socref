@@ -11,69 +11,34 @@ from weakref import ref as WeakReference
 
 class AbstractBlock(ABC):
     """
-    This is the abstract block class. Blocks are the basic interface designed
-    for languages to implement themselves and communicate with the core
-    application. Blocks are structured to form a tree like structure to
-    represent a single project. Properties are the basic concept used to save
-    all data of a specific block implementation. Interface methods are organized
-    into basic, property, and parsing categories. Edit definitions provide as a
-    list of dictionaries through a block's appropriate interface are used by the
-    core application to provide an edit GUI for it. Iteration and indexing of
-    children blocks are supported through operators and methods. Saving a block
-    to XML or loading it from XML is supported.
+    This is the abstract block class. Blocks are the basic model interface used
+    by language packages, capable of being a parent to children blocks of said
+    parent. Blocks form a tree structure to represent a single project in the
+    implemented language. A block's properties are used to save all data of that
+    block. Edit definitions provide a list of edit definition classes that
+    inform the core application how to layout a block's edit widget interface
+    for editing its properties by the user. Blocks can iterate through and index
+    its children blocks. Blocks can save or load themselves and all children
+    nested underneath the saved or loaded block to XML format.
 
-    Blocks are the basic interface designed for languages to implement
-    themselves and communicate with the core application. A block should
-    represent an atomic element of a programming language, such as a variable or
-    function. In turn these blocks can form tree like relationships, such as
-    variables being children of a function that makes them the function's
-    arguments.
+    Blocks represent an atomic element of a programming language such as a
+    variable, function, or class. Blocks can contain any number of children and
+    have only one parent. The only block that does not have a parent is the root
+    block of a project. One and only one special block type must be assigned as
+    the root block type for each implemented language. Blocks form tree
+    relationships such as a variable block being the child of a function making
+    it an argument of the function. Another example is a function being a child
+    of a class making it a method of the class.
 
-    Blocks are structured to form a tree like structure to represent a single
-    project. Blocks can have any number of children and only one parent. There
-    is a root block for every project. A specific block type is designated as
-    the root block of a language and used to create a new project.
+    Blocks store their properties as a dictionary. Operator overloading is
+    implemented in such a way that any attribute that begins with "_p_" is
+    stored as a property. Any property of a block that must be saved and loaded
+    must begin with the given string so it is recognized as a property by the
+    core application.
 
-    Properties are the basic concept used to save all data of a specific block
-    implementation. Properties are stored in a block as a dictionary as key
-    value pairs. Operator overloading for attributes is implemented so any
-    attribute that begins with "_p_" is intercepted and treated as a property.
-    In this fashion all properties must be attributes that start with "_p_".
-
-    Interface methods are organized into basic, property, and parsing
-    categories. The basic category provides basic information about the block
-    that is used to display it in different views, a build list to tell the core
-    application what block types can be a block's child, and "is volatile"
-    checks to inform the application's model if a block can effect the view of
-    blocks above or below it. The property category provides edit definitions
-    that allow the core application to build a form widget for editing all of a
-    block's properties, setting default properties, and clearing all properties.
-    The parsing category provides a factory for abstract parser implementations
-    and two helper interfaces for determining if a block is the root of a source
-    code file or directory.
-
-    Edit definitions provide as a list of dictionaries through a block's
-    appropriate interface are used by the core application to provide an edit
-    GUI for it. Helper functions are provided in the utility module for
-    producing edit definition dictionaries. The possible definition types are
-    line edit, text edit, checkbox edit, combo box edit, and hidden edit. A line
-    edit provides a single line to edit a property. A text edit provides a
-    multi-line editor to edit a property, along with a popup text editor and
-    optional spell checking. A checkbox edit provides a true or false checkbox
-    to edit a property to "1" for true or "0" for false. A combo box edit
-    provides a list of provided text values to edit a property.
-
-    Iteration and indexing of children blocks are supported through operators
-    and methods. Iteration of child blocks is provided through the common python
-    operators. Indexing is also supported through the common python operators.
-    Other common list methods are also implemented such as insert and pop for
-    manipulating a block's children. Index is also provided for determining the
-    index of a block in its parent's list of children.
-
-    Saving a block to XML or loading it from XML is supported. A qt XML stream
-    writer or reader is used for saving or loading to or from XML, respectively.
-
-    _DEPRECATED_
+    Edit definition helper classes are provided in the Edit package of the core
+    application package. All possible edit widgets are defined as a class in
+    that package that ends with Edit.
     """
 
 
@@ -229,8 +194,8 @@ class AbstractBlock(ABC):
         Returns
         -------
         result : list
-                 Edit definition dictionaries informing the core application how
-                 to build the edit GUI for this block.
+                 Edit definition classes informing the core application how to
+                 build the edit GUI for this block.
         """
         pass
 
@@ -301,10 +266,8 @@ class AbstractBlock(ABC):
         Returns
         -------
         result : bool
-                 Indicates if a change in this block's properties can effect the
-                 blocks above it. Above in this context is going up a block's
-                 parent. True if this block can effect the blocks above it or
-                 false otherwise.
+                 True if a change in this block's properties can effect its
+                 parent block false otherwise.
         """
         return False
 
@@ -319,10 +282,8 @@ class AbstractBlock(ABC):
         Returns
         -------
         result : bool
-                 Indicates if a change in this block's properties can effect the
-                 blocks below it. Below in this context is going down a block's
-                 children. True if this block can effect the blocks below it or
-                 false otherwise.
+                 True if a change in this block's properties can effect its
+                 children blocks false otherwise.
         """
         return False
 
@@ -394,9 +355,9 @@ class AbstractBlock(ABC):
         ,stream
     ):
         """
-        Loads this block's properties and all children block's properties from
-        XML using the given qt reader stream. This overwrites any properties and
-        children blocks this block may currently contain.
+        Loads this block's properties and all children blocks, including their
+        properties, from XML using the given qt reader stream. This overwrites
+        any properties and children blocks this block may currently contain.
 
         Parameters
         ----------
@@ -443,8 +404,8 @@ class AbstractBlock(ABC):
         ,stream
     ):
         """
-        Saves this block's properties and all of its children block's properties
-        to XML using the given qt XML writer stream.
+        Saves this block's properties and all of its children blocks, including
+        their properties, to XML using the given qt XML writer stream.
 
         Parameters
         ----------
