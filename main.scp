@@ -12,13 +12,15 @@
                 <__p_description>Contains all abstract interface classes.</__p_description>
                 <Class>
                     <__p_name>AbstractBlock</__p_name>
-                    <__p_description>This is the abstract block class. Blocks are the basic model interface used by language packages, capable of being a parent to children blocks of said parent. Blocks form a tree structure to represent a single project in the implemented language. A block's properties are used to save all data of that block. Edit definitions provide a list of edit definition classes that inform the core application how to layout a block's edit widget interface for editing its properties by the user. Blocks can iterate through and index its children blocks. Blocks can save or load themselves and all children nested underneath the saved or loaded block to XML format.
+                    <__p_description>This is the abstract block class. Blocks are a model interface that represents a single element of source code, capable of containing child blocks. Blocks form a tree structure to represent a single project in the implemented language. A block's properties are used to save all data of that block. Edit definitions provide a list of edit definition classes that inform the core application how to layout a block's edit widget interface for editing its properties by the user. Blocks can iterate through and index its children blocks. Blocks can save or load themselves and all children nested underneath the saved or loaded block to XML format.
 
 Blocks represent an atomic element of a programming language such as a variable, function, or class. Blocks can contain any number of children and have only one parent. The only block that does not have a parent is the root block of a project. One and only one special block type must be assigned as the root block type for each implemented language. Blocks form tree relationships such as a variable block being the child of a function making it an argument of the function. Another example is a function being a child of a class making it a method of the class.
 
 Blocks store their properties as a dictionary. Operator overloading is implemented in such a way that any attribute that begins with &quot;_p_&quot; is stored as a property. Any property of a block that must be saved and loaded must begin with the given string so it is recognized as a property by the core application.
 
-Edit definition helper classes are provided in the Edit package of the core application package. All possible edit widgets are defined as a class in that package that ends with Edit.</__p_description>
+Edit definition helper classes are provided in the Edit package of the core application package. All possible edit widgets are defined as a class in that package that ends with Edit.
+
+An implemented block class must have no initialization arguments.</__p_description>
                     <__p_parents>ABC</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -293,13 +295,11 @@ Used to save all block's properties and children.</__p_description>
                 </Class>
                 <Class>
                     <__p_name>AbstractParser</__p_name>
-                    <__p_description>This is the abstract parser class. A parser is the interface implemented by a language to parse its source code from a project. The parsing process is separated into building a path list, scanning, and building.
+                    <__p_description>This is the abstract parser class. A parser is a controller interface that controls the parsing of a project's source code. A parser's interface provides a path list of all code files to be processed, abstract readers to read in each processed path, and abstract writers to output the parsed results of each processed path. The path list is a list of tuples, each tuple containing a relative path and the block associated with it. The abstract parser class itself provides methods for accessing the current file being read, but should never be accessed directly. The abstract reader and writer classes provide all methods either needs from the parser which created them.
 
-A parser is the interface implemented by a language to parse its source code from a project. When the core application parses the source code of a project it creates a new abstract parser from the root block of the project that is to be parsed. The abstract parser in turn handles parsing all source code files using the root block of the project. A root path is also set that is used as the root location for all source code directories and/or files.
+An implemented parser class must have one initialization argument, that argument being the root block of the project that is being parsed. From this root block of a project it is expected to be able to generate the path list, and from each block within the tuple of the path list it is expected to generate the correct reader and writer.
 
-The parsing process is separated into building a path list, scanning, building, and returning any unknown code fragments. The building a path list step builds a list of paths and associated blocks where source file codes should exist within the root path. The scanning step reads and scans every source code file for each path generated from the previous step. The build step generates new contents for each source code file generated from the first step, using the associated block from the first step and any scanned input from the previous step. The returning any unknown code fragments step returns any code fragments that were scanned but never used in the build step. If a file does not exist for a given path it is ignored in the scan step. Before parsing can begin the root path must be set.
-
-_DEPRECATED_</__p_description>
+A parser returns any unknown lines of code after parsing is complete. This process is fully implemented by the abstract parser itself.</__p_description>
                     <__p_parents>ABC</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -310,7 +310,7 @@ _DEPRECATED_</__p_description>
                     </Function>
                     <Function>
                         <__p_name>__call__</__p_name>
-                        <__p_description>Parses the source code of the project of this parser's root block, updating its progress with the given callback object. The root path of this parser must be set.</__p_description>
+                        <__p_description>Parses all source code files of the project of this parser's root block, updating its progress with the given callback object. The root path of this parser must be set. This parser's reader lookup table is cleared after parsing is complete or fails.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -322,68 +322,74 @@ Used to update the progress of this scan. It takes one argument that is the prog
                     </Function>
                     <Function>
                         <__p_name>addLookup</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Adds the given reader to this parser's reader lookup table with the given key.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+Key used to insert the given reader into this parser's reader lookup table. It must not already exist as a key in the table.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>reader</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Abstract.AbstractReader
+A reader that is inserted into this parser's reader lookup table.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>discard</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Discards the last file cursor position saved in this parser's current read file. This parser must be reading a file and have at least one cursor state on its saved stack.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>lookup</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+socref.Abstract.AbstractReader
+The parser in this parser's reader lookup table with the given key or none if there is no such reader with the given key.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The matching key, if any, of the returned reader.</__p_description>
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>peak</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>read</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Reads the next line of this parser's active reading file, moving its cursor to the next line. This parser must be reading a file.</__p_description>
+                        <__p_returnsDescription>spaces
+int
+The total number of spaces of the read line.
+
+line
+string
+The read line, stripped of any white space from both sides.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>restore</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Restores the last file cursor position saved in this parser's current read file, removing it from the saved stack. This parser must be reading a file and have at least one cursor state on its saved stack.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>save</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Saves the current cursor position of this parser's current read file, adding it to the save stack. This parser must be reading a file.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>setRootPath</__p_name>
-                        <__p_description>Sets the root path of this parser. This can only be called once when this parser's root path is empty.</__p_description>
+                        <__p_description>Sets the root path of this parser. This can only be called once when this parser's root path is empty. This must be called before parsing begins.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -395,57 +401,64 @@ The root path of this parser.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>_pathList_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+A list of tuples, each tuple containing a relative path to a source code file that is parsed and the block associated with it. The path is relative to the root path of the project being parsed.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_reader_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+socref.Abstract.AbstractReader
+A new reader capable of reading any lines of code that is saved from the source code file associated with the given block.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Abstract.AbstractBlock
+The block associated with the source code file.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>_writer_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+socref.Abstract.AbstractWriter
+A new writer capable of writing the full output of the source code file associated with the given block.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Abstract.AbstractBlock
+The block associated with the source code file.</__p_description>
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>__read_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>__readAll_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Reads all source code files from this parser's path list, saving all generated readers to this parser's reader lookup table.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__unknown_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+dictionary
+All read in reader code lines that were not used when writing source code back out to files, where the key is the reader key and the value is the unused lines.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__writeAll_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Writes all source code files from this parser's path list.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -453,44 +466,47 @@ The root path of this parser.</__p_description>
                 </Class>
                 <Class>
                     <__p_name>AbstractReader</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the abstract reader class. A reader is a process interface that scans a source code file or part of a currently scanned source code file. While a reader implementation is scanning a file it can create additional child readers for specialized scanning. This allows modular object oriented design where each reader class can be responsible for a specific type of code.
+
+A reader implementation must set its key before the end of its scanning interface. The key is used to register every created reader, including child readers, to the shared parent parser in its reader lookup table. In this way readers can be accessed by writers to get the scanned lines of code that are preserved in output.
+
+A reader implementation returns any unused lines of code after parsing and all writers have been processed. In this way the user can be notified of any scanned code lines that will be discarded and recover those lines if it was a mistake. Because of this interface a reader must expunge any code lines used by a writer so they are not returned as unused code.
+
+Methods are provided for accessing the source code file being read by the shared parent parser. Because all child readers share the same singular parser they all  share the same file, cursor position, and saved cursor position stack.</__p_description>
                     <__p_parents>ABC</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>asdf</__p_description>
+                        <__p_description>Initializes this new abstract reader with the given parent.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>object
+The parent of this new abstract reader. If this is a root reader the parent must be the parser that created it, else the parent must be the parent reader that created this new child reader.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>__call__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Reads this reader's shared parent parser's open source code file by scanning it, creating any necessary child readers that also read, and then setting its key.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>discard</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Discards the last file cursor position saved in this parent parser's current read file.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>peak</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method. This reader's key must be set.</__p_description>
+                        <__p_returnsDescription>result
+string
+This reader's unique key used to identify itself in its parent parser's reader lookup table.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

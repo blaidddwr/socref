@@ -16,30 +16,25 @@ from os.path import join as pathJoin
 
 class AbstractParser(ABC):
     """
-    This is the abstract parser class. A parser is the interface implemented by
-    a language to parse its source code from a project. The parsing process is
-    separated into building a path list, scanning, and building.
+    This is the abstract parser class. A parser is a controller interface that
+    controls the parsing of a project's source code. A parser's interface
+    provides a path list of all code files to be processed, abstract readers to
+    read in each processed path, and abstract writers to output the parsed
+    results of each processed path. The path list is a list of tuples, each
+    tuple containing a relative path and the block associated with it. The
+    abstract parser class itself provides methods for accessing the current file
+    being read, but should never be accessed directly. The abstract reader and
+    writer classes provide all methods either needs from the parser which
+    created them.
 
-    A parser is the interface implemented by a language to parse its source code
-    from a project. When the core application parses the source code of a
-    project it creates a new abstract parser from the root block of the project
-    that is to be parsed. The abstract parser in turn handles parsing all source
-    code files using the root block of the project. A root path is also set that
-    is used as the root location for all source code directories and/or files.
+    An implemented parser class must have one initialization argument, that
+    argument being the root block of the project that is being parsed. From this
+    root block of a project it is expected to be able to generate the path list,
+    and from each block within the tuple of the path list it is expected to
+    generate the correct reader and writer.
 
-    The parsing process is separated into building a path list, scanning,
-    building, and returning any unknown code fragments. The building a path list
-    step builds a list of paths and associated blocks where source file codes
-    should exist within the root path. The scanning step reads and scans every
-    source code file for each path generated from the previous step. The build
-    step generates new contents for each source code file generated from the
-    first step, using the associated block from the first step and any scanned
-    input from the previous step. The returning any unknown code fragments step
-    returns any code fragments that were scanned but never used in the build
-    step. If a file does not exist for a given path it is ignored in the scan
-    step. Before parsing can begin the root path must be set.
-
-    _DEPRECATED_
+    A parser returns any unknown lines of code after parsing is complete. This
+    process is fully implemented by the abstract parser itself.
     """
 
 
@@ -60,9 +55,10 @@ class AbstractParser(ABC):
         ,update
     ):
         """
-        Parses the source code of the project of this parser's root block,
+        Parses all source code files of the project of this parser's root block,
         updating its progress with the given callback object. The root path of
-        this parser must be set.
+        this parser must be set. This parser's reader lookup table is cleared
+        after parsing is complete or fails.
 
         Parameters
         ----------
@@ -94,13 +90,19 @@ class AbstractParser(ABC):
         ,reader
     ):
         """
-        Detailed description.
+        Adds the given reader to this parser's reader lookup table with the
+        given key.
 
         Parameters
         ----------
-        key : 
-        reader : 
+        key : string
+              Key used to insert the given reader into this parser's reader
+              lookup table. It must not already exist as a key in the table.
+        reader : socref.Abstract.AbstractReader
+                 A reader that is inserted into this parser's reader lookup
+                 table.
         """
+        assert(isinstance(reader,AbstractReader))
         if key in self.__readers:
             raise ScanError("An abstract reader set a duplicate key.")
         self.__readers[key] = reader
@@ -110,7 +112,9 @@ class AbstractParser(ABC):
         self
     ):
         """
-        Detailed description.
+        Discards the last file cursor position saved in this parser's current
+        read file. This parser must be reading a file and have at least one
+        cursor state on its saved stack.
         """
         if self.__io is None:
             raise ScanError("Parser cannot discard without open file.")
@@ -124,45 +128,52 @@ class AbstractParser(ABC):
         ,key
     ):
         """
-        Detailed description.
+        Getter method.
 
         Parameters
         ----------
-        key : 
+        key : string
+              The matching key, if any, of the returned reader.
+
+        Returns
+        -------
+        result : socref.Abstract.AbstractReader
+                 The parser in this parser's reader lookup table with the given
+                 key or none if there is no such reader with the given key.
         """
         return self.__readers.get(key,None)
-
-
-    def peak(
-        self
-    ):
-        """
-        Detailed description.
-        """
-        if self.__io is None:
-            raise ScanError("Parser cannot peak without open file.")
-        i = self.__io.tell()
-        ret = self.__read_()
-        self.__io.seek(i)
-        return ret
 
 
     def read(
         self
     ):
         """
-        Detailed description.
+        Reads the next line of this parser's active reading file, moving its
+        cursor to the next line. This parser must be reading a file.
+
+        Returns
+        -------
+        spaces : int
+                 The total number of spaces of the read line.
+        line : string
+               The read line, stripped of any white space from both sides.
         """
         if self.__io is None:
             raise ScanError("Parser cannot read without open file.")
-        return self.__read_()
+        line = self.__io.readline()
+        if not line:
+            return (None,None)
+        indent = len(line)-len(line.lstrip(' '))
+        return (indent,line.strip())
 
 
     def restore(
         self
     ):
         """
-        Detailed description.
+        Restores the last file cursor position saved in this parser's current
+        read file, removing it from the saved stack. This parser must be reading
+        a file and have at least one cursor state on its saved stack.
         """
         if self.__io is None:
             raise ScanError("Parser cannot restore without open file.")
@@ -175,7 +186,8 @@ class AbstractParser(ABC):
         self
     ):
         """
-        Detailed description.
+        Saves the current cursor position of this parser's current read file,
+        adding it to the save stack. This parser must be reading a file.
         """
         if self.__io is None:
             raise ScanError("Parser cannot save without open file.")
@@ -188,7 +200,8 @@ class AbstractParser(ABC):
     ):
         """
         Sets the root path of this parser. This can only be called once when
-        this parser's root path is empty.
+        this parser's root path is empty. This must be called before parsing
+        begins.
 
         Parameters
         ----------
@@ -204,7 +217,15 @@ class AbstractParser(ABC):
         self
     ):
         """
-        Detailed description.
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : list
+                 A list of tuples, each tuple containing a relative path to a
+                 source code file that is parsed and the block associated with
+                 it. The path is relative to the root path of the project being
+                 parsed.
         """
         pass
 
@@ -215,11 +236,18 @@ class AbstractParser(ABC):
         ,block
     ):
         """
-        Detailed description.
+        This interface is a getter method.
 
         Parameters
         ----------
-        block : 
+        block : socref.Abstract.AbstractBlock
+                The block associated with the source code file.
+
+        Returns
+        -------
+        result : socref.Abstract.AbstractReader
+                 A new reader capable of reading any lines of code that is saved
+                 from the source code file associated with the given block.
         """
         pass
 
@@ -230,33 +258,28 @@ class AbstractParser(ABC):
         ,block
     ):
         """
-        Detailed description.
+        This interface is a getter method.
 
         Parameters
         ----------
-        block : 
+        block : socref.Abstract.AbstractBlock
+                The block associated with the source code file.
+
+        Returns
+        -------
+        result : socref.Abstract.AbstractWriter
+                 A new writer capable of writing the full output of the source
+                 code file associated with the given block.
         """
         pass
-
-
-    def __read_(
-        self
-    ):
-        """
-        Detailed description.
-        """
-        line = self.__io.readline()
-        if not line:
-            return (None,None)
-        indent = len(line)-len(line.lstrip(' '))
-        return (indent,line.strip())
 
 
     def __readAll_(
         self
     ):
         """
-        Detailed description.
+        Reads all source code files from this parser's path list, saving all
+        generated readers to this parser's reader lookup table.
         """
         count = 0
         for (path,block) in self.__paths:
@@ -279,7 +302,14 @@ class AbstractParser(ABC):
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : dictionary
+                 All read in reader code lines that were not used when writing
+                 source code back out to files, where the key is the reader key
+                 and the value is the unused lines.
         """
         ret = {}
         for key in self.__readers:
@@ -293,7 +323,7 @@ class AbstractParser(ABC):
         self
     ):
         """
-        Detailed description.
+        Writes all source code files from this parser's path list.
         """
         count = 0
         for (path,block) in self.__paths:
