@@ -61,7 +61,7 @@ class ModuleBlock(AbstractBlock):
     ):
         edits = EditDefinitions()
         edits.append(LineEdit("Name:","_p_name"))
-        edits.append(TextEdit("Description:","_p_description"))
+        edits.append(TextEdit("Description:","_p_description",True))
         return edits
 
 

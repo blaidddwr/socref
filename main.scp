@@ -9,7 +9,7 @@
             <__p_description>Contains the core application for Socrates' Reference.</__p_description>
             <Package>
                 <__p_name>Abstract</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all abstract interface classes.</__p_description>
                 <Class>
                     <__p_name>AbstractBlock</__p_name>
                     <__p_description>This is the abstract block class. Blocks are the basic interface designed for languages to implement themselves and communicate with the core application. Blocks are structured to form a tree like structure to represent a single project. Properties are the basic concept used to save all data of a specific block implementation. Interface methods are organized into basic, property, and parsing categories. Edit definitions provide as a list of dictionaries through a block's appropriate interface are used by the core application to provide an edit GUI for it. Iteration and indexing of children blocks are supported through operators and methods. Saving a block to XML or loading it from XML is supported.

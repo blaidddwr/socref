@@ -3,7 +3,7 @@ Contains the PlainTextEdit class.
 """
 from .... import DICTIONARY
 from ..Controller.SpellHighlighter import *
-from ..Dialog.TextDialog import *
+from ..Dialog import TextDialog
 from PySide2.QtCore import Qt
 from PySide2.QtCore import Slot
 from PySide2.QtWidgets import QAction
@@ -86,7 +86,7 @@ class PlainTextEdit(QPlainTextEdit):
         Called to open a modal dialog text editor to edit this editor's text.
         """
         if self.__popup:
-            dialog = TextDialog(self.toPlainText(),self,speller=self.__speller)
+            dialog = TextDialog.TextDialog(self.toPlainText(),self,speller=self.__speller)
             dialog.setWindowTitle("Text Editor - Socrates' Reference")
             if dialog.exec_():
                 self.setPlainText(dialog.text())

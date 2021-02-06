@@ -1,8 +1,9 @@
 """
 Contains the TextDialog class.
 """
+from .... import DICTIONARY
 from ..Widget import PlainTextEdit
-from ..Widget import SpellChecker
+from ..Widget.SpellChecker import *
 from PySide2.QtCore import QSettings
 from PySide2.QtCore import Slot
 from PySide2.QtWidgets import QDialog
@@ -45,8 +46,8 @@ class TextDialog(QDialog):
         """
         super().__init__(parent)
         self.__speller = speller
-        self.__textEdit = PlainTextEdit(text,self,speller=speller,popup=False)
-        self.__spellerBox = SpellChecker("Spell Check",settings.DICTIONARY)
+        self.__textEdit = PlainTextEdit.PlainTextEdit(text,self,speller=speller,popup=False)
+        self.__spellerBox = SpellChecker("Spell Check",DICTIONARY)
         self.__spellButton = QPushButton("Spell Check",self)
         self.__setupGui_()
 
