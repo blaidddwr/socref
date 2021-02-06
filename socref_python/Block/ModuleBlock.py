@@ -4,7 +4,6 @@ Contains the ModuleBlock class.
 from PySide2.QtGui import QIcon
 from socref import block
 from socref.Abstract.AbstractBlock import *
-from socref.Edit.EditDefinitions import *
 from socref.Edit.LineEdit import *
 from socref.Edit.TextEdit import *
 from socref.Output.RichText import *
@@ -59,10 +58,7 @@ class ModuleBlock(AbstractBlock):
     def editDefinitions(
         self
     ):
-        edits = EditDefinitions()
-        edits.append(LineEdit("Name:","_p_name"))
-        edits.append(TextEdit("Description:","_p_description",True))
-        return edits
+        return [LineEdit("Name:","_p_name"),TextEdit("Description:","_p_description",True)]
 
 
     def icon(
