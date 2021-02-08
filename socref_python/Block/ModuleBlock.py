@@ -50,7 +50,7 @@ class ModuleBlock(AbstractBlock):
         self
     ):
         rt = RichText()
-        rt.addHeader(1,"Description")
+        rt.addHeader("Description",1)
         rt.addText(self._p_description)
         return rt
 

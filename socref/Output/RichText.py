@@ -8,56 +8,61 @@ from html import escape
 
 class RichText():
     """
-    Detailed description.
+    This is the rich text class. It is a container and builder utility class
+    that stores Qt rich text for display. Methods are provided to add different
+    types of rich text to a rich text instance. This is a helper class meant to
+    be used with a block's display view interface.
     """
 
 
     def __init__(
         self
     ):
-        """
-        Detailed description.
-        """
         self.__frags = []
 
 
     def __str__(
         self
     ):
-        """
-        Detailed description.
-        """
         return "".join(self.__frags)
 
 
     def addBox(
         self
-        ,text
         ,title
+        ,text
     ):
         """
-        Detailed description.
+        Adds a box style paragraph to this rich text with the given text and
+        title. A box paragraph is split into two parts. The first part is the
+        title which is bold and alone on the first line. The second part is the
+        normal text which begins on the second line.
 
         Parameters
         ----------
-        text : 
-        title : 
+        title : string
+                The title of the added box.
+        text : string
+               The normal text of the added box.
         """
         self.__frags += ["<p><b>",escape(title),"</b><br/>",escape(text),"</p>"]
 
 
     def addHeader(
         self
-        ,level
         ,title
+        ,level
     ):
         """
-        Detailed description.
+        Adds a header to this rich text with the given title and level.
 
         Parameters
         ----------
-        level : 
-        title : 
+        title : string
+                The title of the added header.
+        level : int
+                The level of the added header. The allowed levels are 1, 2, or
+                3.
         """
         level = min(3,max(1,level))
         self.__frags.append("<h%i>%s</h%i>"%(level,escape(title),level))
@@ -68,11 +73,12 @@ class RichText():
         ,items
     ):
         """
-        Detailed description.
+        Adds an unordered list to this rich text from the given list of items.
 
         Parameters
         ----------
-        items : 
+        items : list
+                Strings where each one is added as a list item.
         """
         self.__frags.append("<p>")
         first = True
@@ -90,11 +96,14 @@ class RichText():
         ,items
     ):
         """
-        Detailed description.
+        Adds a map list to this rich text from the given list of items. A map
+        list is a paragraph where each item is listed on a new line within the
+        paragraph.
 
         Parameters
         ----------
-        items : 
+        items : list
+                Strings where each one is added as a map item.
         """
         self.__frags.append("<p>")
         first = True
@@ -112,11 +121,12 @@ class RichText():
         ,text
     ):
         """
-        Detailed description.
+        Adds a paragraph to this rich text with the given text.
 
         Parameters
         ----------
-        text : 
+        text : string
+               Text that populates the added paragraph.
         """
         self.__frags.append("<p>")
         for sub in text.split("\n\n"):

@@ -7,7 +7,9 @@ Contains the TextEdit class.
 
 class TextEdit():
     """
-    Detailed description.
+    This is the text edit class. It provides a block property edit definition
+    for a text edit widget. A text edit widget is capable of editing multiple
+    lines of text and provide optional spell checking.
     """
 
 
@@ -18,13 +20,18 @@ class TextEdit():
         ,spellCheck=False
     ):
         """
-        Detailed description.
+        Initializes this new text edit definition with the given label, key, and
+        optional spell checking.
 
         Parameters
         ----------
-        label : 
-        key : 
-        spellCheck : 
+        label : string
+                The label displayed to the user next to the text edit widget.
+        key : string
+              The block property attribute name the text edit widget modifies.
+        spellCheck : bool
+                     True to enable spell checking for the text edit widget or
+                     false to disable it.
         """
         self.__label = label
         self.__key = key
@@ -35,7 +42,13 @@ class TextEdit():
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : string
+                 The block property attribute name the text edit widget
+                 modifies.
         """
         return self.__key
 
@@ -44,7 +57,12 @@ class TextEdit():
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : string
+                 The label displayed to the user next to the text edit widget.
         """
         return self.__label
 
@@ -53,6 +71,12 @@ class TextEdit():
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : bool
+                 True to enable spell checking for the text edit widget or false
+                 to disable it.
         """
         return self.__spellCheck

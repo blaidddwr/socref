@@ -7,7 +7,9 @@ Contains the ComboEdit class.
 
 class ComboEdit():
     """
-    Detailed description.
+    This is the combo edit class. It provides a block property edit definition
+    for a combo box edit widget. A combo box edit widget allows selecting a
+    value from multiple selection values.
     """
 
 
@@ -18,13 +20,17 @@ class ComboEdit():
         ,selections
     ):
         """
-        Detailed description.
+        Initializes this new combo edit definition with the given label, key,
+        and selections.
 
         Parameters
         ----------
-        label : 
-        key : 
-        selections : 
+        label : string
+                The label displayed to the user next to the combo box.
+        key : string
+              The block property attribute name the combo box modifies.
+        selections : list
+                     All valid string selection values for the combo box.
         """
         self.__label = label
         self.__key = key
@@ -35,7 +41,12 @@ class ComboEdit():
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : string
+                 The block property attribute name the combo box modifies.
         """
         return self.__key
 
@@ -44,7 +55,12 @@ class ComboEdit():
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : string
+                 The label displayed to the user next to the combo box.
         """
         return self.__label
 
@@ -53,6 +69,11 @@ class ComboEdit():
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : list
+                 All valid string selection values for the combo box.
         """
         return self.__selections

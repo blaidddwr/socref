@@ -76,15 +76,15 @@ class ClassBlock(ModuleBlock):
         rt = super().displayView()
         parents = self.clsParents()
         if parents:
-            rt.addHeader(1,"Parents")
+            rt.addHeader("Parents",1)
             rt.addList(parents)
         decorators = self.decorators()
         if decorators:
-            rt.addHeader(1,"Decorators")
+            rt.addHeader("Decorators",1)
             rt.addList(decorators)
         flags = self.flags()
         if flags:
-            rt.addHeader(1,"Flags")
+            rt.addHeader("Flags",1)
             rt.addList(flags)
         return rt
 

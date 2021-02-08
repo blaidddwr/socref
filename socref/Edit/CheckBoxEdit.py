@@ -7,7 +7,9 @@ Contains the CheckBoxEdit class.
 
 class CheckBoxEdit():
     """
-    Detailed description.
+    This is the checkbox edit class. It provides a block property edit
+    definition for a checkbox edit widget. A checkbox edit widget allows
+    selecting true or false, where the string "1" is true and "0" is false.
     """
 
 
@@ -17,12 +19,15 @@ class CheckBoxEdit():
         ,key
     ):
         """
-        Detailed description.
+        Initializes this new checkbox edit definition with the given label and
+        key.
 
         Parameters
         ----------
-        label : 
-        key : 
+        label : string
+                The label displayed to the user next to the checkbox.
+        key : string
+              The block property attribute name the checkbox modifies.
         """
         self.__label = label
         self.__key = key
@@ -32,7 +37,12 @@ class CheckBoxEdit():
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : string
+                 The block property attribute name the checkbox modifies.
         """
         return self.__key
 
@@ -41,6 +51,11 @@ class CheckBoxEdit():
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : string
+                 The label displayed to the user next to the checkbox.
         """
         return self.__label

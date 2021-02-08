@@ -113,21 +113,21 @@ class FunctionBlock(ModuleBlock):
         rt = super().displayView()
         returns = self.returns()
         if returns:
-            rt.addHeader(1,"Returns")
+            rt.addHeader("Returns",1)
             for (name,type_,text) in returns:
-                rt.addBox(text,name+" : "+type_)
+                rt.addBox(name+" : "+type_,text)
         arguments = self.arguments(False)
         if arguments:
-            rt.addHeader(1,"Arguments")
+            rt.addHeader("Arguments",1)
             for (name,assignment,type_,text) in arguments:
-                rt.addBox(text,name+(" = "+assignment if assignment else "")+" : "+type_)
+                rt.addBox(name+(" = "+assignment if assignment else "")+" : "+type_,text)
         flags = self.flags()
         if flags:
-            rt.addHeader(1,"Flags")
+            rt.addHeader("Flags",1)
             rt.addList(self.flags())
         decorators = self.decorators(False)
         if decorators:
-            rt.addHeader(1,"Decorators")
+            rt.addHeader("Decorators",1)
             rt.addList(decorators)
         return rt
 

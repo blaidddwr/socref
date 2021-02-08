@@ -11,9 +11,9 @@ from weakref import ref as WeakReference
 
 class AbstractBlock(ABC):
     """
-    This is the abstract block class. Blocks are a model interface that
-    represents a single element of source code, capable of containing child
-    blocks. Blocks form a tree structure to represent a single project in the
+    This is the abstract block class. Blocks are a model interface capable of
+    containing child blocks that represents a single element of source code.
+    Blocks form a tree structure to represent a single project in the
     implemented language. A block's properties are used to save all data of that
     block. Edit definitions provide a list of edit definition classes that
     inform the core application how to layout a block's edit widget interface
@@ -34,11 +34,11 @@ class AbstractBlock(ABC):
     implemented in such a way that any attribute that begins with "_p_" is
     stored as a property. Any property of a block that must be saved and loaded
     must begin with the given string so it is recognized as a property by the
-    core application.
+    core application. All property attribute objects must be strings themselves.
 
     Edit definition helper classes are provided in the Edit package of the core
     application package. All possible edit widgets are defined as a class in
-    that package that ends with Edit.
+    said Edit package.
 
     An implemented block class must have no initialization arguments.
     """

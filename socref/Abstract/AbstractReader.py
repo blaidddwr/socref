@@ -79,7 +79,7 @@ class AbstractReader(ABC):
         self
     ):
         """
-        Discards the last file cursor position saved in this parent parser's
+        Discards the last file cursor position saved in the shared parser's
         current read file.
         """
         self.__parser.discard()
@@ -106,7 +106,15 @@ class AbstractReader(ABC):
         self
     ):
         """
-        Detailed description.
+        Reads the next line of the shared parser's active reading file, moving
+        its cursor to the next line.
+
+        Returns
+        -------
+        spaces : int
+                 The total number of spaces of the read line.
+        line : string
+               The read line, stripped of any white space from both sides.
         """
         return self.__parser.read()
 
@@ -115,7 +123,9 @@ class AbstractReader(ABC):
         self
     ):
         """
-        Detailed description.
+        Restores the last file cursor position saved in the shared parser's
+        current read file, removing it from the saved stack. The parser must
+        have at least one cursor state on its saved stack.
         """
         self.__parser.restore()
 
@@ -124,7 +134,8 @@ class AbstractReader(ABC):
         self
     ):
         """
-        Detailed description.
+        Saves the current cursor position of the shared parser's current read
+        file, adding it to the save stack.
         """
         self.__parser.save()
 
@@ -134,7 +145,12 @@ class AbstractReader(ABC):
         self
     ):
         """
-        Detailed description.
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : list
+                 Code lines that were not taken from this reader by any writers.
         """
         pass
 
@@ -144,7 +160,9 @@ class AbstractReader(ABC):
         self
     ):
         """
-        Detailed description.
+        This interface scans its parent parser's open source code file for any
+        lines that need to be saved for writers. This method must set its
+        reader's key before returning.
         """
         pass
 
@@ -154,11 +172,13 @@ class AbstractReader(ABC):
         ,key
     ):
         """
-        Detailed description.
+        Sets this reader's key to the given value. A reader's key can only be
+        set once.
 
         Parameters
         ----------
-        key : 
+        key : string
+              The new value of this reader's key.
         """
         if self.__key is not None:
             raise ScanError("An abstract reader attempted to overwrite its key.")

@@ -1,5 +1,5 @@
 """
-Contains the core application for Socrates' Reference.
+Contains the Socrates' Reference application.
 """
 from . import resources
 

@@ -51,13 +51,13 @@ class ObjectBlock(ModuleBlock):
         self
     ):
         rt = RichText()
-        rt.addHeader(1,"Description")
+        rt.addHeader("Description",1)
         parts = self._p_description.split("\n")
         if len(parts) == 2:
-            rt.addHeader(3,parts.pop(0))
+            rt.addHeader(parts.pop(0),3)
         rt.addText(self._p_description)
         if self._p_assignment:
-            rt.addHeader(1,"Assignment")
+            rt.addHeader("Assignment",1)
             rt.addText(self._p_assignment)
         return rt
 

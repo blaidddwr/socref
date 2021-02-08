@@ -7,7 +7,9 @@ Contains the LineEdit class.
 
 class LineEdit():
     """
-    Detailed description.
+    This is the line edit class. It provides a block property edit definition
+    for a line edit widget. A line edit widget is capable of editing a single
+    line of text.
     """
 
 
@@ -17,12 +19,14 @@ class LineEdit():
         ,key
     ):
         """
-        Detailed description.
+        Initializes this new line edit definition with the given label and key.
 
         Parameters
         ----------
-        label : 
-        key : 
+        label : string
+                The label displayed to the user next to the line edit widget.
+        key : string
+              The block property attribute name the line edit widget modifies.
         """
         self.__label = label
         self.__key = key
@@ -32,7 +36,13 @@ class LineEdit():
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : string
+                 The block property attribute name the line edit widget
+                 modifies.
         """
         return self.__key
 
@@ -41,6 +51,11 @@ class LineEdit():
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : string
+                 The label displayed to the user next to the line edit widget.
         """
         return self.__label

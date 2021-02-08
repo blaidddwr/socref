@@ -6,19 +6,19 @@
     <Package>
         <Package>
             <__p_name>socref</__p_name>
-            <__p_description>Contains the core application for Socrates' Reference.</__p_description>
+            <__p_description>Contains the Socrates' Reference application.</__p_description>
             <Package>
                 <__p_name>Abstract</__p_name>
-                <__p_description>Contains all abstract interface classes.</__p_description>
+                <__p_description>Contains all public abstract classes.</__p_description>
                 <Class>
                     <__p_name>AbstractBlock</__p_name>
-                    <__p_description>This is the abstract block class. Blocks are a model interface that represents a single element of source code, capable of containing child blocks. Blocks form a tree structure to represent a single project in the implemented language. A block's properties are used to save all data of that block. Edit definitions provide a list of edit definition classes that inform the core application how to layout a block's edit widget interface for editing its properties by the user. Blocks can iterate through and index its children blocks. Blocks can save or load themselves and all children nested underneath the saved or loaded block to XML format.
+                    <__p_description>This is the abstract block class. Blocks are a model interface capable of containing child blocks that represents a single element of source code. Blocks form a tree structure to represent a single project in the implemented language. A block's properties are used to save all data of that block. Edit definitions provide a list of edit definition classes that inform the core application how to layout a block's edit widget interface for editing its properties by the user. Blocks can iterate through and index its children blocks. Blocks can save or load themselves and all children nested underneath the saved or loaded block to XML format.
 
 Blocks represent an atomic element of a programming language such as a variable, function, or class. Blocks can contain any number of children and have only one parent. The only block that does not have a parent is the root block of a project. One and only one special block type must be assigned as the root block type for each implemented language. Blocks form tree relationships such as a variable block being the child of a function making it an argument of the function. Another example is a function being a child of a class making it a method of the class.
 
-Blocks store their properties as a dictionary. Operator overloading is implemented in such a way that any attribute that begins with &quot;_p_&quot; is stored as a property. Any property of a block that must be saved and loaded must begin with the given string so it is recognized as a property by the core application.
+Blocks store their properties as a dictionary. Operator overloading is implemented in such a way that any attribute that begins with &quot;_p_&quot; is stored as a property. Any property of a block that must be saved and loaded must begin with the given string so it is recognized as a property by the core application. All property attribute objects must be strings themselves.
 
-Edit definition helper classes are provided in the Edit package of the core application package. All possible edit widgets are defined as a class in that package that ends with Edit.
+Edit definition helper classes are provided in the Edit package of the core application package. All possible edit widgets are defined as a class in said Edit package.
 
 An implemented block class must have no initialization arguments.</__p_description>
                     <__p_parents>ABC</__p_parents>
@@ -496,7 +496,7 @@ The parent of this new abstract reader. If this is a root reader the parent must
                     </Function>
                     <Function>
                         <__p_name>discard</__p_name>
-                        <__p_description>Discards the last file cursor position saved in this parent parser's current read file.</__p_description>
+                        <__p_description>Discards the last file cursor position saved in the shared parser's current read file.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -513,95 +513,122 @@ This reader's unique key used to identify itself in its parent parser's reader l
                     </Function>
                     <Function>
                         <__p_name>read</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Reads the next line of the shared parser's active reading file, moving its cursor to the next line.</__p_description>
+                        <__p_returnsDescription>spaces
+int
+The total number of spaces of the read line.
+
+line
+string
+The read line, stripped of any white space from both sides.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>restore</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Restores the last file cursor position saved in the shared parser's current read file, removing it from the saved stack. The parser must have at least one cursor state on its saved stack.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>save</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Saves the current cursor position of the shared parser's current read file, adding it to the save stack.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>unknown</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Code lines that were not taken from this reader by any writers.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_scan_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>This interface scans its parent parser's open source code file for any lines that need to be saved for writers. This method must set its reader's key before returning.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_setKey_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Sets this reader's key to the given value. A reader's key can only be set once.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The new value of this reader's key.</__p_description>
                         </Object>
                     </Function>
                 </Class>
                 <Class>
                     <__p_name>AbstractWriter</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the abstract writer class. A writer is a process interface that writes new output of a source code file. Writers can create additional writers as children whose output is also added to the source code file output, after the parent writer's header and before its footer. This allows modular object oriented design where each writer can be responsible for a specific type of code output. All children writers must be added in the parent's initialization method.
+
+A method for looking up readers in all writer's shared parent parser is provided to allow writers the ability to take scanned code lines.</__p_description>
                     <__p_parents>ABC</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>asdf</__p_description>
+                        <__p_description>Initializes this new abstract writer with the given parent.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>object
+The parent of this new abstract writer. If this is a root writer then the parent must be the parser that created it, else the parent must be the parent writer that created this new child writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>__call__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+lines
+Output code lines written to this writer's source code file. If this is a root writer then this is the full code output, else if this is a child it is a code fragment added after its parent's header and before its footer.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>lookup</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+socref.Abstract.AbstractReader
+The parser in the shared parser's reader lookup table with the given key or none if there is no such reader with the given key.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The matching key, if any, of the returned reader.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>_footer_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Footer output code lines of this writer, added after any children writer code line output.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Footer output code lines of this writer, added after any children writer code line output.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
@@ -610,36 +637,44 @@ This reader's unique key used to identify itself in its parent parser's reader l
             </Package>
             <Package>
                 <__p_name>Edit</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all public edit definition classes.</__p_description>
                 <Class>
                     <__p_name>CheckBoxEdit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the checkbox edit class. It provides a block property edit definition for a checkbox edit widget. A checkbox edit widget allows selecting true or false, where the string &quot;1&quot; is true and &quot;0&quot; is false.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Initializes this new checkbox edit definition with the given label and key.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>label</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The label displayed to the user next to the checkbox.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>key</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The block property attribute name the checkbox modifies.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The block property attribute name the checkbox modifies.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>label</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The label displayed to the user next to the checkbox.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -647,108 +682,98 @@ This reader's unique key used to identify itself in its parent parser's reader l
                 </Class>
                 <Class>
                     <__p_name>ComboEdit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the combo edit class. It provides a block property edit definition for a combo box edit widget. A combo box edit widget allows selecting a value from multiple selection values.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Initializes this new combo edit definition with the given label, key, and selections.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>label</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The label displayed to the user next to the combo box.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>key</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The block property attribute name the combo box modifies.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>selections</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>list
+All valid string selection values for the combo box.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The block property attribute name the combo box modifies.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>label</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The label displayed to the user next to the combo box.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>selections</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+All valid string selection values for the combo box.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
-                    </Function>
-                </Class>
-                <Class>
-                    <__p_name>EditDefinitions</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>__iter__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>append</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>edit</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                        </Object>
                     </Function>
                 </Class>
                 <Class>
                     <__p_name>HiddenEdit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the hidden edit class. It provides a block property edit definition for a hidden edit widget. This is simply a hidden widget the user cannot see that sets a specific block property to a specific value.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Initializes this new hidden edit definition with the given key and value.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The block property attribute name the hidden widget modifies.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>value</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The value the hidden widget sets to the block property.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The block property attribute name the hidden widget modifies.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>value</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The value the hidden widget sets to the block property.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -756,33 +781,41 @@ This reader's unique key used to identify itself in its parent parser's reader l
                 </Class>
                 <Class>
                     <__p_name>LineEdit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the line edit class. It provides a block property edit definition for a line edit widget. A line edit widget is capable of editing a single line of text.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Initializes this new line edit definition with the given label and key.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>label</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The label displayed to the user next to the line edit widget.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>key</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The block property attribute name the line edit widget modifies.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The block property attribute name the line edit widget modifies.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>label</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The label displayed to the user next to the line edit widget.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -790,45 +823,57 @@ This reader's unique key used to identify itself in its parent parser's reader l
                 </Class>
                 <Class>
                     <__p_name>TextEdit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the text edit class. It provides a block property edit definition for a text edit widget. A text edit widget is capable of editing multiple lines of text and provide optional spell checking.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Initializes this new text edit definition with the given label, key, and optional spell checking.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>label</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The label displayed to the user next to the text edit widget.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>key</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The block property attribute name the text edit widget modifies.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>spellCheck</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>bool
+True to enable spell checking for the text edit widget or false to disable it.</__p_description>
                             <__p_assignment>False</__p_assignment>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The block property attribute name the text edit widget modifies.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>label</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The label displayed to the user next to the text edit widget.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>spellCheck</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True to enable spell checking for the text edit widget or false to disable it.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -837,7 +882,7 @@ This reader's unique key used to identify itself in its parent parser's reader l
             </Package>
             <Package>
                 <__p_name>Error</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all exceptions this application can raise.</__p_description>
                 <Class>
                     <__p_name>LangError</__p_name>
                     <__p_description>This is the import error exception class. It indicates an error occurred while loading a language's module.</__p_description>
@@ -865,179 +910,192 @@ This reader's unique key used to identify itself in its parent parser's reader l
             </Package>
             <Package>
                 <__p_name>Output</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains public classes that help with block's output requirements.</__p_description>
                 <Class>
                     <__p_name>Code</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the code class. It is a container and builder utility class that stores lines of code. Methods are provided to add lines of code to a code instance that are generic enough any language should be able to use them. This is a helper class meant to be used with writer implementations when generating their source code output.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Initializes this new code container with the given indent.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>indent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The indent that equals one level or depth of code.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>__iter__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>add</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Adds the given lines or line to this code's lines, adding the currently set indent depth to each line given.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>lines</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>object
+A line or lines of code that are added to this code's lines with this code's current indent depth. This must be a string or list of strings.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addBlank</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Adds the given number of blank lines to this code's lines.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>amount</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>int
+The number of blank lines added to this code's lines.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addText</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Adds the given text of lines into this code's lines, wrapping the text to limit each line to the maximum columns given. An optional begin string is given that is added to the beginning of each generated line of text. An optional after string is given that is added to the beginning of each generated line of text except for the very first line. An optional separator string is given that is used to separate multiple paragraphs of text as a separate line.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>text</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The text that is wrapped into lines and added to this code's lines. Paragraphs are separated by using two new line characters. Single new line characters are ignored.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>maxCols</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>int
+The maximum number of columns for each line of wrapped text.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>begin</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The string that is added to the beginning of each wrapped line of text and the special paragraph separator lines.</__p_description>
                             <__p_assignment>&quot;&quot;</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>after</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The string that is added to the beginning of each wrapped line of text and the special paragraph separator lines, excluding the very first line.</__p_description>
                             <__p_assignment>&quot;&quot;</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>sep</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The string that is used as a line separator between paragraphs of text.</__p_description>
                             <__p_assignment>&quot;&quot;</__p_assignment>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>setDepth</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Sets this code's indent depth to the given value.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>depth</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>int
+The new indent depth of this code. Anything less than zero will be treated as zero.</__p_description>
                         </Object>
                     </Function>
                 </Class>
                 <Class>
                     <__p_name>RichText</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the rich text class. It is a container and builder utility class that stores Qt rich text for display. Methods are provided to add different types of rich text to a rich text instance. This is a helper class meant to be used with a block's display view interface.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__str__</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>addBox</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Adds a box style paragraph to this rich text with the given text and title. A box paragraph is split into two parts. The first part is the title which is bold and alone on the first line. The second part is the normal text which begins on the second line.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
-                            <__p_name>text</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>title</__p_name>
+                            <__p_description>string
+The title of the added box.</__p_description>
                         </Object>
                         <Object>
-                            <__p_name>title</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>text</__p_name>
+                            <__p_description>string
+The normal text of the added box.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addHeader</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Adds a header to this rich text with the given title and level.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
-                            <__p_name>level</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>title</__p_name>
+                            <__p_description>string
+The title of the added header.</__p_description>
                         </Object>
                         <Object>
-                            <__p_name>title</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>level</__p_name>
+                            <__p_description>int
+The level of the added header. The allowed levels are 1, 2, or 3.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addList</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Adds an unordered list to this rich text from the given list of items.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>items</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>list
+Strings where each one is added as a list item.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addMap</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Adds a map list to this rich text from the given list of items. A map list is a paragraph where each item is listed on a new line within the paragraph.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>items</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>list
+Strings where each one is added as a map item.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addText</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Adds a paragraph to this rich text with the given text.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>text</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+Text that populates the added paragraph.</__p_description>
                         </Object>
                     </Function>
                 </Class>
             </Package>
             <Package>
                 <__p_name>Private</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all private entities of this application that are private and not to be used by any language implementation.</__p_description>
                 <Package>
                     <__p_name>Controller</__p_name>
                     <__p_description>Detailed description.</__p_description>
@@ -3625,7 +3683,7 @@ The parent index of this model whose children's data has changed due to the vola
         </Package>
         <Package>
             <__p_name>socref_python</__p_name>
-            <__p_description>Contains the Python language definition for Socrates' Reference.</__p_description>
+            <__p_description>Contains the Python language implementation for Socrates' Reference.</__p_description>
             <Package>
                 <__p_name>Block</__p_name>
                 <__p_description>Detailed description.</__p_description>
