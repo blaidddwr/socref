@@ -12,40 +12,37 @@ from traceback import print_exc
 
 class ParseController(QObject):
     """
-    This is the singleton parser model class. It handles execution of a given
-    abstract parser. A slot is provided for starting a new abstract parser.
-    Signals are provided for informing when parsing begins, makes progress,
-    finishes, and has remaining unknown code fragments. This class is designed
-    to run on its own thread because parsing can be a long process. Because of
-    this the GUI must interface with this class exclusively through its signals
-    and slots.
-
-    _DEPCRECATED_
+    This is the singleton parse controller class. This controls the execution of
+    a given abstract parser. A slot is provided for starting a new parser.
+    Signals are provided for status changes of this controller. This singleton
+    class is in its own thread to not block the main GUI thread when a parser is
+    executing.
     """
 
 
     #
-    # Signals this parser has finished parsing.
+    # Signals this controller has finished running its current parser.
     #
     finished = Signal()
 
 
     #
-    # Signals this parser has made the given percentage progress parsing. The
-    # range given is from 0 to 100.
+    # Signals this controller's parser has made the given percentage progress
+    # parsing. The range given is from 0 to 100.
     #
     progressed = Signal(int)
 
 
     #
-    # Signals this parser had remaining unknown code fragments after finishing
-    # the last parsing.
+    # Signals this controller's parser had remaining unknown code fragments
+    # after finishing. The code fragments are stored in a dictionary, where the
+    # values are lists of code line fragments.
     #
     remained = Signal(dict)
 
 
     #
-    # Signals this parser has started parsing.
+    # Signals this controller has started a new parser.
     #
     started = Signal()
 
@@ -53,9 +50,6 @@ class ParseController(QObject):
     def __init__(
         self
     ):
-        """
-        Initializes a new parser.
-        """
         super().__init__()
         self.__progress = 0
 
@@ -67,10 +61,8 @@ class ParseController(QObject):
     ):
         """
         Called to start execution of the given abstract parser, returning when
-        execution is complete.
-
-        This also catches any python exceptions and prints them to standard
-        error because Qt thread's event loop ignores them.
+        execution is complete. Any exception thrown while executing the given
+        parser is caught and printed to standard output.
 
         Parameters
         ----------
@@ -94,15 +86,14 @@ class ParseController(QObject):
         ,percent
     ):
         """
-        Called by the abstract parser that this parser model is currently
-        parsing to inform this parser that progress of the given percentage has
-        been made in parsing.
+        Called by the currently executing abstract parser of this controller to
+        inform this controller that progress of parsing has changed to the given
+        percentage.
 
         Parameters
         ----------
         percent : int
-                  The percentage progress made by this parser model's abstract
-                  parser ranging from 0 to 100.
+                  The percentage progress ranging from 0 to 100.
         """
         if percent > self.__progress:
             self.__progress = percent
