@@ -10,7 +10,10 @@ from ...Error.RegisterError import *
 
 class ParserFactory():
     """
-    Detailed description.
+    This is the singleton parser factory. It registers a parser class
+    implementation for a new language and creates new parser instances on demand
+    for any given language. Every new language must register one and only one
+    parser implementation.
     """
 
 
@@ -61,7 +64,8 @@ class ParserFactory():
         Returns
         -------
         result : socref.Abstract.AbstractParser
-                 A new parser from the project with the given root block.
+                 A new parser instance from the project with the given root
+                 block.
         """
         assert(self.__rn is None)
         return self.__parsers[block._LANG_](block)
@@ -83,7 +87,7 @@ class ParserFactory():
         ,class_
     ):
         """
-        Registers the given parser class the language currently being
+        Registers the given parser class for the language currently being
         registered.
 
         Parameters

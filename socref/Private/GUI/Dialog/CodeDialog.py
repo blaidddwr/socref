@@ -18,9 +18,7 @@ from PySide2.QtWidgets import QVBoxLayout
 class CodeDialog(QDialog):
     """
     This is the code dialog class. It displays any unknown code fragments given
-    to it. The fragments must be organized into a flat dictionary where the key
-    should provide a meaningful identity about the code fragment to the user.
-    The user is provided a list and read only text view to navigate the
+    to it. The user is provided a list and read only text view to navigate the
     fragments, along with a copy to clipboard button.
     """
     __GEOMETRY_KEY = "gui.dialog.code.geometry"
@@ -39,7 +37,10 @@ class CodeDialog(QDialog):
         Parameters
         ----------
         code : dictionary
-               The code that this dialog displays to the user.
+               The code that this dialog displays to the user. This must be
+               organized as a flat dictionary where the keys are meaningful
+               string identifiers and the values are lists of strings where each
+               string is a line of code.
         parent : object
                  The optional qt object parent of this dialog.
         """

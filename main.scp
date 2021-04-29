@@ -1098,7 +1098,7 @@ Text that populates the added paragraph.</__p_description>
                 <__p_description>Contains all private entities of this application that are private and not to be used by any language implementation.</__p_description>
                 <Package>
                     <__p_name>Controller</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>Contains all controller classes and their singleton instances.</__p_description>
                     <Class>
                         <__p_name>LangController</__p_name>
                         <__p_description>This is the singleton language controller class. This controls the loading of new languages by preparing the required factories and importing the language's package or module.</__p_description>
@@ -1181,7 +1181,7 @@ The percentage progress ranging from 0 to 100.</__p_description>
                 </Package>
                 <Package>
                     <__p_name>Factory</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>Contains all factory classes and their singleton instances.</__p_description>
                     <Class>
                         <__p_name>BlockFactory</__p_name>
                         <__p_description>This is the singleton block factory class. It registers block classes for a new language and creates new blocks of registered languages from the registered classes. Languages are registered using a unique name. Block classes are registered using a unique name within its language. One and only one special root block class must be registered for each language.</__p_description>
@@ -1283,7 +1283,7 @@ A class object that is registered as the root block type of the currently loadin
                     </Class>
                     <Class>
                         <__p_name>ParserFactory</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>This is the singleton parser factory. It registers a parser class implementation for a new language and creates new parser instances on demand for any given language. Every new language must register one and only one parser implementation.</__p_description>
                         <__p_infile>0</__p_infile>
                         <Function>
                             <__p_name>__init__</__p_name>
@@ -1317,7 +1317,7 @@ The language's name that will begin registration.</__p_description>
                             <__p_description>Getter method.</__p_description>
                             <__p_returnsDescription>result
 socref.Abstract.AbstractParser
-A new parser from the project with the given root block.</__p_returnsDescription>
+A new parser instance from the project with the given root block.</__p_returnsDescription>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
@@ -1337,7 +1337,7 @@ The root block of the project used to create the returned parser.
                         </Function>
                         <Function>
                             <__p_name>register</__p_name>
-                            <__p_description>Registers the given parser class the language currently being registered.</__p_description>
+                            <__p_description>Registers the given parser class for the language currently being registered.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
@@ -1351,10 +1351,10 @@ A class object that is registered as the parser of the currently loading languag
                 </Package>
                 <Package>
                     <__p_name>GUI</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>Contains all custom Qt GUI classes.</__p_description>
                     <Package>
                         <__p_name>Controller</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Contains all custom Qt controller classes.</__p_description>
                         <Class>
                             <__p_name>SpellHighlighter</__p_name>
                             <__p_description>This is the spell highlighter class. It implements the qt syntax highlighter class. It provides highlighting of misspelled words in the document the highlighter is given on initialization. It uses the Hunspell library for all speller functions.</__p_description>
@@ -1390,10 +1390,10 @@ The parent document that takes ownership of this highlighter and has its misspel
                     </Package>
                     <Package>
                         <__p_name>Dialog</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Contains all custom Qt Dialog classes.</__p_description>
                         <Class>
                             <__p_name>CodeDialog</__p_name>
-                            <__p_description>This is the code dialog class. It displays any unknown code fragments given to it. The fragments must be organized into a flat dictionary where the key should provide a meaningful identity about the code fragment to the user. The user is provided a list and read only text view to navigate the fragments, along with a copy to clipboard button.</__p_description>
+                            <__p_description>This is the code dialog class. It displays any unknown code fragments given to it. The user is provided a list and read only text view to navigate the fragments, along with a copy to clipboard button.</__p_description>
                             <__p_parents>QDialog</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
@@ -1405,7 +1405,7 @@ The parent document that takes ownership of this highlighter and has its misspel
                                 <Object>
                                     <__p_name>code</__p_name>
                                     <__p_description>dictionary
-The code that this dialog displays to the user.</__p_description>
+The code that this dialog displays to the user. This must be organized as a flat dictionary where the keys are meaningful string identifiers and the values are lists of strings where each string is a line of code.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
