@@ -1,3 +1,3 @@
 """
-Contains all custom Qt Dialog classes.
+Contains all custom Qt dialog classes.
 """

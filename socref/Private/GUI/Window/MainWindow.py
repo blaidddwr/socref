@@ -33,23 +33,25 @@ from os.path import join as pathJoin
 class MainWindow(QMainWindow):
     """
     This is the main window class. It is designed as a multiple window
-    application. It is the main window of the core application.
+    application. Any number of these windows can be open, the application itself
+    will close when the last main window closes. Each main window can edit its
+    own project independent of all other main windows. A reference does not need
+    to be saved for main windows because it keeps its own list of global
+    instances within its class object, these references must be kept inside
+    python because of a strange bug in pyside2.
 
-    It is designed as a multiple window application. Any number of these windows
-    can be open, the application itself will close when the last main window
-    closes. Each main window can edit its own project independent of all other
-    main windows. A reference does not need to be saved for main windows because
-    it keeps its own list of global instances within its class object.
+    Each main window provides a view, docks, menus, and a toolbar that allows a
+    user to work on any project in the application. The project view displays
+    the open project's tree of blocks. The view dock provides a detailed view of
+    the current block in the project view. The edit dock provides an edit form
+    for modifying the current block's properties. The menus and toolbars provide
+    shortcuts for actions that can be done in the project view. They also
+    provide basic actions that a main window handles itself such as opening or
+    saving projects.
 
-    It is the main window of the core application. It provides a view, docks,
-    menus, and a toolbar that allows a user to work on any project in the
-    application. The project view actually displays the tree of blocks of an
-    open project. The view dock provides a detailed view of the current block in
-    the project view. The edit dock provides an edit form for modifying the
-    current block's properties. The menus and toolbars provide shortcuts for
-    actions that can be done in the project view. They also provide basic
-    actions that a main window handles itself such as opening or saving
-    projects.
+    Parsing is handled by a single global parse controller, allowing only one
+    project to be parsed at a time. The parse controller is on its own Qt thread
+    separate of the main GUI thread to keep it responsive to the user.
     """
     __GEOMETRY_KEY = "gui.window.main.geometry"
     __STATE_KEY = "gui.window.main.state"

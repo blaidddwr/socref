@@ -45,16 +45,10 @@ class InsertCommand(RemoveCommand):
     def redo(
         self
     ):
-        """
-        Implements the .command.Command interface.
-        """
         super().undo()
 
 
     def undo(
         self
     ):
-        """
-        Implements the .command.Command interface.
-        """
         super().redo()

@@ -35,7 +35,7 @@ class MoveCommand(AbstractCommand):
                 The project model whose given index is moved.
         """
         super().__init__(model)
-        self.__parentRows = self._buildRows_(index.parent())
+        self.__parentRows = self._rows_(index.parent())
         self.__fromRow = index.row()
         self.__toRow = index.row()+change
 
@@ -43,24 +43,18 @@ class MoveCommand(AbstractCommand):
     def redo(
         self
     ):
-        """
-        Implements the .command.Command interface.
-        """
         self._model._moveRow_(
             self.__fromRow
             ,self.__toRow
-            ,self._getIndex_(self.__parentRows)
+            ,self._index_(self.__parentRows)
         )
 
 
     def undo(
         self
     ):
-        """
-        Implements the .command.Command interface.
-        """
         self._model._moveRow_(
             self.__toRow
             ,self.__fromRow
-            ,self._getIndex_(self.__parentRows)
+            ,self._index_(self.__parentRows)
         )

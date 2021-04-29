@@ -1,3 +1,3 @@
 """
-Detailed description.
+Contains all custom Qt window classes.
 """

@@ -1,5 +1,5 @@
 """
-Detailed description.
+Contains all model classes and singleton model instances.
 """
 from ... import HUNSPELL_ROOT
 from ... import DICTIONARY

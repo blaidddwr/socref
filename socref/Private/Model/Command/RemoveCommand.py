@@ -10,9 +10,9 @@ class RemoveCommand(AbstractCommand):
     """
     This is the remove command class. It implements the abstract command class.
     This command removes the given count of indexes starting at the given row
-    from the given parent index in the given project model. This class saves the
-    list of removed blocks and exposes it as a protected function so the inverse
-    command of insertion can reuse this class.
+    from the given parent index in the given project model. The removed blocks
+    are saved as a protected attribute so the remove action can be undone. It is
+    protected so the inverse insert command can use it.
     """
 
 
@@ -40,7 +40,7 @@ class RemoveCommand(AbstractCommand):
         """
         super().__init__(model)
         self._blocks = None
-        self.__parentRows = self._buildRows_(parent)
+        self.__parentRows = self._rows_(parent)
         self.__row = row
         self.__count = count
 
@@ -48,9 +48,6 @@ class RemoveCommand(AbstractCommand):
     def redo(
         self
     ):
-        """
-        Implements the .command.Command interface.
-        """
         if self._blocks is None:
             self._blocks = self._model._removeRows_(
                 self.__row
@@ -62,9 +59,6 @@ class RemoveCommand(AbstractCommand):
     def undo(
         self
     ):
-        """
-        Implements the .command.Command interface.
-        """
         if self._blocks is not None:
             self._model._insertRows_(
                 self.__row

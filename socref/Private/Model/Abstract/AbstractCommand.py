@@ -10,23 +10,15 @@ from abc import abstractmethod
 
 class AbstractCommand(ABC):
     """
-    This is the abstract command class. A command is an abstract interface
-    designed to do a single action upon a project model. It provides helper
-    methods for converting a qt model index into a list of rows and rows back to
-    an index.
-
-    A command is an abstract interface designed to do a single action upon a
-    project model. It provides interfaces for undoing or redoing a specific
-    command on the model. The model itself is provided as a protected object to
-    use when implementing undo and redo actions.
-
-    It provides helper methods for converting a qt model index into a list of
-    rows and rows back to an index. Because qt model indexes can become invalid
-    when the model changes, the list of rows for each command must be saved
-    instead. These rows are converted back to a valid index upon execution of
-    the undo or redo action. The rows in the list start from the root down one
-    level into the model tree for each row. An empty list represents the root
-    index.
+    This is the abstract command class. A command is an action interface
+    designed to redo or undo a single action upon a project model. Because qt
+    model indexes can become invalid when the model changes, the list of rows
+    for each command must be saved. These rows are converted back to a valid
+    index upon execution of the undo or redo action. Helper methods for
+    converting between a Qt model index and a list of rows are provided to
+    facilitate these requirements. The rows in the list start from the root down
+    one level into the model tree for each row. An empty list represents the
+    root index.
     """
 
 
@@ -66,7 +58,7 @@ class AbstractCommand(ABC):
         pass
 
 
-    def _buildRows_(
+    def _rows_(
         self
         ,index
     ):
@@ -76,8 +68,7 @@ class AbstractCommand(ABC):
         Parameters
         ----------
         index : PySide2.QtCore.QModelIndex
-                An index of this command's project model that is returns as a
-                list of rows.
+                An index of this command's project model.
 
         Returns
         -------
@@ -93,7 +84,7 @@ class AbstractCommand(ABC):
         return rows
 
 
-    def _getIndex_(
+    def _index_(
         self
         ,rows
     ):
@@ -110,8 +101,8 @@ class AbstractCommand(ABC):
         -------
         result : PySide2.QtCore.QModelIndex
                  A valid index created from this command's project model with
-                 the given list of rows. In this context valid can also be an
-                 invalid null index that represents the root.
+                 the given list of rows. An invalid null index is the root
+                 index.
         """
         index = QModelIndex()
         for row in rows:

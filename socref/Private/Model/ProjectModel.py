@@ -25,43 +25,29 @@ from enum import IntEnum
 class ProjectModel(QAbstractItemModel):
     """
     This is the project model class. It implements the qt abstract item model
-    class. It provides additional methods above and beyond the basic model
-    methods for added functionality. It provides basic properties that are
-    universal to a project. It has built in support for undo and redo of any
-    modification done to it.
-
-    It implements the qt abstract item model class. The header data, index,
-    parent, row count, column count, data, set data, insert rows, remove rows,
-    and insert row interfaces are implemented from the abstract class. The
-    header data provides a single horizontal title that is the language name of
-    the model's project if any. The column count always returns 1 since a
-    project model only has only column for a block's display name. Custom roles
-    are implemented using the roles defined in the role enumeration class. The
-    only role supported for set data is the property role. The model is
-    structures like a tree, returning the number of children an indexes block
-    has for the row count interface.
+    class. The header data, index, parent, row count, column count, data, set
+    data, insert rows, remove rows, and insert row interfaces are implemented
+    from the abstract class. The header data provides a single horizontal title
+    that is the language name of the model's project. The column count always
+    returns 1 since a project model only has only column for a block's display
+    name. Custom roles are implemented using the roles defined in the role
+    enumeration class. The only role supported for set data is the property
+    role.
 
     It provides additional methods and signals above and beyond the basic model
     methods for added functionality. Methods are provided for making a new
     project, loading a project, saving the current project, and closing the
     current project. A method and signal is provided to indicate if the model
-    has unsaved changes. Methods and a signal are provided for a project name
-    property of the current model's project. A read only method is also provided
-    to query the language of the currently loaded project, if any. A move row
-    method is provided to move the row of a given index. Methods are provided to
-    copy any number of indexes to XML or insert copied XML blocks back into the
-    model. A parser method is provided to build a new abstract parser for the
-    model's current project, if any.
+    has unsaved changes. Methods and a signal are provided for project name and
+    relative parse path properties of the current model's project. A read only
+    method is provided to query the language of the currently loaded project. A
+    move row method is provided to move the row of a given index. Methods are
+    provided to copy any number of indexes to XML or insert copied XML blocks
+    into the model. A parser method is provided to build a new abstract parser
+    for the model's current project.
 
-    It provides basic properties that are universal to a project. There is a
-    project name that is purely for the convenience of the user to identify a
-    project. A relative parse path property is provided that informs how a
-    project should be parsed. The parsing path used is the directory path of a
-    project's file with the relative parsing path appended to it.
-
-    It has built in support for undo and redo of any modification done to it.
-    Methods are provided to test if an undo or redo can be done on the model.
-    Slots are provided to undo or redo a modification to the project model.
+    Methods are provided to support undoing any previous action done to this
+    model's project or redoing any previous undone action.
     """
     __COPY_TAG = "pysoref_copy"
     __LANG_TAG = "language"

@@ -22,14 +22,10 @@ from PySide2.QtWidgets import QTreeView
 class ProjectView(QTreeView):
     """
     This is the project view class. It provides the main tree view for a project
-    model. Actions are provided for all basic editing actions done upon this
-    view's model.
-
-    It provides the main tree view for a project model. A view acts as the
-    primary view for an entire project, allowing the user to navigate and view
-    any part of the project tree. It provides a context menu that contains all
-    actions a view can do upon its project model. The context menu provided
-    fills the role of a main window's edit menu.
+    model. A view acts as the primary view for an entire project, allowing the
+    user to navigate and view any part of the project tree. It provides a
+    context menu that contains all actions a view can do upon its project model.
+    The context menu provided fills the role of a main window's edit menu.
 
     Actions are provided for all basic editing actions done upon a view's model.
     These actions allow the user to edit the project tree with undo, redo, add,

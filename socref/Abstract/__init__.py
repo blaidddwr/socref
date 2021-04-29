@@ -1,3 +1,3 @@
 """
-Contains all public abstract classes.
+Contains all public abstract interface classes.
 """

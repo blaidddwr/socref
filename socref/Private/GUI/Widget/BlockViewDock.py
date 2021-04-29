@@ -14,7 +14,7 @@ from PySide2.QtWidgets import QScrollArea
 
 class BlockViewDock(QDockWidget):
     """
-    This is the block view dock class. It attaches itself to a project view,
+    This is the block view dock class. It interfaces itself to a project view,
     providing a detailed view of the currently indexed block. It connects the
     appropriate signal to listen for the current index of the view to change.
     The detailed view is presented in a qt label as rich text.
@@ -48,13 +48,14 @@ class BlockViewDock(QDockWidget):
         ,view
     ):
         """
-        Sets this dock's view to the one given. If this dock currently has a
-        view it is disconnected from this dock.
+        Sets this dock's project view to the one given. If this dock currently
+        has a view it is disconnected from this dock.
 
         Parameters
         ----------
         view : socref.Private.GUI.Widget.ProjectView
-               The new attached view of this dock.
+               The newly interfaced project view of this dock. This project view
+               is not made the child of this dock.
         """
         if self.__view is not None:
             self.__view.current_changed.disconnect(self.__indexChanged_)

@@ -18,16 +18,14 @@ from PySide2.QtWidgets import QPushButton
 class SpellChecker(QGroupBox):
     """
     This is the spell checker class. It provides a spell checking and correction
-    interface. It uses the Hunspell library for all speller functions.
-
-    It provides a spell checking and correction interface. It begins spell
-    checking with its start slot, providing it a qt text cursor that is uses to
-    parse the entire document of the text cursor, checking for misspelled words.
-    Each misspelled word is highlighted and waits on the user to correct. The
-    user is given options to use a suggestion, replace, ignore, stop, or add to
-    dictionary. The cursor is updated to highlight each misspelled word found
-    while waiting for the user to make a choice about it. Adding to dictionary
-    is currently defunct but will be fixed.
+    interface using the Hunspell library. It begins spell checking with its
+    start slot, providing it a qt text cursor that is used to parse the entire
+    document of the text cursor, checking for misspelled words. Each misspelled
+    word is highlighted and waits on the user to correct. The user is given
+    options to use a suggestion, replace, ignore, stop, or add to dictionary.
+    The cursor is updated to highlight each misspelled word found while waiting
+    for the user to make a choice about it. Adding to dictionary is currently
+    defunct but will be fixed.
     """
     __wordPattern = reCompile('\w+')
 

@@ -9,7 +9,7 @@
             <__p_description>Contains the Socrates' Reference application.</__p_description>
             <Package>
                 <__p_name>Abstract</__p_name>
-                <__p_description>Contains all public abstract classes.</__p_description>
+                <__p_description>Contains all public abstract interface classes.</__p_description>
                 <Class>
                     <__p_name>AbstractBlock</__p_name>
                     <__p_description>This is the abstract block class. Blocks are a model interface capable of containing child blocks that represents a single element of source code. Blocks form a tree structure to represent a single project in the implemented language. A block's properties are used to save all data of that block. Edit definitions provide a list of edit definition classes that inform the core application how to layout a block's edit widget interface for editing its properties by the user. Blocks can iterate through and index its children blocks. Blocks can save or load themselves and all children nested underneath the saved or loaded block to XML format.
@@ -1390,7 +1390,7 @@ The parent document that takes ownership of this highlighter and has its misspel
                     </Package>
                     <Package>
                         <__p_name>Dialog</__p_name>
-                        <__p_description>Contains all custom Qt Dialog classes.</__p_description>
+                        <__p_description>Contains all custom Qt dialog classes.</__p_description>
                         <Class>
                             <__p_name>CodeDialog</__p_name>
                             <__p_description>This is the code dialog class. It displays any unknown code fragments given to it. The user is provided a list and read only text view to navigate the fragments, along with a copy to clipboard button.</__p_description>
@@ -1711,14 +1711,10 @@ The initialized spell checker box widget.</__p_returnsDescription>
                     </Package>
                     <Package>
                         <__p_name>Widget</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Contains all custom Qt widget classes.</__p_description>
                         <Class>
                             <__p_name>BlockEditDock</__p_name>
-                            <__p_description>This is the block edit dock class. It attaches itself to a project view. It provides a GUI edit form to the user for modifying a block's properties.
-
-It attaches itself to a project view. It connects the appropriate signal to listen for the current index of the view to change. When the index does change, it updates itself to reflect the new block that can be edited by the user.
-
-It provides a GUI edit form to the user for modifying a block's properties. The specific edit elements in the form is built based off the block's edit definitions, adding them all in the form in the same order as the edit definitions list. An apply button is also added to the end of the form to update the block's properties to the current values of all the edit widgets. If the current index is changed and there are unsaved changes to the properties this will ask the user if they want to save the changes.</__p_description>
+                            <__p_description>This is the block edit dock class. It interfaces itself to a project view. It connects the appropriate signal to listen for the current index of the view to change. When the index does change, it updates itself to reflect the new block that can be edited by the user. It provides a GUI edit form to the user for modifying a block's properties. The specific edit elements in the form are built using the block's edit definitions, adding them all in the form in the same order as the edit definitions list. An apply button is added to the end of the form to update the block's properties to the current values of all the edit widgets. If the current index is changed and there are unsaved changes to the properties this will ask the user if they want to save the changes.</__p_description>
                             <__p_parents>QDockWidget</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
@@ -1736,14 +1732,14 @@ Optional qt object parent of this new block edit dock.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>setView</__p_name>
-                                <__p_description>Sets this dock's view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
+                                <__p_description>Sets this dock's project view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>view</__p_name>
                                     <__p_description>socref.Private.GUI.Widget.ProjectView
-The new attached view of this dock.</__p_description>
+The newly interfaced project view of this dock. This project view is not made the child of this dock.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -1926,7 +1922,7 @@ The new index of the block this dock is editing.</__p_description>
                         </Class>
                         <Class>
                             <__p_name>BlockViewDock</__p_name>
-                            <__p_description>This is the block view dock class. It attaches itself to a project view, providing a detailed view of the currently indexed block. It connects the appropriate signal to listen for the current index of the view to change. The detailed view is presented in a qt label as rich text.</__p_description>
+                            <__p_description>This is the block view dock class. It interfaces itself to a project view, providing a detailed view of the currently indexed block. It connects the appropriate signal to listen for the current index of the view to change. The detailed view is presented in a qt label as rich text.</__p_description>
                             <__p_parents>QDockWidget</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
@@ -1944,14 +1940,14 @@ Optional qt object parent of this new block view dock.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>setView</__p_name>
-                                <__p_description>Sets this dock's view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
+                                <__p_description>Sets this dock's project view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>view</__p_name>
                                     <__p_description>socref.Private.GUI.Widget.ProjectView
-The new attached view of this dock.</__p_description>
+The newly interfaced project view of this dock. This project view is not made the child of this dock.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -2036,9 +2032,7 @@ True to enable this editor's spelling highlighter or false to disable it.</__p_d
                         </Class>
                         <Class>
                             <__p_name>ProjectView</__p_name>
-                            <__p_description>This is the project view class. It provides the main tree view for a project model. Actions are provided for all basic editing actions done upon this view's model.
-
-It provides the main tree view for a project model. A view acts as the primary view for an entire project, allowing the user to navigate and view any part of the project tree. It provides a context menu that contains all actions a view can do upon its project model. The context menu provided fills the role of a main window's edit menu.
+                            <__p_description>This is the project view class. It provides the main tree view for a project model. A view acts as the primary view for an entire project, allowing the user to navigate and view any part of the project tree. It provides a context menu that contains all actions a view can do upon its project model. The context menu provided fills the role of a main window's edit menu.
 
 Actions are provided for all basic editing actions done upon a view's model. These actions allow the user to edit the project tree with undo, redo, add, remove, cut, copy, paste, move up, and move down actions. For adding and pasting into the project an option is provided to insert before, into, or after the currently selected block. The individual qt actions are also provided if they need to be added to another custom menu or toolbar. The provided actions are enabled or disabled based off the current state of a view.</__p_description>
                             <__p_parents>QTreeView</__p_parents>
@@ -2425,9 +2419,7 @@ The new insert option set for this project.</__p_description>
                         </Class>
                         <Class>
                             <__p_name>SpellChecker</__p_name>
-                            <__p_description>This is the spell checker class. It provides a spell checking and correction interface. It uses the Hunspell library for all speller functions.
-
-It provides a spell checking and correction interface. It begins spell checking with its start slot, providing it a qt text cursor that is uses to parse the entire document of the text cursor, checking for misspelled words. Each misspelled word is highlighted and waits on the user to correct. The user is given options to use a suggestion, replace, ignore, stop, or add to dictionary. The cursor is updated to highlight each misspelled word found while waiting for the user to make a choice about it. Adding to dictionary is currently defunct but will be fixed.</__p_description>
+                            <__p_description>This is the spell checker class. It provides a spell checking and correction interface using the Hunspell library. It begins spell checking with its start slot, providing it a qt text cursor that is used to parse the entire document of the text cursor, checking for misspelled words. Each misspelled word is highlighted and waits on the user to correct. The user is given options to use a suggestion, replace, ignore, stop, or add to dictionary. The cursor is updated to highlight each misspelled word found while waiting for the user to make a choice about it. Adding to dictionary is currently defunct but will be fixed.</__p_description>
                             <__p_parents>QGroupBox</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Object>
@@ -2540,14 +2532,14 @@ True to skip the word this checker's cursor is currently under or false to check
                     </Package>
                     <Package>
                         <__p_name>Window</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Contains all custom Qt window classes.</__p_description>
                         <Class>
                             <__p_name>MainWindow</__p_name>
-                            <__p_description>This is the main window class. It is designed as a multiple window application. It is the main window of the core application.
+                            <__p_description>This is the main window class. It is designed as a multiple window application. Any number of these windows can be open, the application itself will close when the last main window closes. Each main window can edit its own project independent of all other main windows. A reference does not need to be saved for main windows because it keeps its own list of global instances within its class object, these references must be kept inside python because of a strange bug in pyside2.
 
-It is designed as a multiple window application. Any number of these windows can be open, the application itself will close when the last main window closes. Each main window can edit its own project independent of all other main windows. A reference does not need to be saved for main windows because it keeps its own list of global instances within its class object.
+Each main window provides a view, docks, menus, and a toolbar that allows a user to work on any project in the application. The project view displays the open project's tree of blocks. The view dock provides a detailed view of the current block in the project view. The edit dock provides an edit form for modifying the current block's properties. The menus and toolbars provide shortcuts for actions that can be done in the project view. They also provide basic actions that a main window handles itself such as opening or saving projects.
 
-It is the main window of the core application. It provides a view, docks, menus, and a toolbar that allows a user to work on any project in the application. The project view actually displays the tree of blocks of an open project. The view dock provides a detailed view of the current block in the project view. The edit dock provides an edit form for modifying the current block's properties. The menus and toolbars provide shortcuts for actions that can be done in the project view. They also provide basic actions that a main window handles itself such as opening or saving projects.</__p_description>
+Parsing is handled by a single global parse controller, allowing only one project to be parsed at a time. The parse controller is on its own Qt thread separate of the main GUI thread to keep it responsive to the user.</__p_description>
                             <__p_parents>QMainWindow</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Object>
@@ -2819,17 +2811,13 @@ The status bar is also accessed that forces it to be visible before it is initia
                 </Package>
                 <Package>
                     <__p_name>Model</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>Contains all model classes and singleton model instances.</__p_description>
                     <Package>
                         <__p_name>Abstract</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Contains all abstract interface classes.</__p_description>
                         <Class>
                             <__p_name>AbstractCommand</__p_name>
-                            <__p_description>This is the abstract command class. A command is an abstract interface designed to do a single action upon a project model. It provides helper methods for converting a qt model index into a list of rows and rows back to an index.
-
-A command is an abstract interface designed to do a single action upon a project model. It provides interfaces for undoing or redoing a specific command on the model. The model itself is provided as a protected object to use when implementing undo and redo actions.
-
-It provides helper methods for converting a qt model index into a list of rows and rows back to an index. Because qt model indexes can become invalid when the model changes, the list of rows for each command must be saved instead. These rows are converted back to a valid index upon execution of the undo or redo action. The rows in the list start from the root down one level into the model tree for each row. An empty list represents the root index.</__p_description>
+                            <__p_description>This is the abstract command class. A command is an action interface designed to redo or undo a single action upon a project model. Because qt model indexes can become invalid when the model changes, the list of rows for each command must be saved. These rows are converted back to a valid index upon execution of the undo or redo action. Helper methods for converting between a Qt model index and a list of rows are provided to facilitate these requirements. The rows in the list start from the root down one level into the model tree for each row. An empty list represents the root index.</__p_description>
                             <__p_parents>ABC</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
@@ -2859,7 +2847,7 @@ The project model that this new command acts upon.</__p_description>
                                 <__p_abstract>1</__p_abstract>
                             </Function>
                             <Function>
-                                <__p_name>_buildRows_</__p_name>
+                                <__p_name>_rows_</__p_name>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 list
@@ -2870,15 +2858,15 @@ Rows that represent the given qt model index of this command's project model. An
                                 <Object>
                                     <__p_name>index</__p_name>
                                     <__p_description>PySide2.QtCore.QModelIndex
-An index of this command's project model that is returns as a list of rows.</__p_description>
+An index of this command's project model.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
-                                <__p_name>_getIndex_</__p_name>
+                                <__p_name>_index_</__p_name>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 PySide2.QtCore.QModelIndex
-A valid index created from this command's project model with the given list of rows. In this context valid can also be an invalid null index that represents the root.</__p_returnsDescription>
+A valid index created from this command's project model with the given list of rows. An invalid null index is the root index.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2892,7 +2880,7 @@ Rows that represent a valid qt model index of this command's project model.</__p
                     </Package>
                     <Package>
                         <__p_name>Command</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Contains all implemented command classes.</__p_description>
                         <Class>
                             <__p_name>InsertCommand</__p_name>
                             <__p_description>This is the insert command class. It implements the abstract command class.  It inherits from the remove command class because the insert command is simply the inverse of the remove command and therefore only needs to reverse the undo and redo commands.</__p_description>
@@ -2927,14 +2915,12 @@ The project model where the given blocks are inserted.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>redo</__p_name>
-                                <__p_description>Implements the .command.Command interface.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>undo</__p_name>
-                                <__p_description>Implements the .command.Command interface.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2969,14 +2955,12 @@ The project model whose given index is moved.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>redo</__p_name>
-                                <__p_description>Implements the .command.Command interface.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>undo</__p_name>
-                                <__p_description>Implements the .command.Command interface.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2984,7 +2968,7 @@ The project model whose given index is moved.</__p_description>
                         </Class>
                         <Class>
                             <__p_name>RemoveCommand</__p_name>
-                            <__p_description>This is the remove command class. It implements the abstract command class. This command removes the given count of indexes starting at the given row from the given parent index in the given project model. This class saves the list of removed blocks and exposes it as a protected function so the inverse command of insertion can reuse this class.</__p_description>
+                            <__p_description>This is the remove command class. It implements the abstract command class. This command removes the given count of indexes starting at the given row from the given parent index in the given project model. The removed blocks are saved as a protected attribute so the remove action can be undone. It is protected so the inverse insert command can use it.</__p_description>
                             <__p_parents>AbstractCommand</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
@@ -3016,14 +3000,12 @@ The project model whose given indexes are removed.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>redo</__p_name>
-                                <__p_description>Implements the .command.Command interface.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>undo</__p_name>
-                                <__p_description>Implements the .command.Command interface.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -3063,14 +3045,12 @@ The project model whose given index block properties are changed.</__p_descripti
                             </Function>
                             <Function>
                                 <__p_name>redo</__p_name>
-                                <__p_description>Implements the .command.Command interface.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>undo</__p_name>
-                                <__p_description>Implements the .command.Command interface.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -3079,15 +3059,11 @@ The project model whose given index block properties are changed.</__p_descripti
                     </Package>
                     <Class>
                         <__p_name>ProjectModel</__p_name>
-                        <__p_description>This is the project model class. It implements the qt abstract item model class. It provides additional methods above and beyond the basic model methods for added functionality. It provides basic properties that are universal to a project. It has built in support for undo and redo of any modification done to it.
+                        <__p_description>This is the project model class. It implements the qt abstract item model class. The header data, index, parent, row count, column count, data, set data, insert rows, remove rows, and insert row interfaces are implemented from the abstract class. The header data provides a single horizontal title that is the language name of the model's project. The column count always returns 1 since a project model only has only column for a block's display name. Custom roles are implemented using the roles defined in the role enumeration class. The only role supported for set data is the property role.
 
-It implements the qt abstract item model class. The header data, index, parent, row count, column count, data, set data, insert rows, remove rows, and insert row interfaces are implemented from the abstract class. The header data provides a single horizontal title that is the language name of the model's project if any. The column count always returns 1 since a project model only has only column for a block's display name. Custom roles are implemented using the roles defined in the role enumeration class. The only role supported for set data is the property role. The model is structures like a tree, returning the number of children an indexes block has for the row count interface.
+It provides additional methods and signals above and beyond the basic model methods for added functionality. Methods are provided for making a new project, loading a project, saving the current project, and closing the current project. A method and signal is provided to indicate if the model has unsaved changes. Methods and a signal are provided for project name and relative parse path properties of the current model's project. A read only method is provided to query the language of the currently loaded project. A move row method is provided to move the row of a given index. Methods are provided to copy any number of indexes to XML or insert copied XML blocks into the model. A parser method is provided to build a new abstract parser for the model's current project.
 
-It provides additional methods and signals above and beyond the basic model methods for added functionality. Methods are provided for making a new project, loading a project, saving the current project, and closing the current project. A method and signal is provided to indicate if the model has unsaved changes. Methods and a signal are provided for a project name property of the current model's project. A read only method is also provided to query the language of the currently loaded project, if any. A move row method is provided to move the row of a given index. Methods are provided to copy any number of indexes to XML or insert copied XML blocks back into the model. A parser method is provided to build a new abstract parser for the model's current project, if any.
-
-It provides basic properties that are universal to a project. There is a project name that is purely for the convenience of the user to identify a project. A relative parse path property is provided that informs how a project should be parsed. The parsing path used is the directory path of a project's file with the relative parsing path appended to it.
-
-It has built in support for undo and redo of any modification done to it. Methods are provided to test if an undo or redo can be done on the model. Slots are provided to undo or redo a modification to the project model.</__p_description>
+Methods are provided to support undoing any previous action done to this model's project or redoing any previous undone action.</__p_description>
                         <__p_parents>QAbstractItemModel</__p_parents>
                         <__p_infile>0</__p_infile>
                         <Class>

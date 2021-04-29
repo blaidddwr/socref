@@ -29,21 +29,17 @@ from gc import collect as gCollect
 
 class BlockEditDock(QDockWidget):
     """
-    This is the block edit dock class. It attaches itself to a project view. It
-    provides a GUI edit form to the user for modifying a block's properties.
-
-    It attaches itself to a project view. It connects the appropriate signal to
-    listen for the current index of the view to change. When the index does
-    change, it updates itself to reflect the new block that can be edited by the
-    user.
-
-    It provides a GUI edit form to the user for modifying a block's properties.
-    The specific edit elements in the form is built based off the block's edit
-    definitions, adding them all in the form in the same order as the edit
-    definitions list. An apply button is also added to the end of the form to
-    update the block's properties to the current values of all the edit widgets.
-    If the current index is changed and there are unsaved changes to the
-    properties this will ask the user if they want to save the changes.
+    This is the block edit dock class. It interfaces itself to a project view.
+    It connects the appropriate signal to listen for the current index of the
+    view to change. When the index does change, it updates itself to reflect the
+    new block that can be edited by the user. It provides a GUI edit form to the
+    user for modifying a block's properties. The specific edit elements in the
+    form are built using the block's edit definitions, adding them all in the
+    form in the same order as the edit definitions list. An apply button is
+    added to the end of the form to update the block's properties to the current
+    values of all the edit widgets. If the current index is changed and there
+    are unsaved changes to the properties this will ask the user if they want to
+    save the changes.
     """
 
 
@@ -73,13 +69,14 @@ class BlockEditDock(QDockWidget):
         ,view
     ):
         """
-        Sets this dock's view to the one given. If this dock currently has a
-        view it is disconnected from this dock.
+        Sets this dock's project view to the one given. If this dock currently
+        has a view it is disconnected from this dock.
 
         Parameters
         ----------
         view : socref.Private.GUI.Widget.ProjectView
-               The new attached view of this dock.
+               The newly interfaced project view of this dock. This project view
+               is not made the child of this dock.
         """
         if self.__view is not None:
             self.__view.current_changed.disconnect(self.__indexChanged_)

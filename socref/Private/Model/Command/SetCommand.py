@@ -39,7 +39,7 @@ class SetCommand(AbstractCommand):
                 changed.
         """
         super().__init__(model)
-        self.__rows = self._buildRows_(index)
+        self.__rows = self._rows_(index)
         self.__fromProperties = fromProperties
         self.__toProperties = toProperties
 
@@ -47,16 +47,10 @@ class SetCommand(AbstractCommand):
     def redo(
         self
     ):
-        """
-        Implements the .command.Command interface.
-        """
-        self._model._setProperties_(self._getIndex_(self.__rows),self.__toProperties)
+        self._model._setProperties_(self._index_(self.__rows),self.__toProperties)
 
 
     def undo(
         self
     ):
-        """
-        Implements the .command.Command interface.
-        """
-        self._model._setProperties_(self._getIndex_(self.__rows),self.__fromProperties)
+        self._model._setProperties_(self._index_(self.__rows),self.__fromProperties)
