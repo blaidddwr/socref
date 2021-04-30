@@ -52,7 +52,7 @@ class RemoveCommand(AbstractCommand):
             self._blocks = self._model._removeRows_(
                 self.__row
                 ,self.__count
-                ,self._getIndex_(self.__parentRows)
+                ,self._index_(self.__parentRows)
             )
 
 
@@ -63,6 +63,6 @@ class RemoveCommand(AbstractCommand):
             self._model._insertRows_(
                 self.__row
                 ,self._blocks
-                ,self._getIndex_(self.__parentRows)
+                ,self._index_(self.__parentRows)
             )
             self._blocks = None

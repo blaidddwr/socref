@@ -3657,7 +3657,7 @@ The parent index of this model whose children's data has changed due to the vola
             <__p_description>Contains the Python language implementation for Socrates' Reference.</__p_description>
             <Package>
                 <__p_name>Block</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all implemented Socrates' Reference block classes.</__p_description>
                 <Class>
                     <__p_name>ClassBlock</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
@@ -3684,14 +3684,20 @@ The parent index of this model whose children's data has changed due to the vola
                     </Function>
                     <Function>
                         <__p_name>clsParents</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Names of all inherited class parents of this class.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>decorators</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Decorator lines, each one including the beginning special at character, of this class.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -3716,7 +3722,10 @@ The parent index of this model whose children's data has changed due to the vola
                     </Function>
                     <Function>
                         <__p_name>flags</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Human readable, capitalized, and enabled flag names of this class.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -3768,13 +3777,17 @@ True if this class is in file or false otherwise. In file means its definition i
                     </Function>
                     <Function>
                         <__p_name>arguments</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Tuples of argument values of this function. Each tuple contains the name, assignment, type, and description in that order. The assignment, type, and description can be empty. Special self or cls arguments can be included.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>mSelf</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>bool
+True to include the special cls or self arguments if this function is a regular or class method, false otherwise.</__p_description>
                             <__p_assignment>True</__p_assignment>
                         </Object>
                     </Function>
@@ -3792,7 +3805,10 @@ True if this class is in file or false otherwise. In file means its definition i
                     </Function>
                     <Function>
                         <__p_name>decorators</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Decorator lines, each one including the beginning special at character, of this function.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -3822,7 +3838,10 @@ True if this class is in file or false otherwise. In file means its definition i
                     </Function>
                     <Function>
                         <__p_name>flags</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Human readable, capitalized, and enabled flag names of this function.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -3881,7 +3900,10 @@ True if this function is static or false otherwise.</__p_returnsDescription>
                     </Function>
                     <Function>
                         <__p_name>returns</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Tuples of return values of this function. Each tuple contains the name, type and description in that order.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -3968,6 +3990,16 @@ True if this function is static or false otherwise.</__p_returnsDescription>
                     <__p_decorators>block(&quot;Object&quot;)</__p_decorators>
                     <Function>
                         <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>argValues</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+tuple
+The argument name, assignment, type, and description of this object. The type and description must be separating with a new line in its description field to be populated, otherwise both returns are empty strings.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

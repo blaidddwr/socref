@@ -47,7 +47,12 @@ class ClassBlock(ModuleBlock):
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : list
+                 Names of all inherited class parents of this class.
         """
         return [p for p in self._p_parents.split("\n") if p]
 
@@ -56,7 +61,13 @@ class ClassBlock(ModuleBlock):
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : list
+                 Decorator lines, each one including the beginning special at
+                 character, of this class.
         """
         return ["@"+d for d in self._p_decorators.split("\n") if d]
 
@@ -106,7 +117,13 @@ class ClassBlock(ModuleBlock):
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : list
+                 Human readable, capitalized, and enabled flag names of this
+                 class.
         """
         return ["Infine"] if self.isInfile() else []
 

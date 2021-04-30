@@ -1,5 +1,5 @@
 """
-Detailed description.
+Contains all implemented Socrates' Reference block classes.
 """
 from . import ClassBlock
 from . import FunctionBlock

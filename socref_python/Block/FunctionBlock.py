@@ -35,23 +35,27 @@ class FunctionBlock(ModuleBlock):
         ,mSelf=True
     ):
         """
-        Detailed description.
+        Getter method.
 
         Parameters
         ----------
-        mSelf : 
+        mSelf : bool
+                True to include the special cls or self arguments if this
+                function is a regular or class method, false otherwise.
+
+        Returns
+        -------
+        result : list
+                 Tuples of argument values of this function. Each tuple contains
+                 the name, assignment, type, and description in that order. The
+                 assignment, type, and description can be empty. Special self or
+                 cls arguments can be included.
         """
         ret = []
         if self.isMethod() and not self.isStatic() and mSelf:
-            ret.append(("cls" if self.isClass() else "self","","",""))
+            ret.append((("cls" if self.isClass() else "self"),"","",""))
         for child in self:
-            type_ = ""
-            description = ""
-            try:
-                (type_,description) = child._p_description.split("\n")
-            except:
-                pass
-            ret.append((child._p_name,child._p_assignment,type_,description))
+            ret.append(child.argValues())
         return ret
 
 
@@ -77,11 +81,17 @@ class FunctionBlock(ModuleBlock):
         ,flags=True
     ):
         """
-        Detailed description.
+        Getter method.
 
         Parameters
         ----------
         flags : 
+
+        Returns
+        -------
+        result : list
+                 Decorator lines, each one including the beginning special at
+                 character, of this function.
         """
         ret = []
         if flags:
@@ -153,7 +163,13 @@ class FunctionBlock(ModuleBlock):
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : list
+                 Human readable, capitalized, and enabled flag names of this
+                 function.
         """
         ret = []
         if self.isStatic():
@@ -268,7 +284,13 @@ class FunctionBlock(ModuleBlock):
         self
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Returns
+        -------
+        result : list
+                 Tuples of return values of this function. Each tuple contains
+                 the name, type and description in that order.
         """
         ret = []
         for r in self._p_returnsDescription.split("\n\n"):

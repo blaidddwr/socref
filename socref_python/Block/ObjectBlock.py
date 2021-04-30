@@ -25,6 +25,29 @@ class ObjectBlock(ModuleBlock):
         self._p_assignment = ""
 
 
+    def argValues(
+        self
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        result : tuple
+                 The argument name, assignment, type, and description of this
+                 object. The type and description must be separating with a new
+                 line in its description field to be populated, otherwise both
+                 returns are empty strings.
+        """
+        type_ = ""
+        description = ""
+        try:
+            (type_,description) = self._p_description.split("\n")
+        except:
+            pass
+        return (self._p_name,self._p_assignment,type_,description)
+
+
     def buildList(
         self
     ):
