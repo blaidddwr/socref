@@ -3917,7 +3917,7 @@ Tuples of return values of this function. Each tuple contains the name, type and
                 </Class>
                 <Class>
                     <__p_name>ModuleBlock</__p_name>
-                    <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
+                    <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module. This class acts as a base block class inherited by all other block implementations.</__p_description>
                     <__p_parents>AbstractBlock</__p_parents>
                     <__p_infile>0</__p_infile>
                     <__p_decorators>block(&quot;Module&quot;)</__p_decorators>
@@ -3965,13 +3965,19 @@ Tuples of return values of this function. Each tuple contains the name, type and
                     </Function>
                     <Function>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method.
+
+Because of the ambiguity of classes being contained within a module of the same name, keys must adjust to this fact. A module reader exists for the dummy container module for each class, and the returned keys must adapt to this. This is why there is a special is module flag given to this method, so if this is a class block it knows to not append its name twice if this is its dummy module container writer. In all other instances of this being the class, nested class, or function writer the root class name is correctly appended twice to the returned key.</__p_description>
+                        <__p_returnsDescription>result
+string
+Unique key used to obtain the correct reader for the writer of this block.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>isMod</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>bool
+True if the returned key is for a module or false otherwise.</__p_description>
                             <__p_assignment>False</__p_assignment>
                         </Object>
                     </Function>
@@ -4065,7 +4071,7 @@ True if this object is an argument of a function or false otherwise.</__p_return
                 </Class>
                 <Class>
                     <__p_name>PackageBlock</__p_name>
-                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project.</__p_description>
+                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package.</__p_description>
                     <__p_parents>ModuleBlock</__p_parents>
                     <__p_infile>0</__p_infile>
                     <__p_decorators>block(&quot;Package&quot;,root=True)</__p_decorators>
@@ -4091,58 +4097,61 @@ True if this object is an argument of a function or false otherwise.</__p_return
             </Package>
             <Package>
                 <__p_name>Reader</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all implemented Socrates' Reference reader classes.</__p_description>
                 <Class>
                     <__p_name>ClassReader</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the class reader class. It implements the Socrates' Reference abstract reader class. It parses a class; saving custom header lines of code, all methods, and all nested classes of the parsed class. Parsed function and class definitions are added as new reader children.</__p_description>
                     <__p_parents>AbstractReader</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>asdf</__p_description>
+                        <__p_description>Initializes this new class reader with the given class name and parent reader.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The name of the class this reader will parse.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Abstract.AbstractReader
+The parent reader that discovered the header code line of the class that this reader will parse.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>lines</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method. This can only be called once, after which the an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+Lines of custom header code parsed by this class reader.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>unknown</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_scan_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__scanDefs_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Scans for any function or class definitions within this reader's parsed class. New function or class readers are created as children of this reader for each definition found.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__scanLines_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Scans for any custom header lines of code at the beginning of this reader's parsed class, positioned right after the header and doc string.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4150,59 +4159,63 @@ True if this object is an argument of a function or false otherwise.</__p_return
                 </Class>
                 <Class>
                     <__p_name>FunctionReader</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the function reader class. It implements the Socrates' Reference abstract reader class. It parses a function; saving all lines of code nested within the function definition.</__p_description>
                     <__p_parents>AbstractReader</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>asdf</__p_description>
+                        <__p_description>Initializes this new function reader with the given function name, header ending, and parent reader.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The name of the function this reader will parse.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>end</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>string
+The end of the to be parsed function's header line, beginning after the opening parenthesis. This is used to determine where the header of the function ends since it is more than one line if it has arguments.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Abstract.AbstractReader
+The parent reader that discovered the header code line of the function that his reader will parse.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>lines</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method. This can only be called once, after which the an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+Lines of code contained by the parsed function of this reader.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>unknown</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_scan_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__scanLines_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Scans all nested lines of code within this reader's parsed function. The indentation is determined by the very first line read, and scanning stops when the first line of code lesser than that indent is encountered.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__skipEnd_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Skips any remaining header code lines of this reader's parsed function.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4210,83 +4223,92 @@ True if this object is an argument of a function or false otherwise.</__p_return
                 </Class>
                 <Class>
                     <__p_name>ModuleReader</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the module reader class. It implements the Socrates' Reference abstract reader class. It parses module files; saving import lines, function definitions, class definitions, and custom footer lines of code. Parsed function and class definitions are added as new reader children. This is an all purpose reader that reads in any module file, including the special package init file and dummy class container modules.</__p_description>
                     <__p_parents>AbstractReader</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>asdf</__p_description>
+                        <__p_description>Initializes this new module reader with the given block and parent parser.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Abstract.AbstractReader
+A package, module, or class block that is associated with this reader's parsed python file.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref_python.Parser
+The parser currently parsing its project's source code files.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>footer</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method. This can only be called once, after which the an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+Lines of custom code parsed at the end of this reader's module after all function and class definitions.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>header</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method. This can only be called once, after which the an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+Import lines of code parsed after the doc string of this reader's module.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>preHeader</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Getter method. This can only be called once, after which the an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+Special comment lines parsed from the very beginning of this reader's module. The initial pound character is included in each line.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>unknown</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_scan_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__scanBody_</__p_name>
-                        <__p_description>Scans the body of code looking for functions or classes, ending at the first nonempty line that is not a definition of either one or end of file.</__p_description>
+                        <__p_description>Scans for any function or class definitions within this reader's parsed module. New function or class readers are created as children of this reader for each definition found.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__scanFooter_</__p_name>
-                        <__p_description>Scans script code lines from the end.</__p_description>
+                        <__p_description>Scans for any custom code lines present after all function and class definitions in this reader's parsed module.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__scanHeader_</__p_name>
-                        <__p_description>Scans header import lines.</__p_description>
+                        <__p_description>Scans for any import code lines present at the beginning of this reader's parsed module, positioned right after the module's doc string. Scanning stops once the first blank line or non import code line is encountered.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__scanPreHeader_</__p_name>
-                        <__p_description>Scans initial comment lines from the very beginning.</__p_description>
+                        <__p_description>Scans any special comment lines at the very beginning of this reader's parsed module.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4294,53 +4316,55 @@ True if this object is an argument of a function or false otherwise.</__p_return
                 </Class>
                 <Function>
                     <__p_name>skipDocString</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>Skips a doc string block of lines from the given reader if one is encountered. If a line of code that is not a doc string is encountered then the reader's position is at that line, else its position is the first line after the encountered doc string.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_class>0</__p_class>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>reader</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>socref.Abstract.AbstractReader
+The reader whose line position is moved to after an encountered doc string or the first line of actual code.</__p_description>
                     </Object>
                 </Function>
             </Package>
             <Package>
                 <__p_name>Writer</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all implemented Socrates' Reference writer classes.</__p_description>
                 <Class>
                     <__p_name>ClassWriter</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the class writer class. It implements the Socrates' Reference abstract writer class. It outputs the header code lines for a class. Children writers for methods, objects, and nested classes output their code lines after the header.</__p_description>
                     <__p_parents>AbstractWriter</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>asdf</__p_description>
+                        <__p_description>Initializes this new class writer with the given class block, indent depth, and parent writer.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref_python.Block.ClassBlock
+The class block this writer uses to find its corresponding reader, construct its children writers, and generate output.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>depth</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>int
+The indentation depth of this writer's output.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Abstract.AbstractWriter
+The parent writer of this writer. This must be a module or class writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>_footer_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4348,118 +4372,125 @@ True if this object is an argument of a function or false otherwise.</__p_return
                 </Class>
                 <Class>
                     <__p_name>FunctionWriter</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the function writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for a function.</__p_description>
                     <__p_parents>AbstractWriter</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>asdf</__p_description>
+                        <__p_description>Initializes this new function writer with the given function block, indent depth, and parent writer.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref_python.Block.FunctionBlock
+The function block this writer uses to find its corresponding reader and generate its output.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>depth</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>int
+The indentation depth of this writer's output.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Abstract.AbstractWriter
+The parent writer of this writer. This must be a module or class writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>_footer_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>__arguments_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_name>__addArguments_</__p_name>
+                        <__p_description>Adds function argument lines of code to the given code output instance using the given list of arguments.</__p_description>
                         <__p_static>1</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>code</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Output.Code
+Code output instance that this adds argument lines to.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>arguments</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>list
+Tuples of argument values used to generate argument lines. Each tuple must contain the name, assignment, type, and description in that order.</__p_description>
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>__docArguments_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_name>__addDocArguments_</__p_name>
+                        <__p_description>Adds function argument doc string lines to the given code output instance using the given list of arguments.</__p_description>
                         <__p_static>1</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>code</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Output.Code
+Code output instance that this adds argument doc string lines to.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>arguments</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>list
+Tuples of argument values used to generate argument doc string lines. Each tuple must contain the name, assignment, type, and description in that order.</__p_description>
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>__returns_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_name>__addReturns_</__p_name>
+                        <__p_description>Adds function returns doc string lines to the given code output instance using the given list of returns.</__p_description>
                         <__p_static>1</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>code</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Output.Code
+Code output instance that this adds returns doc string lines to.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>returns</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>list
+Tuples of return values used to generate returns doc string lines. Each tuple must contain the name, type, and description in that order.</__p_description>
                         </Object>
                     </Function>
                 </Class>
                 <Class>
                     <__p_name>ModuleWriter</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the module writer class. It implements the Socrates' Reference abstract writer class. It outputs the header and custom footer code lines for a module. The header consists of any initial special comment lines, the doc string, and then import lines. Children writers for functions and classes output their code lines between the header and footer.</__p_description>
                     <__p_parents>AbstractWriter</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>asdf</__p_description>
+                        <__p_description>Initializes this new module writer with the given block and parent parser.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref.Abstract.AbstractReader
+A package, module, or class block that this writer uses to find its corresponding reader, construct its children writers, and generate output. If the given block is a class then the reader find is the dummy module container and a new class writer child is created with the same class block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref_python.Parser
+The parser currently outputting its project's source code files.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>_footer_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4467,38 +4498,39 @@ True if this object is an argument of a function or false otherwise.</__p_return
                 </Class>
                 <Class>
                     <__p_name>ObjectWriter</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the object writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for an object.</__p_description>
                     <__p_parents>AbstractWriter</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>asdf</__p_description>
+                        <__p_description>Initializes this new object writer with the given object block, indent depth, and parent writer.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref_python.Block.FunctionBlock
+The object block this writer uses to generate its output.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>depth</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>int
+The indentation depth of this writer's output.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>socref_python.Writer.ClassWriter
+The parent class writer of this writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>_footer_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

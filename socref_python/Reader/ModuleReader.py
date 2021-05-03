@@ -12,7 +12,12 @@ from socref.Abstract.AbstractReader import *
 
 class ModuleReader(AbstractReader):
     """
-    Detailed description.
+    This is the module reader class. It implements the Socrates' Reference
+    abstract reader class. It parses module files; saving import lines, function
+    definitions, class definitions, and custom footer lines of code. Parsed
+    function and class definitions are added as new reader children. This is an
+    all purpose reader that reads in any module file, including the special
+    package init file and dummy class container modules.
     """
     __preHeaderRE = reCompile('^ *#.*')
     __headerRE = reCompile('^(from|import).*')
@@ -26,12 +31,16 @@ class ModuleReader(AbstractReader):
         ,parent
     ):
         """
-        asdf
+        Initializes this new module reader with the given block and parent
+        parser.
 
         Parameters
         ----------
-        block : 
-        parent : 
+        block : socref.Abstract.AbstractReader
+                A package, module, or class block that is associated with this
+                reader's parsed python file.
+        parent : socref_python.Parser
+                 The parser currently parsing its project's source code files.
         """
         super().__init__(parent)
         self._setKey_(block.key(True))
@@ -44,7 +53,14 @@ class ModuleReader(AbstractReader):
         self
     ):
         """
-        Detailed description.
+        Getter method. This can only be called once, after which the an empty
+        list is returned.
+
+        Returns
+        -------
+        result : list
+                 Lines of custom code parsed at the end of this reader's module
+                 after all function and class definitions.
         """
         ret = self.__footer
         self.__footer = []
@@ -55,7 +71,14 @@ class ModuleReader(AbstractReader):
         self
     ):
         """
-        Detailed description.
+        Getter method. This can only be called once, after which the an empty
+        list is returned.
+
+        Returns
+        -------
+        result : list
+                 Import lines of code parsed after the doc string of this
+                 reader's module.
         """
         ret = self.__header
         self.__header = []
@@ -66,7 +89,15 @@ class ModuleReader(AbstractReader):
         self
     ):
         """
-        Detailed description.
+        Getter method. This can only be called once, after which the an empty
+        list is returned.
+
+        Returns
+        -------
+        result : list
+                 Special comment lines parsed from the very beginning of this
+                 reader's module. The initial pound character is included in
+                 each line.
         """
         ret = self.__preHeader
         self.__preHeader = []
@@ -76,9 +107,6 @@ class ModuleReader(AbstractReader):
     def unknown(
         self
     ):
-        """
-        Detailed description.
-        """
         ret = []
         if self.__preHeader:
             ret += ["PREHEADER:"]+self.__preHeader
@@ -92,9 +120,6 @@ class ModuleReader(AbstractReader):
     def _scan_(
         self
     ):
-        """
-        Detailed description.
-        """
         self.__scanPreHeader_()
         skipDocString(self)
         self.__scanHeader_()
@@ -106,9 +131,9 @@ class ModuleReader(AbstractReader):
         self
     ):
         """
-        Scans the body of code looking for functions or classes, ending at the
-        first nonempty line that is not a definition of either one or end of
-        file.
+        Scans for any function or class definitions within this reader's parsed
+        module. New function or class readers are created as children of this
+        reader for each definition found.
         """
         while True:
             self.save()
@@ -138,7 +163,8 @@ class ModuleReader(AbstractReader):
         self
     ):
         """
-        Scans script code lines from the end.
+        Scans for any custom code lines present after all function and class
+        definitions in this reader's parsed module.
         """
         while True:
             (i,line) = self.read()
@@ -151,7 +177,10 @@ class ModuleReader(AbstractReader):
         self
     ):
         """
-        Scans header import lines.
+        Scans for any import code lines present at the beginning of this
+        reader's parsed module, positioned right after the module's doc string.
+        Scanning stops once the first blank line or non import code line is
+        encountered.
         """
         while True:
             self.save()
@@ -170,7 +199,8 @@ class ModuleReader(AbstractReader):
         self
     ):
         """
-        Scans initial comment lines from the very beginning.
+        Scans any special comment lines at the very beginning of this reader's
+        parsed module.
         """
         while True:
             self.save()

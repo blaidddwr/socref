@@ -15,7 +15,8 @@ from socref.Output.RichText import *
 class ModuleBlock(AbstractBlock):
     """
     This is the module block class. It implements the Socrates' Reference
-    abstract block class. It represents a python module.
+    abstract block class. It represents a python module. This class acts as a
+    base block class inherited by all other block implementations.
     """
 
 
@@ -72,11 +73,27 @@ class ModuleBlock(AbstractBlock):
         ,isMod=False
     ):
         """
-        Detailed description.
+        Getter method.
+
+        Because of the ambiguity of classes being contained within a module of
+        the same name, keys must adjust to this fact. A module reader exists for
+        the dummy container module for each class, and the returned keys must
+        adapt to this. This is why there is a special is module flag given to
+        this method, so if this is a class block it knows to not append its name
+        twice if this is its dummy module container writer. In all other
+        instances of this being the class, nested class, or function writer the
+        root class name is correctly appended twice to the returned key.
 
         Parameters
         ----------
-        isMod : 
+        isMod : bool
+                True if the returned key is for a module or false otherwise.
+
+        Returns
+        -------
+        result : string
+                 Unique key used to obtain the correct reader for the writer of
+                 this block.
         """
         names = []
         b = self

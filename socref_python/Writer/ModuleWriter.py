@@ -11,7 +11,11 @@ from socref.Output.Code import *
 
 class ModuleWriter(AbstractWriter):
     """
-    Detailed description.
+    This is the module writer class. It implements the Socrates' Reference
+    abstract writer class. It outputs the header and custom footer code lines
+    for a module. The header consists of any initial special comment lines, the
+    doc string, and then import lines. Children writers for functions and
+    classes output their code lines between the header and footer.
     """
 
 
@@ -21,12 +25,20 @@ class ModuleWriter(AbstractWriter):
         ,parent
     ):
         """
-        asdf
+        Initializes this new module writer with the given block and parent
+        parser.
 
         Parameters
         ----------
-        block : 
-        parent : 
+        block : socref.Abstract.AbstractReader
+                A package, module, or class block that this writer uses to find
+                its corresponding reader, construct its children writers, and
+                generate output. If the given block is a class then the reader
+                find is the dummy module container and a new class writer child
+                is created with the same class block.
+        parent : socref_python.Parser
+                 The parser currently outputting its project's source code
+                 files.
         """
         super().__init__(parent)
         self.__block = block
@@ -44,9 +56,6 @@ class ModuleWriter(AbstractWriter):
     def _footer_(
         self
     ):
-        """
-        Detailed description.
-        """
         ret = Code("    ")
         if self.__reader:
             f = self.__reader.footer()
@@ -59,9 +68,6 @@ class ModuleWriter(AbstractWriter):
     def _header_(
         self
     ):
-        """
-        Detailed description.
-        """
         ret = Code("    ")
         if self.__reader:
             ret.add(self.__reader.preHeader())

@@ -9,7 +9,9 @@ from socref.Abstract.AbstractReader import *
 
 class FunctionReader(AbstractReader):
     """
-    Detailed description.
+    This is the function reader class. It implements the Socrates' Reference
+    abstract reader class. It parses a function; saving all lines of code nested
+    within the function definition.
     """
 
 
@@ -20,13 +22,21 @@ class FunctionReader(AbstractReader):
         ,parent
     ):
         """
-        asdf
+        Initializes this new function reader with the given function name,
+        header ending, and parent reader.
 
         Parameters
         ----------
-        name : 
-        end : 
-        parent : 
+        name : string
+               The name of the function this reader will parse.
+        end : string
+              The end of the to be parsed function's header line, beginning
+              after the opening parenthesis. This is used to determine where the
+              header of the function ends since it is more than one line if it
+              has arguments.
+        parent : socref.Abstract.AbstractReader
+                 The parent reader that discovered the header code line of the
+                 function that his reader will parse.
         """
         super().__init__(parent)
         self._setKey_(parent.key()+"."+name)
@@ -38,7 +48,13 @@ class FunctionReader(AbstractReader):
         self
     ):
         """
-        Detailed description.
+        Getter method. This can only be called once, after which the an empty
+        list is returned.
+
+        Returns
+        -------
+        result : list
+                 Lines of code contained by the parsed function of this reader.
         """
         ret = self.__lines
         self.__lines = []
@@ -48,18 +64,12 @@ class FunctionReader(AbstractReader):
     def unknown(
         self
     ):
-        """
-        Detailed description.
-        """
         return self.__lines
 
 
     def _scan_(
         self
     ):
-        """
-        Detailed description.
-        """
         self.__skipEnd_()
         skipDocString(self)
         self.__scanLines_()
@@ -69,7 +79,10 @@ class FunctionReader(AbstractReader):
         self
     ):
         """
-        Detailed description.
+        Scans all nested lines of code within this reader's parsed function. The
+        indentation is determined by the very first line read, and scanning
+        stops when the first line of code lesser than that indent is
+        encountered.
         """
         ind = None
         while True:
@@ -97,7 +110,7 @@ class FunctionReader(AbstractReader):
         self
     ):
         """
-        Detailed description.
+        Skips any remaining header code lines of this reader's parsed function.
         """
         if not self.__end.endswith("):"):
             while True:

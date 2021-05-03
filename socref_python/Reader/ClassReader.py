@@ -11,7 +11,10 @@ from socref.Abstract.AbstractReader import *
 
 class ClassReader(AbstractReader):
     """
-    Detailed description.
+    This is the class reader class. It implements the Socrates' Reference
+    abstract reader class. It parses a class; saving custom header lines of
+    code, all methods, and all nested classes of the parsed class. Parsed
+    function and class definitions are added as new reader children.
     """
     __functionRE = reCompile('^def +([a-zA-Z_]+\w*)\((.*)')
     __classRE = reCompile('^class +([a-zA-Z_]+\w*)\([\w\._,\s]*\):')
@@ -23,12 +26,16 @@ class ClassReader(AbstractReader):
         ,parent
     ):
         """
-        asdf
+        Initializes this new class reader with the given class name and parent
+        reader.
 
         Parameters
         ----------
-        name : 
-        parent : 
+        name : string
+               The name of the class this reader will parse.
+        parent : socref.Abstract.AbstractReader
+                 The parent reader that discovered the header code line of the
+                 class that this reader will parse.
         """
         super().__init__(parent)
         self._setKey_(parent.key()+"."+name)
@@ -40,7 +47,13 @@ class ClassReader(AbstractReader):
         self
     ):
         """
-        Detailed description.
+        Getter method. This can only be called once, after which the an empty
+        list is returned.
+
+        Returns
+        -------
+        result : list
+                 Lines of custom header code parsed by this class reader.
         """
         ret = self.__lines
         self.__lines = []
@@ -50,18 +63,12 @@ class ClassReader(AbstractReader):
     def unknown(
         self
     ):
-        """
-        Detailed description.
-        """
         return self.__lines
 
 
     def _scan_(
         self
     ):
-        """
-        Detailed description.
-        """
         skipDocString(self)
         self.__scanLines_()
         self.__scanDefs_()
@@ -71,7 +78,9 @@ class ClassReader(AbstractReader):
         self
     ):
         """
-        Detailed description.
+        Scans for any function or class definitions within this reader's parsed
+        class. New function or class readers are created as children of this
+        reader for each definition found.
         """
         while True:
             self.save()
@@ -104,7 +113,8 @@ class ClassReader(AbstractReader):
         self
     ):
         """
-        Detailed description.
+        Scans for any custom header lines of code at the beginning of this
+        reader's parsed class, positioned right after the header and doc string.
         """
         while True:
             self.save()

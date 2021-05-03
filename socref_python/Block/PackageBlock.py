@@ -12,8 +12,7 @@ from socref import block
 class PackageBlock(ModuleBlock):
     """
     This is the package block class. It implements the Socrates' Reference
-    abstract block class. It represents a python package. It is the root block
-    type of a python project.
+    abstract block class. It represents a python package.
     """
 
 

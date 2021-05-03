@@ -11,7 +11,10 @@ from socref.Output.Code import *
 
 class ClassWriter(AbstractWriter):
     """
-    Detailed description.
+    This is the class writer class. It implements the Socrates' Reference
+    abstract writer class. It outputs the header code lines for a class.
+    Children writers for methods, objects, and nested classes output their code
+    lines after the header.
     """
 
 
@@ -22,13 +25,19 @@ class ClassWriter(AbstractWriter):
         ,parent
     ):
         """
-        asdf
+        Initializes this new class writer with the given class block, indent
+        depth, and parent writer.
 
         Parameters
         ----------
-        block : 
-        depth : 
-        parent : 
+        block : socref_python.Block.ClassBlock
+                The class block this writer uses to find its corresponding
+                reader, construct its children writers, and generate output.
+        depth : int
+                The indentation depth of this writer's output.
+        parent : socref.Abstract.AbstractWriter
+                 The parent writer of this writer. This must be a module or
+                 class writer.
         """
         super().__init__(parent)
         self.__block = block
@@ -46,18 +55,12 @@ class ClassWriter(AbstractWriter):
     def _footer_(
         self
     ):
-        """
-        Detailed description.
-        """
         return []
 
 
     def _header_(
         self
     ):
-        """
-        Detailed description.
-        """
         ret = Code("    ")
         if self.__block.parent()._TYPE_ == "Class":
             ret.addBlank(2)
