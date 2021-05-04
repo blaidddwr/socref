@@ -9,12 +9,17 @@ def block(
     ,root=False
 ):
     """
-    Detailed description.
+    Decorates a class by registering it as a block with the given type name for
+    the language implementation currently being imported by the application.
 
     Parameters
     ----------
-    name : 
-    root : 
+    name : string
+           The type name of the decorated class that is registered as a block.
+    root : bool
+           True to register the decorated class as the root block or false
+           otherwise. Only one block class can be registered as root for each
+           imported language.
     """
     def wrapper(class_):
         blockFactory.register(class_,name)
@@ -28,11 +33,14 @@ def parser(
     class_
 ):
     """
-    Detailed description.
+    Decorates a class by registering it as the parser for the language
+    implementation currently being imported by this application. Only one parser
+    class can be registered for each imported language.
 
     Parameters
     ----------
-    class_ : 
+    class_ : socref.Abstract.AbstractParser
+             The decorated class that is registered.
     """
     parserFactory.register(class_)
     return class_

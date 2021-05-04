@@ -3626,29 +3626,32 @@ The parent index of this model whose children's data has changed due to the vola
             </Module>
             <Function>
                 <__p_name>block</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Decorates a class by registering it as a block with the given type name for the language implementation currently being imported by the application.</__p_description>
                 <__p_static>0</__p_static>
                 <__p_class>0</__p_class>
                 <__p_abstract>0</__p_abstract>
                 <Object>
                     <__p_name>name</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>string
+The type name of the decorated class that is registered as a block.</__p_description>
                 </Object>
                 <Object>
                     <__p_name>root</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>bool
+True to register the decorated class as the root block or false otherwise. Only one block class can be registered as root for each imported language.</__p_description>
                     <__p_assignment>False</__p_assignment>
                 </Object>
             </Function>
             <Function>
                 <__p_name>parser</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Decorates a class by registering it as the parser for the language implementation currently being imported by this application. Only one parser class can be registered for each imported language.</__p_description>
                 <__p_static>0</__p_static>
                 <__p_class>0</__p_class>
                 <__p_abstract>0</__p_abstract>
                 <Object>
                     <__p_name>class_</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>socref.Abstract.AbstractParser
+The decorated class that is registered.</__p_description>
                 </Object>
             </Function>
         </Package>
