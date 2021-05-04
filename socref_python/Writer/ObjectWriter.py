@@ -1,6 +1,7 @@
 """
 Contains the ObjectWriter class.
 """
+from ..Settings import *
 from socref.Abstract.AbstractWriter import *
 from socref.Output.Code import *
 
@@ -47,11 +48,11 @@ class ObjectWriter(AbstractWriter):
     def _header_(
         self
     ):
-        ret = Code("    ")
-        ret.addBlank(2)
+        ret = Code(Settings.INDENT)
+        ret.addBlank(Settings.H2)
         ret.setDepth(self.__depth)
         ret.add("#")
-        ret.addText(self.__block._p_description,80,"# ")
+        ret.addText(self.__block._p_description,Settings.COLS,"# ")
         ret.add("#")
         ret.add(self.__block._p_name+" = "+self.__block._p_assignment)
         return ret

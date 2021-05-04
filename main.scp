@@ -4539,31 +4539,30 @@ The parent class writer of this writer.</__p_description>
             </Package>
             <Class>
                 <__p_name>Parser</__p_name>
-                <__p_description>
-_DEPRECATED_</__p_description>
+                <__p_description>This is the parser class. It implements the Socrates' Reference abstract parser class for the python language.</__p_description>
                 <__p_parents>AbstractParser</__p_parents>
                 <__p_infile>0</__p_infile>
                 <__p_decorators>parser</__p_decorators>
                 <Function>
                     <__p_name>__init__</__p_name>
+                    <__p_description>Initializes this new parser with the given root block.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_class>0</__p_class>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>root</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>socref_python.Block.PackageBlock
+The root block of the project this parser will use for generating paths, readers, and writers.</__p_description>
                     </Object>
                 </Function>
                 <Function>
                     <__p_name>_pathList_</__p_name>
-                    <__p_description>Detailed description.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_class>0</__p_class>
                     <__p_abstract>0</__p_abstract>
                 </Function>
                 <Function>
                     <__p_name>_reader_</__p_name>
-                    <__p_description>Detailed description.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_class>0</__p_class>
                     <__p_abstract>0</__p_abstract>
@@ -4574,7 +4573,6 @@ _DEPRECATED_</__p_description>
                 </Function>
                 <Function>
                     <__p_name>_writer_</__p_name>
-                    <__p_description>Detailed description.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_class>0</__p_class>
                     <__p_abstract>0</__p_abstract>
@@ -4583,6 +4581,11 @@ _DEPRECATED_</__p_description>
                         <__p_description>Detailed description.</__p_description>
                     </Object>
                 </Function>
+            </Class>
+            <Class>
+                <__p_name>Settings</__p_name>
+                <__p_description>This is the settings class. It provides all global setting values used by the python language implementation.</__p_description>
+                <__p_infile>0</__p_infile>
             </Class>
         </Package>
         <Package>

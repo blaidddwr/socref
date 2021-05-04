@@ -12,7 +12,8 @@ from socref.Abstract.AbstractParser import *
 @parser
 class Parser(AbstractParser):
     """
-    _DEPRECATED_
+    This is the parser class. It implements the Socrates' Reference abstract
+    parser class for the python language.
     """
 
 
@@ -20,6 +21,15 @@ class Parser(AbstractParser):
         self
         ,root
     ):
+        """
+        Initializes this new parser with the given root block.
+
+        Parameters
+        ----------
+        root : socref_python.Block.PackageBlock
+               The root block of the project this parser will use for generating
+               paths, readers, and writers.
+        """
         super().__init__()
         self.__root = root
 
@@ -27,9 +37,6 @@ class Parser(AbstractParser):
     def _pathList_(
         self
     ):
-        """
-        Detailed description.
-        """
         def build(path,parent):
             ret = []
             for block in parent:
@@ -49,13 +56,6 @@ class Parser(AbstractParser):
         self
         ,block
     ):
-        """
-        Detailed description.
-
-        Parameters
-        ----------
-        block : 
-        """
         if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
             return ModuleReader(block,self)
         else:
@@ -66,13 +66,6 @@ class Parser(AbstractParser):
         self
         ,block
     ):
-        """
-        Detailed description.
-
-        Parameters
-        ----------
-        block : 
-        """
         if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
             return ModuleWriter(block,self)
         else:

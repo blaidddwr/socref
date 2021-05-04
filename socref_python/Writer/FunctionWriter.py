@@ -1,6 +1,7 @@
 """
 Contains the FunctionWriter class.
 """
+from ..Settings import *
 from socref.Abstract.AbstractWriter import *
 from socref.Output.Code import *
 
@@ -50,8 +51,8 @@ class FunctionWriter(AbstractWriter):
     def _header_(
         self
     ):
-        ret = Code("    ")
-        ret.addBlank(2)
+        ret = Code(Settings.INDENT)
+        ret.addBlank(Settings.H2)
         ret.setDepth(self.__depth)
         ret.add(self.__block.decorators())
         arguments = self.__block.arguments()
@@ -66,7 +67,7 @@ class FunctionWriter(AbstractWriter):
         ret.setDepth(self.__depth+1)
         if self.__block._p_description:
             ret.add('"""')
-            ret.addText(self.__block._p_description,80)
+            ret.addText(self.__block._p_description,Settings.COLS)
             arguments = self.__block.arguments(False)
             if arguments:
                 ret.addBlank(1)
@@ -137,7 +138,7 @@ class FunctionWriter(AbstractWriter):
             h1 = name+" : "
             l = len(h1)
             code.add(h1+type_)
-            code.addText(text,80," "*l)
+            code.addText(text,Settings.COLS," "*l)
 
 
     @staticmethod
@@ -163,4 +164,4 @@ class FunctionWriter(AbstractWriter):
             h1 = name+" : "
             l = len(h1)
             code.add(h1+type_)
-            code.addText(text,80," "*l)
+            code.addText(text,Settings.COLS," "*l)

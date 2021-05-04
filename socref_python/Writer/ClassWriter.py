@@ -1,6 +1,7 @@
 """
 Contains the ClassWriter class.
 """
+from ..Settings import *
 from .FunctionWriter import *
 from .ObjectWriter import *
 from socref.Abstract.AbstractWriter import *
@@ -61,17 +62,17 @@ class ClassWriter(AbstractWriter):
     def _header_(
         self
     ):
-        ret = Code("    ")
+        ret = Code(Settings.INDENT)
         if self.__block.parent()._TYPE_ == "Class":
-            ret.addBlank(2)
+            ret.addBlank(Settings.H2)
         else:
-            ret.addBlank(4)
+            ret.addBlank(Settings.H1)
         ret.setDepth(self.__depth)
         ret.add(self.__block.decorators())
         ret.add("class "+self.__block._p_name+"("+",".join(self.__block.clsParents())+"):")
         ret.setDepth(self.__depth+1)
         ret.add('"""')
-        ret.addText(self.__block._p_description,80)
+        ret.addText(self.__block._p_description,Settings.COLS)
         ret.add('"""')
         if self.__reader:
             ret.add(self.__reader.lines())
