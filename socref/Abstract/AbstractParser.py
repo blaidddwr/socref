@@ -20,7 +20,8 @@ class AbstractParser(ABC):
     controls the parsing of a project's source code. A parser's interface
     provides a path list of all code files to be processed, abstract readers to
     read in each processed path, and abstract writers to output the parsed
-    results of each processed path. The path list is a list of tuples, each
+    results of each processed path. Each path must have an abstract writer, but
+    an abstract reader is optional. The path list is a list of tuples, each
     tuple containing a relative path and the block associated with it. The
     abstract parser class itself provides methods for accessing the current file
     being read, but should never be accessed directly. The abstract reader and
@@ -247,7 +248,9 @@ class AbstractParser(ABC):
         -------
         result : socref.Abstract.AbstractReader
                  A new reader capable of reading any lines of code that is saved
-                 from the source code file associated with the given block.
+                 from the source code file associated with the given block. None
+                 can be returned, in which case this parser ignores it and any
+                 existing file, continuing to the next path.
         """
         pass
 
@@ -279,21 +282,24 @@ class AbstractParser(ABC):
     ):
         """
         Reads all source code files from this parser's path list, saving all
-        generated readers to this parser's reader lookup table.
+        generated readers to this parser's reader lookup table. If None is
+        returned by the reader interface for a given path then it is ignored and
+        nothing is added to the lookup table.
         """
         count = 0
         for (path,block) in self.__paths:
-            rp = pathJoin(self.__rootPath,path)
-            if isfile(rp):
-                self.__io = open(rp,"r")
-                try:
-                    reader = self._reader_(block)
+            try:
+                reader = self._reader_(block)
+                if reader is not None:
                     if not isinstance(reader,AbstractReader):
                         raise ScanError("Returned object is not an abstract reader.")
-                    reader()
-                finally:
-                    self.__io = None
-                    self.__stack = []
+                    rp = pathJoin(self.__rootPath,path)
+                    if isfile(rp):
+                        self.__io = open(rp,"r")
+                        reader()
+            finally:
+                self.__io = None
+                self.__stack = []
             count += 1
             self.__update(count*50/len(self.__paths))
 

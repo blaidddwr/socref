@@ -295,7 +295,7 @@ Used to save all block's properties and children.</__p_description>
                 </Class>
                 <Class>
                     <__p_name>AbstractParser</__p_name>
-                    <__p_description>This is the abstract parser class. A parser is a controller interface that controls the parsing of a project's source code. A parser's interface provides a path list of all code files to be processed, abstract readers to read in each processed path, and abstract writers to output the parsed results of each processed path. The path list is a list of tuples, each tuple containing a relative path and the block associated with it. The abstract parser class itself provides methods for accessing the current file being read, but should never be accessed directly. The abstract reader and writer classes provide all methods either needs from the parser which created them.
+                    <__p_description>This is the abstract parser class. A parser is a controller interface that controls the parsing of a project's source code. A parser's interface provides a path list of all code files to be processed, abstract readers to read in each processed path, and abstract writers to output the parsed results of each processed path. Each path must have an abstract writer, but an abstract reader is optional. The path list is a list of tuples, each tuple containing a relative path and the block associated with it. The abstract parser class itself provides methods for accessing the current file being read, but should never be accessed directly. The abstract reader and writer classes provide all methods either needs from the parser which created them.
 
 An implemented parser class must have one initialization argument, that argument being the root block of the project that is being parsed. From this root block of a project it is expected to be able to generate the path list, and from each block within the tuple of the path list it is expected to generate the correct reader and writer.
 
@@ -414,7 +414,7 @@ A list of tuples, each tuple containing a relative path to a source code file th
                         <__p_description>This interface is a getter method.</__p_description>
                         <__p_returnsDescription>result
 socref.Abstract.AbstractReader
-A new reader capable of reading any lines of code that is saved from the source code file associated with the given block.</__p_returnsDescription>
+A new reader capable of reading any lines of code that is saved from the source code file associated with the given block. None can be returned, in which case this parser ignores it and any existing file, continuing to the next path.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
@@ -441,7 +441,7 @@ The block associated with the source code file.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>__readAll_</__p_name>
-                        <__p_description>Reads all source code files from this parser's path list, saving all generated readers to this parser's reader lookup table.</__p_description>
+                        <__p_description>Reads all source code files from this parser's path list, saving all generated readers to this parser's reader lookup table. If None is returned by the reader interface for a given path then it is ignored and nothing is added to the lookup table.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
