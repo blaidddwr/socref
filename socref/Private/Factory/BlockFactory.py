@@ -93,9 +93,8 @@ class BlockFactory():
         be called only during a registration process to end it.
         """
         assert(self.__rn is not None)
-        if self.__rootBlocks[self.__rn] is None:
+        if self.__rn not in self.__rootBlocks:
             del self.__blocks[self.__rn]
-            del self.__rootBlocks[self.__rn]
         self.__rn = None
         self.__rl = None
 

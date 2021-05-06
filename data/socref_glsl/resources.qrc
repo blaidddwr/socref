@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/glsl">
+    <qresource prefix="/socref_glsl">
         <file>program.svg</file>
         <file>vertex_shader.svg</file>
         <file>fragment_shader.svg</file>
