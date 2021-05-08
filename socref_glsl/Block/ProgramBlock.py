@@ -17,7 +17,8 @@ class ProgramBlock(AbstractBlock):
     This is the program block class. It implements the Socrates' Reference
     abstract block class. It represents a GLSL program, which is nothing more
     than a folder in the project's file system. It is the root block type of a
-    GLSL project.
+    GLSL project. Each folder contains a README text file that contains the
+    program block's description.
     """
 
 
@@ -39,6 +40,7 @@ class ProgramBlock(AbstractBlock):
         self
     ):
         self._p_name = ""
+        self._p_description = ""
 
 
     def displayName(

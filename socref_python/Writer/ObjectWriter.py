@@ -27,7 +27,7 @@ class ObjectWriter(AbstractWriter):
 
         Parameters
         ----------
-        block : socref_python.Block.FunctionBlock
+        block : socref_python.Block.ObjectBlock
                 The object block this writer uses to generate its output.
         depth : int
                 The indentation depth of this writer's output.

@@ -3663,7 +3663,7 @@ The decorated class that is registered.</__p_description>
                 <__p_description>Contains all implemented Socrates' Reference block classes.</__p_description>
                 <Class>
                     <__p_name>ProgramBlock</__p_name>
-                    <__p_description>This is the program block class. It implements the Socrates' Reference abstract block class. It represents a GLSL program, which is nothing more than a folder in the project's file system. It is the root block type of a GLSL project.</__p_description>
+                    <__p_description>This is the program block class. It implements the Socrates' Reference abstract block class. It represents a GLSL program, which is nothing more than a folder in the project's file system. It is the root block type of a GLSL project. Each folder contains a README text file that contains the program block's description.</__p_description>
                     <__p_parents>AbstractBlock</__p_parents>
                     <__p_infile>0</__p_infile>
                     <__p_decorators>block(&quot;Program&quot;,root=True)</__p_decorators>
@@ -3717,6 +3717,45 @@ The decorated class that is registered.</__p_description>
                     </Function>
                 </Class>
             </Package>
+            <Package>
+                <__p_name>Writer</__p_name>
+                <__p_description>Contains all implemented Socrates' Reference writer classes.</__p_description>
+                <Class>
+                    <__p_name>ProgramWriter</__p_name>
+                    <__p_description>This is the program writer class. It implements the Socrates' Reference abstract writer class. It outputs the README that is contained within each program folder.</__p_description>
+                    <__p_parents>AbstractWriter</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new module writer with the given block and parent parser.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>socref_glsl.Block.ProgramBlock
+The program block this writer uses to generate its output.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>socref_glsl.Parser
+The parser currently outputting its project's source code files.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+            </Package>
             <Class>
                 <__p_name>Parser</__p_name>
                 <__p_description>This is the parser class. It implements the Socrates' Reference abstract parser class for the GLSL language.</__p_description>
@@ -3761,6 +3800,11 @@ The root block of the project this parser will use for generating paths, readers
                         <__p_description>Detailed description.</__p_description>
                     </Object>
                 </Function>
+            </Class>
+            <Class>
+                <__p_name>Settings</__p_name>
+                <__p_description>This is the settings class. It provides all global setting values used by the GLSL language implementation.</__p_description>
+                <__p_infile>0</__p_infile>
             </Class>
         </Package>
         <Package>
@@ -4585,7 +4629,7 @@ Tuples of return values used to generate returns doc string lines. Each tuple mu
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>socref.Abstract.AbstractReader
+                            <__p_description>socref.Abstract.AbstractBlock
 A package, module, or class block that this writer uses to find its corresponding reader, construct its children writers, and generate output. If the given block is a class then the reader find is the dummy module container and a new class writer child is created with the same class block.</__p_description>
                         </Object>
                         <Object>
@@ -4620,7 +4664,7 @@ The parser currently outputting its project's source code files.</__p_descriptio
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>socref_python.Block.FunctionBlock
+                            <__p_description>socref_python.Block.ObjectBlock
 The object block this writer uses to generate its output.</__p_description>
                         </Object>
                         <Object>

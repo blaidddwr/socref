@@ -31,7 +31,7 @@ class ModuleWriter(AbstractWriter):
 
         Parameters
         ----------
-        block : socref.Abstract.AbstractReader
+        block : socref.Abstract.AbstractBlock
                 A package, module, or class block that this writer uses to find
                 its corresponding reader, construct its children writers, and
                 generate output. If the given block is a class then the reader
