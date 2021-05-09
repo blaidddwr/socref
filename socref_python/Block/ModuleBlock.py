@@ -75,19 +75,19 @@ class ModuleBlock(AbstractBlock):
         """
         Getter method.
 
-        Because of the ambiguity of classes being contained within a module of
-        the same name, keys must adjust to this fact. A module reader exists for
-        the dummy container module for each class, and the returned keys must
-        adapt to this. This is why there is a special is module flag given to
-        this method, so if this is a class block it knows to not append its name
-        twice if this is its dummy module container writer. In all other
-        instances of this being the class, nested class, or function writer the
-        root class name is correctly appended twice to the returned key.
+        Because a module reader exists for the dummy container module for each
+        class, keys must adjust to this fact. The given module flag must be true
+        if a module writer is calling this method or false otherwise. In this
+        way the class name is correctly used only once for the dummy module
+        writer to find its dummy module reader. In all other instances of this
+        being the class, nested class, or function writer the root class name is
+        correctly appended twice in order for the writer to find its reader.
 
         Parameters
         ----------
         isMod : bool
-                True if the returned key is for a module or false otherwise.
+                True if the returned key is for a module writer or false
+                otherwise.
 
         Returns
         -------

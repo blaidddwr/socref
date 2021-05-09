@@ -30,7 +30,10 @@ class ComboEdit():
         key : string
               The block property attribute name the combo box modifies.
         selections : list
-                     All valid string selection values for the combo box.
+                     Tuples of valid selection values for the combo box. Each
+                     tuple must contain an optional Qt icon and text value in
+                     that order. If there is no icon that tuple value can be
+                     None.
         """
         self.__label = label
         self.__key = key

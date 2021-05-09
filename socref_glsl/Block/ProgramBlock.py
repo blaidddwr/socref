@@ -33,7 +33,7 @@ class ProgramBlock(AbstractBlock):
     def buildList(
         self
     ):
-        return ("Program",)
+        return ("Program","Shader")
 
 
     def clearProperties(

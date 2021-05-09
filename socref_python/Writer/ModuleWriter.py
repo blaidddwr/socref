@@ -26,8 +26,8 @@ class ModuleWriter(AbstractWriter):
         ,parent
     ):
         """
-        Initializes this new module writer with the given block and parent
-        parser.
+        Initializes this new module writer and constructs its children writers
+        with the given block and parent parser.
 
         Parameters
         ----------

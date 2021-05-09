@@ -2,6 +2,7 @@
 Contains the Parser class.
 """
 from .Writer.ProgramWriter import *
+from .Writer.ShaderWriter import *
 from socref import parser
 from socref.Abstract.AbstractParser import *
 
@@ -42,6 +43,10 @@ class Parser(AbstractParser):
                 if block._TYPE_ == "Program":
                     ret.append((pathJoin(path,block._p_name,"README.txt"),block))
                     ret += build(pathJoin(path,block._p_name),block)
+                elif block._TYPE_ == "Shader":
+                    ret.append(
+                        (pathJoin(path,block._p_name+Settings.EXT[block._p_type]+".glsl"),block)
+                    )
             return ret
         return build("",self.__root)
 
@@ -57,4 +62,9 @@ class Parser(AbstractParser):
         self
         ,block
     ):
-        return ProgramWriter(block,self)
+        if block._TYPE_ == "Program":
+            return ProgramWriter(block,self)
+        elif block._TYPE_ == "Shader":
+            return ShaderWriter(block,self)
+        else:
+            raise RuntimeError("Unsupported block type given for writer.")

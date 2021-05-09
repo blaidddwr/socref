@@ -703,7 +703,7 @@ The block property attribute name the combo box modifies.</__p_description>
                         <Object>
                             <__p_name>selections</__p_name>
                             <__p_description>list
-All valid string selection values for the combo box.</__p_description>
+Tuples of valid selection values for the combo box. Each tuple must contain an optional Qt icon and text value in that order. If there is no icon that tuple value can be None.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -3716,6 +3716,55 @@ The decorated class that is registered.</__p_description>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                 </Class>
+                <Class>
+                    <__p_name>ShaderBlock</__p_name>
+                    <__p_description>This is the shader block class. It implements the Socrates' Reference abstract block class. It represents a GLSL shader.</__p_description>
+                    <__p_parents>ProgramBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_decorators>block(&quot;Shader&quot;)</__p_decorators>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>clearProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayView</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>editDefinitions</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
             </Package>
             <Package>
                 <__p_name>Writer</__p_name>
@@ -3727,7 +3776,7 @@ The decorated class that is registered.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new module writer with the given block and parent parser.</__p_description>
+                        <__p_description>Initializes this new program writer with the given block and parent parser.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -3735,6 +3784,41 @@ The decorated class that is registered.</__p_description>
                             <__p_name>block</__p_name>
                             <__p_description>socref_glsl.Block.ProgramBlock
 The program block this writer uses to generate its output.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>socref_glsl.Parser
+The parser currently outputting its project's source code files.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>ShaderWriter</__p_name>
+                    <__p_description>This is the shader writer class. It implements the Socrates' Reference abstract writer class. It outputs the header comment description of a shader. Children writers for variables, structures, and functions output their code lines after the header comment description.</__p_description>
+                    <__p_parents>AbstractWriter</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new shader writer and constructs its children writers with the given block and parent parser.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>socref_glsl.Block.ShaderBlock
+The shader block this writer uses to construct its children writers and generate its output.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
@@ -4122,7 +4206,7 @@ Tuples of return values of this function. Each tuple contains the name, type and
                         <__p_name>key</__p_name>
                         <__p_description>Getter method.
 
-Because of the ambiguity of classes being contained within a module of the same name, keys must adjust to this fact. A module reader exists for the dummy container module for each class, and the returned keys must adapt to this. This is why there is a special is module flag given to this method, so if this is a class block it knows to not append its name twice if this is its dummy module container writer. In all other instances of this being the class, nested class, or function writer the root class name is correctly appended twice to the returned key.</__p_description>
+Because a module reader exists for the dummy container module for each class, keys must adjust to this fact. The given module flag must be true if a module writer is calling this method or false otherwise. In this way the class name is correctly used only once for the dummy module writer to find its dummy module reader. In all other instances of this being the class, nested class, or function writer the root class name is correctly appended twice in order for the writer to find its reader.</__p_description>
                         <__p_returnsDescription>result
 string
 Unique key used to obtain the correct reader for the writer of this block.</__p_returnsDescription>
@@ -4132,7 +4216,7 @@ Unique key used to obtain the correct reader for the writer of this block.</__p_
                         <Object>
                             <__p_name>isMod</__p_name>
                             <__p_description>bool
-True if the returned key is for a module or false otherwise.</__p_description>
+True if the returned key is for a module writer or false otherwise.</__p_description>
                             <__p_assignment>False</__p_assignment>
                         </Object>
                     </Function>
@@ -4492,7 +4576,7 @@ The reader whose line position is moved to after an encountered doc string or th
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new class writer with the given class block, indent depth, and parent writer.</__p_description>
+                        <__p_description>Initializes this new class writer and constructs its children writers with the given class block, indent depth, and parent writer.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4623,7 +4707,7 @@ Tuples of return values used to generate returns doc string lines. Each tuple mu
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new module writer with the given block and parent parser.</__p_description>
+                        <__p_description>Initializes this new module writer and constructs its children writers with the given block and parent parser.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

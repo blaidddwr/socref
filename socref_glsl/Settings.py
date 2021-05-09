@@ -14,3 +14,11 @@ class Settings():
     H2 = 1
     INDENT = "    "
     COLS = 80
+    EXT = {
+        "Vertex": ".v"
+        ,"Fragment": ".f"
+        ,"Tesselation Control": ".tc"
+        ,"Tesselation Evaluation": ".te"
+        ,"Geometry": ".g"
+        ,"Compute": ".c"
+    }

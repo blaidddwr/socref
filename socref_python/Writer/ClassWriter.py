@@ -26,8 +26,8 @@ class ClassWriter(AbstractWriter):
         ,parent
     ):
         """
-        Initializes this new class writer with the given class block, indent
-        depth, and parent writer.
+        Initializes this new class writer and constructs its children writers
+        with the given class block, indent depth, and parent writer.
 
         Parameters
         ----------

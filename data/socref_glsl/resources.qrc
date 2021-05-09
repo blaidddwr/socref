@@ -3,7 +3,8 @@
         <file>program.svg</file>
         <file>vertex_shader.svg</file>
         <file>fragment_shader.svg</file>
-        <file>tesselation_shader.svg</file>
+        <file>tesselation_ctrl_shader.svg</file>
+        <file>tesselation_eval_shader.svg</file>
         <file>geometry_shader.svg</file>
         <file>compute_shader.svg</file>
         <file>structure.svg</file>

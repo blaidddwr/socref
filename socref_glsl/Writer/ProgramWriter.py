@@ -22,7 +22,7 @@ class ProgramWriter(AbstractWriter):
         ,parent
     ):
         """
-        Initializes this new module writer with the given block and parent
+        Initializes this new program writer with the given block and parent
         parser.
 
         Parameters
