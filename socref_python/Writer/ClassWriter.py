@@ -26,14 +26,14 @@ class ClassWriter(AbstractWriter):
         ,parent
     ):
         """
-        Initializes this new class writer and constructs its children writers
-        with the given class block, indent depth, and parent writer.
+        Initializes this new class writer and its children writers with the
+        given class block, indent depth, and parent writer.
 
         Parameters
         ----------
         block : socref_python.Block.ClassBlock
                 The class block this writer uses to find its corresponding
-                reader, construct its children writers, and generate output.
+                reader, initialize its children writers, and generate output.
         depth : int
                 The indentation depth of this writer's output.
         parent : socref.Abstract.AbstractWriter

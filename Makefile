@@ -1,4 +1,6 @@
-SUBDIRS := data/socref data/socref_python data/socref_glsl
+SUBDIRS := data/socref \
+           data/socref_python \
+           data/socref_glsl
 
 all: $(SUBDIRS)
 

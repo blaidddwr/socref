@@ -70,6 +70,28 @@ class ProgramBlock(AbstractBlock):
         return qtg.QIcon(":/socref_glsl/program.svg")
 
 
+    def key(
+        self
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        result : string
+                 Unique key used to obtain the correct reader for the writer of
+                 this block.
+        """
+        names = []
+        b = self
+        while b is not None:
+            if b._p_name:
+                names.append(b._p_name)
+            b = b.parent()
+        names.reverse()
+        return ".".join(names)
+
+
     def setDefaultProperties(
         self
     ):

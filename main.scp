@@ -3710,6 +3710,16 @@ The decorated class that is registered.</__p_description>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>key</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+Unique key used to obtain the correct reader for the writer of this block.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>setDefaultProperties</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -3765,6 +3775,142 @@ The decorated class that is registered.</__p_description>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                 </Class>
+                <Class>
+                    <__p_name>StructureBlock</__p_name>
+                    <__p_description>This is the structure block class. It implements the Socrates' Reference abstract block class. It represents a GLSL structure.</__p_description>
+                    <__p_parents>ProgramBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_decorators>block(&quot;Structure&quot;)</__p_decorators>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>clearProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayName</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayView</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>editDefinitions</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>VariableBlock</__p_name>
+                    <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a GLSL variable.</__p_description>
+                    <__p_parents>ProgramBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_decorators>block(&quot;Variable&quot;)</__p_decorators>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>clearProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayName</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayView</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>editDefinitions</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>inStructure</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this variable is part of a structure or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isArgument</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this variable is an argument of a function or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isVolatileAbove</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
             </Package>
             <Package>
                 <__p_name>Writer</__p_name>
@@ -3806,7 +3952,7 @@ The parser currently outputting its project's source code files.</__p_descriptio
                 </Class>
                 <Class>
                     <__p_name>ShaderWriter</__p_name>
-                    <__p_description>This is the shader writer class. It implements the Socrates' Reference abstract writer class. It outputs the header comment description of a shader. Children writers for variables, structures, and functions output their code lines after the header comment description.</__p_description>
+                    <__p_description>This is the shader writer class. It implements the Socrates' Reference abstract writer class. It outputs the header comment description of a shader. It outputs the necessary special main function in the footer. Children writers for variables, structures, and functions output their code lines after the header comment description.</__p_description>
                     <__p_parents>AbstractWriter</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -3818,12 +3964,92 @@ The parser currently outputting its project's source code files.</__p_descriptio
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>socref_glsl.Block.ShaderBlock
-The shader block this writer uses to construct its children writers and generate its output.</__p_description>
+The shader block this writer uses to find the special main function reader, initialize its children writers, and generate its output.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>socref_glsl.Parser
 The parser currently outputting its project's source code files.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>StructureWriter</__p_name>
+                    <__p_description>This is the structure writer class. It implements the Socrates' Reference abstract writer class. It outputs the header and footer code lines for a structure. Children writers for nested variables output their code after the header.</__p_description>
+                    <__p_parents>AbstractWriter</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new structure writer and its children writers with the given block and parent writer.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>socref_glsl.Block.VariableBlock
+The structure block this writer uses to initialize its children writers and generate its output.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>depth</__p_name>
+                            <__p_description>int
+The indentation depth of this writer's output.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>socref.Abstract.AbstractWriter
+The parent writer of this writer. This must be a shader writer.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>VariableWriter</__p_name>
+                    <__p_description>This is the variable writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for a variable that is not an argument.</__p_description>
+                    <__p_parents>AbstractWriter</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new variable writer with the given block and parent writer.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>socref_glsl.Block.VariableBlock
+The variable block this writer uses to generate its output.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>depth</__p_name>
+                            <__p_description>int
+The indentation depth of this writer's output.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>socref.Abstract.AbstractWriter
+The parent writer of this writer. This must be a shader or structure writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -4576,14 +4802,14 @@ The reader whose line position is moved to after an encountered doc string or th
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new class writer and constructs its children writers with the given class block, indent depth, and parent writer.</__p_description>
+                        <__p_description>Initializes this new class writer and its children writers with the given class block, indent depth, and parent writer.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>socref_python.Block.ClassBlock
-The class block this writer uses to find its corresponding reader, construct its children writers, and generate output.</__p_description>
+The class block this writer uses to find its corresponding reader, initialize its children writers, and generate output.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>depth</__p_name>
@@ -4707,14 +4933,14 @@ Tuples of return values used to generate returns doc string lines. Each tuple mu
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new module writer and constructs its children writers with the given block and parent parser.</__p_description>
+                        <__p_description>Initializes this new module writer and its children writers with the given block and parent parser.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>socref.Abstract.AbstractBlock
-A package, module, or class block that this writer uses to find its corresponding reader, construct its children writers, and generate output. If the given block is a class then the reader find is the dummy module container and a new class writer child is created with the same class block.</__p_description>
+A package, module, or class block that this writer uses to find its corresponding reader, initialize its children writers, and generate output. If the given block is a class then the reader find is the dummy module container and a new class writer child is created with the same class block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
@@ -4737,7 +4963,7 @@ The parser currently outputting its project's source code files.</__p_descriptio
                 </Class>
                 <Class>
                     <__p_name>ObjectWriter</__p_name>
-                    <__p_description>This is the object writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for an object.</__p_description>
+                    <__p_description>This is the object writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for an object that is not an argument.</__p_description>
                     <__p_parents>AbstractWriter</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>

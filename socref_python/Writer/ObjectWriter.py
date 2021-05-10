@@ -11,7 +11,8 @@ from socref.Output.Code import *
 class ObjectWriter(AbstractWriter):
     """
     This is the object writer class. It implements the Socrates' Reference
-    abstract writer class. It outputs all code lines for an object.
+    abstract writer class. It outputs all code lines for an object that is not
+    an argument.
     """
 
 
