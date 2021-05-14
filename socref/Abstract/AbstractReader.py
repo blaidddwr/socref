@@ -112,9 +112,11 @@ class AbstractReader(ABC):
         Returns
         -------
         spaces : int
-                 The total number of spaces of the read line.
+                 The total number of spaces of the read line or None if the end
+                 of file has been reached.
         line : string
-               The read line, stripped of any white space from both sides.
+               The read line stripped of any white space from both sides or None
+               if the end of file has been reached.
         """
         return self.__parser.read()
 

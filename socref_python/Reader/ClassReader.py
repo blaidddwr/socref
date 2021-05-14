@@ -47,8 +47,8 @@ class ClassReader(AbstractReader):
         self
     ):
         """
-        Getter method. This can only be called once, after which the an empty
-        list is returned.
+        Getter method. This can only be called once, after which an empty list
+        is returned.
 
         Returns
         -------

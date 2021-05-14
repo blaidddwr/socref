@@ -364,11 +364,11 @@ The matching key, if any, of the returned reader.</__p_description>
                         <__p_description>Reads the next line of this parser's active reading file, moving its cursor to the next line. This parser must be reading a file.</__p_description>
                         <__p_returnsDescription>spaces
 int
-The total number of spaces of the read line.
+The total number of spaces of the read line or None if the end of file has been reached.
 
 line
 string
-The read line, stripped of any white space from both sides.</__p_returnsDescription>
+The read line stripped of any white space from both sides or None if the end of file has been reached.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -516,11 +516,11 @@ This reader's unique key used to identify itself in its parent parser's reader l
                         <__p_description>Reads the next line of the shared parser's active reading file, moving its cursor to the next line.</__p_description>
                         <__p_returnsDescription>spaces
 int
-The total number of spaces of the read line.
+The total number of spaces of the read line or None if the end of file has been reached.
 
 line
 string
-The read line, stripped of any white space from both sides.</__p_returnsDescription>
+The read line stripped of any white space from both sides or None if the end of file has been reached.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -3913,6 +3913,104 @@ True if this variable is an argument of a function or false otherwise.</__p_retu
                 </Class>
             </Package>
             <Package>
+                <__p_name>Reader</__p_name>
+                <__p_description>Contains all implemented Socrates' Reference reader classes.</__p_description>
+                <Class>
+                    <__p_name>FunctionReader</__p_name>
+                    <__p_description>This is the function reader class. It implements the Socrates' Reference abstract reader class. It parses a function; saving all lines of code nested within the function definition.</__p_description>
+                    <__p_parents>AbstractReader</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new function reader with the given function name, header flag, and parent reader.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>name</__p_name>
+                            <__p_description>string
+The name of the function this reader will parse.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>socref_glsl.Reader.ShaderReader
+The parent shader reader that discovered the header code line of the function that his reader will parse.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>lines</__p_name>
+                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+Lines of code contained by the parsed function of this reader.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>unknown</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__scanLines_</__p_name>
+                        <__p_description>Scans all nested lines of code within this reader's parsed function. The beginning and end is determined by opening and closing brackets on their own line. The very first opening bracket line and very last closing bracket line are not included.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__skipEnd_</__p_name>
+                        <__p_description>Skips any remaining header code lines of this reader's parsed function.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>ShaderReader</__p_name>
+                    <__p_description>This is the shader reader class. It implements the Socrates' Reference abstract reader class. It parses shader files; saving function definitions. Parsed function definitions are added as new reader children.</__p_description>
+                    <__p_parents>AbstractReader</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new shader reader with the given block and parent parser.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>socref_glsl.Block.ShaderBlock
+A shader block that is associated with this reader's parsed shader file.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>socref_glsl.Parser
+The parser currently parsing its project's source code files.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>unknown</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+            </Package>
+            <Package>
                 <__p_name>Writer</__p_name>
                 <__p_description>Contains all implemented Socrates' Reference writer classes.</__p_description>
                 <Class>
@@ -4587,7 +4685,7 @@ The parent reader that discovered the header code line of the class that this re
                     </Function>
                     <Function>
                         <__p_name>lines</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which the an empty list is returned.</__p_description>
+                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
 Lines of custom header code parsed by this class reader.</__p_returnsDescription>
@@ -4651,7 +4749,7 @@ The parent reader that discovered the header code line of the function that his 
                     </Function>
                     <Function>
                         <__p_name>lines</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which the an empty list is returned.</__p_description>
+                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
 Lines of code contained by the parsed function of this reader.</__p_returnsDescription>
@@ -4699,7 +4797,7 @@ Lines of code contained by the parsed function of this reader.</__p_returnsDescr
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>socref.Abstract.AbstractReader
+                            <__p_description>socref.Abstract.AbstractBlock
 A package, module, or class block that is associated with this reader's parsed python file.</__p_description>
                         </Object>
                         <Object>
@@ -4710,7 +4808,7 @@ The parser currently parsing its project's source code files.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>footer</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which the an empty list is returned.</__p_description>
+                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
 Lines of custom code parsed at the end of this reader's module after all function and class definitions.</__p_returnsDescription>
@@ -4720,7 +4818,7 @@ Lines of custom code parsed at the end of this reader's module after all functio
                     </Function>
                     <Function>
                         <__p_name>header</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which the an empty list is returned.</__p_description>
+                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
 Import lines of code parsed after the doc string of this reader's module.</__p_returnsDescription>
@@ -4730,7 +4828,7 @@ Import lines of code parsed after the doc string of this reader's module.</__p_r
                     </Function>
                     <Function>
                         <__p_name>preHeader</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which the an empty list is returned.</__p_description>
+                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
 Special comment lines parsed from the very beginning of this reader's module. The initial pound character is included in each line.</__p_returnsDescription>

@@ -19,10 +19,10 @@ class ModuleReader(AbstractReader):
     all purpose reader that reads in any module file, including the special
     package init file and dummy class container modules.
     """
-    __preHeaderRE = reCompile('^ *#.*')
-    __headerRE = reCompile('^(from|import).*')
-    __functionRE = reCompile('^def +([a-zA-Z_]+\w*)\((.*)')
-    __classRE = reCompile('^class +([a-zA-Z_]+\w*)\([\w\._,\s]*\):')
+    __preHeaderRE = reCompile("^ *#.*")
+    __headerRE = reCompile("^(from|import).*")
+    __functionRE = reCompile("^def +([a-zA-Z_]+\w*)\((.*)")
+    __classRE = reCompile("^class +([a-zA-Z_]+\w*)\([\w\._,\s]*\):")
 
 
     def __init__(
@@ -36,7 +36,7 @@ class ModuleReader(AbstractReader):
 
         Parameters
         ----------
-        block : socref.Abstract.AbstractReader
+        block : socref.Abstract.AbstractBlock
                 A package, module, or class block that is associated with this
                 reader's parsed python file.
         parent : socref_python.Parser
@@ -53,8 +53,8 @@ class ModuleReader(AbstractReader):
         self
     ):
         """
-        Getter method. This can only be called once, after which the an empty
-        list is returned.
+        Getter method. This can only be called once, after which an empty list
+        is returned.
 
         Returns
         -------
@@ -71,8 +71,8 @@ class ModuleReader(AbstractReader):
         self
     ):
         """
-        Getter method. This can only be called once, after which the an empty
-        list is returned.
+        Getter method. This can only be called once, after which an empty list
+        is returned.
 
         Returns
         -------
@@ -89,8 +89,8 @@ class ModuleReader(AbstractReader):
         self
     ):
         """
-        Getter method. This can only be called once, after which the an empty
-        list is returned.
+        Getter method. This can only be called once, after which an empty list
+        is returned.
 
         Returns
         -------

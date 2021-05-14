@@ -58,8 +58,6 @@ class Parser(AbstractParser):
     ):
         if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
             return ModuleReader(block,self)
-        else:
-            raise RuntimeError("Unsupported block type given for reader.")
 
 
     def _writer_(

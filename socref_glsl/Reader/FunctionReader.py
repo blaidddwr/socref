@@ -1,7 +1,6 @@
 """
 Contains the FunctionReader class.
 """
-from . import skipDocString
 from socref.Abstract.AbstractReader import *
 
 
@@ -18,29 +17,22 @@ class FunctionReader(AbstractReader):
     def __init__(
         self
         ,name
-        ,end
         ,parent
     ):
         """
         Initializes this new function reader with the given function name,
-        header ending, and parent reader.
+        header flag, and parent reader.
 
         Parameters
         ----------
         name : string
                The name of the function this reader will parse.
-        end : string
-              The end of the to be parsed function's header line, beginning
-              after the opening parenthesis. This is used to determine where the
-              header of the function ends since it is more than one line if it
-              has arguments.
-        parent : socref.Abstract.AbstractReader
-                 The parent reader that discovered the header code line of the
-                 function that his reader will parse.
+        parent : socref_glsl.Reader.ShaderReader
+                 The parent shader reader that discovered the header code line
+                 of the function that his reader will parse.
         """
         super().__init__(parent)
         self._setKey_(parent.key()+"."+name)
-        self.__end = end
         self.__lines = []
 
 
@@ -71,7 +63,6 @@ class FunctionReader(AbstractReader):
         self
     ):
         self.__skipEnd_()
-        skipDocString(self)
         self.__scanLines_()
 
 
@@ -80,30 +71,22 @@ class FunctionReader(AbstractReader):
     ):
         """
         Scans all nested lines of code within this reader's parsed function. The
-        indentation is determined by the very first line read, and scanning
-        stops when the first line of code lesser than that indent is
-        encountered.
+        beginning and end is determined by opening and closing brackets on their
+        own line. The very first opening bracket line and very last closing
+        bracket line are not included.
         """
-        ind = None
+        depth = 1
         while True:
-            self.save()
             (i,line) = self.read()
             if line is None:
                 break
-            if not line:
-                self.__lines.append("")
-            else:
-                if ind is None:
-                    ind = i
-                diff = i-ind
-                if diff >= 0:
-                    self.__lines.append(" "*diff + line)
-                else:
-                    self.restore()
-                    break
-            self.discard()
-        while self.__lines[-1] == "":
-            self.__lines.pop()
+            elif line == "{":
+                depth += 1
+            elif line == "}":
+                 depth -= 1
+            if depth <= 0:
+                break
+            self.__lines.append(" "*i + line)
 
 
     def __skipEnd_(
@@ -112,8 +95,7 @@ class FunctionReader(AbstractReader):
         """
         Skips any remaining header code lines of this reader's parsed function.
         """
-        if not self.__end.endswith("):"):
-            while True:
-                (i,line) = self.read()
-                if not line or line.endswith("):"):
-                    break
+        while True:
+            (i,line) = self.read()
+            if line is None or line == "{":
+                break

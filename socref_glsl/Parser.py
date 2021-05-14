@@ -1,6 +1,7 @@
 """
 Contains the Parser class.
 """
+from .Reader.ShaderReader import *
 from .Writer.ProgramWriter import *
 from .Writer.ShaderWriter import *
 from socref import parser
@@ -55,7 +56,8 @@ class Parser(AbstractParser):
         self
         ,block
     ):
-        pass
+        if block._TYPE_ == "Shader":
+            return ShaderReader(block,self)
 
 
     def _writer_(
