@@ -40,6 +40,7 @@ class FunctionWriter(AbstractWriter):
         self.__block = block
         self.__depth = depth
         self.__reader = self.lookup(block.key())
+        self.__code = None
 
 
     def _footer_(
@@ -51,59 +52,30 @@ class FunctionWriter(AbstractWriter):
     def _header_(
         self
     ):
-        ret = Code(Settings.INDENT)
-        ret.addBlank(Settings.H2)
-        ret.setDepth(self.__depth)
-        ret.add(self.__block.decorators())
-        arguments = self.__block.arguments()
-        if arguments:
-            ret.add("def "+self.__block._p_name+"(")
-            ret.setDepth(self.__depth+1)
-            self.__addArguments_(ret,arguments)
-            ret.setDepth(self.__depth)
-            ret.add("):")
-        else:
-            ret.add("def "+self.__block._p_name+"():")
-        ret.setDepth(self.__depth+1)
-        if self.__block._p_description:
-            ret.add('"""')
-            ret.addText(self.__block._p_description,Settings.COLS)
-            arguments = self.__block.arguments(False)
-            if arguments:
-                ret.addBlank(1)
-                self.__addDocArguments_(ret,arguments)
-            returns = self.__block.returns()
-            if returns:
-                ret.addBlank(1)
-                self.__addReturns_(ret,returns)
-            ret.add('"""')
+        self.__code = Code(Settings.INDENT)
+        self.__code.addBlank(Settings.H2)
+        self.__code.setDepth(self.__depth)
+        self.__code.add(self.__block.decorators())
+        self.__addHeader_()
+        self.__code.setDepth(self.__depth+1)
+        self.__addDocString_()
         if self.__reader:
-            ret.add(self.__reader.lines())
+            self.__code.add(self.__reader.lines())
         else:
-            ret.add("pass")
+            self.__code.add("pass")
+        ret = self.__code
+        self.__code = None
         return ret
 
 
-    @staticmethod
     def __addArguments_(
-        code
-        ,arguments
+        self
     ):
         """
-        Adds function argument lines of code to the given code output instance
-        using the given list of arguments.
-
-        Parameters
-        ----------
-        code : socref.Output.Code
-               Code output instance that this adds argument lines to.
-        arguments : list
-                    Tuples of argument values used to generate argument lines.
-                    Each tuple must contain the name, assignment, type, and
-                    description in that order.
+        Adds function argument lines of code to this writer's code.
         """
         first = True
-        for (name,assignment,t,d) in arguments:
+        for (name,assignment,t,d) in self.__block.arguments():
             l = []
             if first:
                 first = False
@@ -112,56 +84,68 @@ class FunctionWriter(AbstractWriter):
             l.append(name)
             if assignment:
                 l += ["=",assignment]
-            code.add("".join(l))
+            self.__code.add("".join(l))
 
 
-    @staticmethod
     def __addDocArguments_(
-        code
-        ,arguments
+        self
     ):
         """
-        Adds function argument doc string lines to the given code output
-        instance using the given list of arguments.
-
-        Parameters
-        ----------
-        code : socref.Output.Code
-               Code output instance that this adds argument doc string lines to.
-        arguments : list
-                    Tuples of argument values used to generate argument doc
-                    string lines. Each tuple must contain the name, assignment,
-                    type, and description in that order.
+        Adds function argument doc string lines to this writer's code.
         """
-        code.add(["Parameters","----------"])
-        for (name,a,type_,text) in arguments:
-            h1 = name+" : "
-            l = len(h1)
-            code.add(h1+type_)
-            code.addText(text,Settings.COLS," "*l)
+        arguments = self.__block.arguments(False)
+        if arguments:
+            self.__code.addBlank(1)
+            self.__code.add(["Parameters","----------"])
+            for (name,a,type_,text) in arguments:
+                h1 = name+" : "
+                l = len(h1)
+                self.__code.add(h1+type_)
+                self.__code.addText(text,Settings.COLS," "*l)
 
 
-    @staticmethod
-    def __addReturns_(
-        code
-        ,returns
+    def __addDocString_(
+        self
     ):
         """
-        Adds function returns doc string lines to the given code output instance
-        using the given list of returns.
-
-        Parameters
-        ----------
-        code : socref.Output.Code
-               Code output instance that this adds returns doc string lines to.
-        returns : list
-                  Tuples of return values used to generate returns doc string
-                  lines. Each tuple must contain the name, type, and description
-                  in that order.
+        Adds function doc string lines to this writer's code.
         """
-        code.add(["Returns","-------"])
-        for (name,type_,text) in returns:
-            h1 = name+" : "
-            l = len(h1)
-            code.add(h1+type_)
-            code.addText(text,Settings.COLS," "*l)
+        if self.__block._p_description:
+            self.__code.add('"""')
+            self.__code.addText(self.__block._p_description,Settings.COLS)
+            self.__addDocArguments_()
+            self.__addDocReturns_()
+            self.__code.add('"""')
+
+
+    def __addDocReturns_(
+        self
+    ):
+        """
+        Adds function returns doc string lines to this writer's code.
+        """
+        returns = self.__block.returns()
+        if returns:
+            self.__code.addBlank(1)
+            self.__code.add(["Returns","-------"])
+            for (name,type_,text) in returns:
+                h1 = name+" : "
+                l = len(h1)
+                self.__code.add(h1+type_)
+                self.__code.addText(text,Settings.COLS," "*l)
+
+
+    def __addHeader_(
+        self
+    ):
+        """
+        Adds function header lines of code to this writer's code.
+        """
+        if self.__block.hasArguments():
+            self.__code.add("def "+self.__block._p_name+"(")
+            self.__code.setDepth(self.__depth+1)
+            self.__addArguments_()
+            self.__code.setDepth(self.__depth)
+            self.__code.add("):")
+        else:
+            self.__code.add("def "+self.__block._p_name+"():")

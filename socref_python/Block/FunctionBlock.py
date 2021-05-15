@@ -181,6 +181,20 @@ class FunctionBlock(ModuleBlock):
         return ret
 
 
+    def hasArguments(
+        self
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        result : bool
+                 True if this function has any arguments or false otherwise.
+        """
+        return self or (self.isMethod() and not self.isStatic())
+
+
     def icon(
         self
     ):

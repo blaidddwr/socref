@@ -60,8 +60,10 @@ class ShaderWriter(AbstractWriter):
         ret.add(" */")
         ret.add("void main()")
         ret.add("{")
+        ret.setDepth(1)
         if self.__reader:
             ret.add(self.__reader.lines())
+        ret.setDepth(0)
         ret.add("}")
         return ret
 

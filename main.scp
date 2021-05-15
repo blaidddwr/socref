@@ -4491,6 +4491,16 @@ Human readable, capitalized, and enabled flag names of this function.</__p_retur
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>hasArguments</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function has any arguments or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>icon</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -5055,54 +5065,38 @@ The parent writer of this writer. This must be a module or class writer.</__p_de
                     </Function>
                     <Function>
                         <__p_name>__addArguments_</__p_name>
-                        <__p_description>Adds function argument lines of code to the given code output instance using the given list of arguments.</__p_description>
-                        <__p_static>1</__p_static>
+                        <__p_description>Adds function argument lines of code to this writer's code.</__p_description>
+                        <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>code</__p_name>
-                            <__p_description>socref.Output.Code
-Code output instance that this adds argument lines to.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>arguments</__p_name>
-                            <__p_description>list
-Tuples of argument values used to generate argument lines. Each tuple must contain the name, assignment, type, and description in that order.</__p_description>
-                        </Object>
                     </Function>
                     <Function>
                         <__p_name>__addDocArguments_</__p_name>
-                        <__p_description>Adds function argument doc string lines to the given code output instance using the given list of arguments.</__p_description>
-                        <__p_static>1</__p_static>
+                        <__p_description>Adds function argument doc string lines to this writer's code.</__p_description>
+                        <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>code</__p_name>
-                            <__p_description>socref.Output.Code
-Code output instance that this adds argument doc string lines to.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>arguments</__p_name>
-                            <__p_description>list
-Tuples of argument values used to generate argument doc string lines. Each tuple must contain the name, assignment, type, and description in that order.</__p_description>
-                        </Object>
                     </Function>
                     <Function>
-                        <__p_name>__addReturns_</__p_name>
-                        <__p_description>Adds function returns doc string lines to the given code output instance using the given list of returns.</__p_description>
-                        <__p_static>1</__p_static>
+                        <__p_name>__addDocString_</__p_name>
+                        <__p_description>Adds function doc string lines to this writer's code.</__p_description>
+                        <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>code</__p_name>
-                            <__p_description>socref.Output.Code
-Code output instance that this adds returns doc string lines to.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>returns</__p_name>
-                            <__p_description>list
-Tuples of return values used to generate returns doc string lines. Each tuple must contain the name, type, and description in that order.</__p_description>
-                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__addDocReturns_</__p_name>
+                        <__p_description>Adds function returns doc string lines to this writer's code.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__addHeader_</__p_name>
+                        <__p_description>Adds function header lines of code to this writer's code.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
                     </Function>
                 </Class>
                 <Class>

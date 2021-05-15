@@ -78,8 +78,11 @@ class FunctionReader(AbstractReader):
         bracket line are not included.
         """
         depth = 1
+        ind = None
         while True:
             (i,line) = self.read()
+            if ind is None:
+                ind = i
             if line is None:
                 break
             elif line == "{":
@@ -88,7 +91,7 @@ class FunctionReader(AbstractReader):
                  depth -= 1
             if depth <= 0:
                 break
-            self.__lines.append(" "*i + line)
+            self.__lines.append(" "*max(i-ind,0) + line)
 
 
     def __scanSignature_(
