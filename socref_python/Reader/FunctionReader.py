@@ -36,7 +36,7 @@ class FunctionReader(AbstractReader):
               has arguments.
         parent : socref.Abstract.AbstractReader
                  The parent reader that discovered the header code line of the
-                 function that his reader will parse.
+                 function that this reader will parse.
         """
         super().__init__(parent)
         self._setKey_(parent.key()+"."+name)

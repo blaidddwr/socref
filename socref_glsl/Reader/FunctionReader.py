@@ -20,8 +20,8 @@ class FunctionReader(AbstractReader):
         ,parent
     ):
         """
-        Initializes this new function reader with the given function name,
-        header flag, and parent reader.
+        Initializes this new function reader with the given function name and
+        parent reader.
 
         Parameters
         ----------
@@ -29,10 +29,11 @@ class FunctionReader(AbstractReader):
                The name of the function this reader will parse.
         parent : socref_glsl.Reader.ShaderReader
                  The parent shader reader that discovered the header code line
-                 of the function that his reader will parse.
+                 of the function that this reader will parse.
         """
         super().__init__(parent)
-        self._setKey_(parent.key()+"."+name)
+        self.__key = parent.key()+"."+name
+        self.__signature = ""
         self.__lines = []
 
 
@@ -62,7 +63,8 @@ class FunctionReader(AbstractReader):
     def _scan_(
         self
     ):
-        self.__skipEnd_()
+        self.__scanSignature_()
+        self._setKey_(self.__key+"("+self.__signature+")")
         self.__scanLines_()
 
 
@@ -89,13 +91,18 @@ class FunctionReader(AbstractReader):
             self.__lines.append(" "*i + line)
 
 
-    def __skipEnd_(
+    def __scanSignature_(
         self
     ):
         """
-        Skips any remaining header code lines of this reader's parsed function.
+        Scans the signature, if any, of this reader's parsed function. If the
+        function has no arguments that signature is an empty string.
         """
+        sig = []
         while True:
             (i,line) = self.read()
             if line is None or line == "{":
                 break
+            if line and line != ")":
+                sig.append(line[:line.rfind(" ")].replace(" ",""))
+        self.__signature = "".join(sig)

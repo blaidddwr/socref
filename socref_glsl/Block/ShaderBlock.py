@@ -27,7 +27,7 @@ class ShaderBlock(ProgramBlock):
     def buildList(
         self
     ):
-        return ("Variable","Structure")
+        return ("Variable","Structure","Function")
 
 
     def clearProperties(

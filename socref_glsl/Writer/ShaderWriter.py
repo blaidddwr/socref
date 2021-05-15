@@ -41,7 +41,7 @@ class ShaderWriter(AbstractWriter):
         """
         super().__init__(parent)
         self.__block = block
-        self.__reader = self.lookup(block.key()+".main")
+        self.__reader = self.lookup(block.key()+".main()")
         for child in block:
             if child._TYPE_ == "Variable":
                 VariableWriter(child,0,self)

@@ -46,10 +46,10 @@ class FunctionBlock(ModuleBlock):
         Returns
         -------
         result : list
-                 Tuples of argument values of this function. Each tuple contains
-                 the name, assignment, type, and description in that order. The
-                 assignment, type, and description can be empty. Special self or
-                 cls arguments can be included.
+                 Tuples of argument values for this function. Each tuple
+                 contains the name, assignment, type, and description in that
+                 order. The assignment, type, and description can be empty.
+                 Special self or cls arguments can be included.
         """
         ret = []
         if self.isMethod() and not self.isStatic() and mSelf:
@@ -121,16 +121,16 @@ class FunctionBlock(ModuleBlock):
         self
     ):
         rt = super().displayView()
-        returns = self.returns()
-        if returns:
-            rt.addHeader("Returns",1)
-            for (name,type_,text) in returns:
-                rt.addBox(name+" : "+type_,text)
         arguments = self.arguments(False)
         if arguments:
             rt.addHeader("Arguments",1)
             for (name,assignment,type_,text) in arguments:
                 rt.addBox(name+(" = "+assignment if assignment else "")+" : "+type_,text)
+        returns = self.returns()
+        if returns:
+            rt.addHeader("Returns",1)
+            for (name,type_,text) in returns:
+                rt.addBox(name+" : "+type_,text)
         flags = self.flags()
         if flags:
             rt.addHeader("Flags",1)
