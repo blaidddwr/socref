@@ -97,7 +97,7 @@ class ClassReader(AbstractReader):
                 if match:
                     name = match.group(1)
                     end = match.group(2)
-                    reader = FunctionReader(name,end,self)
+                    reader = FunctionReader(name,end.endswith("):"),self)
                     reader()
                     continue
                 match = self.__classRE.match(line)

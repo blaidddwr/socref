@@ -23,17 +23,15 @@ class FunctionReader(AbstractReader):
     ):
         """
         Initializes this new function reader with the given function name,
-        header ending, and parent reader.
+        header ending flag, and parent reader.
 
         Parameters
         ----------
         name : string
                The name of the function this reader will parse.
-        end : string
-              The end of the to be parsed function's header line, beginning
-              after the opening parenthesis. This is used to determine where the
-              header of the function ends since it is more than one line if it
-              has arguments.
+        end : bool
+              True if this writer's parent reader read past all header lines of
+              its to be parsed function or false otherwise.
         parent : socref.Abstract.AbstractReader
                  The parent reader that discovered the header code line of the
                  function that this reader will parse.
@@ -112,7 +110,7 @@ class FunctionReader(AbstractReader):
         """
         Skips any remaining header code lines of this reader's parsed function.
         """
-        if not self.__end.endswith("):"):
+        if not self.__end:
             while True:
                 (i,line) = self.read()
                 if not line or line.endswith("):"):

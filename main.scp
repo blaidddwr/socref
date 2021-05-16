@@ -4818,7 +4818,7 @@ Lines of custom header code parsed by this class reader.</__p_returnsDescription
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new function reader with the given function name, header ending, and parent reader.</__p_description>
+                        <__p_description>Initializes this new function reader with the given function name, header ending flag, and parent reader.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4829,8 +4829,8 @@ The name of the function this reader will parse.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>end</__p_name>
-                            <__p_description>string
-The end of the to be parsed function's header line, beginning after the opening parenthesis. This is used to determine where the header of the function ends since it is more than one line if it has arguments.</__p_description>
+                            <__p_description>bool
+True if this writer's parent reader read past all header lines of its to be parsed function or false otherwise.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
