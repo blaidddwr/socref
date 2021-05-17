@@ -73,24 +73,24 @@ class ObjectBlock(ModuleBlock):
     def displayView(
         self
     ):
-        rt = RichText()
-        rt.addHeader("Description",1)
+        ret = RichText()
+        ret.addHeader("Description",1)
         parts = self._p_description.split("\n")
         if len(parts) == 2:
-            rt.addHeader(parts.pop(0),3)
-        rt.addText(self._p_description)
+            ret.addHeader(parts.pop(0),3)
+        ret.addText(self._p_description)
         if self._p_assignment:
-            rt.addHeader("Assignment",1)
-            rt.addText(self._p_assignment)
-        return rt
+            ret.addHeader("Assignment",1)
+            ret.addText(self._p_assignment)
+        return ret
 
 
     def editDefinitions(
         self
     ):
-        edits = super().editDefinitions()
-        edits.append(LineEdit("Assignment:","_p_assignment"))
-        return edits
+        ret = super().editDefinitions()
+        ret.append(LineEdit("Assignment:","_p_assignment"))
+        return ret
 
 
     def icon(

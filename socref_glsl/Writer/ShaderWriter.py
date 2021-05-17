@@ -2,6 +2,7 @@
 Contains the ShaderWriter class.
 """
 from ..Settings import *
+from .FunctionWriter import *
 from .StructureWriter import *
 from .VariableWriter import *
 from socref.Abstract.AbstractWriter import *
@@ -46,8 +47,9 @@ class ShaderWriter(AbstractWriter):
             if child._TYPE_ == "Variable":
                 VariableWriter(child,0,self)
             elif child._TYPE_ == "Structure":
-                StructureWriter(child,0,self)
-        #TODO: add children writer functions
+                StructureWriter(child,self)
+            elif child._TYPE_ == "Function":
+                FunctionWriter(child,self)
 
 
     def _footer_(

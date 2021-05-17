@@ -97,11 +97,28 @@ class FunctionWriter(AbstractWriter):
         if arguments:
             self.__code.addBlank(1)
             self.__code.add(["Parameters","----------"])
-            for (name,a,type_,text) in arguments:
+            for (name,a,type_,description) in arguments:
                 h1 = name+" : "
                 l = len(h1)
                 self.__code.add(h1+type_)
-                self.__code.addText(text,Settings.COLS," "*l)
+                self.__code.addText(description,Settings.COLS," "*l)
+
+
+    def __addDocReturns_(
+        self
+    ):
+        """
+        Adds function returns doc string lines to this writer's code.
+        """
+        returns = self.__block.returns()
+        if returns:
+            self.__code.addBlank(1)
+            self.__code.add(["Returns","-------"])
+            for (name,type_,description) in returns:
+                h1 = name+" : "
+                l = len(h1)
+                self.__code.add(h1+type_)
+                self.__code.addText(description,Settings.COLS," "*l)
 
 
     def __addDocString_(
@@ -116,23 +133,6 @@ class FunctionWriter(AbstractWriter):
             self.__addDocArguments_()
             self.__addDocReturns_()
             self.__code.add('"""')
-
-
-    def __addDocReturns_(
-        self
-    ):
-        """
-        Adds function returns doc string lines to this writer's code.
-        """
-        returns = self.__block.returns()
-        if returns:
-            self.__code.addBlank(1)
-            self.__code.add(["Returns","-------"])
-            for (name,type_,text) in returns:
-                h1 = name+" : "
-                l = len(h1)
-                self.__code.add(h1+type_)
-                self.__code.addText(text,Settings.COLS," "*l)
 
 
     def __addHeader_(

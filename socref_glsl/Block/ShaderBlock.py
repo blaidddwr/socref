@@ -40,17 +40,17 @@ class ShaderBlock(ProgramBlock):
     def displayView(
         self
     ):
-        rt = super().displayView()
-        rt.addHeader("Type",1)
-        rt.addText(self._p_type)
-        return rt
+        ret = super().displayView()
+        ret.addHeader("Type",1)
+        ret.addText(self._p_type)
+        return ret
 
 
     def editDefinitions(
         self
     ):
-        edits = super().editDefinitions()
-        edits.append(
+        ret = super().editDefinitions()
+        ret.append(
             ComboEdit(
                 "Type:"
                 ,"_p_type"
@@ -64,7 +64,7 @@ class ShaderBlock(ProgramBlock):
                 )
             )
         )
-        return edits
+        return ret
 
 
     def icon(

@@ -49,18 +49,18 @@ class VariableBlock(ProgramBlock):
     def displayView(
         self
     ):
-        rt = super().displayView()
-        rt.addHeader("Type",1)
-        rt.addText(self._p_type.replace("@",self._p_name))
-        return rt
+        ret = super().displayView()
+        ret.addHeader("Type",1)
+        ret.addText(self._p_type.replace("@",self._p_name))
+        return ret
 
 
     def editDefinitions(
         self
     ):
-        edits = super().editDefinitions()
-        edits.append(LineEdit("Type:","_p_type"))
-        return edits
+        ret = super().editDefinitions()
+        ret.append(LineEdit("Type:","_p_type"))
+        return ret
 
 
     def icon(

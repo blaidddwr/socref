@@ -120,43 +120,43 @@ class FunctionBlock(ModuleBlock):
     def displayView(
         self
     ):
-        rt = super().displayView()
+        ret = super().displayView()
         arguments = self.arguments(False)
         if arguments:
-            rt.addHeader("Arguments",1)
+            ret.addHeader("Arguments",1)
             for (name,assignment,type_,text) in arguments:
-                rt.addBox(name+(" = "+assignment if assignment else "")+" : "+type_,text)
+                ret.addBox(name+(" = "+assignment if assignment else "")+" : "+type_,text)
         returns = self.returns()
         if returns:
-            rt.addHeader("Returns",1)
+            ret.addHeader("Returns",1)
             for (name,type_,text) in returns:
-                rt.addBox(name+" : "+type_,text)
+                ret.addBox(name+" : "+type_,text)
         flags = self.flags()
         if flags:
-            rt.addHeader("Flags",1)
-            rt.addList(self.flags())
+            ret.addHeader("Flags",1)
+            ret.addList(self.flags())
         decorators = self.decorators(False)
         if decorators:
-            rt.addHeader("Decorators",1)
-            rt.addList(decorators)
-        return rt
+            ret.addHeader("Decorators",1)
+            ret.addList(decorators)
+        return ret
 
 
     def editDefinitions(
         self
     ):
-        edits = super().editDefinitions()
-        edits.append(TextEdit("Return:","_p_returnsDescription",True))
+        ret = super().editDefinitions()
+        ret.append(TextEdit("Return:","_p_returnsDescription",True))
         if self.isMethod():
-            edits.append(CheckBoxEdit("Static","_p_static"))
-            edits.append(CheckBoxEdit("Class","_p_class"))
-            edits.append(CheckBoxEdit("Abstract","_p_abstract"))
+            ret.append(CheckBoxEdit("Static","_p_static"))
+            ret.append(CheckBoxEdit("Class","_p_class"))
+            ret.append(CheckBoxEdit("Abstract","_p_abstract"))
         else:
-            edits.append(HiddenEdit("_p_static","0"))
-            edits.append(HiddenEdit("_p_class","0"))
-            edits.append(HiddenEdit("_p_abstract","0"))
-        edits.append(TextEdit("Decorators:","_p_decorators"))
-        return edits
+            ret.append(HiddenEdit("_p_static","0"))
+            ret.append(HiddenEdit("_p_class","0"))
+            ret.append(HiddenEdit("_p_abstract","0"))
+        ret.append(TextEdit("Decorators:","_p_decorators"))
+        return ret
 
 
     def flags(

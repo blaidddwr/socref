@@ -52,10 +52,10 @@ class ProgramBlock(AbstractBlock):
     def displayView(
         self
     ):
-        rt = RichText()
-        rt.addHeader("Description",1)
-        rt.addText(self._p_description)
-        return rt
+        ret = RichText()
+        ret.addHeader("Description",1)
+        ret.addText(self._p_description)
+        return ret
 
 
     def editDefinitions(

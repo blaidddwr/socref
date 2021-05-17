@@ -67,25 +67,25 @@ class FunctionBlock(ProgramBlock):
     def displayView(
         self
     ):
-        rt = super().displayView()
+        ret = super().displayView()
         args = self.arguments()
         if args:
-            rt.addHeader("Arguments",1)
+            ret.addHeader("Arguments",1)
             for (name,type_,description) in args:
-                rt.addBox(name+" : "+type_,description)
+                ret.addBox(name+" : "+type_,description)
         if self._p_returnDescription:
-            rt.addHeader("Return",1)
-            rt.addBox(self._p_returnType,self._p_returnDescription)
-        return rt
+            ret.addHeader("Return",1)
+            ret.addBox(self._p_returnType,self._p_returnDescription)
+        return ret
 
 
     def editDefinitions(
         self
     ):
-        edits = super().editDefinitions()
-        edits.append(LineEdit("Return Type:","_p_returnType"))
-        edits.append(TextEdit("Return Description:","_p_returnDescription",True))
-        return edits
+        ret = super().editDefinitions()
+        ret.append(LineEdit("Return Type:","_p_returnType"))
+        ret.append(TextEdit("Return Description:","_p_returnDescription",True))
+        return ret
 
 
     def icon(

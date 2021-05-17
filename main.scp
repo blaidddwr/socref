@@ -4095,6 +4095,76 @@ The parser currently parsing its project's source code files.</__p_description>
                 <__p_name>Writer</__p_name>
                 <__p_description>Contains all implemented Socrates' Reference writer classes.</__p_description>
                 <Class>
+                    <__p_name>FunctionWriter</__p_name>
+                    <__p_description>This is the function writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for a function.</__p_description>
+                    <__p_parents>AbstractWriter</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new function writer with the given function block and parent writer.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>socref_python.Block.FunctionBlock
+The function block this writer uses to find its corresponding reader and generate its output.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>socref_glsl.Writer.ShaderWriter
+The parent shader writer of this writer.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__addArguments_</__p_name>
+                        <__p_description>Adds function argument lines of code to this writer's code.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__addComArguments_</__p_name>
+                        <__p_description>Adds function argument comment lines to this writer's code.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__addComReturn_</__p_name>
+                        <__p_description>Adds function return comment lines to this writer's code.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__addComments_</__p_name>
+                        <__p_description>Adds function comment lines to this writer's code.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__addHeader_</__p_name>
+                        <__p_description>Adds function header lines of code to this writer's code.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
                     <__p_name>ProgramWriter</__p_name>
                     <__p_description>This is the program writer class. It implements the Socrates' Reference abstract writer class. It outputs the README that is contained within each program folder.</__p_description>
                     <__p_parents>AbstractWriter</__p_parents>
@@ -4179,11 +4249,6 @@ The parser currently outputting its project's source code files.</__p_descriptio
                             <__p_name>block</__p_name>
                             <__p_description>socref_glsl.Block.VariableBlock
 The structure block this writer uses to initialize its children writers and generate its output.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>depth</__p_name>
-                            <__p_description>int
-The indentation depth of this writer's output.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
@@ -5078,15 +5143,15 @@ The parent writer of this writer. This must be a module or class writer.</__p_de
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>__addDocString_</__p_name>
-                        <__p_description>Adds function doc string lines to this writer's code.</__p_description>
+                        <__p_name>__addDocReturns_</__p_name>
+                        <__p_description>Adds function returns doc string lines to this writer's code.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>__addDocReturns_</__p_name>
-                        <__p_description>Adds function returns doc string lines to this writer's code.</__p_description>
+                        <__p_name>__addDocString_</__p_name>
+                        <__p_description>Adds function doc string lines to this writer's code.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

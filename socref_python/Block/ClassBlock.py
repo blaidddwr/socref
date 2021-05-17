@@ -84,33 +84,33 @@ class ClassBlock(ModuleBlock):
     def displayView(
         self
     ):
-        rt = super().displayView()
+        ret = super().displayView()
         parents = self.clsParents()
         if parents:
-            rt.addHeader("Parents",1)
-            rt.addList(parents)
+            ret.addHeader("Parents",1)
+            ret.addList(parents)
         decorators = self.decorators()
         if decorators:
-            rt.addHeader("Decorators",1)
-            rt.addList(decorators)
+            ret.addHeader("Decorators",1)
+            ret.addList(decorators)
         flags = self.flags()
         if flags:
-            rt.addHeader("Flags",1)
-            rt.addList(flags)
-        return rt
+            ret.addHeader("Flags",1)
+            ret.addList(flags)
+        return ret
 
 
     def editDefinitions(
         self
     ):
-        edits = super().editDefinitions()
-        edits.append(TextEdit("Parents:","_p_parents"))
+        ret = super().editDefinitions()
+        ret.append(TextEdit("Parents:","_p_parents"))
         if self.parent()._TYPE_ == "Class":
-            edits.append(HiddenEdit("Infile","0"))
+            ret.append(HiddenEdit("Infile","0"))
         else:
-            edits.append(CheckBoxEdit("Infile","_p_infile"))
-        edits.append(TextEdit("Decorators:","_p_decorators"))
-        return edits
+            ret.append(CheckBoxEdit("Infile","_p_infile"))
+        ret.append(TextEdit("Decorators:","_p_decorators"))
+        return ret
 
 
     def flags(
