@@ -8,20 +8,20 @@ from ....Edit.LineEdit import *
 from ....Edit.TextEdit import *
 from ...Model.ProjectModel import *
 from .PlainTextEdit import *
-from PySide2.QtCore import QModelIndex
-from PySide2.QtCore import Qt
-from PySide2.QtCore import Slot
-from PySide2.QtWidgets import QCheckBox
-from PySide2.QtWidgets import QComboBox
-from PySide2.QtWidgets import QDockWidget
-from PySide2.QtWidgets import QFormLayout
-from PySide2.QtWidgets import QHBoxLayout
-from PySide2.QtWidgets import QLineEdit
-from PySide2.QtWidgets import QMessageBox
-from PySide2.QtWidgets import QPushButton
-from PySide2.QtWidgets import QScrollArea
-from PySide2.QtWidgets import QVBoxLayout
-from PySide2.QtWidgets import QWidget
+from PySide6.QtCore import QModelIndex
+from PySide6.QtCore import Qt
+from PySide6.QtCore import Slot
+from PySide6.QtWidgets import QCheckBox
+from PySide6.QtWidgets import QComboBox
+from PySide6.QtWidgets import QDockWidget
+from PySide6.QtWidgets import QFormLayout
+from PySide6.QtWidgets import QHBoxLayout
+from PySide6.QtWidgets import QLineEdit
+from PySide6.QtWidgets import QMessageBox
+from PySide6.QtWidgets import QPushButton
+from PySide6.QtWidgets import QScrollArea
+from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QWidget
 from gc import collect as gCollect
 
 

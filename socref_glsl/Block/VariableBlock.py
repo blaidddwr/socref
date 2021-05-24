@@ -2,7 +2,7 @@
 Contains the VariableBlock class.
 """
 from .ProgramBlock import *
-from PySide2 import QtGui as qtg
+from PySide6.QtGui import QIcon
 from socref import block
 from socref.Edit.LineEdit import *
 
@@ -66,7 +66,7 @@ class VariableBlock(ProgramBlock):
     def icon(
         self
     ):
-        return qtg.QIcon(":/socref_glsl/variable.svg")
+        return QIcon(":/socref_glsl/variable.svg")
 
 
     def inStructure(

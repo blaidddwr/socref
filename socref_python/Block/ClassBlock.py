@@ -2,7 +2,7 @@
 Contains the ClassBlock class.
 """
 from .ModuleBlock import *
-from PySide2.QtGui import QIcon
+from PySide6.QtGui import QIcon
 from socref import block
 from socref.Edit.CheckBoxEdit import *
 from socref.Edit.HiddenEdit import *

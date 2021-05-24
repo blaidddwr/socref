@@ -1,7 +1,7 @@
 """
 Contains the AbstractCommand class.
 """
-from PySide2.QtCore import QModelIndex
+from PySide6.QtCore import QModelIndex
 from abc import ABC
 from abc import abstractmethod
 

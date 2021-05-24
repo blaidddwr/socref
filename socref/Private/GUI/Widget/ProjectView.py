@@ -3,18 +3,18 @@ Contains the ProjectView class.
 """
 from ...Factory import blockFactory
 from ...Model.ProjectModel import *
-from PySide2.QtCore import QItemSelectionModel
-from PySide2.QtCore import QModelIndex
-from PySide2.QtCore import QPoint
-from PySide2.QtCore import Qt
-from PySide2.QtCore import Signal
-from PySide2.QtCore import Slot
-from PySide2.QtGui import QIcon
-from PySide2.QtGui import QKeySequence
-from PySide2.QtWidgets import QAbstractItemView
-from PySide2.QtWidgets import QAction
-from PySide2.QtWidgets import QMenu
-from PySide2.QtWidgets import QTreeView
+from PySide6.QtCore import QItemSelectionModel
+from PySide6.QtCore import QModelIndex
+from PySide6.QtCore import QPoint
+from PySide6.QtCore import Qt
+from PySide6.QtCore import Signal
+from PySide6.QtCore import Slot
+from PySide6.QtGui import QAction
+from PySide6.QtGui import QIcon
+from PySide6.QtGui import QKeySequence
+from PySide6.QtWidgets import QAbstractItemView
+from PySide6.QtWidgets import QMenu
+from PySide6.QtWidgets import QTreeView
 
 
 

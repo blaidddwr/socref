@@ -4,10 +4,10 @@ Contains the PlainTextEdit class.
 from .... import DICTIONARY
 from ..Controller.SpellHighlighter import *
 from ..Dialog import TextDialog
-from PySide2.QtCore import Qt
-from PySide2.QtCore import Slot
-from PySide2.QtWidgets import QAction
-from PySide2.QtWidgets import QPlainTextEdit
+from PySide6.QtCore import Qt
+from PySide6.QtCore import Slot
+from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QPlainTextEdit
 
 
 

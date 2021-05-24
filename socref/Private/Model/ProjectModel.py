@@ -9,14 +9,14 @@ from .Command.InsertCommand import *
 from .Command.MoveCommand import *
 from .Command.RemoveCommand import *
 from .Command.SetCommand import *
-from PySide2.QtCore import QAbstractItemModel
-from PySide2.QtCore import QByteArray
-from PySide2.QtCore import QModelIndex
-from PySide2.QtCore import QXmlStreamReader
-from PySide2.QtCore import QXmlStreamWriter
-from PySide2.QtCore import Signal
-from PySide2.QtCore import Slot
-from PySide2.QtCore import Qt
+from PySide6.QtCore import QAbstractItemModel
+from PySide6.QtCore import QByteArray
+from PySide6.QtCore import QModelIndex
+from PySide6.QtCore import QXmlStreamReader
+from PySide6.QtCore import QXmlStreamWriter
+from PySide6.QtCore import Signal
+from PySide6.QtCore import Slot
+from PySide6.QtCore import Qt
 from enum import IntEnum
 
 

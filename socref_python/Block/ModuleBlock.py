@@ -1,7 +1,7 @@
 """
 Contains the ModuleBlock class.
 """
-from PySide2.QtGui import QIcon
+from PySide6.QtGui import QIcon
 from socref import block
 from socref.Abstract.AbstractBlock import *
 from socref.Edit.LineEdit import *

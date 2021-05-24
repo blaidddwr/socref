@@ -2,7 +2,7 @@
 Contains the ShaderBlock class.
 """
 from .ProgramBlock import *
-from PySide2 import QtGui as qtg
+from PySide6.QtGui import QIcon
 from socref import block
 from socref.Edit.ComboEdit import *
 
@@ -55,12 +55,12 @@ class ShaderBlock(ProgramBlock):
                 "Type:"
                 ,"_p_type"
                 ,(
-                    (qtg.QIcon(":/socref_glsl/vertex_shader.svg"),"Vertex")
-                    ,(qtg.QIcon(":/socref_glsl/fragment_shader.svg"),"Fragment")
-                    ,(qtg.QIcon(":/socref_glsl/tesselation_ctrl_shader.svg"),"Tesselation Control")
-                    ,(qtg.QIcon(":/socref_glsl/tesselation_eval_shader.svg"),"Tesselation Evaluation")
-                    ,(qtg.QIcon(":/socref_glsl/geometry_shader.svg"),"Geometry")
-                    ,(qtg.QIcon(":/socref_glsl/compute_shader.svg"),"Compute")
+                    (QIcon(":/socref_glsl/vertex_shader.svg"),"Vertex")
+                    ,(QIcon(":/socref_glsl/fragment_shader.svg"),"Fragment")
+                    ,(QIcon(":/socref_glsl/tesselation_ctrl_shader.svg"),"Tesselation Control")
+                    ,(QIcon(":/socref_glsl/tesselation_eval_shader.svg"),"Tesselation Evaluation")
+                    ,(QIcon(":/socref_glsl/geometry_shader.svg"),"Geometry")
+                    ,(QIcon(":/socref_glsl/compute_shader.svg"),"Compute")
                 )
             )
         )
@@ -71,17 +71,17 @@ class ShaderBlock(ProgramBlock):
         self
     ):
         if self._p_type == "Vertex":
-            return qtg.QIcon(":/socref_glsl/vertex_shader.svg")
+            return QIcon(":/socref_glsl/vertex_shader.svg")
         elif self._p_type == "Fragment":
-            return qtg.QIcon(":/socref_glsl/fragment_shader.svg")
+            return QIcon(":/socref_glsl/fragment_shader.svg")
         elif self._p_type == "Tesselation Control":
-            return qtg.QIcon(":/socref_glsl/tesselation_ctrl_shader.svg")
+            return QIcon(":/socref_glsl/tesselation_ctrl_shader.svg")
         elif self._p_type == "Tesselation Evaluation":
-            return qtg.QIcon(":/socref_glsl/tesselation_eval_shader.svg")
+            return QIcon(":/socref_glsl/tesselation_eval_shader.svg")
         elif self._p_type == "Geometry":
-            return qtg.QIcon(":/socref_glsl/geometry_shader.svg")
+            return QIcon(":/socref_glsl/geometry_shader.svg")
         elif self._p_type == "Compute":
-            return qtg.QIcon(":/socref_glsl/compute_shader.svg")
+            return QIcon(":/socref_glsl/compute_shader.svg")
         else:
             raise RuntimeError("Shader is invalid type.")
 

@@ -2,7 +2,7 @@
 Contains the FunctionBlock class.
 """
 from .ProgramBlock import *
-from PySide2 import QtGui as qtg
+from PySide6.QtGui import QIcon
 from socref import block
 from socref.Edit.LineEdit import *
 from socref.Edit.TextEdit import *
@@ -91,7 +91,7 @@ class FunctionBlock(ProgramBlock):
     def icon(
         self
     ):
-        return qtg.QIcon(":/socref_glsl/function.svg")
+        return QIcon(":/socref_glsl/function.svg")
 
 
     def key(

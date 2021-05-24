@@ -2,9 +2,9 @@
 Contains the SpellHighlighter class.
 """
 from ...Model import speller
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QSyntaxHighlighter
-from PySide2.QtGui import QTextCharFormat
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QSyntaxHighlighter
+from PySide6.QtGui import QTextCharFormat
 from re import compile as reCompile
 
 

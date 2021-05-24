@@ -1,7 +1,7 @@
 """
 Contains the ProgramBlock class.
 """
-from PySide2 import QtGui as qtg
+from PySide6.QtGui import QIcon
 from socref import block
 from socref.Abstract.AbstractBlock import *
 from socref.Edit.LineEdit import *
@@ -67,7 +67,7 @@ class ProgramBlock(AbstractBlock):
     def icon(
         self
     ):
-        return qtg.QIcon(":/socref_glsl/program.svg")
+        return QIcon(":/socref_glsl/program.svg")
 
 
     def key(
