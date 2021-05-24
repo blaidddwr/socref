@@ -3,7 +3,7 @@ Contains the ModuleBlock class.
 """
 from PySide6.QtGui import QIcon
 from socref import block
-from socref.Abstract.AbstractBlock import *
+from socref.Base.BlockBase import *
 from socref.Edit.LineEdit import *
 from socref.Edit.TextEdit import *
 from socref.Output.RichText import *
@@ -12,7 +12,7 @@ from socref.Output.RichText import *
 
 
 @block("Module")
-class ModuleBlock(AbstractBlock):
+class ModuleBlock(BlockBase):
     """
     This is the module block class. It implements the Socrates' Reference
     abstract block class. It represents a python module. This class acts as a

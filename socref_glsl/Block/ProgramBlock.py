@@ -3,7 +3,7 @@ Contains the ProgramBlock class.
 """
 from PySide6.QtGui import QIcon
 from socref import block
-from socref.Abstract.AbstractBlock import *
+from socref.Base.BlockBase import *
 from socref.Edit.LineEdit import *
 from socref.Edit.TextEdit import *
 from socref.Output.RichText import *
@@ -12,7 +12,7 @@ from socref.Output.RichText import *
 
 
 @block("Program",root=True)
-class ProgramBlock(AbstractBlock):
+class ProgramBlock(BlockBase):
     """
     This is the program block class. It implements the Socrates' Reference
     abstract block class. It represents a GLSL program, which is nothing more

@@ -33,7 +33,7 @@ An implemented block class must have no initialization arguments.</__p_descripti
                         <__p_name>__contains__</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                         </Object>
@@ -42,7 +42,7 @@ An implemented block class must have no initialization arguments.</__p_descripti
                         <__p_name>__delitem__</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>index</__p_name>
                         </Object>
@@ -51,7 +51,7 @@ An implemented block class must have no initialization arguments.</__p_descripti
                         <__p_name>__eq__</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>other</__p_name>
                         </Object>
@@ -60,7 +60,7 @@ An implemented block class must have no initialization arguments.</__p_descripti
                         <__p_name>__getattr__</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
                         </Object>
@@ -69,7 +69,7 @@ An implemented block class must have no initialization arguments.</__p_descripti
                         <__p_name>__getitem__</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>index</__p_name>
                         </Object>
@@ -78,19 +78,19 @@ An implemented block class must have no initialization arguments.</__p_descripti
                         <__p_name>__iter__</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__len__</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>__setattr__</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
                         </Object>
@@ -100,10 +100,10 @@ An implemented block class must have no initialization arguments.</__p_descripti
                     </Function>
                     <Function>
                         <__p_name>append</__p_name>
-                        <__p_description>Appends the given block as a new child into this block's list of children. The given block cannot already have a parent.</__p_description>
+                        <__p_description>This interface appends the given block as a new child into this block's list of children. The given block cannot already have a parent.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>socref.Abstract.AbstractBlock
@@ -169,20 +169,20 @@ The icon of this block.</__p_returnsDescription>
                     </Function>
                     <Function>
                         <__p_name>index</__p_name>
-                        <__p_description>Getter method. This block must have a parent.</__p_description>
+                        <__p_description>This interface is a getter method. This block must have a parent.</__p_description>
                         <__p_returnsDescription>result
 int
 The integer index of this block within its parent block's list of children.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>insert</__p_name>
-                        <__p_description>Inserts the given block as a new child into this block's list of children at the given index. The given block cannot already have a parent.</__p_description>
+                        <__p_description>This interface inserts the given block as a new child into this block's list of children at the given index. The given block cannot already have a parent.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>index</__p_name>
                             <__p_description>int
@@ -202,7 +202,7 @@ bool
 True if a change in this block's properties can effect its parent block false otherwise.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>isVolatileBelow</__p_name>
@@ -212,27 +212,27 @@ bool
 True if a change in this block's properties can effect its children blocks false otherwise.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>parent</__p_name>
-                        <__p_description>Getter method.</__p_description>
+                        <__p_description>This interface is a getter method.</__p_description>
                         <__p_returnsDescription>result
 socref.Abstract.AbstractBlock
 The parent block of this block or none if this block has no parent.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>pop</__p_name>
-                        <__p_description>Removes a child block of this block with the given index.</__p_description>
+                        <__p_description>This interface removes a child block of this block with the given index.</__p_description>
                         <__p_returnsDescription>result
 socref.Abstract.AbstractBlock
 Removed child block of this block with the given index.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>index</__p_name>
                             <__p_description>int
@@ -241,13 +241,13 @@ The index of the removed and returned child block.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>properties</__p_name>
-                        <__p_description>Getter method.</__p_description>
+                        <__p_description>This interface is a getter method.</__p_description>
                         <__p_returnsDescription>result
 dictionary
 Properties of this block.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>setDefaultProperties</__p_name>
@@ -258,10 +258,10 @@ Properties of this block.</__p_returnsDescription>
                     </Function>
                     <Function>
                         <__p_name>setFromXml</__p_name>
-                        <__p_description>Loads this block's properties and all children blocks, including their properties, from XML using the given qt reader stream. This overwrites any properties and children blocks this block may currently contain.</__p_description>
+                        <__p_description>This interface loads this block's properties and all children blocks, including their properties, from XML using the given qt reader stream. This overwrites any properties and children blocks this block may currently contain.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>stream</__p_name>
                             <__p_description>PySide2.QtCore.QXmlStreamReader
@@ -270,10 +270,10 @@ Used to load all block's properties and children.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>setProperties</__p_name>
-                        <__p_description>Sets this block's properties dictionary to the given dictionary.</__p_description>
+                        <__p_description>This interface sets this block's properties dictionary to the given dictionary.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>properties</__p_name>
                             <__p_description>dictionary
@@ -282,10 +282,10 @@ This block's new properties dictionary.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>toXml</__p_name>
-                        <__p_description>Saves this block's properties and all of its children blocks, including their properties, to XML using the given qt XML writer stream.</__p_description>
+                        <__p_description>This interface saves this block's properties and all of its children blocks, including their properties, to XML using the given qt XML writer stream.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
+                        <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>stream</__p_name>
                             <__p_description>PySide2.QtCore.QXmlStreamWriter
@@ -632,6 +632,178 @@ Footer output code lines of this writer, added after any children writer code li
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
+                    </Function>
+                </Class>
+            </Package>
+            <Package>
+                <__p_name>Base</__p_name>
+                <__p_description>Contains all public base interface classes.</__p_description>
+                <Class>
+                    <__p_name>BlockBase</__p_name>
+                    <__p_description>This is the block base class. It partially implements the abstract block class. This base class implements all required operators defined in the abstract class. It implements all interfaces required for the parent child relationship, loading to and from XML, and basic properties. Default interfaces for volatility above and below are implemented that both return false.</__p_description>
+                    <__p_parents>AbstractBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__contains__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__delitem__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>index</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__eq__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>other</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__getattr__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>key</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__getitem__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>index</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>__iter__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__len__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__setattr__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>key</__p_name>
+                        </Object>
+                        <Object>
+                            <__p_name>item</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>append</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>index</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>insert</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>index</__p_name>
+                        </Object>
+                        <Object>
+                            <__p_name>block</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>isVolatileAbove</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isVolatileBelow</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>parent</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>pop</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>index</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>properties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setFromXml</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>stream</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>setProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>properties</__p_name>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>toXml</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>stream</__p_name>
+                        </Object>
                     </Function>
                 </Class>
             </Package>
@@ -3745,7 +3917,7 @@ The signature of this function used to generate its key. This only includes its 
                 <Class>
                     <__p_name>ProgramBlock</__p_name>
                     <__p_description>This is the program block class. It implements the Socrates' Reference abstract block class. It represents a GLSL program, which is nothing more than a folder in the project's file system. It is the root block type of a GLSL project. Each folder contains a README text file that contains the program block's description.</__p_description>
-                    <__p_parents>AbstractBlock</__p_parents>
+                    <__p_parents>BlockBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <__p_decorators>block(&quot;Program&quot;,root=True)</__p_decorators>
                     <Function>
@@ -4637,7 +4809,7 @@ Tuples of return values of this function. Each tuple contains the name, type and
                 <Class>
                     <__p_name>ModuleBlock</__p_name>
                     <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module. This class acts as a base block class inherited by all other block implementations.</__p_description>
-                    <__p_parents>AbstractBlock</__p_parents>
+                    <__p_parents>BlockBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <__p_decorators>block(&quot;Module&quot;)</__p_decorators>
                     <Function>
@@ -7340,777 +7512,6 @@ True if this class is a qt object or false otherwise.</__p_returnsDescription>
                         <__p_infile>0</__p_infile>
                         <__p_decorators>scr.register(&quot;Variable&quot;)</__p_decorators>
                     </Class>
-                </Module>
-            </Package>
-            <Package>
-                <__p_name>socref_glsl</__p_name>
-                <__p_description>Contains the GLSL language definition for Socrates' Reference.</__p_description>
-                <Module>
-                    <__p_name>block</__p_name>
-                    <__p_description>Contains all block classes for this language.</__p_description>
-                    <Class>
-                        <__p_name>Base</__p_name>
-                        <__p_description>This is the base block class. It implements the Socrates' Reference abstract block class. It is a base block class other GLSL blocks use which contains name and description properties.</__p_description>
-                        <__p_parents>abstract.AbstractBlock</__p_parents>
-                        <__p_infile>0</__p_infile>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new base block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>This interface is a getter method. The default implementation returns an empty list.</__p_description>
-                            <__p_returnsDescription>list
-Source code lines for this block.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>dictionary
-Contains scanned lines of code generated by and described in the language's parser class.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>string
-Added to the beginning of every line of returned source code.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>clearProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayName</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayView</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>editDefinitions</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>_buildChildren_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>list
-Source code lines that is the combined source code of all this block's children's built code lines.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>dictionary
-Scanned definitions from the old source code files.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>string
-Added to the beginning of every line of returned source code.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
-                    </Class>
-                    <Class>
-                        <__p_name>Function</__p_name>
-                        <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a GLSL function.</__p_description>
-                        <__p_parents>Base</__p_parents>
-                        <__p_infile>0</__p_infile>
-                        <__p_decorators>scr.register(&quot;Function&quot;)</__p_decorators>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new function block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Implements the socref_glsl.block.Base interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>buildList</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>clearProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayName</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayView</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>editDefinitions</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>icon</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__argumentsView_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>rich text
-Detailed view of all this function's arguments. If this function has no arguments then this returns an empty string.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__buildComments_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>list
-Source code lines that is the block comment for this function.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>string
-Added to the beginning of every returned line of code.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__buildDeclaration_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>list
-Lines that is the declaration, or header, of this function. If this function has no arguments then a single line is returned.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>string
-Added to the beginning of every returned line of code.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__signature_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>string
-The signature of this function used to lookup any scanned lines of code when building its definition. This includes its name and argument types.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Class>
-                    <Class>
-                        <__p_name>Program</__p_name>
-                        <__p_description>This is the program block class. It implements the Socrates' Reference abstract block class. It represents a GLSL program. It is the root block type of a GLSL project. A program simply represents a folder that contains shader files.</__p_description>
-                        <__p_parents>abstract.AbstractBlock</__p_parents>
-                        <__p_infile>0</__p_infile>
-                        <__p_decorators>scr.register(&quot;Program&quot;,root=True)</__p_decorators>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new program block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>buildList</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>clearProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayName</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayView</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>editDefinitions</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>icon</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>parser</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Class>
-                    <Class>
-                        <__p_name>Shader</__p_name>
-                        <__p_description>This is the shader block class. It implements the Socrates' Reference abstract block class. It represents a GLSL shader.</__p_description>
-                        <__p_parents>Base</__p_parents>
-                        <__p_infile>0</__p_infile>
-                        <__p_decorators>scr.register(&quot;Shader&quot;)</__p_decorators>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new shader block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Implements the socref_glsl.block.Base interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>buildList</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>clearProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayView</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>editDefinitions</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>extension</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>string
-A file extension based off this shader's type.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>icon</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Class>
-                    <Class>
-                        <__p_name>Structure</__p_name>
-                        <__p_description>This is the structure block class. It implements the Socrates' Reference abstract block class. It represents a GLSL structure.</__p_description>
-                        <__p_parents>Base</__p_parents>
-                        <__p_infile>0</__p_infile>
-                        <__p_decorators>scr.register(&quot;Structure&quot;)</__p_decorators>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new structure block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Implements the socref_glsl.block.Base interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>buildList</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>clearProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayName</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayView</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>editDefinitions</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>icon</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Class>
-                    <Class>
-                        <__p_name>Variable</__p_name>
-                        <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a GLSL variable.</__p_description>
-                        <__p_parents>Base</__p_parents>
-                        <__p_infile>0</__p_infile>
-                        <__p_decorators>scr.register(&quot;Variable&quot;)</__p_decorators>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new variable block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>argumentView</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>rich text
-Paragraph that describes this variable as an argument.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Implements the socref_glsl.block.Base interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>buildArgument</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>string
-A source code fragment that is the argument of this variable.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>buildComment</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>list
-Source code lines that is a comment fragment for this variable as an argument. This returns the correct doxygen syntax.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>string
-Added to the beginning of returned lines of comment code.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>buildList</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>buildSignature</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>string
-The signature of this variable as an argument.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>clearProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayName</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>displayView</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>editDefinitions</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>icon</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>inStructure</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>bool
-True if this variable is part of a structure or false otherwise.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>isArgument</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>bool
-True if this variable is an argument of a function or false otherwise.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>isVolatileAbove</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Class>
-                </Module>
-                <Module>
-                    <__p_name>parser</__p_name>
-                    <__p_description>Contains all parser related classes.</__p_description>
-                    <Class>
-                        <__p_name>Parser</__p_name>
-                        <__p_description>This is the GLSL parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary whose keys are the paths of the source code file scanned and values are another dictionary for that file containing two keys. The first key is &quot;header&quot; and contains any special headers for the shader. The second key is &quot;functions&quot; and is a dictionary whose keys are function signatures and values are their scanned lines of code.</__p_description>
-                        <__p_parents>abstract.AbstractParser</__p_parents>
-                        <__p_infile>0</__p_infile>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new GLSL parser with the given root program block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>root</__p_name>
-                                <__p_description>socref_glsl.program.Program
-The root block of a GLSL project that this new parser will parse.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>unknown</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>_build_</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
-                            <__p_returnsDescription>See interface docs.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>block</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>path</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>_buildPathList_</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>_scan_</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>path</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__buildPaths_</__p_name>
-                            <__p_description>Recursively adds source code paths to be scanned using the given parent block and path.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>parent</__p_name>
-                                <__p_description>socref.abstract.AbstractBlock
-The parent block whose children are scanned for potential source code paths.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>path</__p_name>
-                                <__p_description>string
-The path of the given parent block that is appended to any child block's path added.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__scanFunction_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>list
-Scanned code lines from the given input file, assuming it is positioned right after the function declaration line.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>ifile</__p_name>
-                                <__p_description>io.TextIOWrapper
-The input file positioned right after a function declaration whose scanned lines are returned.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>end</__p_name>
-                                <__p_description>string
-The end part of function declaration, beginning with the first opening parenthesis after the function name.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__scanHeader_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>list
-Shader directive code lines scanned from the header of the given shader file.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>ifile</__p_name>
-                                <__p_description>io.TextIOWrapper
-The input file whose shader directive code lines are scanned.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__scanSignature_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_returnsDescription>string
-The function signature scanned from the given input file, assuming it is positioned at the line after the first declaration line. The given function name and ending is used to generate the signature taken from the first declaration line.</__p_returnsDescription>
-                            <__p_static>0</__p_static>
-                            <__p_class>0</__p_class>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>ifile</__p_name>
-                                <__p_description>io.TextIOWrapper
-The input file positioned after the first declaration line of a function header whose signature is scanned and returned.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>name</__p_name>
-                                <__p_description>string
-The function name of the returned signature.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>end</__p_name>
-                                <__p_description>string
-The ending of the first function declaration line of the returned signature, used for functions that have no arguments.</__p_description>
-                            </Object>
-                        </Function>
-                    </Class>
-                </Module>
-                <Module>
-                    <__p_name>settings</__p_name>
-                    <__p_description>Contains all global settings for this language package.</__p_description>
                 </Module>
             </Package>
         </Package>
