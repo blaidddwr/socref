@@ -3,12 +3,12 @@ Contains the ShaderReader class.
 """
 from .FunctionReader import *
 from re import compile as reCompile
-from socref.Abstract.AbstractReader import *
+from socref.Base.ReaderBase import *
 
 
 
 
-class ShaderReader(AbstractReader):
+class ShaderReader(ReaderBase):
     """
     This is the shader reader class. It implements the Socrates' Reference
     abstract reader class. It parses shader files; saving function definitions.

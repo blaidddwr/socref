@@ -2,13 +2,13 @@
 Contains the VariableWriter class.
 """
 from ..Settings import *
-from socref.Abstract.AbstractWriter import *
+from socref.Base.WriterBase import *
 from socref.Output.Code import *
 
 
 
 
-class VariableWriter(AbstractWriter):
+class VariableWriter(WriterBase):
     """
     This is the variable writer class. It implements the Socrates' Reference
     abstract writer class. It outputs all code lines for a variable that is not

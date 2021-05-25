@@ -2,12 +2,12 @@
 Contains the FunctionReader class.
 """
 from . import skipDocString
-from socref.Abstract.AbstractReader import *
+from socref.Base.ReaderBase import *
 
 
 
 
-class FunctionReader(AbstractReader):
+class FunctionReader(ReaderBase):
     """
     This is the function reader class. It implements the Socrates' Reference
     abstract reader class. It parses a function; saving all lines of code nested

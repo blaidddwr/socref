@@ -5,12 +5,12 @@ from . import skipDocString
 from .ClassReader import *
 from .FunctionReader import *
 from re import compile as reCompile
-from socref.Abstract.AbstractReader import *
+from socref.Base.ReaderBase import *
 
 
 
 
-class ModuleReader(AbstractReader):
+class ModuleReader(ReaderBase):
     """
     This is the module reader class. It implements the Socrates' Reference
     abstract reader class. It parses module files; saving import lines, function

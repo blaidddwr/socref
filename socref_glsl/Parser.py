@@ -5,13 +5,13 @@ from .Reader.ShaderReader import *
 from .Writer.ProgramWriter import *
 from .Writer.ShaderWriter import *
 from socref import parser
-from socref.Abstract.AbstractParser import *
+from socref.Base.ParserBase import *
 
 
 
 
 @parser
-class Parser(AbstractParser):
+class Parser(ParserBase):
     """
     This is the parser class. It implements the Socrates' Reference abstract
     parser class for the GLSL language.

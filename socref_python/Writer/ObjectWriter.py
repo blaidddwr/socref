@@ -2,13 +2,13 @@
 Contains the ObjectWriter class.
 """
 from ..Settings import *
-from socref.Abstract.AbstractWriter import *
+from socref.Base.WriterBase import *
 from socref.Output.Code import *
 
 
 
 
-class ObjectWriter(AbstractWriter):
+class ObjectWriter(WriterBase):
     """
     This is the object writer class. It implements the Socrates' Reference
     abstract writer class. It outputs all code lines for an object that is not

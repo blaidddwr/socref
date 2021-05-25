@@ -9,7 +9,7 @@ from abc import abstractmethod
 
 class AbstractBlock(ABC):
     """
-    This is the abstract block class. Blocks are a model interface capable of
+    This is the abstract block class. A blocks is a model interface capable of
     containing child blocks that represents a single element of source code.
     Blocks form a tree structure to represent a single project in the
     implemented language. A block's properties are used to save all data of that
@@ -17,7 +17,9 @@ class AbstractBlock(ABC):
     inform the core application how to layout a block's edit widget interface
     for editing its properties by the user. Blocks can iterate through and index
     its children blocks. Blocks can save or load themselves and all children
-    nested underneath the saved or loaded block to XML format.
+    nested underneath the saved or loaded block to XML format. Volatility
+    interfaces are provided to inform the core application's project model if a
+    change can effect a block's parents or children.
 
     Blocks represent an atomic element of a programming language such as a
     variable, function, or class. Blocks can contain any number of children and
@@ -28,11 +30,12 @@ class AbstractBlock(ABC):
     it an argument of the function. Another example is a function being a child
     of a class making it a method of the class.
 
-    Blocks store their properties as a dictionary. Operator overloading is
-    implemented in such a way that any attribute that begins with "_p_" is
-    stored as a property. Any property of a block that must be saved and loaded
-    must begin with the given string so it is recognized as a property by the
-    core application. All property attribute objects must be strings themselves.
+    Blocks store their properties as a dictionary. Operator overloading
+    interfaces must behave in such a way that any attribute that begins with
+    "_p_" is stored as a property. Any property of a block that must be saved
+    and loaded must begin with the given string so it is recognized as a
+    property by the core application. All property attribute objects must be
+    strings themselves.
 
     Edit definition helper classes are provided in the Edit package of the core
     application package. All possible edit widgets are defined as a class in
@@ -265,7 +268,7 @@ class AbstractBlock(ABC):
         -------
         result : bool
                  True if a change in this block's properties can effect its
-                 parent block false otherwise.
+                 parent block or false otherwise.
         """
         pass
 
@@ -282,7 +285,7 @@ class AbstractBlock(ABC):
         -------
         result : bool
                  True if a change in this block's properties can effect its
-                 children blocks false otherwise.
+                 children blocks or false otherwise.
         """
         pass
 

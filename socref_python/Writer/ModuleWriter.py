@@ -4,13 +4,13 @@ Contains the ModuleWriter class.
 from ..Settings import *
 from .ClassWriter import *
 from .FunctionWriter import *
-from socref.Abstract.AbstractWriter import *
+from socref.Base.WriterBase import *
 from socref.Output.Code import *
 
 
 
 
-class ModuleWriter(AbstractWriter):
+class ModuleWriter(WriterBase):
     """
     This is the module writer class. It implements the Socrates' Reference
     abstract writer class. It outputs the header and custom footer code lines

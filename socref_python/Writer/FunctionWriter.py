@@ -2,13 +2,13 @@
 Contains the FunctionWriter class.
 """
 from ..Settings import *
-from socref.Abstract.AbstractWriter import *
+from socref.Base.WriterBase import *
 from socref.Output.Code import *
 
 
 
 
-class FunctionWriter(AbstractWriter):
+class FunctionWriter(WriterBase):
     """
     This is the function writer class. It implements the Socrates' Reference
     abstract writer class. It outputs all code lines for a function.

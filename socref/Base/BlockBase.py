@@ -2,7 +2,7 @@
 Contains the BlockBase class.
 """
 from ..Abstract.AbstractBlock import *
-from ..Private import Factory
+from ..Private.Factory import blockFactory
 from weakref import ref as WeakReference
 
 
@@ -165,7 +165,7 @@ class BlockBase(AbstractBlock):
                     if key in self.__properties:
                         self.__properties[key] = stream.readElementText()
                 else:
-                    child = Factory.blockFactory.create(self._LANG_,name)
+                    child = blockFactory.create(self._LANG_,name)
                     child.setFromXml(stream)
                     self.append(child)
             elif stream.isEndElement() and stream.name() == endName:

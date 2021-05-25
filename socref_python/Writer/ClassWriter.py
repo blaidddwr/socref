@@ -4,13 +4,13 @@ Contains the ClassWriter class.
 from ..Settings import *
 from .FunctionWriter import *
 from .ObjectWriter import *
-from socref.Abstract.AbstractWriter import *
+from socref.Base.WriterBase import *
 from socref.Output.Code import *
 
 
 
 
-class ClassWriter(AbstractWriter):
+class ClassWriter(WriterBase):
     """
     This is the class writer class. It implements the Socrates' Reference
     abstract writer class. It outputs the header code lines for a class.

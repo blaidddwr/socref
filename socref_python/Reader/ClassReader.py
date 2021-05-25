@@ -4,12 +4,12 @@ Contains the ClassReader class.
 from . import skipDocString
 from .FunctionReader import *
 from re import compile as reCompile
-from socref.Abstract.AbstractReader import *
+from socref.Base.ReaderBase import *
 
 
 
 
-class ClassReader(AbstractReader):
+class ClassReader(ReaderBase):
     """
     This is the class reader class. It implements the Socrates' Reference
     abstract reader class. It parses a class; saving custom header lines of

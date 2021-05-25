@@ -3,13 +3,13 @@ Contains the StructureWriter class.
 """
 from ..Settings import *
 from .VariableWriter import *
-from socref.Abstract.AbstractWriter import *
+from socref.Base.WriterBase import *
 from socref.Output.Code import *
 
 
 
 
-class StructureWriter(AbstractWriter):
+class StructureWriter(WriterBase):
     """
     This is the structure writer class. It implements the Socrates' Reference
     abstract writer class. It outputs the header and footer code lines for a

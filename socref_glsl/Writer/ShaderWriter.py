@@ -5,13 +5,13 @@ from ..Settings import *
 from .FunctionWriter import *
 from .StructureWriter import *
 from .VariableWriter import *
-from socref.Abstract.AbstractWriter import *
+from socref.Base.WriterBase import *
 from socref.Output.Code import *
 
 
 
 
-class ShaderWriter(AbstractWriter):
+class ShaderWriter(WriterBase):
     """
     This is the shader writer class. It implements the Socrates' Reference
     abstract writer class. It outputs the header comment description of a

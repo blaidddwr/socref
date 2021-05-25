@@ -2,13 +2,13 @@
 Contains the ProgramWriter class.
 """
 from ..Settings import *
-from socref.Abstract.AbstractWriter import *
+from socref.Base.WriterBase import *
 from socref.Output.Code import *
 
 
 
 
-class ProgramWriter(AbstractWriter):
+class ProgramWriter(WriterBase):
     """
     This is the program writer class. It implements the Socrates' Reference
     abstract writer class. It outputs the README that is contained within each
