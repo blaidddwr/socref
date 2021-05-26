@@ -5,6 +5,7 @@ from ..Abstract.AbstractParser import *
 from ..Abstract.AbstractReader import *
 from ..Abstract.AbstractWriter import *
 from ..Error.ScanError import *
+from abc import abstractmethod
 from os import makedirs
 from os.path import dirname
 from os.path import exists as pathExists
@@ -20,6 +21,11 @@ class ParserBase(AbstractParser):
     class. This base class implements all interfaces for accessing the current
     file being read, the call operator for executing parsing itself, reader
     lookup, and setting the root path.
+
+    An interface for generating the path list, creating readers for a given path
+    and block, and creating writers for a given path and block are provided for
+    convenience. All these interfaces are broken down sub tasks of the main call
+    operator interface implemented by this base class.
     """
 
 
@@ -121,6 +127,68 @@ class ParserBase(AbstractParser):
     ):
         assert(not self.__rootPath)
         self.__rootPath = path
+
+
+    def _pathList_(
+        self
+    ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : list
+                 A list of tuples, each tuple containing a relative path to a
+                 source code file that is parsed and the block associated with
+                 it. The path is relative to the root path of the project being
+                 parsed.
+        """
+        return ()
+
+
+    def _reader_(
+        self
+        ,block
+    ):
+        """
+        This interface is a getter method.
+
+        Parameters
+        ----------
+        block : socref.Abstract.AbstractBlock
+                The block associated with the source code file.
+
+        Returns
+        -------
+        result : socref.Abstract.AbstractReader
+                 A new reader capable of reading any lines of code that is saved
+                 from the source code file associated with the given block. None
+                 can be returned, in which case this parser ignores it and any
+                 existing file, continuing to the next path.
+        """
+        return None
+
+
+    @abstractmethod
+    def _writer_(
+        self
+        ,block
+    ):
+        """
+        This interface is a getter method.
+
+        Parameters
+        ----------
+        block : socref.Abstract.AbstractBlock
+                The block associated with the source code file.
+
+        Returns
+        -------
+        result : socref.Abstract.AbstractWriter
+                 A new writer capable of writing the full output of the source
+                 code file associated with the given block.
+        """
+        pass
 
 
     def __readAll_(

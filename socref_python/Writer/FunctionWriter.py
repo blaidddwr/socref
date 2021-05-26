@@ -43,12 +43,6 @@ class FunctionWriter(WriterBase):
         self.__code = None
 
 
-    def _footer_(
-        self
-    ):
-        return []
-
-
     def _header_(
         self
     ):

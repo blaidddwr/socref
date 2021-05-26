@@ -19,14 +19,7 @@ class AbstractReader(ABC):
     The call operator interface is used to begin scanning, and a unique key must
     be set before the call operator returns. This unique key is used to register
     every created reader to he shared parent parser in its lookup table. This
-    class returns any unused lines of code that were not gotten by a writer. It
-    provides interfaces for accessing the currently open file of its parent
-    parser with methods of the same name.
-
-    An interface for parsing this parent parser's currently open file is
-    provided for convenience. This interface is a sub task of the main call
-    operator, whose only final task after this sub task is to add itself to its
-    parent parser's reader lookup table.
+    class returns any unused lines of code that were not gotten by a writer.
     """
 
 
@@ -50,17 +43,6 @@ class AbstractReader(ABC):
 
 
     @abstractmethod
-    def discard(
-        self
-    ):
-        """
-        This interface calls this reader's shared parser instance method with
-        the same name.
-        """
-        pass
-
-
-    @abstractmethod
     def key(
         self
     ):
@@ -77,34 +59,16 @@ class AbstractReader(ABC):
 
 
     @abstractmethod
-    def read(
+    def parent(
         self
     ):
         """
-        This interface calls this reader's shared parser instance method with
-        the same name.
-        """
-        pass
+        This interface is a getter method.
 
-
-    @abstractmethod
-    def restore(
-        self
-    ):
-        """
-        This interface calls this reader's shared parser instance method with
-        the same name.
-        """
-        pass
-
-
-    @abstractmethod
-    def save(
-        self
-    ):
-        """
-        This interface calls this reader's shared parser instance method with
-        the same name.
+        Returns
+        -------
+        result : AbstractParser
+                 The shared parent parser of this reader.
         """
         pass
 
@@ -120,17 +84,5 @@ class AbstractReader(ABC):
         -------
         result : list
                  Code lines that were not taken from this reader by any writers.
-        """
-        pass
-
-
-    @abstractmethod
-    def _scan_(
-        self
-    ):
-        """
-        This interface parses its parent parser's currently open code file for
-        anything that needs to be saved for writers. This method must set its
-        reader's key before returning.
         """
         pass

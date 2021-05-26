@@ -37,12 +37,6 @@ class ProgramWriter(WriterBase):
         self.__block = block
 
 
-    def _footer_(
-        self
-    ):
-        return []
-
-
     def _header_(
         self
     ):

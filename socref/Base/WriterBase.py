@@ -4,6 +4,7 @@ Contains the WriterBase class.
 from ..Abstract.AbstractParser import *
 from ..Abstract.AbstractWriter import *
 from ..Error.ScanError import *
+from abc import abstractmethod
 
 
 
@@ -11,8 +12,13 @@ from ..Error.ScanError import *
 class WriterBase(AbstractWriter):
     """
     This is the writer base class. It partially implements the abstract writer
-    class. This base class handles saving its parent parser or writer, the main
-    call operator interface for returning all output, and reader lookup.
+    class. This base class handles its parent parser and the main call operator
+    interface for returning all output.
+
+    An interface for generating header code before children output and
+    generating footer code after children output is provided. These interfaces
+    are broken sub tasks of the main call operator interface implemented by this
+    base class where all output is returned.
     """
 
 
@@ -33,7 +39,7 @@ class WriterBase(AbstractWriter):
         """
         super().__init__()
         if isinstance(parent,AbstractWriter):
-            self.__parser = parent.__parser
+            self.__parser = parent.parent()
             parent.__children.append(self)
         elif isinstance(parent,AbstractParser):
             self.__parser = parent
@@ -56,4 +62,48 @@ class WriterBase(AbstractWriter):
         self
         ,key
     ):
+        """
+        Calls this reader's shared parser instance method with the same name.
+
+        Parameters
+        ----------
+        key : object
+              See parser method.
+        """
         return self.__parser.lookup(key)
+
+
+    def parent(
+        self
+    ):
+        return self.__parser
+
+
+    def _footer_(
+        self
+    ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : list
+                 Footer output code lines of this writer, added after any
+                 children writer code line output.
+        """
+        return []
+
+
+    def _header_(
+        self
+    ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : list
+                 Footer output code lines of this writer, added after any
+                 children writer code line output.
+        """
+        return []

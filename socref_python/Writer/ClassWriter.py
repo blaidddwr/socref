@@ -53,12 +53,6 @@ class ClassWriter(WriterBase):
                 ClassWriter(child,depth+1,self)
 
 
-    def _footer_(
-        self
-    ):
-        return []
-
-
     def _header_(
         self
     ):

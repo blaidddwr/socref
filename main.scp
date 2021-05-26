@@ -299,9 +299,7 @@ Used to save all block's properties and children.</__p_description>
 
 An instance of this class begins parsing by calling its call operator, where it goes through the generated path list and return any unknown lines of code parsed but not used. For each path it reads, creates, and writes to each path as necessary using the reader and writer interfaces to generate the appropriate instances of both. Interfaces are provided to adding to and getting from a reader lookup table for all readers created while parsing existing paths. This class provides an interface for setting the root path used to get the absolute path of each relative path in the path list.
 
-An implemented parser class must have one initialization argument, that argument being the root block of the project that is being parsed. From this root block of a project, it is expected to be able to generate the path list.
-
-An interface for generating the path list, creating readers for a given path and block, and creating writers for a given path and block are provided for convenience. All these interfaces are broken down sub tasks of the main call operator interface.</__p_description>
+An implemented parser class must have one initialization argument, that argument being the root block of the project that is being parsed. From this root block of a project, it is expected to be able to generate the path list.</__p_description>
                     <__p_parents>ABC</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -401,54 +399,12 @@ The read line stripped of any white space from both sides or None if the end of 
 The root path of this parser.</__p_description>
                         </Object>
                     </Function>
-                    <Function>
-                        <__p_name>_pathList_</__p_name>
-                        <__p_description>This interface is a getter method.</__p_description>
-                        <__p_returnsDescription>result
-list
-A list of tuples, each tuple containing a relative path to a source code file that is parsed and the block associated with it. The path is relative to the root path of the project being parsed.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>1</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>_reader_</__p_name>
-                        <__p_description>This interface is a getter method.</__p_description>
-                        <__p_returnsDescription>result
-socref.Abstract.AbstractReader
-A new reader capable of reading any lines of code that is saved from the source code file associated with the given block. None can be returned, in which case this parser ignores it and any existing file, continuing to the next path.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>1</__p_abstract>
-                        <Object>
-                            <__p_name>block</__p_name>
-                            <__p_description>socref.Abstract.AbstractBlock
-The block associated with the source code file.</__p_description>
-                        </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>_writer_</__p_name>
-                        <__p_description>This interface is a getter method.</__p_description>
-                        <__p_returnsDescription>result
-socref.Abstract.AbstractWriter
-A new writer capable of writing the full output of the source code file associated with the given block.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>1</__p_abstract>
-                        <Object>
-                            <__p_name>block</__p_name>
-                            <__p_description>socref.Abstract.AbstractBlock
-The block associated with the source code file.</__p_description>
-                        </Object>
-                    </Function>
                 </Class>
                 <Class>
                     <__p_name>AbstractReader</__p_name>
                     <__p_description>This is the abstract reader class. A reader is a process interface that scans a source code file or part of a currently scanning source code file of its parent parser. While this class is scanning a file it can create additional child readers for specialized scanning all sharing the same parent parser and its open file. This allows modular object oriented design where each reader class can be responsible for a specific type of code.
 
-The call operator interface is used to begin scanning, and a unique key must be set before the call operator returns. This unique key is used to register every created reader to he shared parent parser in its lookup table. This class returns any unused lines of code that were not gotten by a writer. It provides interfaces for accessing the currently open file of its parent parser with methods of the same name.
-
-An interface for parsing this parent parser's currently open file is provided for convenience. This interface is a sub task of the main call operator, whose only final task after this sub task is to add itself to its parent parser's reader lookup table.</__p_description>
+The call operator interface is used to begin scanning, and a unique key must be set before the call operator returns. This unique key is used to register every created reader to he shared parent parser in its lookup table. This class returns any unused lines of code that were not gotten by a writer.</__p_description>
                     <__p_parents>ABC</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -465,13 +421,6 @@ An interface for parsing this parent parser's currently open file is provided fo
                         <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>discard</__p_name>
-                        <__p_description>This interface calls this reader's shared parser instance method with the same name.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>1</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>key</__p_name>
                         <__p_description>This interface is a getter method. This reader's key must be set.</__p_description>
                         <__p_returnsDescription>result
@@ -482,22 +431,11 @@ This reader's unique key used to identify itself in its parent parser's reader l
                         <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>read</__p_name>
-                        <__p_description>This interface calls this reader's shared parser instance method with the same name.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>1</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>restore</__p_name>
-                        <__p_description>This interface calls this reader's shared parser instance method with the same name.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>1</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>save</__p_name>
-                        <__p_description>This interface calls this reader's shared parser instance method with the same name.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+AbstractParser
+The shared parent parser of this reader.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
@@ -512,19 +450,10 @@ Code lines that were not taken from this reader by any writers.</__p_returnsDesc
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                     </Function>
-                    <Function>
-                        <__p_name>_scan_</__p_name>
-                        <__p_description>This interface parses its parent parser's currently open code file for anything that needs to be saved for writers. This method must set its reader's key before returning.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>1</__p_abstract>
-                    </Function>
                 </Class>
                 <Class>
                     <__p_name>AbstractWriter</__p_name>
-                    <__p_description>This is the abstract writer class. A writer is a process interface that writes new output of a source code file. Writers can create additional writers as children during initialization whose output is also added to the source code file output, after the parent writer's header and before its footer. This allows modular object oriented design where each writer can be responsible for a specific type of code output. This class can lookup readers from its parent parser. The main call operator interface is used for generating output which it returns as iterable lines of code. The helper code output class provided by the core application can help in this process.
-
-An interface for generating header code before children output and generating footer code after children output is provided. These interfaces are broken sub tasks of the main call operator interface where all output is returned.</__p_description>
+                    <__p_description>This is the abstract writer class. A writer is a process interface that writes new output of a source code file. Writers can create additional writers as children during initialization whose output is also added to the source code file output. This allows modular object oriented design where each writer can be responsible for a specific type of code output. The main call operator interface is used for generating output which it returns as iterable lines of code.</__p_description>
                     <__p_parents>ABC</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -544,33 +473,11 @@ Output code lines written to this writer's source code file. If this is a root w
                         <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>lookup</__p_name>
-                        <__p_description>This interface calls this reader's shared parser instance method with the same name.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>1</__p_abstract>
-                        <Object>
-                            <__p_name>key</__p_name>
-                            <__p_description>object
-See parser method.</__p_description>
-                        </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>_footer_</__p_name>
+                        <__p_name>parent</__p_name>
                         <__p_description>This interface is a getter method.</__p_description>
                         <__p_returnsDescription>result
-list
-Footer output code lines of this writer, added after any children writer code line output.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>1</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>_header_</__p_name>
-                        <__p_description>This interface is a getter method.</__p_description>
-                        <__p_returnsDescription>result
-list
-Footer output code lines of this writer, added after any children writer code line output.</__p_returnsDescription>
+AbstractParser
+The shared parent parser of this writer.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
@@ -750,7 +657,9 @@ Footer output code lines of this writer, added after any children writer code li
                 </Class>
                 <Class>
                     <__p_name>ParserBase</__p_name>
-                    <__p_description>This is the parser base class. It partially implements the abstract parser class. This base class implements all interfaces for accessing the current file being read, the call operator for executing parsing itself, reader lookup, and setting the root path.</__p_description>
+                    <__p_description>This is the parser base class. It partially implements the abstract parser class. This base class implements all interfaces for accessing the current file being read, the call operator for executing parsing itself, reader lookup, and setting the root path.
+
+An interface for generating the path list, creating readers for a given path and block, and creating writers for a given path and block are provided for convenience. All these interfaces are broken down sub tasks of the main call operator interface implemented by this base class.</__p_description>
                     <__p_parents>AbstractParser</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -823,6 +732,46 @@ Footer output code lines of this writer, added after any children writer code li
                         </Object>
                     </Function>
                     <Function>
+                        <__p_name>_pathList_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+A list of tuples, each tuple containing a relative path to a source code file that is parsed and the block associated with it. The path is relative to the root path of the project being parsed.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_reader_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+socref.Abstract.AbstractReader
+A new reader capable of reading any lines of code that is saved from the source code file associated with the given block. None can be returned, in which case this parser ignores it and any existing file, continuing to the next path.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>socref.Abstract.AbstractBlock
+The block associated with the source code file.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_writer_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+socref.Abstract.AbstractWriter
+A new writer capable of writing the full output of the source code file associated with the given block.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>1</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>socref.Abstract.AbstractBlock
+The block associated with the source code file.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
                         <__p_name>__readAll_</__p_name>
                         <__p_description>Reads all source code files from this parser's path list, saving all generated readers to this parser's reader lookup table. If None is returned by the reader interface for a given path then it is ignored and nothing is added to the lookup table.</__p_description>
                         <__p_static>0</__p_static>
@@ -849,7 +798,9 @@ All read in reader code lines that were not used when writing source code back o
                 </Class>
                 <Class>
                     <__p_name>ReaderBase</__p_name>
-                    <__p_description>This is the reader base class. It partially implements the abstract reader class. This base class handles the saving of its parent parser or reader, all file access interfaces that call their parent parser's methods of the same name, setting its key, getting its key, and the main call operator interface for parsing.</__p_description>
+                    <__p_description>This is the reader base class. It partially implements the abstract reader class. This base class handles the saving of its parent parser or reader, all file access interfaces that call their parent parser's methods of the same name, setting its key, getting its key, and the main call operator interface for parsing. It provides methods for accessing the currently open file of its parent parser with methods of the same name.
+
+An interface for parsing this parent parser's currently open file is provided for convenience. This interface is a sub task of the main call operator implemented by this base class, and must set this reader's key before returning.</__p_description>
                     <__p_parents>AbstractReader</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -861,7 +812,7 @@ All read in reader code lines that were not used when writing source code back o
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>object
-The parent of this new abstract reader. If this is a root reader the parent must be the parser that created it, else the parent must be the parent reader that created this new child reader.</__p_description>
+The parent parser of this new root reader or another abstract reader which created this new child reader.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -872,6 +823,7 @@ The parent of this new abstract reader. If this is a root reader the parent must
                     </Function>
                     <Function>
                         <__p_name>discard</__p_name>
+                        <__p_description>Calls this reader's shared parser instance method with the same name.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -883,22 +835,38 @@ The parent of this new abstract reader. If this is a root reader the parent must
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>parent</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>read</__p_name>
+                        <__p_description>Calls this reader's shared parser instance method with the same name.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>restore</__p_name>
+                        <__p_description>Calls this reader's shared parser instance method with the same name.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>save</__p_name>
+                        <__p_description>Calls this reader's shared parser instance method with the same name.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_description>This interface parses its parent parser's currently open code file for anything that needs to be saved for writers. This method must set its reader's key before returning.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>1</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_setKey_</__p_name>
@@ -915,7 +883,9 @@ The new value of this reader's key.</__p_description>
                 </Class>
                 <Class>
                     <__p_name>WriterBase</__p_name>
-                    <__p_description>This is the writer base class. It partially implements the abstract writer class. This base class handles saving its parent parser or writer, the main call operator interface for returning all output, and reader lookup.</__p_description>
+                    <__p_description>This is the writer base class. It partially implements the abstract writer class. This base class handles its parent parser and the main call operator interface for returning all output.
+
+An interface for generating header code before children output and generating footer code after children output is provided. These interfaces are broken sub tasks of the main call operator interface implemented by this base class where all output is returned.</__p_description>
                     <__p_parents>AbstractWriter</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -938,12 +908,41 @@ The parent of this new abstract writer. If this is a root writer then the parent
                     </Function>
                     <Function>
                         <__p_name>lookup</__p_name>
+                        <__p_description>Calls this reader's shared parser instance method with the same name.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
+                            <__p_description>object
+See parser method.</__p_description>
                         </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>parent</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Footer output code lines of this writer, added after any children writer code line output.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Footer output code lines of this writer, added after any children writer code line output.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
                     </Function>
                 </Class>
             </Package>
@@ -4445,12 +4444,6 @@ The parent shader writer of this writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>_footer_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>_header_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -4513,12 +4506,6 @@ The program block this writer uses to generate its output.</__p_description>
                             <__p_description>socref_glsl.Parser
 The parser currently outputting its project's source code files.</__p_description>
                         </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>_footer_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>
@@ -4623,12 +4610,6 @@ The indentation depth of this writer's output.</__p_description>
                             <__p_description>socref.Abstract.AbstractWriter
 The parent writer of this writer. This must be a shader or structure writer.</__p_description>
                         </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>_footer_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>
@@ -5405,12 +5386,6 @@ The parent writer of this writer. This must be a module or class writer.</__p_de
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>_footer_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>_header_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -5443,12 +5418,6 @@ The indentation depth of this writer's output.</__p_description>
                             <__p_description>socref.Abstract.AbstractWriter
 The parent writer of this writer. This must be a module or class writer.</__p_description>
                         </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>_footer_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>
@@ -5553,12 +5522,6 @@ The indentation depth of this writer's output.</__p_description>
                             <__p_description>socref_python.Writer.ClassWriter
 The parent class writer of this writer.</__p_description>
                         </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>_footer_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>

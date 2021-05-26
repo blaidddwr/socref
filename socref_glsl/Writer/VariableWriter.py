@@ -41,12 +41,6 @@ class VariableWriter(WriterBase):
         self.__depth = depth
 
 
-    def _footer_(
-        self
-    ):
-        return []
-
-
     def _header_(
         self
     ):
