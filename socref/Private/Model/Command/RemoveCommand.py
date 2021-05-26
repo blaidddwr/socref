@@ -1,12 +1,12 @@
 """
 Contains the RemoveCommand class.
 """
-from ..Abstract.AbstractCommand import *
+from ..Base.CommandBase import *
 
 
 
 
-class RemoveCommand(AbstractCommand):
+class RemoveCommand(CommandBase):
     """
     This is the remove command class. It implements the abstract command class.
     This command removes the given count of indexes starting at the given row

@@ -3129,20 +3129,14 @@ The status bar is also accessed that forces it to be visible before it is initia
                         <__p_description>Contains all abstract interface classes.</__p_description>
                         <Class>
                             <__p_name>AbstractCommand</__p_name>
-                            <__p_description>This is the abstract command class. A command is an action interface designed to redo or undo a single action upon a project model. Because qt model indexes can become invalid when the model changes, the list of rows for each command must be saved. These rows are converted back to a valid index upon execution of the undo or redo action. Helper methods for converting between a Qt model index and a list of rows are provided to facilitate these requirements. The rows in the list start from the root down one level into the model tree for each row. An empty list represents the root index.</__p_description>
+                            <__p_description>This is the abstract command class. A command is an action interface designed to redo or undo a single action upon a project model.</__p_description>
                             <__p_parents>ABC</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initialize a new command with the given project model.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
-                                <Object>
-                                    <__p_name>model</__p_name>
-                                    <__p_description>socref.model.ProjectModel
-The project model that this new command acts upon.</__p_description>
-                                </Object>
                             </Function>
                             <Function>
                                 <__p_name>redo</__p_name>
@@ -3157,6 +3151,28 @@ The project model that this new command acts upon.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>1</__p_abstract>
+                            </Function>
+                        </Class>
+                    </Package>
+                    <Package>
+                        <__p_name>Base</__p_name>
+                        <__p_description>Contains all base interface classes.</__p_description>
+                        <Class>
+                            <__p_name>CommandBase</__p_name>
+                            <__p_description>This is the command base class. It provides additional utility from its inherited abstract command class. Because qt model indexes can become invalid when the model changes, the list of rows for each command must be saved. These rows are converted back to a valid index upon execution of the undo or redo action. Helper methods for converting between a Qt model index and a list of rows are provided to facilitate these requirements. The rows in the list start from the root down one level into the model tree for each row. An empty list represents the root index.</__p_description>
+                            <__p_parents>AbstractCommand</__p_parents>
+                            <__p_infile>0</__p_infile>
+                            <Function>
+                                <__p_name>__init__</__p_name>
+                                <__p_description>Initialize this new command base instance with the given project model.</__p_description>
+                                <__p_static>0</__p_static>
+                                <__p_class>0</__p_class>
+                                <__p_abstract>0</__p_abstract>
+                                <Object>
+                                    <__p_name>model</__p_name>
+                                    <__p_description>socref.model.ProjectModel
+The project model that this new command acts upon.</__p_description>
+                                </Object>
                             </Function>
                             <Function>
                                 <__p_name>_rows_</__p_name>
@@ -3241,7 +3257,7 @@ The project model where the given blocks are inserted.</__p_description>
                         <Class>
                             <__p_name>MoveCommand</__p_name>
                             <__p_description>This is the move command class. It implements the abstract command class. This command moves the given from row to the given to row in the given parent index and project model.</__p_description>
-                            <__p_parents>AbstractCommand</__p_parents>
+                            <__p_parents>CommandBase</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
@@ -3281,7 +3297,7 @@ The project model whose given index is moved.</__p_description>
                         <Class>
                             <__p_name>RemoveCommand</__p_name>
                             <__p_description>This is the remove command class. It implements the abstract command class. This command removes the given count of indexes starting at the given row from the given parent index in the given project model. The removed blocks are saved as a protected attribute so the remove action can be undone. It is protected so the inverse insert command can use it.</__p_description>
-                            <__p_parents>AbstractCommand</__p_parents>
+                            <__p_parents>CommandBase</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
@@ -3326,7 +3342,7 @@ The project model whose given indexes are removed.</__p_description>
                         <Class>
                             <__p_name>SetCommand</__p_name>
                             <__p_description>This is the set command class. It implements the abstract command class. This command sets the properties of a given qt model index in the given project model.</__p_description>
-                            <__p_parents>AbstractCommand</__p_parents>
+                            <__p_parents>CommandBase</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>

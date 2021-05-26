@@ -1,12 +1,12 @@
 """
 Contains the MoveCommand class.
 """
-from ..Abstract.AbstractCommand import *
+from ..Base.CommandBase import *
 
 
 
 
-class MoveCommand(AbstractCommand):
+class MoveCommand(CommandBase):
     """
     This is the move command class. It implements the abstract command class.
     This command moves the given from row to the given to row in the given

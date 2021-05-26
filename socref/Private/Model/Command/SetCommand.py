@@ -1,12 +1,12 @@
 """
 Contains the SetCommand class.
 """
-from ..Abstract.AbstractCommand import *
+from ..Base.CommandBase import *
 
 
 
 
-class SetCommand(AbstractCommand):
+class SetCommand(CommandBase):
     """
     This is the set command class. It implements the abstract command class.
     This command sets the properties of a given qt model index in the given
