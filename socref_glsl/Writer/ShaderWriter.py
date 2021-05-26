@@ -32,11 +32,11 @@ class ShaderWriter(WriterBase):
 
         Parameters
         ----------
-        block : socref_glsl.Block.ShaderBlock
+        block : ShaderBlock
                 The shader block this writer uses to find the special main
                 function reader, initialize its children writers, and generate
                 its output.
-        parent : socref_glsl.Parser
+        parent : Parser
                  The parser currently outputting its project's source code
                  files.
         """

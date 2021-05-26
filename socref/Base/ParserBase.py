@@ -155,12 +155,12 @@ class ParserBase(AbstractParser):
 
         Parameters
         ----------
-        block : socref.Abstract.AbstractBlock
+        block : AbstractBlock
                 The block associated with the source code file.
 
         Returns
         -------
-        result : socref.Abstract.AbstractReader
+        result : AbstractReader
                  A new reader capable of reading any lines of code that is saved
                  from the source code file associated with the given block. None
                  can be returned, in which case this parser ignores it and any
@@ -179,12 +179,12 @@ class ParserBase(AbstractParser):
 
         Parameters
         ----------
-        block : socref.Abstract.AbstractBlock
+        block : AbstractBlock
                 The block associated with the source code file.
 
         Returns
         -------
-        result : socref.Abstract.AbstractWriter
+        result : AbstractWriter
                  A new writer capable of writing the full output of the source
                  code file associated with the given block.
         """

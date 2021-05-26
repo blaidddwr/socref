@@ -53,7 +53,7 @@ class BlockViewDock(QDockWidget):
 
         Parameters
         ----------
-        view : socref.Private.GUI.Widget.ProjectView
+        view : ProjectView
                The newly interfaced project view of this dock. This project view
                is not made the child of this dock.
         """

@@ -85,7 +85,7 @@ class SpellChecker(QGroupBox):
 
         Parameters
         ----------
-        cursor : PySide2.QtGui.QTextCursor
+        cursor : QTextCursor
                  It's document is checked for misspelled words.
         """
         if self.__cursor is None:

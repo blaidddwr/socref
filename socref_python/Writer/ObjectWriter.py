@@ -28,11 +28,11 @@ class ObjectWriter(WriterBase):
 
         Parameters
         ----------
-        block : socref_python.Block.ObjectBlock
+        block : ObjectBlock
                 The object block this writer uses to generate its output.
         depth : int
                 The indentation depth of this writer's output.
-        parent : socref_python.Writer.ClassWriter
+        parent : ClassWriter
                  The parent class writer of this writer.
         """
         super().__init__(parent)

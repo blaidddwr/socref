@@ -34,7 +34,7 @@ class SpellHighlighter(QSyntaxHighlighter):
                      The Hunspell dictionary used for spell checking. This does
                      not include the directory or file extensions, for example
                      "en_US".
-        parent : PySide2.QtGui.QTextDocument
+        parent : QTextDocument
                  The parent document that takes ownership of this highlighter
                  and has its misspelled words highlighted.
         """

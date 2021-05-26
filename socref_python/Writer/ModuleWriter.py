@@ -31,13 +31,13 @@ class ModuleWriter(WriterBase):
 
         Parameters
         ----------
-        block : socref.Abstract.AbstractBlock
+        block : AbstractBlock
                 A package, module, or class block that this writer uses to find
                 its corresponding reader, initialize its children writers, and
                 generate output. If the given block is a class then the reader
                 find is the dummy module container and a new class writer child
                 is created with the same class block.
-        parent : socref_python.Parser
+        parent : Parser
                  The parser currently outputting its project's source code
                  files.
         """

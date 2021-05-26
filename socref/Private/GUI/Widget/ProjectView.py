@@ -113,7 +113,7 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        result : PySide2.QtWidgets.QMenu
+        result : QMenu
                  The context menu of this project.
         """
         return self.__contextMenu
@@ -127,7 +127,7 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        result : PySide2.QtWidgets.QAction
+        result : QAction
                  The copy action of this project.
         """
         return self.__copyAction
@@ -141,7 +141,7 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        result : PySide2.QtWidgets.QAction
+        result : QAction
                  The cut action of this project.
         """
         return self.__cutAction
@@ -155,7 +155,7 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        result : PySide2.QtWidgets.QAction
+        result : QAction
                  The move down action of this project.
         """
         return self.__moveDownAction
@@ -169,7 +169,7 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        result : PySide2.QtWidgets.QAction
+        result : QAction
                  The move up action of this project.
         """
         return self.__moveUpAction
@@ -183,7 +183,7 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        result : PySide2.QtWidgets.QAction
+        result : QAction
                  The paste action of this project.
         """
         return self.__pasteAction
@@ -197,7 +197,7 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        result : PySide2.QtWidgets.QAction
+        result : QAction
                  The redo action of this project.
         """
         return self.__redoAction
@@ -211,7 +211,7 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        result : PySide2.QtWidgets.QAction
+        result : QAction
                  The remove action of this project.
         """
         return self.__removeAction
@@ -226,7 +226,7 @@ class ProjectView(QTreeView):
 
         Parameters
         ----------
-        model : socref.Private.Model.ProjectModel
+        model : ProjectModel
                 The new model this project view displays and edits.
         """
         super().setModel(model)
@@ -250,7 +250,7 @@ class ProjectView(QTreeView):
 
         Returns
         -------
-        result : PySide2.QtWidgets.QAction
+        result : QAction
                  The undo action of this project.
         """
         return self.__undoAction
@@ -319,7 +319,7 @@ class ProjectView(QTreeView):
 
         Parameters
         ----------
-        position : PySide2.QtCore.QPoint
+        position : QPoint
                    The point where the context menu is requested relative to
                    this project's widget.
         """
@@ -358,9 +358,9 @@ class ProjectView(QTreeView):
 
         Parameters
         ----------
-        current : PySide2.QtCore.QModelIndex
+        current : QModelIndex
                   The new current index of this project's selection model.
-        previous : PySide2.QtCore.QModelIndex
+        previous : QModelIndex
                    The previous index of this project's selection model.
         """
         self.__updateContextMenu_()
@@ -421,7 +421,7 @@ class ProjectView(QTreeView):
               The row where blocks must be inserted into this project's model by
               either adding new ones or pasting copied ones. If there is no
               valid target for insertion then none is returned.
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 The parent qt model index where blocks must be inserted into
                 this project's model by either adding new ones or pasting copied
                 ones. If there is no valid target for insertion then none is
@@ -460,9 +460,9 @@ class ProjectView(QTreeView):
 
         Parameters
         ----------
-        topLeft : PySide2.QtCore.QModelIndex
+        topLeft : QModelIndex
                   The top left index in the range of indexes that has changed.
-        bottomRight : PySide2.QtCore.QModelIndex
+        bottomRight : QModelIndex
                       The bottom right index in the range of indexes that has
                       changed.
         roles : list

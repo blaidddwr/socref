@@ -74,7 +74,7 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        view : socref.Private.GUI.Widget.ProjectView
+        view : ProjectView
                The newly interfaced project view of this dock. This project view
                is not made the child of this dock.
         """
@@ -116,7 +116,7 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        edit : socref.Edit.CheckBoxEdit
+        edit : CheckBoxEdit
                The edit class instance used to build the returned edit widget.
         properties : dictionary
                      The properties of the block used to get the initial value
@@ -124,7 +124,7 @@ class BlockEditDock(QDockWidget):
 
         Returns
         -------
-        widget : PySide2.QtWidgets.QCheckBox
+        widget : QCheckBox
                  A new checkbox configured for the given definition and
                  properties.
         label : string
@@ -150,7 +150,7 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        edit : socref.Edit.ComboEdit
+        edit : ComboEdit
                The edit class instance used to build the returned edit widget.
         properties : dictionary
                      The properties of the block used to get the initial value
@@ -158,7 +158,7 @@ class BlockEditDock(QDockWidget):
 
         Returns
         -------
-        widget : PySide2.QtWidgets.QComboBox
+        widget : QComboBox
                  A new combo box configured for the given definition and
                  properties.
         label : string
@@ -189,12 +189,12 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 The index of the block whose property edit widgets are built.
 
         Returns
         -------
-        result : PySide2.QtWidgets.QWidget
+        result : QWidget
                  Contains all built edit widgets.
         """
         self.__edits.clear()
@@ -238,12 +238,12 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        edit : socref.Edit.HiddenEdit
+        edit : HiddenEdit
                The edit class instance used to build the returned edit widget.
 
         Returns
         -------
-        result : PySide2.QtWidgets.QWidget
+        result : QWidget
                  A new hidden edit widget configured for the given definition.
         """
         editWdgt = QWidget()
@@ -262,7 +262,7 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        edit : socref.Edit.LineEdit
+        edit : LineEdit
                The edit class instance used to build the returned edit widget.
         properties : dictionary
                      The properties of the block used to get the initial value
@@ -270,7 +270,7 @@ class BlockEditDock(QDockWidget):
 
         Returns
         -------
-        widget : PySide2.QtWidgets.QLineEdit
+        widget : QLineEdit
                  A new line editor configured for the given definition and
                  properties.
         label : string
@@ -293,7 +293,7 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        edit : socref.Edit.TextEdit
+        edit : TextEdit
                The edit class instance used to build the returned edit widget.
         properties : dictionary
                      The properties of the block used to get the initial value
@@ -301,7 +301,7 @@ class BlockEditDock(QDockWidget):
 
         Returns
         -------
-        widget : socref.Private.GUI.Widget.PlainTextEdit
+        widget : PlainTextEdit
                  A new text editor configured for the given definition and
                  properties.
         label : string
@@ -330,7 +330,7 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 The index of the new block whose properties are edited by this
                 dock.
         """
@@ -368,7 +368,7 @@ class BlockEditDock(QDockWidget):
 
         Parameters
         ----------
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 The new index of the block this dock is editing.
         """
         self.__index = index

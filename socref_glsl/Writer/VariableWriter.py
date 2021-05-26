@@ -28,11 +28,11 @@ class VariableWriter(WriterBase):
 
         Parameters
         ----------
-        block : socref_glsl.Block.VariableBlock
+        block : VariableBlock
                 The variable block this writer uses to generate its output.
         depth : int
                 The indentation depth of this writer's output.
-        parent : socref.Abstract.AbstractWriter
+        parent : AbstractWriter
                  The parent writer of this writer. This must be a shader or
                  structure writer.
         """

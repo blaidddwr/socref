@@ -26,10 +26,10 @@ class FunctionWriter(WriterBase):
 
         Parameters
         ----------
-        block : socref_python.Block.FunctionBlock
+        block : FunctionBlock
                 The function block this writer uses to find its corresponding
                 reader and generate its output.
-        parent : socref_glsl.Writer.ShaderWriter
+        parent : ShaderWriter
                  The parent shader writer of this writer.
         """
         super().__init__(parent)

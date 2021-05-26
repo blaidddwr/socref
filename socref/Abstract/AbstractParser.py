@@ -76,7 +76,7 @@ class AbstractParser(ABC):
         key : string
               Key used to insert the given reader into this parser's reader
               lookup table. It must not already exist as a key in the table.
-        reader : socref.Abstract.AbstractReader
+        reader : AbstractReader
                  A reader that is inserted into this parser's reader lookup
                  table.
         """
@@ -110,7 +110,7 @@ class AbstractParser(ABC):
 
         Returns
         -------
-        result : socref.Abstract.AbstractReader
+        result : AbstractReader
                  The parser in this parser's reader lookup table with the given
                  key or none if there is no such reader with the given key.
         """

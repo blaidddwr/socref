@@ -27,7 +27,7 @@ class Parser(ParserBase):
 
         Parameters
         ----------
-        root : socref_glsl.Block.ProgramBlock
+        root : ProgramBlock
                The root block of the project this parser will use for generating
                paths, readers, and writers.
         """

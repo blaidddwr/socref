@@ -117,7 +117,7 @@ class TextDialog(QDialog):
 
         Returns
         -------
-        result : PySide2.QtWidgets.QHBoxLayout
+        result : QHBoxLayout
                  A layout of initialized buttons.
         """
         set_ = QPushButton("Set")
@@ -156,7 +156,7 @@ class TextDialog(QDialog):
 
         Returns
         -------
-        result : socref.Private.GUI.Widget.SpellChecker
+        result : SpellChecker
                  The initialized spell checker box widget.
         """
         self.__spellerBox.hide()

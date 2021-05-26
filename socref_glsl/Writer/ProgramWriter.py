@@ -27,9 +27,9 @@ class ProgramWriter(WriterBase):
 
         Parameters
         ----------
-        block : socref_glsl.Block.ProgramBlock
+        block : ProgramBlock
                 The program block this writer uses to generate its output.
-        parent : socref_glsl.Parser
+        parent : Parser
                  The parser currently outputting its project's source code
                  files.
         """

@@ -29,9 +29,9 @@ class MoveCommand(CommandBase):
         change : int
                  The change from the old row to the new row of the moved index.
                  A negative change is up and positive down by the number given.
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 The index in the given project model that is moved.
-        model : socref.model.ProjectModel
+        model : ProjectModel
                 The project model whose given index is moved.
         """
         super().__init__(model)

@@ -33,7 +33,7 @@ class ClassReader(ReaderBase):
         ----------
         name : string
                The name of the class this reader will parse.
-        parent : socref.Abstract.AbstractReader
+        parent : AbstractReader
                  The parent reader that discovered the header code line of the
                  class that this reader will parse.
         """

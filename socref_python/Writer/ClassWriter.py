@@ -31,12 +31,12 @@ class ClassWriter(WriterBase):
 
         Parameters
         ----------
-        block : socref_python.Block.ClassBlock
+        block : ClassBlock
                 The class block this writer uses to find its corresponding
                 reader, initialize its children writers, and generate output.
         depth : int
                 The indentation depth of this writer's output.
-        parent : socref.Abstract.AbstractWriter
+        parent : AbstractWriter
                  The parent writer of this writer. This must be a module or
                  class writer.
         """

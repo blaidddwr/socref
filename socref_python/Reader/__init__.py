@@ -14,7 +14,7 @@ def skipDocString(
 
     Parameters
     ----------
-    reader : socref.Abstract.AbstractReader
+    reader : AbstractReader
              The reader whose line position is moved to after an encountered doc
              string or the first line of actual code.
     """

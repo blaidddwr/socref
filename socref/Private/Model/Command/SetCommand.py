@@ -32,9 +32,9 @@ class SetCommand(CommandBase):
                          given index.
         toProperties : dictionary
                        Block properties that the given index is set to.
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 The index whose properties are changed.
-        model : socref.model.ProjectModel
+        model : ProjectModel
                 The project model whose given index block properties are
                 changed.
         """

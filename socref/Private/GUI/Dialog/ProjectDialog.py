@@ -33,7 +33,7 @@ class ProjectDialog(QDialog):
 
         Parameters
         ----------
-        model : socref.Private.Model.ProjectModel
+        model : ProjectModel
                 The project model that this dialog edits with its form.
         parent : object
                  The optional qt object parent of this dialog.

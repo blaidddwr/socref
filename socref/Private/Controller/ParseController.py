@@ -66,7 +66,7 @@ class ParseController(QObject):
 
         Parameters
         ----------
-        parser : socref.Abstract.AbstractParser
+        parser : AbstractParser
                  The abstract parser that is executed.
         """
         self.__progress = 0

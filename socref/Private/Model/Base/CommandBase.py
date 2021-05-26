@@ -29,7 +29,7 @@ class CommandBase(AbstractCommand):
 
         Parameters
         ----------
-        model : socref.model.ProjectModel
+        model : ProjectModel
                 The project model that this new command acts upon.
         """
         super().__init__()

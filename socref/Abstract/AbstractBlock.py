@@ -125,7 +125,7 @@ class AbstractBlock(ABC):
 
         Parameters
         ----------
-        block : socref.Abstract.AbstractBlock
+        block : AbstractBlock
                 A block that is appended as a new child to this block.
         """
         pass
@@ -212,7 +212,7 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        result : PySide2.QtGui.QIcon
+        result : QIcon
                  The icon of this block.
         """
         pass
@@ -250,7 +250,7 @@ class AbstractBlock(ABC):
         index : int
                 The index where the given block is inserted into this block's
                 list of children.
-        block : socref.Abstract.AbstractBlock
+        block : AbstractBlock
                 A block that is inserted as a new child to this block.
         """
         pass
@@ -299,7 +299,7 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        result : socref.Abstract.AbstractBlock
+        result : AbstractBlock
                  The parent block of this block or none if this block has no
                  parent.
         """
@@ -321,7 +321,7 @@ class AbstractBlock(ABC):
 
         Returns
         -------
-        result : socref.Abstract.AbstractBlock
+        result : AbstractBlock
                  Removed child block of this block with the given index.
         """
         pass
@@ -366,7 +366,7 @@ class AbstractBlock(ABC):
 
         Parameters
         ----------
-        stream : PySide2.QtCore.QXmlStreamReader
+        stream : QXmlStreamReader
                  Used to load all block's properties and children.
         """
         pass
@@ -401,7 +401,7 @@ class AbstractBlock(ABC):
 
         Parameters
         ----------
-        stream : PySide2.QtCore.QXmlStreamWriter
+        stream : QXmlStreamWriter
                  Used to save all block's properties and children.
         """
         pass

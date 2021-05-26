@@ -26,7 +26,7 @@ class Parser(ParserBase):
 
         Parameters
         ----------
-        root : socref_python.Block.PackageBlock
+        root : PackageBlock
                The root block of the project this parser will use for generating
                paths, readers, and writers.
         """

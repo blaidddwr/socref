@@ -32,10 +32,10 @@ class InsertCommand(RemoveCommand):
               The row where the given blocks are inserted.
         blocks : list
                  Blocks that are inserted into the given project model.
-        parent : PySide2.QtCore.QModelIndex
+        parent : QModelIndex
                  The parent index where the given blocks are inserted as
                  children.
-        model : socref.model.ProjectModel
+        model : ProjectModel
                 The project model where the given blocks are inserted.
         """
         super().__init__(row,len(blocks),parent,model)

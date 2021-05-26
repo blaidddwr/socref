@@ -39,7 +39,7 @@ def parser(
 
     Parameters
     ----------
-    class_ : socref.Abstract.AbstractParser
+    class_ : AbstractParser
              The decorated class that is registered.
     """
     parserFactory.register(class_)

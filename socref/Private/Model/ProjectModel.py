@@ -94,7 +94,7 @@ class ProjectModel(QAbstractItemModel):
 
         Parameters
         ----------
-        parent : object
+        parent : QObject
                  Optional qt object parent of this new model.
         """
         super().__init__(parent)
@@ -183,7 +183,7 @@ class ProjectModel(QAbstractItemModel):
 
         Returns
         -------
-        data : PySide2.QtCore.QByteArray
+        data : QByteArray
                Copied blocks at the given indexes in the form of XML. The XML
                format is copy with each index an element in the root XML copy
                tag.
@@ -271,10 +271,10 @@ class ProjectModel(QAbstractItemModel):
         row : int
               The row in the given parent index where loaded blocks are
               inserted.
-        xml : PySide2.QtCore.QByteArray
+        xml : QByteArray
               Contains the loaded blocks. This must conform to the XML copy
               standard produced by the copy to XML method of this class.
-        parent : PySide2.QtCore.QModelIndex
+        parent : QModelIndex
                  The parent index where the loaded blocks are inserted.
 
         Returns
@@ -315,8 +315,8 @@ class ProjectModel(QAbstractItemModel):
         ,parent
     ):
         """
-        Implements the PySide2.QtCore.QAbstractItemModel interface, adding one
-        additional argument that is described.
+        Implements the QAbstractItemModel interface, adding one additional
+        argument that is described.
 
         Parameters
         ----------
@@ -337,8 +337,8 @@ class ProjectModel(QAbstractItemModel):
         ,parent
     ):
         """
-        Implements the PySide2.QtCore.QAbstractItemModel interface, adding one
-        additional argument that is described.
+        Implements the QAbstractItemModel interface, adding one additional
+        argument that is described.
 
         Parameters
         ----------
@@ -453,7 +453,7 @@ class ProjectModel(QAbstractItemModel):
         change : int
                  The row change for the index that is moved. Negative is up and
                  positive is down.
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 The qt model index that is moved.
 
         Returns
@@ -713,7 +713,7 @@ class ProjectModel(QAbstractItemModel):
               The row where the given blocks are inserted into the given parent.
         blocks : list
                  Blocks that are inserted into this model.
-        parent : PySide2.QtCore.QModelIndex
+        parent : QModelIndex
                  The parent index where the given blocks are inserted into as
                  children.
         """
@@ -749,7 +749,7 @@ class ProjectModel(QAbstractItemModel):
                   The row of the block that is moved.
         toRow : int
                 The new row of the moved block.
-        parent : PySide2.QtCore.QModelIndex
+        parent : QModelIndex
                  The parent index where a child block is moved.
         """
         parentBlock = self.__block_(parent)
@@ -786,7 +786,7 @@ class ProjectModel(QAbstractItemModel):
               The starting row where blocks are removed.
         count : int
                 The total number of blocks that are removed.
-        parent : PySide2.QtCore.QModelIndex
+        parent : QModelIndex
                  The parent index where child blocks are removed.
 
         Returns
@@ -822,7 +822,7 @@ class ProjectModel(QAbstractItemModel):
 
         Parameters
         ----------
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 The index of the updated block.
         properties : dictionary
                      The new properties dictionary of the block at the given
@@ -849,12 +849,12 @@ class ProjectModel(QAbstractItemModel):
 
         Parameters
         ----------
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 The index whose block is returned.
 
         Returns
         -------
-        result : socref.Abstract.AbstractBlock
+        result : AbstractBlock
                  The block of the given index. If the given index is invalid the
                  root block is returned, which is none if this model has no
                  project.
@@ -887,7 +887,7 @@ class ProjectModel(QAbstractItemModel):
 
         Parameters
         ----------
-        command : socref.Private.Model.Abstract.AbstractCommand
+        command : AbstractCommand
                   The command that is immediately executed and added to this
                   model's undo stack. Any commands that have been undone on the
                   stack are erased.
@@ -909,7 +909,7 @@ class ProjectModel(QAbstractItemModel):
 
         Parameters
         ----------
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 The index of this model whose data has changed due to volatile
                 children.
         """
@@ -931,7 +931,7 @@ class ProjectModel(QAbstractItemModel):
 
         Parameters
         ----------
-        parent : PySide2.QtCore.QModelIndex
+        parent : QModelIndex
                  The parent index of this model whose children's data has
                  changed due to the volatile below parent.
         """

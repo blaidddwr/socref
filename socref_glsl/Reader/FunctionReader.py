@@ -27,7 +27,7 @@ class FunctionReader(ReaderBase):
         ----------
         name : string
                The name of the function this reader will parse.
-        parent : socref_glsl.Reader.ShaderReader
+        parent : ShaderReader
                  The parent shader reader that discovered the header code line
                  of the function that this reader will parse.
         """

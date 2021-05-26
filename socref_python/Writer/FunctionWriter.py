@@ -27,12 +27,12 @@ class FunctionWriter(WriterBase):
 
         Parameters
         ----------
-        block : socref_python.Block.FunctionBlock
+        block : FunctionBlock
                 The function block this writer uses to find its corresponding
                 reader and generate its output.
         depth : int
                 The indentation depth of this writer's output.
-        parent : socref.Abstract.AbstractWriter
+        parent : AbstractWriter
                  The parent writer of this writer. This must be a module or
                  class writer.
         """

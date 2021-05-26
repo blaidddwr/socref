@@ -33,9 +33,9 @@ class RemoveCommand(CommandBase):
               The row of the first removed child of the given parent index.
         count : int
                 The number of children that are removed.
-        parent : PySide2.QtCore.QModelIndex
+        parent : QModelIndex
                  The parent index whose child indexes are removed.
-        model : socref.model.ProjectModel
+        model : ProjectModel
                 The project model whose given indexes are removed.
         """
         super().__init__(model)

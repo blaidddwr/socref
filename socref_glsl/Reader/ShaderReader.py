@@ -28,10 +28,10 @@ class ShaderReader(ReaderBase):
 
         Parameters
         ----------
-        block : socref_glsl.Block.ShaderBlock
+        block : ShaderBlock
                 A shader block that is associated with this reader's parsed
                 shader file.
-        parent : socref_glsl.Parser
+        parent : Parser
                  The parser currently parsing its project's source code files.
         """
         super().__init__(parent)

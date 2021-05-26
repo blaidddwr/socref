@@ -29,10 +29,10 @@ class StructureWriter(WriterBase):
 
         Parameters
         ----------
-        block : socref_glsl.Block.VariableBlock
+        block : VariableBlock
                 The structure block this writer uses to initialize its children
                 writers and generate its output.
-        parent : socref.Abstract.AbstractWriter
+        parent : AbstractWriter
                  The parent writer of this writer. This must be a shader writer.
         """
         super().__init__(parent)

@@ -63,7 +63,7 @@ class ParserFactory():
 
         Returns
         -------
-        result : socref.Abstract.AbstractParser
+        result : AbstractParser
                  A new parser instance from the project with the given root
                  block.
         """
@@ -92,7 +92,7 @@ class ParserFactory():
 
         Parameters
         ----------
-        class_ : socref.Abstract.AbstractParser
+        class_ : AbstractParser
                  A class object that is registered as the parser of the
                  currently loading language.
         """

@@ -36,10 +36,10 @@ class ModuleReader(ReaderBase):
 
         Parameters
         ----------
-        block : socref.Abstract.AbstractBlock
+        block : AbstractBlock
                 A package, module, or class block that is associated with this
                 reader's parsed python file.
-        parent : socref_python.Parser
+        parent : Parser
                  The parser currently parsing its project's source code files.
         """
         super().__init__(parent)

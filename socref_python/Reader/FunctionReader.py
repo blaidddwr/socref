@@ -32,7 +32,7 @@ class FunctionReader(ReaderBase):
         end : bool
               True if this writer's parent reader read past all header lines of
               its to be parsed function or false otherwise.
-        parent : socref.Abstract.AbstractReader
+        parent : AbstractReader
                  The parent reader that discovered the header code line of the
                  function that this reader will parse.
         """

@@ -74,7 +74,7 @@ class BlockFactory():
 
         Returns
         -------
-        result : socref.Abstract.AbstractBlock
+        result : AbstractBlock
                  A new block of the given type or a root block if no type is
                  given from the given language.
         """
@@ -129,7 +129,7 @@ class BlockFactory():
 
         Parameters
         ----------
-        class_ : socref.Abstract.AbstractBlock
+        class_ : AbstractBlock
                  A class object that is registered as a block type of the
                  currently loading language.
         name : string
@@ -161,7 +161,7 @@ class BlockFactory():
 
         Parameters
         ----------
-        class_ : socref.Abstract.AbstractBlock
+        class_ : AbstractBlock
                  A class object that is registered as the root block type of the
                  currently loading language.
         """
