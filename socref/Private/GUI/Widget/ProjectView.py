@@ -265,9 +265,6 @@ class ProjectView(QTreeView):
         Called to add a newly created block to this project's model at its
         current index using its selected insert option.
 
-        This will also update the current index to the newly added block if the
-        current one is not valid. This partially fixes a strange PySide2 bug.
-
         Parameters
         ----------
         blockType : string
@@ -278,11 +275,6 @@ class ProjectView(QTreeView):
         if parent is None:
             return
         self.__model.insertRows(row,(blockType,),parent)
-        if not self.selectionModel().currentIndex().isValid():
-            self.selectionModel().setCurrentIndex(
-                self.__model.index(0,0,QModelIndex())
-                ,QItemSelectionModel.Current
-            )
 
 
     def __canPaste_(
@@ -323,7 +315,7 @@ class ProjectView(QTreeView):
                    The point where the context menu is requested relative to
                    this project's widget.
         """
-        self.__contextMenu.exec_(self.mapToGlobal(position))
+        self.__contextMenu.exec(self.mapToGlobal(position))
 
 
     @Slot()

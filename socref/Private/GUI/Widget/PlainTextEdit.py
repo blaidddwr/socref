@@ -88,7 +88,7 @@ class PlainTextEdit(QPlainTextEdit):
         if self.__popup:
             dialog = TextDialog.TextDialog(self.toPlainText(),self,speller=self.__speller)
             dialog.setWindowTitle("Text Editor - Socrates' Reference")
-            if dialog.exec_():
+            if dialog.exec():
                 self.setPlainText(dialog.text())
 
 

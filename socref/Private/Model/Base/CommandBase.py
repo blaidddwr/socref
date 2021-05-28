@@ -45,7 +45,7 @@ class CommandBase(AbstractCommand):
 
         Parameters
         ----------
-        index : PySide2.QtCore.QModelIndex
+        index : QModelIndex
                 An index of this command's project model.
 
         Returns
@@ -77,7 +77,7 @@ class CommandBase(AbstractCommand):
 
         Returns
         -------
-        result : PySide2.QtCore.QModelIndex
+        result : QModelIndex
                  A valid index created from this command's project model with
                  the given list of rows. An invalid null index is the root
                  index.

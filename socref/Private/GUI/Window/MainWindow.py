@@ -38,7 +38,7 @@ class MainWindow(QMainWindow):
     own project independent of all other main windows. A reference does not need
     to be saved for main windows because it keeps its own list of global
     instances within its class object, these references must be kept inside
-    python because of a strange bug in pyside2.
+    python because of a strange bug in PySide.
 
     Each main window provides a view, docks, menus, and a toolbar that allows a
     user to work on any project in the application. The project view displays
@@ -347,7 +347,7 @@ class MainWindow(QMainWindow):
         basic properties of its current project. If this window has no project
         then this does nothing.
         """
-        ProjectDialog(self.__model).exec_()
+        ProjectDialog(self.__model).exec()
 
 
     def __restore_(

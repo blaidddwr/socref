@@ -2485,9 +2485,7 @@ The undo action of this project.</__p_returnsDescription>
                             </Function>
                             <Function>
                                 <__p_name>__add_</__p_name>
-                                <__p_description>Called to add a newly created block to this project's model at its current index using its selected insert option.
-
-This will also update the current index to the newly added block if the current one is not valid. This partially fixes a strange PySide2 bug.</__p_description>
+                                <__p_description>Called to add a newly created block to this project's model at its current index using its selected insert option.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2846,7 +2844,7 @@ True to skip the word this checker's cursor is currently under or false to check
                         <__p_description>Contains all custom Qt window classes.</__p_description>
                         <Class>
                             <__p_name>MainWindow</__p_name>
-                            <__p_description>This is the main window class. It is designed as a multiple window application. Any number of these windows can be open, the application itself will close when the last main window closes. Each main window can edit its own project independent of all other main windows. A reference does not need to be saved for main windows because it keeps its own list of global instances within its class object, these references must be kept inside python because of a strange bug in pyside2.
+                            <__p_description>This is the main window class. It is designed as a multiple window application. Any number of these windows can be open, the application itself will close when the last main window closes. Each main window can edit its own project independent of all other main windows. A reference does not need to be saved for main windows because it keeps its own list of global instances within its class object, these references must be kept inside python because of a strange bug in PySide.
 
 Each main window provides a view, docks, menus, and a toolbar that allows a user to work on any project in the application. The project view displays the open project's tree of blocks. The view dock provides a detailed view of the current block in the project view. The edit dock provides an edit form for modifying the current block's properties. The menus and toolbars provide shortcuts for actions that can be done in the project view. They also provide basic actions that a main window handles itself such as opening or saving projects.
 
@@ -3184,7 +3182,7 @@ Rows that represent the given qt model index of this command's project model. An
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>index</__p_name>
-                                    <__p_description>PySide2.QtCore.QModelIndex
+                                    <__p_description>QModelIndex
 An index of this command's project model.</__p_description>
                                 </Object>
                             </Function>
@@ -3192,7 +3190,7 @@ An index of this command's project model.</__p_description>
                                 <__p_name>_index_</__p_name>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
-PySide2.QtCore.QModelIndex
+QModelIndex
 A valid index created from this command's project model with the given list of rows. An invalid null index is the root index.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
