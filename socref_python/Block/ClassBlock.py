@@ -106,7 +106,7 @@ class ClassBlock(ModuleBlock):
         ret = super().editDefinitions()
         ret.append(TextEdit("Parents:","_p_parents"))
         if self.parent()._TYPE_ == "Class":
-            ret.append(HiddenEdit("Infile","0"))
+            ret.append(HiddenEdit("_p_infile","0"))
         else:
             ret.append(CheckBoxEdit("Infile","_p_infile"))
         ret.append(TextEdit("Decorators:","_p_decorators"))
