@@ -1,7 +1,7 @@
 """
 Contains the SetCommand class.
 """
-from ..Base.CommandBase import *
+from ..Base.CommandBase import CommandBase
 
 
 

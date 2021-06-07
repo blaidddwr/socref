@@ -1,8 +1,8 @@
 """
 Contains all controller classes and their singleton instances.
 """
-from .LangController import *
-from .ParseController import *
+from .LangController import LangController
+from .ParseController import ParseController
 
 
 langController = LangController()

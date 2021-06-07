@@ -1,7 +1,7 @@
 """
 Contains the CommandBase class.
 """
-from ..Abstract.AbstractCommand import *
+from ..Abstract.AbstractCommand import AbstractCommand
 from PySide6.QtCore import QModelIndex
 
 

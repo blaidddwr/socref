@@ -1,7 +1,7 @@
 """
 Contains the InsertCommand class.
 """
-from .RemoveCommand import *
+from .RemoveCommand import RemoveCommand
 
 
 

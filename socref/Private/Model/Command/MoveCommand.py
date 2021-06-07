@@ -1,7 +1,7 @@
 """
 Contains the MoveCommand class.
 """
-from ..Base.CommandBase import *
+from ..Base.CommandBase import CommandBase
 
 
 

@@ -1,14 +1,14 @@
 """
 Contains the ProjectModel class.
 """
-from ...Abstract.AbstractParser import *
-from ...Error.LoadError import *
+from ...Abstract.AbstractParser import AbstractParser
+from ...Error.LoadError import LoadError
 from ..Factory import blockFactory
 from ..Factory import parserFactory
-from .Command.InsertCommand import *
-from .Command.MoveCommand import *
-from .Command.RemoveCommand import *
-from .Command.SetCommand import *
+from .Command.InsertCommand import InsertCommand
+from .Command.MoveCommand import MoveCommand
+from .Command.RemoveCommand import RemoveCommand
+from .Command.SetCommand import SetCommand
 from PySide6.QtCore import QAbstractItemModel
 from PySide6.QtCore import QByteArray
 from PySide6.QtCore import QModelIndex

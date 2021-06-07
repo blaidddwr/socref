@@ -81,12 +81,12 @@ Because C++ is a real language, absolutely nothing is global.
 
 ### Python
 
-When importing from other modules and packages, the specific objects that are used are imported. If there are naming conflicts an object can be named something else. Only one object can be imported for each import line used. The special import everything character can be used for class modules since they only contain a single class definition.
+When importing from other modules and packages, the specific objects that are used are imported. If there are naming conflicts an object can be named something else. Only one object can be imported for each import line used.
 
 ```
 from one import oneSingleton
 from . import one as localOneSingleton
-from .FooClass import *
+from .FooClass import FooClass
 ```
 
 The one exception to importing objects and not modules or packages is if there is a circular dependency between two classes that cannot be resolved. In this case one of the class modules is allowed to import the module or package itself.
