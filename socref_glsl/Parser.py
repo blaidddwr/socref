@@ -4,6 +4,7 @@ Contains the Parser class.
 from .Reader.ShaderReader import ShaderReader
 from .Writer.ProgramWriter import ProgramWriter
 from .Writer.ShaderWriter import ShaderWriter
+from os.path import join as pathJoin
 from socref import parser
 from socref.Base.ParserBase import ParserBase
 

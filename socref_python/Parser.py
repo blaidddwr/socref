@@ -3,6 +3,7 @@ Contains the Parser class.
 """
 from .Reader.ModuleReader import ModuleReader
 from .Writer.ModuleWriter import ModuleWriter
+from os.path import join as pathJoin
 from socref import parser
 from socref.Base.ParserBase import ParserBase
 
