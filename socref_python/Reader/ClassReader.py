@@ -2,9 +2,9 @@
 Contains the ClassReader class.
 """
 from . import skipDocString
-from .FunctionReader import *
+from .FunctionReader import FunctionReader
 from re import compile as reCompile
-from socref.Base.ReaderBase import *
+from socref.Base.ReaderBase import ReaderBase
 
 
 

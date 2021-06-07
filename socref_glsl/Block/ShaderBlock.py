@@ -1,10 +1,10 @@
 """
 Contains the ShaderBlock class.
 """
-from .ProgramBlock import *
+from .ProgramBlock import ProgramBlock
 from PySide6.QtGui import QIcon
 from socref import block
-from socref.Edit.ComboEdit import *
+from socref.Edit.ComboEdit import ComboEdit
 
 
 

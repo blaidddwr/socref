@@ -1,11 +1,11 @@
 """
 Contains the ClassWriter class.
 """
-from ..Settings import *
-from .FunctionWriter import *
-from .ObjectWriter import *
-from socref.Base.WriterBase import *
-from socref.Output.Code import *
+from ..Settings import Settings
+from .FunctionWriter import FunctionWriter
+from .ObjectWriter import ObjectWriter
+from socref.Base.WriterBase import WriterBase
+from socref.Output.Code import Code
 
 
 

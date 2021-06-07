@@ -1,11 +1,11 @@
 """
 Contains the Parser class.
 """
-from .Reader.ShaderReader import *
-from .Writer.ProgramWriter import *
-from .Writer.ShaderWriter import *
+from .Reader.ShaderReader import ShaderReader
+from .Writer.ProgramWriter import ProgramWriter
+from .Writer.ShaderWriter import ShaderWriter
 from socref import parser
-from socref.Base.ParserBase import *
+from socref.Base.ParserBase import ParserBase
 
 
 

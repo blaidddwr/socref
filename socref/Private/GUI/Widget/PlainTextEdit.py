@@ -2,7 +2,7 @@
 Contains the PlainTextEdit class.
 """
 from .... import DICTIONARY
-from ..Controller.SpellHighlighter import *
+from ..Controller.SpellHighlighter import SpellHighlighter
 from ..Dialog import TextDialog
 from PySide6.QtCore import Qt
 from PySide6.QtCore import Slot

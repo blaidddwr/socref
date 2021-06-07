@@ -1,11 +1,11 @@
 """
 Contains the FunctionBlock class.
 """
-from .ProgramBlock import *
+from .ProgramBlock import ProgramBlock
 from PySide6.QtGui import QIcon
 from socref import block
-from socref.Edit.LineEdit import *
-from socref.Edit.TextEdit import *
+from socref.Edit.LineEdit import LineEdit
+from socref.Edit.TextEdit import TextEdit
 
 
 

@@ -1,12 +1,12 @@
 """
 Contains the ShaderWriter class.
 """
-from ..Settings import *
-from .FunctionWriter import *
-from .StructureWriter import *
-from .VariableWriter import *
-from socref.Base.WriterBase import *
-from socref.Output.Code import *
+from ..Settings import Settings
+from .FunctionWriter import FunctionWriter
+from .StructureWriter import StructureWriter
+from .VariableWriter import VariableWriter
+from socref.Base.WriterBase import WriterBase
+from socref.Output.Code import Code
 
 
 

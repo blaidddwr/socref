@@ -2,10 +2,10 @@
 Contains the ModuleReader class.
 """
 from . import skipDocString
-from .ClassReader import *
-from .FunctionReader import *
+from .ClassReader import ClassReader
+from .FunctionReader import FunctionReader
 from re import compile as reCompile
-from socref.Base.ReaderBase import *
+from socref.Base.ReaderBase import ReaderBase
 
 
 

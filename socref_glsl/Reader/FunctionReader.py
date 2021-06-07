@@ -1,7 +1,7 @@
 """
 Contains the FunctionReader class.
 """
-from socref.Base.ReaderBase import *
+from socref.Base.ReaderBase import ReaderBase
 
 
 

@@ -2,7 +2,7 @@
 Contains the ProjectView class.
 """
 from ...Factory import blockFactory
-from ...Model.ProjectModel import *
+from ...Model.ProjectModel import ProjectModel
 from PySide6.QtCore import QItemSelectionModel
 from PySide6.QtCore import QModelIndex
 from PySide6.QtCore import QPoint

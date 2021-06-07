@@ -1,7 +1,7 @@
 """
 Contains the BlockBase class.
 """
-from ..Abstract.AbstractBlock import *
+from ..Abstract.AbstractBlock import AbstractBlock
 from ..Private.Factory import blockFactory
 from weakref import ref as WeakReference
 

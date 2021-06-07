@@ -1,11 +1,11 @@
 """
 Contains the ObjectBlock class.
 """
-from .ModuleBlock import *
+from .ModuleBlock import ModuleBlock
 from PySide6.QtGui import QIcon
 from socref import block
-from socref.Edit.LineEdit import *
-from socref.Output.RichText import *
+from socref.Edit.LineEdit import LineEdit
+from socref.Output.RichText import RichText
 
 
 

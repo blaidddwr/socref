@@ -3,7 +3,7 @@ Contains the TextDialog class.
 """
 from .... import DICTIONARY
 from ..Widget import PlainTextEdit
-from ..Widget.SpellChecker import *
+from ..Widget.SpellChecker import SpellChecker
 from PySide6.QtCore import QSettings
 from PySide6.QtCore import Slot
 from PySide6.QtWidgets import QDialog

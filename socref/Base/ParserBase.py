@@ -1,10 +1,10 @@
 """
 Contains the ParserBase class.
 """
-from ..Abstract.AbstractParser import *
-from ..Abstract.AbstractReader import *
-from ..Abstract.AbstractWriter import *
-from ..Error.ScanError import *
+from ..Abstract.AbstractParser import AbstractParser
+from ..Abstract.AbstractReader import AbstractReader
+from ..Abstract.AbstractWriter import AbstractWriter
+from ..Error.ScanError import ScanError
 from abc import abstractmethod
 from os import makedirs
 from os.path import dirname

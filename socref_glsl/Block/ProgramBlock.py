@@ -3,10 +3,10 @@ Contains the ProgramBlock class.
 """
 from PySide6.QtGui import QIcon
 from socref import block
-from socref.Base.BlockBase import *
-from socref.Edit.LineEdit import *
-from socref.Edit.TextEdit import *
-from socref.Output.RichText import *
+from socref.Base.BlockBase import BlockBase
+from socref.Edit.LineEdit import LineEdit
+from socref.Edit.TextEdit import TextEdit
+from socref.Output.RichText import RichText
 
 
 

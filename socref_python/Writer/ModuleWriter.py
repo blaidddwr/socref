@@ -1,11 +1,11 @@
 """
 Contains the ModuleWriter class.
 """
-from ..Settings import *
-from .ClassWriter import *
-from .FunctionWriter import *
-from socref.Base.WriterBase import *
-from socref.Output.Code import *
+from ..Settings import Settings
+from .ClassWriter import ClassWriter
+from .FunctionWriter import FunctionWriter
+from socref.Base.WriterBase import WriterBase
+from socref.Output.Code import Code
 
 
 

@@ -1,10 +1,10 @@
 """
 Contains the StructureWriter class.
 """
-from ..Settings import *
-from .VariableWriter import *
-from socref.Base.WriterBase import *
-from socref.Output.Code import *
+from ..Settings import Settings
+from .VariableWriter import VariableWriter
+from socref.Base.WriterBase import WriterBase
+from socref.Output.Code import Code
 
 
 

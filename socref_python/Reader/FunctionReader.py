@@ -2,7 +2,7 @@
 Contains the FunctionReader class.
 """
 from . import skipDocString
-from socref.Base.ReaderBase import *
+from socref.Base.ReaderBase import ReaderBase
 
 
 

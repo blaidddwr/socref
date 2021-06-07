@@ -3,8 +3,8 @@ Contains the main function where execution begins.
 """
 from .Private.Controller import langController
 from .Private.Controller import parseController
-from .Private.GUI.Dialog.CodeDialog import *
-from .Private.GUI.Window.MainWindow import *
+from .Private.GUI.Dialog.CodeDialog import CodeDialog
+from .Private.GUI.Window.MainWindow import MainWindow
 from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import QThread
 from PySide6.QtCore import Qt

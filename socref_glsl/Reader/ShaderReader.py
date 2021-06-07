@@ -1,9 +1,9 @@
 """
 Contains the ShaderReader class.
 """
-from .FunctionReader import *
+from .FunctionReader import FunctionReader
 from re import compile as reCompile
-from socref.Base.ReaderBase import *
+from socref.Base.ReaderBase import ReaderBase
 
 
 

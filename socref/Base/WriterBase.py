@@ -1,9 +1,9 @@
 """
 Contains the WriterBase class.
 """
-from ..Abstract.AbstractParser import *
-from ..Abstract.AbstractWriter import *
-from ..Error.ScanError import *
+from ..Abstract.AbstractParser import AbstractParser
+from ..Abstract.AbstractWriter import AbstractWriter
+from ..Error.ScanError import ScanError
 from abc import abstractmethod
 
 

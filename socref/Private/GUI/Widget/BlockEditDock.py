@@ -1,13 +1,13 @@
 """
 Contains the BlockEditDock class.
 """
-from ....Edit.CheckBoxEdit import *
-from ....Edit.ComboEdit import *
-from ....Edit.HiddenEdit import *
-from ....Edit.LineEdit import *
-from ....Edit.TextEdit import *
-from ...Model.ProjectModel import *
-from .PlainTextEdit import *
+from ....Edit.CheckBoxEdit import CheckBoxEdit
+from ....Edit.ComboEdit import ComboEdit
+from ....Edit.HiddenEdit import HiddenEdit
+from ....Edit.LineEdit import LineEdit
+from ....Edit.TextEdit import TextEdit
+from ...Model.ProjectModel import ProjectModel
+from .PlainTextEdit import PlainTextEdit
 from PySide6.QtCore import QModelIndex
 from PySide6.QtCore import Qt
 from PySide6.QtCore import Slot

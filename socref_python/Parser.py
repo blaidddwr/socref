@@ -1,10 +1,10 @@
 """
 Contains the Parser class.
 """
-from .Reader.ModuleReader import *
-from .Writer.ModuleWriter import *
+from .Reader.ModuleReader import ModuleReader
+from .Writer.ModuleWriter import ModuleWriter
 from socref import parser
-from socref.Base.ParserBase import *
+from socref.Base.ParserBase import ParserBase
 
 
 

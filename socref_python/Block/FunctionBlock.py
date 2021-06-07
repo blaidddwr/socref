@@ -1,12 +1,12 @@
 """
 Contains the FunctionBlock class.
 """
-from .ModuleBlock import *
+from .ModuleBlock import ModuleBlock
 from PySide6.QtGui import QIcon
 from socref import block
-from socref.Edit.CheckBoxEdit import *
-from socref.Edit.HiddenEdit import *
-from socref.Edit.TextEdit import *
+from socref.Edit.CheckBoxEdit import CheckBoxEdit
+from socref.Edit.HiddenEdit import HiddenEdit
+from socref.Edit.TextEdit import TextEdit
 
 
 

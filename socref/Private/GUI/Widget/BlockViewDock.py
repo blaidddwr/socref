@@ -1,7 +1,7 @@
 """
 Contains the BlockViewDock class.
 """
-from ...Model.ProjectModel import *
+from ...Model.ProjectModel import ProjectModel
 from PySide6.QtCore import QModelIndex
 from PySide6.QtCore import Qt
 from PySide6.QtCore import Slot

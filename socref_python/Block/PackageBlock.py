@@ -1,7 +1,7 @@
 """
 Contains the PackageBlock class.
 """
-from .ModuleBlock import *
+from .ModuleBlock import ModuleBlock
 from PySide6.QtGui import QIcon
 from socref import block
 

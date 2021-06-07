@@ -1,9 +1,9 @@
 """
 Contains the ObjectWriter class.
 """
-from ..Settings import *
-from socref.Base.WriterBase import *
-from socref.Output.Code import *
+from ..Settings import Settings
+from socref.Base.WriterBase import WriterBase
+from socref.Output.Code import Code
 
 
 

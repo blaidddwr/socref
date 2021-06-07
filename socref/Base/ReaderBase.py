@@ -1,9 +1,9 @@
 """
 Contains the ReaderBase class.
 """
-from ..Abstract.AbstractParser import *
-from ..Abstract.AbstractReader import *
-from ..Error.ScanError import *
+from ..Abstract.AbstractParser import AbstractParser
+from ..Abstract.AbstractReader import AbstractReader
+from ..Error.ScanError import ScanError
 from abc import abstractmethod
 
 
