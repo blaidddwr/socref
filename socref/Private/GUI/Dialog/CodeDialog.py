@@ -42,7 +42,7 @@ class CodeDialog(QDialog):
                string identifiers and the values are lists of strings where each
                string is a line of code.
         parent : object
-                 The optional qt object parent of this dialog.
+                 The optional Qt object parent of this dialog.
         """
         super().__init__(parent)
         self.__code = code
@@ -105,7 +105,7 @@ class CodeDialog(QDialog):
         self
     ):
         """
-        Restores the geometry of this dialog and the state of this dialog's qt
+        Restores the geometry of this dialog and the state of this dialog's Qt
         splitter.
         """
         settings = QSettings()

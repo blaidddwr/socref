@@ -258,7 +258,7 @@ Properties of this block.</__p_returnsDescription>
                     </Function>
                     <Function>
                         <__p_name>setFromXml</__p_name>
-                        <__p_description>This interface loads this block's properties and all children blocks, including their properties, from XML using the given qt reader stream. This overwrites any properties and children blocks this block may currently contain.</__p_description>
+                        <__p_description>This interface loads this block's properties and all children blocks, including their properties, from XML using the given Qt reader stream. This overwrites any properties and children blocks this block may currently contain.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
@@ -282,7 +282,7 @@ This block's new properties dictionary.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>toXml</__p_name>
-                        <__p_description>This interface saves this block's properties and all of its children blocks, including their properties, to XML using the given qt XML writer stream.</__p_description>
+                        <__p_description>This interface saves this block's properties and all of its children blocks, including their properties, to XML using the given Qt XML writer stream.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
@@ -1668,7 +1668,7 @@ A class object that is registered as the parser of the currently loading languag
                         <__p_description>Contains all custom Qt controller classes.</__p_description>
                         <Class>
                             <__p_name>SpellHighlighter</__p_name>
-                            <__p_description>This is the spell highlighter class. It implements the qt syntax highlighter class. It provides highlighting of misspelled words in the document the highlighter is given on initialization. It uses the Hunspell library for all speller functions.</__p_description>
+                            <__p_description>This is the spell highlighter class. It implements the Qt syntax highlighter class. It provides highlighting of misspelled words in the document the highlighter is given on initialization. It uses the Hunspell library for all speller functions.</__p_description>
                             <__p_parents>QSyntaxHighlighter</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
@@ -1721,7 +1721,7 @@ The code that this dialog displays to the user. This must be organized as a flat
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-The optional qt object parent of this dialog.</__p_description>
+The optional Qt object parent of this dialog.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
@@ -1765,7 +1765,7 @@ The new key of the selected code fragment.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__restore_</__p_name>
-                                <__p_description>Restores the geometry of this dialog and the state of this dialog's qt splitter.</__p_description>
+                                <__p_description>Restores the geometry of this dialog and the state of this dialog's Qt splitter.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -1811,7 +1811,7 @@ The project model that this dialog edits with its form.</__p_description>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-The optional qt object parent of this dialog.</__p_description>
+The optional Qt object parent of this dialog.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
@@ -1923,7 +1923,7 @@ The optional text of this new text dialog.</__p_description>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-The optional qt object parent of this new text dialog.</__p_description>
+The optional Qt object parent of this new text dialog.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                                 <Object>
@@ -2037,7 +2037,7 @@ The initialized spell checker box widget.</__p_returnsDescription>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-Optional qt object parent of this new block edit dock.</__p_description>
+Optional Qt object parent of this new block edit dock.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
@@ -2233,7 +2233,7 @@ The new index of the block this dock is editing.</__p_description>
                         </Class>
                         <Class>
                             <__p_name>BlockViewDock</__p_name>
-                            <__p_description>This is the block view dock class. It interfaces itself to a project view, providing a detailed view of the currently indexed block. It connects the appropriate signal to listen for the current index of the view to change. The detailed view is presented in a qt label as rich text.</__p_description>
+                            <__p_description>This is the block view dock class. It interfaces itself to a project view, providing a detailed view of the currently indexed block. It connects the appropriate signal to listen for the current index of the view to change. The detailed view is presented in a Qt label as rich text.</__p_description>
                             <__p_parents>QDockWidget</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
@@ -2245,7 +2245,7 @@ The new index of the block this dock is editing.</__p_description>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-Optional qt object parent of this new block view dock.</__p_description>
+Optional Qt object parent of this new block view dock.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
@@ -2297,7 +2297,7 @@ The optional edited text of this new plain text editor.</__p_description>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-Optional qt object parent of this new plain text editor.</__p_description>
+Optional Qt object parent of this new plain text editor.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                                 <Object>
@@ -2335,7 +2335,7 @@ True to enable this editor's spelling highlighter or false to disable it.</__p_d
                             </Function>
                             <Function>
                                 <__p_name>__setupActions_</__p_name>
-                                <__p_description>Initialize the qt action shortcuts of this new text editor.</__p_description>
+                                <__p_description>Initialize the Qt action shortcuts of this new text editor.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2345,7 +2345,7 @@ True to enable this editor's spelling highlighter or false to disable it.</__p_d
                             <__p_name>ProjectView</__p_name>
                             <__p_description>This is the project view class. It provides the main tree view for a project model. A view acts as the primary view for an entire project, allowing the user to navigate and view any part of the project tree. It provides a context menu that contains all actions a view can do upon its project model. The context menu provided fills the role of a main window's edit menu.
 
-Actions are provided for all basic editing actions done upon a view's model. These actions allow the user to edit the project tree with undo, redo, add, remove, cut, copy, paste, move up, and move down actions. For adding and pasting into the project an option is provided to insert before, into, or after the currently selected block. The individual qt actions are also provided if they need to be added to another custom menu or toolbar. The provided actions are enabled or disabled based off the current state of a view.</__p_description>
+Actions are provided for all basic editing actions done upon a view's model. These actions allow the user to edit the project tree with undo, redo, add, remove, cut, copy, paste, move up, and move down actions. For adding and pasting into the project an option is provided to insert before, into, or after the currently selected block. The individual Qt actions are also provided if they need to be added to another custom menu or toolbar. The provided actions are enabled or disabled based off the current state of a view.</__p_description>
                             <__p_parents>QTreeView</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Object>
@@ -2377,7 +2377,7 @@ Actions are provided for all basic editing actions done upon a view's model. The
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-Optional qt object parent of this new project.</__p_description>
+Optional Qt object parent of this new project.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
@@ -2586,7 +2586,7 @@ The row where blocks must be inserted into this project's model by either adding
 
 index
 QModelIndex
-The parent qt model index where blocks must be inserted into this project's model by either adding new ones or pasting copied ones. If there is no valid target for insertion then none is returned.</__p_returnsDescription>
+The parent Qt model index where blocks must be inserted into this project's model by either adding new ones or pasting copied ones. If there is no valid target for insertion then none is returned.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2672,7 +2672,7 @@ Qt data roles that have changed in the given indexes.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__setupActions_</__p_name>
-                                <__p_description>Initialize the qt actions of this new project view.</__p_description>
+                                <__p_description>Initialize the Qt actions of this new project view.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2728,7 +2728,7 @@ The new insert option set for this project.</__p_description>
                         </Class>
                         <Class>
                             <__p_name>SpellChecker</__p_name>
-                            <__p_description>This is the spell checker class. It provides a spell checking and correction interface using the Hunspell library. It begins spell checking with its start slot, providing it a qt text cursor that is used to parse the entire document of the text cursor, checking for misspelled words. Each misspelled word is highlighted and waits on the user to correct. The user is given options to use a suggestion, replace, ignore, stop, or add to dictionary. The cursor is updated to highlight each misspelled word found while waiting for the user to make a choice about it. Adding to dictionary is currently defunct but will be fixed.</__p_description>
+                            <__p_description>This is the spell checker class. It provides a spell checking and correction interface using the Hunspell library. It begins spell checking with its start slot, providing it a Qt text cursor that is used to parse the entire document of the text cursor, checking for misspelled words. Each misspelled word is highlighted and waits on the user to correct. The user is given options to use a suggestion, replace, ignore, stop, or add to dictionary. The cursor is updated to highlight each misspelled word found while waiting for the user to make a choice about it. Adding to dictionary is currently defunct but will be fixed.</__p_description>
                             <__p_parents>QGroupBox</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Object>
@@ -2750,7 +2750,7 @@ The new insert option set for this project.</__p_description>
                                 <Object>
                                     <__p_name>title</__p_name>
                                     <__p_description>string
-The title of this new spell checker's qt group box.</__p_description>
+The title of this new spell checker's Qt group box.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>dictionary</__p_name>
@@ -2760,13 +2760,13 @@ The Hunspell dictionary used for spell checking. This does not include the direc
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-An optional qt object parent for this new spell checker.</__p_description>
+An optional Qt object parent for this new spell checker.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>start</__p_name>
-                                <__p_description>Called to have this spell checker begin checking for misspelled words in the document of the given qt text cursor. The entire document is checked for misspelled words. If this spell checker is already checking a document then this does nothing.</__p_description>
+                                <__p_description>Called to have this spell checker begin checking for misspelled words in the document of the given Qt text cursor. The entire document is checked for misspelled words. If this spell checker is already checking a document then this does nothing.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -3024,7 +3024,7 @@ True if the project was saved successfully or false otherwise.</__p_returnsDescr
                             </Function>
                             <Function>
                                 <__p_name>__setupActions_</__p_name>
-                                <__p_description>Initializes all qt actions of this new window.</__p_description>
+                                <__p_description>Initializes all Qt actions of this new window.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -3045,7 +3045,7 @@ True if the project was saved successfully or false otherwise.</__p_returnsDescr
                             </Function>
                             <Function>
                                 <__p_name>__setupFileActions_</__p_name>
-                                <__p_description>Initializes the qt actions of this new window's file menu.</__p_description>
+                                <__p_description>Initializes the Qt actions of this new window's file menu.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -3156,7 +3156,7 @@ The status bar is also accessed that forces it to be visible before it is initia
                         <__p_description>Contains all base interface classes.</__p_description>
                         <Class>
                             <__p_name>CommandBase</__p_name>
-                            <__p_description>This is the command base class. It provides additional utility from its inherited abstract command class. Because qt model indexes can become invalid when the model changes, the list of rows for each command must be saved. These rows are converted back to a valid index upon execution of the undo or redo action. Helper methods for converting between a Qt model index and a list of rows are provided to facilitate these requirements. The rows in the list start from the root down one level into the model tree for each row. An empty list represents the root index.</__p_description>
+                            <__p_description>This is the command base class. It provides additional utility from its inherited abstract command class. Because Qt model indexes can become invalid when the model changes, the list of rows for each command must be saved. These rows are converted back to a valid index upon execution of the undo or redo action. Helper methods for converting between a Qt model index and a list of rows are provided to facilitate these requirements. The rows in the list start from the root down one level into the model tree for each row. An empty list represents the root index.</__p_description>
                             <__p_parents>AbstractCommand</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
@@ -3176,7 +3176,7 @@ The project model that this new command acts upon.</__p_description>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 list
-Rows that represent the given qt model index of this command's project model. An empty list is the root index.</__p_returnsDescription>
+Rows that represent the given Qt model index of this command's project model. An empty list is the root index.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -3198,7 +3198,7 @@ A valid index created from this command's project model with the given list of r
                                 <Object>
                                     <__p_name>rows</__p_name>
                                     <__p_description>list
-Rows that represent a valid qt model index of this command's project model.</__p_description>
+Rows that represent a valid Qt model index of this command's project model.</__p_description>
                                 </Object>
                             </Function>
                         </Class>
@@ -3338,7 +3338,7 @@ The project model whose given indexes are removed.</__p_description>
                         </Class>
                         <Class>
                             <__p_name>SetCommand</__p_name>
-                            <__p_description>This is the set command class. It implements the abstract command class. This command sets the properties of a given qt model index in the given project model.</__p_description>
+                            <__p_description>This is the set command class. It implements the abstract command class. This command sets the properties of a given Qt model index in the given project model.</__p_description>
                             <__p_parents>CommandBase</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
@@ -3384,7 +3384,7 @@ The project model whose given index block properties are changed.</__p_descripti
                     </Package>
                     <Class>
                         <__p_name>ProjectModel</__p_name>
-                        <__p_description>This is the project model class. It implements the qt abstract item model class. The header data, index, parent, row count, column count, data, set data, insert rows, remove rows, and insert row interfaces are implemented from the abstract class. The header data provides a single horizontal title that is the language name of the model's project. The column count always returns 1 since a project model only has only column for a block's display name. Custom roles are implemented using the roles defined in the role enumeration class. The only role supported for set data is the property role.
+                        <__p_description>This is the project model class. It implements the Qt abstract item model class. The header data, index, parent, row count, column count, data, set data, insert rows, remove rows, and insert row interfaces are implemented from the abstract class. The header data provides a single horizontal title that is the language name of the model's project. The column count always returns 1 since a project model only has only column for a block's display name. Custom roles are implemented using the roles defined in the role enumeration class. The only role supported for set data is the property role.
 
 It provides additional methods and signals above and beyond the basic model methods for added functionality. Methods are provided for making a new project, loading a project, saving the current project, and closing the current project. A method and signal is provided to indicate if the model has unsaved changes. Methods and a signal are provided for project name and relative parse path properties of the current model's project. A read only method is provided to query the language of the currently loaded project. A move row method is provided to move the row of a given index. Methods are provided to copy any number of indexes to XML or insert copied XML blocks into the model. A parser method is provided to build a new abstract parser for the model's current project.
 
@@ -3421,7 +3421,7 @@ Methods are provided to support undoing any previous action done to this model's
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>QObject
-Optional qt object parent of this new model.</__p_description>
+Optional Qt object parent of this new model.</__p_description>
                                 <__p_assignment>None</__p_assignment>
                             </Object>
                         </Function>
@@ -3562,7 +3562,7 @@ The parent index where the loaded blocks are inserted.</__p_description>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>object
-See qt docs.</__p_description>
+See Qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>blockType</__p_name>
@@ -3572,7 +3572,7 @@ The block type that is created and inserted into this model.</__p_description>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>object
-See qt docs.</__p_description>
+See Qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3584,7 +3584,7 @@ See qt docs.</__p_description>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>object
-See qt docs.</__p_description>
+See Qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>blockTypes</__p_name>
@@ -3594,7 +3594,7 @@ Block type name strings, where each one represents a new block that is created a
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>object
-See qt docs.</__p_description>
+See Qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3646,7 +3646,7 @@ The row change for the index that is moved. Negative is up and positive is down.
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>QModelIndex
-The qt model index that is moved.</__p_description>
+The Qt model index that is moved.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -7431,7 +7431,7 @@ The ending of the first function declaration line of the returned signature, use
             </Package>
             <Package>
                 <__p_name>socref_cppqt</__p_name>
-                <__p_description>Contains the C++/Qt language definition for Socrates' Reference. This is basically a copy of the C++ language with some slight extensions to allow for qt objects, signals, and slots.</__p_description>
+                <__p_description>Contains the C++/Qt language definition for Socrates' Reference. This is basically a copy of the C++ language with some slight extensions to allow for Qt objects, signals, and slots.</__p_description>
                 <Module>
                     <__p_name>block</__p_name>
                     <__p_description>Contains all block classes for this language.</__p_description>
@@ -7519,7 +7519,7 @@ True if this access is a public, protected, or private slots type. False is retu
                             <__p_name>isQtObject</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_returnsDescription>bool
-True if this class is a qt object or false otherwise.</__p_returnsDescription>
+True if this class is a Qt object or false otherwise.</__p_returnsDescription>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>

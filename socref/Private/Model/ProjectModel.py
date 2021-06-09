@@ -24,7 +24,7 @@ from enum import IntEnum
 
 class ProjectModel(QAbstractItemModel):
     """
-    This is the project model class. It implements the qt abstract item model
+    This is the project model class. It implements the Qt abstract item model
     class. The header data, index, parent, row count, column count, data, set
     data, insert rows, remove rows, and insert row interfaces are implemented
     from the abstract class. The header data provides a single horizontal title
@@ -95,7 +95,7 @@ class ProjectModel(QAbstractItemModel):
         Parameters
         ----------
         parent : QObject
-                 Optional qt object parent of this new model.
+                 Optional Qt object parent of this new model.
         """
         super().__init__(parent)
         self.__name = None
@@ -321,11 +321,11 @@ class ProjectModel(QAbstractItemModel):
         Parameters
         ----------
         row : object
-              See qt docs.
+              See Qt docs.
         blockType : string
                     The block type that is created and inserted into this model.
         parent : object
-                 See qt docs.
+                 See Qt docs.
         """
         return self.insertRows(row,(blockType,),parent)
 
@@ -343,13 +343,13 @@ class ProjectModel(QAbstractItemModel):
         Parameters
         ----------
         row : object
-              See qt docs.
+              See Qt docs.
         blockTypes : list
                      Block type name strings, where each one represents a new
                      block that is created and inserted with the given type
                      name.
         parent : object
-                 See qt docs.
+                 See Qt docs.
         """
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or row > len(parentBlock):
@@ -454,7 +454,7 @@ class ProjectModel(QAbstractItemModel):
                  The row change for the index that is moved. Negative is up and
                  positive is down.
         index : QModelIndex
-                The qt model index that is moved.
+                The Qt model index that is moved.
 
         Returns
         -------

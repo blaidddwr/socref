@@ -419,7 +419,7 @@ class MainWindow(QMainWindow):
         self
     ):
         """
-        Initializes all qt actions of this new window.
+        Initializes all Qt actions of this new window.
         """
         self.__setupNewActions_()
         self.__setupFileActions_()
@@ -455,7 +455,7 @@ class MainWindow(QMainWindow):
         self
     ):
         """
-        Initializes the qt actions of this new window's file menu.
+        Initializes the Qt actions of this new window's file menu.
         """
         action = self.__openAction
         action.setIcon(QIcon.fromTheme("document-open"))

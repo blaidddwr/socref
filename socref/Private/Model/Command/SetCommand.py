@@ -9,7 +9,7 @@ from ..Base.CommandBase import CommandBase
 class SetCommand(CommandBase):
     """
     This is the set command class. It implements the abstract command class.
-    This command sets the properties of a given qt model index in the given
+    This command sets the properties of a given Qt model index in the given
     project model.
     """
 

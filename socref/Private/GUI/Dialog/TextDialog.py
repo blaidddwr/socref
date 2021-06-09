@@ -39,7 +39,7 @@ class TextDialog(QDialog):
         text : string
                The optional text of this new text dialog.
         parent : object
-                 The optional qt object parent of this new text dialog.
+                 The optional Qt object parent of this new text dialog.
         speller : bool
                   True to enable misspelled word highlighting and spell checking
                   or false to disable it all.

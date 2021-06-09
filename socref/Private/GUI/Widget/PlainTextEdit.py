@@ -38,7 +38,7 @@ class PlainTextEdit(QPlainTextEdit):
         text : string
                The optional edited text of this new plain text editor.
         parent : object
-                 Optional qt object parent of this new plain text editor.
+                 Optional Qt object parent of this new plain text editor.
         speller : bool
                   True to enable misspelled word highlighting or false to
                   disable it.
@@ -96,7 +96,7 @@ class PlainTextEdit(QPlainTextEdit):
         self
     ):
         """
-        Initialize the qt action shortcuts of this new text editor.
+        Initialize the Qt action shortcuts of this new text editor.
         """
         dialog = QAction(self)
         dialog.setShortcutContext(Qt.WidgetShortcut)

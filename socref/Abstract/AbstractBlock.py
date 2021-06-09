@@ -360,7 +360,7 @@ class AbstractBlock(ABC):
     ):
         """
         This interface loads this block's properties and all children blocks,
-        including their properties, from XML using the given qt reader stream.
+        including their properties, from XML using the given Qt reader stream.
         This overwrites any properties and children blocks this block may
         currently contain.
 
@@ -396,7 +396,7 @@ class AbstractBlock(ABC):
     ):
         """
         This interface saves this block's properties and all of its children
-        blocks, including their properties, to XML using the given qt XML writer
+        blocks, including their properties, to XML using the given Qt XML writer
         stream.
 
         Parameters

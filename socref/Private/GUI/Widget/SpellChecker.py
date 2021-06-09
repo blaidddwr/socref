@@ -19,7 +19,7 @@ class SpellChecker(QGroupBox):
     """
     This is the spell checker class. It provides a spell checking and correction
     interface using the Hunspell library. It begins spell checking with its
-    start slot, providing it a qt text cursor that is used to parse the entire
+    start slot, providing it a Qt text cursor that is used to parse the entire
     document of the text cursor, checking for misspelled words. Each misspelled
     word is highlighted and waits on the user to correct. The user is given
     options to use a suggestion, replace, ignore, stop, or add to dictionary.
@@ -56,13 +56,13 @@ class SpellChecker(QGroupBox):
         Parameters
         ----------
         title : string
-                The title of this new spell checker's qt group box.
+                The title of this new spell checker's Qt group box.
         dictionary : string
                      The Hunspell dictionary used for spell checking. This does
                      not include the directory or file extensions, for example
                      "en_US".
         parent : object
-                 An optional qt object parent for this new spell checker.
+                 An optional Qt object parent for this new spell checker.
         """
         super().__init__(title,parent)
         self.__wordLabel = QLabel(self)
@@ -79,7 +79,7 @@ class SpellChecker(QGroupBox):
     ):
         """
         Called to have this spell checker begin checking for misspelled words in
-        the document of the given qt text cursor. The entire document is checked
+        the document of the given Qt text cursor. The entire document is checked
         for misspelled words. If this spell checker is already checking a
         document then this does nothing.
 

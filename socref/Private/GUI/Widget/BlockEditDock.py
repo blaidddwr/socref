@@ -53,7 +53,7 @@ class BlockEditDock(QDockWidget):
         Parameters
         ----------
         parent : object
-                 Optional qt object parent of this new block edit dock.
+                 Optional Qt object parent of this new block edit dock.
         """
         super().__init__(parent)
         self.__area = QScrollArea(widgetResizable=True)

@@ -36,7 +36,7 @@ class ProjectDialog(QDialog):
         model : ProjectModel
                 The project model that this dialog edits with its form.
         parent : object
-                 The optional qt object parent of this dialog.
+                 The optional Qt object parent of this dialog.
         """
         super().__init__(parent)
         self.__nameEdit = QLineEdit(self)

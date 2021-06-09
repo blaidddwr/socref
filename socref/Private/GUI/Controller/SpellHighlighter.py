@@ -12,7 +12,7 @@ from re import compile as reCompile
 
 class SpellHighlighter(QSyntaxHighlighter):
     """
-    This is the spell highlighter class. It implements the qt syntax highlighter
+    This is the spell highlighter class. It implements the Qt syntax highlighter
     class. It provides highlighting of misspelled words in the document the
     highlighter is given on initialization. It uses the Hunspell library for all
     speller functions.

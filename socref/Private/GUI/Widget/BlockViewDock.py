@@ -17,7 +17,7 @@ class BlockViewDock(QDockWidget):
     This is the block view dock class. It interfaces itself to a project view,
     providing a detailed view of the currently indexed block. It connects the
     appropriate signal to listen for the current index of the view to change.
-    The detailed view is presented in a qt label as rich text.
+    The detailed view is presented in a Qt label as rich text.
     """
 
 
@@ -31,7 +31,7 @@ class BlockViewDock(QDockWidget):
         Parameters
         ----------
         parent : object
-                 Optional qt object parent of this new block view dock.
+                 Optional Qt object parent of this new block view dock.
         """
         super().__init__(parent)
         self.__label = QLabel(

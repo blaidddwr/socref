@@ -31,7 +31,7 @@ class ProjectView(QTreeView):
     These actions allow the user to edit the project tree with undo, redo, add,
     remove, cut, copy, paste, move up, and move down actions. For adding and
     pasting into the project an option is provided to insert before, into, or
-    after the currently selected block. The individual qt actions are also
+    after the currently selected block. The individual Qt actions are also
     provided if they need to be added to another custom menu or toolbar. The
     provided actions are enabled or disabled based off the current state of a
     view.
@@ -79,7 +79,7 @@ class ProjectView(QTreeView):
         Parameters
         ----------
         parent : object
-                 Optional qt object parent of this new project.
+                 Optional Qt object parent of this new project.
         """
         super().__init__(parent)
         self.__model = None
@@ -414,7 +414,7 @@ class ProjectView(QTreeView):
               either adding new ones or pasting copied ones. If there is no
               valid target for insertion then none is returned.
         index : QModelIndex
-                The parent qt model index where blocks must be inserted into
+                The parent Qt model index where blocks must be inserted into
                 this project's model by either adding new ones or pasting copied
                 ones. If there is no valid target for insertion then none is
                 returned.
@@ -562,7 +562,7 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Initialize the qt actions of this new project view.
+        Initialize the Qt actions of this new project view.
         """
         action = self.__undoAction
         action.setIcon(QIcon.fromTheme("edit-undo"))

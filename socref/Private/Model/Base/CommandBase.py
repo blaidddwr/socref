@@ -10,7 +10,7 @@ from PySide6.QtCore import QModelIndex
 class CommandBase(AbstractCommand):
     """
     This is the command base class. It provides additional utility from its
-    inherited abstract command class. Because qt model indexes can become
+    inherited abstract command class. Because Qt model indexes can become
     invalid when the model changes, the list of rows for each command must be
     saved. These rows are converted back to a valid index upon execution of the
     undo or redo action. Helper methods for converting between a Qt model index
@@ -51,7 +51,7 @@ class CommandBase(AbstractCommand):
         Returns
         -------
         result : list
-                 Rows that represent the given qt model index of this command's
+                 Rows that represent the given Qt model index of this command's
                  project model. An empty list is the root index.
         """
         rows = []
@@ -72,7 +72,7 @@ class CommandBase(AbstractCommand):
         Parameters
         ----------
         rows : list
-               Rows that represent a valid qt model index of this command's
+               Rows that represent a valid Qt model index of this command's
                project model.
 
         Returns
