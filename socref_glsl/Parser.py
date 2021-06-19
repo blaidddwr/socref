@@ -2,6 +2,7 @@
 Contains the Parser class.
 """
 from .Reader.ShaderReader import ShaderReader
+from .Settings import Settings
 from .Writer.ProgramWriter import ProgramWriter
 from .Writer.ShaderWriter import ShaderWriter
 from os.path import join as pathJoin

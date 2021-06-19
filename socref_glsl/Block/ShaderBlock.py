@@ -5,6 +5,7 @@ from .ProgramBlock import ProgramBlock
 from PySide6.QtGui import QIcon
 from socref import block
 from socref.Edit.ComboEdit import ComboEdit
+from socref.Edit.LineEdit import LineEdit
 
 
 
@@ -21,6 +22,7 @@ class ShaderBlock(ProgramBlock):
         self
     ):
         super().__init__()
+        self._p_version = "330 core"
         self._p_type = "Vertex"
 
 
@@ -34,6 +36,7 @@ class ShaderBlock(ProgramBlock):
         self
     ):
         super().clearProperties()
+        self._p_version = "330 core"
         self._p_type = "Vertex"
 
 
@@ -41,6 +44,8 @@ class ShaderBlock(ProgramBlock):
         self
     ):
         ret = super().displayView()
+        ret.addHeader("Version",1)
+        ret.addText(self._p_version)
         ret.addHeader("Type",1)
         ret.addText(self._p_type)
         return ret
@@ -50,6 +55,7 @@ class ShaderBlock(ProgramBlock):
         self
     ):
         ret = super().editDefinitions()
+        ret.append(LineEdit("Version:","_p_version"))
         ret.append(
             ComboEdit(
                 "Type:"
@@ -91,4 +97,5 @@ class ShaderBlock(ProgramBlock):
     ):
         super().setDefaultProperties()
         self._p_name = "shader"
+        self._p_version = "330 core"
         self._p_type = "Vertex"

@@ -1,6 +1,7 @@
 """
 Contains the ProgramBlock class.
 """
+from ..Settings import Settings
 from PySide6.QtGui import QIcon
 from socref import block
 from socref.Base.BlockBase import BlockBase
@@ -86,7 +87,10 @@ class ProgramBlock(BlockBase):
         b = self
         while b is not None:
             if b._p_name:
-                names.append(b._p_name)
+                if b._TYPE_ == "Shader":
+                    names.append(b._p_name+Settings.EXT[b._p_type])
+                else:
+                    names.append(b._p_name)
             b = b.parent()
         names.reverse()
         return ".".join(names)

@@ -74,6 +74,7 @@ class ShaderWriter(WriterBase):
         self
     ):
         ret = Code(Settings.INDENT)
+        ret.add("#version "+self.__block._p_version)
         ret.add("/*!")
         ret.addText(self.__block._p_description,Settings.COLS," * ")
         ret.add(" */")
