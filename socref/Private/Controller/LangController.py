@@ -23,16 +23,16 @@ class LangController():
         ,name
     ):
         """
-        Loads a new language for this application by importing its package or
-        module with the given name. The given language name must be unique among
-        any other loaded language.
+        Loads a new language with the given language name for this application
+        by importing its package or module with the given name. The given
+        language name must be unique among any other loaded language.
 
         Parameters
         ----------
         language : string
-                   The language's name that is loaded.
+                   The language name.
         name : string
-               The name of the language's package or module that is imported.
+               The package or module name.
         """
         if language in blockFactory:
             raise LangError("Language already loaded with the same name.")

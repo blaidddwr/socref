@@ -47,13 +47,13 @@ class AbstractReader(ABC):
         self
     ):
         """
-        This interface is a getter method. This reader's key must be set.
+        This interface returns this reader's unique key used to identify itself
+        in its parent parser's lookup table. This reader's key must be set.
 
         Returns
         -------
         result : string
-                 This reader's unique key used to identify itself in its parent
-                 parser's reader lookup table.
+                 This reader's unique key.
         """
         pass
 

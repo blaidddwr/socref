@@ -25,9 +25,9 @@ class CheckBoxEdit():
         Parameters
         ----------
         label : string
-                The label displayed to the user next to the checkbox.
+                The label.
         key : string
-              The block property attribute name the checkbox modifies.
+              The key.
         """
         self.__label = label
         self.__key = key

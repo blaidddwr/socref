@@ -30,13 +30,14 @@ class ReaderBase(AbstractReader):
         ,parent
     ):
         """
-        Initializes this new reader base instance with the given parent.
+        Initializes this new reader base instance with the given parent. The
+        parent is a parser if this is the root reader else it is another reader
+        which created this new reader as its child.
 
         Parameters
         ----------
         parent : object
-                 The parent parser of this new root reader or another abstract
-                 reader which created this new child reader.
+                 The parent.
         """
         super().__init__()
         if isinstance(parent,AbstractReader):
@@ -130,7 +131,7 @@ class ReaderBase(AbstractReader):
         Parameters
         ----------
         key : string
-              The new value of this reader's key.
+              The key.
         """
         if self.__key is not None:
             raise ScanError("An abstract reader attempted to overwrite its key.")

@@ -27,15 +27,14 @@ class WriterBase(AbstractWriter):
         ,parent
     ):
         """
-        Initializes this new writer base instance with the given parent.
+        Initializes this new writer base instance with the given parent. The
+        parent is a parser if this is the root writer else it is another writer
+        which created this new writer as its child.
 
         Parameters
         ----------
         parent : object
-                 The parent of this new abstract writer. If this is a root
-                 writer then the parent must be the parser that created it, else
-                 the parent must be the parent writer that created this new
-                 child writer.
+                 The parent.
         """
         super().__init__()
         if isinstance(parent,AbstractWriter):

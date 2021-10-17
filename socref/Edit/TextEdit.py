@@ -21,17 +21,16 @@ class TextEdit():
     ):
         """
         Initializes this new text edit definition with the given label, key, and
-        optional spell checking.
+        optional spell checking flag.
 
         Parameters
         ----------
         label : string
-                The label displayed to the user next to the text edit widget.
+                The label.
         key : string
-              The block property attribute name the text edit widget modifies.
+              The key.
         spellCheck : bool
-                     True to enable spell checking for the text edit widget or
-                     false to disable it.
+                     True to enable spell checking or false to disable it.
         """
         self.__label = label
         self.__key = key

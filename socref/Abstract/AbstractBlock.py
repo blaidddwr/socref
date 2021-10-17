@@ -126,7 +126,7 @@ class AbstractBlock(ABC):
         Parameters
         ----------
         block : AbstractBlock
-                A block that is appended as a new child to this block.
+                The block.
         """
         pass
 
@@ -248,10 +248,9 @@ class AbstractBlock(ABC):
         Parameters
         ----------
         index : int
-                The index where the given block is inserted into this block's
-                list of children.
+                The index.
         block : AbstractBlock
-                A block that is inserted as a new child to this block.
+                The block.
         """
         pass
 
@@ -317,12 +316,12 @@ class AbstractBlock(ABC):
         Parameters
         ----------
         index : int
-                The index of the removed and returned child block.
+                The index.
 
         Returns
         -------
         result : AbstractBlock
-                 Removed child block of this block with the given index.
+                 Removed child block.
         """
         pass
 
@@ -360,14 +359,14 @@ class AbstractBlock(ABC):
     ):
         """
         This interface loads this block's properties and all children blocks,
-        including their properties, from XML using the given Qt reader stream.
-        This overwrites any properties and children blocks this block may
-        currently contain.
+        including their properties, from XML using the given Qt XML reader
+        stream. This overwrites any properties and children blocks this block
+        may currently contain.
 
         Parameters
         ----------
         stream : QXmlStreamReader
-                 Used to load all block's properties and children.
+                 The Qt XML reader stream.
         """
         pass
 
@@ -384,7 +383,7 @@ class AbstractBlock(ABC):
         Parameters
         ----------
         properties : dictionary
-                     This block's new properties dictionary.
+                     The dictionary.
         """
         pass
 
@@ -396,12 +395,12 @@ class AbstractBlock(ABC):
     ):
         """
         This interface saves this block's properties and all of its children
-        blocks, including their properties, to XML using the given Qt XML writer
-        stream.
+        blocks at all depths, including their properties, to XML using the given
+        Qt XML writer stream.
 
         Parameters
         ----------
         stream : QXmlStreamWriter
-                 Used to save all block's properties and children.
+                 The Qt XML stream writer.
         """
         pass

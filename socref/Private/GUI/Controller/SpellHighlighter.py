@@ -21,22 +21,16 @@ class SpellHighlighter(QSyntaxHighlighter):
 
     def __init__(
         self
-        ,dictionary
         ,parent
     ):
         """
-        Initializes a new spell highlighter with the given dictionary and
+        Initializes a new spell highlighter with the given Qt text document
         parent.
 
         Parameters
         ----------
-        dictionary : string
-                     The Hunspell dictionary used for spell checking. This does
-                     not include the directory or file extensions, for example
-                     "en_US".
         parent : QTextDocument
-                 The parent document that takes ownership of this highlighter
-                 and has its misspelled words highlighted.
+                 The Qt text document parent.
         """
         super().__init__(parent)
         format_ = self.__format = QTextCharFormat()

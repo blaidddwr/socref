@@ -25,9 +25,9 @@ class HiddenEdit():
         Parameters
         ----------
         key : string
-              The block property attribute name the hidden widget modifies.
+              The key.
         value : string
-                The value the hidden widget sets to the block property.
+                The value.
         """
         self.__key = key
         self.__value = value

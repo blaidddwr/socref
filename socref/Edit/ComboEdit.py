@@ -21,19 +21,17 @@ class ComboEdit():
     ):
         """
         Initializes this new combo edit definition with the given label, key,
-        and selections.
+        and selections. Look at the selections getter method for a description
+        its organization.
 
         Parameters
         ----------
         label : string
-                The label displayed to the user next to the combo box.
+                The label.
         key : string
-              The block property attribute name the combo box modifies.
+              The block.
         selections : list
-                     Tuples of valid selection values for the combo box. Each
-                     tuple must contain an optional Qt icon and text value in
-                     that order. If there is no icon that tuple value can be
-                     None.
+                     The selections.
         """
         self.__label = label
         self.__key = key
@@ -77,6 +75,8 @@ class ComboEdit():
         Returns
         -------
         result : list
-                 All valid string selection values for the combo box.
+                 Tuples of all valid string selection values for the combo box.
+                 Each tuple contains the string name and Qt icon in that order.
+                 The Qt icon can be nothing if there is no icon.
         """
         return self.__selections

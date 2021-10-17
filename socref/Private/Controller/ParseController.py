@@ -67,7 +67,7 @@ class ParseController(QObject):
         Parameters
         ----------
         parser : AbstractParser
-                 The abstract parser that is executed.
+                 The abstract parser.
         """
         self.__progress = 0
         self.started.emit()
@@ -88,12 +88,12 @@ class ParseController(QObject):
         """
         Called by the currently executing abstract parser of this controller to
         inform this controller that progress of parsing has changed to the given
-        percentage.
+        percentage ranging from 0 to 100.
 
         Parameters
         ----------
         percent : int
-                  The percentage progress ranging from 0 to 100.
+                  The percentage.
         """
         if percent > self.__progress:
             self.__progress = percent

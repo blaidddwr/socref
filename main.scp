@@ -107,7 +107,7 @@ An implemented block class must have no initialization arguments.</__p_descripti
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>AbstractBlock
-A block that is appended as a new child to this block.</__p_description>
+The block.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -186,12 +186,12 @@ The integer index of this block within its parent block's list of children.</__p
                         <Object>
                             <__p_name>index</__p_name>
                             <__p_description>int
-The index where the given block is inserted into this block's list of children.</__p_description>
+The index.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>AbstractBlock
-A block that is inserted as a new child to this block.</__p_description>
+The block.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -229,14 +229,14 @@ The parent block of this block or none if this block has no parent.</__p_returns
                         <__p_description>This interface removes a child block of this block with the given index.</__p_description>
                         <__p_returnsDescription>result
 AbstractBlock
-Removed child block of this block with the given index.</__p_returnsDescription>
+Removed child block.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>index</__p_name>
                             <__p_description>int
-The index of the removed and returned child block.</__p_description>
+The index.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -258,14 +258,14 @@ Properties of this block.</__p_returnsDescription>
                     </Function>
                     <Function>
                         <__p_name>setFromXml</__p_name>
-                        <__p_description>This interface loads this block's properties and all children blocks, including their properties, from XML using the given Qt reader stream. This overwrites any properties and children blocks this block may currently contain.</__p_description>
+                        <__p_description>This interface loads this block's properties and all children blocks, including their properties, from XML using the given Qt XML reader stream. This overwrites any properties and children blocks this block may currently contain.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>stream</__p_name>
                             <__p_description>QXmlStreamReader
-Used to load all block's properties and children.</__p_description>
+The Qt XML reader stream.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -277,19 +277,19 @@ Used to load all block's properties and children.</__p_description>
                         <Object>
                             <__p_name>properties</__p_name>
                             <__p_description>dictionary
-This block's new properties dictionary.</__p_description>
+The dictionary.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>toXml</__p_name>
-                        <__p_description>This interface saves this block's properties and all of its children blocks, including their properties, to XML using the given Qt XML writer stream.</__p_description>
+                        <__p_description>This interface saves this block's properties and all of its children blocks at all depths, including their properties, to XML using the given Qt XML writer stream.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>stream</__p_name>
                             <__p_description>QXmlStreamWriter
-Used to save all block's properties and children.</__p_description>
+The Qt XML stream writer.</__p_description>
                         </Object>
                     </Function>
                 </Class>
@@ -310,31 +310,31 @@ An implemented parser class must have one initialization argument, that argument
                     </Function>
                     <Function>
                         <__p_name>__call__</__p_name>
-                        <__p_description>This interface parses all source code files of the project of this parser's root block, updating its progress with the given callback object. The root path of this parser must be set. This parser's reader lookup table is cleared after parsing is complete or fails.</__p_description>
+                        <__p_description>This interface parses all source code files of the project of this parser's root block, updating its progress with the given callback object. The callback object takes one argument that is the progress as a percentage from 0 to 100. The root path of this parser must be set. This parser's reader lookup table is cleared after parsing is complete or fails.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>update</__p_name>
                             <__p_description>function
-Used to update the progress of this scan. It takes one argument that is the progress as a percentage from 1 to 99.</__p_description>
+The progress callback object.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addLookup</__p_name>
-                        <__p_description>This interface adds the given reader to this parser's reader lookup table with the given key.</__p_description>
+                        <__p_description>This interface adds the given reader to this parser's reader lookup table with the given key. The key must not already exist in this parser's table.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
                             <__p_description>string
-Key used to insert the given reader into this parser's reader lookup table. It must not already exist as a key in the table.</__p_description>
+The key.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>reader</__p_name>
                             <__p_description>AbstractReader
-A reader that is inserted into this parser's reader lookup table.</__p_description>
+The reader.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -346,17 +346,17 @@ A reader that is inserted into this parser's reader lookup table.</__p_descripti
                     </Function>
                     <Function>
                         <__p_name>lookup</__p_name>
-                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_description>This interface looks up the parser contained in this parser's lookup table with the given key, returning the parser or nothing if no such parser exists with the given key.</__p_description>
                         <__p_returnsDescription>result
 AbstractReader
-The parser in this parser's reader lookup table with the given key or none if there is no such reader with the given key.</__p_returnsDescription>
+The parser or nothing.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
                             <__p_description>string
-The matching key, if any, of the returned reader.</__p_description>
+The key.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -389,14 +389,14 @@ The read line stripped of any white space from both sides or None if the end of 
                     </Function>
                     <Function>
                         <__p_name>setRootPath</__p_name>
-                        <__p_description>This interface sets the root path of this parser. This can only be called once when this parser's root path is empty. This must be called before parsing begins.</__p_description>
+                        <__p_description>This interface sets the root path of this parser to the given path. This can only be called after initialization of this parser. This must be called before parsing begins.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>path</__p_name>
                             <__p_description>string
-The root path of this parser.</__p_description>
+The path.</__p_description>
                         </Object>
                     </Function>
                 </Class>
@@ -422,10 +422,10 @@ The call operator interface is used to begin scanning, and a unique key must be 
                     </Function>
                     <Function>
                         <__p_name>key</__p_name>
-                        <__p_description>This interface is a getter method. This reader's key must be set.</__p_description>
+                        <__p_description>This interface returns this reader's unique key used to identify itself in its parent parser's lookup table. This reader's key must be set.</__p_description>
                         <__p_returnsDescription>result
 string
-This reader's unique key used to identify itself in its parent parser's reader lookup table.</__p_returnsDescription>
+This reader's unique key.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
@@ -743,32 +743,32 @@ A list of tuples, each tuple containing a relative path to a source code file th
                     </Function>
                     <Function>
                         <__p_name>_reader_</__p_name>
-                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_description>This interface returns a new reader capable of reading any lines of code from the source code file associated with the given block. Nothing can also be returned, in which case this parser ignores it and any existing file.</__p_description>
                         <__p_returnsDescription>result
 AbstractReader
-A new reader capable of reading any lines of code that is saved from the source code file associated with the given block. None can be returned, in which case this parser ignores it and any existing file, continuing to the next path.</__p_returnsDescription>
+The new reader.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>AbstractBlock
-The block associated with the source code file.</__p_description>
+The block.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>_writer_</__p_name>
-                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_description>This interface returns a new writer capable of writing the full source code output file associated with the given block.</__p_description>
                         <__p_returnsDescription>result
 AbstractWriter
-A new writer capable of writing the full output of the source code file associated with the given block.</__p_returnsDescription>
+The new writer.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>AbstractBlock
-The block associated with the source code file.</__p_description>
+The block.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -805,14 +805,14 @@ An interface for parsing this parent parser's currently open file is provided fo
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new reader base instance with the given parent.</__p_description>
+                        <__p_description>Initializes this new reader base instance with the given parent. The parent is a parser if this is the root reader else it is another reader which created this new reader as its child.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>object
-The parent parser of this new root reader or another abstract reader which created this new child reader.</__p_description>
+The parent.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -877,7 +877,7 @@ The parent parser of this new root reader or another abstract reader which creat
                         <Object>
                             <__p_name>key</__p_name>
                             <__p_description>string
-The new value of this reader's key.</__p_description>
+The key.</__p_description>
                         </Object>
                     </Function>
                 </Class>
@@ -890,14 +890,14 @@ An interface for generating header code before children output and generating fo
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new writer base instance with the given parent.</__p_description>
+                        <__p_description>Initializes this new writer base instance with the given parent. The parent is a parser if this is the root writer else it is another writer which created this new writer as its child.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>object
-The parent of this new abstract writer. If this is a root writer then the parent must be the parser that created it, else the parent must be the parent writer that created this new child writer.</__p_description>
+The parent.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -962,12 +962,12 @@ Footer output code lines of this writer, added after any children writer code li
                         <Object>
                             <__p_name>label</__p_name>
                             <__p_description>string
-The label displayed to the user next to the checkbox.</__p_description>
+The label.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>key</__p_name>
                             <__p_description>string
-The block property attribute name the checkbox modifies.</__p_description>
+The key.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -997,24 +997,24 @@ The label displayed to the user next to the checkbox.</__p_returnsDescription>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new combo edit definition with the given label, key, and selections.</__p_description>
+                        <__p_description>Initializes this new combo edit definition with the given label, key, and selections. Look at the selections getter method for a description its organization.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>label</__p_name>
                             <__p_description>string
-The label displayed to the user next to the combo box.</__p_description>
+The label.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>key</__p_name>
                             <__p_description>string
-The block property attribute name the combo box modifies.</__p_description>
+The block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>selections</__p_name>
                             <__p_description>list
-Tuples of valid selection values for the combo box. Each tuple must contain an optional Qt icon and text value in that order. If there is no icon that tuple value can be None.</__p_description>
+The selections.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -1042,7 +1042,7 @@ The label displayed to the user next to the combo box.</__p_returnsDescription>
                         <__p_description>Getter method.</__p_description>
                         <__p_returnsDescription>result
 list
-All valid string selection values for the combo box.</__p_returnsDescription>
+Tuples of all valid string selection values for the combo box. Each tuple contains the string name and Qt icon in that order. The Qt icon can be nothing if there is no icon.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -1061,12 +1061,12 @@ All valid string selection values for the combo box.</__p_returnsDescription>
                         <Object>
                             <__p_name>key</__p_name>
                             <__p_description>string
-The block property attribute name the hidden widget modifies.</__p_description>
+The key.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>value</__p_name>
                             <__p_description>string
-The value the hidden widget sets to the block property.</__p_description>
+The value.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -1103,12 +1103,12 @@ The value the hidden widget sets to the block property.</__p_returnsDescription>
                         <Object>
                             <__p_name>label</__p_name>
                             <__p_description>string
-The label displayed to the user next to the line edit widget.</__p_description>
+The label.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>key</__p_name>
                             <__p_description>string
-The block property attribute name the line edit widget modifies.</__p_description>
+The key.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -1138,24 +1138,24 @@ The label displayed to the user next to the line edit widget.</__p_returnsDescri
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new text edit definition with the given label, key, and optional spell checking.</__p_description>
+                        <__p_description>Initializes this new text edit definition with the given label, key, and optional spell checking flag.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>label</__p_name>
                             <__p_description>string
-The label displayed to the user next to the text edit widget.</__p_description>
+The label.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>key</__p_name>
                             <__p_description>string
-The block property attribute name the text edit widget modifies.</__p_description>
+The key.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>spellCheck</__p_name>
                             <__p_description>bool
-True to enable spell checking for the text edit widget or false to disable it.</__p_description>
+True to enable spell checking or false to disable it.</__p_description>
                             <__p_assignment>False</__p_assignment>
                         </Object>
                     </Function>
@@ -1228,14 +1228,14 @@ True to enable spell checking for the text edit widget or false to disable it.</
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new code container with the given indent.</__p_description>
+                        <__p_description>Initializes this new code container with the given indent. The indent is the string appended to lines of code for each level of depth.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>indent</__p_name>
                             <__p_description>string
-The indent that equals one level or depth of code.</__p_description>
+The indent.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -1246,14 +1246,14 @@ The indent that equals one level or depth of code.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>add</__p_name>
-                        <__p_description>Adds the given lines or line to this code's lines, adding the currently set indent depth to each line given.</__p_description>
+                        <__p_description>Adds the given lines or line to this code's lines, adding the currently set indent depth to each line given. The given code must be a string if it is a single line or a list of strings if it is multiple lines.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>lines</__p_name>
                             <__p_description>object
-A line or lines of code that are added to this code's lines with this code's current indent depth. This must be a string or list of strings.</__p_description>
+The given line or lines of code.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -1265,54 +1265,57 @@ A line or lines of code that are added to this code's lines with this code's cur
                         <Object>
                             <__p_name>amount</__p_name>
                             <__p_description>int
-The number of blank lines added to this code's lines.</__p_description>
+The number of blank lines.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addText</__p_name>
-                        <__p_description>Adds the given text of lines into this code's lines, wrapping the text to limit each line to the maximum columns given. An optional begin string is given that is added to the beginning of each generated line of text. An optional after string is given that is added to the beginning of each generated line of text except for the very first line. An optional separator string is given that is used to separate multiple paragraphs of text as a separate line.</__p_description>
+                        <__p_description>Adds the given text of lines into this code's lines, wrapping the text to limit each line to the maximum columns given. Paragraphs in the given text are separated by using two new line characters. Single new line characters in the given text are ignored.
+
+Optional begin, after, and separator strings can also be provided.
+The begin string is added to the beginning of each wrapped line of text and paragraph separator lines. The after string is added after the begin string  in the same way except for very first line. The separator string is added to after the begin and after strings to paragraph separator lines.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>text</__p_name>
                             <__p_description>string
-The text that is wrapped into lines and added to this code's lines. Paragraphs are separated by using two new line characters. Single new line characters are ignored.</__p_description>
+The text.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>maxCols</__p_name>
                             <__p_description>int
-The maximum number of columns for each line of wrapped text.</__p_description>
+The maximum number of columns.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>begin</__p_name>
                             <__p_description>string
-The string that is added to the beginning of each wrapped line of text and the special paragraph separator lines.</__p_description>
+The begin string.</__p_description>
                             <__p_assignment>&quot;&quot;</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>after</__p_name>
                             <__p_description>string
-The string that is added to the beginning of each wrapped line of text and the special paragraph separator lines, excluding the very first line.</__p_description>
+The after string.</__p_description>
                             <__p_assignment>&quot;&quot;</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>sep</__p_name>
                             <__p_description>string
-The string that is used as a line separator between paragraphs of text.</__p_description>
+The separator string.</__p_description>
                             <__p_assignment>&quot;&quot;</__p_assignment>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>setDepth</__p_name>
-                        <__p_description>Sets this code's indent depth to the given value.</__p_description>
+                        <__p_description>Sets this code's indent depth to the given value. Any given value less than zero will be treated as zero.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>depth</__p_name>
                             <__p_description>int
-The new indent depth of this code. Anything less than zero will be treated as zero.</__p_description>
+The indent depth.</__p_description>
                         </Object>
                     </Function>
                 </Class>
@@ -1341,53 +1344,53 @@ The new indent depth of this code. Anything less than zero will be treated as ze
                         <Object>
                             <__p_name>title</__p_name>
                             <__p_description>string
-The title of the added box.</__p_description>
+The title.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>text</__p_name>
                             <__p_description>string
-The normal text of the added box.</__p_description>
+The text.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addHeader</__p_name>
-                        <__p_description>Adds a header to this rich text with the given title and level.</__p_description>
+                        <__p_description>Adds a header to this rich text with the given title and level. The allowed levels are 1, 2, or 3.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>title</__p_name>
                             <__p_description>string
-The title of the added header.</__p_description>
+The title.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>level</__p_name>
                             <__p_description>int
-The level of the added header. The allowed levels are 1, 2, or 3.</__p_description>
+The header level.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addList</__p_name>
-                        <__p_description>Adds an unordered list to this rich text from the given list of items.</__p_description>
+                        <__p_description>Adds an unordered list to this rich text from the given list of items. The given list of items must be a list of strings.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>items</__p_name>
                             <__p_description>list
-Strings where each one is added as a list item.</__p_description>
+The list of items.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>addMap</__p_name>
-                        <__p_description>Adds a map list to this rich text from the given list of items. A map list is a paragraph where each item is listed on a new line within the paragraph.</__p_description>
+                        <__p_description>Adds a map list to this rich text from the given list of items. A map list is a paragraph where each item is listed on a new line within the paragraph. The given list of items must be a list of strings.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>items</__p_name>
                             <__p_description>list
-Strings where each one is added as a map item.</__p_description>
+The list of items.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -1399,7 +1402,7 @@ Strings where each one is added as a map item.</__p_description>
                         <Object>
                             <__p_name>text</__p_name>
                             <__p_description>string
-Text that populates the added paragraph.</__p_description>
+The text.</__p_description>
                         </Object>
                     </Function>
                 </Class>
@@ -1416,19 +1419,19 @@ Text that populates the added paragraph.</__p_description>
                         <__p_infile>0</__p_infile>
                         <Function>
                             <__p_name>load</__p_name>
-                            <__p_description>Loads a new language for this application by importing its package or module with the given name. The given language name must be unique among any other loaded language.</__p_description>
+                            <__p_description>Loads a new language with the given language name for this application by importing its package or module with the given name. The given language name must be unique among any other loaded language.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>language</__p_name>
                                 <__p_description>string
-The language's name that is loaded.</__p_description>
+The language name.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>name</__p_name>
                                 <__p_description>string
-The name of the language's package or module that is imported.</__p_description>
+The package or module name.</__p_description>
                             </Object>
                         </Function>
                     </Class>
@@ -1473,19 +1476,19 @@ The name of the language's package or module that is imported.</__p_description>
                             <Object>
                                 <__p_name>parser</__p_name>
                                 <__p_description>AbstractParser
-The abstract parser that is executed.</__p_description>
+The abstract parser.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__update_</__p_name>
-                            <__p_description>Called by the currently executing abstract parser of this controller to inform this controller that progress of parsing has changed to the given percentage.</__p_description>
+                            <__p_description>Called by the currently executing abstract parser of this controller to inform this controller that progress of parsing has changed to the given percentage ranging from 0 to 100.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>percent</__p_name>
                                 <__p_description>int
-The percentage progress ranging from 0 to 100.</__p_description>
+The percentage.</__p_description>
                             </Object>
                         </Function>
                     </Class>
@@ -1514,34 +1517,34 @@ The percentage progress ranging from 0 to 100.</__p_description>
                         </Function>
                         <Function>
                             <__p_name>beginRegistration</__p_name>
-                            <__p_description>Begins registration of a new language with the given name. The name must not already exist as a language. This cannot be called when registration of another language is ongoing.</__p_description>
+                            <__p_description>Begins registration of a new language with the given language name. The given language name must not already exist as a language. This cannot be called when registration of another language is ongoing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>language</__p_name>
                                 <__p_description>string
-The language's name that will begin registration.</__p_description>
+The language name.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>create</__p_name>
-                            <__p_description>Getter method. The given language name and block type name, if one is given, must exist in this factory.</__p_description>
+                            <__p_description>Creates and returns a new block of the given type name from the language with the given language name. If the given block type name is nothing then the root block of the language is created and returned. The given language name and block type name, if one is given, must exist in this factory.</__p_description>
                             <__p_returnsDescription>result
 AbstractBlock
-A new block of the given type or a root block if no type is given from the given language.</__p_returnsDescription>
+The new block.</__p_returnsDescription>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>language</__p_name>
                                 <__p_description>string
-The returned block's language name.</__p_description>
+The language name.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>name</__p_name>
-                                <__p_description>object
-The returned block's type name string or None for the special root block.</__p_description>
+                                <__p_description>string
+The block type name or nothing.</__p_description>
                                 <__p_assignment>None</__p_assignment>
                             </Object>
                         </Function>
@@ -1564,31 +1567,31 @@ Sorted language names this factory has loaded.</__p_returnsDescription>
                         </Function>
                         <Function>
                             <__p_name>register</__p_name>
-                            <__p_description>Registers the given block class with the given type name to the language currently being registered. The given block class is assigned special attributes _LANG_ and _TYPE_. This must be called during registration of a new language. The given type name must be unique within its language.</__p_description>
+                            <__p_description>Registers the given block class with the given type name to the language currently being registered. The given block class is assigned special attributes _LANG_, the language name, and _TYPE_, the block type name. This must be called during registration of a new language. The given type name must be unique within its language.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>class_</__p_name>
                                 <__p_description>AbstractBlock
-A class object that is registered as a block type of the currently loading language.</__p_description>
+The block class.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>name</__p_name>
                                 <__p_description>string
-The registered block's type name.</__p_description>
+The type name.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>registerRoot</__p_name>
-                            <__p_description>Registers the given block class as the root block type of the language currently being registered. Only one class object can be the root block of a language.</__p_description>
+                            <__p_description>Registers the given block class as the root block type of the language currently being registered. Only one class can be registered as the root block of a language.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>class_</__p_name>
                                 <__p_description>AbstractBlock
-A class object that is registered as the root block type of the currently loading language.</__p_description>
+The block class.</__p_description>
                             </Object>
                         </Function>
                     </Class>
@@ -1613,29 +1616,29 @@ A class object that is registered as the root block type of the currently loadin
                         </Function>
                         <Function>
                             <__p_name>beginRegistration</__p_name>
-                            <__p_description>Begins registration of a new language with the given name. The name must not already exist as a language. This cannot be called when registration of another language is ongoing.</__p_description>
+                            <__p_description>Begins registration of a new language with the given language name. The given language name must not already exist as a language. This cannot be called when registration of another language is ongoing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>language</__p_name>
                                 <__p_description>string
-The language's name that will begin registration.</__p_description>
+The language name.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>create</__p_name>
-                            <__p_description>Getter method.</__p_description>
+                            <__p_description>Creates and returns a new parser from the project with the given root block.</__p_description>
                             <__p_returnsDescription>result
 AbstractParser
-A new parser instance from the project with the given root block.</__p_returnsDescription>
+The new parser.</__p_returnsDescription>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>block</__p_name>
                                 <__p_description>AbstractBlock
-The root block of the project used to create the returned parser.
+The root block.
 </__p_description>
                             </Object>
                         </Function>
@@ -1655,7 +1658,7 @@ The root block of the project used to create the returned parser.
                             <Object>
                                 <__p_name>class_</__p_name>
                                 <__p_description>AbstractParser
-A class object that is registered as the parser of the currently loading language.</__p_description>
+The parser class.</__p_description>
                             </Object>
                         </Function>
                     </Class>
@@ -1673,19 +1676,14 @@ A class object that is registered as the parser of the currently loading languag
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new spell highlighter with the given dictionary and parent.</__p_description>
+                                <__p_description>Initializes a new spell highlighter with the given Qt text document parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
-                                    <__p_name>dictionary</__p_name>
-                                    <__p_description>string
-The Hunspell dictionary used for spell checking. This does not include the directory or file extensions, for example &quot;en_US&quot;.</__p_description>
-                                </Object>
-                                <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>QTextDocument
-The parent document that takes ownership of this highlighter and has its misspelled words highlighted.</__p_description>
+The Qt text document parent.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -3951,19 +3949,19 @@ The parent index of this model whose children's data has changed due to the vola
             </Module>
             <Function>
                 <__p_name>block</__p_name>
-                <__p_description>Decorates a class by registering it as a block with the given type name for the language implementation currently being imported by the application.</__p_description>
+                <__p_description>Decorates a class by registering it as a block with the given type name and optional root flag for the language implementation currently being imported by the application. Only one block can be registered as the root block for a language implementation.</__p_description>
                 <__p_static>0</__p_static>
                 <__p_class>0</__p_class>
                 <__p_abstract>0</__p_abstract>
                 <Object>
                     <__p_name>name</__p_name>
                     <__p_description>string
-The type name of the decorated class that is registered as a block.</__p_description>
+The type name.</__p_description>
                 </Object>
                 <Object>
                     <__p_name>root</__p_name>
                     <__p_description>bool
-True to register the decorated class as the root block or false otherwise. Only one block class can be registered as root for each imported language.</__p_description>
+True to register as root or false otherwise.</__p_description>
                     <__p_assignment>False</__p_assignment>
                 </Object>
             </Function>
@@ -3976,7 +3974,7 @@ True to register the decorated class as the root block or false otherwise. Only 
                 <Object>
                     <__p_name>class_</__p_name>
                     <__p_description>AbstractParser
-The decorated class that is registered.</__p_description>
+The decorated class.</__p_description>
                 </Object>
             </Function>
         </Package>

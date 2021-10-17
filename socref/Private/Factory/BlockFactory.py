@@ -39,14 +39,14 @@ class BlockFactory():
         ,language
     ):
         """
-        Begins registration of a new language with the given name. The name must
-        not already exist as a language. This cannot be called when registration
-        of another language is ongoing.
+        Begins registration of a new language with the given language name. The
+        given language name must not already exist as a language. This cannot be
+        called when registration of another language is ongoing.
 
         Parameters
         ----------
         language : string
-                   The language's name that will begin registration.
+                   The language name.
         """
         if language in self.__rootBlocks.keys():
             raise LangError("Language already registered with given name.")
@@ -61,22 +61,23 @@ class BlockFactory():
         ,name=None
     ):
         """
-        Getter method. The given language name and block type name, if one is
-        given, must exist in this factory.
+        Creates and returns a new block of the given type name from the language
+        with the given language name. If the given block type name is nothing
+        then the root block of the language is created and returned. The given
+        language name and block type name, if one is given, must exist in this
+        factory.
 
         Parameters
         ----------
         language : string
-                   The returned block's language name.
-        name : object
-               The returned block's type name string or None for the special
-               root block.
+                   The language name.
+        name : string
+               The block type name or nothing.
 
         Returns
         -------
         result : AbstractBlock
-                 A new block of the given type or a root block if no type is
-                 given from the given language.
+                 The new block.
         """
         assert(self.__rn is None)
         if name is None:
@@ -124,16 +125,16 @@ class BlockFactory():
         """
         Registers the given block class with the given type name to the language
         currently being registered. The given block class is assigned special
-        attributes _LANG_ and _TYPE_. This must be called during registration of
-        a new language. The given type name must be unique within its language.
+        attributes _LANG_, the language name, and _TYPE_, the block type name.
+        This must be called during registration of a new language. The given
+        type name must be unique within its language.
 
         Parameters
         ----------
         class_ : AbstractBlock
-                 A class object that is registered as a block type of the
-                 currently loading language.
+                 The block class.
         name : string
-               The registered block's type name.
+               The type name.
         """
         if self.__rn is None:
             raise LangError("Cannot register a block when no language is being registered.")
@@ -156,14 +157,13 @@ class BlockFactory():
     ):
         """
         Registers the given block class as the root block type of the language
-        currently being registered. Only one class object can be the root block
-        of a language.
+        currently being registered. Only one class can be registered as the root
+        block of a language.
 
         Parameters
         ----------
         class_ : AbstractBlock
-                 A class object that is registered as the root block type of the
-                 currently loading language.
+                 The block class.
         """
         if self.__rn is None:
             raise LangError("Cannot register a block when no language is being registered.")

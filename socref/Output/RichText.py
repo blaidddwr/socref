@@ -41,9 +41,9 @@ class RichText():
         Parameters
         ----------
         title : string
-                The title of the added box.
+                The title.
         text : string
-               The normal text of the added box.
+               The text.
         """
         self.__frags += ["<p><b>",escape(title),"</b><br/>",escape(text),"</p>"]
 
@@ -54,15 +54,15 @@ class RichText():
         ,level
     ):
         """
-        Adds a header to this rich text with the given title and level.
+        Adds a header to this rich text with the given title and level. The
+        allowed levels are 1, 2, or 3.
 
         Parameters
         ----------
         title : string
-                The title of the added header.
+                The title.
         level : int
-                The level of the added header. The allowed levels are 1, 2, or
-                3.
+                The header level.
         """
         level = min(3,max(1,level))
         self.__frags.append("<h%i>%s</h%i>"%(level,escape(title),level))
@@ -74,11 +74,12 @@ class RichText():
     ):
         """
         Adds an unordered list to this rich text from the given list of items.
+        The given list of items must be a list of strings.
 
         Parameters
         ----------
         items : list
-                Strings where each one is added as a list item.
+                The list of items.
         """
         self.__frags.append("<p>")
         first = True
@@ -98,12 +99,12 @@ class RichText():
         """
         Adds a map list to this rich text from the given list of items. A map
         list is a paragraph where each item is listed on a new line within the
-        paragraph.
+        paragraph. The given list of items must be a list of strings.
 
         Parameters
         ----------
         items : list
-                Strings where each one is added as a map item.
+                The list of items.
         """
         self.__frags.append("<p>")
         first = True
@@ -126,7 +127,7 @@ class RichText():
         Parameters
         ----------
         text : string
-               Text that populates the added paragraph.
+               The text.
         """
         self.__frags.append("<p>")
         for sub in text.split("\n\n"):

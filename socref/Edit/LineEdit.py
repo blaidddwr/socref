@@ -24,9 +24,9 @@ class LineEdit():
         Parameters
         ----------
         label : string
-                The label displayed to the user next to the line edit widget.
+                The label.
         key : string
-              The block property attribute name the line edit widget modifies.
+              The key.
         """
         self.__label = label
         self.__key = key

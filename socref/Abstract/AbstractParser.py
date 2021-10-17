@@ -49,14 +49,15 @@ class AbstractParser(ABC):
         """
         This interface parses all source code files of the project of this
         parser's root block, updating its progress with the given callback
-        object. The root path of this parser must be set. This parser's reader
-        lookup table is cleared after parsing is complete or fails.
+        object. The callback object takes one argument that is the progress as a
+        percentage from 0 to 100. The root path of this parser must be set. This
+        parser's reader lookup table is cleared after parsing is complete or
+        fails.
 
         Parameters
         ----------
         update : function
-                 Used to update the progress of this scan. It takes one argument
-                 that is the progress as a percentage from 1 to 99.
+                 The progress callback object.
         """
         pass
 
@@ -69,16 +70,15 @@ class AbstractParser(ABC):
     ):
         """
         This interface adds the given reader to this parser's reader lookup
-        table with the given key.
+        table with the given key. The key must not already exist in this
+        parser's table.
 
         Parameters
         ----------
         key : string
-              Key used to insert the given reader into this parser's reader
-              lookup table. It must not already exist as a key in the table.
+              The key.
         reader : AbstractReader
-                 A reader that is inserted into this parser's reader lookup
-                 table.
+                 The reader.
         """
         pass
 
@@ -101,18 +101,19 @@ class AbstractParser(ABC):
         ,key
     ):
         """
-        This interface is a getter method.
+        This interface looks up the parser contained in this parser's lookup
+        table with the given key, returning the parser or nothing if no such
+        parser exists with the given key.
 
         Parameters
         ----------
         key : string
-              The matching key, if any, of the returned reader.
+              The key.
 
         Returns
         -------
         result : AbstractReader
-                 The parser in this parser's reader lookup table with the given
-                 key or none if there is no such reader with the given key.
+                 The parser or nothing.
         """
         pass
 
@@ -168,13 +169,13 @@ class AbstractParser(ABC):
         ,path
     ):
         """
-        This interface sets the root path of this parser. This can only be
-        called once when this parser's root path is empty. This must be called
-        before parsing begins.
+        This interface sets the root path of this parser to the given path. This
+        can only be called after initialization of this parser. This must be
+        called before parsing begins.
 
         Parameters
         ----------
         path : string
-               The root path of this parser.
+               The path.
         """
         pass

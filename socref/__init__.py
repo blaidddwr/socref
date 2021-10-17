@@ -9,17 +9,17 @@ def block(
     ,root=False
 ):
     """
-    Decorates a class by registering it as a block with the given type name for
-    the language implementation currently being imported by the application.
+    Decorates a class by registering it as a block with the given type name and
+    optional root flag for the language implementation currently being imported
+    by the application. Only one block can be registered as the root block for a
+    language implementation.
 
     Parameters
     ----------
     name : string
-           The type name of the decorated class that is registered as a block.
+           The type name.
     root : bool
-           True to register the decorated class as the root block or false
-           otherwise. Only one block class can be registered as root for each
-           imported language.
+           True to register as root or false otherwise.
     """
     def wrapper(class_):
         blockFactory.register(class_,name)
@@ -40,7 +40,7 @@ def parser(
     Parameters
     ----------
     class_ : AbstractParser
-             The decorated class that is registered.
+             The decorated class.
     """
     parserFactory.register(class_)
     return class_

@@ -20,12 +20,13 @@ class Code():
         ,indent
     ):
         """
-        Initializes this new code container with the given indent.
+        Initializes this new code container with the given indent. The indent is
+        the string appended to lines of code for each level of depth.
 
         Parameters
         ----------
         indent : string
-                 The indent that equals one level or depth of code.
+                 The indent.
         """
         self.__a = ""
         self.__indent = indent
@@ -44,14 +45,13 @@ class Code():
     ):
         """
         Adds the given lines or line to this code's lines, adding the currently
-        set indent depth to each line given.
+        set indent depth to each line given. The given code must be a string if
+        it is a single line or a list of strings if it is multiple lines.
 
         Parameters
         ----------
         lines : object
-                A line or lines of code that are added to this code's lines with
-                this code's current indent depth. This must be a string or list
-                of strings.
+                The given line or lines of code.
         """
         if isinstance(lines,list):
             self.__lines += [self.__a+line if line else "" for line in lines]
@@ -69,7 +69,7 @@ class Code():
         Parameters
         ----------
         amount : int
-                 The number of blank lines added to this code's lines.
+                 The number of blank lines.
         """
         self.__lines += [""]*amount
 
@@ -84,31 +84,29 @@ class Code():
     ):
         """
         Adds the given text of lines into this code's lines, wrapping the text
-        to limit each line to the maximum columns given. An optional begin
-        string is given that is added to the beginning of each generated line of
-        text. An optional after string is given that is added to the beginning
-        of each generated line of text except for the very first line. An
-        optional separator string is given that is used to separate multiple
-        paragraphs of text as a separate line.
+        to limit each line to the maximum columns given. Paragraphs in the given
+        text are separated by using two new line characters. Single new line
+        characters in the given text are ignored.
+
+        Optional begin, after, and separator strings can also be provided. The
+        begin string is added to the beginning of each wrapped line of text and
+        paragraph separator lines. The after string is added after the begin
+        string in the same way except for very first line. The separator string
+        is added to after the begin and after strings to paragraph separator
+        lines.
 
         Parameters
         ----------
         text : string
-               The text that is wrapped into lines and added to this code's
-               lines. Paragraphs are separated by using two new line characters.
-               Single new line characters are ignored.
+               The text.
         maxCols : int
-                  The maximum number of columns for each line of wrapped text.
+                  The maximum number of columns.
         begin : string
-                The string that is added to the beginning of each wrapped line
-                of text and the special paragraph separator lines.
+                The begin string.
         after : string
-                The string that is added to the beginning of each wrapped line
-                of text and the special paragraph separator lines, excluding the
-                very first line.
+                The after string.
         sep : string
-              The string that is used as a line separator between paragraphs of
-              text.
+              The separator string.
         """
         blocks = [b for b in text.split("\n\n") if b]
         firstW = True
@@ -135,12 +133,12 @@ class Code():
         ,depth
     ):
         """
-        Sets this code's indent depth to the given value.
+        Sets this code's indent depth to the given value. Any given value less
+        than zero will be treated as zero.
 
         Parameters
         ----------
         depth : int
-                The new indent depth of this code. Anything less than zero will
-                be treated as zero.
+                The indent depth.
         """
         self.__a = self.__indent*depth

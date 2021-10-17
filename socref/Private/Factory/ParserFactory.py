@@ -36,14 +36,14 @@ class ParserFactory():
         ,language
     ):
         """
-        Begins registration of a new language with the given name. The name must
-        not already exist as a language. This cannot be called when registration
-        of another language is ongoing.
+        Begins registration of a new language with the given language name. The
+        given language name must not already exist as a language. This cannot be
+        called when registration of another language is ongoing.
 
         Parameters
         ----------
         language : string
-                   The language's name that will begin registration.
+                   The language name.
         """
         if language in self.__parsers.keys():
             raise LangError("Language already registered with given name.")
@@ -55,7 +55,8 @@ class ParserFactory():
         ,block
     ):
         """
-        Getter method.
+        Creates and returns a new parser from the project with the given root
+        block.
 
         Parameters
         ----------
@@ -64,8 +65,7 @@ class ParserFactory():
         Returns
         -------
         result : AbstractParser
-                 A new parser instance from the project with the given root
-                 block.
+                 The new parser.
         """
         assert(self.__rn is None)
         return self.__parsers[block._LANG_](block)
@@ -93,8 +93,7 @@ class ParserFactory():
         Parameters
         ----------
         class_ : AbstractParser
-                 A class object that is registered as the parser of the
-                 currently loading language.
+                 The parser class.
         """
         if self.__rn is None:
             raise LangError("Cannot register a parser when no language is being registered.")

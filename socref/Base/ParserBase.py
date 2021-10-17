@@ -151,20 +151,20 @@ class ParserBase(AbstractParser):
         ,block
     ):
         """
-        This interface is a getter method.
+        This interface returns a new reader capable of reading any lines of code
+        from the source code file associated with the given block. Nothing can
+        also be returned, in which case this parser ignores it and any existing
+        file.
 
         Parameters
         ----------
         block : AbstractBlock
-                The block associated with the source code file.
+                The block.
 
         Returns
         -------
         result : AbstractReader
-                 A new reader capable of reading any lines of code that is saved
-                 from the source code file associated with the given block. None
-                 can be returned, in which case this parser ignores it and any
-                 existing file, continuing to the next path.
+                 The new reader.
         """
         return None
 
@@ -175,18 +175,18 @@ class ParserBase(AbstractParser):
         ,block
     ):
         """
-        This interface is a getter method.
+        This interface returns a new writer capable of writing the full source
+        code output file associated with the given block.
 
         Parameters
         ----------
         block : AbstractBlock
-                The block associated with the source code file.
+                The block.
 
         Returns
         -------
         result : AbstractWriter
-                 A new writer capable of writing the full output of the source
-                 code file associated with the given block.
+                 The new writer.
         """
         pass
 

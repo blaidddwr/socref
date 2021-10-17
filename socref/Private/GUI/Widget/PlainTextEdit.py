@@ -1,7 +1,6 @@
 """
 Contains the PlainTextEdit class.
 """
-from .... import DICTIONARY
 from ..Controller.SpellHighlighter import SpellHighlighter
 from ..Dialog import TextDialog
 from PySide6.QtCore import Qt
@@ -74,7 +73,7 @@ class PlainTextEdit(QPlainTextEdit):
                 self.__highlighter.deleteLater()
                 self.__highlighter = None
         elif self.__highlighter is None:
-            self.__highlighter = SpellHighlighter(DICTIONARY,self.document())
+            self.__highlighter = SpellHighlighter(self.document())
         self.__speller = enabled
 
 
