@@ -28,15 +28,15 @@ class ProjectDialog(QDialog):
         ,parent=None
     ):
         """
-        Initializes a new project dialog with the given model and optional
-        parent.
+        Initializes a new project dialog with the given project model and
+        optional Qt object parent.
 
         Parameters
         ----------
         model : ProjectModel
-                The project model that this dialog edits with its form.
+                The project model.
         parent : object
-                 The optional Qt object parent of this dialog.
+                 The optional Qt object parent.
         """
         super().__init__(parent)
         self.__nameEdit = QLineEdit(self)
@@ -85,12 +85,13 @@ class ProjectDialog(QDialog):
         ,name
     ):
         """
-        Called to inform this dialog its project model's name has changed.
+        Called to inform this dialog its project model's name has changed to the
+        given name.
 
         Parameters
         ----------
         name : string
-               The new name of this dialog's project model.
+               The name.
         """
         self.__nameEdit.setText(name)
 
@@ -114,12 +115,13 @@ class ProjectDialog(QDialog):
         ,path
     ):
         """
-        Called to inform this dialog its project model's parse path has changed.
+        Called to inform this dialog its project model's parse path has changed
+        to the given path.
 
         Parameters
         ----------
         path : string
-               The new parse path of this dialog's project model.
+               The path.
         """
         self.__parsePathEdit.setText(path)
 

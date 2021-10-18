@@ -1702,24 +1702,24 @@ The Qt text document parent.</__p_description>
                         <__p_description>Contains all custom Qt dialog classes.</__p_description>
                         <Class>
                             <__p_name>CodeDialog</__p_name>
-                            <__p_description>This is the code dialog class. It displays any unknown code fragments given to it. The user is provided a list and read only text view to navigate the fragments, along with a copy to clipboard button.</__p_description>
+                            <__p_description>This is the code dialog class. It displays any unknown code fragments given to it. It is a persistent dialog that remembers its geometry. The user is provided a list and read only text view to navigate the fragments, along with a copy to clipboard button.</__p_description>
                             <__p_parents>QDialog</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new code dialog with the given code dictionary and optional parent.</__p_description>
+                                <__p_description>Initializes a new code dialog with the given code dictionary and optional Qt object parent. The given code dictionary must be organized as a dictionary where the keys are meaningful string identifiers and the values are lists of strings where each string is a line of code.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>code</__p_name>
                                     <__p_description>dictionary
-The code that this dialog displays to the user. This must be organized as a flat dictionary where the keys are meaningful string identifiers and the values are lists of strings where each string is a line of code.</__p_description>
+The code dictionary.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-The optional Qt object parent of this dialog.</__p_description>
+The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
@@ -1750,7 +1750,7 @@ The optional Qt object parent of this dialog.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__itemChanged_</__p_name>
-                                <__p_description>Called to inform this dialog's the selected code fragment has changed to the one with the given key.</__p_description>
+                                <__p_description>Called to inform this dialog's selected code fragment has changed to the one with the given key.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -1758,7 +1758,7 @@ The optional Qt object parent of this dialog.</__p_description>
                                 <Object>
                                     <__p_name>key</__p_name>
                                     <__p_description>string
-The new key of the selected code fragment.</__p_description>
+The key.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -1797,19 +1797,19 @@ The new key of the selected code fragment.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new project dialog with the given model and optional parent.</__p_description>
+                                <__p_description>Initializes a new project dialog with the given project model and optional Qt object parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>model</__p_name>
                                     <__p_description>ProjectModel
-The project model that this dialog edits with its form.</__p_description>
+The project model.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-The optional Qt object parent of this dialog.</__p_description>
+The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
@@ -1840,7 +1840,7 @@ The optional Qt object parent of this dialog.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__nameChanged_</__p_name>
-                                <__p_description>Called to inform this dialog its project model's name has changed.</__p_description>
+                                <__p_description>Called to inform this dialog its project model's name has changed to the given name.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -1848,7 +1848,7 @@ The optional Qt object parent of this dialog.</__p_description>
                                 <Object>
                                     <__p_name>name</__p_name>
                                     <__p_description>string
-The new name of this dialog's project model.</__p_description>
+The name.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -1861,7 +1861,7 @@ The new name of this dialog's project model.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__parsePathChanged_</__p_name>
-                                <__p_description>Called to inform this dialog its project model's parse path has changed.</__p_description>
+                                <__p_description>Called to inform this dialog its project model's parse path has changed to the given path.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -1869,7 +1869,7 @@ The new name of this dialog's project model.</__p_description>
                                 <Object>
                                     <__p_name>path</__p_name>
                                     <__p_description>string
-The new parse path of this dialog's project model.</__p_description>
+The path.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -1903,31 +1903,31 @@ The new parse path of this dialog's project model.</__p_description>
                         </Class>
                         <Class>
                             <__p_name>TextDialog</__p_name>
-                            <__p_description>This is the text dialog class. It is a plain text editor with optional spell checking and correction. Any misspelled words are highlighted and a button is provided that begins spell checking and correction. All spell checking features can be enabled or disabled at initialization of the dialog.</__p_description>
+                            <__p_description>This is the text dialog class. It is a plain text editor with optional spell checking and correction. It is a persistent dialog that remembers its geometry. Any misspelled words are highlighted and a button is provided that begins spell checking and correction. All spell checking features can be enabled or disabled at initialization of the dialog.</__p_description>
                             <__p_parents>QDialog</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new text dialog with the given optional text and parent. Spelling features can also be enabled or disabled.</__p_description>
+                                <__p_description>Initializes a new text dialog with the given optional text, Qt object parent, and optional spell checking flag. Spell checking is disabled by default.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>text</__p_name>
                                     <__p_description>string
-The optional text of this new text dialog.</__p_description>
+The optional text.</__p_description>
                                     <__p_assignment>&quot;&quot;</__p_assignment>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-The optional Qt object parent of this new text dialog.</__p_description>
+The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                                 <Object>
                                     <__p_name>speller</__p_name>
                                     <__p_description>bool
-True to enable misspelled word highlighting and spell checking or false to disable it all.</__p_description>
+True to enable spell checking or false to disable it.</__p_description>
                                     <__p_assignment>False</__p_assignment>
                                 </Object>
                             </Function>
@@ -1975,7 +1975,7 @@ The current of this text dialog.</__p_returnsDescription>
                             </Function>
                             <Function>
                                 <__p_name>__setupButtons_</__p_name>
-                                <__p_description>Initializes the buttons of this new text dialog.</__p_description>
+                                <__p_description>Initializes and returns the buttons of this new text dialog.</__p_description>
                                 <__p_returnsDescription>result
 QHBoxLayout
 A layout of initialized buttons.</__p_returnsDescription>
@@ -1992,7 +1992,7 @@ A layout of initialized buttons.</__p_returnsDescription>
                             </Function>
                             <Function>
                                 <__p_name>__setupSpellChecker_</__p_name>
-                                <__p_description>Initializes the spell checker box of this new text dialog.</__p_description>
+                                <__p_description>Initializes and returns the spell checker box of this new text dialog.</__p_description>
                                 <__p_returnsDescription>result
 SpellChecker
 The initialized spell checker box widget.</__p_returnsDescription>
@@ -2028,27 +2028,27 @@ The initialized spell checker box widget.</__p_returnsDescription>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initialize a new block edit dock with the given optional parent.</__p_description>
+                                <__p_description>Initialize a new block edit dock with the given optional Qt object parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-Optional Qt object parent of this new block edit dock.</__p_description>
+The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>setView</__p_name>
-                                <__p_description>Sets this dock's project view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
+                                <__p_description>Sets this dock's project view to the one given. The given project view is not made the Qt child of this dock. If this dock currently has a view it is unset from this dock.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>view</__p_name>
                                     <__p_description>ProjectView
-The newly interfaced project view of this dock. This project view is not made the child of this dock.</__p_description>
+The project view.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -2061,133 +2061,133 @@ The newly interfaced project view of this dock. This project view is not made th
                             </Function>
                             <Function>
                                 <__p_name>__buildCheckbox_</__p_name>
-                                <__p_description>Getter method.</__p_description>
+                                <__p_description>Builds and returns a new Qt checkbox and label for adding to a Qt form layout from the given checkbox edit instance and block properties dictionary. The returned Qt checkbox has _value_ and _key_ attributes set, where _value_ is a function that returns its value and _key_ is a string for which block property the value belongs to.</__p_description>
                                 <__p_returnsDescription>widget
 QCheckBox
-A new checkbox configured for the given definition and properties.
+The new Qt checkbox.
 
 label
 string
-A label for adding it to a form.</__p_returnsDescription>
+The label.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>edit</__p_name>
                                     <__p_description>CheckBoxEdit
-The edit class instance used to build the returned edit widget.</__p_description>
+The checkbox edit instance.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>properties</__p_name>
                                     <__p_description>dictionary
-The properties of the block used to get the initial value of the returned edit widget.</__p_description>
+The block properties.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__buildCombo_</__p_name>
-                                <__p_description>Getter method.</__p_description>
+                                <__p_description>Builds and returns a new Qt combo box and label for the adding to a Qt form layout from the given combo box edit instance and block properties dictionary. The returned Qt combo box has _value_ and _key_ attributes set, where _value_ is a function that returns its value and _key_ is a string for which block property the value belongs to.</__p_description>
                                 <__p_returnsDescription>widget
 QComboBox
-A new combo box configured for the given definition and properties.
+The new Qt combo box.
 
 label
 string
-A label for adding it to a form.</__p_returnsDescription>
+The label.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>edit</__p_name>
                                     <__p_description>ComboEdit
-The edit class instance used to build the returned edit widget.</__p_description>
+The combo box edit instance.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>properties</__p_name>
                                     <__p_description>dictionary
-The properties of the block used to get the initial value of the returned edit widget.</__p_description>
+The block properties.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__buildFormWidget_</__p_name>
-                                <__p_description>Builds and initializes all edit widgets for all properties of the block at the given index based off its edit definitions, adding them to this dock's list of edit widgets. This clears any previous edit widgets from the last index that was built by this method.</__p_description>
+                                <__p_description>Builds and returns a Qt widget that contains all edit widgets for all properties of the block at the given Qt model index in this dock's project view, adding them to this dock's list of edit widgets. This clears any previous edit widgets from the last index that was built by this method.</__p_description>
                                 <__p_returnsDescription>result
 QWidget
-Contains all built edit widgets.</__p_returnsDescription>
+The Qt widget container.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>index</__p_name>
                                     <__p_description>QModelIndex
-The index of the block whose property edit widgets are built.</__p_description>
+The index.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__buildHidden_</__p_name>
-                                <__p_description>Getter method.</__p_description>
+                                <__p_description>Builds and returns a new Qt widget that is blank and not intended to be displayed on a Qt form layout from the given hidden edit instance. The returned Qt widget has _value_ and _key_ attributes set, where _value_ is a function that returns its value and _key_ is a string for which block property the value belongs to.</__p_description>
                                 <__p_returnsDescription>result
 QWidget
-A new hidden edit widget configured for the given definition.</__p_returnsDescription>
+The new Qt widget.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>edit</__p_name>
                                     <__p_description>HiddenEdit
-The edit class instance used to build the returned edit widget.</__p_description>
+The hidden edit instance.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__buildLine_</__p_name>
-                                <__p_description>Getter method.</__p_description>
+                                <__p_description>Builds and returns a new Qt line edit widget and label for adding to a Qt form layout from the given line edit instance and block properties dictionary. The returned Qt line edit widget has _value_ and _key_ attributes set, where _value_ is a function that returns its value and _key_ is a string for which block property the value belongs to.</__p_description>
                                 <__p_returnsDescription>widget
 QLineEdit
-A new line editor configured for the given definition and properties.
+The new Qt line edit widget.
 
 label
 string
-A label for adding it to a form.</__p_returnsDescription>
+The label.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>edit</__p_name>
                                     <__p_description>LineEdit
-The edit class instance used to build the returned edit widget.</__p_description>
+The line edit instance.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>properties</__p_name>
                                     <__p_description>dictionary
-The properties of the block used to get the initial value of the returned edit widget.</__p_description>
+The block properties.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__buildText_</__p_name>
-                                <__p_description>Getter method.</__p_description>
+                                <__p_description>Builds and returns a new plain text edit widget and label for adding to a Qt form layout from the given text edit instance and block properties dictionary. The returned plain text edit widget has _value_ and _key_ attributes set, where _value_ is a function that returns its value and _key_ is a string for which block property the value belongs to.</__p_description>
                                 <__p_returnsDescription>widget
 PlainTextEdit
-A new text editor configured for the given definition and properties.
+The new plain text edit widget.
 
 label
 string
-A label for adding it to a form.</__p_returnsDescription>
+The label.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>edit</__p_name>
                                     <__p_description>TextEdit
-The edit class instance used to build the returned edit widget.</__p_description>
+The text edit instance.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>properties</__p_name>
                                     <__p_description>dictionary
-The properties of the block used to get the initial value of the returned edit widget.</__p_description>
+The block properties.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__indexChanged_</__p_name>
-                                <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.
+                                <__p_description>Called to update the block this dock is editing to the new one at the given Qt model index in this dock's project view. If the given index is invalid then this dock returns to a null state with no form.
 
 Garbage collection is required because rebuilding this dock's GUI causes large memory leaks otherwise.</__p_description>
                                 <__p_static>0</__p_static>
@@ -2197,12 +2197,12 @@ Garbage collection is required because rebuilding this dock's GUI causes large m
                                 <Object>
                                     <__p_name>index</__p_name>
                                     <__p_description>QModelIndex
-The index of the new block whose properties are edited by this dock.</__p_description>
+The index.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__indexMoved_</__p_name>
-                                <__p_description>Called to update the index of the block this dock is editing. It is assumed the same block is being edited so the edit widget form is not rebuilt.</__p_description>
+                                <__p_description>Called to update the index of the block this dock is editing to the given Qt model index in this dock's project view. It is assumed the same block is being edited so the edit widget form is not rebuilt.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2210,7 +2210,7 @@ The index of the new block whose properties are edited by this dock.</__p_descri
                                 <Object>
                                     <__p_name>index</__p_name>
                                     <__p_description>QModelIndex
-The new index of the block this dock is editing.</__p_description>
+The index.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -2236,27 +2236,27 @@ The new index of the block this dock is editing.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new block view dock with the given optional parent.</__p_description>
+                                <__p_description>Initializes a new block view dock with the given optional Qt object parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>object
-Optional Qt object parent of this new block view dock.</__p_description>
+The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>setView</__p_name>
-                                <__p_description>Sets this dock's project view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
+                                <__p_description>Sets this dock's project view to the one given. The given project view is not made the Qt child of this dock. If this dock currently has a view it is unset from this dock.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>view</__p_name>
                                     <__p_description>ProjectView
-The newly interfaced project view of this dock. This project view is not made the child of this dock.</__p_description>
+The project view.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -2277,50 +2277,50 @@ The newly interfaced project view of this dock. This project view is not made th
                         </Class>
                         <Class>
                             <__p_name>PlainTextEdit</__p_name>
-                            <__p_description>This is the plain text class. It provides additional functionality to its inherited class. Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog that has additional spell checking functionality. Misspelled word highlighting and the editor dialog popup features can be enabled or disabled.</__p_description>
+                            <__p_description>This is the plain text class. It provides additional functionality to its inherited class. Spell checking highlights misspelled words. A popup shortcut is provided to open a larger text editor dialog that has additional spell checking functionality. Spell checking and the editor dialog popup shortcut features can be enabled or disabled.</__p_description>
                             <__p_parents>QPlainTextEdit</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new plain text editor with the given optional text and parent. Spelling and dialog popup can also be enabled or disabled.</__p_description>
+                                <__p_description>Initializes a new plain text editor with the given optional text, Qt object parent, spell checking flag, and popup shortcut flag. By default spell checking and the popup shortcut are disabled.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>text</__p_name>
                                     <__p_description>string
-The optional edited text of this new plain text editor.</__p_description>
+The optional text.</__p_description>
                                     <__p_assignment>&quot;&quot;</__p_assignment>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
-                                    <__p_description>object
-Optional Qt object parent of this new plain text editor.</__p_description>
+                                    <__p_description>QObject
+The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                                 <Object>
                                     <__p_name>speller</__p_name>
                                     <__p_description>bool
-True to enable misspelled word highlighting or false to disable it.</__p_description>
+True to enable spell checking or false to disable it.</__p_description>
                                     <__p_assignment>False</__p_assignment>
                                 </Object>
                                 <Object>
                                     <__p_name>popup</__p_name>
                                     <__p_description>bool
-True to enable the popup edit dialog shortcut or false to disable it.</__p_description>
+True to enable the popup shortcut or false to disable it.</__p_description>
                                     <__p_assignment>False</__p_assignment>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>setSpellerEnabled</__p_name>
-                                <__p_description>Sets the state of this editor's spelling highlighter to enabled or disabled.</__p_description>
+                                <__p_description>Sets the state of this editor's spelling checking to given flag.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>enabled</__p_name>
                                     <__p_description>bool
-True to enable this editor's spelling highlighter or false to disable it.</__p_description>
+True to enable spell checking or false to disable it.</__p_description>
                                 </Object>
                             </Function>
                             <Function>

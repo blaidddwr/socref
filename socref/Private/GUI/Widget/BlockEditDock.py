@@ -48,12 +48,13 @@ class BlockEditDock(QDockWidget):
         ,parent=None
     ):
         """
-        Initialize a new block edit dock with the given optional parent.
+        Initialize a new block edit dock with the given optional Qt object
+        parent.
 
         Parameters
         ----------
         parent : object
-                 Optional Qt object parent of this new block edit dock.
+                 The optional Qt object parent.
         """
         super().__init__(parent)
         self.__area = QScrollArea(widgetResizable=True)
@@ -69,14 +70,14 @@ class BlockEditDock(QDockWidget):
         ,view
     ):
         """
-        Sets this dock's project view to the one given. If this dock currently
-        has a view it is disconnected from this dock.
+        Sets this dock's project view to the one given. The given project view
+        is not made the Qt child of this dock. If this dock currently has a view
+        it is unset from this dock.
 
         Parameters
         ----------
         view : ProjectView
-               The newly interfaced project view of this dock. This project view
-               is not made the child of this dock.
+               The project view.
         """
         if self.__view is not None:
             self.__view.current_changed.disconnect(self.__indexChanged_)
@@ -100,7 +101,7 @@ class BlockEditDock(QDockWidget):
         if self.__index.isValid():
             self.__view.model().setData(
                 self.__index
-                ,{edit._key: edit._value_() for edit in self.__edits}
+                ,{edit._key_: edit._value_() for edit in self.__edits}
                 ,Role.Properties
             )
             self.__applyButton.setEnabled(False)
@@ -112,23 +113,25 @@ class BlockEditDock(QDockWidget):
         ,properties
     ):
         """
-        Getter method.
+        Builds and returns a new Qt checkbox and label for adding to a Qt form
+        layout from the given checkbox edit instance and block properties
+        dictionary. The returned Qt checkbox has _value_ and _key_ attributes
+        set, where _value_ is a function that returns its value and _key_ is a
+        string for which block property the value belongs to.
 
         Parameters
         ----------
         edit : CheckBoxEdit
-               The edit class instance used to build the returned edit widget.
+               The checkbox edit instance.
         properties : dictionary
-                     The properties of the block used to get the initial value
-                     of the returned edit widget.
+                     The block properties.
 
         Returns
         -------
         widget : QCheckBox
-                 A new checkbox configured for the given definition and
-                 properties.
+                 The new Qt checkbox.
         label : string
-                A label for adding it to a form.
+                The label.
         """
         editWdgt = QCheckBox(edit.label())
         editWdgt.setCheckState(
@@ -136,7 +139,7 @@ class BlockEditDock(QDockWidget):
         )
         editWdgt.stateChanged.connect(lambda : self.__applyButton.setEnabled(True))
         editWdgt._value_ = lambda e=editWdgt : str(int(e.checkState() == Qt.Checked))
-        editWdgt._key = edit.key()
+        editWdgt._key_ = edit.key()
         return (editWdgt,"")
 
 
@@ -146,23 +149,25 @@ class BlockEditDock(QDockWidget):
         ,properties
     ):
         """
-        Getter method.
+        Builds and returns a new Qt combo box and label for the adding to a Qt
+        form layout from the given combo box edit instance and block properties
+        dictionary. The returned Qt combo box has _value_ and _key_ attributes
+        set, where _value_ is a function that returns its value and _key_ is a
+        string for which block property the value belongs to.
 
         Parameters
         ----------
         edit : ComboEdit
-               The edit class instance used to build the returned edit widget.
+               The combo box edit instance.
         properties : dictionary
-                     The properties of the block used to get the initial value
-                     of the returned edit widget.
+                     The block properties.
 
         Returns
         -------
         widget : QComboBox
-                 A new combo box configured for the given definition and
-                 properties.
+                 The new Qt combo box.
         label : string
-                A label for adding it to a form.
+                The label.
         """
         editWdgt = QComboBox()
         for (icon,text) in edit.selections():
@@ -173,7 +178,7 @@ class BlockEditDock(QDockWidget):
         editWdgt.setCurrentText(properties[edit.key()])
         editWdgt.currentTextChanged.connect(lambda : self.__applyButton.setEnabled(True))
         editWdgt._value_ = lambda e=editWdgt : e.currentText()
-        editWdgt._key = edit.key()
+        editWdgt._key_ = edit.key()
         return (editWdgt,edit.label())
 
 
@@ -182,20 +187,21 @@ class BlockEditDock(QDockWidget):
         ,index
     ):
         """
-        Builds and initializes all edit widgets for all properties of the block
-        at the given index based off its edit definitions, adding them to this
-        dock's list of edit widgets. This clears any previous edit widgets from
-        the last index that was built by this method.
+        Builds and returns a Qt widget that contains all edit widgets for all
+        properties of the block at the given Qt model index in this dock's
+        project view, adding them to this dock's list of edit widgets. This
+        clears any previous edit widgets from the last index that was built by
+        this method.
 
         Parameters
         ----------
         index : QModelIndex
-                The index of the block whose property edit widgets are built.
+                The index.
 
         Returns
         -------
         result : QWidget
-                 Contains all built edit widgets.
+                 The Qt widget container.
         """
         self.__edits.clear()
         try:
@@ -234,21 +240,25 @@ class BlockEditDock(QDockWidget):
         ,edit
     ):
         """
-        Getter method.
+        Builds and returns a new Qt widget that is blank and not intended to be
+        displayed on a Qt form layout from the given hidden edit instance. The
+        returned Qt widget has _value_ and _key_ attributes set, where _value_
+        is a function that returns its value and _key_ is a string for which
+        block property the value belongs to.
 
         Parameters
         ----------
         edit : HiddenEdit
-               The edit class instance used to build the returned edit widget.
+               The hidden edit instance.
 
         Returns
         -------
         result : QWidget
-                 A new hidden edit widget configured for the given definition.
+                 The new Qt widget.
         """
         editWdgt = QWidget()
         editWdgt._value_ = lambda val=edit.value() : val
-        editWdgt._key = edit.key()
+        editWdgt._key_ = edit.key()
         return editWdgt
 
 
@@ -258,28 +268,30 @@ class BlockEditDock(QDockWidget):
         ,properties
     ):
         """
-        Getter method.
+        Builds and returns a new Qt line edit widget and label for adding to a
+        Qt form layout from the given line edit instance and block properties
+        dictionary. The returned Qt line edit widget has _value_ and _key_
+        attributes set, where _value_ is a function that returns its value and
+        _key_ is a string for which block property the value belongs to.
 
         Parameters
         ----------
         edit : LineEdit
-               The edit class instance used to build the returned edit widget.
+               The line edit instance.
         properties : dictionary
-                     The properties of the block used to get the initial value
-                     of the returned edit widget.
+                     The block properties.
 
         Returns
         -------
         widget : QLineEdit
-                 A new line editor configured for the given definition and
-                 properties.
+                 The new Qt line edit widget.
         label : string
-                A label for adding it to a form.
+                The label.
         """
         editWdgt = QLineEdit(properties[edit.key()])
         editWdgt.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
         editWdgt._value_ = lambda e=editWdgt : e.text()
-        editWdgt._key = edit.key()
+        editWdgt._key_ = edit.key()
         return (editWdgt,edit.label())
 
 
@@ -289,29 +301,31 @@ class BlockEditDock(QDockWidget):
         ,properties
     ):
         """
-        Getter method.
+        Builds and returns a new plain text edit widget and label for adding to
+        a Qt form layout from the given text edit instance and block properties
+        dictionary. The returned plain text edit widget has _value_ and _key_
+        attributes set, where _value_ is a function that returns its value and
+        _key_ is a string for which block property the value belongs to.
 
         Parameters
         ----------
         edit : TextEdit
-               The edit class instance used to build the returned edit widget.
+               The text edit instance.
         properties : dictionary
-                     The properties of the block used to get the initial value
-                     of the returned edit widget.
+                     The block properties.
 
         Returns
         -------
         widget : PlainTextEdit
-                 A new text editor configured for the given definition and
-                 properties.
+                 The new plain text edit widget.
         label : string
-                A label for adding it to a form.
+                The label.
         """
         editWdgt = PlainTextEdit(speller=edit.spellCheck(),popup=True)
         editWdgt.setPlainText(properties[edit.key()])
         editWdgt.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
         editWdgt._value_ = lambda e=editWdgt : e.toPlainText()
-        editWdgt._key = edit.key()
+        editWdgt._key_ = edit.key()
         return (editWdgt,edit.label())
 
 
@@ -322,8 +336,8 @@ class BlockEditDock(QDockWidget):
     ):
         """
         Called to update the block this dock is editing to the new one at the
-        given index. If the given index is invalid then this dock returns to a
-        null state with no form.
+        given Qt model index in this dock's project view. If the given index is
+        invalid then this dock returns to a null state with no form.
 
         Garbage collection is required because rebuilding this dock's GUI causes
         large memory leaks otherwise.
@@ -331,8 +345,7 @@ class BlockEditDock(QDockWidget):
         Parameters
         ----------
         index : QModelIndex
-                The index of the new block whose properties are edited by this
-                dock.
+                The index.
         """
         if self.__index.isValid() and self.__applyButton.isEnabled():
             answer = QMessageBox.question(
@@ -362,14 +375,14 @@ class BlockEditDock(QDockWidget):
         ,index
     ):
         """
-        Called to update the index of the block this dock is editing. It is
-        assumed the same block is being edited so the edit widget form is not
-        rebuilt.
+        Called to update the index of the block this dock is editing to the
+        given Qt model index in this dock's project view. It is assumed the same
+        block is being edited so the edit widget form is not rebuilt.
 
         Parameters
         ----------
         index : QModelIndex
-                The new index of the block this dock is editing.
+                The index.
         """
         self.__index = index
 

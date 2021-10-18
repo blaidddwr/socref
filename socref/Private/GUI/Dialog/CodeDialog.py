@@ -18,8 +18,9 @@ from PySide6.QtWidgets import QVBoxLayout
 class CodeDialog(QDialog):
     """
     This is the code dialog class. It displays any unknown code fragments given
-    to it. The user is provided a list and read only text view to navigate the
-    fragments, along with a copy to clipboard button.
+    to it. It is a persistent dialog that remembers its geometry. The user is
+    provided a list and read only text view to navigate the fragments, along
+    with a copy to clipboard button.
     """
     __GEOMETRY_KEY = "gui.dialog.code.geometry"
     __STATE_KEY = "gui.dialog.code.state"
@@ -32,17 +33,16 @@ class CodeDialog(QDialog):
     ):
         """
         Initializes a new code dialog with the given code dictionary and
-        optional parent.
+        optional Qt object parent. The given code dictionary must be organized
+        as a dictionary where the keys are meaningful string identifiers and the
+        values are lists of strings where each string is a line of code.
 
         Parameters
         ----------
         code : dictionary
-               The code that this dialog displays to the user. This must be
-               organized as a flat dictionary where the keys are meaningful
-               string identifiers and the values are lists of strings where each
-               string is a line of code.
+               The code dictionary.
         parent : object
-                 The optional Qt object parent of this dialog.
+                 The optional Qt object parent.
         """
         super().__init__(parent)
         self.__code = code
@@ -90,13 +90,13 @@ class CodeDialog(QDialog):
         ,key
     ):
         """
-        Called to inform this dialog's the selected code fragment has changed to
-        the one with the given key.
+        Called to inform this dialog's selected code fragment has changed to the
+        one with the given key.
 
         Parameters
         ----------
         key : string
-              The new key of the selected code fragment.
+              The key.
         """
         self.__view.setPlainText("\n".join(self.__code[key]))
 

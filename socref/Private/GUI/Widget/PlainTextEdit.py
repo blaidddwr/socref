@@ -14,10 +14,10 @@ from PySide6.QtWidgets import QPlainTextEdit
 class PlainTextEdit(QPlainTextEdit):
     """
     This is the plain text class. It provides additional functionality to its
-    inherited class. Misspelled words are highlighted. A shortcut is provided to
-    open a larger text editor dialog that has additional spell checking
-    functionality. Misspelled word highlighting and the editor dialog popup
-    features can be enabled or disabled.
+    inherited class. Spell checking highlights misspelled words. A popup
+    shortcut is provided to open a larger text editor dialog that has additional
+    spell checking functionality. Spell checking and the editor dialog popup
+    shortcut features can be enabled or disabled.
     """
 
 
@@ -29,21 +29,20 @@ class PlainTextEdit(QPlainTextEdit):
         ,popup=False
     ):
         """
-        Initializes a new plain text editor with the given optional text and
-        parent. Spelling and dialog popup can also be enabled or disabled.
+        Initializes a new plain text editor with the given optional text, Qt
+        object parent, spell checking flag, and popup shortcut flag. By default
+        spell checking and the popup shortcut are disabled.
 
         Parameters
         ----------
         text : string
-               The optional edited text of this new plain text editor.
-        parent : object
-                 Optional Qt object parent of this new plain text editor.
+               The optional text.
+        parent : QObject
+                 The optional Qt object parent.
         speller : bool
-                  True to enable misspelled word highlighting or false to
-                  disable it.
+                  True to enable spell checking or false to disable it.
         popup : bool
-                True to enable the popup edit dialog shortcut or false to
-                disable it.
+                True to enable the popup shortcut or false to disable it.
         """
         super().__init__(text,parent)
         self.__speller = speller
@@ -59,14 +58,12 @@ class PlainTextEdit(QPlainTextEdit):
         ,enabled
     ):
         """
-        Sets the state of this editor's spelling highlighter to enabled or
-        disabled.
+        Sets the state of this editor's spelling checking to given flag.
 
         Parameters
         ----------
         enabled : bool
-                  True to enable this editor's spelling highlighter or false to
-                  disable it.
+                  True to enable spell checking or false to disable it.
         """
         if not enabled:
             if self.__highlighter is not None:

@@ -17,9 +17,10 @@ from PySide6.QtWidgets import QVBoxLayout
 class TextDialog(QDialog):
     """
     This is the text dialog class. It is a plain text editor with optional spell
-    checking and correction. Any misspelled words are highlighted and a button
-    is provided that begins spell checking and correction. All spell checking
-    features can be enabled or disabled at initialization of the dialog.
+    checking and correction. It is a persistent dialog that remembers its
+    geometry. Any misspelled words are highlighted and a button is provided that
+    begins spell checking and correction. All spell checking features can be
+    enabled or disabled at initialization of the dialog.
     """
     __GEOMETRY_KEY = "gui.dialog.text.geometry"
 
@@ -31,18 +32,18 @@ class TextDialog(QDialog):
         ,speller=False
     ):
         """
-        Initializes a new text dialog with the given optional text and parent.
-        Spelling features can also be enabled or disabled.
+        Initializes a new text dialog with the given optional text, Qt object
+        parent, and optional spell checking flag. Spell checking is disabled by
+        default.
 
         Parameters
         ----------
         text : string
-               The optional text of this new text dialog.
+               The optional text.
         parent : object
-                 The optional Qt object parent of this new text dialog.
+                 The optional Qt object parent.
         speller : bool
-                  True to enable misspelled word highlighting and spell checking
-                  or false to disable it all.
+                  True to enable spell checking or false to disable it.
         """
         super().__init__(parent)
         self.__speller = speller
@@ -113,7 +114,7 @@ class TextDialog(QDialog):
         self
     ):
         """
-        Initializes the buttons of this new text dialog.
+        Initializes and returns the buttons of this new text dialog.
 
         Returns
         -------
@@ -152,7 +153,7 @@ class TextDialog(QDialog):
         self
     ):
         """
-        Initializes the spell checker box of this new text dialog.
+        Initializes and returns the spell checker box of this new text dialog.
 
         Returns
         -------

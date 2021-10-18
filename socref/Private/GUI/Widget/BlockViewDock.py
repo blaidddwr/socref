@@ -26,12 +26,13 @@ class BlockViewDock(QDockWidget):
         ,parent=None
     ):
         """
-        Initializes a new block view dock with the given optional parent.
+        Initializes a new block view dock with the given optional Qt object
+        parent.
 
         Parameters
         ----------
         parent : object
-                 Optional Qt object parent of this new block view dock.
+                 The optional Qt object parent.
         """
         super().__init__(parent)
         self.__label = QLabel(
@@ -48,14 +49,14 @@ class BlockViewDock(QDockWidget):
         ,view
     ):
         """
-        Sets this dock's project view to the one given. If this dock currently
-        has a view it is disconnected from this dock.
+        Sets this dock's project view to the one given. The given project view
+        is not made the Qt child of this dock. If this dock currently has a view
+        it is unset from this dock.
 
         Parameters
         ----------
         view : ProjectView
-               The newly interfaced project view of this dock. This project view
-               is not made the child of this dock.
+               The project view.
         """
         if self.__view is not None:
             self.__view.current_changed.disconnect(self.__indexChanged_)
