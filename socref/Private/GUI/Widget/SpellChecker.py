@@ -22,10 +22,9 @@ class SpellChecker(QGroupBox):
     start slot, providing it a Qt text cursor that is used to parse the entire
     document of the text cursor, checking for misspelled words. Each misspelled
     word is highlighted and waits on the user to correct. The user is given
-    options to use a suggestion, replace, ignore, stop, or add to dictionary.
-    The cursor is updated to highlight each misspelled word found while waiting
-    for the user to make a choice about it. Adding to dictionary is currently
-    defunct but will be fixed.
+    options to use a suggestion, replace, ignore, or stop. The cursor is updated
+    to highlight each misspelled word found while waiting for the user to make a
+    choice about it.
     """
     __wordPattern = reCompile('\w+')
 
@@ -46,23 +45,18 @@ class SpellChecker(QGroupBox):
     def __init__(
         self
         ,title
-        ,dictionary
         ,parent=None
     ):
         """
-        Initializes a new speller checker with the given title, dictionary, and
-        optional parent.
+        Initializes this new speller checker with the given group box title and
+        optional Qt object parent.
 
         Parameters
         ----------
         title : string
-                The title of this new spell checker's Qt group box.
-        dictionary : string
-                     The Hunspell dictionary used for spell checking. This does
-                     not include the directory or file extensions, for example
-                     "en_US".
-        parent : object
-                 An optional Qt object parent for this new spell checker.
+                The group box title.
+        parent : QObject
+                 The optional Qt object parent.
         """
         super().__init__(title,parent)
         self.__wordLabel = QLabel(self)
@@ -86,7 +80,7 @@ class SpellChecker(QGroupBox):
         Parameters
         ----------
         cursor : QTextCursor
-                 It's document is checked for misspelled words.
+                 The Qt text cursor.
         """
         if self.__cursor is None:
             self.__cursor = cursor
@@ -99,16 +93,16 @@ class SpellChecker(QGroupBox):
         ,skip=False
     ):
         """
-        Finds the next misspelled word in the current document this spell
-        checker is checking, optionally skipping the word this checker's cursor
-        is currently under. If no misspelled word is found once the end of the
-        document is reached then it stops this spell checker.
+        Finds the next misspelled word in the current document of this spell
+        checker's Qt text cursor. The given skip flag determines if the current
+        word is ignored and skipped. The default is to not ignore the current
+        word for misspelling. If no misspelled word is found once the end of the
+        document is reached then this spell checker stops.
 
         Parameters
         ----------
         skip : bool
-               True to skip the word this checker's cursor is currently under or
-               false to check it for spelling.
+               True to skip the current word or false otherwise.
         """
         cursor = self.__cursor
         while True:

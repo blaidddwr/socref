@@ -26,12 +26,12 @@ class BlockViewDock(QDockWidget):
         ,parent=None
     ):
         """
-        Initializes a new block view dock with the given optional Qt object
+        Initializes this new block view dock with the given optional Qt object
         parent.
 
         Parameters
         ----------
-        parent : object
+        parent : QObject
                  The optional Qt object parent.
         """
         super().__init__(parent)

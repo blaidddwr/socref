@@ -29,7 +29,7 @@ class PlainTextEdit(QPlainTextEdit):
         ,popup=False
     ):
         """
-        Initializes a new plain text editor with the given optional text, Qt
+        Initializes this new plain text editor with the given optional text, Qt
         object parent, spell checking flag, and popup shortcut flag. By default
         spell checking and the popup shortcut are disabled.
 

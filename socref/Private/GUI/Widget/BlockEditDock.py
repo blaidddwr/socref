@@ -48,12 +48,12 @@ class BlockEditDock(QDockWidget):
         ,parent=None
     ):
         """
-        Initialize a new block edit dock with the given optional Qt object
+        Initializes this new block edit dock with the given optional Qt object
         parent.
 
         Parameters
         ----------
-        parent : object
+        parent : QObject
                  The optional Qt object parent.
         """
         super().__init__(parent)

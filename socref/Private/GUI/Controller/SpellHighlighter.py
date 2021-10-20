@@ -24,7 +24,7 @@ class SpellHighlighter(QSyntaxHighlighter):
         ,parent
     ):
         """
-        Initializes a new spell highlighter with the given Qt text document
+        Initializes this new spell highlighter with the given Qt text document
         parent.
 
         Parameters

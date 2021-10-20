@@ -32,7 +32,7 @@ class TextDialog(QDialog):
         ,speller=False
     ):
         """
-        Initializes a new text dialog with the given optional text, Qt object
+        Initializes this new text dialog with the given optional text, Qt object
         parent, and optional spell checking flag. Spell checking is disabled by
         default.
 
@@ -40,7 +40,7 @@ class TextDialog(QDialog):
         ----------
         text : string
                The optional text.
-        parent : object
+        parent : QObject
                  The optional Qt object parent.
         speller : bool
                   True to enable spell checking or false to disable it.

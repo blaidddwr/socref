@@ -28,14 +28,14 @@ class ProjectDialog(QDialog):
         ,parent=None
     ):
         """
-        Initializes a new project dialog with the given project model and
+        Initializes this new project dialog with the given project model and
         optional Qt object parent.
 
         Parameters
         ----------
         model : ProjectModel
                 The project model.
-        parent : object
+        parent : QObject
                  The optional Qt object parent.
         """
         super().__init__(parent)

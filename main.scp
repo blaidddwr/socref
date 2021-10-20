@@ -1676,7 +1676,7 @@ The parser class.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new spell highlighter with the given Qt text document parent.</__p_description>
+                                <__p_description>Initializes this new spell highlighter with the given Qt text document parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -1707,7 +1707,7 @@ The Qt text document parent.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new code dialog with the given code dictionary and optional Qt object parent. The given code dictionary must be organized as a dictionary where the keys are meaningful string identifiers and the values are lists of strings where each string is a line of code.</__p_description>
+                                <__p_description>Initializes this new code dialog with the given code dictionary and optional Qt object parent. The given code dictionary must be organized as a dictionary where the keys are meaningful string identifiers and the values are lists of strings where each string is a line of code.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -1718,7 +1718,7 @@ The code dictionary.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
-                                    <__p_description>object
+                                    <__p_description>QObject
 The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
@@ -1797,7 +1797,7 @@ The key.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new project dialog with the given project model and optional Qt object parent.</__p_description>
+                                <__p_description>Initializes this new project dialog with the given project model and optional Qt object parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -1808,7 +1808,7 @@ The project model.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
-                                    <__p_description>object
+                                    <__p_description>QObject
 The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
@@ -1908,7 +1908,7 @@ The path.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new text dialog with the given optional text, Qt object parent, and optional spell checking flag. Spell checking is disabled by default.</__p_description>
+                                <__p_description>Initializes this new text dialog with the given optional text, Qt object parent, and optional spell checking flag. Spell checking is disabled by default.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -1920,7 +1920,7 @@ The optional text.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
-                                    <__p_description>object
+                                    <__p_description>QObject
 The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
@@ -2028,13 +2028,13 @@ The initialized spell checker box widget.</__p_returnsDescription>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initialize a new block edit dock with the given optional Qt object parent.</__p_description>
+                                <__p_description>Initializes this new block edit dock with the given optional Qt object parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>parent</__p_name>
-                                    <__p_description>object
+                                    <__p_description>QObject
 The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
@@ -2236,13 +2236,13 @@ The index.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new block view dock with the given optional Qt object parent.</__p_description>
+                                <__p_description>Initializes this new block view dock with the given optional Qt object parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>parent</__p_name>
-                                    <__p_description>object
+                                    <__p_description>QObject
 The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
@@ -2282,7 +2282,7 @@ The project view.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new plain text editor with the given optional text, Qt object parent, spell checking flag, and popup shortcut flag. By default spell checking and the popup shortcut are disabled.</__p_description>
+                                <__p_description>Initializes this new plain text editor with the given optional text, Qt object parent, spell checking flag, and popup shortcut flag. By default spell checking and the popup shortcut are disabled.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2348,34 +2348,34 @@ Actions are provided for all basic editing actions done upon a view's model. The
                             <__p_infile>0</__p_infile>
                             <Object>
                                 <__p_name>indexChanged</__p_name>
-                                <__p_description>Signals that the current index of this project has changed.</__p_description>
+                                <__p_description>Signals that the current index of this project view has changed.</__p_description>
                                 <__p_assignment>Signal(QModelIndex)</__p_assignment>
                             </Object>
                             <Object>
                                 <__p_name>indexDataChanged</__p_name>
-                                <__p_description>Signals that the data of this project's current index has changed.</__p_description>
+                                <__p_description>Signals that the data of this project view's current index has changed.</__p_description>
                                 <__p_assignment>Signal()</__p_assignment>
                             </Object>
                             <Object>
                                 <__p_name>indexMoved</__p_name>
-                                <__p_description>Signals that the currently indexed block of this project has moved to a new index.</__p_description>
+                                <__p_description>Signals that the currently indexed block of this project view has moved to a new index.</__p_description>
                                 <__p_assignment>Signal(QModelIndex)</__p_assignment>
                             </Object>
                             <Object>
                                 <__p_name>indexRemoved</__p_name>
-                                <__p_description>Signals that the this project's current index is about to be removed from its model.</__p_description>
+                                <__p_description>Signals that the this project view's current index is about to be removed from its model.</__p_description>
                                 <__p_assignment>Signal()</__p_assignment>
                             </Object>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new project view with the given optional parent.</__p_description>
+                                <__p_description>Initializes this new project view with the given optional Qt object parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>parent</__p_name>
-                                    <__p_description>object
-Optional Qt object parent of this new project.</__p_description>
+                                    <__p_description>QObject
+The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
@@ -2384,7 +2384,7 @@ Optional Qt object parent of this new project.</__p_description>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 QMenu
-The context menu of this project.</__p_returnsDescription>
+The context menu of this project view.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2394,7 +2394,7 @@ The context menu of this project.</__p_returnsDescription>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 QAction
-The copy action of this project.</__p_returnsDescription>
+The copy action of this project view.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2404,7 +2404,7 @@ The copy action of this project.</__p_returnsDescription>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 QAction
-The cut action of this project.</__p_returnsDescription>
+The cut action of this project view.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2414,7 +2414,7 @@ The cut action of this project.</__p_returnsDescription>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 QAction
-The move down action of this project.</__p_returnsDescription>
+The move down action of this project view.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2424,7 +2424,7 @@ The move down action of this project.</__p_returnsDescription>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 QAction
-The move up action of this project.</__p_returnsDescription>
+The move up action of this project view.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2434,7 +2434,7 @@ The move up action of this project.</__p_returnsDescription>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 QAction
-The paste action of this project.</__p_returnsDescription>
+The paste action of this project view.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2444,7 +2444,7 @@ The paste action of this project.</__p_returnsDescription>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 QAction
-The redo action of this project.</__p_returnsDescription>
+The redo action of this project view.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2454,21 +2454,21 @@ The redo action of this project.</__p_returnsDescription>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 QAction
-The remove action of this project.</__p_returnsDescription>
+The remove action of this project view.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>setModel</__p_name>
-                                <__p_description>Sets this project's model to the one given.</__p_description>
+                                <__p_description>Sets this project view's model to the given project model.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>model</__p_name>
                                     <__p_description>ProjectModel
-The new model this project view displays and edits.</__p_description>
+The project model.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -2476,14 +2476,14 @@ The new model this project view displays and edits.</__p_description>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 QAction
-The undo action of this project.</__p_returnsDescription>
+The undo action of this project view.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>__add_</__p_name>
-                                <__p_description>Called to add a newly created block to this project's model at its current index using its selected insert option.</__p_description>
+                                <__p_description>Called to add a new block of the given block type to this project view's model at its current index using its selected insert option.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2491,7 +2491,7 @@ The undo action of this project.</__p_returnsDescription>
                                 <Object>
                                     <__p_name>blockType</__p_name>
                                     <__p_description>string
-The block type that is created and added to this project's model.</__p_description>
+The block type.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -2499,14 +2499,14 @@ The block type that is created and added to this project's model.</__p_descripti
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>result
 bool
-True if any of this project's global copied blocks can be pasted into its model at the current index with the current insertion type. False if no copied block can be pasted.</__p_returnsDescription>
+True if any of this project view's global copied blocks can be pasted into its model at the current index with the current insertion type. False if no copied block can be pasted.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>__contextMenuRequested_</__p_name>
-                                <__p_description>Called to inform this project that its context menu has been requested by the GUI at the given relative point.</__p_description>
+                                <__p_description>Called to inform this project view that its context menu has been requested by the GUI at the given point. The given point is relative to this widget.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2514,12 +2514,12 @@ True if any of this project's global copied blocks can be pasted into its model 
                                 <Object>
                                     <__p_name>position</__p_name>
                                     <__p_description>QPoint
-The point where the context menu is requested relative to this project's widget.</__p_description>
+The point.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__copy_</__p_name>
-                                <__p_description>Called to copy all selected indexes from this project's model.</__p_description>
+                                <__p_description>Called to copy all selected indexes from this project view's model.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2527,7 +2527,7 @@ The point where the context menu is requested relative to this project's widget.
                             </Function>
                             <Function>
                                 <__p_name>__currentChanged_</__p_name>
-                                <__p_description>Called to inform this project that its selection model's current index has changed to the one given from the previous one given.</__p_description>
+                                <__p_description>Called to inform this project view that its selection model's current index has changed to the given current index from the previous index.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2535,17 +2535,17 @@ The point where the context menu is requested relative to this project's widget.
                                 <Object>
                                     <__p_name>current</__p_name>
                                     <__p_description>QModelIndex
-The new current index of this project's selection model.</__p_description>
+The current index.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>previous</__p_name>
                                     <__p_description>QModelIndex
-The previous index of this project's selection model.</__p_description>
+The previous index.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__cut_</__p_name>
-                                <__p_description>Called to cut all selected indexes from this project's model.</__p_description>
+                                <__p_description>Called to cut all selected indexes from this project view's model.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2553,7 +2553,7 @@ The previous index of this project's selection model.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__insertAfter_</__p_name>
-                                <__p_description>Called to set this project's insert option to &quot;after&quot;.</__p_description>
+                                <__p_description>Called to set this project view's insert option to &quot;after&quot;.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2561,7 +2561,7 @@ The previous index of this project's selection model.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__insertBefore_</__p_name>
-                                <__p_description>Called to set this project's insert option to &quot;before&quot;.</__p_description>
+                                <__p_description>Called to set this project view's insert option to &quot;before&quot;.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2569,7 +2569,7 @@ The previous index of this project's selection model.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__insertInto_</__p_name>
-                                <__p_description>Called to set this project's insert option to &quot;into&quot;.</__p_description>
+                                <__p_description>Called to set this project view's insert option to &quot;into&quot;.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2580,18 +2580,18 @@ The previous index of this project's selection model.</__p_description>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>row
 int
-The row where blocks must be inserted into this project's model by either adding new ones or pasting copied ones. If there is no valid target for insertion then none is returned.
+The row where blocks must be inserted into this project view's model by either adding new ones or pasting copied ones. If there is no valid target for insertion then none is returned.
 
 index
 QModelIndex
-The parent Qt model index where blocks must be inserted into this project's model by either adding new ones or pasting copied ones. If there is no valid target for insertion then none is returned.</__p_returnsDescription>
+The parent index where blocks must be inserted into this project's model by either adding new ones or pasting copied ones. If there is no valid target for insertion then none is returned.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>__modelDataChanged_</__p_name>
-                                <__p_description>Called to inform this project that data has changed for the range of indexes from the given top left to the given bottom right with the given roles.</__p_description>
+                                <__p_description>Called to inform this project view that its model's data has changed for the range of indexes from the given top left to the given bottom right with the given data roles.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2599,22 +2599,22 @@ The parent Qt model index where blocks must be inserted into this project's mode
                                 <Object>
                                     <__p_name>topLeft</__p_name>
                                     <__p_description>QModelIndex
-The top left index in the range of indexes that has changed.</__p_description>
+The top left index.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>bottomRight</__p_name>
                                     <__p_description>QModelIndex
-The bottom right index in the range of indexes that has changed.</__p_description>
+The bottom right index.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>roles</__p_name>
                                     <__p_description>list
-Qt data roles that have changed in the given indexes.</__p_description>
+The data roles.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__modelDestroyed_</__p_name>
-                                <__p_description>Called to inform this project that its model has been destroyed.</__p_description>
+                                <__p_description>Called to inform this project view that its model has been destroyed.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2622,7 +2622,7 @@ Qt data roles that have changed in the given indexes.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__modelReset_</__p_name>
-                                <__p_description>Called to inform this project that its model has reset itself.</__p_description>
+                                <__p_description>Called to inform this project view that its model has reset itself.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2630,7 +2630,7 @@ Qt data roles that have changed in the given indexes.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__moveDown_</__p_name>
-                                <__p_description>Called to move the current index of this project's selection model down by one in its model.</__p_description>
+                                <__p_description>Called to move the current index of this project view's selection model down by one in its model.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2638,7 +2638,7 @@ Qt data roles that have changed in the given indexes.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__moveUp_</__p_name>
-                                <__p_description>Called to move the current index of this project's selection model up by one in its model.</__p_description>
+                                <__p_description>Called to move the current index of this project view's selection model up by one in its model.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2646,7 +2646,7 @@ Qt data roles that have changed in the given indexes.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__paste_</__p_name>
-                                <__p_description>Called to paste any globally copied blocks into this project's model at the current index using its selected insert option.</__p_description>
+                                <__p_description>Called to paste any globally copied blocks into this project view's model at its current index using the view's selected insert option.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2654,7 +2654,7 @@ Qt data roles that have changed in the given indexes.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__redo_</__p_name>
-                                <__p_description>Called to redo the last undone action on this project's model.</__p_description>
+                                <__p_description>Called to redo the last undone action on this project view's model.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2662,7 +2662,7 @@ Qt data roles that have changed in the given indexes.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__remove_</__p_name>
-                                <__p_description>Called to remove all selected indexes from this project's model.</__p_description>
+                                <__p_description>Called to remove all selected indexes from this project view's model.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2684,7 +2684,7 @@ Qt data roles that have changed in the given indexes.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__undo_</__p_name>
-                                <__p_description>Called to undo the last action done to this project's model.</__p_description>
+                                <__p_description>Called to undo the last action done to this project view's model.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2692,41 +2692,41 @@ Qt data roles that have changed in the given indexes.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__updateActions_</__p_name>
-                                <__p_description>Updates this project's actions. Updating includes rebuilding its add block actions and enabling or disabling appropriate actions based off its selection model state.</__p_description>
+                                <__p_description>Updates this project view's actions. Updating includes rebuilding its add block actions and enabling or disabling appropriate actions based off its selection model state.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>__updateAddActions_</__p_name>
-                                <__p_description>Update this project's add actions list. Updating involves clearing the current list and building it again based off this project's selection model's current index.</__p_description>
+                                <__p_description>Update this project view's add actions list. Updating involves clearing the current list and building it again based off this project's selection model's current index.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>__updateContextMenu_</__p_name>
-                                <__p_description>Updates this project's context menu with the new selection state of its model. Updating includes enabling or disabling appropriate actions and rebuilding the add block menu.</__p_description>
+                                <__p_description>Updates this project view's context menu with the new selection state of its model. Updating includes enabling or disabling appropriate actions and rebuilding the add block menu.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                             </Function>
                             <Function>
                                 <__p_name>__updateInsert_</__p_name>
-                                <__p_description>Updates this project's insert option to the one given, setting all insert actions checked states appropriately.</__p_description>
+                                <__p_description>Updates this project view's insert option to the given insert option, updating all of its insert actions checked states appropriately.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>option</__p_name>
                                     <__p_description>int
-The new insert option set for this project.</__p_description>
+The insert option.</__p_description>
                                 </Object>
                             </Function>
                         </Class>
                         <Class>
                             <__p_name>SpellChecker</__p_name>
-                            <__p_description>This is the spell checker class. It provides a spell checking and correction interface using the Hunspell library. It begins spell checking with its start slot, providing it a Qt text cursor that is used to parse the entire document of the text cursor, checking for misspelled words. Each misspelled word is highlighted and waits on the user to correct. The user is given options to use a suggestion, replace, ignore, stop, or add to dictionary. The cursor is updated to highlight each misspelled word found while waiting for the user to make a choice about it. Adding to dictionary is currently defunct but will be fixed.</__p_description>
+                            <__p_description>This is the spell checker class. It provides a spell checking and correction interface using the Hunspell library. It begins spell checking with its start slot, providing it a Qt text cursor that is used to parse the entire document of the text cursor, checking for misspelled words. Each misspelled word is highlighted and waits on the user to correct. The user is given options to use a suggestion, replace, ignore, or stop. The cursor is updated to highlight each misspelled word found while waiting for the user to make a choice about it.</__p_description>
                             <__p_parents>QGroupBox</__p_parents>
                             <__p_infile>0</__p_infile>
                             <Object>
@@ -2741,24 +2741,19 @@ The new insert option set for this project.</__p_description>
                             </Object>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new speller checker with the given title, dictionary, and optional parent.</__p_description>
+                                <__p_description>Initializes this new speller checker with the given group box title and optional Qt object parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>title</__p_name>
                                     <__p_description>string
-The title of this new spell checker's Qt group box.</__p_description>
-                                </Object>
-                                <Object>
-                                    <__p_name>dictionary</__p_name>
-                                    <__p_description>string
-The Hunspell dictionary used for spell checking. This does not include the directory or file extensions, for example &quot;en_US&quot;.</__p_description>
+The group box title.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
-                                    <__p_description>object
-An optional Qt object parent for this new spell checker.</__p_description>
+                                    <__p_description>QObject
+The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                             </Function>
@@ -2772,19 +2767,19 @@ An optional Qt object parent for this new spell checker.</__p_description>
                                 <Object>
                                     <__p_name>cursor</__p_name>
                                     <__p_description>QTextCursor
-It's document is checked for misspelled words.</__p_description>
+The Qt text cursor.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>__findNextWord_</__p_name>
-                                <__p_description>Finds the next misspelled word in the current document this spell checker is checking, optionally skipping the word this checker's cursor is currently under. If no misspelled word is found once the end of the document is reached then it stops this spell checker.</__p_description>
+                                <__p_description>Finds the next misspelled word in the current document of this spell checker's Qt text cursor. The given skip flag determines if the current word is ignored and skipped. The default is to not ignore the current word for misspelling. If no misspelled word is found once the end of the document is reached then this spell checker stops.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>skip</__p_name>
                                     <__p_description>bool
-True to skip the word this checker's cursor is currently under or false to check it for spelling.</__p_description>
+True to skip the current word or false otherwise.</__p_description>
                                     <__p_assignment>False</__p_assignment>
                                 </Object>
                             </Function>

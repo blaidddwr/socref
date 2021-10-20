@@ -44,27 +44,27 @@ class ProjectView(QTreeView):
 
 
     #
-    # Signals that the current index of this project has changed.
+    # Signals that the current index of this project view has changed.
     #
     indexChanged = Signal(QModelIndex)
 
 
     #
-    # Signals that the data of this project's current index has changed.
+    # Signals that the data of this project view's current index has changed.
     #
     indexDataChanged = Signal()
 
 
     #
-    # Signals that the currently indexed block of this project has moved to a
-    # new index.
+    # Signals that the currently indexed block of this project view has moved to
+    # a new index.
     #
     indexMoved = Signal(QModelIndex)
 
 
     #
-    # Signals that the this project's current index is about to be removed from
-    # its model.
+    # Signals that the this project view's current index is about to be removed
+    # from its model.
     #
     indexRemoved = Signal()
 
@@ -74,12 +74,13 @@ class ProjectView(QTreeView):
         ,parent=None
     ):
         """
-        Initializes a new project view with the given optional parent.
+        Initializes this new project view with the given optional Qt object
+        parent.
 
         Parameters
         ----------
-        parent : object
-                 Optional Qt object parent of this new project.
+        parent : QObject
+                 The optional Qt object parent.
         """
         super().__init__(parent)
         self.__model = None
@@ -114,7 +115,7 @@ class ProjectView(QTreeView):
         Returns
         -------
         result : QMenu
-                 The context menu of this project.
+                 The context menu of this project view.
         """
         return self.__contextMenu
 
@@ -128,7 +129,7 @@ class ProjectView(QTreeView):
         Returns
         -------
         result : QAction
-                 The copy action of this project.
+                 The copy action of this project view.
         """
         return self.__copyAction
 
@@ -142,7 +143,7 @@ class ProjectView(QTreeView):
         Returns
         -------
         result : QAction
-                 The cut action of this project.
+                 The cut action of this project view.
         """
         return self.__cutAction
 
@@ -156,7 +157,7 @@ class ProjectView(QTreeView):
         Returns
         -------
         result : QAction
-                 The move down action of this project.
+                 The move down action of this project view.
         """
         return self.__moveDownAction
 
@@ -170,7 +171,7 @@ class ProjectView(QTreeView):
         Returns
         -------
         result : QAction
-                 The move up action of this project.
+                 The move up action of this project view.
         """
         return self.__moveUpAction
 
@@ -184,7 +185,7 @@ class ProjectView(QTreeView):
         Returns
         -------
         result : QAction
-                 The paste action of this project.
+                 The paste action of this project view.
         """
         return self.__pasteAction
 
@@ -198,7 +199,7 @@ class ProjectView(QTreeView):
         Returns
         -------
         result : QAction
-                 The redo action of this project.
+                 The redo action of this project view.
         """
         return self.__redoAction
 
@@ -212,7 +213,7 @@ class ProjectView(QTreeView):
         Returns
         -------
         result : QAction
-                 The remove action of this project.
+                 The remove action of this project view.
         """
         return self.__removeAction
 
@@ -222,12 +223,12 @@ class ProjectView(QTreeView):
         ,model
     ):
         """
-        Sets this project's model to the one given.
+        Sets this project view's model to the given project model.
 
         Parameters
         ----------
         model : ProjectModel
-                The new model this project view displays and edits.
+                The project model.
         """
         super().setModel(model)
         if self.__model:
@@ -251,7 +252,7 @@ class ProjectView(QTreeView):
         Returns
         -------
         result : QAction
-                 The undo action of this project.
+                 The undo action of this project view.
         """
         return self.__undoAction
 
@@ -262,14 +263,13 @@ class ProjectView(QTreeView):
         ,blockType
     ):
         """
-        Called to add a newly created block to this project's model at its
-        current index using its selected insert option.
+        Called to add a new block of the given block type to this project view's
+        model at its current index using its selected insert option.
 
         Parameters
         ----------
         blockType : string
-                    The block type that is created and added to this project's
-                    model.
+                    The block type.
         """
         (row,parent) = self.__insertValues_()
         if parent is None:
@@ -286,7 +286,7 @@ class ProjectView(QTreeView):
         Returns
         -------
         result : bool
-                 True if any of this project's global copied blocks can be
+                 True if any of this project view's global copied blocks can be
                  pasted into its model at the current index with the current
                  insertion type. False if no copied block can be pasted.
         """
@@ -306,14 +306,14 @@ class ProjectView(QTreeView):
         ,position
     ):
         """
-        Called to inform this project that its context menu has been requested
-        by the GUI at the given relative point.
+        Called to inform this project view that its context menu has been
+        requested by the GUI at the given point. The given point is relative to
+        this widget.
 
         Parameters
         ----------
         position : QPoint
-                   The point where the context menu is requested relative to
-                   this project's widget.
+                   The point.
         """
         self.__contextMenu.exec(self.mapToGlobal(position))
 
@@ -323,16 +323,13 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to copy all selected indexes from this project's model.
+        Called to copy all selected indexes from this project view's model.
         """
         if self.__model is not None:
             indexes = self.selectionModel().selectedIndexes()
             if not indexes:
                 return
-            (
-                ProjectView.__xmlBlocks
-                ,ProjectView.__blockTypeSet
-            ) = (
+            (ProjectView.__xmlBlocks,ProjectView.__blockTypeSet) = (
                 self.__model.copyToXml(indexes)
             )
             self.__updateActions_()
@@ -345,15 +342,15 @@ class ProjectView(QTreeView):
         ,previous
     ):
         """
-        Called to inform this project that its selection model's current index
-        has changed to the one given from the previous one given.
+        Called to inform this project view that its selection model's current
+        index has changed to the given current index from the previous index.
 
         Parameters
         ----------
         current : QModelIndex
-                  The new current index of this project's selection model.
+                  The current index.
         previous : QModelIndex
-                   The previous index of this project's selection model.
+                   The previous index.
         """
         self.__updateContextMenu_()
         self.indexChanged.emit(current)
@@ -364,7 +361,7 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to cut all selected indexes from this project's model.
+        Called to cut all selected indexes from this project view's model.
         """
         if self.__model is not None:
             self.__copy_()
@@ -376,7 +373,7 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to set this project's insert option to "after".
+        Called to set this project view's insert option to "after".
         """
         self.__updateInsert_(self.__AFTER)
 
@@ -386,7 +383,7 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to set this project's insert option to "before".
+        Called to set this project view's insert option to "before".
         """
         self.__updateInsert_(self.__BEFORE)
 
@@ -396,7 +393,7 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to set this project's insert option to "into".
+        Called to set this project view's insert option to "into".
         """
         self.__updateInsert_(self.__INTO)
 
@@ -410,12 +407,12 @@ class ProjectView(QTreeView):
         Returns
         -------
         row : int
-              The row where blocks must be inserted into this project's model by
-              either adding new ones or pasting copied ones. If there is no
-              valid target for insertion then none is returned.
+              The row where blocks must be inserted into this project view's
+              model by either adding new ones or pasting copied ones. If there
+              is no valid target for insertion then none is returned.
         index : QModelIndex
-                The parent Qt model index where blocks must be inserted into
-                this project's model by either adding new ones or pasting copied
+                The parent index where blocks must be inserted into this
+                project's model by either adding new ones or pasting copied
                 ones. If there is no valid target for insertion then none is
                 returned.
         """
@@ -446,19 +443,18 @@ class ProjectView(QTreeView):
         ,roles
     ):
         """
-        Called to inform this project that data has changed for the range of
-        indexes from the given top left to the given bottom right with the given
-        roles.
+        Called to inform this project view that its model's data has changed for
+        the range of indexes from the given top left to the given bottom right
+        with the given data roles.
 
         Parameters
         ----------
         topLeft : QModelIndex
-                  The top left index in the range of indexes that has changed.
+                  The top left index.
         bottomRight : QModelIndex
-                      The bottom right index in the range of indexes that has
-                      changed.
+                      The bottom right index.
         roles : list
-                Qt data roles that have changed in the given indexes.
+                The data roles.
         """
         if topLeft == self.selectionModel().currentIndex():
             self.indexDataChanged.emit()
@@ -470,7 +466,7 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to inform this project that its model has been destroyed.
+        Called to inform this project view that its model has been destroyed.
         """
         self.__model = None
         self.__updateContextMenu_()
@@ -482,7 +478,7 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to inform this project that its model has reset itself.
+        Called to inform this project view that its model has reset itself.
         """
         self.__updateContextMenu_()
         self.indexChanged.emit(QModelIndex())
@@ -493,8 +489,8 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to move the current index of this project's selection model down
-        by one in its model.
+        Called to move the current index of this project view's selection model
+        down by one in its model.
         """
         if self.__model is not None:
             self.__model.moveRow(1,self.selectionModel().currentIndex())
@@ -506,8 +502,8 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to move the current index of this project's selection model up by
-        one in its model.
+        Called to move the current index of this project view's selection model
+        up by one in its model.
         """
         if self.__model is not None:
             self.__model.moveRow(-1,self.selectionModel().currentIndex())
@@ -519,8 +515,8 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to paste any globally copied blocks into this project's model at
-        the current index using its selected insert option.
+        Called to paste any globally copied blocks into this project view's
+        model at its current index using the view's selected insert option.
         """
         if self.__model is None or ProjectView.__xmlBlocks is None:
             return
@@ -535,7 +531,7 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to redo the last undone action on this project's model.
+        Called to redo the last undone action on this project view's model.
         """
         if self.__model is not None:
             self.__model.redo()
@@ -547,7 +543,7 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to remove all selected indexes from this project's model.
+        Called to remove all selected indexes from this project view's model.
         """
         if self.__model is not None:
             while self.selectionModel().hasSelection():
@@ -663,7 +659,7 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Called to undo the last action done to this project's model.
+        Called to undo the last action done to this project view's model.
         """
         if self.__model is not None:
             self.__model.undo()
@@ -674,9 +670,9 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Updates this project's actions. Updating includes rebuilding its add
-        block actions and enabling or disabling appropriate actions based off
-        its selection model state.
+        Updates this project view's actions. Updating includes rebuilding its
+        add block actions and enabling or disabling appropriate actions based
+        off its selection model state.
         """
         self.__updateAddActions_()
         selection_model = self.selectionModel()
@@ -693,9 +689,9 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Update this project's add actions list. Updating involves clearing the
-        current list and building it again based off this project's selection
-        model's current index.
+        Update this project view's add actions list. Updating involves clearing
+        the current list and building it again based off this project's
+        selection model's current index.
         """
         while self.__addActions:
             self.__addActions.pop().deleteLater()
@@ -719,9 +715,9 @@ class ProjectView(QTreeView):
         self
     ):
         """
-        Updates this project's context menu with the new selection state of its
-        model. Updating includes enabling or disabling appropriate actions and
-        rebuilding the add block menu.
+        Updates this project view's context menu with the new selection state of
+        its model. Updating includes enabling or disabling appropriate actions
+        and rebuilding the add block menu.
         """
         self.__updateActions_()
         self.__addMenu.clear()
@@ -735,13 +731,13 @@ class ProjectView(QTreeView):
         ,option
     ):
         """
-        Updates this project's insert option to the one given, setting all
-        insert actions checked states appropriately.
+        Updates this project view's insert option to the given insert option,
+        updating all of its insert actions checked states appropriately.
 
         Parameters
         ----------
         option : int
-                 The new insert option set for this project.
+                 The insert option.
         """
         self.__insertBeforeAction.setChecked(option == self.__BEFORE)
         self.__insertIntoAction.setChecked(option == self.__INTO)

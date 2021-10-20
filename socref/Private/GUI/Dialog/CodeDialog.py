@@ -32,7 +32,7 @@ class CodeDialog(QDialog):
         ,parent=None
     ):
         """
-        Initializes a new code dialog with the given code dictionary and
+        Initializes this new code dialog with the given code dictionary and
         optional Qt object parent. The given code dictionary must be organized
         as a dictionary where the keys are meaningful string identifiers and the
         values are lists of strings where each string is a line of code.
@@ -41,7 +41,7 @@ class CodeDialog(QDialog):
         ----------
         code : dictionary
                The code dictionary.
-        parent : object
+        parent : QObject
                  The optional Qt object parent.
         """
         super().__init__(parent)
