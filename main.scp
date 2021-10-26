@@ -2873,7 +2873,7 @@ Parsing is handled by a single global parse controller, allowing only one projec
                                 <Object>
                                     <__p_name>path</__p_name>
                                     <__p_description>string
-The path of the project file that this window opens.</__p_description>
+The path.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -2912,7 +2912,7 @@ True if it is OK to close this window or false otherwise. It is OK to close this
                             </Function>
                             <Function>
                                 <__p_name>__nameChanged_</__p_name>
-                                <__p_description>Called to inform this window that its project's name has been changed. This updates the window's title.</__p_description>
+                                <__p_description>Called to inform this window that its project's name has been changed to the given name.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2920,7 +2920,7 @@ True if it is OK to close this window or false otherwise. It is OK to close this
                                 <Object>
                                     <__p_name>name</__p_name>
                                     <__p_description>string
-The new name of this window's model's project.</__p_description>
+The name.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -2933,7 +2933,7 @@ The new name of this window's model's project.</__p_description>
                                 <Object>
                                     <__p_name>langName</__p_name>
                                     <__p_description>string
-The name of the language used to create a new project.</__p_description>
+The language.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -2962,7 +2962,7 @@ The name of the language used to create a new project.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__parseProgressed_</__p_name>
-                                <__p_description>Called to inform this window that the singleton parser model has made progress parsing.</__p_description>
+                                <__p_description>Called to inform this window that the singleton parser model has made progress parsing to the given percentage progress. The progress is between 0 and 100.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2970,7 +2970,7 @@ The name of the language used to create a new project.</__p_description>
                                 <Object>
                                     <__p_name>percent</__p_name>
                                     <__p_description>int
-The percentage progress the singleton parser model has made parsing from 0 to 100.</__p_description>
+The percentage progress.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -3161,37 +3161,37 @@ The status bar is also accessed that forces it to be visible before it is initia
                                 <Object>
                                     <__p_name>model</__p_name>
                                     <__p_description>ProjectModel
-The project model that this new command acts upon.</__p_description>
+The project model.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>_rows_</__p_name>
-                                <__p_description>Getter method.</__p_description>
+                                <__p_description>Creates and returns a list of row indexes generated from the given Qt model index of this command's project model. The first index in the list begins at the root index. If the list is empty then it represents the root index.</__p_description>
                                 <__p_returnsDescription>result
 list
-Rows that represent the given Qt model index of this command's project model. An empty list is the root index.</__p_returnsDescription>
+The row indexes.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>index</__p_name>
                                     <__p_description>QModelIndex
-An index of this command's project model.</__p_description>
+The Qt model index.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
                                 <__p_name>_index_</__p_name>
-                                <__p_description>Getter method.</__p_description>
+                                <__p_description>Creates and returns a Qt model index in this command's project model generated from the given list of row indexes starting at the root index.</__p_description>
                                 <__p_returnsDescription>result
 QModelIndex
-A valid index created from this command's project model with the given list of rows. An invalid null index is the root index.</__p_returnsDescription>
+The Qt model index.</__p_returnsDescription>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>rows</__p_name>
                                     <__p_description>list
-Rows that represent a valid Qt model index of this command's project model.</__p_description>
+The row indexes.</__p_description>
                                 </Object>
                             </Function>
                         </Class>
@@ -3206,29 +3206,29 @@ Rows that represent a valid Qt model index of this command's project model.</__p
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new insert command with the given row, blocks to insert, parent index, and project model.</__p_description>
+                                <__p_description>Initializes this new insert command with the given row index, blocks, parent index, and project model. This command's redo inserts the blocks into the parent index at the row index.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>row</__p_name>
                                     <__p_description>int
-The row where the given blocks are inserted.</__p_description>
+The row index.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>blocks</__p_name>
                                     <__p_description>list
-Blocks that are inserted into the given project model.</__p_description>
+The blocks.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>QModelIndex
-The parent index where the given blocks are inserted as children.</__p_description>
+The parent index.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>model</__p_name>
                                     <__p_description>ProjectModel
-The project model where the given blocks are inserted.</__p_description>
+The project model.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -3251,24 +3251,24 @@ The project model where the given blocks are inserted.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new move command with the given change, index, and project model.</__p_description>
+                                <__p_description>Initializes this new move command with the given change, Qt model index, and project model. This command's redo interface changes the index's row by the change amount, negative being up and positive being down.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>change</__p_name>
                                     <__p_description>int
-The change from the old row to the new row of the moved index. A negative change is up and positive down by the number given.</__p_description>
+The change.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>index</__p_name>
                                     <__p_description>QModelIndex
-The index in the given project model that is moved.</__p_description>
+The Qt model index.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>model</__p_name>
                                     <__p_description>ProjectModel
-The project model whose given index is moved.</__p_description>
+The project model.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -3291,29 +3291,29 @@ The project model whose given index is moved.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new remove command with the given row, count, parent index, and project model.</__p_description>
+                                <__p_description>Initializes this new remove command with the given row index, count, parent index, and project model. This command's redo interface removes count number of indexes from the given parent starting at the given row.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>row</__p_name>
                                     <__p_description>int
-The row of the first removed child of the given parent index.</__p_description>
+The row index.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>count</__p_name>
                                     <__p_description>int
-The number of children that are removed.</__p_description>
+The count.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>parent</__p_name>
                                     <__p_description>QModelIndex
-The parent index whose child indexes are removed.</__p_description>
+The parent index.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>model</__p_name>
                                     <__p_description>ProjectModel
-The project model whose given indexes are removed.</__p_description>
+The project model.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -3336,29 +3336,29 @@ The project model whose given indexes are removed.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes a new set command with the given from properties, to properties, index, and model.</__p_description>
+                                <__p_description>Initializes this new set command with the given original block properties, new block properties, Qt model index, and project model. This command's redo interface updates the block at the Qt model index with the new block properties. This command's undo interface updates the block at the Qt model index with the original block properties.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
-                                    <__p_name>fromProperties</__p_name>
+                                    <__p_name>originalProperties</__p_name>
                                     <__p_description>dictionary
-Block properties that are the current properties of the given index.</__p_description>
+The original block properties.</__p_description>
                                 </Object>
                                 <Object>
-                                    <__p_name>toProperties</__p_name>
+                                    <__p_name>newProperties</__p_name>
                                     <__p_description>dictionary
-Block properties that the given index is set to.</__p_description>
+The new block properties.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>index</__p_name>
                                     <__p_description>QModelIndex
-The index whose properties are changed.</__p_description>
+The Qt model index.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>model</__p_name>
                                     <__p_description>ProjectModel
-The project model whose given index block properties are changed.</__p_description>
+The project model.</__p_description>
                                 </Object>
                             </Function>
                             <Function>

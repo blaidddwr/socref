@@ -16,32 +16,33 @@ class SetCommand(CommandBase):
 
     def __init__(
         self
-        ,fromProperties
-        ,toProperties
+        ,originalProperties
+        ,newProperties
         ,index
         ,model
     ):
         """
-        Initializes a new set command with the given from properties, to
-        properties, index, and model.
+        Initializes this new set command with the given original block
+        properties, new block properties, Qt model index, and project model.
+        This command's redo interface updates the block at the Qt model index
+        with the new block properties. This command's undo interface updates the
+        block at the Qt model index with the original block properties.
 
         Parameters
         ----------
-        fromProperties : dictionary
-                         Block properties that are the current properties of the
-                         given index.
-        toProperties : dictionary
-                       Block properties that the given index is set to.
+        originalProperties : dictionary
+                             The original block properties.
+        newProperties : dictionary
+                        The new block properties.
         index : QModelIndex
-                The index whose properties are changed.
+                The Qt model index.
         model : ProjectModel
-                The project model whose given index block properties are
-                changed.
+                The project model.
         """
         super().__init__(model)
         self.__rows = self._rows_(index)
-        self.__fromProperties = fromProperties
-        self.__toProperties = toProperties
+        self.__fromProperties = originalProperties
+        self.__toProperties = newProperties
 
 
     def redo(

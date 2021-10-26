@@ -21,18 +21,18 @@ class MoveCommand(CommandBase):
         ,model
     ):
         """
-        Initializes a new move command with the given change, index, and project
-        model.
+        Initializes this new move command with the given change, Qt model index,
+        and project model. This command's redo interface changes the index's row
+        by the change amount, negative being up and positive being down.
 
         Parameters
         ----------
         change : int
-                 The change from the old row to the new row of the moved index.
-                 A negative change is up and positive down by the number given.
+                 The change.
         index : QModelIndex
-                The index in the given project model that is moved.
+                The Qt model index.
         model : ProjectModel
-                The project model whose given index is moved.
+                The project model.
         """
         super().__init__(model)
         self.__parentRows = self._rows_(index.parent())

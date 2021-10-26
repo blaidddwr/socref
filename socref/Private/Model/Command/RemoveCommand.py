@@ -24,19 +24,20 @@ class RemoveCommand(CommandBase):
         ,model
     ):
         """
-        Initializes a new remove command with the given row, count, parent
-        index, and project model.
+        Initializes this new remove command with the given row index, count,
+        parent index, and project model. This command's redo interface removes
+        count number of indexes from the given parent starting at the given row.
 
         Parameters
         ----------
         row : int
-              The row of the first removed child of the given parent index.
+              The row index.
         count : int
-                The number of children that are removed.
+                The count.
         parent : QModelIndex
-                 The parent index whose child indexes are removed.
+                 The parent index.
         model : ProjectModel
-                The project model whose given indexes are removed.
+                The project model.
         """
         super().__init__(model)
         self._blocks = None

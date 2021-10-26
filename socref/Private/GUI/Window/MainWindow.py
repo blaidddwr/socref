@@ -112,7 +112,7 @@ class MainWindow(QMainWindow):
         Parameters
         ----------
         path : string
-               The path of the project file that this window opens.
+               The path.
         """
         if self.__model:
             return
@@ -209,13 +209,13 @@ class MainWindow(QMainWindow):
         ,name
     ):
         """
-        Called to inform this window that its project's name has been changed.
-        This updates the window's title.
+        Called to inform this window that its project's name has been changed to
+        the given name.
 
         Parameters
         ----------
         name : string
-               The new name of this window's model's project.
+               The name.
         """
         self.__updateTitle_()
 
@@ -231,7 +231,7 @@ class MainWindow(QMainWindow):
         Parameters
         ----------
         langName : string
-                   The name of the language used to create a new project.
+                   The language.
         """
         window = self
         if self.__model:
@@ -310,13 +310,13 @@ class MainWindow(QMainWindow):
     ):
         """
         Called to inform this window that the singleton parser model has made
-        progress parsing.
+        progress parsing to the given percentage progress. The progress is
+        between 0 and 100.
 
         Parameters
         ----------
         percent : int
-                  The percentage progress the singleton parser model has made
-                  parsing from 0 to 100.
+                  The percentage progress.
         """
         if self.__progressBar is not None:
             self.__progressBar.setValue(percent)

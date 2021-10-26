@@ -23,20 +23,20 @@ class InsertCommand(RemoveCommand):
         ,model
     ):
         """
-        Initializes a new insert command with the given row, blocks to insert,
-        parent index, and project model.
+        Initializes this new insert command with the given row index, blocks,
+        parent index, and project model. This command's redo inserts the blocks
+        into the parent index at the row index.
 
         Parameters
         ----------
         row : int
-              The row where the given blocks are inserted.
+              The row index.
         blocks : list
-                 Blocks that are inserted into the given project model.
+                 The blocks.
         parent : QModelIndex
-                 The parent index where the given blocks are inserted as
-                 children.
+                 The parent index.
         model : ProjectModel
-                The project model where the given blocks are inserted.
+                The project model.
         """
         super().__init__(row,len(blocks),parent,model)
         self._blocks = blocks

@@ -30,7 +30,7 @@ class CommandBase(AbstractCommand):
         Parameters
         ----------
         model : ProjectModel
-                The project model that this new command acts upon.
+                The project model.
         """
         super().__init__()
         self._model = model
@@ -41,18 +41,20 @@ class CommandBase(AbstractCommand):
         ,index
     ):
         """
-        Getter method.
+        Creates and returns a list of row indexes generated from the given Qt
+        model index of this command's project model. The first index in the list
+        begins at the root index. If the list is empty then it represents the
+        root index.
 
         Parameters
         ----------
         index : QModelIndex
-                An index of this command's project model.
+                The Qt model index.
 
         Returns
         -------
         result : list
-                 Rows that represent the given Qt model index of this command's
-                 project model. An empty list is the root index.
+                 The row indexes.
         """
         rows = []
         while index.isValid():
@@ -67,20 +69,18 @@ class CommandBase(AbstractCommand):
         ,rows
     ):
         """
-        Getter method.
+        Creates and returns a Qt model index in this command's project model
+        generated from the given list of row indexes starting at the root index.
 
         Parameters
         ----------
         rows : list
-               Rows that represent a valid Qt model index of this command's
-               project model.
+               The row indexes.
 
         Returns
         -------
         result : QModelIndex
-                 A valid index created from this command's project model with
-                 the given list of rows. An invalid null index is the root
-                 index.
+                 The Qt model index.
         """
         index = QModelIndex()
         for row in rows:
