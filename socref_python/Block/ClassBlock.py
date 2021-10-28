@@ -66,8 +66,8 @@ class ClassBlock(ModuleBlock):
         Returns
         -------
         result : list
-                 Decorator lines, each one including the beginning special at
-                 character, of this class.
+                 Decorator lines of this class. Each line includes the beginning
+                 special @ character.
         """
         return ["@"+d for d in self._p_decorators.split("\n") if d]
 
@@ -146,7 +146,7 @@ class ClassBlock(ModuleBlock):
         Returns
         -------
         result : bool
-                 True if this class contains any abstract functions or false
+                 True if this class contains any abstract methods or false
                  otherwise.
         """
         for child in self:

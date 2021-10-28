@@ -32,27 +32,28 @@ class FunctionBlock(ModuleBlock):
 
     def arguments(
         self
-        ,mSelf=True
+        ,special=True
     ):
         """
-        Getter method.
+        Returns a list of argument tuples for this function with the given
+        optional special flag. Each tuple contains the name, assignment, type,
+        and description in that order. The assignment, type, and description can
+        be empty. The given special flag is true to include the special cls or
+        self arguments to the returned arguments if this function is a regular
+        or class method, else false to exclude them.
 
         Parameters
         ----------
-        mSelf : bool
-                True to include the special cls or self arguments if this
-                function is a regular or class method, false otherwise.
+        special : bool
+                  The special flag.
 
         Returns
         -------
         result : list
-                 Tuples of argument values for this function. Each tuple
-                 contains the name, assignment, type, and description in that
-                 order. The assignment, type, and description can be empty.
-                 Special self or cls arguments can be included.
+                 The argument tuples.
         """
         ret = []
-        if self.isMethod() and not self.isStatic() and mSelf:
+        if self.isMethod() and not self.isStatic() and special:
             ret.append((("cls" if self.isClass() else "self"),"","",""))
         for child in self:
             ret.append(child.argValues())
@@ -90,8 +91,8 @@ class FunctionBlock(ModuleBlock):
         Returns
         -------
         result : list
-                 Decorator lines, each one including the beginning special at
-                 character, of this function.
+                 Decorator lines of this function. Each line includes the
+                 beginning special @ character.
         """
         ret = []
         if flags:

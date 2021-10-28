@@ -21,7 +21,8 @@ class TextEdit():
     ):
         """
         Initializes this new text edit definition with the given label, key, and
-        optional spell checking flag.
+        optional spell checking flag. The given spelling checking flag is true
+        to enable spell checking else false to disable it.
 
         Parameters
         ----------
@@ -30,7 +31,7 @@ class TextEdit():
         key : string
               The key.
         spellCheck : bool
-                     True to enable spell checking or false to disable it.
+                     The spell checking flag.
         """
         self.__label = label
         self.__key = key

@@ -29,12 +29,12 @@ class TextDialog(QDialog):
         self
         ,text=""
         ,parent=None
-        ,speller=False
+        ,spellCheck=False
     ):
         """
         Initializes this new text dialog with the given optional text, Qt object
-        parent, and optional spell checking flag. Spell checking is disabled by
-        default.
+        parent, and optional spell checking flag. The given spell checking flag
+        is true to enable spell checking else false to disable it.
 
         Parameters
         ----------
@@ -42,13 +42,13 @@ class TextDialog(QDialog):
                The optional text.
         parent : QObject
                  The optional Qt object parent.
-        speller : bool
-                  True to enable spell checking or false to disable it.
+        spellCheck : bool
+                     The spell checking flag.
         """
         super().__init__(parent)
-        self.__speller = speller
-        self.__textEdit = PlainTextEdit.PlainTextEdit(text,self,speller=speller,popup=False)
-        self.__spellerBox = SpellChecker("Spell Check",DICTIONARY)
+        self.__spellCheck = spellCheck
+        self.__textEdit = PlainTextEdit.PlainTextEdit(text,self,spellCheck=spellCheck,popup=False)
+        self.__spellCheckBox = SpellChecker("Spell Check",DICTIONARY)
         self.__spellButton = QPushButton("Spell Check",self)
         self.__setupGui_()
 
@@ -126,7 +126,7 @@ class TextDialog(QDialog):
         cancel = QPushButton("Cancel")
         cancel.clicked.connect(self.__cancel_)
         self.__spellButton.clicked.connect(self.__spellCheck_)
-        self.__spellButton.setDisabled(not self.__speller)
+        self.__spellButton.setDisabled(not self.__spellCheck)
         ret = QHBoxLayout()
         ret.addWidget(set_)
         ret.addWidget(cancel)
@@ -160,12 +160,12 @@ class TextDialog(QDialog):
         result : SpellChecker
                  The initialized spell checker box widget.
         """
-        self.__spellerBox.hide()
-        self.__spellerBox.cursorChanged.connect(
+        self.__spellCheckBox.hide()
+        self.__spellCheckBox.cursorChanged.connect(
             lambda cursor : self.__textEdit.setTextCursor(cursor)
         )
-        self.__spellerBox.finished.connect(self.__spellCheckFinished_)
-        return self.__spellerBox
+        self.__spellCheckBox.finished.connect(self.__spellCheckFinished_)
+        return self.__spellCheckBox
 
 
     @Slot()
@@ -176,8 +176,8 @@ class TextDialog(QDialog):
         Called to begin spell checking this text dialog's document. This shows
         its spell checker box and tells it to start checking.
         """
-        self.__spellerBox.show()
-        self.__spellerBox.start(self.__textEdit.textCursor())
+        self.__spellCheckBox.show()
+        self.__spellCheckBox.start(self.__textEdit.textCursor())
 
 
     @Slot()
@@ -189,7 +189,7 @@ class TextDialog(QDialog):
         hides its spell checker box and clears any selection from its document's
         cursor.
         """
-        self.__spellerBox.hide()
+        self.__spellCheckBox.hide()
         cursor = self.__textEdit.textCursor()
         cursor.clearSelection()
         self.__textEdit.setTextCursor(cursor)

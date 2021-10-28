@@ -22,19 +22,20 @@ class FunctionReader(ReaderBase):
         ,parent
     ):
         """
-        Initializes this new function reader with the given function name,
-        header ending flag, and parent reader.
+        Initializes this new function reader with the given function name this
+        reader will parse, header ending flag, and parent reader that discovered
+        the header code line of the function that this reader will parse. The
+        given header ending flag is true if this reader's parent read past all
+        header lines of the function or false otherwise.
 
         Parameters
         ----------
         name : string
-               The name of the function this reader will parse.
+               The function name.
         end : bool
-              True if this writer's parent reader read past all header lines of
-              its to be parsed function or false otherwise.
+              The header ending flag.
         parent : AbstractReader
-                 The parent reader that discovered the header code line of the
-                 function that this reader will parse.
+                 The parent reader.
         """
         super().__init__(parent)
         self._setKey_(parent.key()+"."+name)
@@ -46,13 +47,13 @@ class FunctionReader(ReaderBase):
         self
     ):
         """
-        Getter method. This can only be called once, after which an empty list
-        is returned.
+        Returns lines of code parsed by this function reader. This can only be
+        called once, after which an empty list is returned.
 
         Returns
         -------
         result : list
-                 Lines of code contained by the parsed function of this reader.
+                 The lines of code or an empty list.
         """
         ret = self.__lines
         self.__lines = []

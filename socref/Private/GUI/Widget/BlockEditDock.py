@@ -321,7 +321,7 @@ class BlockEditDock(QDockWidget):
         label : string
                 The label.
         """
-        editWdgt = PlainTextEdit(speller=edit.spellCheck(),popup=True)
+        editWdgt = PlainTextEdit(spellCheck=edit.spellCheck(),popup=True)
         editWdgt.setPlainText(properties[edit.key()])
         editWdgt.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
         editWdgt._value_ = lambda e=editWdgt : e.toPlainText()

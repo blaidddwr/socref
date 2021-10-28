@@ -1138,7 +1138,7 @@ The label displayed to the user next to the line edit widget.</__p_returnsDescri
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new text edit definition with the given label, key, and optional spell checking flag.</__p_description>
+                        <__p_description>Initializes this new text edit definition with the given label, key, and optional spell checking flag. The given spelling checking flag is true to enable spell checking else false to disable it.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -1155,7 +1155,7 @@ The key.</__p_description>
                         <Object>
                             <__p_name>spellCheck</__p_name>
                             <__p_description>bool
-True to enable spell checking or false to disable it.</__p_description>
+The spell checking flag.</__p_description>
                             <__p_assignment>False</__p_assignment>
                         </Object>
                     </Function>
@@ -1908,7 +1908,7 @@ The path.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes this new text dialog with the given optional text, Qt object parent, and optional spell checking flag. Spell checking is disabled by default.</__p_description>
+                                <__p_description>Initializes this new text dialog with the given optional text, Qt object parent, and optional spell checking flag. The given spell checking flag is true to enable spell checking else false to disable it.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -1925,9 +1925,9 @@ The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                                 <Object>
-                                    <__p_name>speller</__p_name>
+                                    <__p_name>spellCheck</__p_name>
                                     <__p_description>bool
-True to enable spell checking or false to disable it.</__p_description>
+The spell checking flag.</__p_description>
                                     <__p_assignment>False</__p_assignment>
                                 </Object>
                             </Function>
@@ -2282,7 +2282,7 @@ The project view.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes this new plain text editor with the given optional text, Qt object parent, spell checking flag, and popup shortcut flag. By default spell checking and the popup shortcut are disabled.</__p_description>
+                                <__p_description>Initializes this new plain text editor with the given optional text, Qt object parent, spell checking flag, and popup shortcut flag. The given spell checking flag is true to enable spell checking else false to disable it. The given popup shortcut flag is true to enable the popup shortcut else false to disable it.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2299,28 +2299,28 @@ The optional Qt object parent.</__p_description>
                                     <__p_assignment>None</__p_assignment>
                                 </Object>
                                 <Object>
-                                    <__p_name>speller</__p_name>
+                                    <__p_name>spellCheck</__p_name>
                                     <__p_description>bool
-True to enable spell checking or false to disable it.</__p_description>
+The spell checking flag.</__p_description>
                                     <__p_assignment>False</__p_assignment>
                                 </Object>
                                 <Object>
                                     <__p_name>popup</__p_name>
                                     <__p_description>bool
-True to enable the popup shortcut or false to disable it.</__p_description>
+The popup shortcut flag.</__p_description>
                                     <__p_assignment>False</__p_assignment>
                                 </Object>
                             </Function>
                             <Function>
-                                <__p_name>setSpellerEnabled</__p_name>
-                                <__p_description>Sets the state of this editor's spelling checking to given flag.</__p_description>
+                                <__p_name>setSpellCheckEnabled</__p_name>
+                                <__p_description>Sets the state of this editor's spelling checking to given flag. The given flag is true to enable spell checking else false to disable it.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>enabled</__p_name>
                                     <__p_description>bool
-True to enable spell checking or false to disable it.</__p_description>
+The flag.</__p_description>
                                 </Object>
                             </Function>
                             <Function>
@@ -2741,7 +2741,7 @@ The insert option.</__p_description>
                             </Object>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes this new speller checker with the given group box title and optional Qt object parent.</__p_description>
+                                <__p_description>Initializes this new spell checker with the given group box title and optional Qt object parent.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2772,14 +2772,14 @@ The Qt text cursor.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__findNextWord_</__p_name>
-                                <__p_description>Finds the next misspelled word in the current document of this spell checker's Qt text cursor. The given skip flag determines if the current word is ignored and skipped. The default is to not ignore the current word for misspelling. If no misspelled word is found once the end of the document is reached then this spell checker stops.</__p_description>
+                                <__p_description>Finds the next misspelled word in the current document of this spell checker's Qt text cursor with the given skip flag. The skip flag is true to ignore and skip the current word else false to spell check the current word. The default is to not ignore the current word for misspelling. If no misspelled word is found once the end of the document is reached then this spell checker stops.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>skip</__p_name>
                                     <__p_description>bool
-True to skip the current word or false otherwise.</__p_description>
+The skip flag.</__p_description>
                                     <__p_assignment>False</__p_assignment>
                                 </Object>
                             </Function>
@@ -4704,7 +4704,7 @@ Names of all inherited class parents of this class.</__p_returnsDescription>
                         <__p_description>Getter method.</__p_description>
                         <__p_returnsDescription>result
 list
-Decorator lines, each one including the beginning special at character, of this class.</__p_returnsDescription>
+Decorator lines of this class. Each line includes the beginning special @ character.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4748,7 +4748,7 @@ Human readable, capitalized, and enabled flag names of this class.</__p_returnsD
                         <__p_description>Getter method.</__p_description>
                         <__p_returnsDescription>result
 bool
-True if this class contains any abstract functions or false otherwise.</__p_returnsDescription>
+True if this class contains any abstract methods or false otherwise.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4784,17 +4784,17 @@ True if this class is in file or false otherwise. In file means its definition i
                     </Function>
                     <Function>
                         <__p_name>arguments</__p_name>
-                        <__p_description>Getter method.</__p_description>
+                        <__p_description>Returns a list of argument tuples for this function with the given optional special flag. Each tuple contains the name, assignment, type, and description in that order. The assignment, type, and description can be empty. The given special flag is true to include the special cls or self arguments to the returned arguments if this function is a regular or class method, else false to exclude them.</__p_description>
                         <__p_returnsDescription>result
 list
-Tuples of argument values for this function. Each tuple contains the name, assignment, type, and description in that order. The assignment, type, and description can be empty. Special self or cls arguments can be included.</__p_returnsDescription>
+The argument tuples.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
-                            <__p_name>mSelf</__p_name>
+                            <__p_name>special</__p_name>
                             <__p_description>bool
-True to include the special cls or self arguments if this function is a regular or class method, false otherwise.</__p_description>
+The special flag.</__p_description>
                             <__p_assignment>True</__p_assignment>
                         </Object>
                     </Function>
@@ -4815,7 +4815,7 @@ True to include the special cls or self arguments if this function is a regular 
                         <__p_description>Getter method.</__p_description>
                         <__p_returnsDescription>result
 list
-Decorator lines, each one including the beginning special at character, of this function.</__p_returnsDescription>
+Decorator lines of this function. Each line includes the beginning special @ character.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4982,17 +4982,15 @@ Tuples of return values of this function. Each tuple contains the name, type and
                     </Function>
                     <Function>
                         <__p_name>key</__p_name>
-                        <__p_description>Getter method.
-
-Because a module reader exists for the dummy container module for each class, keys must adjust to this fact. The given module flag must be true if a module writer is calling this method or false otherwise. In this way the class name is correctly used only once for the dummy module writer to find its dummy module reader. In all other instances of this being the class, nested class, or function writer the root class name is correctly appended twice in order for the writer to find its reader.</__p_description>
+                        <__p_description>Returns a unique key used to obtain the correct reader or writer of this block with the given optional module flag. Because a module reader exists for the dummy container module for each class, keys must adjust to this fact. The given module flag must be true if a module writer is calling this method or false otherwise. In this way the class name is correctly used only once for the dummy module writer to find its dummy module reader. In all other instances of this being the class, nested class, or function writer the root class name is correctly appended twice in order for the writer to find its reader.</__p_description>
                         <__p_returnsDescription>result
 string
-Unique key used to obtain the correct reader for the writer of this block.</__p_returnsDescription>
+The unique key.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
-                            <__p_name>isMod</__p_name>
+                            <__p_name>module</__p_name>
                             <__p_description>bool
 True if the returned key is for a module writer or false otherwise.</__p_description>
                             <__p_assignment>False</__p_assignment>
@@ -5122,27 +5120,27 @@ True if this object is an argument of a function or false otherwise.</__p_return
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new class reader with the given class name and parent reader.</__p_description>
+                        <__p_description>Initializes this new class reader with the given class name this reader will parse and parent reader that discovered the header code line of the class that this reader will parse.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>name</__p_name>
                             <__p_description>string
-The name of the class this reader will parse.</__p_description>
+The class name.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>AbstractReader
-The parent reader that discovered the header code line of the class that this reader will parse.</__p_description>
+The parent reader.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>lines</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_description>Returns lines of custom header code parsed by this class reader. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
-Lines of custom header code parsed by this class reader.</__p_returnsDescription>
+The lines of code or an empty list.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5168,7 +5166,7 @@ Lines of custom header code parsed by this class reader.</__p_returnsDescription
                     </Function>
                     <Function>
                         <__p_name>__scanLines_</__p_name>
-                        <__p_description>Scans for any custom header lines of code at the beginning of this reader's parsed class, positioned right after the header and doc string.</__p_description>
+                        <__p_description>Scans for any custom header lines of code at the beginning of this reader's parsed class, positioned right after the header and document string.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5181,32 +5179,32 @@ Lines of custom header code parsed by this class reader.</__p_returnsDescription
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new function reader with the given function name, header ending flag, and parent reader.</__p_description>
+                        <__p_description>Initializes this new function reader with the given function name this reader will parse, header ending flag, and parent reader that discovered the header code line of the function that this reader will parse. The given header ending flag is true if this reader's parent read past all header lines of the function or false otherwise.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>name</__p_name>
                             <__p_description>string
-The name of the function this reader will parse.</__p_description>
+The function name.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>end</__p_name>
                             <__p_description>bool
-True if this writer's parent reader read past all header lines of its to be parsed function or false otherwise.</__p_description>
+The header ending flag.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>AbstractReader
-The parent reader that discovered the header code line of the function that this reader will parse.</__p_description>
+The parent reader.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>lines</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_description>Returns lines of code parsed by this function reader. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
-Lines of code contained by the parsed function of this reader.</__p_returnsDescription>
+The lines of code or an empty list.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5245,47 +5243,47 @@ Lines of code contained by the parsed function of this reader.</__p_returnsDescr
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new module reader with the given block and parent parser.</__p_description>
+                        <__p_description>Initializes this new module reader with the given block and parent parser. The given block is a package, module, or class block that is associated with this reader's python file.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>AbstractBlock
-A package, module, or class block that is associated with this reader's parsed python file.</__p_description>
+The block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>Parser
-The parser currently parsing its project's source code files.</__p_description>
+The parent parser.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>footer</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_description>Returns lines of custom footer code parsed at the end of this reader's python file after all function and class definitions. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
-Lines of custom code parsed at the end of this reader's module after all function and class definitions.</__p_returnsDescription>
+The lines of code or an empty list.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>header</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_description>Returns import lines of code parsed after the document string of this reader's python file. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
-Import lines of code parsed after the doc string of this reader's module.</__p_returnsDescription>
+The import lines of code or an empty list.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>preHeader</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_description>Returns special comment lines parsed from the very beginning of this reader's python file. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
-Special comment lines parsed from the very beginning of this reader's module. The initial pound character is included in each line.</__p_returnsDescription>
+The special comment lines or an empty list.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5318,7 +5316,7 @@ Special comment lines parsed from the very beginning of this reader's module. Th
                     </Function>
                     <Function>
                         <__p_name>__scanHeader_</__p_name>
-                        <__p_description>Scans for any import code lines present at the beginning of this reader's parsed module, positioned right after the module's doc string. Scanning stops once the first blank line or non import code line is encountered.</__p_description>
+                        <__p_description>Scans for any import code lines present at the beginning of this reader's parsed module, positioned right after the module's document string. Scanning stops once the first blank line or non import code line is encountered.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5333,14 +5331,14 @@ Special comment lines parsed from the very beginning of this reader's module. Th
                 </Class>
                 <Function>
                     <__p_name>skipDocString</__p_name>
-                    <__p_description>Skips a doc string block of lines from the given reader if one is encountered. If a line of code that is not a doc string is encountered then the reader's position is at that line, else its position is the first line after the encountered doc string.</__p_description>
+                    <__p_description>Skips a document string block of lines in the given reader if one is encountered. If a line of code that is not a document string is encountered then the reader's position is at that line, else its position is the first line after the encountered document string.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_class>0</__p_class>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>reader</__p_name>
                         <__p_description>AbstractReader
-The reader whose line position is moved to after an encountered doc string or the first line of actual code.</__p_description>
+The reader.</__p_description>
                     </Object>
                 </Function>
             </Package>
@@ -5535,7 +5533,7 @@ The parent class writer of this writer.</__p_description>
                     <Object>
                         <__p_name>root</__p_name>
                         <__p_description>PackageBlock
-The root block of the project this parser will use for generating paths, readers, and writers.</__p_description>
+The root block.</__p_description>
                     </Object>
                 </Function>
                 <Function>

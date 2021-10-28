@@ -7,16 +7,15 @@ def skipDocString(
     reader
 ):
     """
-    Skips a doc string block of lines from the given reader if one is
-    encountered. If a line of code that is not a doc string is encountered then
-    the reader's position is at that line, else its position is the first line
-    after the encountered doc string.
+    Skips a document string block of lines in the given reader if one is
+    encountered. If a line of code that is not a document string is encountered
+    then the reader's position is at that line, else its position is the first
+    line after the encountered document string.
 
     Parameters
     ----------
     reader : AbstractReader
-             The reader whose line position is moved to after an encountered doc
-             string or the first line of actual code.
+             The reader.
     """
     count = 0
     while count < 2:

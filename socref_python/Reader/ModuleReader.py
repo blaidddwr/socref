@@ -32,15 +32,15 @@ class ModuleReader(ReaderBase):
     ):
         """
         Initializes this new module reader with the given block and parent
-        parser.
+        parser. The given block is a package, module, or class block that is
+        associated with this reader's python file.
 
         Parameters
         ----------
         block : AbstractBlock
-                A package, module, or class block that is associated with this
-                reader's parsed python file.
+                The block.
         parent : Parser
-                 The parser currently parsing its project's source code files.
+                 The parent parser.
         """
         super().__init__(parent)
         self._setKey_(block.key(True))
@@ -53,14 +53,14 @@ class ModuleReader(ReaderBase):
         self
     ):
         """
-        Getter method. This can only be called once, after which an empty list
-        is returned.
+        Returns lines of custom footer code parsed at the end of this reader's
+        python file after all function and class definitions. This can only be
+        called once, after which an empty list is returned.
 
         Returns
         -------
         result : list
-                 Lines of custom code parsed at the end of this reader's module
-                 after all function and class definitions.
+                 The lines of code or an empty list.
         """
         ret = self.__footer
         self.__footer = []
@@ -71,14 +71,14 @@ class ModuleReader(ReaderBase):
         self
     ):
         """
-        Getter method. This can only be called once, after which an empty list
-        is returned.
+        Returns import lines of code parsed after the document string of this
+        reader's python file. This can only be called once, after which an empty
+        list is returned.
 
         Returns
         -------
         result : list
-                 Import lines of code parsed after the doc string of this
-                 reader's module.
+                 The import lines of code or an empty list.
         """
         ret = self.__header
         self.__header = []
@@ -89,15 +89,14 @@ class ModuleReader(ReaderBase):
         self
     ):
         """
-        Getter method. This can only be called once, after which an empty list
-        is returned.
+        Returns special comment lines parsed from the very beginning of this
+        reader's python file. This can only be called once, after which an empty
+        list is returned.
 
         Returns
         -------
         result : list
-                 Special comment lines parsed from the very beginning of this
-                 reader's module. The initial pound character is included in
-                 each line.
+                 The special comment lines or an empty list.
         """
         ret = self.__preHeader
         self.__preHeader = []
@@ -178,9 +177,9 @@ class ModuleReader(ReaderBase):
     ):
         """
         Scans for any import code lines present at the beginning of this
-        reader's parsed module, positioned right after the module's doc string.
-        Scanning stops once the first blank line or non import code line is
-        encountered.
+        reader's parsed module, positioned right after the module's document
+        string. Scanning stops once the first blank line or non import code line
+        is encountered.
         """
         while True:
             self.save()

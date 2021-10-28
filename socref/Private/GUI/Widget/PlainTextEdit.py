@@ -25,13 +25,15 @@ class PlainTextEdit(QPlainTextEdit):
         self
         ,text=""
         ,parent=None
-        ,speller=False
+        ,spellCheck=False
         ,popup=False
     ):
         """
         Initializes this new plain text editor with the given optional text, Qt
-        object parent, spell checking flag, and popup shortcut flag. By default
-        spell checking and the popup shortcut are disabled.
+        object parent, spell checking flag, and popup shortcut flag. The given
+        spell checking flag is true to enable spell checking else false to
+        disable it. The given popup shortcut flag is true to enable the popup
+        shortcut else false to disable it.
 
         Parameters
         ----------
@@ -39,31 +41,32 @@ class PlainTextEdit(QPlainTextEdit):
                The optional text.
         parent : QObject
                  The optional Qt object parent.
-        speller : bool
-                  True to enable spell checking or false to disable it.
+        spellCheck : bool
+                     The spell checking flag.
         popup : bool
-                True to enable the popup shortcut or false to disable it.
+                The popup shortcut flag.
         """
         super().__init__(text,parent)
-        self.__speller = speller
+        self.__spellCheck = spellCheck
         self.__popup = popup
         self.__highlighter = None
-        if speller:
-            self.setSpellerEnabled(True)
+        if spellCheck:
+            self.setSpellCheckEnabled(True)
         self.__setupActions_()
 
 
-    def setSpellerEnabled(
+    def setSpellCheckEnabled(
         self
         ,enabled
     ):
         """
-        Sets the state of this editor's spelling checking to given flag.
+        Sets the state of this editor's spelling checking to given flag. The
+        given flag is true to enable spell checking else false to disable it.
 
         Parameters
         ----------
         enabled : bool
-                  True to enable spell checking or false to disable it.
+                  The flag.
         """
         if not enabled:
             if self.__highlighter is not None:
@@ -71,7 +74,7 @@ class PlainTextEdit(QPlainTextEdit):
                 self.__highlighter = None
         elif self.__highlighter is None:
             self.__highlighter = SpellHighlighter(self.document())
-        self.__speller = enabled
+        self.__spellCheck = enabled
 
 
     @Slot()
@@ -82,7 +85,7 @@ class PlainTextEdit(QPlainTextEdit):
         Called to open a modal dialog text editor to edit this editor's text.
         """
         if self.__popup:
-            dialog = TextDialog.TextDialog(self.toPlainText(),self,speller=self.__speller)
+            dialog = TextDialog.TextDialog(self.toPlainText(),self,spellCheck=self.__spellCheck)
             dialog.setWindowTitle("Text Editor - Socrates' Reference")
             if dialog.exec():
                 self.setPlainText(dialog.text())

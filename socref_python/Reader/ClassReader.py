@@ -26,16 +26,16 @@ class ClassReader(ReaderBase):
         ,parent
     ):
         """
-        Initializes this new class reader with the given class name and parent
-        reader.
+        Initializes this new class reader with the given class name this reader
+        will parse and parent reader that discovered the header code line of the
+        class that this reader will parse.
 
         Parameters
         ----------
         name : string
-               The name of the class this reader will parse.
+               The class name.
         parent : AbstractReader
-                 The parent reader that discovered the header code line of the
-                 class that this reader will parse.
+                 The parent reader.
         """
         super().__init__(parent)
         self._setKey_(parent.key()+"."+name)
@@ -47,13 +47,13 @@ class ClassReader(ReaderBase):
         self
     ):
         """
-        Getter method. This can only be called once, after which an empty list
-        is returned.
+        Returns lines of custom header code parsed by this class reader. This
+        can only be called once, after which an empty list is returned.
 
         Returns
         -------
         result : list
-                 Lines of custom header code parsed by this class reader.
+                 The lines of code or an empty list.
         """
         ret = self.__lines
         self.__lines = []
@@ -114,7 +114,8 @@ class ClassReader(ReaderBase):
     ):
         """
         Scans for any custom header lines of code at the beginning of this
-        reader's parsed class, positioned right after the header and doc string.
+        reader's parsed class, positioned right after the header and document
+        string.
         """
         while True:
             self.save()

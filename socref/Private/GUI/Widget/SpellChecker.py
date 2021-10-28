@@ -48,7 +48,7 @@ class SpellChecker(QGroupBox):
         ,parent=None
     ):
         """
-        Initializes this new speller checker with the given group box title and
+        Initializes this new spell checker with the given group box title and
         optional Qt object parent.
 
         Parameters
@@ -94,15 +94,16 @@ class SpellChecker(QGroupBox):
     ):
         """
         Finds the next misspelled word in the current document of this spell
-        checker's Qt text cursor. The given skip flag determines if the current
-        word is ignored and skipped. The default is to not ignore the current
-        word for misspelling. If no misspelled word is found once the end of the
-        document is reached then this spell checker stops.
+        checker's Qt text cursor with the given skip flag. The skip flag is true
+        to ignore and skip the current word else false to spell check the
+        current word. The default is to not ignore the current word for
+        misspelling. If no misspelled word is found once the end of the document
+        is reached then this spell checker stops.
 
         Parameters
         ----------
         skip : bool
-               True to skip the current word or false otherwise.
+               The skip flag.
         """
         cursor = self.__cursor
         while True:
