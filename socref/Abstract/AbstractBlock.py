@@ -223,13 +223,13 @@ class AbstractBlock(ABC):
         self
     ):
         """
-        This interface is a getter method. This block must have a parent.
+        This interface returns this block's row within its parent block's list
+        of children. This block must have a parent block.
 
         Returns
         -------
         result : int
-                 The integer index of this block within its parent block's list
-                 of children.
+                 This block's row.
         """
         pass
 
@@ -260,8 +260,7 @@ class AbstractBlock(ABC):
         self
     ):
         """
-        This interface is a getter method. The default implementation returns
-        false.
+        This interface is a getter method.
 
         Returns
         -------
@@ -277,8 +276,7 @@ class AbstractBlock(ABC):
         self
     ):
         """
-        This interface is a getter method. The default implementation returns
-        false.
+        This interface is a getter method.
 
         Returns
         -------

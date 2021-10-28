@@ -41,10 +41,9 @@ class CommandBase(AbstractCommand):
         ,index
     ):
         """
-        Creates and returns a list of row indexes generated from the given Qt
-        model index of this command's project model. The first index in the list
-        begins at the root index. If the list is empty then it represents the
-        root index.
+        Creates and returns a list of rows, starting at the root parent index,
+        generated from the given Qt model index of this command's project model.
+        If the returned list is empty then it represents the root index.
 
         Parameters
         ----------

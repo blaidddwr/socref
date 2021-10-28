@@ -310,8 +310,8 @@ class MainWindow(QMainWindow):
     ):
         """
         Called to inform this window that the singleton parser model has made
-        progress parsing to the given percentage progress. The progress is
-        between 0 and 100.
+        progress parsing to the given percentage progress. The given progress
+        must be between 0 and 100.
 
         Parameters
         ----------

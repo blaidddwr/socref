@@ -24,9 +24,10 @@ class SetCommand(CommandBase):
         """
         Initializes this new set command with the given original block
         properties, new block properties, Qt model index, and project model.
-        This command's redo interface updates the block at the Qt model index
-        with the new block properties. This command's undo interface updates the
-        block at the Qt model index with the original block properties.
+        This command's redo interface updates the block at the given Qt model
+        index with the given new block properties. This command's undo interface
+        updates the block at the given Qt model index with the given original
+        block properties.
 
         Parameters
         ----------

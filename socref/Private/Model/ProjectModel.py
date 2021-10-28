@@ -90,12 +90,13 @@ class ProjectModel(QAbstractItemModel):
         ,parent=None
     ):
         """
-        Initializes a new project model with the given optional parent.
+        Initializes this new project model with the given optional Qt object
+        parent.
 
         Parameters
         ----------
         parent : QObject
-                 Optional Qt object parent of this new model.
+                 The optional Qt object parent.
         """
         super().__init__(parent)
         self.__name = None
@@ -174,21 +175,21 @@ class ProjectModel(QAbstractItemModel):
         ,indexes
     ):
         """
-        Copies the given indexes to XML.
+        Copies and returns the blocks at the given Qt model indexes to a Qt byte
+        array XML document, along with returning a set of all copied block
+        types.
 
         Parameters
         ----------
         indexes : list
-                  Qt model indexes whose blocks are copied to XML.
+                  The Qt model indexes.
 
         Returns
         -------
         data : QByteArray
-               Copied blocks at the given indexes in the form of XML. The XML
-               format is copy with each index an element in the root XML copy
-               tag.
+               The Qt byte array XML document.
         copied : set
-                 All block types that were copied.
+                 The copied block types.
         """
         blockTypes = set()
         xml = QByteArray()
@@ -263,24 +264,23 @@ class ProjectModel(QAbstractItemModel):
         ,parent
     ):
         """
-        Inserts blocks into this model at the given parent index and row loaded
-        from the given XML.
+        Inserts blocks into the given parent index of this model, at the given
+        row, and loaded from the given Qt byte array XML document. The total
+        number of blocks that were inserted is returned.
 
         Parameters
         ----------
         row : int
-              The row in the given parent index where loaded blocks are
-              inserted.
+              The row.
         xml : QByteArray
-              Contains the loaded blocks. This must conform to the XML copy
-              standard produced by the copy to XML method of this class.
+              The Qt byte array XML document.
         parent : QModelIndex
-                 The parent index where the loaded blocks are inserted.
+                 The parent index.
 
         Returns
         -------
         result : int
-                 Total number of blocks that were inserted into this model.
+                 The total number of inserted blocks.
         """
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or row > len(parentBlock):
@@ -316,14 +316,15 @@ class ProjectModel(QAbstractItemModel):
     ):
         """
         Implements the QAbstractItemModel interface, adding one additional
-        argument that is described.
+        argument that is described. The given block type is used to create a new
+        block inserted.
 
         Parameters
         ----------
         row : object
               See Qt docs.
         blockType : string
-                    The block type that is created and inserted into this model.
+                    The block type.
         parent : object
                  See Qt docs.
         """
@@ -338,16 +339,15 @@ class ProjectModel(QAbstractItemModel):
     ):
         """
         Implements the QAbstractItemModel interface, adding one additional
-        argument that is described.
+        argument that is described. The list of given block types are used to
+        create the new blocks inserted.
 
         Parameters
         ----------
         row : object
               See Qt docs.
         blockTypes : list
-                     Block type name strings, where each one represents a new
-                     block that is created and inserted with the given type
-                     name.
+                     The Block types.
         parent : object
                  See Qt docs.
         """
@@ -404,7 +404,7 @@ class ProjectModel(QAbstractItemModel):
         Parameters
         ----------
         path : string
-               The file path of the project that is loaded into this model.
+               The file path.
         """
         xml = None
         with open(path,"br") as ifile:
@@ -446,15 +446,15 @@ class ProjectModel(QAbstractItemModel):
         ,index
     ):
         """
-        Moves the given index's row by the amount given.
+        Moves the given Qt model index's row by the given row change, where
+        negative is up and positive is down.
 
         Parameters
         ----------
         change : int
-                 The row change for the index that is moved. Negative is up and
-                 positive is down.
+                 The row change.
         index : QModelIndex
-                The Qt model index that is moved.
+                The Qt model index.
 
         Returns
         -------
@@ -499,7 +499,7 @@ class ProjectModel(QAbstractItemModel):
         Parameters
         ----------
         langName : string
-                   The name of the language used to create a new project.
+                   The language name.
         """
         if self.__root is not None:
             self.close()
@@ -609,7 +609,7 @@ class ProjectModel(QAbstractItemModel):
         Parameters
         ----------
         path : string
-               The path to the save file of this model's project.
+               The path.
         """
         if self.__root is not None:
             xml = QByteArray()
@@ -647,13 +647,13 @@ class ProjectModel(QAbstractItemModel):
         ,name
     ):
         """
-        Sets the name of this model's currently loaded project to the one given.
-        This model must have a loaded project.
+        Sets the name of this model's currently loaded project to the given
+        name. This model must have a loaded project.
 
         Parameters
         ----------
         name : string
-               The new name for this model's project.
+               The name.
         """
         if self.__root is None:
             raise RuntimeError("Cannot set name of no project.")
@@ -669,12 +669,12 @@ class ProjectModel(QAbstractItemModel):
     ):
         """
         Sets the relative parsing path of this model's currently loaded project
-        to the path given. This model must have a loaded project.
+        to the given relative path. This model must have a loaded project.
 
         Parameters
         ----------
         path : string
-               The new parsing path of this model's project.
+               The relative path.
         """
         if self.__root is None:
             raise RuntimeError("Cannot set name of no project.")
@@ -704,18 +704,17 @@ class ProjectModel(QAbstractItemModel):
         ,parent
     ):
         """
-        Inserts the given blocks into the given parent index at the given row.
-        The given parent index and row must be valid.
+        Inserts the given blocks into the given parent index of this model at
+        the given row. The given parent index and row must be valid.
 
         Parameters
         ----------
         row : int
-              The row where the given blocks are inserted into the given parent.
+              The row.
         blocks : list
-                 Blocks that are inserted into this model.
+                 The blocks.
         parent : QModelIndex
-                 The parent index where the given blocks are inserted into as
-                 children.
+                 The parent index.
         """
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or row > len(parentBlock):
@@ -735,22 +734,23 @@ class ProjectModel(QAbstractItemModel):
 
     def _moveRow_(
         self
-        ,fromRow
-        ,toRow
+        ,start
+        ,destination
         ,parent
     ):
         """
-        Moves the block at the given from row to the given to row in the given
-        parent index. The given rows and parent index must all be valid.
+        Moves the block at the given start row to the given destination row in
+        the given parent index of this model. The given row indexes and parent
+        index must all be valid.
 
         Parameters
         ----------
-        fromRow : int
-                  The row of the block that is moved.
-        toRow : int
-                The new row of the moved block.
+        start : int
+                The start row.
+        destination : int
+                      The destination row.
         parent : QModelIndex
-                 The parent index where a child block is moved.
+                 The parent index.
         """
         parentBlock = self.__block_(parent)
         if parentBlock is None:
@@ -758,13 +758,13 @@ class ProjectModel(QAbstractItemModel):
         volatile = False
         self.beginMoveRows(
             parent
-            ,fromRow,fromRow
+            ,start,start
             ,parent
-            ,toRow + 1 if toRow > fromRow else toRow
+            ,destination + 1 if destination > start else destination
         )
-        if parentBlock[fromRow]:
+        if parentBlock[start]:
             volatile = True
-        parentBlock.insert(toRow,parentBlock.pop(fromRow))
+        parentBlock.insert(destination,parentBlock.pop(start))
         self.endMoveRows()
         self.__pushVolatileAbove_(parent)
         self.__modified_()
@@ -777,17 +777,18 @@ class ProjectModel(QAbstractItemModel):
         ,parent
     ):
         """
-        Removes the given count of blocks starting at the given row in the given
-        parent index. The given parent index, row, and count must all be valid.
+        Removes and returns the given count of blocks starting at the given row
+        in the given parent index of this model. The given parent index, row,
+        and count must all be valid.
 
         Parameters
         ----------
         row : int
-              The starting row where blocks are removed.
+              The row.
         count : int
-                The total number of blocks that are removed.
+                The count.
         parent : QModelIndex
-                 The parent index where child blocks are removed.
+                 The parent index.
 
         Returns
         -------
@@ -817,16 +818,16 @@ class ProjectModel(QAbstractItemModel):
         ,properties
     ):
         """
-        Sets the properties of the block at the given index in this model. The
-        given index must be valid.
+        Sets the properties of the block at the given Qt model index in this
+        model to the given block properties. The given Qt model index must be
+        valid.
 
         Parameters
         ----------
         index : QModelIndex
-                The index of the updated block.
+                The Qt model index.
         properties : dictionary
-                     The new properties dictionary of the block at the given
-                     index.
+                     The block properties.
         """
         block = self.__block_(index)
         if block is None:
@@ -845,19 +846,19 @@ class ProjectModel(QAbstractItemModel):
         ,index
     ):
         """
-        Getter method.
+        Returns the block at the given Qt model index of this model. If the
+        given Qt model index is invalid then the root block is returned. If this
+        model has no project then none is returned.
 
         Parameters
         ----------
         index : QModelIndex
-                The index whose block is returned.
+                The Qt model index.
 
         Returns
         -------
-        result : AbstractBlock
-                 The block of the given index. If the given index is invalid the
-                 root block is returned, which is none if this model has no
-                 project.
+        result : object
+                 The block or none.
         """
         if index.isValid():
             return index.internalPointer()
@@ -888,9 +889,7 @@ class ProjectModel(QAbstractItemModel):
         Parameters
         ----------
         command : AbstractCommand
-                  The command that is immediately executed and added to this
-                  model's undo stack. Any commands that have been undone on the
-                  stack are erased.
+                  The command.
         """
         self.__undoStack = self.__undoStack[:self.__undoStackIndex]
         self.__undoStack.append(command)
@@ -903,15 +902,14 @@ class ProjectModel(QAbstractItemModel):
         ,index
     ):
         """
-        Signals the given index of this model has changed its data if it is
-        valid, recursively calling itself on the given index's parent index if
-        its block is also volatile above.
+        Signals the given Qt model index of this model has changed its data if
+        the given index is valid. This then recursively calls this method on the
+        parent index of the given parent index if its block is volatile above.
 
         Parameters
         ----------
         index : QModelIndex
-                The index of this model whose data has changed due to volatile
-                children.
+                The Qt model index.
         """
         if index.isValid():
             self.dataChanged.emit(index,index)
@@ -925,15 +923,14 @@ class ProjectModel(QAbstractItemModel):
         ,parent
     ):
         """
-        Signals the given parent index of this model has changed its children's
-        data if it is valid, recursively calling itself on any child that is
-        also volatile below.
+        Signals the given parent index of this model has changed causing all its
+        children to update their data. This then recursively calls this method
+        on any children indexes whose blocks are also volatile below.
 
         Parameters
         ----------
         parent : QModelIndex
-                 The parent index of this model whose children's data has
-                 changed due to the volatile below parent.
+                 The parent index.
         """
         for row in range(self.rowCount(parent)):
             index = self.index(row,0,parent)

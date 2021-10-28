@@ -22,8 +22,9 @@ class MoveCommand(CommandBase):
     ):
         """
         Initializes this new move command with the given change, Qt model index,
-        and project model. This command's redo interface changes the index's row
-        by the change amount, negative being up and positive being down.
+        and project model. This command's redo interface changes the given
+        index's row by the given change amount, negative being up and positive
+        being down.
 
         Parameters
         ----------

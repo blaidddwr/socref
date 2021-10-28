@@ -24,14 +24,15 @@ class RemoveCommand(CommandBase):
         ,model
     ):
         """
-        Initializes this new remove command with the given row index, count,
-        parent index, and project model. This command's redo interface removes
-        count number of indexes from the given parent starting at the given row.
+        Initializes this new remove command with the given row, count, parent
+        index, and project model. This command's redo interface removes the
+        given count number of indexes from the given parent starting at the
+        given row.
 
         Parameters
         ----------
         row : int
-              The row index.
+              The row.
         count : int
                 The count.
         parent : QModelIndex

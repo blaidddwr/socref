@@ -72,7 +72,7 @@ class BlockEditDock(QDockWidget):
         """
         Sets this dock's project view to the one given. The given project view
         is not made the Qt child of this dock. If this dock currently has a view
-        it is unset from this dock.
+        then it is unset from this dock.
 
         Parameters
         ----------

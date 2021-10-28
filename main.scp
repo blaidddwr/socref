@@ -169,10 +169,10 @@ The icon of this block.</__p_returnsDescription>
                     </Function>
                     <Function>
                         <__p_name>index</__p_name>
-                        <__p_description>This interface is a getter method. This block must have a parent.</__p_description>
+                        <__p_description>This interface returns this block's row within its parent block's list of children. This block must have a parent block.</__p_description>
                         <__p_returnsDescription>result
 int
-The integer index of this block within its parent block's list of children.</__p_returnsDescription>
+This block's row.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>1</__p_abstract>
@@ -196,7 +196,7 @@ The block.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>isVolatileAbove</__p_name>
-                        <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
+                        <__p_description>This interface is a getter method.</__p_description>
                         <__p_returnsDescription>result
 bool
 True if a change in this block's properties can effect its parent block or false otherwise.</__p_returnsDescription>
@@ -206,7 +206,7 @@ True if a change in this block's properties can effect its parent block or false
                     </Function>
                     <Function>
                         <__p_name>isVolatileBelow</__p_name>
-                        <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
+                        <__p_description>This interface is a getter method.</__p_description>
                         <__p_returnsDescription>result
 bool
 True if a change in this block's properties can effect its children blocks or false otherwise.</__p_returnsDescription>
@@ -2041,7 +2041,7 @@ The optional Qt object parent.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>setView</__p_name>
-                                <__p_description>Sets this dock's project view to the one given. The given project view is not made the Qt child of this dock. If this dock currently has a view it is unset from this dock.</__p_description>
+                                <__p_description>Sets this dock's project view to the one given. The given project view is not made the Qt child of this dock. If this dock currently has a view then it is unset from this dock.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2249,7 +2249,7 @@ The optional Qt object parent.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>setView</__p_name>
-                                <__p_description>Sets this dock's project view to the one given. The given project view is not made the Qt child of this dock. If this dock currently has a view it is unset from this dock.</__p_description>
+                                <__p_description>Sets this dock's project view to the one given. The given project view is not made the Qt child of this dock. If this dock currently has a view then it is unset from this dock.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2759,7 +2759,7 @@ The optional Qt object parent.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>start</__p_name>
-                                <__p_description>Called to have this spell checker begin checking for misspelled words in the document of the given Qt text cursor. The entire document is checked for misspelled words. If this spell checker is already checking a document then this does nothing.</__p_description>
+                                <__p_description>Called to have this spell checker begin checking for misspelled words in the document of the given Qt text cursor. The entire document of the given Qt text cursor is checked for misspelled words. If this spell checker is already checking a document then this does nothing.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -2962,7 +2962,7 @@ The language.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>__parseProgressed_</__p_name>
-                                <__p_description>Called to inform this window that the singleton parser model has made progress parsing to the given percentage progress. The progress is between 0 and 100.</__p_description>
+                                <__p_description>Called to inform this window that the singleton parser model has made progress parsing to the given percentage progress. The given progress must be between 0 and 100.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -3166,7 +3166,7 @@ The project model.</__p_description>
                             </Function>
                             <Function>
                                 <__p_name>_rows_</__p_name>
-                                <__p_description>Creates and returns a list of row indexes generated from the given Qt model index of this command's project model. The first index in the list begins at the root index. If the list is empty then it represents the root index.</__p_description>
+                                <__p_description>Creates and returns a list of rows, starting at the root parent index, generated from the given Qt model index of this command's project model. If the returned list is empty then it represents the root index.</__p_description>
                                 <__p_returnsDescription>result
 list
 The row indexes.</__p_returnsDescription>
@@ -3206,14 +3206,14 @@ The row indexes.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes this new insert command with the given row index, blocks, parent index, and project model. This command's redo inserts the blocks into the parent index at the row index.</__p_description>
+                                <__p_description>Initializes this new insert command with the given row, blocks, parent index, and project model. This command's redo inserts the given blocks into the given parent index at the given row.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>row</__p_name>
                                     <__p_description>int
-The row index.</__p_description>
+The row.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>blocks</__p_name>
@@ -3251,7 +3251,7 @@ The project model.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes this new move command with the given change, Qt model index, and project model. This command's redo interface changes the index's row by the change amount, negative being up and positive being down.</__p_description>
+                                <__p_description>Initializes this new move command with the given change, Qt model index, and project model. This command's redo interface changes the given index's row by the given change amount, negative being up and positive being down.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -3291,14 +3291,14 @@ The project model.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes this new remove command with the given row index, count, parent index, and project model. This command's redo interface removes count number of indexes from the given parent starting at the given row.</__p_description>
+                                <__p_description>Initializes this new remove command with the given row, count, parent index, and project model. This command's redo interface removes the given count number of indexes from the given parent starting at the given row.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>row</__p_name>
                                     <__p_description>int
-The row index.</__p_description>
+The row.</__p_description>
                                 </Object>
                                 <Object>
                                     <__p_name>count</__p_name>
@@ -3336,7 +3336,7 @@ The project model.</__p_description>
                             <__p_infile>0</__p_infile>
                             <Function>
                                 <__p_name>__init__</__p_name>
-                                <__p_description>Initializes this new set command with the given original block properties, new block properties, Qt model index, and project model. This command's redo interface updates the block at the Qt model index with the new block properties. This command's undo interface updates the block at the Qt model index with the original block properties.</__p_description>
+                                <__p_description>Initializes this new set command with the given original block properties, new block properties, Qt model index, and project model. This command's redo interface updates the block at the given Qt model index with the given new block properties. This command's undo interface updates the block at the given Qt model index with the given original block properties.</__p_description>
                                 <__p_static>0</__p_static>
                                 <__p_class>0</__p_class>
                                 <__p_abstract>0</__p_abstract>
@@ -3407,14 +3407,14 @@ Methods are provided to support undoing any previous action done to this model's
                         </Object>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new project model with the given optional parent.</__p_description>
+                            <__p_description>Initializes this new project model with the given optional Qt object parent.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>QObject
-Optional Qt object parent of this new model.</__p_description>
+The optional Qt object parent.</__p_description>
                                 <__p_assignment>None</__p_assignment>
                             </Object>
                         </Function>
@@ -3462,21 +3462,21 @@ True if this model has a modification that can be undone or false otherwise.</__
                         </Function>
                         <Function>
                             <__p_name>copyToXml</__p_name>
-                            <__p_description>Copies the given indexes to XML.</__p_description>
+                            <__p_description>Copies and returns the blocks at the given Qt model indexes to a Qt byte array XML document, along with returning a set of all copied block types.</__p_description>
                             <__p_returnsDescription>data
 QByteArray
-Copied blocks at the given indexes in the form of XML. The XML format is copy with each index an element in the root XML copy tag.
+The Qt byte array XML document.
 
 copied
 set
-All block types that were copied.</__p_returnsDescription>
+The copied block types.</__p_returnsDescription>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>indexes</__p_name>
                                 <__p_description>list
-Qt model indexes whose blocks are copied to XML.</__p_description>
+The Qt model indexes.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3523,32 +3523,32 @@ Qt model indexes whose blocks are copied to XML.</__p_description>
                         </Function>
                         <Function>
                             <__p_name>insertFromXml</__p_name>
-                            <__p_description>Inserts blocks into this model at the given parent index and row loaded from the given XML.</__p_description>
+                            <__p_description>Inserts blocks into the given parent index of this model, at the given row, and loaded from the given Qt byte array XML document. The total number of blocks that were inserted is returned.</__p_description>
                             <__p_returnsDescription>result
 int
-Total number of blocks that were inserted into this model.</__p_returnsDescription>
+The total number of inserted blocks.</__p_returnsDescription>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>int
-The row in the given parent index where loaded blocks are inserted.</__p_description>
+The row.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>xml</__p_name>
                                 <__p_description>QByteArray
-Contains the loaded blocks. This must conform to the XML copy standard produced by the copy to XML method of this class.</__p_description>
+The Qt byte array XML document.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>QModelIndex
-The parent index where the loaded blocks are inserted.</__p_description>
+The parent index.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>insertRow</__p_name>
-                            <__p_description>Implements the QAbstractItemModel interface, adding one additional argument that is described.</__p_description>
+                            <__p_description>Implements the QAbstractItemModel interface, adding one additional argument that is described. The given block type is used to create a new block inserted.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
@@ -3560,7 +3560,7 @@ See Qt docs.</__p_description>
                             <Object>
                                 <__p_name>blockType</__p_name>
                                 <__p_description>string
-The block type that is created and inserted into this model.</__p_description>
+The block type.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
@@ -3570,7 +3570,7 @@ See Qt docs.</__p_description>
                         </Function>
                         <Function>
                             <__p_name>insertRows</__p_name>
-                            <__p_description>Implements the QAbstractItemModel interface, adding one additional argument that is described.</__p_description>
+                            <__p_description>Implements the QAbstractItemModel interface, adding one additional argument that is described. The list of given block types are used to create the new blocks inserted.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
@@ -3582,7 +3582,7 @@ See Qt docs.</__p_description>
                             <Object>
                                 <__p_name>blockTypes</__p_name>
                                 <__p_description>list
-Block type name strings, where each one represents a new block that is created and inserted with the given type name.</__p_description>
+The Block types.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
@@ -3619,12 +3619,12 @@ The language name of this model's project or none if it has no project.</__p_ret
                             <Object>
                                 <__p_name>path</__p_name>
                                 <__p_description>string
-The file path of the project that is loaded into this model.</__p_description>
+The file path.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>moveRow</__p_name>
-                            <__p_description>Moves the given index's row by the amount given.</__p_description>
+                            <__p_description>Moves the given Qt model index's row by the given row change, where negative is up and positive is down.</__p_description>
                             <__p_returnsDescription>result
 bool
 True if the move was successful or false otherwise.</__p_returnsDescription>
@@ -3634,12 +3634,12 @@ True if the move was successful or false otherwise.</__p_returnsDescription>
                             <Object>
                                 <__p_name>change</__p_name>
                                 <__p_description>int
-The row change for the index that is moved. Negative is up and positive is down.</__p_description>
+The row change.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>QModelIndex
-The Qt model index that is moved.</__p_description>
+The Qt model index.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3661,7 +3661,7 @@ The name of this model's project or none if it has no project.</__p_returnsDescr
                             <Object>
                                 <__p_name>langName</__p_name>
                                 <__p_description>string
-The name of the language used to create a new project.</__p_description>
+The language name.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3734,7 +3734,7 @@ A newly built parser for this model's project or none if it has no project.</__p
                             <Object>
                                 <__p_name>path</__p_name>
                                 <__p_description>string
-The path to the save file of this model's project.</__p_description>
+The path.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3754,26 +3754,26 @@ The path to the save file of this model's project.</__p_description>
                         </Function>
                         <Function>
                             <__p_name>setName</__p_name>
-                            <__p_description>Sets the name of this model's currently loaded project to the one given. This model must have a loaded project.</__p_description>
+                            <__p_description>Sets the name of this model's currently loaded project to the given name. This model must have a loaded project.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>name</__p_name>
                                 <__p_description>string
-The new name for this model's project.</__p_description>
+The name.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>setParsePath</__p_name>
-                            <__p_description>Sets the relative parsing path of this model's currently loaded project to the path given. This model must have a loaded project.</__p_description>
+                            <__p_description>Sets the relative parsing path of this model's currently loaded project to the given relative path. This model must have a loaded project.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>path</__p_name>
                                 <__p_description>string
-The new parsing path of this model's project.</__p_description>
+The relative path.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3786,51 +3786,51 @@ The new parsing path of this model's project.</__p_description>
                         </Function>
                         <Function>
                             <__p_name>_insertRows_</__p_name>
-                            <__p_description>Inserts the given blocks into the given parent index at the given row. The given parent index and row must be valid.</__p_description>
+                            <__p_description>Inserts the given blocks into the given parent index of this model at the given row. The given parent index and row must be valid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>int
-The row where the given blocks are inserted into the given parent.</__p_description>
+The row.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>blocks</__p_name>
                                 <__p_description>list
-Blocks that are inserted into this model.</__p_description>
+The blocks.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>QModelIndex
-The parent index where the given blocks are inserted into as children.</__p_description>
+The parent index.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>_moveRow_</__p_name>
-                            <__p_description>Moves the block at the given from row to the given to row in the given parent index. The given rows and parent index must all be valid.</__p_description>
+                            <__p_description>Moves the block at the given start row to the given destination row in the given parent index of this model. The given row indexes and parent index must all be valid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>fromRow</__p_name>
+                                <__p_name>start</__p_name>
                                 <__p_description>int
-The row of the block that is moved.</__p_description>
+The start row.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>toRow</__p_name>
+                                <__p_name>destination</__p_name>
                                 <__p_description>int
-The new row of the moved block.</__p_description>
+The destination row.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>QModelIndex
-The parent index where a child block is moved.</__p_description>
+The parent index.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>_removeRows_</__p_name>
-                            <__p_description>Removes the given count of blocks starting at the given row in the given parent index. The given parent index, row, and count must all be valid.</__p_description>
+                            <__p_description>Removes and returns the given count of blocks starting at the given row in the given parent index of this model. The given parent index, row, and count must all be valid.</__p_description>
                             <__p_returnsDescription>result
 list
 Removed blocks.</__p_returnsDescription>
@@ -3840,49 +3840,49 @@ Removed blocks.</__p_returnsDescription>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>int
-The starting row where blocks are removed.</__p_description>
+The row.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>count</__p_name>
                                 <__p_description>int
-The total number of blocks that are removed.</__p_description>
+The count.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>QModelIndex
-The parent index where child blocks are removed.</__p_description>
+The parent index.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>_setProperties_</__p_name>
-                            <__p_description>Sets the properties of the block at the given index in this model. The given index must be valid.</__p_description>
+                            <__p_description>Sets the properties of the block at the given Qt model index in this model to the given block properties. The given Qt model index must be valid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>QModelIndex
-The index of the updated block.</__p_description>
+The Qt model index.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>properties</__p_name>
                                 <__p_description>dictionary
-The new properties dictionary of the block at the given index.</__p_description>
+The block properties.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__block_</__p_name>
-                            <__p_description>Getter method.</__p_description>
+                            <__p_description>Returns the block at the given Qt model index of this model. If the given Qt model index is invalid then the root block is returned. If this model has no project then none is returned.</__p_description>
                             <__p_returnsDescription>result
-AbstractBlock
-The block of the given index. If the given index is invalid the root block is returned, which is none if this model has no project.</__p_returnsDescription>
+object
+The block or none.</__p_returnsDescription>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>QModelIndex
-The index whose block is returned.</__p_description>
+The Qt model index.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3901,31 +3901,31 @@ The index whose block is returned.</__p_description>
                             <Object>
                                 <__p_name>command</__p_name>
                                 <__p_description>AbstractCommand
-The command that is immediately executed and added to this model's undo stack. Any commands that have been undone on the stack are erased.</__p_description>
+The command.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__pushVolatileAbove_</__p_name>
-                            <__p_description>Signals the given index of this model has changed its data if it is valid, recursively calling itself on the given index's parent index if its block is also volatile above.</__p_description>
+                            <__p_description>Signals the given Qt model index of this model has changed its data if the given index is valid. This then recursively calls this method on the parent index of the given parent index if its block is volatile above.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>QModelIndex
-The index of this model whose data has changed due to volatile children.</__p_description>
+The Qt model index.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__pushVolatileBelow_</__p_name>
-                            <__p_description>Signals the given parent index of this model has changed its children's data if it is valid, recursively calling itself on any child that is also volatile below.</__p_description>
+                            <__p_description>Signals the given parent index of this model has changed causing all its children to update their data. This then recursively calls this method on any children indexes whose blocks are also volatile below.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>QModelIndex
-The parent index of this model whose children's data has changed due to the volatile below parent.</__p_description>
+The parent index.</__p_description>
                             </Object>
                         </Function>
                     </Class>

@@ -73,9 +73,9 @@ class SpellChecker(QGroupBox):
     ):
         """
         Called to have this spell checker begin checking for misspelled words in
-        the document of the given Qt text cursor. The entire document is checked
-        for misspelled words. If this spell checker is already checking a
-        document then this does nothing.
+        the document of the given Qt text cursor. The entire document of the
+        given Qt text cursor is checked for misspelled words. If this spell
+        checker is already checking a document then this does nothing.
 
         Parameters
         ----------
