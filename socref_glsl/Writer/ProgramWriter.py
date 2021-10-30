@@ -22,16 +22,16 @@ class ProgramWriter(WriterBase):
         ,parent
     ):
         """
-        Initializes this new program writer with the given block and parent
-        parser.
+        Initializes this new program writer with the given program block and
+        parent parser. The given program block is used by this writer to
+        generate its output.
 
         Parameters
         ----------
         block : ProgramBlock
-                The program block this writer uses to generate its output.
+                The program block.
         parent : Parser
-                 The parser currently outputting its project's source code
-                 files.
+                 The parent parser.
         """
         super().__init__(parent)
         self.__block = block

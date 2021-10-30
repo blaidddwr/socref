@@ -24,16 +24,16 @@ class StructureWriter(WriterBase):
         ,parent
     ):
         """
-        Initializes this new structure writer and its children writers with the
-        given block and parent writer.
+        Initializes this new structure writer with the given structure block and
+        parent shader writer. The given structure block is used by this writer
+        to initialize its children writers and generate its output.
 
         Parameters
         ----------
-        block : VariableBlock
-                The structure block this writer uses to initialize its children
-                writers and generate its output.
-        parent : AbstractWriter
-                 The parent writer of this writer. This must be a shader writer.
+        block : StructureBlock
+                The structure block.
+        parent : ShaderWriter
+                 The parent shader writer.
         """
         super().__init__(parent)
         self.__block = block

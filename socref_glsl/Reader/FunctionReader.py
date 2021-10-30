@@ -20,16 +20,16 @@ class FunctionReader(ReaderBase):
         ,parent
     ):
         """
-        Initializes this new function reader with the given function name and
-        parent reader.
+        Initializes this new function reader with the given function name this
+        reader will parse and parent shader reader that discovered the header
+        code line of the function that this reader will parse.
 
         Parameters
         ----------
         name : string
-               The name of the function this reader will parse.
+               The function name.
         parent : ShaderReader
-                 The parent shader reader that discovered the header code line
-                 of the function that this reader will parse.
+                 The parent shader reader.
         """
         super().__init__(parent)
         self.__key = parent.key()+"."+name
@@ -41,13 +41,13 @@ class FunctionReader(ReaderBase):
         self
     ):
         """
-        Getter method. This can only be called once, after which an empty list
-        is returned.
+        Returns lines of code parsed by this function reader. This can only be
+        called once, after which an empty list is returned.
 
         Returns
         -------
         result : list
-                 Lines of code contained by the parsed function of this reader.
+                 The lines of code.
         """
         ret = self.__lines
         self.__lines = []

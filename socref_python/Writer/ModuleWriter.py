@@ -27,19 +27,18 @@ class ModuleWriter(WriterBase):
     ):
         """
         Initializes this new module writer and its children writers with the
-        given block and parent parser.
+        given block and parent parser. The given block must be a package,
+        module, or class that this writer uses to find its corresponding reader,
+        initialize its children writers, and generate its output. If the given
+        block is a class then this writer creates a child class writer with the
+        given class block.
 
         Parameters
         ----------
         block : AbstractBlock
-                A package, module, or class block that this writer uses to find
-                its corresponding reader, initialize its children writers, and
-                generate output. If the given block is a class then the reader
-                find is the dummy module container and a new class writer child
-                is created with the same class block.
+                The block.
         parent : Parser
-                 The parser currently outputting its project's source code
-                 files.
+                 The parser.
         """
         super().__init__(parent)
         self.__block = block

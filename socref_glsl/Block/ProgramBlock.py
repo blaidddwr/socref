@@ -80,8 +80,8 @@ class ProgramBlock(BlockBase):
         Returns
         -------
         result : string
-                 Unique key used to obtain the correct reader for the writer of
-                 this block.
+                 Unique key used to obtain the correct reader or writer of this
+                 block.
         """
         names = []
         b = self

@@ -22,15 +22,15 @@ class FunctionWriter(WriterBase):
     ):
         """
         Initializes this new function writer with the given function block and
-        parent writer.
+        parent shader writer. The given function block is used by this writer to
+        find its corresponding reader and generate its output.
 
         Parameters
         ----------
         block : FunctionBlock
-                The function block this writer uses to find its corresponding
-                reader and generate its output.
+                The function block.
         parent : ShaderWriter
-                 The parent shader writer of this writer.
+                 The parent shader writer.
         """
         super().__init__(parent)
         self.__block = block

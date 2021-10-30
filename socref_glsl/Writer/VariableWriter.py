@@ -23,18 +23,19 @@ class VariableWriter(WriterBase):
         ,parent
     ):
         """
-        Initializes this new variable writer with the given block and parent
-        writer.
+        Initializes this new variable writer with the given variable block,
+        indentation depth of this writer's output, and parent writer. The given
+        variable block is used by this writer to generate its output. The given
+        parent writer must be a shader or structure writer.
 
         Parameters
         ----------
         block : VariableBlock
-                The variable block this writer uses to generate its output.
+                The variable block.
         depth : int
-                The indentation depth of this writer's output.
+                The indentation depth.
         parent : AbstractWriter
-                 The parent writer of this writer. This must be a shader or
-                 structure writer.
+                 The parent writer.
         """
         super().__init__(parent)
         self.__block = block

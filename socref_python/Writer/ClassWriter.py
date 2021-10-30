@@ -27,18 +27,19 @@ class ClassWriter(WriterBase):
     ):
         """
         Initializes this new class writer and its children writers with the
-        given class block, indent depth, and parent writer.
+        given class block, indentation depth of this writer's output, and parent
+        writer. The given class block is used by this writer to find its
+        corresponding reader, initialize its children writers, and generate
+        output. The given parent writer must be a module or class writer.
 
         Parameters
         ----------
         block : ClassBlock
-                The class block this writer uses to find its corresponding
-                reader, initialize its children writers, and generate output.
+                The class block.
         depth : int
-                The indentation depth of this writer's output.
+                The indentation depth.
         parent : AbstractWriter
-                 The parent writer of this writer. This must be a module or
-                 class writer.
+                 The parent writer.
         """
         super().__init__(parent)
         self.__block = block

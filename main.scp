@@ -4113,7 +4113,7 @@ The signature of this function used to generate its key. This only includes its 
                         <__p_description>Getter method.</__p_description>
                         <__p_returnsDescription>result
 string
-Unique key used to obtain the correct reader for the writer of this block.</__p_returnsDescription>
+Unique key used to obtain the correct reader or writer of this block.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4321,27 +4321,27 @@ True if this variable is an argument of a function or false otherwise.</__p_retu
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new function reader with the given function name and parent reader.</__p_description>
+                        <__p_description>Initializes this new function reader with the given function name this reader will parse and parent shader reader that discovered the header code line of the function that this reader will parse.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>name</__p_name>
                             <__p_description>string
-The name of the function this reader will parse.</__p_description>
+The function name.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>ShaderReader
-The parent shader reader that discovered the header code line of the function that this reader will parse.</__p_description>
+The parent shader reader.</__p_description>
                         </Object>
                     </Function>
                     <Function>
                         <__p_name>lines</__p_name>
-                        <__p_description>Getter method. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_description>Returns lines of code parsed by this function reader. This can only be called once, after which an empty list is returned.</__p_description>
                         <__p_returnsDescription>result
 list
-Lines of code contained by the parsed function of this reader.</__p_returnsDescription>
+The lines of code.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4380,19 +4380,19 @@ Lines of code contained by the parsed function of this reader.</__p_returnsDescr
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new shader reader with the given block and parent parser.</__p_description>
+                        <__p_description>Initializes this new shader reader with the given shader block that is associated with this reader's source file and parent parser.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>ShaderBlock
-A shader block that is associated with this reader's parsed shader file.</__p_description>
+A shader block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>Parser
-The parser currently parsing its project's source code files.</__p_description>
+The parent parser.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -4419,19 +4419,19 @@ The parser currently parsing its project's source code files.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new function writer with the given function block and parent writer.</__p_description>
+                        <__p_description>Initializes this new function writer with the given function block and parent shader writer. The given function block is used by this writer to find its corresponding reader and generate its output.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>FunctionBlock
-The function block this writer uses to find its corresponding reader and generate its output.</__p_description>
+The function block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>ShaderWriter
-The parent shader writer of this writer.</__p_description>
+The parent shader writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -4483,19 +4483,19 @@ The parent shader writer of this writer.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new program writer with the given block and parent parser.</__p_description>
+                        <__p_description>Initializes this new program writer with the given program block and parent parser. The given program block is used by this writer to generate its output.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>ProgramBlock
-The program block this writer uses to generate its output.</__p_description>
+The program block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>Parser
-The parser currently outputting its project's source code files.</__p_description>
+The parent parser.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -4512,19 +4512,19 @@ The parser currently outputting its project's source code files.</__p_descriptio
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new shader writer and constructs its children writers with the given block and parent parser.</__p_description>
+                        <__p_description>Initializes this new shader writer with the given shader block and parent parser. The given shader block is used by this writer to find the special main function reader, initialize its children writers, and generate its output.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>ShaderBlock
-The shader block this writer uses to find the special main function reader, initialize its children writers, and generate its output.</__p_description>
+The shader block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>Parser
-The parser currently outputting its project's source code files.</__p_description>
+The parent parser.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -4547,19 +4547,19 @@ The parser currently outputting its project's source code files.</__p_descriptio
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new structure writer and its children writers with the given block and parent writer.</__p_description>
+                        <__p_description>Initializes this new structure writer with the given structure block and parent shader writer. The given structure block is used by this writer to initialize its children writers and generate its output.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
-                            <__p_description>VariableBlock
-The structure block this writer uses to initialize its children writers and generate its output.</__p_description>
+                            <__p_description>StructureBlock
+The structure block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
-                            <__p_description>AbstractWriter
-The parent writer of this writer. This must be a shader writer.</__p_description>
+                            <__p_description>ShaderWriter
+The parent shader writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -4582,24 +4582,24 @@ The parent writer of this writer. This must be a shader writer.</__p_description
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new variable writer with the given block and parent writer.</__p_description>
+                        <__p_description>Initializes this new variable writer with the given variable block, indentation depth of this writer's output, and parent writer. The given variable block is used by this writer to generate its output. The given parent writer must be a shader or structure writer.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>VariableBlock
-The variable block this writer uses to generate its output.</__p_description>
+The variable block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>depth</__p_name>
                             <__p_description>int
-The indentation depth of this writer's output.</__p_description>
+The indentation depth.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>AbstractWriter
-The parent writer of this writer. This must be a shader or structure writer.</__p_description>
+The parent writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -4625,7 +4625,7 @@ The parent writer of this writer. This must be a shader or structure writer.</__
                     <Object>
                         <__p_name>root</__p_name>
                         <__p_description>ProgramBlock
-The root block of the project this parser will use for generating paths, readers, and writers.</__p_description>
+The root block.</__p_description>
                     </Object>
                 </Function>
                 <Function>
@@ -5352,24 +5352,24 @@ The reader.</__p_description>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new class writer and its children writers with the given class block, indent depth, and parent writer.</__p_description>
+                        <__p_description>Initializes this new class writer and its children writers with the given class block, indentation depth of this writer's output, and parent writer. The given class block is used by this writer to find its corresponding reader, initialize its children writers, and generate output. The given parent writer must be a module or class writer.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>ClassBlock
-The class block this writer uses to find its corresponding reader, initialize its children writers, and generate output.</__p_description>
+The class block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>depth</__p_name>
                             <__p_description>int
-The indentation depth of this writer's output.</__p_description>
+The indentation depth.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>AbstractWriter
-The parent writer of this writer. This must be a module or class writer.</__p_description>
+The parent writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -5386,24 +5386,24 @@ The parent writer of this writer. This must be a module or class writer.</__p_de
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new function writer with the given function block, indent depth, and parent writer.</__p_description>
+                        <__p_description>Initializes this new function writer with the given function block, indentation depth of this writer's output, and parent writer. The given function block is used by this writer to find its corresponding reader and generate its output. The given parent writer must be a module or class writer.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>FunctionBlock
-The function block this writer uses to find its corresponding reader and generate its output.</__p_description>
+The function block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>depth</__p_name>
                             <__p_description>int
-The indentation depth of this writer's output.</__p_description>
+The indentation depth.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>AbstractWriter
-The parent writer of this writer. This must be a module or class writer.</__p_description>
+The parent writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -5455,19 +5455,19 @@ The parent writer of this writer. This must be a module or class writer.</__p_de
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new module writer and its children writers with the given block and parent parser.</__p_description>
+                        <__p_description>Initializes this new module writer and its children writers with the given block and parent parser. The given block must be a package, module, or class that this writer uses to find its corresponding reader, initialize its children writers, and generate its output. If the given block is a class then this writer creates a child class writer with the given class block.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>AbstractBlock
-A package, module, or class block that this writer uses to find its corresponding reader, initialize its children writers, and generate output. If the given block is a class then the reader find is the dummy module container and a new class writer child is created with the same class block.</__p_description>
+The block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>Parser
-The parser currently outputting its project's source code files.</__p_description>
+The parser.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -5490,24 +5490,24 @@ The parser currently outputting its project's source code files.</__p_descriptio
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new object writer with the given object block, indent depth, and parent writer.</__p_description>
+                        <__p_description>Initializes this new object writer with the given object block used to generate this writer's output, indentation depth of this writer's output, and parent class writer.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>ObjectBlock
-The object block this writer uses to generate its output.</__p_description>
+The object block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>depth</__p_name>
                             <__p_description>int
-The indentation depth of this writer's output.</__p_description>
+The indentation depth.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>ClassWriter
-The parent class writer of this writer.</__p_description>
+The parent class writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>

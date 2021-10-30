@@ -23,17 +23,18 @@ class ObjectWriter(WriterBase):
         ,parent
     ):
         """
-        Initializes this new object writer with the given object block, indent
-        depth, and parent writer.
+        Initializes this new object writer with the given object block used to
+        generate this writer's output, indentation depth of this writer's
+        output, and parent class writer.
 
         Parameters
         ----------
         block : ObjectBlock
-                The object block this writer uses to generate its output.
+                The object block.
         depth : int
-                The indentation depth of this writer's output.
+                The indentation depth.
         parent : ClassWriter
-                 The parent class writer of this writer.
+                 The parent class writer.
         """
         super().__init__(parent)
         self.__block = block

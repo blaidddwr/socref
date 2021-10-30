@@ -27,18 +27,17 @@ class ShaderWriter(WriterBase):
         ,parent
     ):
         """
-        Initializes this new shader writer and constructs its children writers
-        with the given block and parent parser.
+        Initializes this new shader writer with the given shader block and
+        parent parser. The given shader block is used by this writer to find the
+        special main function reader, initialize its children writers, and
+        generate its output.
 
         Parameters
         ----------
         block : ShaderBlock
-                The shader block this writer uses to find the special main
-                function reader, initialize its children writers, and generate
-                its output.
+                The shader block.
         parent : Parser
-                 The parser currently outputting its project's source code
-                 files.
+                 The parent parser.
         """
         super().__init__(parent)
         self.__block = block

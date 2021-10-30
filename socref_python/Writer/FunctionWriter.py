@@ -23,18 +23,19 @@ class FunctionWriter(WriterBase):
     ):
         """
         Initializes this new function writer with the given function block,
-        indent depth, and parent writer.
+        indentation depth of this writer's output, and parent writer. The given
+        function block is used by this writer to find its corresponding reader
+        and generate its output. The given parent writer must be a module or
+        class writer.
 
         Parameters
         ----------
         block : FunctionBlock
-                The function block this writer uses to find its corresponding
-                reader and generate its output.
+                The function block.
         depth : int
-                The indentation depth of this writer's output.
+                The indentation depth.
         parent : AbstractWriter
-                 The parent writer of this writer. This must be a module or
-                 class writer.
+                 The parent writer.
         """
         super().__init__(parent)
         self.__block = block

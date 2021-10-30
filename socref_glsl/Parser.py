@@ -30,8 +30,7 @@ class Parser(ParserBase):
         Parameters
         ----------
         root : ProgramBlock
-               The root block of the project this parser will use for generating
-               paths, readers, and writers.
+               The root block.
         """
         super().__init__()
         self.__root = root

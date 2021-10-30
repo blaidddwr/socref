@@ -23,16 +23,15 @@ class ShaderReader(ReaderBase):
         ,parent
     ):
         """
-        Initializes this new shader reader with the given block and parent
-        parser.
+        Initializes this new shader reader with the given shader block that is
+        associated with this reader's source file and parent parser.
 
         Parameters
         ----------
         block : ShaderBlock
-                A shader block that is associated with this reader's parsed
-                shader file.
+                A shader block.
         parent : Parser
-                 The parser currently parsing its project's source code files.
+                 The parent parser.
         """
         super().__init__(parent)
         self._setKey_(block.key())
