@@ -102,3 +102,20 @@ class ParserFactory():
         if self.__rn in self.__parsers:
             raise RegisterError("Parser class is already registered for registering language.")
         self.__parsers[self.__rn] = class_
+
+
+    @classmethod
+    def s(
+        cls
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        instance : ParserFactory
+                   The singleton instance of this class.
+        """
+        if not cls.__instance:
+            cls.__instance = ParserFactory()
+        return cls.__instance

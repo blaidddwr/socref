@@ -1,8 +1,8 @@
 """
 Contains the main function where execution begins.
 """
-from .Private.Controller import langController
-from .Private.Controller import parseController
+from .Private.Controller.LangController import LangController
+from .Private.Controller.ParseController import ParseController
 from .Private.GUI.Dialog.CodeDialog import CodeDialog
 from .Private.GUI.Window.MainWindow import MainWindow
 from PySide6.QtWidgets import QApplication
@@ -19,13 +19,13 @@ def main():
     application = QApplication(argv)
     #langController.load("C++","socref_cpp")
     #langController.load("C++/Qt","socref_cppqt")
-    langController.load("GLSL","socref_glsl")
-    langController.load("Python","socref_python")
+    LangController.s().load("GLSL","socref_glsl")
+    LangController.s().load("Python","socref_python")
     QApplication.setOrganizationName("Socrates' Gaming Republic")
     QApplication.setApplicationName("Socrates' Reference")
     parserThread = QThread()
-    parseController.remained.connect(lambda code : CodeDialog(code).exec())
-    parseController.moveToThread(parserThread)
+    ParseController.s().remained.connect(lambda code : CodeDialog(code).exec())
+    ParseController.s().moveToThread(parserThread)
     parserThread.start()
     try:
         main = MainWindow()

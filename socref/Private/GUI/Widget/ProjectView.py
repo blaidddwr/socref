@@ -1,7 +1,7 @@
 """
 Contains the ProjectView class.
 """
-from ...Factory import blockFactory
+from ...Factory.BlockFactory import BlockFactory
 from ...Model.ProjectModel import ProjectModel
 from PySide6.QtCore import QItemSelectionModel
 from PySide6.QtCore import QModelIndex
@@ -705,7 +705,7 @@ class ProjectView(QTreeView):
             for block_type in block_list:
                 action = QAction(block_type.replace("_"," "),self)
                 action.setIcon(
-                    blockFactory.create(self.__model.langName(),block_type).icon()
+                    BlockFactory.s().create(self.__model.langName(),block_type).icon()
                 )
                 action.triggered.connect(lambda checked=False, name=block_type : self.__add_(name))
                 self.__addActions.append(action)

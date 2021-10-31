@@ -3,8 +3,8 @@ Contains the MainWindow class.
 """
 from .... import VERSION
 from ....Abstract.AbstractParser import AbstractParser
-from ...Controller import parseController
-from ...Factory import blockFactory
+from ...Controller.ParseController import ParseController
+from ...Factory.BlockFactory import BlockFactory
 from ...Model.ProjectModel import ProjectModel
 from ..Widget.BlockEditDock import BlockEditDock
 from ..Widget.BlockViewDock import BlockViewDock
@@ -538,10 +538,10 @@ class MainWindow(QMainWindow):
         self.__setupActions_()
         self.__setupMenus_()
         self.__setupToolbars_()
-        self.parseRequested.connect(parseController.start)
-        parseController.started.connect(self.__parseStarted_)
-        parseController.progressed.connect(self.__parseProgressed_)
-        parseController.finished.connect(self.__parseFinished_)
+        self.parseRequested.connect(ParseController.s().start)
+        ParseController.s().started.connect(self.__parseStarted_)
+        ParseController.s().progressed.connect(self.__parseProgressed_)
+        ParseController.s().finished.connect(self.__parseFinished_)
         self.__restore_()
         self.statusBar()
         self.__updateTitle_()
@@ -585,7 +585,7 @@ class MainWindow(QMainWindow):
         Populates this window's list of new actions with all available
         languages.
         """
-        for lang in blockFactory.languages():
+        for lang in BlockFactory.s().languages():
             self.__newActions.append(QAction(lang,self))
             self.__newActions[-1].triggered.connect(
                 lambda checked=False,name=lang : self.__new_(name)

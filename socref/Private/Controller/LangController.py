@@ -2,8 +2,8 @@
 Contains the LangController class.
 """
 from ...Error.LangError import LangError
-from ..Factory import blockFactory
-from ..Factory import parserFactory
+from ..Factory.BlockFactory import BlockFactory
+from ..Factory.ParserFactory import ParserFactory
 from importlib import import_module
 
 
@@ -15,6 +15,7 @@ class LangController():
     of new languages by preparing the required factories and importing the
     language's package or module.
     """
+    __instance = None
 
 
     def load(
@@ -34,14 +35,31 @@ class LangController():
         name : string
                The package or module name.
         """
-        if language in blockFactory:
+        if language in BlockFactory.s():
             raise LangError("Language already loaded with the same name.")
-        parserFactory.beginRegistration(language)
-        blockFactory.beginRegistration(language)
+        ParserFactory.s().beginRegistration(language)
+        BlockFactory.s().beginRegistration(language)
         import_module(name)
-        blockFactory.endRegistration()
-        parserFactory.endRegistration()
-        if not language in blockFactory:
+        BlockFactory.s().endRegistration()
+        ParserFactory.s().endRegistration()
+        if not language in BlockFactory.s():
             raise LangError("Language did not register a root block.")
-        if not language in parserFactory:
+        if not language in ParserFactory.s():
             raise LangError("Language did not register a parser.")
+
+
+    @classmethod
+    def s(
+        cls
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        instance : LangController
+                   The singleton instance of this class.
+        """
+        if not cls.__instance:
+            cls.__instance = LangController()
+        return cls.__instance

@@ -3,8 +3,8 @@ Contains the ProjectModel class.
 """
 from ...Abstract.AbstractParser import AbstractParser
 from ...Error.LoadError import LoadError
-from ..Factory import blockFactory
-from ..Factory import parserFactory
+from ..Factory.BlockFactory import BlockFactory
+from ..Factory.ParserFactory import ParserFactory
 from .Command.InsertCommand import InsertCommand
 from .Command.MoveCommand import MoveCommand
 from .Command.RemoveCommand import RemoveCommand
@@ -300,7 +300,7 @@ class ProjectModel(QAbstractItemModel):
             stream.readNext()
             if stream.isStartElement():
                 name = stream.name()
-                block_ = blockFactory.create(langName,name)
+                block_ = BlockFactory.s().create(langName,name)
                 block_.setFromXml(stream)
                 if name in parentBlock.buildList():
                     blocks.append(block_)
@@ -356,7 +356,7 @@ class ProjectModel(QAbstractItemModel):
             return False
         blocks = []
         for blockType in blockTypes:
-            block_ = blockFactory.create(self.__langName,blockType)
+            block_ = BlockFactory.s().create(self.__langName,blockType)
             block_.setDefaultProperties()
             blocks.append(block_)
         self.__push_(InsertCommand(row,blocks,parent,self))
@@ -508,7 +508,7 @@ class ProjectModel(QAbstractItemModel):
             self.__name = "New Project"
             self.__parsePath = "."
             self.__langName = langName
-            self.__root = blockFactory.create(self.__langName)
+            self.__root = BlockFactory.s().create(self.__langName)
         except:
             self.__name = None
             self.__langName = None
@@ -559,7 +559,7 @@ class ProjectModel(QAbstractItemModel):
                  no project.
         """
         if self.__root is not None:
-            ret = parserFactory.create(self.__root)
+            ret = ParserFactory.s().create(self.__root)
             assert(isinstance(ret,AbstractParser))
             return ret
 

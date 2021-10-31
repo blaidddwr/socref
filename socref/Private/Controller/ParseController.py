@@ -18,6 +18,7 @@ class ParseController(QObject):
     class is in its own thread to not block the main GUI thread when a parser is
     executing.
     """
+    __instance = None
 
 
     #
@@ -52,6 +53,23 @@ class ParseController(QObject):
     ):
         super().__init__()
         self.__progress = 0
+
+
+    @classmethod
+    def s(
+        cls
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        instance : ParseController
+                   The singleton instance of this class.
+        """
+        if not cls.__instance:
+            cls.__instance = ParseController()
+        return cls.__instance
 
 
     @Slot(AbstractParser)

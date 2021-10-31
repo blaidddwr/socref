@@ -173,3 +173,20 @@ class BlockFactory():
             print(self.__rootBlocks)
             raise RegisterError("Root block class is already registered for registering language.")
         self.__rootBlocks[self.__rn] = class_
+
+
+    @classmethod
+    def s(
+        cls
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        instance : BlockFactory
+                   The singleton instance of this class.
+        """
+        if not cls.__instance:
+            cls.__instance = BlockFactory()
+        return cls.__instance

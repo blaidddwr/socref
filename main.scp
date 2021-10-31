@@ -1434,6 +1434,16 @@ The language name.</__p_description>
 The package or module name.</__p_description>
                             </Object>
                         </Function>
+                        <Function>
+                            <__p_name>s</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnsDescription>instance
+LangController
+The singleton instance of this class.</__p_returnsDescription>
+                            <__p_static>0</__p_static>
+                            <__p_class>1</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                     </Class>
                     <Class>
                         <__p_name>ParseController</__p_name>
@@ -1464,6 +1474,16 @@ The package or module name.</__p_description>
                             <__p_name>__init__</__p_name>
                             <__p_static>0</__p_static>
                             <__p_class>0</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>s</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnsDescription>instance
+ParseController
+The singleton instance of this class.</__p_returnsDescription>
+                            <__p_static>0</__p_static>
+                            <__p_class>1</__p_class>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
@@ -1594,6 +1614,16 @@ The type name.</__p_description>
 The block class.</__p_description>
                             </Object>
                         </Function>
+                        <Function>
+                            <__p_name>s</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnsDescription>instance
+BlockFactory
+The singleton instance of this class.</__p_returnsDescription>
+                            <__p_static>0</__p_static>
+                            <__p_class>1</__p_class>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                     </Class>
                     <Class>
                         <__p_name>ParserFactory</__p_name>
@@ -1660,6 +1690,16 @@ The root block.
                                 <__p_description>AbstractParser
 The parser class.</__p_description>
                             </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>s</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_returnsDescription>instance
+ParserFactory
+The singleton instance of this class.</__p_returnsDescription>
+                            <__p_static>0</__p_static>
+                            <__p_class>1</__p_class>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Class>
                 </Package>

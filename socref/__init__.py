@@ -22,9 +22,9 @@ def block(
            True to register as root or false otherwise.
     """
     def wrapper(class_):
-        blockFactory.register(class_,name)
+        BlockFactory.s().register(class_,name)
         if root:
-            blockFactory.registerRoot(class_)
+            BlockFactory.s().registerRoot(class_)
         return class_
     return wrapper
 
@@ -42,7 +42,7 @@ def parser(
     class_ : AbstractParser
              The decorated class.
     """
-    parserFactory.register(class_)
+    ParserFactory.s().register(class_)
     return class_
 
 
@@ -51,5 +51,5 @@ DICTIONARY = "en_US"
 HUNSPELL_ROOT = "/usr/share/hunspell"
 
 
-from .Private.Factory import blockFactory
-from .Private.Factory import parserFactory
+from .Private.Factory.BlockFactory import BlockFactory
+from .Private.Factory.ParserFactory import ParserFactory
