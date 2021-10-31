@@ -16,6 +16,7 @@ class BlockFactory():
     classes are registered using a unique name within its language. One and only
     one special root block class must be registered for each language.
     """
+    __instance = None
 
 
     def __init__(

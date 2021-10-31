@@ -15,6 +15,7 @@ class ParserFactory():
     for any given language. Every new language must register one and only one
     parser implementation.
     """
+    __instance = None
 
 
     def __init__(
