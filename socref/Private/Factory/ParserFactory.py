@@ -61,7 +61,8 @@ class ParserFactory():
 
         Parameters
         ----------
-        block : 
+        block : AbstractBlock
+                The root block.
 
         Returns
         -------

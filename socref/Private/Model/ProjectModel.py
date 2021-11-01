@@ -321,12 +321,8 @@ class ProjectModel(QAbstractItemModel):
 
         Parameters
         ----------
-        row : object
-              See Qt docs.
         blockType : string
                     The block type.
-        parent : object
-                 See Qt docs.
         """
         return self.insertRows(row,(blockType,),parent)
 
@@ -344,12 +340,8 @@ class ProjectModel(QAbstractItemModel):
 
         Parameters
         ----------
-        row : object
-              See Qt docs.
         blockTypes : list
                      The Block types.
-        parent : object
-                 See Qt docs.
         """
         parentBlock = self.__block_(parent)
         if parentBlock is None or row < 0 or row > len(parentBlock):

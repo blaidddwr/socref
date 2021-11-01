@@ -914,8 +914,6 @@ The parent.</__p_description>
                         <__p_abstract>0</__p_abstract>
                         <Object>
                             <__p_name>key</__p_name>
-                            <__p_description>object
-See parser method.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -1668,8 +1666,7 @@ The new parser.</__p_returnsDescription>
                             <Object>
                                 <__p_name>block</__p_name>
                                 <__p_description>AbstractBlock
-The root block.
-</__p_description>
+The root block.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3594,8 +3591,6 @@ The parent index.</__p_description>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>object
-See Qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>blockType</__p_name>
@@ -3604,8 +3599,6 @@ The block type.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>object
-See Qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3616,8 +3609,6 @@ See Qt docs.</__p_description>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>object
-See Qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>blockTypes</__p_name>
@@ -3626,8 +3617,6 @@ The Block types.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>object
-See Qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -4852,16 +4841,17 @@ The special flag.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>decorators</__p_name>
-                        <__p_description>Getter method.</__p_description>
+                        <__p_description>Returns decorator lines of this function with the given built in flag. The given built in flag is true to include built in decorators for static, class, or abstract methods in the returned decorator lines else false to not include them. Each returned decorator line includes the beginning special @ character.</__p_description>
                         <__p_returnsDescription>result
 list
-Decorator lines of this function. Each line includes the beginning special @ character.</__p_returnsDescription>
+The decorator lines.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                         <Object>
-                            <__p_name>flags</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>builtIn</__p_name>
+                            <__p_description>bool
+The built in flag.</__p_description>
                             <__p_assignment>True</__p_assignment>
                         </Object>
                     </Function>

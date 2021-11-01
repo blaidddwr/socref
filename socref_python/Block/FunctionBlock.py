@@ -79,23 +79,27 @@ class FunctionBlock(ModuleBlock):
 
     def decorators(
         self
-        ,flags=True
+        ,builtIn=True
     ):
         """
-        Getter method.
+        Returns decorator lines of this function with the given built in flag.
+        The given built in flag is true to include built in decorators for
+        static, class, or abstract methods in the returned decorator lines else
+        false to not include them. Each returned decorator line includes the
+        beginning special @ character.
 
         Parameters
         ----------
-        flags : 
+        builtIn : bool
+                  The built in flag.
 
         Returns
         -------
         result : list
-                 Decorator lines of this function. Each line includes the
-                 beginning special @ character.
+                 The decorator lines.
         """
         ret = []
-        if flags:
+        if builtIn:
             if self.isStatic():
                 ret.append("@staticmethod")
             if self.isClass():

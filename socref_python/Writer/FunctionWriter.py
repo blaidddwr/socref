@@ -88,7 +88,7 @@ class FunctionWriter(WriterBase):
         """
         Adds function argument doc string lines to this writer's code.
         """
-        arguments = self.__block.arguments(False)
+        arguments = [x for x in self.__block.arguments(False) if x[3]]
         if arguments:
             self.__code.addBlank(1)
             self.__code.add(["Parameters","----------"])

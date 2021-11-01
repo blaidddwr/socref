@@ -63,11 +63,6 @@ class WriterBase(AbstractWriter):
     ):
         """
         Calls this reader's shared parser instance method with the same name.
-
-        Parameters
-        ----------
-        key : object
-              See parser method.
         """
         return self.__parser.lookup(key)
 
