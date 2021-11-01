@@ -41,6 +41,10 @@ class BlockEditDock(QDockWidget):
     are unsaved changes to the properties this will ask the user if they want to
     save the changes.
     """
+    MARGIN_LEFT = 0
+    MARGIN_TOP = 16
+    MARGIN_RIGHT = 0
+    MARGIN_BOTTOM = 4
 
 
     def __init__(
@@ -208,6 +212,7 @@ class BlockEditDock(QDockWidget):
             props = self.__view.model().data(index,Role.Properties)
             editDefs = self.__view.model().data(index,Role.EditDefs)
             layout = QFormLayout()
+            layout.setLabelAlignment(Qt.AlignRight)
             for edit in editDefs:
                 editWdgt = None
                 label = None
@@ -227,7 +232,12 @@ class BlockEditDock(QDockWidget):
                     layout.addRow(label,editWdgt)
                 self.__edits.append(editWdgt)
             ret = QWidget()
-            ret.setContentsMargins(0,16,0,4)
+            ret.setContentsMargins(
+                self.MARGIN_LEFT
+                ,self.MARGIN_TOP
+                ,self.MARGIN_RIGHT
+                ,self.MARGIN_BOTTOM
+            )
             ret.setLayout(layout)
             return ret
         except:
