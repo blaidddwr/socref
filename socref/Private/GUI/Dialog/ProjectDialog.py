@@ -1,14 +1,18 @@
 """
 Contains the ProjectDialog class.
 """
-from PySide6.QtCore import QSettings
-from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QDialog
-from PySide6.QtWidgets import QFormLayout
-from PySide6.QtWidgets import QHBoxLayout
-from PySide6.QtWidgets import QLineEdit
-from PySide6.QtWidgets import QPushButton
-from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtCore import (
+    QSettings
+    ,Slot
+)
+from PySide6.QtWidgets import (
+    QDialog
+    ,QFormLayout
+    ,QHBoxLayout
+    ,QLineEdit
+    ,QPushButton
+    ,QVBoxLayout
+)
 
 
 

@@ -10,22 +10,30 @@ from ..Widget.BlockEditDock import BlockEditDock
 from ..Widget.BlockViewDock import BlockViewDock
 from ..Dialog.ProjectDialog import ProjectDialog
 from ..Widget.ProjectView import ProjectView
-from PySide6.QtCore import QFile
-from PySide6.QtCore import QIODevice
-from PySide6.QtCore import QSettings
-from PySide6.QtCore import Qt
-from PySide6.QtCore import Signal
-from PySide6.QtCore import Slot
-from PySide6.QtGui import QAction
-from PySide6.QtGui import QIcon
-from PySide6.QtGui import QKeySequence
-from PySide6.QtWidgets import QFileDialog
-from PySide6.QtWidgets import QMainWindow
-from PySide6.QtWidgets import QMessageBox
-from PySide6.QtWidgets import QProgressBar
-from os.path import abspath
-from os.path import dirname
-from os.path import join as pathJoin
+from PySide6.QtCore import (
+    QFile
+    ,QIODevice
+    ,QSettings
+    ,Qt
+    ,Signal
+    ,Slot
+)
+from PySide6.QtGui import (
+    QAction
+    ,QIcon
+    ,QKeySequence
+)
+from PySide6.QtWidgets import (
+    QFileDialog
+    ,QMainWindow
+    ,QMessageBox
+    ,QProgressBar
+)
+from os.path import (
+    abspath
+    ,dirname
+    ,join as pathJoin
+)
 
 
 

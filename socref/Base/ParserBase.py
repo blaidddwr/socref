@@ -7,10 +7,12 @@ from ..Abstract.AbstractWriter import AbstractWriter
 from ..Error.ScanError import ScanError
 from abc import abstractmethod
 from os import makedirs
-from os.path import dirname
-from os.path import exists as pathExists
-from os.path import isfile
-from os.path import join as pathJoin
+from os.path import (
+    dirname
+    ,exists as pathExists
+    ,isfile
+    ,join as pathJoin
+)
 
 
 

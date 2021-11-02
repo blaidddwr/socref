@@ -2,9 +2,11 @@
 Contains the ParseController class.
 """
 from ...Abstract.AbstractParser import AbstractParser
-from PySide6.QtCore import QObject
-from PySide6.QtCore import Signal
-from PySide6.QtCore import Slot
+from PySide6.QtCore import (
+    QObject
+    ,Signal
+    ,Slot
+)
 from traceback import print_exc
 
 

@@ -3,14 +3,18 @@ Contains the SpellChecker class.
 """
 from ...Model import speller
 from re import compile as reCompile
-from PySide6.QtCore import Signal
-from PySide6.QtCore import Slot
+from PySide6.QtCore import (
+    Signal
+    ,Slot
+)
 from PySide6.QtGui import QTextCursor
-from PySide6.QtWidgets import QGroupBox
-from PySide6.QtWidgets import QHBoxLayout
-from PySide6.QtWidgets import QLabel
-from PySide6.QtWidgets import QLineEdit
-from PySide6.QtWidgets import QPushButton
+from PySide6.QtWidgets import (
+    QGroupBox
+    ,QHBoxLayout
+    ,QLabel
+    ,QLineEdit
+    ,QPushButton
+)
 
 
 

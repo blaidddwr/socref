@@ -3,8 +3,10 @@ Contains the PlainTextEdit class.
 """
 from ..Controller.SpellHighlighter import SpellHighlighter
 from ..Dialog import TextDialog
-from PySide6.QtCore import Qt
-from PySide6.QtCore import Slot
+from PySide6.QtCore import (
+    Qt
+    ,Slot
+)
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QPlainTextEdit
 

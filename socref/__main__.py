@@ -6,10 +6,14 @@ from .Private.Controller.ParseController import ParseController
 from .Private.GUI.Dialog.CodeDialog import CodeDialog
 from .Private.GUI.Window.MainWindow import MainWindow
 from PySide6.QtWidgets import QApplication
-from PySide6.QtCore import QThread
-from PySide6.QtCore import Qt
-from sys import argv
-from sys import exit
+from PySide6.QtCore import (
+    QThread
+    ,Qt
+)
+from sys import (
+    argv
+    ,exit
+)
 
 
 def main():

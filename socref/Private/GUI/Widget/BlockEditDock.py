@@ -8,20 +8,24 @@ from ....Edit.LineEdit import LineEdit
 from ....Edit.TextEdit import TextEdit
 from ...Model.ProjectModel import ProjectModel
 from .PlainTextEdit import PlainTextEdit
-from PySide6.QtCore import QModelIndex
-from PySide6.QtCore import Qt
-from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QCheckBox
-from PySide6.QtWidgets import QComboBox
-from PySide6.QtWidgets import QDockWidget
-from PySide6.QtWidgets import QFormLayout
-from PySide6.QtWidgets import QHBoxLayout
-from PySide6.QtWidgets import QLineEdit
-from PySide6.QtWidgets import QMessageBox
-from PySide6.QtWidgets import QPushButton
-from PySide6.QtWidgets import QScrollArea
-from PySide6.QtWidgets import QVBoxLayout
-from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import (
+    QModelIndex
+    ,Qt
+    ,Slot
+)
+from PySide6.QtWidgets import (
+    QCheckBox
+    ,QComboBox
+    ,QDockWidget
+    ,QFormLayout
+    ,QHBoxLayout
+    ,QLineEdit
+    ,QMessageBox
+    ,QPushButton
+    ,QScrollArea
+    ,QVBoxLayout
+    ,QWidget
+)
 from gc import collect as gCollect
 
 

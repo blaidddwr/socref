@@ -2,12 +2,16 @@
 Contains the BlockViewDock class.
 """
 from ...Model.ProjectModel import ProjectModel
-from PySide6.QtCore import QModelIndex
-from PySide6.QtCore import Qt
-from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QDockWidget
-from PySide6.QtWidgets import QLabel
-from PySide6.QtWidgets import QScrollArea
+from PySide6.QtCore import (
+    QModelIndex
+    ,Qt
+    ,Slot
+)
+from PySide6.QtWidgets import (
+    QDockWidget
+    ,QLabel
+    ,QScrollArea
+)
 
 
 

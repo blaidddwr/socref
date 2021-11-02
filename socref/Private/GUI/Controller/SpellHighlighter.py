@@ -3,8 +3,10 @@ Contains the SpellHighlighter class.
 """
 from ...Model import speller
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QSyntaxHighlighter
-from PySide6.QtGui import QTextCharFormat
+from PySide6.QtGui import (
+    QSyntaxHighlighter
+    ,QTextCharFormat
+)
 from re import compile as reCompile
 
 

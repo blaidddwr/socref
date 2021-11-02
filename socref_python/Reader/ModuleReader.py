@@ -20,7 +20,6 @@ class ModuleReader(ReaderBase):
     package init file and dummy class container modules.
     """
     __preHeaderRE = reCompile("^ *#.*")
-    __headerRE = reCompile("^(from|import).*")
     __functionRE = reCompile("^def +([a-zA-Z_]+\w*)\((.*)")
     __classRE = reCompile("^class +([a-zA-Z_]+\w*)\([\w\._,\s]*\):")
 
@@ -182,16 +181,11 @@ class ModuleReader(ReaderBase):
         is encountered.
         """
         while True:
-            self.save()
             (i,line) = self.read()
-            if line is None:
+            if not line:
                 return
-            if self.__headerRE.match(line):
-                self.__header.append(line)
             else:
-                self.restore()
-                return
-            self.discard()
+                self.__header.append(" "*i + line)
 
 
     def __scanPreHeader_(
