@@ -1,7 +1,7 @@
 """
 Contains the SpellHighlighter class.
 """
-from ...Model import speller
+from ....Settings import Settings
 from PySide6.QtCore import Qt
 from PySide6.QtGui import (
     QSyntaxHighlighter
@@ -51,6 +51,6 @@ class SpellHighlighter(QSyntaxHighlighter):
             match = pattern.search(text,start)
             if not match:
                 break
-            if not speller.spell(match.group(0)):
+            if not Settings.speller.spell(match.group(0)):
                 self.setFormat(match.start(),match.end() - match.start(),self.__format)
             start = match.end()

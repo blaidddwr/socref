@@ -3,6 +3,7 @@ Contains the ProjectModel class.
 """
 from ...Abstract.AbstractParser import AbstractParser
 from ...Error.LoadError import LoadError
+from ...Settings import Settings
 from ..Factory.BlockFactory import BlockFactory
 from ..Factory.ParserFactory import ParserFactory
 from .Command.InsertCommand import InsertCommand
@@ -51,11 +52,6 @@ class ProjectModel(QAbstractItemModel):
     Methods are provided to support undoing any previous action done to this
     model's project or redoing any previous undone action.
     """
-    __COPY_TAG = "pysoref_copy"
-    __LANG_TAG = "language"
-    __NAME_TAG = "name"
-    __PARSE_PATH_TAG = "parse_path"
-    __PROJECT_TAG = "scp_project"
 
 
     class Role(IntEnum):
@@ -198,8 +194,8 @@ class ProjectModel(QAbstractItemModel):
         stream = QXmlStreamWriter(xml)
         stream.setAutoFormatting(True)
         stream.writeStartDocument()
-        stream.writeStartElement(self.__COPY_TAG)
-        stream.writeTextElement(self.__LANG_TAG,self.__langName)
+        stream.writeStartElement(Settings.ProjectModel.COPY_TAG)
+        stream.writeTextElement(Settings.ProjectModel.LANG_TAG,self.__langName)
         for index in indexes:
             block = self.__block_(index)
             if block is not None:
@@ -289,10 +285,10 @@ class ProjectModel(QAbstractItemModel):
             return 0
         stream = QXmlStreamReader(xml)
         stream.readNextStartElement()
-        if not stream.isStartElement() or stream.name() != self.__COPY_TAG:
+        if not stream.isStartElement() or stream.name() != Settings.ProjectModel.COPY_TAG:
             return 0
         stream.readNextStartElement()
-        if stream.name() != self.__LANG_TAG:
+        if stream.name() != Settings.ProjectModel.LANG_TAG:
             return 0
         langName = stream.readElementText()
         if langName != self.__langName:
@@ -405,18 +401,18 @@ class ProjectModel(QAbstractItemModel):
             xml = ifile.read()
         stream = QXmlStreamReader(xml)
         stream.readNextStartElement()
-        if not stream.isStartElement() or stream.name() != self.__PROJECT_TAG:
+        if not stream.isStartElement() or stream.name() != Settings.ProjectModel.PROJECT_TAG:
             raise LoadError("Invalid XML project tag.")
         stream.readNextStartElement()
-        if stream.name() != self.__LANG_TAG:
+        if stream.name() != Settings.ProjectModel.LANG_TAG:
             raise LoadError("Invalid/missing XML language tag.")
         lang_name = stream.readElementText()
         stream.readNextStartElement()
-        if stream.name() != self.__NAME_TAG:
+        if stream.name() != Settings.ProjectModel.NAME_TAG:
             raise LoadError("Invalid/missing XML name tag.")
         name = stream.readElementText()
         stream.readNextStartElement()
-        if stream.name() != self.__PARSE_PATH_TAG:
+        if stream.name() != Settings.ProjectModel.PARSE_PATH_TAG:
             raise LoadError("Invalid/missing XML parse path tag.")
         parse_path = stream.readElementText()
         self.new(lang_name)
@@ -610,10 +606,10 @@ class ProjectModel(QAbstractItemModel):
             stream = QXmlStreamWriter(xml)
             stream.setAutoFormatting(True)
             stream.writeStartDocument()
-            stream.writeStartElement(self.__PROJECT_TAG)
-            stream.writeTextElement(self.__LANG_TAG,self.__langName)
-            stream.writeTextElement(self.__NAME_TAG,self.__name)
-            stream.writeTextElement(self.__PARSE_PATH_TAG,self.__parsePath)
+            stream.writeStartElement(Settings.ProjectModel.PROJECT_TAG)
+            stream.writeTextElement(Settings.ProjectModel.LANG_TAG,self.__langName)
+            stream.writeTextElement(Settings.ProjectModel.NAME_TAG,self.__name)
+            stream.writeTextElement(Settings.ProjectModel.PARSE_PATH_TAG,self.__parsePath)
             self.__root.toXml(stream)
             stream.writeEndElement()
             stream.writeEndDocument()

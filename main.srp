@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scp_project>
+<srp_project>
     <language>Python</language>
     <name>Socrates' Reference</name>
     <parse_path>.</parse_path>
@@ -3971,6 +3971,21 @@ The parent index.</__p_description>
                     <__p_abstract>0</__p_abstract>
                 </Function>
             </Module>
+            <Class>
+                <__p_name>Settings</__p_name>
+                <__p_description>This is the settings class. It provides all global settings used by this application.</__p_description>
+                <__p_infile>0</__p_infile>
+                <Class>
+                    <__p_name>BlockEditDock</__p_name>
+                    <__p_description>This is the block edit dock settings subclass. It provides all settings for this application's block edit dock.</__p_description>
+                    <__p_infile>0</__p_infile>
+                </Class>
+                <Class>
+                    <__p_name>ProjectModel</__p_name>
+                    <__p_description>This is the project model settings subclass. It provides all settings for this application's project model.</__p_description>
+                    <__p_infile>0</__p_infile>
+                </Class>
+            </Class>
             <Function>
                 <__p_name>block</__p_name>
                 <__p_description>Decorates a class by registering it as a block with the given type name and optional root flag for the language implementation currently being imported by the application. Only one block can be registered as the root block for a language implementation.</__p_description>

@@ -6,6 +6,7 @@ from ....Edit.ComboEdit import ComboEdit
 from ....Edit.HiddenEdit import HiddenEdit
 from ....Edit.LineEdit import LineEdit
 from ....Edit.TextEdit import TextEdit
+from ....Settings import Settings
 from ...Model.ProjectModel import ProjectModel
 from .PlainTextEdit import PlainTextEdit
 from PySide6.QtCore import (
@@ -45,10 +46,6 @@ class BlockEditDock(QDockWidget):
     are unsaved changes to the properties this will ask the user if they want to
     save the changes.
     """
-    MARGIN_LEFT = 0
-    MARGIN_TOP = 16
-    MARGIN_RIGHT = 0
-    MARGIN_BOTTOM = 4
 
 
     def __init__(
@@ -237,10 +234,10 @@ class BlockEditDock(QDockWidget):
                 self.__edits.append(editWdgt)
             ret = QWidget()
             ret.setContentsMargins(
-                self.MARGIN_LEFT
-                ,self.MARGIN_TOP
-                ,self.MARGIN_RIGHT
-                ,self.MARGIN_BOTTOM
+                Settings.BlockEditDock.MARGIN_LEFT
+                ,Settings.BlockEditDock.MARGIN_TOP
+                ,Settings.BlockEditDock.MARGIN_RIGHT
+                ,Settings.BlockEditDock.MARGIN_BOTTOM
             )
             ret.setLayout(layout)
             return ret

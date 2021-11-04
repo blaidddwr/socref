@@ -1,8 +1,8 @@
 """
 Contains the MainWindow class.
 """
-from .... import VERSION
 from ....Abstract.AbstractParser import AbstractParser
+from ....Settings import Settings
 from ...Controller.ParseController import ParseController
 from ...Factory.BlockFactory import BlockFactory
 from ...Model.ProjectModel import ProjectModel
@@ -146,7 +146,7 @@ class MainWindow(QMainWindow):
         QMessageBox.about(
             self
             ,"About Socrates' Reference"
-            ,text.replace("%SOCREF_VER%",VERSION)
+            ,text.replace("%SOCREF_VER%",Settings.VERSION)
         )
 
 
@@ -263,7 +263,7 @@ class MainWindow(QMainWindow):
             self
             ,"Open Project"
             ,""
-            ,"Socrates' Project File (*.scp)"
+            ,Settings.FILE_EXTENSION
         )
         if not path:
             return
@@ -407,7 +407,7 @@ class MainWindow(QMainWindow):
             self
             ,"Save Project"
             ,""
-            ,"Socrates' Project File (*.scp)"
+            ,Settings.FILE_EXTENSION
         )
         if not path:
             return False

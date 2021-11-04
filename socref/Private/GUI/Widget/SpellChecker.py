@@ -1,7 +1,7 @@
 """
 Contains the SpellChecker class.
 """
-from ...Model import speller
+from ....Settings import Settings
 from re import compile as reCompile
 from PySide6.QtCore import (
     Signal
@@ -115,11 +115,11 @@ class SpellChecker(QGroupBox):
                 cursor.select(QTextCursor.WordUnderCursor)
                 if self.__wordPattern.fullmatch(cursor.selectedText()):
                     word = cursor.selectedText()
-                    if not speller.spell(word):
+                    if not Settings.speller.spell(word):
                         self.cursorChanged.emit(cursor)
                         self.__wordLabel.setText(word)
                         self.__wordEdit.setText(word)
-                        self.__suggested = speller.suggest(word)
+                        self.__suggested = Settings.speller.suggest(word)
                         break
             else:
                 skip = False
@@ -153,7 +153,7 @@ class SpellChecker(QGroupBox):
         not actively checking a document then this does nothing.
         """
         if self.__cursor is not None:
-            speller.add(self.__wordLabel.text())
+            Settings.speller.add(self.__wordLabel.text())
             self.__findNextWord_(skip=True)
 
 

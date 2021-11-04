@@ -46,10 +46,5 @@ def parser(
     return class_
 
 
-VERSION = "0.0.9999"
-DICTIONARY = "en_US"
-HUNSPELL_ROOT = "/usr/share/hunspell"
-
-
 from .Private.Factory.BlockFactory import BlockFactory
 from .Private.Factory.ParserFactory import ParserFactory
