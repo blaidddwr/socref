@@ -2383,6 +2383,12 @@ The flag.</__p_description>
 Actions are provided for all basic editing actions done upon a view's model. These actions allow the user to edit the project tree with undo, redo, add, remove, cut, copy, paste, move up, and move down actions. For adding and pasting into the project an option is provided to insert before, into, or after the currently selected block. The individual Qt actions are also provided if they need to be added to another custom menu or toolbar. The provided actions are enabled or disabled based off the current state of a view.</__p_description>
                             <__p_parents>QTreeView</__p_parents>
                             <__p_infile>0</__p_infile>
+                            <Class>
+                                <__p_name>Insert</__p_name>
+                                <__p_description>This enumerates all possible ways blocks can be inserted into this project view's model.</__p_description>
+                                <__p_parents>IntEnum</__p_parents>
+                                <__p_infile>0</__p_infile>
+                            </Class>
                             <Object>
                                 <__p_name>indexChanged</__p_name>
                                 <__p_description>Signals that the current index of this project view has changed.</__p_description>
@@ -2613,7 +2619,7 @@ The previous index.</__p_description>
                                 <__p_decorators>Slot()</__p_decorators>
                             </Function>
                             <Function>
-                                <__p_name>__insertValues_</__p_name>
+                                <__p_name>__insertLocation_</__p_name>
                                 <__p_description>Getter method.</__p_description>
                                 <__p_returnsDescription>row
 int
@@ -2756,7 +2762,7 @@ The data roles.</__p_description>
                                 <__p_abstract>0</__p_abstract>
                                 <Object>
                                     <__p_name>option</__p_name>
-                                    <__p_description>int
+                                    <__p_description>Insert
 The insert option.</__p_description>
                                 </Object>
                             </Function>
@@ -7665,4 +7671,4 @@ True if this class is a Qt object or false otherwise.</__p_returnsDescription>
             </Package>
         </Package>
     </Package>
-</scp_project>
+</srp_project>

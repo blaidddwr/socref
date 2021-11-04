@@ -217,15 +217,15 @@ class ProjectModel(QAbstractItemModel):
                 return block.displayName()
             elif role == Qt.DecorationRole:
                 return block.icon()
-            elif role == self.Role.BuildList:
+            elif role == Role.BuildList:
                 return block.buildList()
-            elif role == self.Role.View:
+            elif role == Role.View:
                 return str(block.displayView())
-            elif role == self.Role.EditDefs:
+            elif role == Role.EditDefs:
                 return block.editDefinitions()
-            elif role == self.Role.Properties:
+            elif role == Role.Properties:
                 return block.properties()
-            elif role == self.Role.BlockType:
+            elif role == Role.BlockType:
                 return block._TYPE_
 
 
@@ -625,7 +625,7 @@ class ProjectModel(QAbstractItemModel):
         ,role
     ):
         block = self.__block_(index)
-        if block is not None and role == self.Role.Properties:
+        if block is not None and role == Role.Properties:
             self.__push_(SetCommand(block.properties(),value,index,self))
             return True
         else:
@@ -928,3 +928,6 @@ class ProjectModel(QAbstractItemModel):
             block = self.__block_(index)
             if block.isVolatileBelow():
                 self.__pushVolatileBelow_(index)
+
+
+Role = ProjectModel.Role

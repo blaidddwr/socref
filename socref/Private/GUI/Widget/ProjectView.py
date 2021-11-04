@@ -21,6 +21,10 @@ from PySide6.QtWidgets import (
     ,QMenu
     ,QTreeView
 )
+from enum import (
+    IntEnum
+    ,auto
+)
 
 
 
@@ -42,11 +46,18 @@ class ProjectView(QTreeView):
     provided actions are enabled or disabled based off the current state of a
     view.
     """
-    __BEFORE = 0
-    __INTO = 1
-    __AFTER = 2
     __blockTypeSet = None
     __xmlBlocks = None
+
+
+    class Insert(IntEnum):
+        """
+        This enumerates all possible ways blocks can be inserted into this
+        project view's model.
+        """
+        Before = auto()
+        Into = auto()
+        After = auto()
 
 
     #
@@ -104,7 +115,7 @@ class ProjectView(QTreeView):
         self.__moveDownAction = QAction("Move Down",self)
         self.__contextMenu = QMenu("Edit",self)
         self.__addMenu = QMenu("Add")
-        self.__insert = self.__INTO
+        self.__insert = Insert.Into
         self.__setupActions_()
         self.__setupContextMenu_()
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
@@ -277,7 +288,7 @@ class ProjectView(QTreeView):
         blockType : string
                     The block type.
         """
-        (row,parent) = self.__insertValues_()
+        (row,parent) = self.__insertLocation_()
         if parent is None:
             return
         self.__model.insertRows(row,(blockType,),parent)
@@ -298,7 +309,7 @@ class ProjectView(QTreeView):
         """
         if self.__model is None or not self.__model or ProjectView.__xmlBlocks is None:
             return False
-        (row,parent) = self.__insertValues_()
+        (row,parent) = self.__insertLocation_()
         if parent is None:
             return False
         if not ProjectView.__blockTypeSet & set(self.__model.data(parent,Role.BuildList)):
@@ -381,7 +392,7 @@ class ProjectView(QTreeView):
         """
         Called to set this project view's insert option to "after".
         """
-        self.__updateInsert_(self.__AFTER)
+        self.__updateInsert_(Insert.After)
 
 
     @Slot()
@@ -391,7 +402,7 @@ class ProjectView(QTreeView):
         """
         Called to set this project view's insert option to "before".
         """
-        self.__updateInsert_(self.__BEFORE)
+        self.__updateInsert_(Insert.Before)
 
 
     @Slot()
@@ -401,10 +412,10 @@ class ProjectView(QTreeView):
         """
         Called to set this project view's insert option to "into".
         """
-        self.__updateInsert_(self.__INTO)
+        self.__updateInsert_(Insert.Into)
 
 
-    def __insertValues_(
+    def __insertLocation_(
         self
     ):
         """
@@ -425,14 +436,14 @@ class ProjectView(QTreeView):
         index = self.selectionModel().currentIndex()
         parent = None
         row = None
-        if self.__insert == self.__INTO:
+        if self.__insert == Insert.Into:
             parent = index
             row = 0
-        elif self.__insert == self.__BEFORE:
+        elif self.__insert == Insert.Before:
             if not index.isValid(): return (None,None)
             parent = index.parent()
             row = index.row()
-        elif self.__insert == self.__AFTER:
+        elif self.__insert == Insert.After:
             if not index.isValid(): return (None,None)
             parent = index.parent()
             row = index.row() + 1
@@ -526,7 +537,7 @@ class ProjectView(QTreeView):
         """
         if self.__model is None or ProjectView.__xmlBlocks is None:
             return
-        (row,parent) = self.__insertValues_()
+        (row,parent) = self.__insertLocation_()
         if parent is None:
             return
         self.__model.insertFromXml(row,ProjectView.__xmlBlocks,parent)
@@ -619,17 +630,17 @@ class ProjectView(QTreeView):
         action = self.__insertBeforeAction
         action.setStatusTip("Add or paste blocks before the current block.")
         action.setCheckable(True)
-        action.setChecked(self.__insert == self.__BEFORE)
+        action.setChecked(self.__insert == Insert.Before)
         action.triggered.connect(self.__insertBefore_)
         action = self.__insertIntoAction
         action.setStatusTip("Add or paste blocks into the current block.")
         action.setCheckable(True)
-        action.setChecked(self.__insert == self.__INTO)
+        action.setChecked(self.__insert == Insert.Into)
         action.triggered.connect(self.__insertInto_)
         action = self.__insertAfterAction
         action.setStatusTip("Add or paste blocks after the current block.")
         action.setCheckable(True)
-        action.setChecked(self.__insert == self.__AFTER)
+        action.setChecked(self.__insert == Insert.After)
         action.triggered.connect(self.__insertAfter_)
 
 
@@ -703,7 +714,7 @@ class ProjectView(QTreeView):
             self.__addActions.pop().deleteLater()
         if self.__model is None:
             return
-        (row,index) = self.__insertValues_()
+        (row,index) = self.__insertLocation_()
         if index is None:
             return
         block_list = self.__model.data(index,Role.BuildList)
@@ -742,14 +753,15 @@ class ProjectView(QTreeView):
 
         Parameters
         ----------
-        option : int
+        option : Insert
                  The insert option.
         """
-        self.__insertBeforeAction.setChecked(option == self.__BEFORE)
-        self.__insertIntoAction.setChecked(option == self.__INTO)
-        self.__insertAfterAction.setChecked(option == self.__AFTER)
+        self.__insertBeforeAction.setChecked(option == Insert.Before)
+        self.__insertIntoAction.setChecked(option == Insert.Into)
+        self.__insertAfterAction.setChecked(option == Insert.After)
         self.__insert = option
         self.__updateContextMenu_()
 
 
+Insert = ProjectView.Insert
 Role = ProjectModel.Role
