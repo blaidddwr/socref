@@ -5619,6 +5619,77 @@ The root block.</__p_description>
             </Class>
         </Package>
         <Package>
+            <__p_name>socref_cpp</__p_name>
+            <__p_description>Contains the C++ language implementation for Socrates' Reference.</__p_description>
+            <Package>
+                <__p_name>Block</__p_name>
+                <__p_description>Contains all implemented Socrates' Reference block classes.</__p_description>
+                <Class>
+                    <__p_name>Namespace</__p_name>
+                    <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++ namespace.</__p_description>
+                    <__p_parents>BlockBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_decorators>block(&quot;Namespace&quot;,root=True)</__p_decorators>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>clearProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayName</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayView</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>editDefinitions</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+            </Package>
+            <Package>
+                <__p_name>Reader</__p_name>
+                <__p_description>Contains all implemented Socrates' Reference reader classes.</__p_description>
+            </Package>
+            <Package>
+                <__p_name>Writer</__p_name>
+                <__p_description>Contains all implemented Socrates' Reference writer classes.</__p_description>
+            </Package>
+        </Package>
+        <Package>
             <__p_name>old</__p_name>
             <__p_description>Detailed description.</__p_description>
             <Package>

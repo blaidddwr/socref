@@ -1,10 +1,8 @@
 <RCC>
-    <qresource prefix="/cpp">
+    <qresource prefix="/socref_cpp">
         <file>namespace.svg</file>
-        <file>hidden_namespace.svg</file>
         <file>enumeration.svg</file>
         <file>enumeration_value.svg</file>
-        <file>template.svg</file>
         <file>variable.svg</file>
         <file>static_variable.svg</file>
         <file>function.svg</file>
