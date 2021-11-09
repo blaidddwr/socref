@@ -175,7 +175,7 @@ class BlockEditDock(QDockWidget):
                 The label.
         """
         editWdgt = QComboBox()
-        for (icon,text) in edit.selections():
+        for (text,icon) in edit.selections():
             if icon:
                 editWdgt.addItem(icon,text)
             else:

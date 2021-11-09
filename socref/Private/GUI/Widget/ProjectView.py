@@ -52,8 +52,8 @@ class ProjectView(QTreeView):
 
     class Insert(IntEnum):
         """
-        This enumerates all possible ways blocks can be inserted into this
-        project view's model.
+        This enumerates all possible ways blocks can be inserted into a project
+        view's model.
         """
         Before = auto()
         Into = auto()

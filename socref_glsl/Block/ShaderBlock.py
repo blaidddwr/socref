@@ -16,6 +16,15 @@ class ShaderBlock(ProgramBlock):
     This is the shader block class. It implements the Socrates' Reference
     abstract block class. It represents a GLSL shader.
     """
+    TYPES = (
+        ("Vertex",QIcon(":/socref_glsl/vertex_shader.svg"))
+        ,("Fragment",QIcon(":/socref_glsl/fragment_shader.svg"))
+        ,("Tesselation Control",QIcon(":/socref_glsl/tesselation_ctrl_shader.svg"))
+        ,("Tesselation Evaluation",QIcon(":/socref_glsl/tesselation_eval_shader.svg"))
+        ,("Geometry",QIcon(":/socref_glsl/geometry_shader.svg"))
+        ,("Compute",QIcon(":/socref_glsl/compute_shader.svg"))
+    )
+    TYPES_LOOKUP = dict(TYPES)
 
 
     def __init__(
@@ -56,40 +65,14 @@ class ShaderBlock(ProgramBlock):
     ):
         ret = super().editDefinitions()
         ret.append(LineEdit("Version:","_p_version"))
-        ret.append(
-            ComboEdit(
-                "Type:"
-                ,"_p_type"
-                ,(
-                    (QIcon(":/socref_glsl/vertex_shader.svg"),"Vertex")
-                    ,(QIcon(":/socref_glsl/fragment_shader.svg"),"Fragment")
-                    ,(QIcon(":/socref_glsl/tesselation_ctrl_shader.svg"),"Tesselation Control")
-                    ,(QIcon(":/socref_glsl/tesselation_eval_shader.svg"),"Tesselation Evaluation")
-                    ,(QIcon(":/socref_glsl/geometry_shader.svg"),"Geometry")
-                    ,(QIcon(":/socref_glsl/compute_shader.svg"),"Compute")
-                )
-            )
-        )
+        ret.append(ComboEdit("Type:","_p_type",self.TYPES))
         return ret
 
 
     def icon(
         self
     ):
-        if self._p_type == "Vertex":
-            return QIcon(":/socref_glsl/vertex_shader.svg")
-        elif self._p_type == "Fragment":
-            return QIcon(":/socref_glsl/fragment_shader.svg")
-        elif self._p_type == "Tesselation Control":
-            return QIcon(":/socref_glsl/tesselation_ctrl_shader.svg")
-        elif self._p_type == "Tesselation Evaluation":
-            return QIcon(":/socref_glsl/tesselation_eval_shader.svg")
-        elif self._p_type == "Geometry":
-            return QIcon(":/socref_glsl/geometry_shader.svg")
-        elif self._p_type == "Compute":
-            return QIcon(":/socref_glsl/compute_shader.svg")
-        else:
-            raise RuntimeError("Shader is invalid type.")
+        return self.TYPES_LOOKUP[self._p_type]
 
 
     def setDefaultProperties(

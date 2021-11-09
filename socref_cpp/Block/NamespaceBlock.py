@@ -1,5 +1,5 @@
 """
-Contains the Namespace class.
+Contains the NamespaceBlock class.
 """
 from PySide6.QtGui import QIcon
 from socref import block
@@ -12,7 +12,7 @@ from socref.Output.RichText import RichText
 
 
 @block("Namespace",root=True)
-class Namespace(BlockBase):
+class NamespaceBlock(BlockBase):
     """
     This is the namespace block class. It implements the Socrates' Reference
     abstract block class. It represents a C++ namespace.
@@ -30,7 +30,8 @@ class Namespace(BlockBase):
     def buildList(
         self
     ):
-        return ("Namespace",)#"Enumeration","Variable","Function","Class","Union")
+        #return ("Namespace","Enumeration","Variable","Function","Class","Union")
+        return ("Namespace","Enumeration","Class")
 
 
     def clearProperties(
@@ -61,10 +62,28 @@ class Namespace(BlockBase):
         return [LineEdit("Name:","_p_name"),TextEdit("Description:","_p_description",True)]
 
 
+    def hasFunctions(
+        self
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        result : bool
+                 True if this namespace block has one or more functions or false
+                 otherwise.
+        """
+        for child in self:
+            if child._TYPE_ == "Function":
+                return True
+        return False
+
+
     def icon(
         self
     ):
-        return qtg.QIcon(":/cpp/namespace.svg")
+        return QIcon(":/cpp/namespace.svg")
 
 
     def setDefaultProperties(
