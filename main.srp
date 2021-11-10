@@ -4149,7 +4149,7 @@ The all lowercase type of this access block. Possible types are public, protecte
                         <__p_description>Getter method.</__p_description>
                         <__p_returnsDescription>result
 list
-Names of all inherited class parents of this class block.</__p_returnsDescription>
+Names of all inherited class parents of this class.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4175,8 +4175,9 @@ Names of all inherited class parents of this class block.</__p_returnsDescriptio
                     <Function>
                         <__p_name>isAbstract</__p_name>
                         <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>bool
-True if this class block contains any abstract functions or false otherwise.</__p_returnsDescription>
+                        <__p_returnsDescription>result
+bool
+True if this class contains any abstract functions or false otherwise.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4184,8 +4185,9 @@ True if this class block contains any abstract functions or false otherwise.</__
                     <Function>
                         <__p_name>isVirtual</__p_name>
                         <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>bool
-True if this class block contains any virtual functions or false otherwise.</__p_returnsDescription>
+                        <__p_returnsDescription>result
+bool
+True if this class contains any virtual functions or false otherwise.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4211,6 +4213,262 @@ True if this class block contains any virtual functions or false otherwise.</__p
                     </Function>
                     <Function>
                         <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>FunctionBlock</__p_name>
+                    <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a C++ function or method. The special function names '^' and '~^' are reserved for class constructors and destructors, respectively.</__p_description>
+                    <__p_parents>NamespaceBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_decorators>block(&quot;Function&quot;)</__p_decorators>
+                    <Class>
+                        <__p_name>FlagOutput</__p_name>
+                        <__p_description>This enumerates all possible output types for a function block's flags.</__p_description>
+                        <__p_parents>IntEnum</__p_parents>
+                        <__p_infile>0</__p_infile>
+                    </Class>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>arguments</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+A list of argument tuples for this function. Each tuple contains the name, assignment, type, and description in that order. The assignment and description can be empty.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>clearProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayName</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayView</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>editDefinitions</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>flags</__p_name>
+                        <__p_description>Returns before and after lists of this function block's enabled flags with the given output type. The before list are flags that go before the function name in code and the after list are flags that go after.</__p_description>
+                        <__p_returnsDescription>before
+list
+The before list.
+
+after
+list
+The after list.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>output</__p_name>
+                            <__p_description>FlagOutput
+The output type.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>hasReturn</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function has a return value or false if it is void.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isAbstract</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is abstract or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isConstant</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is constant or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isConstructor</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is a constructor or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isDefault</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is the default or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isDeleted</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is deleted or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isDestructor</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is a destructor or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isExplicit</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is an explicit constructor or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isFinal</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is the final overriding virtual interface or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isMethod</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is a method or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isNoExcept</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function does not throw exceptions or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isOperator</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is an operator or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isOverride</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is overriding a virtual interface or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isStatic</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is static or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isVirtual</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function is virtual or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isVolatileAbove</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>name</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The name of this function, taking into account if it is a constructor or destructor.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4283,16 +4541,10 @@ True if this namespace block has one or more functions or false otherwise.</__p_
                 </Class>
                 <Class>
                     <__p_name>VariableBlock</__p_name>
-                    <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++ variable. The variable block's type field has a special @ character which is a placeholder for where the name should be inserted within the type field.</__p_description>
+                    <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++ variable.</__p_description>
                     <__p_parents>NamespaceBlock</__p_parents>
                     <__p_infile>0</__p_infile>
                     <__p_decorators>block(&quot;Variable&quot;)</__p_decorators>
-                    <Class>
-                        <__p_name>FlagOutput</__p_name>
-                        <__p_description>This enumerates all possible output types for a variable block's flags.</__p_description>
-                        <__p_parents>IntEnum</__p_parents>
-                        <__p_infile>0</__p_infile>
-                    </Class>
                     <Function>
                         <__p_name>__init__</__p_name>
                         <__p_static>0</__p_static>
@@ -4330,48 +4582,7 @@ True if this namespace block has one or more functions or false otherwise.</__p_
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>flags</__p_name>
-                        <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>output</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                        </Object>
-                    </Function>
-                    <Function>
                         <__p_name>icon</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>isArgument</__p_name>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>result
-bool
-True if this variable is an argument of a function or false otherwise.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>isConstExpr</__p_name>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>result
-bool
-True if this variable is a constant expression or false otherwise.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>isThreadLocal</__p_name>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>result
-bool
-True if this variable is thread local or false otherwise.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

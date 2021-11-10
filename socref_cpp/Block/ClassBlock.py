@@ -46,7 +46,7 @@ class ClassBlock(NamespaceBlock):
         Returns
         -------
         result : list
-                 Names of all inherited class parents of this class block.
+                 Names of all inherited class parents of this class.
         """
         return [p for p in self._p_parents.split("\n") if p]
 
@@ -86,6 +86,12 @@ class ClassBlock(NamespaceBlock):
     ):
         """
         Getter method.
+
+        Returns
+        -------
+        result : bool
+                 True if this class contains any abstract functions or false
+                 otherwise.
         """
         for child in self:
             if child._TYPE_ == "Access" and child.hasAbstract():
@@ -98,6 +104,12 @@ class ClassBlock(NamespaceBlock):
     ):
         """
         Getter method.
+
+        Returns
+        -------
+        result : bool
+                 True if this class contains any virtual functions or false
+                 otherwise.
         """
         for child in self:
             if child._TYPE_ == "Access" and child.hasVirtual():

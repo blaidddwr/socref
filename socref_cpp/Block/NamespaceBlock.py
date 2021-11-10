@@ -30,8 +30,7 @@ class NamespaceBlock(BlockBase):
     def buildList(
         self
     ):
-        #return ("Namespace","Enumeration","Variable","Function","Class","Union")
-        return ("Namespace","Enumeration","Class")
+        return ("Namespace","Enumeration","Union","Class","Function")
 
 
     def clearProperties(

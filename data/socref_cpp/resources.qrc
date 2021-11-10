@@ -2,9 +2,7 @@
     <qresource prefix="/socref_cpp">
         <file>namespace.svg</file>
         <file>enumeration.svg</file>
-        <file>enumeration_value.svg</file>
         <file>variable.svg</file>
-        <file>static_variable.svg</file>
         <file>function.svg</file>
         <file>static_function.svg</file>
         <file>virtual_function.svg</file>

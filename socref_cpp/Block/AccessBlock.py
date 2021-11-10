@@ -35,7 +35,7 @@ class AccessBlock(BlockBase):
         self
     ):
         #return ("Enumeration","Function","Class","Union")
-        return ("Enumeration",)
+        return ("Enumeration","Function","Class")
 
 
     def clearProperties(
