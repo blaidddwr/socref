@@ -42,10 +42,7 @@ class VariableBlock(NamespaceBlock):
     def displayName(
         self
     ):
-        flags = "".join(self.flags(FlagOutput.Compact))
-        return "".join(
-            (self._p_name," =" if self._p_assignment else ""," ["+flags+"]" if flags else "")
-        )
+        return "".join((self._p_name," =" if self._p_assignment else ""))
 
 
     def displayView(
@@ -72,7 +69,7 @@ class VariableBlock(NamespaceBlock):
     def icon(
         self
     ):
-        return QIcon(":/cpp/variable.svg")
+        return QIcon(":/socref_cpp/variable.svg")
 
 
     def isVolatileAbove(

@@ -26,3 +26,10 @@ class EnumerationBlock(NamespaceBlock):
         self
     ):
         return QIcon(":/socref_cpp/enumeration.svg")
+
+
+    def setDefaultProperties(
+        self
+    ):
+        super().setDefaultProperties()
+        self._p_name = "enumeration"

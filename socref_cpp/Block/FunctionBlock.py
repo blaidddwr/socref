@@ -4,14 +4,12 @@ Contains the FunctionBlock class.
 from .NamespaceBlock import NamespaceBlock
 from PySide6.QtGui import QIcon
 from socref import block
-from socref.Edit.CheckboxEdit import CheckboxEdit
+from socref.Edit.CheckBoxEdit import CheckBoxEdit
+from socref.Edit.ComboEdit import ComboEdit
 from socref.Edit.HiddenEdit import HiddenEdit
 from socref.Edit.LineEdit import LineEdit
 from socref.Edit.TextEdit import TextEdit
-from enum import (
-    IntEnum
-    auto
-)
+from enum import IntEnum
 
 
 
@@ -24,6 +22,16 @@ class FunctionBlock(NamespaceBlock):
     function names '^' and '~^' are reserved for class constructors and
     destructors, respectively.
     """
+    ACCESS = (
+        ("Public",None)
+        ,("Protected",None)
+        ,("Private",None)
+    )
+    ACCESS_CHAR = {
+        "Public": "* "
+        ,"Protected": "^ "
+        ,"Private": "- "
+    }
     FLAGS = {
         "D": ("D","= default","Default")
         ,"R": ("R","= delete","Deleted")
@@ -51,6 +59,7 @@ class FunctionBlock(NamespaceBlock):
         self
     ):
         super().__init__()
+        self._p_access = "Public"
         self._p_returnType = ""
         self._p_returnDescription = ""
         self._p_default = "0"
@@ -94,6 +103,7 @@ class FunctionBlock(NamespaceBlock):
         self
     ):
         super().clearProperties()
+        self._p_access = "Public"
         self._p_returnType = ""
         self._p_returnDescription = ""
         self._p_default = "0"
@@ -114,7 +124,11 @@ class FunctionBlock(NamespaceBlock):
         (before,after) = self.flags(FlagOutput.Compact)
         flags = "".join(before+after)
         return "".join(
-            (self.name()," ..." if self.hasReturn() else ""," ["+flags+"]" if flags else "")
+            (
+                self.ACCESS_CHAR[self._p_access] if self.isMethod() else ""
+                ,self.name()
+                ," ..." if self.hasReturn() else ""
+                ," ["+flags+"]" if flags else "")
         )
 
 
@@ -122,7 +136,7 @@ class FunctionBlock(NamespaceBlock):
         self
     ):
         ret = super().displayView()
-        arguments = self.arguments(False)
+        arguments = self.arguments()
         if arguments:
             ret.addHeader("Arguments",1)
             for (name,assignment,type_,text) in arguments:
@@ -130,10 +144,11 @@ class FunctionBlock(NamespaceBlock):
         if self.hasReturn():
             ret.addHeader("Return",1)
             ret.addBox(self._p_returnType,self._p_returnDescription)
-        flags = self.flags(FlagOutput.Full)
+        (before,after) = self.flags(FlagOutput.Full)
+        flags = before+after
         if flags:
             ret.addHeader("Flags",1)
-            ret.addList(self.flags())
+            ret.addList(flags)
         return ret
 
 
@@ -141,19 +156,23 @@ class FunctionBlock(NamespaceBlock):
         self
     ):
         ret = super().editDefinitions()
+        if self.isMethod():
+            ret.append(ComboEdit("Access:","_p_access",self.ACCESS))
+        else:
+            ret.append(HiddenEdit("_p_access","Public"))
         ret.append(LineEdit("Return Type:","_p_returnType"))
         ret.append(TextEdit("Return Description:","_p_returnDescription",True))
-        ret.append(CheckboxEdit("No Exceptions","_p_noexcept"))
+        ret.append(CheckBoxEdit("No Exceptions","_p_noexcept"))
         if self.isMethod():
-            ret.append(CheckboxEdit("Default","_p_default"))
-            ret.append(CheckboxEdit("Deleted","_p_deleted"))
-            ret.append(CheckboxEdit("Explicit","_p_explicit"))
-            ret.append(CheckboxEdit("Constant","_p_const"))
-            ret.append(CheckboxEdit("Static","_p_static"))
-            ret.append(CheckboxEdit("Virtual","_p_virtual"))
-            ret.append(CheckboxEdit("Override","_p_override"))
-            ret.append(CheckboxEdit("Final","_p_final"))
-            ret.append(CheckboxEdit("Abstract","_p_abstract"))
+            ret.append(CheckBoxEdit("Default","_p_default"))
+            ret.append(CheckBoxEdit("Deleted","_p_deleted"))
+            ret.append(CheckBoxEdit("Explicit","_p_explicit"))
+            ret.append(CheckBoxEdit("Constant","_p_const"))
+            ret.append(CheckBoxEdit("Static","_p_static"))
+            ret.append(CheckBoxEdit("Virtual","_p_virtual"))
+            ret.append(CheckBoxEdit("Override","_p_override"))
+            ret.append(CheckBoxEdit("Final","_p_final"))
+            ret.append(CheckBoxEdit("Abstract","_p_abstract"))
         else:
             ret.append(HiddenEdit("_p_default","0"))
             ret.append(HiddenEdit("_p_deleted","0"))
@@ -231,31 +250,32 @@ class FunctionBlock(NamespaceBlock):
     def icon(
         self
     ):
+        a = self._p_access.lower()
         if self.isConstructor():
-            return QIcon(":/socref_cpp/constructor.svg")
+            return QIcon(":/socref_cpp/"+a+"_constructor.svg")
         elif self.isDestructor():
             if self.isAbstract():
-                return QIcon(":/socref_cpp/abstract_destructor.svg")
+                return QIcon(":/socref_cpp/abstract_"+a+"_destructor.svg")
             elif self.isVirtual():
-                return QIcon(":/socref_cpp/virtual_destructor.svg")
+                return QIcon(":/socref_cpp/virtual_"+a+"_destructor.svg")
             else:
-                return QIcon(":/socref_cpp/destructor.svg")
+                return QIcon(":/socref_cpp/"+a+"_destructor.svg")
         elif self.isOperator():
             if self.isAbstract():
-                return QIcon(":/socref_cpp/abstract_operator.svg")
+                return QIcon(":/socref_cpp/abstract_"+a+"_operator.svg")
             elif self.isVirtual():
-                return QIcon(":/socref_cpp/virtual_operator.svg")
+                return QIcon(":/socref_cpp/virtual_"+a+"_operator.svg")
             else:
-                return QIcon(":/socref_cpp/operator.svg")
+                return QIcon(":/socref_cpp/"+a+"_operator.svg")
         else:
             if self.isAbstract():
-                return QIcon(":/socref_cpp/abstract_function.svg")
+                return QIcon(":/socref_cpp/abstract_"+a+"_function.svg")
             elif self.isVirtual():
-                return QIcon(":/socref_cpp/virtual_function.svg")
+                return QIcon(":/socref_cpp/virtual_"+a+"_function.svg")
             elif self.isStatic():
-                return QIcon(":/socref_cpp/static_function.svg")
+                return QIcon(":/socref_cpp/static_"+a+"_function.svg")
             else:
-                return QIcon(":/socref_cpp/function.svg")
+                return QIcon(":/socref_cpp/"+a+"_function.svg")
 
 
     def isAbstract(
@@ -488,6 +508,7 @@ class FunctionBlock(NamespaceBlock):
         self
     ):
         super().setDefaultProperties()
+        self._p_type = "Public"
         self._p_name = "function"
         self._p_returnType = "void"
         self._p_returnDescription = ""
@@ -503,4 +524,4 @@ class FunctionBlock(NamespaceBlock):
         self._p_abstract = "0"
 
 
-FlagOutput = VariableBlock.FlagOutput
+FlagOutput = FunctionBlock.FlagOutput

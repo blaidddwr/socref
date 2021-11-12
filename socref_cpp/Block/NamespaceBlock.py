@@ -30,7 +30,7 @@ class NamespaceBlock(BlockBase):
     def buildList(
         self
     ):
-        return ("Namespace","Enumeration","Union","Class","Function")
+        return ("Namespace","Class","Enumeration","Function","Union")
 
 
     def clearProperties(
@@ -82,10 +82,11 @@ class NamespaceBlock(BlockBase):
     def icon(
         self
     ):
-        return QIcon(":/cpp/namespace.svg")
+        return QIcon(":/socref_cpp/namespace.svg")
 
 
     def setDefaultProperties(
         self
     ):
+        self._p_name = "namespace"
         self._p_description = "Detailed description."

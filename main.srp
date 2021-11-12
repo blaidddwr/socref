@@ -4030,97 +4030,6 @@ The decorated class.</__p_description>
                 <__p_name>Block</__p_name>
                 <__p_description>Contains all implemented Socrates' Reference block classes.</__p_description>
                 <Class>
-                    <__p_name>AccessBlock</__p_name>
-                    <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a C++ class access segment.</__p_description>
-                    <__p_parents>BlockBase</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <__p_decorators>block(&quot;Access&quot;)</__p_decorators>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>buildList</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>clearProperties</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>displayName</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>displayView</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>editDefinitions</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>hasAbstract</__p_name>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>result
-bool
-True if this access block contains any abstract methods or false otherwise.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>hasVirtual</__p_name>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>result
-bool
-True if this access block contains any virtual methods or false otherwise.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>icon</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>isVolatileAbove</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>setDefaultProperties</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>lower</__p_name>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>result
-string
-The all lowercase type of this access block. Possible types are public, protected, and private.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                </Class>
-                <Class>
                     <__p_name>ClassBlock</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a C++ class.</__p_description>
                     <__p_parents>NamespaceBlock</__p_parents>
@@ -4213,6 +4122,12 @@ True if this class contains any virtual functions or false otherwise.</__p_retur
                     </Function>
                     <Function>
                         <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4540,6 +4455,31 @@ True if this namespace block has one or more functions or false otherwise.</__p_
                     </Function>
                 </Class>
                 <Class>
+                    <__p_name>UnionBlock</__p_name>
+                    <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++ union.</__p_description>
+                    <__p_parents>NamespaceBlock</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <__p_decorators>block(&quot;Union&quot;)</__p_decorators>
+                    <Function>
+                        <__p_name>buildList</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
                     <__p_name>VariableBlock</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++ variable.</__p_description>
                     <__p_parents>NamespaceBlock</__p_parents>
@@ -4609,6 +4549,54 @@ True if this namespace block has one or more functions or false otherwise.</__p_
                 <__p_name>Writer</__p_name>
                 <__p_description>Contains all implemented Socrates' Reference writer classes.</__p_description>
             </Package>
+            <Class>
+                <__p_name>Parser</__p_name>
+                <__p_description>This is the parser class. It implements the Socrates' Reference abstract parser class for the C++ language.</__p_description>
+                <__p_parents>ParserBase</__p_parents>
+                <__p_infile>0</__p_infile>
+                <__p_decorators>parser</__p_decorators>
+                <Function>
+                    <__p_name>__init__</__p_name>
+                    <__p_description>Initializes this new parser with the given root block.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_class>0</__p_class>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>root</__p_name>
+                        <__p_description>NamespaceBlock
+The root block.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>_pathList_</__p_name>
+                    <__p_static>0</__p_static>
+                    <__p_class>0</__p_class>
+                    <__p_abstract>0</__p_abstract>
+                </Function>
+                <Function>
+                    <__p_name>_reader_</__p_name>
+                    <__p_static>0</__p_static>
+                    <__p_class>0</__p_class>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>block</__p_name>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>_writer_</__p_name>
+                    <__p_static>0</__p_static>
+                    <__p_class>0</__p_class>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>block</__p_name>
+                    </Object>
+                </Function>
+            </Class>
+            <Class>
+                <__p_name>Settings</__p_name>
+                <__p_description>This is the settings class. It provides all global setting values used by the C++ language implementation.</__p_description>
+                <__p_infile>0</__p_infile>
+            </Class>
         </Package>
         <Package>
             <__p_name>socref_glsl</__p_name>

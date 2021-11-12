@@ -27,7 +27,7 @@ class ClassBlock(NamespaceBlock):
     def buildList(
         self
     ):
-        return ("Access",)
+        return ("Function","Enumeration","Class","Union")
 
 
     def clearProperties(
@@ -74,11 +74,11 @@ class ClassBlock(NamespaceBlock):
         self
     ):
         if self.isAbstract():
-            return QIcon(":/cpp/abstract_class.svg")
+            return QIcon(":/socref_cpp/abstract_class.svg")
         elif self.isVirtual():
-            return QIcon(":/cpp/virtual_class.svg")
+            return QIcon(":/socref_cpp/virtual_class.svg")
         else:
-            return QIcon(":/cpp/class.svg")
+            return QIcon(":/socref_cpp/class.svg")
 
 
     def isAbstract(
@@ -94,7 +94,7 @@ class ClassBlock(NamespaceBlock):
                  otherwise.
         """
         for child in self:
-            if child._TYPE_ == "Access" and child.hasAbstract():
+            if child._TYPE_ == "Function" and child.isAbstract():
                 return True
         return False
 
@@ -112,7 +112,7 @@ class ClassBlock(NamespaceBlock):
                  otherwise.
         """
         for child in self:
-            if child._TYPE_ == "Access" and child.hasVirtual():
+            if child._TYPE_ == "Function" and child.isVirtual():
                 return True
         return False
 
