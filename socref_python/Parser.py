@@ -41,13 +41,13 @@ class Parser(ParserBase):
             ret = []
             for block in parent:
                 if block._TYPE_ == "Module":
-                    ret.append((pathJoin(path,block._p_name+".py"),block))
+                    ret.append((pathJoin(path,block._p_name+".py"),block,{}))
                     ret += build(path,block)
                 elif block._TYPE_ == "Package":
-                    ret.append((pathJoin(path,block._p_name,"__init__.py"),block))
+                    ret.append((pathJoin(path,block._p_name,"__init__.py"),block,{}))
                     ret += build(pathJoin(path,block._p_name),block)
                 elif block._TYPE_ == "Class" and not block.isInfile():
-                    ret.append((pathJoin(path,block._p_name+".py"),block))
+                    ret.append((pathJoin(path,block._p_name+".py"),block,{}))
             return ret
         return build("",self.__root)
 
@@ -55,6 +55,7 @@ class Parser(ParserBase):
     def _reader_(
         self
         ,block
+        ,options
     ):
         if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
             return ModuleReader(block,self)
@@ -63,6 +64,7 @@ class Parser(ParserBase):
     def _writer_(
         self
         ,block
+        ,options
     ):
         if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
             return ModuleWriter(block,self)

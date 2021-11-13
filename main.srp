@@ -736,14 +736,14 @@ An interface for generating the path list, creating readers for a given path and
                         <__p_description>This interface is a getter method.</__p_description>
                         <__p_returnsDescription>result
 list
-A list of tuples, each tuple containing a relative path to a source code file that is parsed and the block associated with it. The path is relative to the root path of the project being parsed.</__p_returnsDescription>
+A list of tuples. Each tuple contains a relative path to a source code file that is parsed, the block associated with it, and a dictionary of any optional settings in that order. The optional settings are passed along to the reader and writer interfaces when creating readers and writers. The path is relative to the root path of the project being parsed.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_reader_</__p_name>
-                        <__p_description>This interface returns a new reader capable of reading any lines of code from the source code file associated with the given block. Nothing can also be returned, in which case this parser ignores it and any existing file.</__p_description>
+                        <__p_description>This interface returns a new reader capable of reading any lines of code from the source code file associated with the given block and optional settings. The given optional settings are provided from the path list interface. Nothing can also be returned, in which case this parser ignores it and any existing file.</__p_description>
                         <__p_returnsDescription>result
 AbstractReader
 The new reader.</__p_returnsDescription>
@@ -755,10 +755,15 @@ The new reader.</__p_returnsDescription>
                             <__p_description>AbstractBlock
 The block.</__p_description>
                         </Object>
+                        <Object>
+                            <__p_name>options</__p_name>
+                            <__p_description>dictionary
+The optional settings.</__p_description>
+                        </Object>
                     </Function>
                     <Function>
                         <__p_name>_writer_</__p_name>
-                        <__p_description>This interface returns a new writer capable of writing the full source code output file associated with the given block.</__p_description>
+                        <__p_description>This interface returns a new writer capable of writing the full source code output file associated with the given block. The given optional settings are provided from the path list interface.</__p_description>
                         <__p_returnsDescription>result
 AbstractWriter
 The new writer.</__p_returnsDescription>
@@ -769,6 +774,11 @@ The new writer.</__p_returnsDescription>
                             <__p_name>block</__p_name>
                             <__p_description>AbstractBlock
 The block.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>options</__p_name>
+                            <__p_description>dictionary
+The optional settings.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -4581,6 +4591,9 @@ The root block.</__p_description>
                     <Object>
                         <__p_name>block</__p_name>
                     </Object>
+                    <Object>
+                        <__p_name>options</__p_name>
+                    </Object>
                 </Function>
                 <Function>
                     <__p_name>_writer_</__p_name>
@@ -4589,6 +4602,9 @@ The root block.</__p_description>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>block</__p_name>
+                    </Object>
+                    <Object>
+                        <__p_name>options</__p_name>
                     </Object>
                 </Function>
             </Class>
@@ -5267,6 +5283,9 @@ The root block.</__p_description>
                     <Object>
                         <__p_name>block</__p_name>
                     </Object>
+                    <Object>
+                        <__p_name>options</__p_name>
+                    </Object>
                 </Function>
                 <Function>
                     <__p_name>_writer_</__p_name>
@@ -5275,6 +5294,9 @@ The root block.</__p_description>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>block</__p_name>
+                    </Object>
+                    <Object>
+                        <__p_name>options</__p_name>
                     </Object>
                 </Function>
             </Class>
@@ -6176,6 +6198,9 @@ The root block.</__p_description>
                     <Object>
                         <__p_name>block</__p_name>
                     </Object>
+                    <Object>
+                        <__p_name>options</__p_name>
+                    </Object>
                 </Function>
                 <Function>
                     <__p_name>_writer_</__p_name>
@@ -6184,6 +6209,9 @@ The root block.</__p_description>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>block</__p_name>
+                    </Object>
+                    <Object>
+                        <__p_name>options</__p_name>
                     </Object>
                 </Function>
             </Class>

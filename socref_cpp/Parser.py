@@ -40,6 +40,7 @@ class Parser(ParserBase):
     def _reader_(
         self
         ,block
+        ,options
     ):
         pass
 
@@ -47,5 +48,6 @@ class Parser(ParserBase):
     def _writer_(
         self
         ,block
+        ,options
     ):
         pass

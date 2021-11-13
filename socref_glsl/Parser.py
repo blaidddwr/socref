@@ -43,11 +43,11 @@ class Parser(ParserBase):
             ret = []
             for block in parent:
                 if block._TYPE_ == "Program":
-                    ret.append((pathJoin(path,block._p_name,"README.txt"),block))
+                    ret.append((pathJoin(path,block._p_name,"README.txt"),block,{}))
                     ret += build(pathJoin(path,block._p_name),block)
                 elif block._TYPE_ == "Shader":
                     ret.append(
-                        (pathJoin(path,block._p_name+Settings.EXT[block._p_type]+".glsl"),block)
+                        (pathJoin(path,block._p_name+Settings.EXT[block._p_type]+".glsl"),block,{})
                     )
             return ret
         return build("",self.__root)
@@ -56,6 +56,7 @@ class Parser(ParserBase):
     def _reader_(
         self
         ,block
+        ,options
     ):
         if block._TYPE_ == "Shader":
             return ShaderReader(block,self)
@@ -64,6 +65,7 @@ class Parser(ParserBase):
     def _writer_(
         self
         ,block
+        ,options
     ):
         if block._TYPE_ == "Program":
             return ProgramWriter(block,self)

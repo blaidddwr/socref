@@ -140,10 +140,12 @@ class ParserBase(AbstractParser):
         Returns
         -------
         result : list
-                 A list of tuples, each tuple containing a relative path to a
-                 source code file that is parsed and the block associated with
-                 it. The path is relative to the root path of the project being
-                 parsed.
+                 A list of tuples. Each tuple contains a relative path to a
+                 source code file that is parsed, the block associated with it,
+                 and a dictionary of any optional settings in that order. The
+                 optional settings are passed along to the reader and writer
+                 interfaces when creating readers and writers. The path is
+                 relative to the root path of the project being parsed.
         """
         return ()
 
@@ -151,17 +153,21 @@ class ParserBase(AbstractParser):
     def _reader_(
         self
         ,block
+        ,options
     ):
         """
         This interface returns a new reader capable of reading any lines of code
-        from the source code file associated with the given block. Nothing can
-        also be returned, in which case this parser ignores it and any existing
-        file.
+        from the source code file associated with the given block and optional
+        settings. The given optional settings are provided from the path list
+        interface. Nothing can also be returned, in which case this parser
+        ignores it and any existing file.
 
         Parameters
         ----------
         block : AbstractBlock
                 The block.
+        options : dictionary
+                  The optional settings.
 
         Returns
         -------
@@ -175,15 +181,19 @@ class ParserBase(AbstractParser):
     def _writer_(
         self
         ,block
+        ,options
     ):
         """
         This interface returns a new writer capable of writing the full source
-        code output file associated with the given block.
+        code output file associated with the given block. The given optional
+        settings are provided from the path list interface.
 
         Parameters
         ----------
         block : AbstractBlock
                 The block.
+        options : dictionary
+                  The optional settings.
 
         Returns
         -------
@@ -203,9 +213,9 @@ class ParserBase(AbstractParser):
         nothing is added to the lookup table.
         """
         count = 0
-        for (path,block) in self.__paths:
+        for (path,block,options) in self.__paths:
             try:
-                reader = self._reader_(block)
+                reader = self._reader_(block,options)
                 if reader is not None:
                     if not isinstance(reader,AbstractReader):
                         raise ScanError("Returned object is not an abstract reader.")
@@ -248,11 +258,11 @@ class ParserBase(AbstractParser):
         Writes all source code files from this parser's path list.
         """
         count = 0
-        for (path,block) in self.__paths:
+        for (path,block,options) in self.__paths:
             rp = pathJoin(self.__rootPath,path)
             if not pathExists(dirname(rp)):
                 makedirs(dirname(rp))
-            writer = self._writer_(block)
+            writer = self._writer_(block,options)
             if not isinstance(writer,AbstractWriter):
                 raise ScanError("Returned object is not an abstract writer.")
             new = "\n".join(writer()) + "\n"
