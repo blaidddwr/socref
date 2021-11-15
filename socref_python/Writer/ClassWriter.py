@@ -44,7 +44,7 @@ class ClassWriter(WriterBase):
         super().__init__(parent)
         self.__block = block
         self.__depth = depth
-        self.__reader = self.lookup(block.key())
+        self.__reader = None
         for child in block:
             if child._TYPE_ == "Function":
                 FunctionWriter(child,depth+1,self)
@@ -74,3 +74,9 @@ class ClassWriter(WriterBase):
         elif len(self.__block) == 0:
             ret.add("pass")
         return ret
+
+
+    def _link_(
+        self
+    ):
+        self.__reader = self.lookup(self.__block.key())

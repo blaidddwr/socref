@@ -5,7 +5,6 @@ from ..Abstract.AbstractParser import AbstractParser
 from ..Abstract.AbstractReader import AbstractReader
 from ..Abstract.AbstractWriter import AbstractWriter
 from ..Error.ScanError import ScanError
-from abc import abstractmethod
 from os import makedirs
 from os.path import (
     dirname
@@ -24,10 +23,10 @@ class ParserBase(AbstractParser):
     file being read, the call operator for executing parsing itself, reader
     lookup, and setting the root path.
 
-    An interface for generating the path list, creating readers for a given path
-    and block, and creating writers for a given path and block are provided for
-    convenience. All these interfaces are broken down sub tasks of the main call
-    operator interface implemented by this base class.
+    An interface for generating a path list with its associated optional reader
+    and required writer are provided for convenience. This path list is used by
+    this base class in its implemented call operator for parsing and generating
+    source code files.
     """
 
 
@@ -141,66 +140,14 @@ class ParserBase(AbstractParser):
         -------
         result : list
                  A list of tuples. Each tuple contains a relative path to a
-                 source code file that is parsed, the block associated with it,
-                 and a dictionary of any optional settings in that order. The
-                 optional settings are passed along to the reader and writer
-                 interfaces when creating readers and writers. The path is
-                 relative to the root path of the project being parsed.
+                 source code file that is parsed, an optional abstract reader
+                 that parses the source code file, and required abstract writer
+                 that writes the output of the source code file, in that order.
+                 Each path is relative to the root path of the project being
+                 parsed. If no abstract reader is required then none is used as
+                 a placeholder for that tuple.
         """
         return ()
-
-
-    def _reader_(
-        self
-        ,block
-        ,options
-    ):
-        """
-        This interface returns a new reader capable of reading any lines of code
-        from the source code file associated with the given block and optional
-        settings. The given optional settings are provided from the path list
-        interface. Nothing can also be returned, in which case this parser
-        ignores it and any existing file.
-
-        Parameters
-        ----------
-        block : AbstractBlock
-                The block.
-        options : dictionary
-                  The optional settings.
-
-        Returns
-        -------
-        result : AbstractReader
-                 The new reader.
-        """
-        return None
-
-
-    @abstractmethod
-    def _writer_(
-        self
-        ,block
-        ,options
-    ):
-        """
-        This interface returns a new writer capable of writing the full source
-        code output file associated with the given block. The given optional
-        settings are provided from the path list interface.
-
-        Parameters
-        ----------
-        block : AbstractBlock
-                The block.
-        options : dictionary
-                  The optional settings.
-
-        Returns
-        -------
-        result : AbstractWriter
-                 The new writer.
-        """
-        pass
 
 
     def __readAll_(
@@ -213,12 +160,11 @@ class ParserBase(AbstractParser):
         nothing is added to the lookup table.
         """
         count = 0
-        for (path,block,options) in self.__paths:
+        for (path,reader,writer) in self.__paths:
             try:
-                reader = self._reader_(block,options)
                 if reader is not None:
                     if not isinstance(reader,AbstractReader):
-                        raise ScanError("Returned object is not an abstract reader.")
+                        raise ScanError("2nd object of path list tuple is not an abstract reader.")
                     rp = pathJoin(self.__rootPath,path)
                     if isfile(rp):
                         self.__io = open(rp,"r")
@@ -258,13 +204,12 @@ class ParserBase(AbstractParser):
         Writes all source code files from this parser's path list.
         """
         count = 0
-        for (path,block,options) in self.__paths:
+        for (path,reader,writer) in self.__paths:
             rp = pathJoin(self.__rootPath,path)
             if not pathExists(dirname(rp)):
                 makedirs(dirname(rp))
-            writer = self._writer_(block,options)
             if not isinstance(writer,AbstractWriter):
-                raise ScanError("Returned object is not an abstract writer.")
+                raise ScanError("3rd object of path list tuple is not an abstract writer.")
             new = "\n".join(writer()) + "\n"
             if pathExists(rp):
                 old = open(rp,"r").read()

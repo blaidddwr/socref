@@ -4,7 +4,6 @@ Contains the WriterBase class.
 from ..Abstract.AbstractParser import AbstractParser
 from ..Abstract.AbstractWriter import AbstractWriter
 from ..Error.ScanError import ScanError
-from abc import abstractmethod
 
 
 
@@ -19,6 +18,10 @@ class WriterBase(AbstractWriter):
     generating footer code after children output is provided. These interfaces
     are broken sub tasks of the main call operator interface implemented by this
     base class where all output is returned.
+
+    An interface for linking this writer to any required readers is provided.
+    This interface is the only safe place for its writer to link itself to
+    readers.
     """
 
 
@@ -50,6 +53,7 @@ class WriterBase(AbstractWriter):
     def __call__(
         self
     ):
+        self._link_()
         ret = list(self._header_())
         for child in self.__children:
             ret += child()
@@ -62,7 +66,7 @@ class WriterBase(AbstractWriter):
         ,key
     ):
         """
-        Calls this reader's shared parser instance method with the same name.
+        Calls this writer's shared parser instance method with the same name.
         """
         return self.__parser.lookup(key)
 
@@ -101,3 +105,12 @@ class WriterBase(AbstractWriter):
                  children writer code line output.
         """
         return []
+
+
+    def _link_(
+        self
+    ):
+        """
+        This interface links this writer to any required readers.
+        """
+        pass

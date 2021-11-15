@@ -41,7 +41,7 @@ class ShaderWriter(WriterBase):
         """
         super().__init__(parent)
         self.__block = block
-        self.__reader = self.lookup(block.key()+".main()")
+        self.__reader = None
         for child in block:
             if child._TYPE_ == "Variable":
                 VariableWriter(child,0,self)
@@ -78,3 +78,9 @@ class ShaderWriter(WriterBase):
         ret.addText(self.__block._p_description,Settings.COLS," * ")
         ret.add(" */")
         return ret
+
+
+    def _link_(
+        self
+    ):
+        self.__reader = self.lookup(self.__block.key()+".main()")

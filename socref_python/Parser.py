@@ -41,32 +41,30 @@ class Parser(ParserBase):
             ret = []
             for block in parent:
                 if block._TYPE_ == "Module":
-                    ret.append((pathJoin(path,block._p_name+".py"),block,{}))
+                    ret.append(
+                        (
+                            pathJoin(path,block._p_name+".py")
+                            ,ModuleReader(block,self)
+                            ,ModuleWriter(block,self)
+                        )
+                    )
                     ret += build(path,block)
                 elif block._TYPE_ == "Package":
-                    ret.append((pathJoin(path,block._p_name,"__init__.py"),block,{}))
+                    ret.append(
+                        (
+                            pathJoin(path,block._p_name,"__init__.py")
+                            ,ModuleReader(block,self)
+                            ,ModuleWriter(block,self)
+                        )
+                    )
                     ret += build(pathJoin(path,block._p_name),block)
                 elif block._TYPE_ == "Class" and not block.isInfile():
-                    ret.append((pathJoin(path,block._p_name+".py"),block,{}))
+                    ret.append(
+                        (
+                            pathJoin(path,block._p_name+".py")
+                            ,ModuleReader(block,self)
+                            ,ModuleWriter(block,self)
+                        )
+                    )
             return ret
         return build("",self.__root)
-
-
-    def _reader_(
-        self
-        ,block
-        ,options
-    ):
-        if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
-            return ModuleReader(block,self)
-
-
-    def _writer_(
-        self
-        ,block
-        ,options
-    ):
-        if block._TYPE_ == "Module" or block._TYPE_ == "Package" or block._TYPE_ == "Class":
-            return ModuleWriter(block,self)
-        else:
-            raise RuntimeError("Unsupported block type given for writer.")

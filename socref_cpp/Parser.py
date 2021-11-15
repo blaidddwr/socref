@@ -35,19 +35,3 @@ class Parser(ParserBase):
         self
     ):
         return []
-
-
-    def _reader_(
-        self
-        ,block
-        ,options
-    ):
-        pass
-
-
-    def _writer_(
-        self
-        ,block
-        ,options
-    ):
-        pass

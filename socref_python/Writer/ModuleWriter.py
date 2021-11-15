@@ -42,7 +42,7 @@ class ModuleWriter(WriterBase):
         """
         super().__init__(parent)
         self.__block = block
-        self.__reader = self.lookup(block.key(True))
+        self.__reader = None
         if block._TYPE_ == "Class":
             ClassWriter(block,0,self)
         else:
@@ -80,3 +80,9 @@ class ModuleWriter(WriterBase):
         if self.__reader:
             ret.add(self.__reader.header())
         return ret
+
+
+    def _link_(
+        self
+    ):
+        self.__reader = self.lookup(self.__block.key(True))

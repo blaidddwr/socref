@@ -43,33 +43,17 @@ class Parser(ParserBase):
             ret = []
             for block in parent:
                 if block._TYPE_ == "Program":
-                    ret.append((pathJoin(path,block._p_name,"README.txt"),block,{}))
+                    ret.append(
+                        (pathJoin(path,block._p_name,"README.txt"),None,ProgramWriter(block,self))
+                    )
                     ret += build(pathJoin(path,block._p_name),block)
                 elif block._TYPE_ == "Shader":
                     ret.append(
-                        (pathJoin(path,block._p_name+Settings.EXT[block._p_type]+".glsl"),block,{})
+                        (
+                            pathJoin(path,block._p_name+Settings.EXT[block._p_type]+".glsl")
+                            ,ShaderReader(block,self)
+                            ,ShaderWriter(block,self)
+                        )
                     )
             return ret
         return build("",self.__root)
-
-
-    def _reader_(
-        self
-        ,block
-        ,options
-    ):
-        if block._TYPE_ == "Shader":
-            return ShaderReader(block,self)
-
-
-    def _writer_(
-        self
-        ,block
-        ,options
-    ):
-        if block._TYPE_ == "Program":
-            return ProgramWriter(block,self)
-        elif block._TYPE_ == "Shader":
-            return ShaderWriter(block,self)
-        else:
-            raise RuntimeError("Unsupported block type given for writer.")

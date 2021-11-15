@@ -34,7 +34,7 @@ class FunctionWriter(WriterBase):
         """
         super().__init__(parent)
         self.__block = block
-        self.__reader = self.lookup(block.key())
+        self.__reader = None
         self.__code = None
 
 
@@ -54,6 +54,12 @@ class FunctionWriter(WriterBase):
         ret = self.__code
         self.__code = None
         return ret
+
+
+    def _link_(
+        self
+    ):
+        self.__reader = self.lookup(self.__block.key())
 
 
     def __addArguments_(

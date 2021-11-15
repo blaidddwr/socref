@@ -659,7 +659,7 @@ The shared parent parser of this writer.</__p_returnsDescription>
                     <__p_name>ParserBase</__p_name>
                     <__p_description>This is the parser base class. It partially implements the abstract parser class. This base class implements all interfaces for accessing the current file being read, the call operator for executing parsing itself, reader lookup, and setting the root path.
 
-An interface for generating the path list, creating readers for a given path and block, and creating writers for a given path and block are provided for convenience. All these interfaces are broken down sub tasks of the main call operator interface implemented by this base class.</__p_description>
+An interface for generating a path list with its associated optional reader and required writer are provided for convenience. This path list is used by this base class in its implemented call operator for parsing and generating source code files.</__p_description>
                     <__p_parents>AbstractParser</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -736,50 +736,10 @@ An interface for generating the path list, creating readers for a given path and
                         <__p_description>This interface is a getter method.</__p_description>
                         <__p_returnsDescription>result
 list
-A list of tuples. Each tuple contains a relative path to a source code file that is parsed, the block associated with it, and a dictionary of any optional settings in that order. The optional settings are passed along to the reader and writer interfaces when creating readers and writers. The path is relative to the root path of the project being parsed.</__p_returnsDescription>
+A list of tuples. Each tuple contains a relative path to a source code file that is parsed, an optional abstract reader that parses the source code file, and required abstract writer that writes the output of the source code file, in that order. Each path is relative to the root path of the project being parsed. If no abstract reader is required then none is used as a placeholder for that tuple.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>_reader_</__p_name>
-                        <__p_description>This interface returns a new reader capable of reading any lines of code from the source code file associated with the given block and optional settings. The given optional settings are provided from the path list interface. Nothing can also be returned, in which case this parser ignores it and any existing file.</__p_description>
-                        <__p_returnsDescription>result
-AbstractReader
-The new reader.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>block</__p_name>
-                            <__p_description>AbstractBlock
-The block.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>options</__p_name>
-                            <__p_description>dictionary
-The optional settings.</__p_description>
-                        </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>_writer_</__p_name>
-                        <__p_description>This interface returns a new writer capable of writing the full source code output file associated with the given block. The given optional settings are provided from the path list interface.</__p_description>
-                        <__p_returnsDescription>result
-AbstractWriter
-The new writer.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>1</__p_abstract>
-                        <Object>
-                            <__p_name>block</__p_name>
-                            <__p_description>AbstractBlock
-The block.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>options</__p_name>
-                            <__p_description>dictionary
-The optional settings.</__p_description>
-                        </Object>
                     </Function>
                     <Function>
                         <__p_name>__readAll_</__p_name>
@@ -895,7 +855,9 @@ The key.</__p_description>
                     <__p_name>WriterBase</__p_name>
                     <__p_description>This is the writer base class. It partially implements the abstract writer class. This base class handles its parent parser and the main call operator interface for returning all output.
 
-An interface for generating header code before children output and generating footer code after children output is provided. These interfaces are broken sub tasks of the main call operator interface implemented by this base class where all output is returned.</__p_description>
+An interface for generating header code before children output and generating footer code after children output is provided. These interfaces are broken sub tasks of the main call operator interface implemented by this base class where all output is returned.
+
+An interface for linking this writer to any required readers is provided. This interface is the only safe place for its writer to link itself to readers.</__p_description>
                     <__p_parents>AbstractWriter</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -918,7 +880,7 @@ The parent.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>lookup</__p_name>
-                        <__p_description>Calls this reader's shared parser instance method with the same name.</__p_description>
+                        <__p_description>Calls this writer's shared parser instance method with the same name.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -948,6 +910,13 @@ Footer output code lines of this writer, added after any children writer code li
                         <__p_returnsDescription>result
 list
 Footer output code lines of this writer, added after any children writer code line output.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_description>This interface links this writer to any required readers.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4583,30 +4552,6 @@ The root block.</__p_description>
                     <__p_class>0</__p_class>
                     <__p_abstract>0</__p_abstract>
                 </Function>
-                <Function>
-                    <__p_name>_reader_</__p_name>
-                    <__p_static>0</__p_static>
-                    <__p_class>0</__p_class>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>block</__p_name>
-                    </Object>
-                    <Object>
-                        <__p_name>options</__p_name>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>_writer_</__p_name>
-                    <__p_static>0</__p_static>
-                    <__p_class>0</__p_class>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>block</__p_name>
-                    </Object>
-                    <Object>
-                        <__p_name>options</__p_name>
-                    </Object>
-                </Function>
             </Class>
             <Class>
                 <__p_name>Settings</__p_name>
@@ -5082,6 +5027,12 @@ The parent shader writer.</__p_description>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>__addArguments_</__p_name>
                         <__p_description>Adds function argument lines of code to this writer's code.</__p_description>
                         <__p_static>0</__p_static>
@@ -5180,6 +5131,12 @@ The parent parser.</__p_description>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
                 </Class>
                 <Class>
                     <__p_name>StructureWriter</__p_name>
@@ -5274,30 +5231,6 @@ The root block.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_class>0</__p_class>
                     <__p_abstract>0</__p_abstract>
-                </Function>
-                <Function>
-                    <__p_name>_reader_</__p_name>
-                    <__p_static>0</__p_static>
-                    <__p_class>0</__p_class>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>block</__p_name>
-                    </Object>
-                    <Object>
-                        <__p_name>options</__p_name>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>_writer_</__p_name>
-                    <__p_static>0</__p_static>
-                    <__p_class>0</__p_class>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>block</__p_name>
-                    </Object>
-                    <Object>
-                        <__p_name>options</__p_name>
-                    </Object>
                 </Function>
             </Class>
             <Class>
@@ -6026,6 +5959,12 @@ The parent writer.</__p_description>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
                 </Class>
                 <Class>
                     <__p_name>FunctionWriter</__p_name>
@@ -6056,6 +5995,12 @@ The parent writer.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -6130,6 +6075,12 @@ The parser.</__p_description>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
                 </Class>
                 <Class>
                     <__p_name>ObjectWriter</__p_name>
@@ -6189,30 +6140,6 @@ The root block.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_class>0</__p_class>
                     <__p_abstract>0</__p_abstract>
-                </Function>
-                <Function>
-                    <__p_name>_reader_</__p_name>
-                    <__p_static>0</__p_static>
-                    <__p_class>0</__p_class>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>block</__p_name>
-                    </Object>
-                    <Object>
-                        <__p_name>options</__p_name>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>_writer_</__p_name>
-                    <__p_static>0</__p_static>
-                    <__p_class>0</__p_class>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>block</__p_name>
-                    </Object>
-                    <Object>
-                        <__p_name>options</__p_name>
-                    </Object>
                 </Function>
             </Class>
             <Class>
