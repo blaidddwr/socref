@@ -85,6 +85,59 @@ class NamespaceBlock(BlockBase):
         return QIcon(":/socref_cpp/namespace.svg")
 
 
+    def key(
+        self
+        ,isFile=False
+    ):
+        """
+        Returns a unique key used to obtain the correct reader or writer of this
+        block with the given optional file flag. Because C++ has no association
+        between its scoping and file structure, a distinction must be made
+        between a header or source file and the namespace or class it contains.
+        The given file flag must be true if a file reader or writer is calling
+        this method or false otherwise.
+
+        Parameters
+        ----------
+        isFile : bool
+                 The file flag.
+
+        Returns
+        -------
+        result : string
+                 The unique key.
+        """
+        div = "/" if isFile else "::"
+        scope = self.scope()
+        if isFile and self._TYPE_ == "Namespace":
+            scope += [self._p_name,"__init__"] if self.parent() else ["__init__"]
+        else:
+            scope.append(self._p_name)
+        return div.join(scope)
+
+
+    def scope(
+        self
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        result : list
+                 Names of namespaces where this block resides, starting from the
+                 global namespace and ending in the last scoped.
+        """
+        names = []
+        b = self.parent()
+        while b is not None and b.parent() is not None:
+            if b._TYPE_ == "Namespace" or b._TYPE_ == "Class":
+                names.append(b._p_name)
+            b = b.parent()
+        names.reverse()
+        return names
+
+
     def setDefaultProperties(
         self
     ):

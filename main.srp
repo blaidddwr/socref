@@ -4427,6 +4427,32 @@ True if this namespace block has one or more functions or false otherwise.</__p_
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>key</__p_name>
+                        <__p_description>Returns a unique key used to obtain the correct reader or writer of this block with the given optional file flag. Because C++ has no association between its scoping and file structure, a distinction must be made between a header or source file and the namespace or class it contains. The given file flag must be true if a file reader or writer is calling this method or false otherwise.</__p_description>
+                        <__p_returnsDescription>result
+string
+The unique key.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>isFile</__p_name>
+                            <__p_description>bool
+The file flag.</__p_description>
+                            <__p_assignment>False</__p_assignment>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>scope</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Names of namespaces where this block resides, starting from the global namespace and ending in the last scoped.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>setDefaultProperties</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -4523,10 +4549,176 @@ True if this namespace block has one or more functions or false otherwise.</__p_
             <Package>
                 <__p_name>Reader</__p_name>
                 <__p_description>Contains all implemented Socrates' Reference reader classes.</__p_description>
+                <Class>
+                    <__p_name>HeadReader</__p_name>
+                    <__p_description>This is the head reader class. It implements the Socrates' Reference abstract reader class. It parses header files; saving header lines and namespace declarations. Parsed namespace declarations are added as new reader children.</__p_description>
+                    <__p_parents>ReaderBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new head reader with the given block and parent parser. The given block must be a namespace or class block that is associated with this reader's header file.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>AbstractBlock
+The block.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Parser
+The parent parser.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>header</__p_name>
+                        <__p_description>Returns header lines of code parsed after the header guard macro lines of this reader's header file. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+The header lines of code or an empty list.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>unknown</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>SourceReader</__p_name>
+                    <__p_description>This is the source reader class. It implements the Socrates' Reference abstract reader class. It parses source files; saving header lines and function definitions. Parsed function definitions are added as new reader children.</__p_description>
+                    <__p_parents>ReaderBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new source reader with the given block and parent parser. The given block must be a namespace or class block that is associated with this reader's source file.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>AbstractBlock
+The block.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Parser
+The parent parser.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>header</__p_name>
+                        <__p_description>Returns header lines of code parsed after the initial self header include line of this reader's source file. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+The header lines of code or an empty list.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>unknown</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
             </Package>
             <Package>
                 <__p_name>Writer</__p_name>
                 <__p_description>Contains all implemented Socrates' Reference writer classes.</__p_description>
+                <Class>
+                    <__p_name>HeadWriter</__p_name>
+                    <__p_description>This is the head writer class. It implements the Socrates' Reference abstract writer class. It outputs the header code lines of a header file.</__p_description>
+                    <__p_parents>WriterBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new head writer and its children writers with the given block and parent parser. The given block must be a namespace or class block that this writer uses to find its corresponding reader, initialize its children writers, and generate its output.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>AbstractBlock
+The object block.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Parser
+The parser.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>SourceWriter</__p_name>
+                    <__p_description>This is the source writer class. It implements the Socrates' Reference abstract writer class. It outputs the header code lines of a source file.</__p_description>
+                    <__p_parents>WriterBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new source writer and its children writers with the given block and parent parser. The given block must be a namespace or class block that this writer uses to find its corresponding reader, initialize its children writers, and generate its output.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>AbstractBlock
+The object block.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Parser
+The parser.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
             </Package>
             <Class>
                 <__p_name>Parser</__p_name>
@@ -5824,7 +6016,7 @@ The lines of code or an empty list.</__p_returnsDescription>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new module reader with the given block and parent parser. The given block is a package, module, or class block that is associated with this reader's python file.</__p_description>
+                        <__p_description>Initializes this new module reader with the given block and parent parser. The given block must be a package, module, or class block that is associated with this reader's python file.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

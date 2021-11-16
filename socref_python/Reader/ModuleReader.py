@@ -31,8 +31,8 @@ class ModuleReader(ReaderBase):
     ):
         """
         Initializes this new module reader with the given block and parent
-        parser. The given block is a package, module, or class block that is
-        associated with this reader's python file.
+        parser. The given block must be a package, module, or class block that
+        is associated with this reader's python file.
 
         Parameters
         ----------
