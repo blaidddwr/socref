@@ -38,7 +38,7 @@ class ModuleWriter(WriterBase):
         block : AbstractBlock
                 The block.
         parent : Parser
-                 The parser.
+                 The parent parser.
         """
         super().__init__(parent)
         self.__block = block

@@ -4657,12 +4657,53 @@ The header lines of code or an empty list.</__p_returnsDescription>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>AbstractBlock
-The object block.</__p_description>
+The block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>Parser
 The parser.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>NamespaceWriter</__p_name>
+                    <__p_description>This is the namespace writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for a namespace declaration.</__p_description>
+                    <__p_parents>WriterBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new namespace writer and its children writers with the given namespace block and parent head writer. The given namespace block is used by this writer to find its corresponding reader, initialize its children writers, and generate its output.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>NamespaceBlock
+The namespace block.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>HeadWriter
+The parent head writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -4698,7 +4739,7 @@ The parser.</__p_description>
                         <Object>
                             <__p_name>block</__p_name>
                             <__p_description>AbstractBlock
-The object block.</__p_description>
+The block.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
@@ -6252,7 +6293,7 @@ The block.</__p_description>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>Parser
-The parser.</__p_description>
+The parent parser.</__p_description>
                         </Object>
                     </Function>
                     <Function>

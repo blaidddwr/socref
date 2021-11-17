@@ -2,6 +2,7 @@
 Contains the HeadWriter class.
 """
 from ..Settings import Settings
+from .NamespaceWriter import NamespaceWriter
 from socref.Base.WriterBase import WriterBase
 from socref.Output.Code import Code
 
@@ -29,13 +30,14 @@ class HeadWriter(WriterBase):
         Parameters
         ----------
         block : AbstractBlock
-                The object block.
+                The block.
         parent : Parser
                  The parser.
         """
         super().__init__(parent)
         self.__block = block
         self.__reader = None
+        NamespaceWriter(block,self)
 
 
     def _footer_(

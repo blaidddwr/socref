@@ -29,7 +29,7 @@ class SourceWriter(WriterBase):
         Parameters
         ----------
         block : AbstractBlock
-                The object block.
+                The block.
         parent : Parser
                  The parser.
         """
