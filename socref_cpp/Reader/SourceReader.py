@@ -1,12 +1,12 @@
 """
 Contains the SourceReader class.
 """
-from socref.Base.ReaderBase import ReaderBase
+from ..Base.CppReaderBase import CppReaderBase
 
 
 
 
-class SourceReader(ReaderBase):
+class SourceReader(CppReaderBase):
     """
     This is the source reader class. It implements the Socrates' Reference
     abstract reader class. It parses source files; saving header lines and
@@ -35,6 +35,7 @@ class SourceReader(ReaderBase):
         super().__init__(parent)
         self._setKey_(block.key(True)+".cpp")
         self.__header = []
+        self.__scope = []
 
 
     def header(
@@ -55,6 +56,12 @@ class SourceReader(ReaderBase):
         return ret
 
 
+    def scope(
+        self
+    ):
+        return self.__scope
+
+
     def unknown(
         self
     ):
@@ -64,12 +71,7 @@ class SourceReader(ReaderBase):
     def _scan_(
         self
     ):
-        m = 0
-        while True:
-            (i,line) = self.read()
-            if not line:
-                return
-            if m >= 1:
-                self.__header.append(" "*i + line)
-            elif line.startswith("#"):
-                m += 1
+        self._skipMacros_(1)
+        self.__header = self._scanHeader_()
+        self._skipBlanks_()
+        self.__scope = self._scanScope_()

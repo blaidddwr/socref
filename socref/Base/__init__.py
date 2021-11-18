@@ -1,3 +1,3 @@
 """
-Contains all public base interface classes.
+Contains all public base classes.
 """

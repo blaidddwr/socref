@@ -43,8 +43,6 @@ class NamespaceWriter(WriterBase):
         self
     ):
         ret = Code(Settings.INDENT)
-        for scope in self.__block.scope():
-            ret.add("}")
         if self.__block.parent():
             ret.add("}")
         return ret
@@ -54,18 +52,19 @@ class NamespaceWriter(WriterBase):
         self
     ):
         ret = Code(Settings.INDENT)
-        ret.addBlank(Settings.H1)
-        for scope in self.__block.scope():
-            ret.add("namespace "+scope+" {")
         if self.__block.parent():
+            ret.addBlank(Settings.H2)
             ret.add("/**")
             ret.addText(self.__block._p_description,Settings.COLS," * ")
             ret.add(" */")
-            ret.add("namespace "+self.__block._p_name+" {")
+            ret.add("namespace "+self.__block._p_name)
+            ret.add("{")
+            if self.__reader:
+                ret.add(self.__reader.lines())
         return ret
 
 
     def _link_(
         self
     ):
-        pass
+        self.__reader = self.lookup(self.__block.key())

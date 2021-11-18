@@ -486,7 +486,7 @@ The shared parent parser of this writer.</__p_returnsDescription>
             </Package>
             <Package>
                 <__p_name>Base</__p_name>
-                <__p_description>Contains all public base interface classes.</__p_description>
+                <__p_description>Contains all public base classes.</__p_description>
                 <Class>
                     <__p_name>BlockBase</__p_name>
                     <__p_description>This is the block base class. It partially implements the abstract block class. This base class implements all required operators defined in the abstract class. It implements all interfaces required for the parent child relationship, loading to and from XML, and basic properties. Default interfaces for volatility above and below are implemented that both return false.</__p_description>
@@ -4006,6 +4006,72 @@ The decorated class.</__p_description>
             <__p_name>socref_cpp</__p_name>
             <__p_description>Contains the C++ language implementation for Socrates' Reference.</__p_description>
             <Package>
+                <__p_name>Base</__p_name>
+                <__p_description>Contains all base classes.</__p_description>
+                <Class>
+                    <__p_name>CppReaderBase</__p_name>
+                    <__p_description>This is the C++ reader base. It partially implements the Socrates' Reference abstract reader class. It provides common methods used by multiple other C++ reader classes.</__p_description>
+                    <__p_parents>ReaderBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>scope</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Names of namespaces where this reader resides, starting from the global namespace and ending last one. This includes this reader if it is a namespace or class reader.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scanHeadBody_</__p_name>
+                        <__p_description>Scans for any namespace, class, enumeration, or union declarations. New namespace, class, enumeration, or union readers are created as children of this reader for each declaration found.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scanHeader_</__p_name>
+                        <__p_description>Scans for header lines of code and returns them, removing indentation spaces from each line where the indentation is determined from the first line scanned. This stops scanning lines once it encounters an empty line or a final closing bracket with no previous opening bracket. If the special end macro is encountered as the last line it is also discarded.</__p_description>
+                        <__p_returnsDescription>result
+list
+The header lines of code.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scanScope_</__p_name>
+                        <__p_description>Scans for namespace scope declarations and returns them as a list of scoped namespace names. This stops scanning if any line that does not match a scoping namespace declaration is encountered.</__p_description>
+                        <__p_returnsDescription>result
+list
+The list of scoped namespace names.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_skipBlanks_</__p_name>
+                        <__p_description>Skips blank lines until the end of the file is reached or a line that is not empty.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_skipMacros_</__p_name>
+                        <__p_description>Skips the given number of macro lines. Lines that are not macro lines are ignored and also skipped until the given number of macro lines are skipped.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>amount</__p_name>
+                            <__p_description>int
+The number of macro lines.</__p_description>
+                        </Object>
+                    </Function>
+                </Class>
+            </Package>
+            <Package>
                 <__p_name>Block</__p_name>
                 <__p_description>Contains all implemented Socrates' Reference block classes.</__p_description>
                 <Class>
@@ -4551,8 +4617,8 @@ Names of namespaces where this block resides, starting from the global namespace
                 <__p_description>Contains all implemented Socrates' Reference reader classes.</__p_description>
                 <Class>
                     <__p_name>HeadReader</__p_name>
-                    <__p_description>This is the head reader class. It implements the Socrates' Reference abstract reader class. It parses header files; saving header lines and namespace declarations. Parsed namespace declarations are added as new reader children.</__p_description>
-                    <__p_parents>ReaderBase</__p_parents>
+                    <__p_description>This is the head reader class. It implements the Socrates' Reference abstract reader class. It parses header files; saving header lines, class declarations, and namespace declarations. Parsed class or namespace declarations are added as new reader children.</__p_description>
+                    <__p_parents>CppReaderBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
@@ -4582,6 +4648,63 @@ The header lines of code or an empty list.</__p_returnsDescription>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>scope</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>unknown</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>NamespaceReader</__p_name>
+                    <__p_description>This is the namespace reader class. It implements the Socrates' Reference abstract reader class. It parses a namespace; saving custom header lines of code, namespace declarations, and class declarations, enumeration declarations, and union declarations. Parsed namespace, class, enumeration, and union declarations are added as new reader children.</__p_description>
+                    <__p_parents>CppReaderBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new namespace reader with the given namespace name this reader will parse and parent reader that discovered the header code line of the namespace that this reader will parse. The given reader must be a head or namespace reader.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>name</__p_name>
+                            <__p_description>string
+The name.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>AbstractReader
+The parent reader.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>lines</__p_name>
+                        <__p_description>Returns lines of custom header code parsed by this namespace reader. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+The lines of code or an empty list.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>scope</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>unknown</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -4597,7 +4720,7 @@ The header lines of code or an empty list.</__p_returnsDescription>
                 <Class>
                     <__p_name>SourceReader</__p_name>
                     <__p_description>This is the source reader class. It implements the Socrates' Reference abstract reader class. It parses source files; saving header lines and function definitions. Parsed function definitions are added as new reader children.</__p_description>
-                    <__p_parents>ReaderBase</__p_parents>
+                    <__p_parents>CppReaderBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
@@ -4622,6 +4745,12 @@ The parent parser.</__p_description>
                         <__p_returnsDescription>result
 list
 The header lines of code or an empty list.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>scope</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4746,6 +4875,12 @@ The block.</__p_description>
                             <__p_description>Parser
 The parser.</__p_description>
                         </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>

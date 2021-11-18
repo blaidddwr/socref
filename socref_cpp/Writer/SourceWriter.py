@@ -38,6 +38,17 @@ class SourceWriter(WriterBase):
         self.__reader = None
 
 
+    def _footer_(
+        self
+    ):
+        ret = Code(Settings.INDENT)
+        for scope in self.__block.scope():
+            ret.add("}")
+        if self.__block._TYPE_ == "Namespace":
+            ret.add("}")
+        return ret
+
+
     def _header_(
         self
     ):
@@ -48,6 +59,13 @@ class SourceWriter(WriterBase):
         )
         if self.__reader:
             ret.add(self.__reader.header())
+        scope = self.__block.scope()
+        if self.__block._TYPE_ == "Namespace":
+            scope.append(self.__block._p_name)
+        if scope:
+            ret.addBlank(Settings.H2)
+            for name in scope:
+                ret.add("namespace "+name+" {")
         return ret
 
 

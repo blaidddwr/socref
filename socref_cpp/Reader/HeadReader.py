@@ -1,17 +1,17 @@
 """
 Contains the HeadReader class.
 """
-from socref.Base.ReaderBase import ReaderBase
+from ..Base.CppReaderBase import CppReaderBase
 
 
 
 
-class HeadReader(ReaderBase):
+class HeadReader(CppReaderBase):
     """
     This is the head reader class. It implements the Socrates' Reference
-    abstract reader class. It parses header files; saving header lines and
-    namespace declarations. Parsed namespace declarations are added as new
-    reader children.
+    abstract reader class. It parses header files; saving header lines, class
+    declarations, and namespace declarations. Parsed class or namespace
+    declarations are added as new reader children.
     """
 
 
@@ -35,6 +35,7 @@ class HeadReader(ReaderBase):
         super().__init__(parent)
         self._setKey_(block.key(True)+".h")
         self.__header = []
+        self.__scope = []
 
 
     def header(
@@ -55,6 +56,12 @@ class HeadReader(ReaderBase):
         return ret
 
 
+    def scope(
+        self
+    ):
+        return self.__scope
+
+
     def unknown(
         self
     ):
@@ -64,12 +71,8 @@ class HeadReader(ReaderBase):
     def _scan_(
         self
     ):
-        m = 0
-        while True:
-            (i,line) = self.read()
-            if not line:
-                return
-            if m >= 2:
-                self.__header.append(" "*i + line)
-            elif line.startswith("#"):
-                m += 1
+        self._skipMacros_(2)
+        self.__header = self._scanHeader_()
+        self._skipBlanks_()
+        self.__scope = self._scanScope_()
+        self._scanHeadBody_()

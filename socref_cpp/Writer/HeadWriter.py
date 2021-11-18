@@ -44,7 +44,8 @@ class HeadWriter(WriterBase):
         self
     ):
         ret = Code(Settings.INDENT)
-        ret.addBlank(Settings.H1)
+        for scope in self.__block.scope():
+            ret.add("}")
         ret.add("#endif")
         return ret
 
@@ -58,6 +59,11 @@ class HeadWriter(WriterBase):
         ret.add(["#ifndef "+define,"#define "+define])
         if self.__reader:
             ret.add(self.__reader.header())
+        scope = self.__block.scope()
+        if scope:
+            ret.addBlank(Settings.H2)
+            for name in scope:
+                ret.add("namespace "+name+" {")
         return ret
 
 
