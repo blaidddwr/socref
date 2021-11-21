@@ -108,9 +108,9 @@ class ModuleReader(ReaderBase):
         ret = []
         if self.__preHeader:
             ret += ["PREHEADER:"]+self.__preHeader
-        if self.__preHeader:
+        if self.__header:
             ret += ["HEADER:"]+self.__header
-        if self.__preHeader:
+        if self.__footer:
             ret += ["FOOTER:"]+self.__footer
         return ret
 

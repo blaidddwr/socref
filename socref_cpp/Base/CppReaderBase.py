@@ -13,8 +13,7 @@ class CppReaderBase(ReaderBase):
     abstract reader class. It provides common methods used by multiple other C++
     reader classes.
     """
-    __scopeRE = reCompile("^namespace +([a-zA-Z_]+\w*) +{$")
-    __namespaceRE = reCompile("^namespace +([a-zA-Z_]+\w*)$")
+    __classRE = reCompile("^(public: )?class +([a-zA-Z_]+\w*)$")
 
 
     def scope(
@@ -26,32 +25,32 @@ class CppReaderBase(ReaderBase):
         Returns
         -------
         result : list
-                 Names of namespaces where this reader resides, starting from
-                 the global namespace and ending last one. This includes this
-                 reader if it is a namespace or class reader.
+                 Names of name spaces of this reader's scope, starting from the
+                 global name space and ending in the last scoped. This includes
+                 any class name spaces.
         """
         return []
 
 
-    def _scanHeadBody_(
+    def _scanDeclarations_(
         self
     ):
         """
-        Scans for any namespace, class, enumeration, or union declarations. New
-        namespace, class, enumeration, or union readers are created as children
-        of this reader for each declaration found.
+        Scans for any class, enumeration, or union declarations. New class,
+        enumeration, or union readers are created as children of this reader for
+        each declaration found.
         """
-        NamespaceReader = GNamespaceReader.NamespaceReader
+        ClassReader = GClassReader.ClassReader
         d = 0
         while True:
             self.save()
             (i,line) = self.read()
             if line is None:
                 return
-            match = self.__namespaceRE.match(line)
+            match = self.__classRE.match(line)
             if match:
-                name = match.group(1)
-                reader = NamespaceReader(name,self)
+                name = match.group(2)
+                reader = ClassReader(name,self)
                 reader()
                 continue
             if line:
@@ -96,79 +95,4 @@ class CppReaderBase(ReaderBase):
         return ret
 
 
-    def _scanScope_(
-        self
-    ):
-        """
-        Scans for namespace scope declarations and returns them as a list of
-        scoped namespace names. This stops scanning if any line that does not
-        match a scoping namespace declaration is encountered.
-
-        Returns
-        -------
-        result : list
-                 The list of scoped namespace names.
-        """
-        ret = []
-        while True:
-            self.save()
-            (i,line) = self.read()
-            if not line:
-                self.discard()
-                break
-            match = self.__scopeRE.match(line)
-            if match:
-                ret.append(match.group(1))
-            else:
-                self.restore()
-                break
-            self.discard()
-        return ret
-
-
-    def _skipBlanks_(
-        self
-    ):
-        """
-        Skips blank lines until the end of the file is reached or a line that is
-        not empty.
-        """
-        while True:
-            self.save()
-            (i,line) = self.read()
-            if line is None:
-                return
-            if line:
-                self.restore()
-                return
-            self.discard()
-
-
-    def _skipMacros_(
-        self
-        ,amount
-    ):
-        """
-        Skips the given number of macro lines. Lines that are not macro lines
-        are ignored and also skipped until the given number of macro lines are
-        skipped.
-
-        Parameters
-        ----------
-        amount : int
-                 The number of macro lines.
-        """
-        m = 0
-        while True:
-            self.save()
-            (i,line) = self.read()
-            if not line or not line.startswith("#"):
-                self.restore()
-                return
-            m += 1
-            if m >= amount:
-                self.discard()
-                return
-
-
-from ..Reader import NamespaceReader as GNamespaceReader
+from ..Reader import ClassReader as GClassReader

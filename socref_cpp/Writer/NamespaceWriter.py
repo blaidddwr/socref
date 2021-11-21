@@ -10,8 +10,8 @@ from socref.Output.Code import Code
 
 class NamespaceWriter(WriterBase):
     """
-    This is the namespace writer class. It implements the Socrates' Reference
-    abstract writer class. It outputs all code lines for a namespace
+    This is the name space writer class. It implements the Socrates' Reference
+    abstract writer class. It outputs all code lines for a name space
     declaration.
     """
 
@@ -22,10 +22,10 @@ class NamespaceWriter(WriterBase):
         ,parent
     ):
         """
-        Initializes this new namespace writer and its children writers with the
-        given namespace block and parent head writer. The given namespace block
-        is used by this writer to find its corresponding reader, initialize its
-        children writers, and generate its output.
+        Initializes this new name space writer and its children writers with the
+        given name space block and parent head writer. The given name space
+        block is used by this writer to find its corresponding reader,
+        initialize its children writers, and generate its output.
 
         Parameters
         ----------
@@ -36,7 +36,6 @@ class NamespaceWriter(WriterBase):
         """
         super().__init__(parent)
         self.__block = block
-        self.__reader = None
 
 
     def _footer_(
@@ -52,19 +51,15 @@ class NamespaceWriter(WriterBase):
         self
     ):
         ret = Code(Settings.INDENT)
+        ret.addBlank(Settings.H2)
         if self.__block.parent():
-            ret.addBlank(Settings.H2)
             ret.add("/**")
             ret.addText(self.__block._p_description,Settings.COLS," * ")
             ret.add(" */")
             ret.add("namespace "+self.__block._p_name)
             ret.add("{")
-            if self.__reader:
-                ret.add(self.__reader.lines())
+            ret.setDepth(1)
+        for child in self.__block:
+            if child._TYPE_ == "Class":
+                ret.add("class "+child._p_name+";")
         return ret
-
-
-    def _link_(
-        self
-    ):
-        self.__reader = self.lookup(self.__block.key())

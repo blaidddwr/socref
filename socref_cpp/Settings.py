@@ -13,6 +13,9 @@ class Settings():
     COLS = 80
     H1 = 4
     H2 = 2
+    H3 = 1
     INDENT = "    "
-    HEADER_EXTENSION = ".h"
-    SOURCE_EXTENSION = ".cpp"
+    HDR_EXT = ".h"
+    SRC_EXT = ".cpp"
+    NS_NAME = "__ns__"
+    ROOT_DEFINE = "__"

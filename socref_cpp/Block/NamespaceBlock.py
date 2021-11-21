@@ -14,8 +14,8 @@ from socref.Output.RichText import RichText
 @block("Namespace",root=True)
 class NamespaceBlock(BlockBase):
     """
-    This is the namespace block class. It implements the Socrates' Reference
-    abstract block class. It represents a C++ namespace.
+    This is the name space block class. It implements the Socrates' Reference
+    abstract block class. It represents a C++ name space.
     """
 
 
@@ -70,8 +70,8 @@ class NamespaceBlock(BlockBase):
         Returns
         -------
         result : bool
-                 True if this namespace block has one or more functions or false
-                 otherwise.
+                 True if this name space block has one or more functions or
+                 false otherwise.
         """
         for child in self:
             if child._TYPE_ == "Function":
@@ -93,7 +93,7 @@ class NamespaceBlock(BlockBase):
         Returns a unique key used to obtain the correct reader or writer of this
         block with the given optional file flag. Because C++ has no association
         between its scoping and file structure, a distinction must be made
-        between a header or source file and the namespace or class it contains.
+        between a header or source file and the name space or class it contains.
         The given file flag must be true if a file reader or writer is calling
         this method or false otherwise.
 
@@ -125,8 +125,9 @@ class NamespaceBlock(BlockBase):
         Returns
         -------
         result : list
-                 Names of namespaces where this block resides, starting from the
-                 global namespace and ending in the last scoped.
+                 Names of name spaces where this block resides, starting from
+                 the global name space and ending in the last scoped. This
+                 includes any class name spaces.
         """
         names = []
         b = self.parent()

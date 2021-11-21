@@ -22,7 +22,7 @@ class SourceWriter(WriterBase):
     ):
         """
         Initializes this new source writer and its children writers with the
-        given block and parent parser. The given block must be a namespace or
+        given block and parent parser. The given block must be a name space or
         class block that this writer uses to find its corresponding reader,
         initialize its children writers, and generate its output.
 
@@ -44,7 +44,7 @@ class SourceWriter(WriterBase):
         ret = Code(Settings.INDENT)
         for scope in self.__block.scope():
             ret.add("}")
-        if self.__block._TYPE_ == "Namespace":
+        if self.__block._TYPE_ == "Namespace" and self.__block.parent():
             ret.add("}")
         return ret
 
@@ -58,18 +58,17 @@ class SourceWriter(WriterBase):
             else '#include "'+self.__block._p_name+'.h"'
         )
         if self.__reader:
+            ret.add(self.__reader.macros())
+        for name in self.__block.scope():
+            ret.add("namespace "+name+" {")
+        if self.__block._TYPE_ == "Namespace" and self.__block.parent():
+            ret.add("namespace "+self.__block._p_name+" {")
+        if self.__reader:
             ret.add(self.__reader.header())
-        scope = self.__block.scope()
-        if self.__block._TYPE_ == "Namespace":
-            scope.append(self.__block._p_name)
-        if scope:
-            ret.addBlank(Settings.H2)
-            for name in scope:
-                ret.add("namespace "+name+" {")
         return ret
 
 
     def _link_(
         self
     ):
-        self.__reader = self.lookup(self.__block.key(True)+".cpp")
+        self.__reader = self.lookup(self.__block.key(True)+Settings.SRC_EXT)

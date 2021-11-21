@@ -3,6 +3,7 @@ Contains the Parser class.
 """
 from .Reader.HeadReader import HeadReader
 from .Reader.SourceReader import SourceReader
+from .Settings import Settings
 from .Writer.HeadWriter import HeadWriter
 from .Writer.SourceWriter import SourceWriter
 from os.path import join as pathJoin
@@ -41,31 +42,38 @@ class Parser(ParserBase):
     ):
         def build(path,parent):
             ret = []
-            for b in parent:
-                if b._TYPE_ == "Namespace":
-                    nPath = pathJoin(path,b._p_name)
-                    ret.append((pathJoin(nPath,"__init__.h"),HeadReader(b,self),HeadWriter(b,self)))
-                    if b.hasFunctions():
-                        ret.append(
-                            (
-                                pathJoin(nPath,"__init__.cpp")
-                                ,SourceReader(b,self)
-                                ,SourceWriter(b,self)
-                            )
-                        )
-                    ret += build(nPath,b)
-                elif b._TYPE_ == "Class":
+            if parent:
+                ret.append(
+                    (
+                        pathJoin(path,Settings.NS_NAME+Settings.HDR_EXT)
+                        ,HeadReader(parent,self)
+                        ,HeadWriter(parent,self))
+                )
+                if parent.hasFunctions():
                     ret.append(
-                        (pathJoin(path,b._p_name+".h"),HeadReader(b,self),HeadWriter(b,self))
+                        (
+                            pathJoin(path,Settings.NS_NAME+Settings.SRC_EXT)
+                            ,SourceReader(parent,self)
+                            ,SourceWriter(parent,self)
+                        )
+                    )
+            for child in parent:
+                if child._TYPE_ == "Namespace":
+                    ret += build(pathJoin(path,child._p_name),child)
+                elif child._TYPE_ == "Class":
+                    ret.append(
+                        (
+                            pathJoin(path,child._p_name+Settings.HDR_EXT)
+                            ,HeadReader(child,self)
+                            ,HeadWriter(child,self)
+                        )
                     )
                     ret.append(
-                        (pathJoin(path,b._p_name+".cpp"),SourceReader(b,self),SourceWriter(b,self))
+                        (
+                            pathJoin(path,child._p_name+Settings.SRC_EXT)
+                            ,SourceReader(child,self)
+                            ,SourceWriter(child,self)
+                        )
                     )
             return ret
-        ret = []
-        b = self.__root
-        ret.append(("__init__.h",HeadReader(b,self),HeadWriter(b,self)))
-        if b.hasFunctions():
-            ret.append(("__init__.cpp",SourceReader(b,self),SourceWriter(b,self)))
-        ret += build("",b)
-        return ret
+        return build("",self.__root)

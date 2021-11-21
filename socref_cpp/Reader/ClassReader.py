@@ -1,17 +1,16 @@
 """
-Contains the NamespaceReader class.
+Contains the ClassReader class.
 """
 from ..Base.CppReaderBase import CppReaderBase
 
 
 
 
-class NamespaceReader(CppReaderBase):
+class ClassReader(CppReaderBase):
     """
-    This is the namespace reader class. It implements the Socrates' Reference
-    abstract reader class. It parses a namespace; saving custom header lines of
-    code, namespace declarations, and class declarations, enumeration
-    declarations, and union declarations. Parsed namespace, class, enumeration,
+    This is the class reader class. It implements the Socrates' Reference
+    abstract reader class. It parses a class; saving custom header lines of
+    code, enumeration declarations, and union declarations. Parsed enumeration
     and union declarations are added as new reader children.
     """
 
@@ -22,17 +21,16 @@ class NamespaceReader(CppReaderBase):
         ,parent
     ):
         """
-        Initializes this new namespace reader with the given namespace name this
-        reader will parse and parent reader that discovered the header code line
-        of the namespace that this reader will parse. The given reader must be a
-        head or namespace reader.
+        Initializes this new class reader with the given class name this reader
+        will parse and parent head reader that discovered the header code line
+        of the class that this reader will parse.
 
         Parameters
         ----------
         name : string
                The name.
-        parent : AbstractReader
-                 The parent reader.
+        parent : HeadReader
+                 The head reader.
         """
         super().__init__(parent)
         self.__scope = parent.scope()+[name]
@@ -44,8 +42,8 @@ class NamespaceReader(CppReaderBase):
         self
     ):
         """
-        Returns lines of custom header code parsed by this namespace reader.
-        This can only be called once, after which an empty list is returned.
+        Returns lines of custom header code parsed by this reader. This can only
+        be called once, after which an empty list is returned.
 
         Returns
         -------
@@ -77,6 +75,6 @@ class NamespaceReader(CppReaderBase):
         if line == "{":
             self.discard()
             self.__lines = self._scanHeader_()
-            self._scanHeadBody_()
+            self._scanDeclarations_()
         else:
             self.restore()

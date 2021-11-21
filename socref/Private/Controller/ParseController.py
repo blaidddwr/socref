@@ -95,7 +95,7 @@ class ParseController(QObject):
             unknown = parser(self.__update_)
             if unknown:
                 self.remained.emit(unknown)
-        except Exception as ok:
+        except Exception:
             print_exc()
         finally:
             self.finished.emit()
