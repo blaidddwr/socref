@@ -22,16 +22,6 @@ class FunctionBlock(NamespaceBlock):
     function names '^' and '~^' are reserved for class constructors and
     destructors, respectively.
     """
-    ACCESS = (
-        ("Public",None)
-        ,("Protected",None)
-        ,("Private",None)
-    )
-    ACCESS_CHAR = {
-        "Public": "* "
-        ,"Protected": "^ "
-        ,"Private": "- "
-    }
     FLAGS = {
         "D": ("D","= default","Default")
         ,"R": ("R","= delete","Deleted")
@@ -43,6 +33,16 @@ class FunctionBlock(NamespaceBlock):
         ,"O": ("O","override","Override")
         ,"F": ("F","final","Final")
         ,"A": ("A","= 0","Abstract")
+    }
+    __ACCESS = (
+        ("Public",QIcon(":/socref_cpp/public_function"))
+        ,("Protected",QIcon(":/socref_cpp/protected_function"))
+        ,("Private",QIcon(":/socref_cpp/private_function"))
+    )
+    __ACCESS_CHAR = {
+        "Public": "*"
+        ,"Protected": "^"
+        ,"Private": "-"
     }
 
 
@@ -118,6 +118,83 @@ class FunctionBlock(NamespaceBlock):
         self._p_abstract = "0"
 
 
+    def codeAccess(
+        self
+        ,declaration
+    ):
+        """
+        Returns a list of code line fragments that make up this function's
+        access declaration with the given declaration flag. The given
+        declaration flag is true to return declaration fragments or false to
+        return definition fragments.
+
+        Parameters
+        ----------
+        declaration : bool
+                      The declaration flag.
+
+        Returns
+        -------
+        result : list
+                 The list of code line fragments.
+        """
+        return (
+            [self._p_access.lower()+":"]
+            if declaration and self.parent()._TYPE_ == "Class"
+            else []
+        )
+
+
+    def codeName(
+        self
+        ,declaration
+    ):
+        """
+        Returns a list of code line fragments that make up this function's name
+        declaration with the given declaration flag. The given declaration flag
+        is true to return declaration fragments or false to return definition
+        fragments. The returned name includes any class name spaces.
+
+        Parameters
+        ----------
+        declaration : bool
+                      The declaration flag.
+
+        Returns
+        -------
+        result : list
+                 The list of code line fragments.
+        """
+        names = []
+        if not declaration:
+            b = self.parent()
+            while b is not None:
+                if b._TYPE_ == "Class":
+                    names.append(b._p_name)
+                b = b.parent()
+            names.reverse()
+        names.append(self.name())
+        return ["::".join(names)]
+
+
+    def codeReturn(
+        self
+    ):
+        """
+        Returns a list of code line fragments that make up this function's
+        return type.
+
+        Returns
+        -------
+        result : list
+                 The list of code line fragments.
+        """
+        if "^" in self._p_name:
+            return []
+        else:
+            return [self._p_returnType]
+
+
     def displayName(
         self
     ):
@@ -125,7 +202,7 @@ class FunctionBlock(NamespaceBlock):
         flags = "".join(before+after)
         return "".join(
             (
-                self.ACCESS_CHAR[self._p_access] if self.isMethod() else ""
+                self._accessChar_()[self._p_access]+" " if self.isMethod() else ""
                 ,self.name()
                 ," ..." if self.hasReturn() else ""
                 ," ["+flags+"]" if flags else "")
@@ -157,7 +234,7 @@ class FunctionBlock(NamespaceBlock):
     ):
         ret = super().editDefinitions()
         if self.isMethod():
-            ret.append(ComboEdit("Access:","_p_access",self.ACCESS))
+            ret.append(ComboEdit("Access:","_p_access",self._access_()))
         else:
             ret.append(HiddenEdit("_p_access","Public"))
         ret.append(LineEdit("Return Type:","_p_returnType"))
@@ -230,6 +307,21 @@ class FunctionBlock(NamespaceBlock):
         if self.isAbstract():
             after.append("A")
         return ([self.FLAGS[f][output] for f in before],[self.FLAGS[f][output] for f in after])
+
+
+    def hasDefinition(
+        self
+    ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : bool
+                 True if this function block has a definition or false
+                 otherwise.
+        """
+        return not self.isDefault() and not self.isDeleted() and not self.isAbstract()
 
 
     def hasReturn(
@@ -522,6 +614,39 @@ class FunctionBlock(NamespaceBlock):
         self._p_override = "0"
         self._p_final = "0"
         self._p_abstract = "0"
+
+
+    def _access_(
+        self
+    ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : tuple
+                 A tuple of tuples containing all valid access types for this
+                 function. Each tuple contains the name and optional Qt icon in
+                 that order. If no icon is required none can be substituted.
+        """
+        return self.__ACCESS
+
+
+    def _accessChar_(
+        self
+    ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : dictionary
+                 A dictionary where a key is a valid access type and the
+                 corresponding value is a single character that represents that
+                 access type. All single characters used must be unique and is
+                 used for a function's display name.
+        """
+        return self.__ACCESS_CHAR
 
 
 FlagOutput = FunctionBlock.FlagOutput

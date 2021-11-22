@@ -2,6 +2,9 @@
 Contains the ClassWriter class.
 """
 from ..Settings import Settings
+from .EnumerationWriter import EnumerationWriter
+from .FunctionWriter import FunctionWriter
+from .UnionWriter import UnionWriter
 from socref.Base.WriterBase import WriterBase
 from socref.Output.Code import Code
 
@@ -44,6 +47,12 @@ class ClassWriter(WriterBase):
         for child in block:
             if child._TYPE_ == "Class":
                 ClassWriter(child,depth+1,self)
+            elif child._TYPE_ == "Function":
+                FunctionWriter(child,depth+1,self)
+            elif child._TYPE_ == "Enumeration":
+                EnumerationWriter(child,depth+1,self)
+            elif child._TYPE_ == "Union":
+                UnionWriter(child,depth+1,self)
 
 
     def _footer_(

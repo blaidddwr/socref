@@ -4278,6 +4278,46 @@ A list of argument tuples for this function. Each tuple contains the name, assig
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>codeAccess</__p_name>
+                        <__p_description>Returns a list of code line fragments that make up this function's access declaration with the given declaration flag. The given declaration flag is true to return declaration fragments or false to return definition fragments.</__p_description>
+                        <__p_returnsDescription>result
+list
+The list of code line fragments.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>declaration</__p_name>
+                            <__p_description>bool
+The declaration flag.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>codeName</__p_name>
+                        <__p_description>Returns a list of code line fragments that make up this function's name declaration with the given declaration flag. The given declaration flag is true to return declaration fragments or false to return definition fragments. The returned name includes any class name spaces.</__p_description>
+                        <__p_returnsDescription>result
+list
+The list of code line fragments.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>declaration</__p_name>
+                            <__p_description>bool
+The declaration flag.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>codeReturn</__p_name>
+                        <__p_description>Returns a list of code line fragments that make up this function's return type.</__p_description>
+                        <__p_returnsDescription>result
+list
+The list of code line fragments.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>displayName</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -4313,6 +4353,16 @@ The after list.</__p_returnsDescription>
                             <__p_description>FlagOutput
 The output type.</__p_description>
                         </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>hasDefinition</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this function block has a definition or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
                         <__p_name>hasReturn</__p_name>
@@ -4488,6 +4538,26 @@ The name of this function, taking into account if it is a constructor or destruc
                     </Function>
                     <Function>
                         <__p_name>setDefaultProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_access_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+tuple
+A tuple of tuples containing all valid access types for this function. Each tuple contains the name and optional Qt icon in that order. If no icon is required none can be substituted.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_accessChar_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+dictionary
+A dictionary where a key is a valid access type and the corresponding value is a single character that represents that access type. All single characters used must be unique and is used for a function's display name.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4834,6 +4904,92 @@ The parent writer.</__p_description>
                     </Function>
                 </Class>
                 <Class>
+                    <__p_name>EnumerationWriter</__p_name>
+                    <__p_description>This is the enumeration writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for an enumeration declaration.</__p_description>
+                    <__p_parents>WriterBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new enumeration writer with the given enumeration block, indentation depth of this writer's output, and parent writer. The given enumeration block is used by this writer to find its corresponding reader and generate its output. The given parent writer must be a name space or class writer.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>EnumerationBlock
+The enumeration block.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>depth</__p_name>
+                            <__p_description>int
+The indentation depth.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>AbstractWriter
+The parent writer.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>FunctionWriter</__p_name>
+                    <__p_description>This is the function writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for a function declaration or definition.</__p_description>
+                    <__p_parents>WriterBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new function writer with the given function block, indentation depth of this writer's output, parent writer, and declaration flag. The given function block is used by this writer to find its corresponding reader and generate its output. The given parent writer must be a source, name space, or class writer. The given declaration flag is true to have this writer output a declaration or false to have it output a definition.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>FunctionBlock
+The function block.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>depth</__p_name>
+                            <__p_description>int
+The indentation depth.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>AbstractWriter
+The parent writer.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>declaration</__p_name>
+                            <__p_description>bool
+The declaration flag.</__p_description>
+                            <__p_assignment>True</__p_assignment>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
                     <__p_name>HeadWriter</__p_name>
                     <__p_description>This is the head writer class. It implements the Socrates' Reference abstract writer class. It outputs the header code lines of a header file.</__p_description>
                     <__p_parents>WriterBase</__p_parents>
@@ -4936,6 +5092,46 @@ The parser.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>UnionWriter</__p_name>
+                    <__p_description>This is the union writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for a union declaration.</__p_description>
+                    <__p_parents>WriterBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new union writer with the given union block, indentation depth of this writer's output, and parent writer. The given union block is used by this writer to find its corresponding reader and generate its output. The given parent writer must be a name space or class writer.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>UnionBlock
+The union block.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>depth</__p_name>
+                            <__p_description>int
+The indentation depth.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>AbstractWriter
+The parent writer.</__p_description>
+                        </Object>
                     </Function>
                     <Function>
                         <__p_name>_header_</__p_name>

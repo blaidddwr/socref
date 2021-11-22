@@ -2,6 +2,7 @@
 Contains the SourceWriter class.
 """
 from ..Settings import Settings
+from .FunctionWriter import FunctionWriter
 from socref.Base.WriterBase import WriterBase
 from socref.Output.Code import Code
 
@@ -36,6 +37,16 @@ class SourceWriter(WriterBase):
         super().__init__(parent)
         self.__block = block
         self.__reader = None
+        def getFunctions(block):
+            ret = []
+            for child in block:
+                if child._TYPE_ == "Function" and child.hasDefinition():
+                    ret.append(child)
+                elif child._TYPE_ == "Class" and block._TYPE_ == "Class":
+                    ret += getFunctions(child)
+            return ret
+        for fb in getFunctions(block):
+            FunctionWriter(fb,0,self,False)
 
 
     def _footer_(

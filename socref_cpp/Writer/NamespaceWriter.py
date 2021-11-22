@@ -2,6 +2,9 @@
 Contains the NamespaceWriter class.
 """
 from ..Settings import Settings
+from .EnumerationWriter import EnumerationWriter
+from .FunctionWriter import FunctionWriter
+from .UnionWriter import UnionWriter
 from socref.Base.WriterBase import WriterBase
 from socref.Output.Code import Code
 
@@ -36,6 +39,14 @@ class NamespaceWriter(WriterBase):
         """
         super().__init__(parent)
         self.__block = block
+        depth = 1 if block.parent() else 0
+        for child in block:
+            if child._TYPE_ == "Function":
+                FunctionWriter(child,depth,self)
+            elif child._TYPE_ == "Enumeration":
+                EnumerationWriter(child,depth,self)
+            elif child._TYPE_ == "Union":
+                UnionWriter(child,depth,self)
 
 
     def _footer_(
