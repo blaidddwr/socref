@@ -14,6 +14,8 @@ class CppReaderBase(ReaderBase):
     reader classes.
     """
     __classRE = reCompile("^(public: )?class +([a-zA-Z_]+\w*)$")
+    __enumerationRE = reCompile("^(public: )?enum +class +([a-zA-Z_]+\w*)$")
+    __unionRE = reCompile("^(public: )?union +([a-zA-Z_]+\w*)$")
 
 
     def scope(
@@ -41,6 +43,8 @@ class CppReaderBase(ReaderBase):
         each declaration found.
         """
         ClassReader = GClassReader.ClassReader
+        EnumerationReader = GEnumerationReader.EnumerationReader
+        UnionReader = GUnionReader.UnionReader
         d = 0
         while True:
             self.save()
@@ -51,6 +55,18 @@ class CppReaderBase(ReaderBase):
             if match:
                 name = match.group(2)
                 reader = ClassReader(name,self)
+                reader()
+                continue
+            match = self.__enumerationRE.match(line)
+            if match:
+                name = match.group(2)
+                reader = EnumerationReader(name,self)
+                reader()
+                continue
+            match = self.__unionRE.match(line)
+            if match:
+                name = match.group(2)
+                reader = UnionReader(name,self)
                 reader()
                 continue
             if line:
@@ -96,3 +112,5 @@ class CppReaderBase(ReaderBase):
 
 
 from ..Reader import ClassReader as GClassReader
+from ..Reader import EnumerationReader as GEnumerationReader
+from ..Reader import UnionReader as GUnionReader

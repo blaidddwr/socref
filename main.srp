@@ -4009,16 +4009,168 @@ The decorated class.</__p_description>
                 <__p_name>Base</__p_name>
                 <__p_description>Contains all base classes.</__p_description>
                 <Class>
+                    <__p_name>BlockReaderBase</__p_name>
+                    <__p_description>This is the block reader base. It partially implements the Socrates' Reference abstract reader class. It provides common methods used by readers that scan lines of code within a curly bracket block and get those parsed lines. This class also sets its lookup key.</__p_description>
+                    <__p_parents>CppReaderBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new block reader base with the given name and parent reader. The given reader's scope and the given name is used to generate this reader's lookup key.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>name</__p_name>
+                            <__p_description>string
+The name.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>CppReaderBase
+The parent reader.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>lines</__p_name>
+                        <__p_description>Returns lines of code parsed by this reader. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+The lines of code or an empty list.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>unknown</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scanLines_</__p_name>
+                        <__p_description>Scans for lines of code within a block and returns them, removing indentation spaces from each line where the indentation is determined from the first line scanned. This stops scanning lines once it encounters the final closing bracket of the block. It is assumed the very first line read is the first opening bracket, scanning and returning nothing if it is not.</__p_description>
+                        <__p_returnsDescription>result
+list
+The lines of code.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>BlockWriterBase</__p_name>
+                    <__p_description>This is the block writer base class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for a block style declaration. Block styles include classes, enumerations, and unions. The closing bracket line is done with the footer interface which allows for this block writer base to accommodate children writers for classes.</__p_description>
+                    <__p_parents>WriterBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_description>Initializes this new block writer base with the given block, indentation depth of this writer's output, name to use for this block declaration, and parent writer. The given block must be a class, enumeration, or union and is used by this writer to generate its output. The given parent writer must be a header or class writer.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>AbstractBlock
+The block.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>depth</__p_name>
+                            <__p_description>int
+The indentation depth.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>name</__p_name>
+                            <__p_description>string
+The name.</__p_description>
+                        </Object>
+                        <Object>
+                            <__p_name>parent</__p_name>
+                            <__p_description>AbstractWriter
+The parent writer.</__p_description>
+                        </Object>
+                    </Function>
+                    <Function>
+                        <__p_name>_block_</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+AbstractBlock
+The class, enumeration, or union block of this writer.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_footer_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_header_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_lines_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Lines of custom header code added after the beginning of this block writer's declaration and before the closing of it.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>CppReaderBase</__p_name>
+                    <__p_description>This is the C++ reader base. It partially implements the Socrates' Reference abstract reader class. It provides common methods used by multiple other C++ reader classes.</__p_description>
+                    <__p_parents>ReaderBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>scope</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Names of name spaces of this reader's scope, starting from the global name space and ending in the last scoped. This includes any class name spaces.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scanDeclarations_</__p_name>
+                        <__p_description>Scans for any class, enumeration, or union declarations. New class, enumeration, or union readers are created as children of this reader for each declaration found.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scanHeader_</__p_name>
+                        <__p_description>Scans for header lines of code and returns them, removing indentation spaces from each line where the indentation is determined from the first line scanned. This stops scanning lines once it encounters an empty line or a final closing bracket with no previous opening bracket. If the special end macro is encountered as the last line it is also discarded.</__p_description>
+                        <__p_returnsDescription>result
+list
+The header lines of code.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
                     <__p_name>FileReaderBase</__p_name>
                     <__p_description>This is the file reader base class. It implements the Socrates' Reference abstract reader class. It parses header or source files; saving macros and header lines.</__p_description>
                     <__p_parents>CppReaderBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new file reader base with the given parent parser.</__p_description>
+                        <__p_description>Initializes this new file reader base with the given block and parent parser. The given block must be a name space or class block that is associated with this reader's file.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
+                        <Object>
+                            <__p_name>block</__p_name>
+                            <__p_description>AbstractBlock
+The block.</__p_description>
+                        </Object>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>Parser
@@ -4091,39 +4243,6 @@ The macro lines of code.</__p_returnsDescription>
                         <__p_returnsDescription>result
 list
 The list of scoped name spaces.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                </Class>
-                <Class>
-                    <__p_name>CppReaderBase</__p_name>
-                    <__p_description>This is the C++ reader base. It partially implements the Socrates' Reference abstract reader class. It provides common methods used by multiple other C++ reader classes.</__p_description>
-                    <__p_parents>ReaderBase</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>scope</__p_name>
-                        <__p_description>This interface is a getter method.</__p_description>
-                        <__p_returnsDescription>result
-list
-Names of name spaces of this reader's scope, starting from the global name space and ending in the last scoped. This includes any class name spaces.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>_scanDeclarations_</__p_name>
-                        <__p_description>Scans for any class, enumeration, or union declarations. New class, enumeration, or union readers are created as children of this reader for each declaration found.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>_scanHeader_</__p_name>
-                        <__p_description>Scans for header lines of code and returns them, removing indentation spaces from each line where the indentation is determined from the first line scanned. This stops scanning lines once it encounters an empty line or a final closing bracket with no previous opening bracket. If the special end macro is encountered as the last line it is also discarded.</__p_description>
-                        <__p_returnsDescription>result
-list
-The header lines of code.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4751,7 +4870,7 @@ Names of name spaces where this block resides, starting from the global name spa
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new class reader with the given class name this reader will parse and parent head reader that discovered the header code line of the class that this reader will parse.</__p_description>
+                        <__p_description>Initializes this new class reader with the given class name and parent head reader that discovered the class that this reader will parse.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4763,7 +4882,7 @@ The name.</__p_description>
                         <Object>
                             <__p_name>parent</__p_name>
                             <__p_description>HeadReader
-The head reader.</__p_description>
+The parent head reader.</__p_description>
                         </Object>
                     </Function>
                     <Function>
@@ -4788,6 +4907,18 @@ The lines of code or an empty list.</__p_returnsDescription>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_name>EnumerationReader</__p_name>
+                    <__p_description>This is the enumeration reader class. It implements the Socrates' Reference abstract reader class. It parses an enumeration; saving lines of code.</__p_description>
+                    <__p_parents>BlockReaderBase</__p_parents>
+                    <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>_scan_</__p_name>
                         <__p_static>0</__p_static>
@@ -4853,6 +4984,18 @@ The parent parser.</__p_description>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                 </Class>
+                <Class>
+                    <__p_name>UnionReader</__p_name>
+                    <__p_description>This is the union reader class. It implements the Socrates' Reference abstract reader class. It parses a union; saving lines of code.</__p_description>
+                    <__p_parents>BlockReaderBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>_scan_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
             </Package>
             <Package>
                 <__p_name>Writer</__p_name>
@@ -4860,7 +5003,7 @@ The parent parser.</__p_description>
                 <Class>
                     <__p_name>ClassWriter</__p_name>
                     <__p_description>This is the class writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for a class declaration.</__p_description>
-                    <__p_parents>WriterBase</__p_parents>
+                    <__p_parents>BlockWriterBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
@@ -4885,13 +5028,7 @@ The parent writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>_footer_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>_header_</__p_name>
+                        <__p_name>_lines_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4906,7 +5043,7 @@ The parent writer.</__p_description>
                 <Class>
                     <__p_name>EnumerationWriter</__p_name>
                     <__p_description>This is the enumeration writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for an enumeration declaration.</__p_description>
-                    <__p_parents>WriterBase</__p_parents>
+                    <__p_parents>BlockWriterBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
@@ -4931,7 +5068,7 @@ The parent writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>_header_</__p_name>
+                        <__p_name>_lines_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5109,7 +5246,7 @@ The parser.</__p_description>
                 <Class>
                     <__p_name>UnionWriter</__p_name>
                     <__p_description>This is the union writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for a union declaration.</__p_description>
-                    <__p_parents>WriterBase</__p_parents>
+                    <__p_parents>BlockWriterBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
@@ -5134,7 +5271,7 @@ The parent writer.</__p_description>
                         </Object>
                     </Function>
                     <Function>
-                        <__p_name>_header_</__p_name>
+                        <__p_name>_lines_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

@@ -32,7 +32,7 @@ class SourceReader(FileReaderBase):
         parent : Parser
                  The parent parser.
         """
-        super().__init__(parent)
+        super().__init__(block,parent)
         self._setKey_(block.key(True)+Settings.SRC_EXT)
 
 

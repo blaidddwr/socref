@@ -71,11 +71,11 @@ class FunctionWriter(WriterBase):
                 ret.add(" * @return")
                 ret.addText(self.__block._p_returnDescription,Settings.COLS," * ")
             ret.add(" */")
+        ret.add(self.__block.codeAccess(self.__decl))
         (before,after) = self.__block.flags(FlagOutput.Code)
         ret.add(
             " ".join(
-                self.__block.codeAccess(self.__decl)
-                + before
+                before
                 + self.__block.codeReturn()
                 + self.__block.codeName(self.__decl)
             )

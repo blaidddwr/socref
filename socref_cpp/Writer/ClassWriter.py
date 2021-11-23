@@ -1,17 +1,15 @@
 """
 Contains the ClassWriter class.
 """
-from ..Settings import Settings
+from ..Base.BlockWriterBase import BlockWriterBase
 from .EnumerationWriter import EnumerationWriter
 from .FunctionWriter import FunctionWriter
 from .UnionWriter import UnionWriter
-from socref.Base.WriterBase import WriterBase
-from socref.Output.Code import Code
 
 
 
 
-class ClassWriter(WriterBase):
+class ClassWriter(BlockWriterBase):
     """
     This is the class writer class. It implements the Socrates' Reference
     abstract writer class. It outputs all code lines for a class declaration.
@@ -40,9 +38,7 @@ class ClassWriter(WriterBase):
         parent : AbstractWriter
                  The parent writer.
         """
-        super().__init__(parent)
-        self.__block = block
-        self.__depth = depth
+        super().__init__(block,depth,"class",parent)
         self.__reader = None
         for child in block:
             if child._TYPE_ == "Class":
@@ -55,40 +51,13 @@ class ClassWriter(WriterBase):
                 UnionWriter(child,depth+1,self)
 
 
-    def _footer_(
+    def _lines_(
         self
     ):
-        ret = Code(Settings.INDENT)
-        ret.setDepth(self.__depth)
-        ret.add("};")
-        return ret
-
-
-    def _header_(
-        self
-    ):
-        ret = Code(Settings.INDENT)
-        ret.setDepth(self.__depth)
-        if self.__block.parent()._TYPE_ == "Namespace":
-            ret.addBlank(Settings.H1)
-        else:
-            ret.addBlank(Settings.H2)
-        ret.add("/**")
-        ret.addText(self.__block._p_description,Settings.COLS," * ")
-        ret.add(" */")
-        ret.add(
-            ("public: " if self.__block.parent()._TYPE_ == "Class" else "")
-            + "class "
-            + self.__block._p_name
-        )
-        ret.add("{")
-        if self.__reader:
-            ret.setDepth(self.__depth+1)
-            ret.add(self.__reader.lines())
-        return ret
+        return self.__reader.lines() if self.__reader else []
 
 
     def _link_(
         self
     ):
-        self.__reader = self.lookup(self.__block.key())
+        self.__reader = self.lookup(self._block_().key())

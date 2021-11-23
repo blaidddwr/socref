@@ -21,16 +21,15 @@ class ClassReader(CppReaderBase):
         ,parent
     ):
         """
-        Initializes this new class reader with the given class name this reader
-        will parse and parent head reader that discovered the header code line
-        of the class that this reader will parse.
+        Initializes this new class reader with the given class name and parent
+        head reader that discovered the class that this reader will parse.
 
         Parameters
         ----------
         name : string
                The name.
         parent : HeadReader
-                 The head reader.
+                 The parent head reader.
         """
         super().__init__(parent)
         self.__scope = parent.scope()+[name]
