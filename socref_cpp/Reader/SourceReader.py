@@ -3,6 +3,8 @@ Contains the SourceReader class.
 """
 from ..Base.FileReaderBase import FileReaderBase
 from ..Settings import Settings
+from .FunctionReader import FunctionReader
+from re import compile as reCompile
 
 
 
@@ -13,6 +15,7 @@ class SourceReader(FileReaderBase):
     abstract reader class. It parses source files; saving macros, header lines,
     and definitions. Parsed definitions are added as new reader children.
     """
+    __functionRE = reCompile("^[a-z ]*?[a-zA-Z_0-9<>:*&]*? *([a-zA-Z_:]+\w*)\($")
 
 
     def __init__(
@@ -32,7 +35,7 @@ class SourceReader(FileReaderBase):
         parent : Parser
                  The parent parser.
         """
-        super().__init__(block,parent)
+        super().__init__(parent)
         self._setKey_(block.key(True)+Settings.SRC_EXT)
 
 
@@ -41,3 +44,23 @@ class SourceReader(FileReaderBase):
     ):
         self._skipMacros_(1)
         super()._scan_()
+        self.__scanDefinitions_()
+
+
+    def __scanDefinitions_(
+        self
+    ):
+        """
+        Scans for any function definitions, creating any found as children of
+        this reader.
+        """
+        while True:
+            (i,line) = self.read()
+            if line is None:
+                return
+            match = self.__functionRE.match(line)
+            if match:
+                name = match.group(1)
+                reader = FunctionReader(name,self)
+                reader()
+                continue

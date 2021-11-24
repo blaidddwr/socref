@@ -19,23 +19,17 @@ class FileReaderBase(CppReaderBase):
 
     def __init__(
         self
-        ,block
         ,parent
     ):
         """
-        Initializes this new file reader base with the given block and parent
-        parser. The given block must be a name space or class block that is
-        associated with this reader's file.
+        Initializes this new file reader base with the given parent parser.
 
         Parameters
         ----------
-        block : AbstractBlock
-                The block.
         parent : Parser
                  The parent parser.
         """
         super().__init__(parent)
-        self.__block = block
         self.__macros = []
         self.__header = []
         self.__scope = []
@@ -183,6 +177,4 @@ class FileReaderBase(CppReaderBase):
                 self.restore()
                 break
             self.discard()
-        if self.__block._TYPE_ == "Namespace" and self.__block.parent():
-            ret.append(self.__block._p_name)
         return ret

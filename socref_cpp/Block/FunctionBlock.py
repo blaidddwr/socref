@@ -203,7 +203,7 @@ class FunctionBlock(NamespaceBlock):
         return "".join(
             (
                 self._accessChar_()[self._p_access]+" " if self.isMethod() else ""
-                ,self.name()
+                ,self.name()+"("+str(len(self))+")"
                 ," ..." if self.hasReturn() else ""
                 ," ["+flags+"]" if flags else "")
         )
@@ -574,6 +574,16 @@ class FunctionBlock(NamespaceBlock):
         self
     ):
         return self.isMethod()
+
+
+    def key(
+        self
+    ):
+        ret = super().key()
+        parts = []
+        for (n,a,type_,d) in self.arguments():
+            parts.append(type_.replace(" ",""))
+        return ret+"("+",".join(parts)+")"
 
 
     def name(

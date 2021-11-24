@@ -111,6 +111,8 @@ class NamespaceBlock(BlockBase):
         scope = self.scope()
         if isFile and self._TYPE_ == "Namespace":
             scope += [self._p_name,"__init__"] if self.parent() else ["__init__"]
+        elif self._TYPE_ == "Function":
+            scope.append(self.name())
         else:
             scope.append(self._p_name)
         return div.join(scope)

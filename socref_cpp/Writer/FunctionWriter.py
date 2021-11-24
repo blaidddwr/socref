@@ -61,11 +61,11 @@ class FunctionWriter(WriterBase):
         if self.__decl and self.__block._p_description:
             ret.add("/**")
             ret.addText(self.__block._p_description,Settings.COLS," * ")
-            for argument in arguments:
-                if argument[3]:
+            for (name,a,t,desc) in arguments:
+                if desc:
                     ret.add(" *")
-                    ret.add(" * @param "+argument[0])
-                    ret.addText(argument[3],Settings.COLS," *        ")
+                    ret.add(" * @param "+name)
+                    ret.addText(desc,Settings.COLS," *        ")
             if self.__block.hasReturn() and self.__block._p_returnDescription:
                 ret.add(" *")
                 ret.add(" * @return")
@@ -84,28 +84,28 @@ class FunctionWriter(WriterBase):
         if arguments:
             ret.setDepth(self.__depth+1)
             comma = ""
-            for argument in arguments:
+            for (name,assignment,type_,d) in arguments:
                 ret.add(
                     comma
-                    + argument[2]
+                    + type_
                     + " "
-                    + argument[0]
-                    + (" = "+argument[1] if argument[1] else "")
+                    + name
+                    + (" = "+assignment if assignment and self.__decl else "")
                 )
                 if not comma:
                     comma = ","
             ret.setDepth(self.__depth)
-        preLines = []
+        initLines = []
         if self.__reader:
-            preLines = self.__reader.preLines()
+            initLines = self.__reader.initLines()
         if self.__decl:
             ret.add(" ".join([")"]+after)+";")
         else:
-            ret.add(" ".join([")"]+after)+(":" if preLines else ""))
+            ret.add(" ".join([")"]+after)+(":" if initLines else ""))
         if not self.__decl:
-            if preLines:
+            if initLines:
                 ret.setDepth(self.__depth+1)
-                ret.add(preLines)
+                ret.add(initLines)
                 ret.setDepth(self.__depth)
             ret.add("{")
             ret.setDepth(self.__depth+1)
@@ -119,7 +119,8 @@ class FunctionWriter(WriterBase):
     def _link_(
         self
     ):
-        pass
+        if not self.__decl:
+            self.__reader = self.lookup(self.__block.key())
 
 
 FlagOutput = FunctionBlock.FlagOutput

@@ -62,8 +62,8 @@ class NamespaceWriter(WriterBase):
         self
     ):
         ret = Code(Settings.INDENT)
-        ret.addBlank(Settings.H2)
         if self.__block.parent():
+            ret.addBlank(Settings.H2)
             ret.add("/**")
             ret.addText(self.__block._p_description,Settings.COLS," * ")
             ret.add(" */")

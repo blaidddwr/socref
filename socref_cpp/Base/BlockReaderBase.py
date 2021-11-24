@@ -11,7 +11,7 @@ class BlockReaderBase(CppReaderBase):
     This is the block reader base. It partially implements the Socrates'
     Reference abstract reader class. It provides common methods used by readers
     that scan lines of code within a curly bracket block and get those parsed
-    lines. This class also sets its lookup key.
+    lines. This class can also optionally sets its lookup key.
     """
 
 
@@ -23,17 +23,19 @@ class BlockReaderBase(CppReaderBase):
         """
         Initializes this new block reader base with the given name and parent
         reader. The given reader's scope and the given name is used to generate
-        this reader's lookup key.
+        this reader's lookup key. If the given name is nothing then this does
+        not set its lookup key.
 
         Parameters
         ----------
         name : string
-               The name.
+               The name or nothing.
         parent : CppReaderBase
                  The parent reader.
         """
         super().__init__(parent)
-        self._setKey_("::".join(parent.scope()+[name]))
+        if name is not None:
+            self._setKey_("::".join(parent.scope()+[name]))
         self.__lines = []
 
 

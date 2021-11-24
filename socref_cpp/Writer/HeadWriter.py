@@ -52,6 +52,7 @@ class HeadWriter(WriterBase):
         ret = Code(Settings.INDENT)
         for scope in self.__block.scope():
             ret.add("}")
+        ret.addBlank(Settings.H2)
         ret.add("#endif")
         return ret
 

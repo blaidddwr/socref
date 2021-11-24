@@ -32,8 +32,22 @@ class HeadReader(FileReaderBase):
         parent : Parser
                  The parent parser.
         """
-        super().__init__(block,parent)
+        super().__init__(parent)
         self._setKey_(block.key(True)+Settings.HDR_EXT)
+        self.__block = block
+
+
+    def scope(
+        self
+    ):
+        return (
+            super().scope()
+            + (
+                [self.__block._p_name]
+                if self.__block._TYPE_ == "Namespace" and self.__block.parent()
+                else []
+            )
+        )
 
 
     def _scan_(
