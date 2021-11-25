@@ -4116,7 +4116,17 @@ The class, enumeration, or union block of this writer.</__p_returnsDescription>
                         <__p_description>This interface is a getter method.</__p_description>
                         <__p_returnsDescription>result
 list
-Lines of custom header code added after the beginning of this block writer's declaration and before the closing of it.</__p_returnsDescription>
+Lines of code added inside the block, after the opening bracket line and before the final closing bracket line..</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_preLines_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Lines of code written before the opening bracket of the code block.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4272,16 +4282,6 @@ The list of scoped name spaces.</__p_returnsDescription>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
-                        <__p_name>clsParents</__p_name>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>result
-list
-Names of all inherited class parents of this class.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
                         <__p_name>displayView</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -4315,6 +4315,16 @@ True if this class contains any abstract functions or false otherwise.</__p_retu
                         <__p_returnsDescription>result
 bool
 True if this class contains any virtual functions or false otherwise.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>parents</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Names of all inherited class parents of this class.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5114,6 +5124,12 @@ The parent writer.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_preLines_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

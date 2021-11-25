@@ -13,7 +13,7 @@ class CppReaderBase(ReaderBase):
     abstract reader class. It provides common methods used by multiple other C++
     reader classes.
     """
-    __classRE = reCompile("^(public: )?class +([a-zA-Z_]+\w*)$")
+    __classRE = reCompile("^(public: )?class +([a-zA-Z_]+\w*):?$")
     __enumerationRE = reCompile("^(public: )?enum +class +([a-zA-Z_]+\w*)$")
     __unionRE = reCompile("^(public: )?union +([a-zA-Z_]+\w*)$")
 

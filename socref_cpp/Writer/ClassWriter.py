@@ -39,6 +39,7 @@ class ClassWriter(BlockWriterBase):
                  The parent writer.
         """
         super().__init__(block,depth,"class",parent)
+        self.__block = block
         self.__reader = None
         for child in block:
             if child._TYPE_ == "Class":
@@ -61,3 +62,15 @@ class ClassWriter(BlockWriterBase):
         self
     ):
         self.__reader = self.lookup(self._block_().key())
+
+
+    def _preLines_(
+        self
+    ):
+        ret = []
+        comma = ""
+        for parent in self.__block.parents():
+            ret.append(comma+parent)
+            if not comma:
+                comma = ","
+        return ret

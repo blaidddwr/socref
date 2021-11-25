@@ -86,7 +86,15 @@ class BlockWriterBase(WriterBase):
         ret.add(" */")
         if self.__block.parent()._TYPE_ == "Class":
             ret.add("public:")
-        ret.add(self.__name+" "+self.__block._p_name)
+        ret.add(
+            self.__name
+            + " "
+            + self.__block._p_name
+            + (":" if self.__block._TYPE_ == "Class" and self.__block.parents() else "")
+        )
+        ret.setDepth(self.__depth+1)
+        ret.add(self._preLines_())
+        ret.setDepth(self.__depth)
         ret.add("{")
         ret.setDepth(self.__depth+1)
         ret.add(self._lines_())
@@ -102,7 +110,22 @@ class BlockWriterBase(WriterBase):
         Returns
         -------
         result : list
-                 Lines of custom header code added after the beginning of this
-                 block writer's declaration and before the closing of it.
+                 Lines of code added inside the block, after the opening bracket
+                 line and before the final closing bracket line..
+        """
+        return []
+
+
+    def _preLines_(
+        self
+    ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : list
+                 Lines of code written before the opening bracket of the code
+                 block.
         """
         return []

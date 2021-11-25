@@ -37,25 +37,11 @@ class ClassBlock(NamespaceBlock):
         self._p_parents = ""
 
 
-    def clsParents(
-        self
-    ):
-        """
-        Getter method.
-
-        Returns
-        -------
-        result : list
-                 Names of all inherited class parents of this class.
-        """
-        return [p for p in self._p_parents.split("\n") if p]
-
-
     def displayView(
         self
     ):
         ret = super().displayView()
-        parents = self.clsParents()
+        parents = self.parents()
         if parents:
             ret.addHeader("Parents",1)
             ret.addList(parents)
@@ -115,6 +101,20 @@ class ClassBlock(NamespaceBlock):
             if child._TYPE_ == "Function" and child.isVirtual():
                 return True
         return False
+
+
+    def parents(
+        self
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        result : list
+                 Names of all inherited class parents of this class.
+        """
+        return [p for p in self._p_parents.split("\n") if p]
 
 
     def setDefaultProperties(

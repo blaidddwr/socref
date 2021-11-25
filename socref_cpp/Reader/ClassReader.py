@@ -69,11 +69,9 @@ class ClassReader(CppReaderBase):
     def _scan_(
         self
     ):
-        self.save()
-        (i,line) = self.read()
-        if line == "{":
-            self.discard()
-            self.__lines = self._scanHeader_()
-            self._scanDeclarations_()
-        else:
-            self.restore()
+        while True:
+            (i,line) = self.read()
+            if line is None or line == "{":
+                break
+        self.__lines = self._scanHeader_()
+        self._scanDeclarations_()
