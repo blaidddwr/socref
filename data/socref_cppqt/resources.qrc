@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/socref_cppqt">
+        <file>public_slot.svg</file>
+        <file>protected_slot.svg</file>
+        <file>private_slot.svg</file>
+        <file>virtual_public_slot.svg</file>
+        <file>virtual_protected_slot.svg</file>
+        <file>virtual_private_slot.svg</file>
+        <file>abstract_public_slot.svg</file>
+        <file>abstract_protected_slot.svg</file>
+        <file>abstract_private_slot.svg</file>
+        <file>signal.svg</file>
+    </qresource>
+</RCC>

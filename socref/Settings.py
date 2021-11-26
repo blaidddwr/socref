@@ -22,10 +22,10 @@ class Settings():
         ,pathJoin(HUNSPELL_ROOT,DICTIONARY+".aff")
     )
     LANGS = (
-        ("GLSL","socref_glsl")
+        ("C++","socref_cpp")
+        ,("C++/Qt","socref_cppqt")
+        ,("GLSL","socref_glsl")
         ,("Python","socref_python")
-        ,("C++","socref_cpp")
-        #,("C++/Qt","socref_cppqt")
     )
     FILE_EXTENSION = "Socrates' Reference Project File (*.srp)"
 

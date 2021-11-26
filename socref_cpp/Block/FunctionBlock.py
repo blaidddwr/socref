@@ -34,12 +34,12 @@ class FunctionBlock(NamespaceBlock):
         ,"F": ("F","final","Final")
         ,"A": ("A","= 0","Abstract")
     }
-    __ACCESS = (
-        ("Public",QIcon(":/socref_cpp/public_function"))
-        ,("Protected",QIcon(":/socref_cpp/protected_function"))
-        ,("Private",QIcon(":/socref_cpp/private_function"))
+    ACCESS = (
+        ("Public",QIcon(":/socref_cpp/public_function.svg"))
+        ,("Protected",QIcon(":/socref_cpp/protected_function.svg"))
+        ,("Private",QIcon(":/socref_cpp/private_function.svg"))
     )
-    __ACCESS_CHAR = {
+    ACCESS_CHAR = {
         "Public": "*"
         ,"Protected": "^"
         ,"Private": "-"
@@ -202,7 +202,7 @@ class FunctionBlock(NamespaceBlock):
         flags = "".join(before+after)
         return "".join(
             (
-                self._accessChar_()[self._p_access]+" " if self.isMethod() else ""
+                self._accessChar_(self._p_access)+" " if self.isMethod() else ""
                 ,self.name()+"("+str(len(self))+")"
                 ," ..." if self.hasReturn() else ""
                 ," ["+flags+"]" if flags else "")
@@ -639,24 +639,30 @@ class FunctionBlock(NamespaceBlock):
                  function. Each tuple contains the name and optional Qt icon in
                  that order. If no icon is required none can be substituted.
         """
-        return self.__ACCESS
+        return self.ACCESS
 
 
     def _accessChar_(
         self
+        ,key
     ):
         """
-        This interface is a getter method.
+        This interface returns a single character which represents the given
+        access key. The given access key must be a valid access type for this
+        function. The returned character must be unique among all other returned
+        characters.
+
+        Parameters
+        ----------
+        key : string
+              The access key.
 
         Returns
         -------
-        result : dictionary
-                 A dictionary where a key is a valid access type and the
-                 corresponding value is a single character that represents that
-                 access type. All single characters used must be unique and is
-                 used for a function's display name.
+        result : string
+                 The single character.
         """
-        return self.__ACCESS_CHAR
+        return self.ACCESS_CHAR[key]
 
 
 FlagOutput = FunctionBlock.FlagOutput
