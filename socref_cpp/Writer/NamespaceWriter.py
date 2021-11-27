@@ -64,7 +64,7 @@ class NamespaceWriter(WriterBase):
         ret = Code(Settings.INDENT)
         if self.__block.parent():
             ret.addBlank(Settings.H2)
-            ret.add("/**")
+            ret.add("/*!")
             ret.addText(self.__block._p_description,Settings.COLS," * ")
             ret.add(" */")
             ret.add("namespace "+self.__block._p_name)

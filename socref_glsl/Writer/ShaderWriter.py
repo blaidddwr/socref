@@ -3,8 +3,6 @@ Contains the ShaderWriter class.
 """
 from ..Settings import Settings
 from .FunctionWriter import FunctionWriter
-from .StructureWriter import StructureWriter
-from .VariableWriter import VariableWriter
 from socref.Base.WriterBase import WriterBase
 from socref.Output.Code import Code
 
@@ -42,12 +40,9 @@ class ShaderWriter(WriterBase):
         super().__init__(parent)
         self.__block = block
         self.__reader = None
+        self.__mainReader = None
         for child in block:
-            if child._TYPE_ == "Variable":
-                VariableWriter(child,0,self)
-            elif child._TYPE_ == "Structure":
-                StructureWriter(child,self)
-            elif child._TYPE_ == "Function":
+            if child._TYPE_ == "Function":
                 FunctionWriter(child,self)
 
 
@@ -62,8 +57,8 @@ class ShaderWriter(WriterBase):
         ret.add("void main()")
         ret.add("{")
         ret.setDepth(1)
-        if self.__reader:
-            ret.add(self.__reader.lines())
+        if self.__mainReader:
+            ret.add(self.__mainReader.lines())
         ret.setDepth(0)
         ret.add("}")
         return ret
@@ -77,10 +72,13 @@ class ShaderWriter(WriterBase):
         ret.add("/*!")
         ret.addText(self.__block._p_description,Settings.COLS," * ")
         ret.add(" */")
+        if self.__reader:
+            ret.add(self.__reader.lines())
         return ret
 
 
     def _link_(
         self
     ):
-        self.__reader = self.lookup(self.__block.key()+".main()")
+        self.__reader = self.lookup(self.__block.key())
+        self.__mainReader = self.lookup(self.__block.key()+".main()")

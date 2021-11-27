@@ -81,7 +81,7 @@ class BlockWriterBase(WriterBase):
             ret.addBlank(Settings.H1)
         else:
             ret.addBlank(Settings.H2)
-        ret.add("/**")
+        ret.add("/*!")
         ret.addText(self.__block._p_description,Settings.COLS," * ")
         ret.add(" */")
         if self.__block.parent()._TYPE_ == "Class":

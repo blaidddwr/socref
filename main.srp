@@ -5722,61 +5722,6 @@ Unique key used to obtain the correct reader or writer of this block.</__p_retur
                     </Function>
                 </Class>
                 <Class>
-                    <__p_name>StructureBlock</__p_name>
-                    <__p_description>This is the structure block class. It implements the Socrates' Reference abstract block class. It represents a GLSL structure.</__p_description>
-                    <__p_parents>ProgramBlock</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <__p_decorators>block(&quot;Structure&quot;)</__p_decorators>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>buildList</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>clearProperties</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>displayName</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>displayView</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>editDefinitions</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>icon</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>setDefaultProperties</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                </Class>
-                <Class>
                     <__p_name>VariableBlock</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a GLSL variable.</__p_description>
                     <__p_parents>ProgramBlock</__p_parents>
@@ -5820,26 +5765,6 @@ Unique key used to obtain the correct reader or writer of this block.</__p_retur
                     </Function>
                     <Function>
                         <__p_name>icon</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>inStructure</__p_name>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>result
-bool
-True if this variable is part of a structure or false otherwise.</__p_returnsDescription>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>isArgument</__p_name>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_returnsDescription>result
-bool
-True if this variable is an argument of a function or false otherwise.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5943,6 +5868,16 @@ The parent parser.</__p_description>
                         </Object>
                     </Function>
                     <Function>
+                        <__p_name>lines</__p_name>
+                        <__p_description>Returns header lines of code parsed by this shader reader. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+The header lines of code.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>unknown</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -5950,6 +5885,30 @@ The parent parser.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>_scan_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__scanFunctions_</__p_name>
+                        <__p_description>Scans for any function definitions. New function readers are created as children of this reader for each definition found.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__scanLines_</__p_name>
+                        <__p_description>Scans for header lines of code and returns them. This stops scanning when the first empty line is encountered.</__p_description>
+                        <__p_returnsDescription>result
+list
+The header lines of code.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>__skipHeader_</__p_name>
+                        <__p_description>Skips the initial header lines of this reader's shader file. This stops after the closing multi line comment line of the shader description is encountered.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5989,41 +5948,6 @@ The parent shader writer.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>_link_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>__addArguments_</__p_name>
-                        <__p_description>Adds function argument lines of code to this writer's code.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>__addComArguments_</__p_name>
-                        <__p_description>Adds function argument comment lines to this writer's code.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>__addComReturn_</__p_name>
-                        <__p_description>Adds function return comment lines to this writer's code.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>__addComments_</__p_name>
-                        <__p_description>Adds function comment lines to this writer's code.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>__addHeader_</__p_name>
-                        <__p_description>Adds function header lines of code to this writer's code.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -6094,75 +6018,6 @@ The parent parser.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>_link_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                </Class>
-                <Class>
-                    <__p_name>StructureWriter</__p_name>
-                    <__p_description>This is the structure writer class. It implements the Socrates' Reference abstract writer class. It outputs the header and footer code lines for a structure. Children writers for nested variables output their code after the header.</__p_description>
-                    <__p_parents>WriterBase</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new structure writer with the given structure block and parent shader writer. The given structure block is used by this writer to initialize its children writers and generate its output.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>block</__p_name>
-                            <__p_description>StructureBlock
-The structure block.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>parent</__p_name>
-                            <__p_description>ShaderWriter
-The parent shader writer.</__p_description>
-                        </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>_footer_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                    <Function>
-                        <__p_name>_header_</__p_name>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                    </Function>
-                </Class>
-                <Class>
-                    <__p_name>VariableWriter</__p_name>
-                    <__p_description>This is the variable writer class. It implements the Socrates' Reference abstract writer class. It outputs all code lines for a variable that is not an argument.</__p_description>
-                    <__p_parents>WriterBase</__p_parents>
-                    <__p_infile>0</__p_infile>
-                    <Function>
-                        <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new variable writer with the given variable block, indentation depth of this writer's output, and parent writer. The given variable block is used by this writer to generate its output. The given parent writer must be a shader or structure writer.</__p_description>
-                        <__p_static>0</__p_static>
-                        <__p_class>0</__p_class>
-                        <__p_abstract>0</__p_abstract>
-                        <Object>
-                            <__p_name>block</__p_name>
-                            <__p_description>VariableBlock
-The variable block.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>depth</__p_name>
-                            <__p_description>int
-The indentation depth.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>parent</__p_name>
-                            <__p_description>AbstractWriter
-The parent writer.</__p_description>
-                        </Object>
-                    </Function>
-                    <Function>
-                        <__p_name>_header_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

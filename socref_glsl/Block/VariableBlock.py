@@ -40,10 +40,7 @@ class VariableBlock(ProgramBlock):
     def displayName(
         self
     ):
-        if self._p_name:
-            return self._p_name
-        else:
-            return self._p_type.split()[-1]
+        return self._p_name
 
 
     def displayView(
@@ -51,7 +48,7 @@ class VariableBlock(ProgramBlock):
     ):
         ret = super().displayView()
         ret.addHeader("Type",1)
-        ret.addText(self._p_type.replace("@",self._p_name))
+        ret.addText(self._p_type)
         return ret
 
 
@@ -69,40 +66,10 @@ class VariableBlock(ProgramBlock):
         return QIcon(":/socref_glsl/variable.svg")
 
 
-    def inStructure(
-        self
-    ):
-        """
-        Getter method.
-
-        Returns
-        -------
-        result : bool
-                 True if this variable is part of a structure or false
-                 otherwise.
-        """
-        return self.parent() and self.parent()._TYPE_ == "Structure"
-
-
-    def isArgument(
-        self
-    ):
-        """
-        Getter method.
-
-        Returns
-        -------
-        result : bool
-                 True if this variable is an argument of a function or false
-                 otherwise.
-        """
-        return self.parent() and self.parent()._TYPE_ == "Function"
-
-
     def isVolatileAbove(
         self
     ):
-        return self.isArgument()
+        return True
 
 
     def setDefaultProperties(
@@ -110,4 +77,4 @@ class VariableBlock(ProgramBlock):
     ):
         super().setDefaultProperties()
         self._p_name = "variable"
-        self._p_type = "float @"
+        self._p_type = "float"

@@ -35,24 +35,45 @@ class FunctionWriter(WriterBase):
         super().__init__(parent)
         self.__block = block
         self.__reader = None
-        self.__code = None
 
 
     def _header_(
         self
     ):
-        self.__code = Code(Settings.INDENT)
-        self.__code.addBlank(Settings.H1)
-        self.__addComments_()
-        self.__addHeader_()
-        self.__code.add("{")
+        ret = Code(Settings.INDENT)
+        ret.addBlank(Settings.H1)
+        ret.add("/*!")
+        ret.addText(self.__block._p_description,Settings.COLS," * ")
+        arguments = self.__block.arguments()
+        if arguments:
+            for (name,t,description) in arguments:
+                if description:
+                    ret.add(" *")
+                    ret.add(" * @param "+name)
+                    ret.addText(description,Settings.COLS," *        ")
+        if self.__block._p_returnDescription:
+            ret.add(" *")
+            ret.add(" * @return")
+            ret.addText(self.__block._p_returnDescription,Settings.COLS," * ")
+        ret.add(" */")
+        ret.add(self.__block._p_returnType+" "+self.__block._p_name+"(")
+        if arguments:
+            ret.setDepth(1)
+            first = True
+            for (name,type_,d) in arguments:
+                if first:
+                    ret.add(type_+" "+name)
+                    first = False
+                else:
+                    ret.add(","+type_+" "+name)
+            ret.setDepth(0)
+        ret.add(")")
+        ret.add("{")
         if self.__reader:
-            self.__code.setDepth(1)
-            self.__code.add(self.__reader.lines())
-            self.__code.setDepth(0)
-        self.__code.add("}")
-        ret = self.__code
-        self.__code = None
+            ret.setDepth(1)
+            ret.add(self.__reader.lines())
+            ret.setDepth(0)
+        ret.add("}")
         return ret
 
 
@@ -60,77 +81,3 @@ class FunctionWriter(WriterBase):
         self
     ):
         self.__reader = self.lookup(self.__block.key())
-
-
-    def __addArguments_(
-        self
-    ):
-        """
-        Adds function argument lines of code to this writer's code.
-        """
-        first = True
-        for (name,type_,description) in self.__block.arguments():
-            if first:
-                self.__code.add(type_+" "+name)
-                first = False
-            else:
-                self.__code.add(","+type_+" "+name)
-
-
-    def __addComArguments_(
-        self
-    ):
-        """
-        Adds function argument comment lines to this writer's code.
-        """
-        arguments = self.__block.arguments()
-        if arguments:
-            self.__code.add(" *")
-            for (name,type_,description) in arguments:
-                text = "@param "+name+" "
-                after = " "*len(text)
-                text += description
-                self.__code.addText(text,Settings.COLS," * ",after)
-
-
-    def __addComReturn_(
-        self
-    ):
-        """
-        Adds function return comment lines to this writer's code.
-        """
-        if self.__block._p_returnDescription:
-            self.__code.add(" *")
-            text = "@return "
-            after = " "*len(text)
-            text += self.__block._p_returnDescription
-            self.__code.addText(text,Settings.COLS," * ",after)
-
-
-    def __addComments_(
-        self
-    ):
-        """
-        Adds function comment lines to this writer's code.
-        """
-        self.__code.add("/*!")
-        self.__code.addText(self.__block._p_description,Settings.COLS," * ")
-        self.__addComArguments_()
-        self.__addComReturn_()
-        self.__code.add(" */")
-
-
-    def __addHeader_(
-        self
-    ):
-        """
-        Adds function header lines of code to this writer's code.
-        """
-        if self.__block:
-            self.__code.add(self.__block._p_returnType+" "+self.__block._p_name+"(")
-            self.__code.setDepth(1)
-            self.__addArguments_()
-            self.__code.setDepth(0)
-            self.__code.add(")")
-        else:
-            self.__code.add(self.__block._p_returnType+" "+self.__block._p_name+"()")

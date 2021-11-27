@@ -41,6 +41,5 @@ class ProgramWriter(WriterBase):
         self
     ):
         ret = Code(Settings.INDENT)
-        ret.addBlank(Settings.H2)
         ret.addText(self.__block._p_description,Settings.COLS)
         return ret

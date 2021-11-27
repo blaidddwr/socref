@@ -59,7 +59,7 @@ class FunctionWriter(WriterBase):
         ret.addBlank(Settings.H2)
         arguments = self.__block.arguments()
         if self.__decl and self.__block._p_description:
-            ret.add("/**")
+            ret.add("/*!")
             ret.addText(self.__block._p_description,Settings.COLS," * ")
             for (name,a,t,desc) in arguments:
                 if desc:

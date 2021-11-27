@@ -7,7 +7,6 @@
         <file>tesselation_eval_shader.svg</file>
         <file>geometry_shader.svg</file>
         <file>compute_shader.svg</file>
-        <file>structure.svg</file>
         <file>variable.svg</file>
         <file>function.svg</file>
     </qresource>

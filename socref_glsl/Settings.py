@@ -11,7 +11,6 @@ class Settings():
     the GLSL language implementation.
     """
     H1 = 2
-    H2 = 1
     INDENT = "    "
     COLS = 80
     EXT = {
