@@ -1,15 +1,14 @@
 """
 Contains the ClassReader class.
 """
-from . import skipDocString
+from ..Base.PythonReaderBase import PythonReaderBase
 from .FunctionReader import FunctionReader
 from re import compile as reCompile
-from socref.Base.ReaderBase import ReaderBase
 
 
 
 
-class ClassReader(ReaderBase):
+class ClassReader(PythonReaderBase):
     """
     This is the class reader class. It implements the Socrates' Reference
     abstract reader class. It parses a class; saving custom header lines of
@@ -69,7 +68,7 @@ class ClassReader(ReaderBase):
     def _scan_(
         self
     ):
-        skipDocString(self)
+        self._skipDocString_()
         self.__scanLines_()
         self.__scanDefs_()
 

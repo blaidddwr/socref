@@ -1,16 +1,15 @@
 """
 Contains the ModuleReader class.
 """
-from . import skipDocString
+from ..Base.PythonReaderBase import PythonReaderBase
 from .ClassReader import ClassReader
 from .FunctionReader import FunctionReader
 from re import compile as reCompile
-from socref.Base.ReaderBase import ReaderBase
 
 
 
 
-class ModuleReader(ReaderBase):
+class ModuleReader(PythonReaderBase):
     """
     This is the module reader class. It implements the Socrates' Reference
     abstract reader class. It parses module files; saving import lines, function
@@ -119,7 +118,7 @@ class ModuleReader(ReaderBase):
         self
     ):
         self.__scanPreHeader_()
-        skipDocString(self)
+        self._skipDocString_()
         self.__scanHeader_()
         self.__scanBody_()
         self.__scanFooter_()

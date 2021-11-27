@@ -4010,7 +4010,7 @@ The decorated class.</__p_description>
                 <__p_description>Contains all base classes.</__p_description>
                 <Class>
                     <__p_name>BlockReaderBase</__p_name>
-                    <__p_description>This is the block reader base. It partially implements the Socrates' Reference abstract reader class. It provides common methods used by readers that scan lines of code within a curly bracket block and get those parsed lines. This class can also optionally sets its lookup key.</__p_description>
+                    <__p_description>This is the block reader base class. It partially implements the Socrates' Reference abstract reader class. It provides common methods used by readers that scan lines of code within a curly bracket block and get those parsed lines. This class can also optionally sets its lookup key.</__p_description>
                     <__p_parents>CppReaderBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -4134,7 +4134,7 @@ Lines of code written before the opening bracket of the code block.</__p_returns
                 </Class>
                 <Class>
                     <__p_name>CppReaderBase</__p_name>
-                    <__p_description>This is the C++ reader base. It partially implements the Socrates' Reference abstract reader class. It provides common methods used by multiple other C++ reader classes.</__p_description>
+                    <__p_description>This is the C++ reader base class. It partially implements the Socrates' Reference abstract reader class. It provides common methods used by multiple other C++ reader classes.</__p_description>
                     <__p_parents>ReaderBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
@@ -6059,6 +6059,23 @@ The root block.</__p_description>
             <__p_name>socref_python</__p_name>
             <__p_description>Contains the Python language implementation for Socrates' Reference.</__p_description>
             <Package>
+                <__p_name>Base</__p_name>
+                <__p_description>Contains all base classes.</__p_description>
+                <Class>
+                    <__p_name>PythonReaderBase</__p_name>
+                    <__p_description>This is the python reader base class. It partially implements the Socrates' Reference abstract reader class. It provides common methods used by multiple other python reader classes.</__p_description>
+                    <__p_parents>ReaderBase</__p_parents>
+                    <__p_infile>0</__p_infile>
+                    <Function>
+                        <__p_name>_skipDocString_</__p_name>
+                        <__p_description>Skips a document string block of lines if one is encountered. If a line of code that is not a document string is encountered then the reader's position is at that line, else its position is the first line after the encountered document string.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                </Class>
+            </Package>
+            <Package>
                 <__p_name>Block</__p_name>
                 <__p_description>Contains all implemented Socrates' Reference block classes.</__p_description>
                 <Class>
@@ -6513,7 +6530,7 @@ True if this object is an argument of a function or false otherwise.</__p_return
                 <Class>
                     <__p_name>ClassReader</__p_name>
                     <__p_description>This is the class reader class. It implements the Socrates' Reference abstract reader class. It parses a class; saving custom header lines of code, all methods, and all nested classes of the parsed class. Parsed function and class definitions are added as new reader children.</__p_description>
-                    <__p_parents>ReaderBase</__p_parents>
+                    <__p_parents>PythonReaderBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
@@ -6572,7 +6589,7 @@ The lines of code or an empty list.</__p_returnsDescription>
                 <Class>
                     <__p_name>FunctionReader</__p_name>
                     <__p_description>This is the function reader class. It implements the Socrates' Reference abstract reader class. It parses a function; saving all lines of code nested within the function definition.</__p_description>
-                    <__p_parents>ReaderBase</__p_parents>
+                    <__p_parents>PythonReaderBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
@@ -6636,7 +6653,7 @@ The lines of code or an empty list.</__p_returnsDescription>
                 <Class>
                     <__p_name>ModuleReader</__p_name>
                     <__p_description>This is the module reader class. It implements the Socrates' Reference abstract reader class. It parses module files; saving import lines, function definitions, class definitions, and custom footer lines of code. Parsed function and class definitions are added as new reader children. This is an all purpose reader that reads in any module file, including the special package init file and dummy class container modules.</__p_description>
-                    <__p_parents>ReaderBase</__p_parents>
+                    <__p_parents>PythonReaderBase</__p_parents>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
@@ -6726,18 +6743,6 @@ The special comment lines or an empty list.</__p_returnsDescription>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                 </Class>
-                <Function>
-                    <__p_name>skipDocString</__p_name>
-                    <__p_description>Skips a document string block of lines in the given reader if one is encountered. If a line of code that is not a document string is encountered then the reader's position is at that line, else its position is the first line after the encountered document string.</__p_description>
-                    <__p_static>0</__p_static>
-                    <__p_class>0</__p_class>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>reader</__p_name>
-                        <__p_description>AbstractReader
-The reader.</__p_description>
-                    </Object>
-                </Function>
             </Package>
             <Package>
                 <__p_name>Writer</__p_name>

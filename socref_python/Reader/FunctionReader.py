@@ -1,13 +1,12 @@
 """
 Contains the FunctionReader class.
 """
-from . import skipDocString
-from socref.Base.ReaderBase import ReaderBase
+from ..Base.PythonReaderBase import PythonReaderBase
 
 
 
 
-class FunctionReader(ReaderBase):
+class FunctionReader(PythonReaderBase):
     """
     This is the function reader class. It implements the Socrates' Reference
     abstract reader class. It parses a function; saving all lines of code nested
@@ -70,7 +69,7 @@ class FunctionReader(ReaderBase):
         self
     ):
         self.__skipEnd_()
-        skipDocString(self)
+        self._skipDocString_()
         self.__scanLines_()
 
 

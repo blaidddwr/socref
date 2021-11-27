@@ -9,9 +9,9 @@ from socref.Base.ReaderBase import ReaderBase
 
 class CppReaderBase(ReaderBase):
     """
-    This is the C++ reader base. It partially implements the Socrates' Reference
-    abstract reader class. It provides common methods used by multiple other C++
-    reader classes.
+    This is the C++ reader base class. It partially implements the Socrates'
+    Reference abstract reader class. It provides common methods used by multiple
+    other C++ reader classes.
     """
     __classRE = reCompile("^(public: )?class +([a-zA-Z_]+\w*):?$")
     __enumerationRE = reCompile("^(public: )?enum +class +([a-zA-Z_]+\w*)$")

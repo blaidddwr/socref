@@ -8,7 +8,7 @@ from .CppReaderBase import CppReaderBase
 
 class BlockReaderBase(CppReaderBase):
     """
-    This is the block reader base. It partially implements the Socrates'
+    This is the block reader base class. It partially implements the Socrates'
     Reference abstract reader class. It provides common methods used by readers
     that scan lines of code within a curly bracket block and get those parsed
     lines. This class can also optionally sets its lookup key.
