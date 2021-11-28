@@ -1,7 +1,3 @@
-"""
-Installs socref. For the resource files to be properly installed make MUST be run before running pip
-install.
-"""
 import sys
 from setuptools import setup
 from setuptools import find_packages
@@ -13,7 +9,6 @@ except ImportError:
         ,file=sys.stderr
     )
     sys.exit(-1)
-
 setup(
     name="socref"
     ,version=VERSION

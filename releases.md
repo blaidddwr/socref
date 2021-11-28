@@ -3,6 +3,17 @@
 
 Description of all releases with most recent on the top.
 
+## Version 0.9.0
+
+* Huge backwards compatibility breaking changes to core application.
+* Added new reader and writer interfaces to core application for language implementations.
+* Updated parser interface to use new reader and writer interfaces.
+* Added helper classes for edit definitions, rich text output, and code output.
+* Changed location and virtual folder names of Qt resource data.
+* Completely revamped coding standards for all languages.
+* Massive update for all languages using the new reader/writer system.
+* Greatly refined code structure of languages, adding base classes where appropriate.
+
 ## Version 0.8.6
 
 * Fixed core spell checker bug.
