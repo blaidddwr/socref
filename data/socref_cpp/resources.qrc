@@ -1,0 +1,44 @@
+<RCC>
+    <qresource prefix="/socref_cpp">
+        <file>namespace.svg</file>
+        <file>enumeration.svg</file>
+        <file>variable.svg</file>
+        <file>public_function.svg</file>
+        <file>protected_function.svg</file>
+        <file>private_function.svg</file>
+        <file>static_public_function.svg</file>
+        <file>static_protected_function.svg</file>
+        <file>static_private_function.svg</file>
+        <file>virtual_public_function.svg</file>
+        <file>virtual_protected_function.svg</file>
+        <file>virtual_private_function.svg</file>
+        <file>abstract_public_function.svg</file>
+        <file>abstract_protected_function.svg</file>
+        <file>abstract_private_function.svg</file>
+        <file>public_constructor.svg</file>
+        <file>protected_constructor.svg</file>
+        <file>private_constructor.svg</file>
+        <file>public_destructor.svg</file>
+        <file>protected_destructor.svg</file>
+        <file>private_destructor.svg</file>
+        <file>virtual_public_destructor.svg</file>
+        <file>virtual_protected_destructor.svg</file>
+        <file>virtual_private_destructor.svg</file>
+        <file>abstract_public_destructor.svg</file>
+        <file>abstract_protected_destructor.svg</file>
+        <file>abstract_private_destructor.svg</file>
+        <file>public_operator.svg</file>
+        <file>protected_operator.svg</file>
+        <file>private_operator.svg</file>
+        <file>virtual_public_operator.svg</file>
+        <file>virtual_protected_operator.svg</file>
+        <file>virtual_private_operator.svg</file>
+        <file>abstract_public_operator.svg</file>
+        <file>abstract_protected_operator.svg</file>
+        <file>abstract_private_operator.svg</file>
+        <file>class.svg</file>
+        <file>virtual_class.svg</file>
+        <file>abstract_class.svg</file>
+        <file>union.svg</file>
+    </qresource>
+</RCC>

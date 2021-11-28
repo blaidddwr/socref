@@ -9,11 +9,11 @@ protect the individual creator. So FUCK COPYRIGHT.
 
 ### A Humble Request
 
-Socrates' Gaming Republic believes in the honesty and good nature of the
-majority of the human race. In this spirit, we humbly request your consideration
-in supporting us if you like the software we create and find it useful.
+Galtwe Software believes in the honesty and good nature of the majority of the
+human race. In this spirit, we humbly request your consideration in supporting
+us if you like the software we create and find it useful.
 
-### Copyright (c) 2019 Socrates' Gaming Republic
+### Copyright (c) 2019 Galtwe Software
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

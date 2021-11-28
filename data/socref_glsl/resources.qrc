@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/socref_glsl">
+        <file>program.svg</file>
+        <file>vertex_shader.svg</file>
+        <file>fragment_shader.svg</file>
+        <file>tesselation_ctrl_shader.svg</file>
+        <file>tesselation_eval_shader.svg</file>
+        <file>geometry_shader.svg</file>
+        <file>compute_shader.svg</file>
+        <file>variable.svg</file>
+        <file>function.svg</file>
+    </qresource>
+</RCC>

@@ -1,7 +1,6 @@
 """
-Contains the C++/Qt language definition for Socrates' Reference. This is
-basically a copy of the C++ language with some slight extensions to allow for qt
-objects, signals, and slots.
+Contains the C++/Qt language implementation for Socrates' Reference.
 """
 from . import resources
-from . import block
+from . import Block
+from . import Parser

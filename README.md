@@ -20,7 +20,7 @@ The following languages are supported:
 
 The following python packages are required:
 
-* PySide2
+* PySide6
 * hunspell
 
 ## Installation

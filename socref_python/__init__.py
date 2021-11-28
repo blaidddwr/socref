@@ -1,6 +1,6 @@
 """
-Contains the Python language definition for Socrates' Reference.
+Contains the Python language implementation for Socrates' Reference.
 """
 from . import resources
-from . import block
-from . import parser
+from . import Block
+from . import Parser
