@@ -14,7 +14,7 @@ class Settings():
     """
     ORGANIZATION_NAME = "Galtwe Software"
     APPLICATION_NAME = "Socrates' Reference"
-    VERSION = "0.0.9999"
+    VERSION = "0.9.0"
     DICTIONARY = "en_US"
     HUNSPELL_ROOT = "/usr/share/hunspell"
     speller = HunSpell(
