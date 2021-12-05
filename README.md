@@ -1,11 +1,13 @@
 
 # Socrates Reference
 
-This python GUI application provides a description reference to source code of a programming project. It provides the ability to parse the source code and add all descriptions it contains as comments in the code itself while preserving any code actually written. Any source code files that should exist but do not are automatically created.
+This is a python GUI application that provides tools for designing programming architecture in a project document and generating source code for its design architecture documents. It places emphasis on documentation of all design components of a programming project, outputting that documentation as neatly organized comments in the generated code. This application also parses any existing code, saving any implementation lines of code and adding them back into the code generated from its design reference document.
 
-By providing these set of tools it allows programmers to easily document their code with descriptive comments. The descriptions held in this application are spell checked and all formatting is done automatically when source code is parsed. This allows keeping all code fully commented very easy and encourages descriptive robustness of a project's comments.
+This application structures its design documents using objects that can have any number of children, creating a tree like structure. Each project document must begin with a root object. Objects represent specific objects of a programming language, such as functions or variables. Because all programming languages follow a hierarchal structure all objects can be structured in a tree like structure. The root object’s representation of a project document greatly depends on the specific language. For example in C++ it would represent the global name space.
 
-References are maintained in this application based off objects associated with the programming language. For example in C++ there are objects for classes, functions, and variables. These objects are arranged within a tree like list within a project, usually following how the scoping of the language it is referencing works. For example in C++ objects are nested by namespaces and classes.
+Almost all design objects of a programming project’s architecture in this application provide descriptions. There are very few exemptions where an object in a design document would not provide any description. This, combined with the graphical design of objects themselves, provides the ability to easily understand a program’s code and its architecture.
+
+This application’s generated code only provides the overall structure of a programming project and not the actual code to implement its algorithms and functions. Because of this it parses any code present in a program’s source code, saving it and outputting it in its generated code that overwrites the original. In this fashion this application can easily generate code to existing projects without losing any implementation code actually written. The specific lines that are parsed are highly dependent on the language of the program’s code. For example in C++ the majority of code is parsed from within functions.
 
 ## Supported Languages
 
@@ -38,9 +40,15 @@ make
 pip install .
 ```
 
+The make process uses Qt's RCC command to compile resources into python scripts. Using Qt version 6 is required. The RCC make variable can be used to override the default if it is not Qt version 6.
+
+```
+make RCC=/path/to/qt6/rcc
+```
+
 ### Free Desktop
 
-Run the following commands in the project's root folder to integrate this application in linux on KDE/Gnome.
+Run the following commands in the project's root folder to integrate this application in Linux on KDE/Gnome.
 
 ```shell
 cp socref.desktop ~/.local/share/applications
