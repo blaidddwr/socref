@@ -65,7 +65,7 @@ class SourceWriter(WriterBase):
     ):
         ret = Code(Settings.INDENT)
         ret.add(
-            '#include "__init__.h"' if self.__block._TYPE_ == "Namespace"
+            '#include "__ns__.h"' if self.__block._TYPE_ == "Namespace"
             else '#include "'+self.__block._p_name+'.h"'
         )
         if self.__reader:

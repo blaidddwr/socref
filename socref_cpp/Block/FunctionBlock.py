@@ -23,16 +23,16 @@ class FunctionBlock(NamespaceBlock):
     destructors, respectively.
     """
     FLAGS = {
-        "D": ("D","= default","Default")
-        ,"R": ("R","= delete","Deleted")
-        ,"E": ("E","explicit","Explicit")
-        ,"C": ("C","const","Constant")
-        ,"S": ("S","static","Static")
-        ,"N": ("N","noexcept","No Exceptions")
-        ,"V": ("V","virtual","Virtual")
-        ,"O": ("O","override","Override")
-        ,"F": ("F","final","Final")
-        ,"A": ("A","= 0","Abstract")
+        "D": ("D","= default",None,"Default")
+        ,"R": ("R","= delete",None,"Deleted")
+        ,"E": ("E","explicit",None,"Explicit")
+        ,"C": ("C","const","const","Constant")
+        ,"S": ("S","static",None,"Static")
+        ,"N": ("N","noexcept","noexcept","No Exceptions")
+        ,"V": ("V","virtual",None,"Virtual")
+        ,"O": ("O","override",None,"Override")
+        ,"F": ("F","final",None,"Final")
+        ,"A": ("A","= 0",None,"Abstract")
     }
     ACCESS = (
         ("Public",QIcon(":/socref_cpp/public_function.svg"))
@@ -51,8 +51,9 @@ class FunctionBlock(NamespaceBlock):
         This enumerates all possible output types for a function block's flags.
         """
         Compact = 0
-        Code = 1
-        Full = 2
+        HeaderCode = 1
+        SourceCode = 2
+        Full = 3
 
 
     def __init__(
@@ -306,7 +307,9 @@ class FunctionBlock(NamespaceBlock):
             after.append("F")
         if self.isAbstract():
             after.append("A")
-        return ([self.FLAGS[f][output] for f in before],[self.FLAGS[f][output] for f in after])
+        before = [self.FLAGS[f][output] for f in before if self.FLAGS[f][output]]
+        after = [self.FLAGS[f][output] for f in after if self.FLAGS[f][output]]
+        return (before,after)
 
 
     def hasDefinition(

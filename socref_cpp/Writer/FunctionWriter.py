@@ -72,7 +72,9 @@ class FunctionWriter(WriterBase):
                 ret.addText(self.__block._p_returnDescription,Settings.COLS," * ")
             ret.add(" */")
         ret.add(self.__block.codeAccess(self.__decl))
-        (before,after) = self.__block.flags(FlagOutput.Code)
+        (before,after) = self.__block.flags(
+            FlagOutput.HeaderCode if self.__decl else FlagOutput.SourceCode
+        )
         ret.add(
             " ".join(
                 before
