@@ -69,6 +69,7 @@ class BlockWriterBase(WriterBase):
         ret = Code(Settings.INDENT)
         ret.setDepth(self.__depth)
         ret.add("};")
+        ret.add(self._postLines_())
         return ret
 
 
@@ -111,7 +112,22 @@ class BlockWriterBase(WriterBase):
         -------
         result : list
                  Lines of code added inside the block, after the opening bracket
-                 line and before the final closing bracket line..
+                 line and before the final closing bracket line.
+        """
+        return []
+
+
+    def _postLines_(
+        self
+    ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : list
+                 Lines of post code added after the block's closing bracket
+                 line.
         """
         return []
 

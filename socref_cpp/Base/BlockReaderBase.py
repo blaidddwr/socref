@@ -37,6 +37,7 @@ class BlockReaderBase(CppReaderBase):
         if name is not None:
             self._setKey_("::".join(parent.scope()+[name]))
         self.__lines = []
+        self.__postLines = []
 
 
     def lines(
@@ -56,6 +57,23 @@ class BlockReaderBase(CppReaderBase):
         return ret
 
 
+    def postLines(
+        self
+    ):
+        """
+        Returns post lines of code parsed by this reader. This can only be
+        called once, after which an empty list is returned.
+
+        Returns
+        -------
+        result : list
+                 The post lines of code or an empty list.
+        """
+        ret = self.__postLines
+        self.__postLines = []
+        return ret
+
+
     def unknown(
         self
     ):
@@ -66,17 +84,11 @@ class BlockReaderBase(CppReaderBase):
         self
     ):
         """
-        Scans for lines of code within a block and returns them, removing
-        indentation spaces from each line where the indentation is determined
-        from the first line scanned. This stops scanning lines once it
-        encounters the final closing bracket of the block. It is assumed the
-        very first line read is the first opening bracket, scanning and
-        returning nothing if it is not.
-
-        Returns
-        -------
-        result : list
-                 The lines of code.
+        Scans for lines of code within a block, removing indentation spaces from
+        each line where the indentation is determined from the first line
+        scanned. This stops scanning lines once it encounters the final closing
+        bracket of the block. It is assumed the very first line read is the
+        first opening bracket, scanning and returning nothing if it is not.
         """
         self.save()
         (i,line) = self.read()
@@ -97,3 +109,22 @@ class BlockReaderBase(CppReaderBase):
                     if ind is None:
                         ind = i
                     self.__lines.append(" "*max(0,i-ind) + line)
+
+
+    def _scanPostLines_(
+        self
+    ):
+        """
+        Scans for post lines of code directly after a block, removing
+        indentation spaces from each line where the indentation is determined
+        from the first line scanned. This stops scanning lines once it
+        encounters a blank line or a closing bracket.
+        """
+        ind = None
+        while True:
+            (i,line) = self.read()
+            if not line or line == "}":
+                break
+            if ind is None:
+                ind = i
+            self.__postLines.append(" "*max(0,i-ind) + line)

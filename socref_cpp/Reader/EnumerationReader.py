@@ -17,3 +17,4 @@ class EnumerationReader(BlockReaderBase):
         self
     ):
         super()._scanLines_()
+        super()._scanPostLines_()

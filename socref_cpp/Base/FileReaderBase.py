@@ -168,7 +168,7 @@ class FileReaderBase(CppReaderBase):
             self.save()
             (i,line) = self.read()
             if not line:
-                self.discard()
+                self.restore()
                 break
             match = self.__scopeRE.match(line)
             if match:

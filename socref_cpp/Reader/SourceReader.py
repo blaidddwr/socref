@@ -15,7 +15,7 @@ class SourceReader(FileReaderBase):
     abstract reader class. It parses source files; saving macros, header lines,
     and definitions. Parsed definitions are added as new reader children.
     """
-    __functionRE = reCompile("^[a-z ]*?[a-zA-Z_0-9<,>:*&]*? *([a-zA-Z_:]+\w*)\($")
+    __functionRE = reCompile("^[a-z ]*?[a-zA-Z_0-9<,>:*&]*? *([a-zA-Z_]+[a-zA-Z0-9_:\(\)+-]*)\($")
 
 
     def __init__(

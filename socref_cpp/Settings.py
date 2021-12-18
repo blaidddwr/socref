@@ -13,6 +13,7 @@ class Settings():
     COLS = 80
     H1 = 4
     H2 = 2
+    H3 = 1
     INDENT = "    "
     HDR_EXT = ".h"
     SRC_EXT = ".cpp"

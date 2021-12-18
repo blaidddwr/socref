@@ -4041,6 +4041,16 @@ The lines of code or an empty list.</__p_returnsDescription>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>postLines</__p_name>
+                        <__p_description>Returns post lines of code parsed by this reader. This can only be called once, after which an empty list is returned.</__p_description>
+                        <__p_returnsDescription>result
+list
+The post lines of code or an empty list.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>unknown</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -4048,10 +4058,14 @@ The lines of code or an empty list.</__p_returnsDescription>
                     </Function>
                     <Function>
                         <__p_name>_scanLines_</__p_name>
-                        <__p_description>Scans for lines of code within a block and returns them, removing indentation spaces from each line where the indentation is determined from the first line scanned. This stops scanning lines once it encounters the final closing bracket of the block. It is assumed the very first line read is the first opening bracket, scanning and returning nothing if it is not.</__p_description>
-                        <__p_returnsDescription>result
-list
-The lines of code.</__p_returnsDescription>
+                        <__p_description>Scans for lines of code within a block, removing indentation spaces from each line where the indentation is determined from the first line scanned. This stops scanning lines once it encounters the final closing bracket of the block. It is assumed the very first line read is the first opening bracket, scanning and returning nothing if it is not.</__p_description>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_scanPostLines_</__p_name>
+                        <__p_description>Scans for post lines of code directly after a block, removing indentation spaces from each line where the indentation is determined from the first line scanned. This stops scanning lines once it encounters a blank line or a closing bracket.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4116,7 +4130,17 @@ The class, enumeration, or union block of this writer.</__p_returnsDescription>
                         <__p_description>This interface is a getter method.</__p_description>
                         <__p_returnsDescription>result
 list
-Lines of code added inside the block, after the opening bracket line and before the final closing bracket line..</__p_returnsDescription>
+Lines of code added inside the block, after the opening bracket line and before the final closing bracket line.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_postLines_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+list
+Lines of post code added after the block's closing bracket line.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5179,6 +5203,12 @@ The parent writer.</__p_description>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
+                    <Function>
+                        <__p_name>_postLines_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
                 </Class>
                 <Class>
                     <__p_name>FunctionWriter</__p_name>
@@ -5378,6 +5408,12 @@ The parent writer.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_postLines_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

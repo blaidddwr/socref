@@ -70,7 +70,12 @@ class NamespaceWriter(WriterBase):
             ret.add("namespace "+self.__block._p_name)
             ret.add("{")
             ret.setDepth(1)
+        classes = []
         for child in self.__block:
             if child._TYPE_ == "Class":
-                ret.add("class "+child._p_name+";")
+                classes.append("class "+child._p_name+";")
+        if classes:
+            if not self.__block.parent():
+                ret.addBlank(Settings.H3);
+            ret.add(classes)
         return ret

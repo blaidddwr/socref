@@ -50,3 +50,9 @@ class EnumerationWriter(BlockWriterBase):
         self
     ):
         self.__reader = self.lookup(self._block_().key())
+
+
+    def _postLines_(
+        self
+    ):
+        return self.__reader.postLines() if self.__reader else []
