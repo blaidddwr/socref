@@ -13,9 +13,9 @@ class CppReaderBase(ReaderBase):
     Reference abstract reader class. It provides common methods used by multiple
     other C++ reader classes.
     """
-    __classRE = reCompile("^(public: )?class +([a-zA-Z_]+\w*):?$")
-    __enumerationRE = reCompile("^(public: )?enum +class +([a-zA-Z_]+\w*)$")
-    __unionRE = reCompile("^(public: )?union +([a-zA-Z_]+\w*)$")
+    __classRE = reCompile("^class +([a-zA-Z_]+\w*):?$")
+    __enumerationRE = reCompile("^enum +(class +)?([a-zA-Z_]+\w*)$")
+    __unionRE = reCompile("^union +([a-zA-Z_]+\w*)$")
 
 
     def scope(
@@ -53,7 +53,7 @@ class CppReaderBase(ReaderBase):
                 return
             match = self.__classRE.match(line)
             if match:
-                name = match.group(2)
+                name = match.group(1)
                 reader = ClassReader(name,self)
                 reader()
                 continue
@@ -65,7 +65,7 @@ class CppReaderBase(ReaderBase):
                 continue
             match = self.__unionRE.match(line)
             if match:
-                name = match.group(2)
+                name = match.group(1)
                 reader = UnionReader(name,self)
                 reader()
                 continue

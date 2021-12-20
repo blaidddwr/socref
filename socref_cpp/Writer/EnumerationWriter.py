@@ -36,7 +36,8 @@ class EnumerationWriter(BlockWriterBase):
         parent : AbstractWriter
                  The parent writer.
         """
-        super().__init__(block,depth,"enum class",parent)
+        super().__init__(block,depth,parent)
+        self.__block = block
         self.__reader = None
 
 
@@ -50,6 +51,12 @@ class EnumerationWriter(BlockWriterBase):
         self
     ):
         self.__reader = self.lookup(self._block_().key())
+
+
+    def _name_(
+        self
+    ):
+        return "enum class" if self.__block.isClass() else "enum"
 
 
     def _postLines_(

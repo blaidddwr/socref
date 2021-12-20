@@ -4078,7 +4078,7 @@ The post lines of code or an empty list.</__p_returnsDescription>
                     <__p_infile>0</__p_infile>
                     <Function>
                         <__p_name>__init__</__p_name>
-                        <__p_description>Initializes this new block writer base with the given block, indentation depth of this writer's output, name to use for this block declaration, and parent writer. The given block must be a class, enumeration, or union and is used by this writer to generate its output. The given parent writer must be a header or class writer.</__p_description>
+                        <__p_description>Initializes this new block writer base with the given block, indentation depth of this writer's output, and parent writer. The given block must be a class, enumeration, or union and is used by this writer to generate its output. The given parent writer must be a header or class writer.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4091,11 +4091,6 @@ The block.</__p_description>
                             <__p_name>depth</__p_name>
                             <__p_description>int
 The indentation depth.</__p_description>
-                        </Object>
-                        <Object>
-                            <__p_name>name</__p_name>
-                            <__p_description>string
-The name.</__p_description>
                         </Object>
                         <Object>
                             <__p_name>parent</__p_name>
@@ -4131,6 +4126,16 @@ The class, enumeration, or union block of this writer.</__p_returnsDescription>
                         <__p_returnsDescription>result
 list
 Lines of code added inside the block, after the opening bracket line and before the final closing bracket line.</__p_returnsDescription>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_name_</__p_name>
+                        <__p_description>This interface is a getter method.</__p_description>
+                        <__p_returnsDescription>result
+string
+The name of this block declaration.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -4367,13 +4372,47 @@ Names of all inherited class parents of this class.</__p_returnsDescription>
                     <__p_infile>0</__p_infile>
                     <__p_decorators>block(&quot;Enumeration&quot;)</__p_decorators>
                     <Function>
+                        <__p_name>__init__</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>buildList</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>clearProperties</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>displayName</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>editDefinitions</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>icon</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>isClass</__p_name>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_returnsDescription>result
+bool
+True if this is a class enumeration or false otherwise.</__p_returnsDescription>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5158,6 +5197,12 @@ The parent writer.</__p_description>
                         <__p_abstract>0</__p_abstract>
                     </Function>
                     <Function>
+                        <__p_name>_name_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
                         <__p_name>_preLines_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
@@ -5199,6 +5244,12 @@ The parent writer.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_name_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>
@@ -5408,6 +5459,12 @@ The parent writer.</__p_description>
                     </Function>
                     <Function>
                         <__p_name>_link_</__p_name>
+                        <__p_static>0</__p_static>
+                        <__p_class>0</__p_class>
+                        <__p_abstract>0</__p_abstract>
+                    </Function>
+                    <Function>
+                        <__p_name>_name_</__p_name>
                         <__p_static>0</__p_static>
                         <__p_class>0</__p_class>
                         <__p_abstract>0</__p_abstract>

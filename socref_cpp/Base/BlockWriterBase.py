@@ -22,15 +22,13 @@ class BlockWriterBase(WriterBase):
         self
         ,block
         ,depth
-        ,name
         ,parent
     ):
         """
         Initializes this new block writer base with the given block, indentation
-        depth of this writer's output, name to use for this block declaration,
-        and parent writer. The given block must be a class, enumeration, or
-        union and is used by this writer to generate its output. The given
-        parent writer must be a header or class writer.
+        depth of this writer's output, and parent writer. The given block must
+        be a class, enumeration, or union and is used by this writer to generate
+        its output. The given parent writer must be a header or class writer.
 
         Parameters
         ----------
@@ -38,15 +36,12 @@ class BlockWriterBase(WriterBase):
                 The block.
         depth : int
                 The indentation depth.
-        name : string
-               The name.
         parent : AbstractWriter
                  The parent writer.
         """
         super().__init__(parent)
         self.__block = block
         self.__depth = depth
-        self.__name = name
 
 
     def _block_(
@@ -88,7 +83,7 @@ class BlockWriterBase(WriterBase):
         if self.__block.parent()._TYPE_ == "Class":
             ret.add("public:")
         ret.add(
-            self.__name
+            self._name_()
             + " "
             + self.__block._p_name
             + (":" if self.__block._TYPE_ == "Class" and self.__block.parents() else "")
@@ -115,6 +110,20 @@ class BlockWriterBase(WriterBase):
                  line and before the final closing bracket line.
         """
         return []
+
+
+    def _name_(
+        self
+    ):
+        """
+        This interface is a getter method.
+
+        Returns
+        -------
+        result : string
+                 The name of this block declaration.
+        """
+        return ""
 
 
     def _postLines_(

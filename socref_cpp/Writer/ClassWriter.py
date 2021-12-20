@@ -38,7 +38,7 @@ class ClassWriter(BlockWriterBase):
         parent : AbstractWriter
                  The parent writer.
         """
-        super().__init__(block,depth,"class",parent)
+        super().__init__(block,depth,parent)
         self.__block = block
         self.__reader = None
         for child in block:
@@ -62,6 +62,12 @@ class ClassWriter(BlockWriterBase):
         self
     ):
         self.__reader = self.lookup(self._block_().key())
+
+
+    def _name_(
+        self
+    ):
+        return "class"
 
 
     def _preLines_(

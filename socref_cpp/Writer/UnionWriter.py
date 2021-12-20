@@ -35,7 +35,7 @@ class UnionWriter(BlockWriterBase):
         parent : AbstractWriter
                  The parent writer.
         """
-        super().__init__(block,depth,"union",parent)
+        super().__init__(block,depth,parent)
         self.__reader = None
 
 
@@ -49,6 +49,12 @@ class UnionWriter(BlockWriterBase):
         self
     ):
         self.__reader = self.lookup(self._block_().key())
+
+
+    def _name_(
+        self
+    ):
+        return "union"
 
 
     def _postLines_(
