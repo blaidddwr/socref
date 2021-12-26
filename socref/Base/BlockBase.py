@@ -185,10 +185,13 @@ class BlockBase(AbstractBlock):
     ):
         stream.writeStartElement(self._TYPE_)
         props = self.properties()
+        keys = []
         for key in props:
-            prop = props[key]
-            if prop:
-                stream.writeTextElement("_" + key,prop)
+            if props[key]:
+                keys.append(key)
+        keys.sort()
+        for key in keys:
+            stream.writeTextElement("_" + key,props[key])
         for child in self:
             child.toXml(stream)
         stream.writeEndElement()
