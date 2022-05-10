@@ -18,4 +18,4 @@ class Settings():
     HDR_EXT = ".h"
     SRC_EXT = ".cpp"
     NS_NAME = "__ns__"
-    ROOT_DEFINE = "__"
+    ROOT_DEFINE = "GNS_"
