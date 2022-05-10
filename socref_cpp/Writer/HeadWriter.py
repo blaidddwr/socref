@@ -61,8 +61,9 @@ class HeadWriter(WriterBase):
         self
     ):
         ret = Code(Settings.INDENT)
+        ext = "_H" if self.__block._p_name else ""
         name = self.__block._p_name.upper() if self.__block._p_name else Settings.ROOT_DEFINE
-        define = "_".join((n.upper() for n in self.__block.scope()+[name])) + "_H"
+        define = "_".join((n.upper() for n in self.__block.scope()+[name])) + ext
         ret.add(["#ifndef "+define,"#define "+define])
         if self.__reader:
             ret.add(self.__reader.macros())
