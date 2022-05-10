@@ -1,19 +1,5 @@
 
-## Copyright Laws
-
-Copyright has been perverted as a tool of oppression and censorship used by the
-kleptocrats of the fascist west to rape and pillage individual creators. It is
-also used to silence dissenting voices and destroy the stories and identities of
-anything remotely good. This is a full 180 to what copyright should be; to
-protect the individual creator. So FUCK COPYRIGHT.
-
-### A Humble Request
-
-Galtwe Software believes in the honesty and good nature of the majority of the
-human race. In this spirit, we humbly request your consideration in supporting
-us if you like the software we create and find it useful.
-
-### Copyright (c) 2019 Galtwe Software
+## Copyright (c) 2022 Galtwe Software
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,3 +18,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+### A Humble Request
+
+Galtwe Software believes in the honesty and good nature of the majority of the
+human race. In this spirit, we humbly request your consideration in supporting
+us if you like the software we create and find it useful.
