@@ -118,13 +118,16 @@ class FunctionReader(BlockReaderBase):
                  The argument signature.
         """
         parts = []
+        constant = False
         while True:
             (i,line) = self.read()
             if line is None or line.startswith(")"):
+                if line.endswith("const"):
+                    constant = True
                 break
             elif line:
                 s = line.split()
                 if len(s) > 1:
                     s = s[:-1]
                 parts.append("".join(s))
-        return "("+"".join(parts)+")"
+        return "("+"".join(parts)+(")const" if constant else ")")

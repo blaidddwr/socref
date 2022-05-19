@@ -586,7 +586,7 @@ class FunctionBlock(NamespaceBlock):
         parts = []
         for (n,a,type_,d) in self.arguments():
             parts.append(type_.replace(" ",""))
-        return ret+"("+",".join(parts)+")"
+        return ret+"("+",".join(parts)+(")const" if self.isConstant() else ")")
 
 
     def name(
