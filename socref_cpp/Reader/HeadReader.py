@@ -33,7 +33,7 @@ class HeadReader(FileReaderBase):
                  The parent parser.
         """
         super().__init__(parent)
-        self._setKey_(block.key(True)+Settings.HDR_EXT)
+        self._setKey_(block.key()+Settings.HDR_EXT)
         self.__block = block
 
 

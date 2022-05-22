@@ -35,7 +35,7 @@ class BlockReaderBase(CppReaderBase):
         """
         super().__init__(parent)
         if name is not None:
-            self._setKey_("::".join(parent.scope()+[name]))
+            self._setKey_("".join(parent.scope()+[name]))
         self.__lines = []
         self.__postLines = []
 

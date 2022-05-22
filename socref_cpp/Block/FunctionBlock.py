@@ -582,7 +582,7 @@ class FunctionBlock(NamespaceBlock):
     def key(
         self
     ):
-        ret = super().key()
+        ret = "".join(self.scope())+"::"+self.name()
         parts = []
         for (n,a,type_,d) in self.arguments():
             parts.append(type_.replace(" ",""))

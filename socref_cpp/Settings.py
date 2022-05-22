@@ -17,5 +17,4 @@ class Settings():
     INDENT = "    "
     HDR_EXT = ".h"
     SRC_EXT = ".cpp"
-    NS_NAME = "__ns__"
-    ROOT_DEFINE = "GNS"
+    GLOBAL_NS_KEY = "Global"

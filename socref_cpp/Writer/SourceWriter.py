@@ -64,10 +64,7 @@ class SourceWriter(WriterBase):
         self
     ):
         ret = Code(Settings.INDENT)
-        ret.add(
-            '#include "__ns__.h"' if self.__block._TYPE_ == "Namespace"
-            else '#include "'+self.__block._p_name+'.h"'
-        )
+        ret.add('#include "'+self.__block.key()+'.h"')
         if self.__reader:
             ret.add(self.__reader.macros())
         for name in self.__block.scope():
@@ -82,4 +79,4 @@ class SourceWriter(WriterBase):
     def _link_(
         self
     ):
-        self.__reader = self.lookup(self.__block.key(True)+Settings.SRC_EXT)
+        self.__reader = self.lookup(self.__block.key()+Settings.SRC_EXT)

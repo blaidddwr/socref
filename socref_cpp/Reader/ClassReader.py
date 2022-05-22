@@ -33,7 +33,7 @@ class ClassReader(CppReaderBase):
         """
         super().__init__(parent)
         self.__scope = parent.scope()+[name]
-        self._setKey_("::".join(self.__scope))
+        self._setKey_("".join(self.__scope))
         self.__lines = []
 
 

@@ -31,7 +31,7 @@ class FunctionReader(BlockReaderBase):
                  The parent source reader.
         """
         super().__init__(None,parent)
-        self.__name = "::".join(parent.scope()+[name])
+        self.__name = "".join(parent.scope()+[name])
         self.__initLines = []
 
 

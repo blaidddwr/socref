@@ -62,7 +62,10 @@ class HeadWriter(WriterBase):
     ):
         ret = Code(Settings.INDENT)
         ext = "_H" if self.__block._p_name else ""
-        name = self.__block._p_name.upper() if self.__block._p_name else Settings.ROOT_DEFINE
+        name = (
+            self.__block._p_name.upper() if self.__block._p_name
+            else Settings.GLOBAL_NS_KEY.upper()
+        )
         define = "_".join((n.upper() for n in self.__block.scope()+[name])) + ext
         ret.add(["#ifndef "+define,"#define "+define])
         if self.__reader:
@@ -77,4 +80,4 @@ class HeadWriter(WriterBase):
     def _link_(
         self
     ):
-        self.__reader = self.lookup(self.__block.key(True)+Settings.HDR_EXT)
+        self.__reader = self.lookup(self.__block.key()+Settings.HDR_EXT)

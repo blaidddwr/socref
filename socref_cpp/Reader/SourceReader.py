@@ -36,7 +36,7 @@ class SourceReader(FileReaderBase):
                  The parent parser.
         """
         super().__init__(parent)
-        self._setKey_(block.key(True)+Settings.SRC_EXT)
+        self._setKey_(block.key()+Settings.SRC_EXT)
 
 
     def _scan_(

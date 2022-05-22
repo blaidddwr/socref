@@ -1,6 +1,7 @@
 """
 Contains the NamespaceBlock class.
 """
+from ..Settings import Settings
 from PySide6.QtGui import QIcon
 from socref import block
 from socref.Base.BlockBase import BlockBase
@@ -85,37 +86,38 @@ class NamespaceBlock(BlockBase):
         return QIcon(":/socref_cpp/namespace.svg")
 
 
+    def isRoot(
+        self
+    ):
+        """
+        Getter method.
+
+        Returns
+        -------
+        result : bool
+                 True if this namespace is the global root or false otherwise.
+        """
+        return bool(self.parent() == None)
+
+
     def key(
         self
-        ,isFile=False
     ):
         """
         Returns a unique key used to obtain the correct reader or writer of this
-        block with the given optional file flag. Because C++ has no association
-        between its scoping and file structure, a distinction must be made
-        between a header or source file and the name space or class it contains.
-        The given file flag must be true if a file reader or writer is calling
-        this method or false otherwise.
-
-        Parameters
-        ----------
-        isFile : bool
-                 The file flag.
+        block. The returned unique key can also be used as the file name for
+        header and source files because it only contains the names of all scoped
+        namespaces and possible class.
 
         Returns
         -------
         result : string
                  The unique key.
         """
-        div = "/" if isFile else "::"
-        scope = self.scope()
-        if isFile and self._TYPE_ == "Namespace":
-            scope += [self._p_name,"__init__"] if self.parent() else ["__init__"]
-        elif self._TYPE_ == "Function":
-            scope.append(self.name())
+        if self.isRoot():
+            return Settings.GLOBAL_NS_KEY
         else:
-            scope.append(self._p_name)
-        return div.join(scope)
+            return "".join(self.scope()+[self._p_name])
 
 
     def scope(

@@ -7,6 +7,7 @@ from .Settings import Settings
 from .Writer.HeadWriter import HeadWriter
 from .Writer.SourceWriter import SourceWriter
 from os.path import join as pathJoin
+from re import sub
 from socref import parser
 from socref.Base.ParserBase import ParserBase
 
@@ -40,40 +41,36 @@ class Parser(ParserBase):
     def _pathList_(
         self
     ):
-        def build(path,parent):
+        def build(parent):
             ret = []
-            if parent:
+            ret.append(
+                (parent.key()+Settings.HDR_EXT,HeadReader(parent,self),HeadWriter(parent,self))
+            )
+            if parent.hasFunctions():
                 ret.append(
                     (
-                        pathJoin(path,Settings.NS_NAME+Settings.HDR_EXT)
-                        ,HeadReader(parent,self)
-                        ,HeadWriter(parent,self))
-                )
-                if parent.hasFunctions():
-                    ret.append(
-                        (
-                            pathJoin(path,Settings.NS_NAME+Settings.SRC_EXT)
-                            ,SourceReader(parent,self)
-                            ,SourceWriter(parent,self)
-                        )
+                        parent.key()+Settings.SRC_EXT
+                        ,SourceReader(parent,self)
+                        ,SourceWriter(parent,self)
                     )
+                )
             for child in parent:
                 if child._TYPE_ == "Namespace":
-                    ret += build(pathJoin(path,child._p_name),child)
+                    ret += build(child)
                 elif child._TYPE_ == "Class":
                     ret.append(
                         (
-                            pathJoin(path,child._p_name+Settings.HDR_EXT)
+                            child.key()+Settings.HDR_EXT
                             ,HeadReader(child,self)
                             ,HeadWriter(child,self)
                         )
                     )
                     ret.append(
                         (
-                            pathJoin(path,child._p_name+Settings.SRC_EXT)
+                            child.key()+Settings.SRC_EXT
                             ,SourceReader(child,self)
                             ,SourceWriter(child,self)
                         )
                     )
             return ret
-        return build("",self.__root)
+        return build(self.__root)
