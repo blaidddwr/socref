@@ -582,7 +582,8 @@ class FunctionBlock(NamespaceBlock):
     def key(
         self
     ):
-        ret = "".join(self.scope())+"::"+self.name()
+        scope = self.scope()
+        ret = "".join(scope)+("::" if scope else "")+self.name()
         parts = []
         for (n,a,type_,d) in self.arguments():
             parts.append(type_.replace(" ",""))
