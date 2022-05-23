@@ -3,8 +3,18 @@
 
 Description of all releases with most recent on the top.
 
+## NEXT VERSION
+
+* Fixed C++ function bugs.
+* Added C++ post line scanning for custom code after declarations.
+* Added option to make C++ enumerations a class.
+* Updated XML output of reference files to have deterministic output.
+* Added C++ function signature recognition of constant.
+* Completely changed file format for C++ projects to be flat files with no directories.
+
 ## Version 0.9.0
 
+* Changed file extension for projects to SRP.
 * Huge backwards compatibility breaking changes to core application.
 * Added new reader and writer interfaces to core application for language implementations.
 * Updated parser interface to use new reader and writer interfaces.
@@ -88,7 +98,7 @@ Description of all releases with most recent on the top.
 * Modified internal debugging Qt standards.
 * Overhauled parsing system.
 * Modified C++/Qt parsing so only root classes have separate source files.
-* Added C++/Qt struct and union blocks.
+* Added C++/Qt structure and union blocks.
 * Modified C++/Qt declarations.
 * Fixed display bug.
 
@@ -181,7 +191,7 @@ Description of all releases with most recent on the top.
 
 * Improved C++/Qt support by adding language syntax checks.
 * Improved C++/Qt appearance in block editor.
-* Improved C++/Qt parsing of initializers.
+* Improved C++/Qt parsing of constructors.
 
 ## Version 0.3.4
 
