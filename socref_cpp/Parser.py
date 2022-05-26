@@ -65,12 +65,13 @@ class Parser(ParserBase):
                             ,HeadWriter(child,self)
                         )
                     )
-                    ret.append(
-                        (
-                            child.key()+Settings.SRC_EXT
-                            ,SourceReader(child,self)
-                            ,SourceWriter(child,self)
+                    if (len(child) > 0):
+                        ret.append(
+                            (
+                                child.key()+Settings.SRC_EXT
+                                ,SourceReader(child,self)
+                                ,SourceWriter(child,self)
+                            )
                         )
-                    )
             return ret
         return build(self.__root)
