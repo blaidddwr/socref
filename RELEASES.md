@@ -11,6 +11,7 @@ Description of all releases with most recent on the top.
 * Updated XML output of reference files to have deterministic output.
 * Added C++ function signature recognition of constant.
 * Completely changed file format for C++ projects to be flat files with no directories.
+* Added C++ scanning of forward class declarations in header's macro section.
 
 ## Version 0.9.0
 

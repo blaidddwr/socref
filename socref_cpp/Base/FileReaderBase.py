@@ -15,6 +15,7 @@ class FileReaderBase(CppReaderBase):
     header lines.
     """
     __scopeRE = reCompile("^namespace +([a-zA-Z_]+\w*) +{$")
+    __forwardClassRE = reCompile("^class +([a-zA-Z_]+\w*);$")
 
 
     def __init__(
@@ -142,11 +143,15 @@ class FileReaderBase(CppReaderBase):
             if line is None:
                 break
             elif line.startswith("#"):
-                self.discard()
                 ret.append(" "*i + line)
             else:
-                self.restore()
-                break
+                match = self.__forwardClassRE.match(line)
+                if match:
+                    ret.append(" "*i + line)
+                else:
+                    self.restore()
+                    break
+            self.discard()
         return ret
 
 
