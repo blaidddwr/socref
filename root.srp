@@ -10,6 +10,680 @@
             <__p_name>Version</__p_name>
         </Enumeration>
         <Namespace>
+            <__p_description>Contains all block classes and name spaces.
+
+See the abstract block class for a detailed description of blocks.</__p_description>
+            <__p_name>Block</__p_name>
+            <Class>
+                <__p_description>This is an abstract class. It is a single element, or block, of source code for a language.
+
+A block represents an atomic element of a programming language such as a variable, function, or class. Blocks can contain any number of children and have only one parent. The only block that does not have a parent is the root block of a project. One and only one special block type must be assigned as the root block type for each implemented language. Blocks form tree relationships such as a variable block being the child of a function making it an argument of the function or a function being a child of a class making it a method of the class.
+
+Its properties are meta, display text, and display icon. Meta, display text, and display icon are self-explanatory.
+
+A block can only have children blocks of any type in its meta's allow list property.</__p_description>
+                <__p_name>Abstract</__p_name>
+                <__p_parents>public QObject</__p_parents>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Constructs this new block with the given meta and parent. The given meta must be valid and cannot be destroyed during the life of this block instance.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The meta.</__p_description>
+                        <__p_name>meta</__p_name>
+                        <__p_type>Model::Meta::Block*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Signals</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Signals this block's display icon property has changed to the given value.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>displayIconChanged</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The value.</__p_description>
+                        <__p_name>value</__p_name>
+                        <__p_type>const QIcon&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Signals</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Signals this block's display text property has changed to the given value.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>displayTextChanged</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The value.</__p_description>
+                        <__p_name>value</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Appends the given block to this block's list of block children. This block takes ownership of the given block. The given block must be valid, its meta index in this block's meta allow list, and not already a child of this block.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>append</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>Block::Abstract*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a block widget for this block with the given parent.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createWidget</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Widget::Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>displayIcon</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This block's display icon property.</__p_returnDescription>
+                    <__p_returnType>QIcon</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>displayText</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This block's display text property.</__p_returnDescription>
+                    <__p_returnType>QString</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a new block and all its children with the given language, XML format version, XML reader, and parent. The given language must be valid.
+
+A Qt string is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>fromXml</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The language.</__p_description>
+                        <__p_name>language</__p_name>
+                        <__p_type>Language::Abstract*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The XML format version.</__p_description>
+                        <__p_name>version</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The XML reader.</__p_description>
+                        <__p_name>xml</__p_name>
+                        <__p_type>QXmlStreamReader&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns this block's child block at the given index. The given index must be valid.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>get</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns the index of the given block assuming it is a child of this block. If the given block is not a child of this block then -1 is returned.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>indexOf</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>Block::Abstract*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Inserts the given block to this block's list of block children at the given index. This block takes ownership of the given block. The given block must be valid, its meta index in this block's meta allow list, and not already a child of this block.
+
+The given index can go beyond the bounds of this block's children list. If it is less than 0 then it is inserted at the beginning. If it is greater or equal to the children list size then it is appended to the end.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>insert</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>Block::Abstract*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Sets this block's data from the given mapping using the given XML format version, overwriting any data contained in this block.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>loadFromMap</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_description>The mapping.</__p_description>
+                        <__p_name>map</__p_name>
+                        <__p_type>const QMap&lt;QString,QVariant&gt;&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The XML format version.</__p_description>
+                        <__p_name>version</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>meta</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This block's meta property.</__p_returnDescription>
+                    <__p_returnType>Model::Meta::Block*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Saves this blocks data to a returned mapping.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>saveToMap</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>QMap&lt;QString,QVariant&gt;</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>size</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This block's total number of children blocks.</__p_returnDescription>
+                    <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Takes this block's child block at the given index, removing it from this block's list of children and returning it. This also sets the returned block's parent to null. The given index must be valid.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>take</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Writes this block and all its children to the given XML writer using the most current XML format version.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>toXml</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The XML writer.</__p_description>
+                        <__p_name>xml</__p_name>
+                        <__p_type>QXmlStreamWriter&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called right after this block has been added as a child to its new parent block.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>addEvent</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called right before it is removed as a child from its current parent block.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>removeEvent</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private Slots</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called when this block's meta block model's destroyed signal is emitted.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>onMetaDestroyed</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>object</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+            </Class>
+        </Namespace>
+        <Namespace>
+            <__p_description>Contains all language classes.
+
+See the abstract language class for a detailed description of languages.</__p_description>
+            <__p_name>Language</__p_name>
+            <Class>
+                <__p_description>This is an abstract class. It is a language implementation and block factory for its implemented language. A language in this application is synonymous with a programming language, such as C++ or Python for example.
+
+Its properties are meta and root index. Meta is self-explanatory. Root index is a language's root block's index.</__p_description>
+                <__p_name>Abstract</__p_name>
+                <__p_parents>public QObject</__p_parents>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Constructs this new language with the given meta and parent. The given meta must be valid and cannot be destroyed during the life of this language instance.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The meta.</__p_description>
+                        <__p_name>meta</__p_name>
+                        <__p_type>Model::Meta::Language*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns this language's block's meta at the given index. The given index must be valid.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>blockMeta</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Model::Meta::Block*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a new block of this language with the given index and parent. The given index must be valid.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>create</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_description>The index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns this language's block index with the given meta name. If there is no such block with the given meta name then -1 is returned.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>indexFromName</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The name.</__p_description>
+                        <__p_name>name</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>meta</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This language's meta property.</__p_returnDescription>
+                    <__p_returnType>Model::Meta::Language*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>rootIndex</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This language's root index property.</__p_returnDescription>
+                    <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>size</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This language's total number of block implementations.</__p_returnDescription>
+                    <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Appends the given block meta to this language's list of block meta. This language takes ownership of the given meta. This language's create interface implementation must match the order generated from calling this method in regard to block indexes.
+
+ The given meta must be valid. Its name must be unique among all other block meta in this language. Its name cannot be an empty string. Its name cannot begin with an underscore character.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>appendBlock</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block meta.</__p_description>
+                        <__p_name>meta</__p_name>
+                        <__p_type>Model::Meta::Block*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private Slots</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called when this language's meta's destroyed signal is emitted.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>onMetaDestroyed</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>object</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+            </Class>
+        </Namespace>
+        <Namespace>
             <__p_description>Contains all model classes and name spaces.</__p_description>
             <__p_name>Model</__p_name>
             <Namespace>
@@ -219,6 +893,122 @@ Its properties are name and label. The name is the machine name and the label is
                         <__p_returnType>const QString&amp;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
+                    </Function>
+                </Class>
+            </Namespace>
+        </Namespace>
+        <Namespace>
+            <__p_description>Contains all widget name spaces.</__p_description>
+            <__p_name>Widget</__p_name>
+            <Namespace>
+                <__p_description>Contains all block widget classes.
+
+See the abstract block widget class for a detailed description of block widgets.</__p_description>
+                <__p_name>Block</__p_name>
+                <Class>
+                    <__p_description>This is the abstract block widget class. It extends the Qt object class. It exposes an abstract block implementation to the user.</__p_description>
+                    <__p_name>Abstract</__p_name>
+                    <__p_parents>public QWidget</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Constructs this new widget with the given block implementation and parent. The given block implementation must be valid and cannot be destroyed during the life of this widget instance.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The block implementation.</__p_description>
+                            <__p_name>block</__p_name>
+                            <__p_type>::Block::Abstract*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_description>The parent.</__p_description>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QWidget*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>block</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This widget's block.</__p_returnDescription>
+                        <__p_returnType>::Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>1</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Applies any modifications in this widget made by the user to its block implementation.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>applyModifications</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>1</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Returns true if this widget has modifications not applied to its block implementation or false otherwise.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>hasModifications</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Called when this widget's block's destroyed signal is emitted.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>onBlockDestroyed</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>object</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
                     </Function>
                 </Class>
             </Namespace>
