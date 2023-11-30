@@ -8,7 +8,7 @@ namespace Cpp {
 
 
 /*!
- * This is a C++ block class. It represents a C++ name space.
+ * This is a C++ block class. It represents a C++ namespace.
  */
 class Namespace:
     public Block::Cpp::Base

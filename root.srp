@@ -10,7 +10,7 @@
             <__p_name>Version</__p_name>
         </Enumeration>
         <Namespace>
-            <__p_description>Contains all block classes and name spaces.
+            <__p_description>Contains all block classes and namespaces.
 
 See the abstract block class for a detailed description of blocks.</__p_description>
             <__p_name>Block</__p_name>
@@ -1057,7 +1057,7 @@ Its single property is class. It is self-explanatory.</__p_description>
                     </Function>
                 </Class>
                 <Class>
-                    <__p_description>This is a C++ block class. It represents a C++ name space.</__p_description>
+                    <__p_description>This is a C++ block class. It represents a C++ namespace.</__p_description>
                     <__p_name>Namespace</__p_name>
                     <__p_parents>public Block::Cpp::Base</__p_parents>
                     <Function>
@@ -1623,7 +1623,7 @@ Its properties are meta and root index. Meta is self-explanatory. Root index is 
             </Class>
         </Namespace>
         <Namespace>
-            <__p_description>Contains all model classes and name spaces.</__p_description>
+            <__p_description>Contains all model classes and namespaces.</__p_description>
             <__p_name>Model</__p_name>
             <Namespace>
                 <__p_description>Contains all meta model classes.</__p_description>
@@ -2263,7 +2263,7 @@ A Qt string is thrown if any error is encountered.</__p_description>
             </Class>
         </Namespace>
         <Namespace>
-            <__p_description>Contains all widget name spaces.</__p_description>
+            <__p_description>Contains all widget namespaces.</__p_description>
             <__p_name>Widget</__p_name>
             <Namespace>
                 <__p_description>Contains all block widget classes.
@@ -2271,7 +2271,7 @@ A Qt string is thrown if any error is encountered.</__p_description>
 See the abstract block widget class for a detailed description of block widgets.</__p_description>
                 <__p_name>Block</__p_name>
                 <Class>
-                    <__p_description>This is the abstract block widget class. It extends the Qt object class. It exposes an abstract block implementation to the user.</__p_description>
+                    <__p_description>This is an abstract widget class. It extends the Qt object class. It exposes a block implementation to the user.</__p_description>
                     <__p_name>Abstract</__p_name>
                     <__p_parents>public QWidget</__p_parents>
                     <Function>

@@ -3,7 +3,7 @@
 
 
 /*!
- * Contains all model classes and name spaces.
+ * Contains all model classes and namespaces.
  */
 namespace Model
 {

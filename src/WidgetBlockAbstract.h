@@ -9,8 +9,8 @@ namespace Block {
 
 
 /*!
- * This is the abstract block widget class. It extends the Qt object class. It
- * exposes an abstract block implementation to the user.
+ * This is an abstract widget class. It extends the Qt object class. It exposes
+ * a block implementation to the user.
  */
 class Abstract:
     public QWidget
