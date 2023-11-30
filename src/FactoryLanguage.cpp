@@ -1,9 +1,9 @@
 #include "FactoryLanguage.h"
 #include <QtCore>
 #include "LanguageCpp.h"
+#include "LanguageCppQt.h"
 #include "ModelMetaLanguage.h"
 namespace Factory {
-//#include "LanguageCppQt.h"
 Language* Language::_instance {nullptr};
 
 
@@ -59,7 +59,7 @@ Language::Language(
 {
     using namespace Language;
     appendLanguage(new Cpp(new Model::Meta::Language("cpp","C++")));
-    //appendLanguage(new CppQt(new Model::Meta::Language("cppqt","C++/Qt")));
+    appendLanguage(new CppQt(new Model::Meta::Language("cppqt","C++/Qt")));
 }
 
 

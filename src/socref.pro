@@ -10,6 +10,7 @@ SOURCES +=  Global.cpp \
             FactoryLanguage.cpp \
             LanguageAbstract.cpp \
             LanguageCpp.cpp \
+            LanguageCppQt.cpp \
             ModelMetaBlock.cpp \
             ModelMetaLanguage.cpp \
             ModelProject.cpp \
@@ -23,11 +24,13 @@ HEADERS +=  Global.h \
             BlockCppClass.h \
             BlockCppEnumeration.h \
             BlockCppNamespace.h \
+            BlockCppQt.h \
             Factory.h \
             FactoryLanguage.h \
             Language.h \
             LanguageAbstract.h \
             LanguageCpp.h \
+            LanguageCppQt.h \
             Model.h \
             ModelMeta.h \
             ModelMetaBlock.h \
