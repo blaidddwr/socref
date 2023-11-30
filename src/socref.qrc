@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/cpp/">
+        <file alias="class.svg">../data/cpp/class.svg</file>
+        <file alias="enumeration.svg">../data/cpp/enumeration.svg</file>
+        <file alias="namespace.svg">../data/cpp/namespace.svg</file>
+    </qresource>
+</RCC>

@@ -10,6 +10,7 @@
 namespace Language
 {
     class Abstract;
+    class Cpp;
 }
 
 

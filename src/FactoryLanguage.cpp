@@ -1,9 +1,8 @@
 #include "FactoryLanguage.h"
 #include <QtCore>
+#include "LanguageCpp.h"
 #include "ModelMetaLanguage.h"
-#include "LanguageAbstract.h"//<TODO:remove
 namespace Factory {
-//#include "LanguageCpp.h"
 //#include "LanguageCppQt.h"
 Language* Language::_instance {nullptr};
 
@@ -59,7 +58,7 @@ Language::Language(
     QObject(QCoreApplication::instance())
 {
     using namespace Language;
-    //appendLanguage(new Cpp(new Model::Meta::Language("cpp","C++")));
+    appendLanguage(new Cpp(new Model::Meta::Language("cpp","C++")));
     //appendLanguage(new CppQt(new Model::Meta::Language("cppqt","C++/Qt")));
 }
 
