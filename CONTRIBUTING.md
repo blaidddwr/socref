@@ -79,8 +79,7 @@ The __type__ must be one of the following:
 
 * __build__: Changes that affect the build system or external dependencies.
 * __docs__: Changes in the documentation.
-* __feature__: A code change that finishes adding a new complete public feature.
-* __part__: A code change that adds a part of a new feature being worked on that is not yet complete.
+* __feature__: A code change that adds a new public feature.
 * __intern__: A code change that adds a new private feature.
 * __fix__: A code change that fixes a bug.
 * __perf__: Changes that improve performance.
