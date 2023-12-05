@@ -60,10 +60,10 @@ If the why is self-evident it can be omitted.
 
 ### Footer
 
-The __footer__ references the Github Issue ID associated with the commit. The first line references the issue ID. The second line and thereafter is the issue title. The columns of each issue title line must be less than or equal to 72. The issue title can be on multiple lines.
+The __footer__ references the GitHub Issue ID associated with the commit. The first line references the issue ID. The second line and thereafter is the issue title. The columns of each issue title line must be less than or equal to 72. The issue title can be on multiple lines.
 
 ```
-Github Issue #<Issue ID>
+GitHub Issue #<Issue ID>
 <Issue Title>
 ```
 
@@ -93,6 +93,17 @@ A plus sign is added to the end of the type if it is a __BUILD FIX__. A __BUILD 
 
 Additional types can be added in the future as required by this project.
 
+### Public Versus Private Feature
+
+For a code change to be __public__ it must satisfy the following conditions:
+
+* It is not foundational to other code.
+* It independently effects the user experience.
+
+If all conditions are not satisfied then it is a __private__ feature.
+
+A base class is a __private__ feature because it is foundational. A GUI class whose presentation is dependent on other classes is a __private__ feature. A model class whose data is dependent on other abstract classes is a __private__ feature. An abstract class implementation that independently effects the user experience is a __public__ feature.
+
 ### Examples
 
 The following illustrates a C++ example of a correct git commit message:
@@ -114,6 +125,6 @@ with an annoyed face.
 
 docs(README): Added description of new blah feature.
 
-Github Issue #9999
+GitHub Issue #9999
 Add Blah Feature
 ```
