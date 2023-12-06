@@ -2263,6 +2263,70 @@ A Qt string is thrown if any error is encountered.</__p_description>
             </Class>
         </Namespace>
         <Namespace>
+            <__p_description>Contains all unit test namespaces and functions.</__p_description>
+            <__p_name>Test</__p_name>
+            <Namespace>
+                <__p_description>Contains all model unit test classes.</__p_description>
+                <__p_name>Model</__p_name>
+                <Class>
+                    <__p_description>This is a Qt unit test class. It tests the project model class.</__p_description>
+                    <__p_name>Project</__p_name>
+                    <__p_parents>public QObject</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the import static method with this project's own C++/Qt project file.
+
+TODO: The project model needs to be refactored to have a import static method, right now its constructor is being used.
+
+TODO: Eventually a project should be generated instead of using this project's own SRP file.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>importCppQt</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                </Class>
+            </Namespace>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Public</__p_access>
+                <__p_const>0</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Executes all unit tests for this application, using the given argument count and arguments with the Qt unit test system. The given argument count and arguments must be valid and come from the main function's arguments.
+
+The arguments unique to this program are removed from the argument list. If this is not done the Qt unit test system will fail with unrecognized arguments.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>execute</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnDescription>The status of execution.</__p_returnDescription>
+                <__p_returnType>int</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
+                <Variable>
+                    <__p_description>The argument count.</__p_description>
+                    <__p_name>argc</__p_name>
+                    <__p_type>int</__p_type>
+                </Variable>
+                <Variable>
+                    <__p_description>The arguments.</__p_description>
+                    <__p_name>argv</__p_name>
+                    <__p_type>char**</__p_type>
+                </Variable>
+            </Function>
+        </Namespace>
+        <Namespace>
             <__p_description>Contains all widget namespaces.</__p_description>
             <__p_name>Widget</__p_name>
             <Namespace>

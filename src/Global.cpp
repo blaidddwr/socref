@@ -1,5 +1,6 @@
 #include "Global.h"
 #include <QtWidgets>
+#include "Test.h"
 
 
 int main(
@@ -9,7 +10,7 @@ int main(
 {
     QApplication application(argc,argv);
     QApplication::setApplicationName("Socrates' Reference");
-    QApplication::setApplicationVersion("1.0.0");
+    QApplication::setApplicationVersion("1.0.9999");
     QCommandLineParser parser;
     parser.addHelpOption();
     parser.addVersionOption();
@@ -29,7 +30,6 @@ int main(
     }
     else
     {
-        //TODO: unit test
-        return 0;
+        return Test::execute(argc,argv);
     }
 }

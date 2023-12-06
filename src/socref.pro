@@ -1,4 +1,4 @@
-QT += core gui widgets
+QT += core gui widgets testlib
 CONFIG += c++17
 
 SOURCES +=  Global.cpp \
@@ -14,6 +14,8 @@ SOURCES +=  Global.cpp \
             ModelMetaBlock.cpp \
             ModelMetaLanguage.cpp \
             ModelProject.cpp \
+            Test.cpp \
+            TestModelProject.cpp \
             WidgetBlockAbstract.cpp
 
 HEADERS +=  Global.h \
@@ -36,6 +38,9 @@ HEADERS +=  Global.h \
             ModelMetaBlock.h \
             ModelMetaLanguage.h \
             ModelProject.h \
+            Test.h \
+            TestModel.h \
+            TestModelProject.h \
             Widget.h \
             WidgetBlock.h \
             WidgetBlockAbstract.h
