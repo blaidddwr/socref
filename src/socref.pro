@@ -16,6 +16,7 @@ SOURCES +=  Global.cpp \
             ModelProject.cpp \
             Test.cpp \
             TestLanguageCpp.cpp \
+            TestLanguageCppQt.cpp \
             TestModelProject.cpp \
             WidgetBlockAbstract.cpp
 
@@ -42,6 +43,7 @@ HEADERS +=  Global.h \
             Test.h \
             TestLanguage.h \
             TestLanguageCpp.h \
+            TestLanguageCppQt.h \
             TestModel.h \
             TestModelProject.h \
             Widget.h \

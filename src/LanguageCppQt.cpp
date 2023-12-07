@@ -25,7 +25,7 @@ CppQt::CppQt(
             ,NamespaceIndex
             ,"namespace"
             ,"Namespace"
-            ,{NamespaceIndex,ClassIndex}
+            ,{NamespaceIndex,ClassIndex,EnumerationIndex}
         )
     );
 }

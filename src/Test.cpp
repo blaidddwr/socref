@@ -1,6 +1,7 @@
 #include "Test.h"
 #include <QtTest>
 #include "TestLanguageCpp.h"
+#include "TestLanguageCppQt.h"
 #include "TestModelProject.h"
 namespace Test {
 
@@ -17,6 +18,7 @@ int execute(
     };
     static const TestObject tests[] = {
         {"LanguageCpp",new Test::Language::Cpp}
+        ,{"LanguageCppQt",new Test::Language::CppQt}
         ,{"ModelProject",new Test::Model::Project}
     };
     auto printTestList = [](QTextStream& out) {

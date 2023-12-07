@@ -9,6 +9,7 @@ namespace Test {
 namespace Language
 {
     class Cpp;
+    class CppQt;
 }
 }
 
