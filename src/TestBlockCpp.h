@@ -1,0 +1,20 @@
+#ifndef TEST_BLOCK_CPP_H
+#define TEST_BLOCK_CPP_H
+namespace Test {
+namespace Block {
+
+
+/*!
+ * Contains all C++ block unit test classes.
+ */
+namespace Cpp
+{
+    class Class;
+    class Enumeration;
+    class Namespace;
+}
+}
+}
+
+
+#endif
