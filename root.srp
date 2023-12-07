@@ -2908,16 +2908,16 @@ TODO: Eventually a project should be generated instead of using this project's o
                 <__p_deleted>0</__p_deleted>
                 <__p_description>Executes a Qt unit test class for this application, using the given argument count and arguments with the Qt unit test system, excluding the first two.
 
-The first argument is assumed to be &quot;--test&quot;. The second argument is the name of the unit test. If the name of the unit test is not valid or not given then a help message is printed with all available tests.
+The first argument is assumed to be &quot;--test&quot;. The second argument is the name of the unit test. If the name of the unit test is not valid or not given then a help message is printed with all available tests. All other arguments are passed to the Qt unit test system.
 
-All other arguments are passed to the Qt unit test system.</__p_description>
+This must be called after the initialize function is called.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
                 <__p_name>execute</__p_name>
                 <__p_noexcept>0</__p_noexcept>
                 <__p_override>0</__p_override>
-                <__p_returnDescription>The status of execution.</__p_returnDescription>
+                <__p_returnDescription>The status of unit test execution.</__p_returnDescription>
                 <__p_returnType>int</__p_returnType>
                 <__p_static>0</__p_static>
                 <__p_virtual>0</__p_virtual>
@@ -2931,6 +2931,55 @@ All other arguments are passed to the Qt unit test system.</__p_description>
                     <__p_name>argv</__p_name>
                     <__p_type>char**</__p_type>
                 </Variable>
+            </Function>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Public</__p_access>
+                <__p_const>0</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Executes all Qt unit test classes by calling this application with the test option for each possible test. If the returned status of a test execution is not 0 then this halts test execution and returns the non-zero status.
+
+The given argument count and arguments are passed along to each individual execution of this application, excluding the first test all option.
+
+This must be called after the initialize function is called.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>executeAll</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnDescription>The status of all executed unit tests.</__p_returnDescription>
+                <__p_returnType>int</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
+                <Variable>
+                    <__p_description>The argument count.</__p_description>
+                    <__p_name>argc</__p_name>
+                    <__p_type>int</__p_type>
+                </Variable>
+                <Variable>
+                    <__p_description>The arguments.</__p_description>
+                    <__p_name>argv</__p_name>
+                    <__p_type>char**</__p_type>
+                </Variable>
+            </Function>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Public</__p_access>
+                <__p_const>0</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Initializes this namespace's internal array of available tests. This must be called before the execute or execute all functions are called.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>initialize</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnType>void</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
             </Function>
         </Namespace>
         <Namespace>
