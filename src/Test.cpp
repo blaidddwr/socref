@@ -1,5 +1,6 @@
 #include "Test.h"
 #include <QtTest>
+#include "TestLanguageCpp.h"
 #include "TestModelProject.h"
 namespace Test {
 
@@ -9,17 +10,46 @@ int execute(
     ,char** argv
 )
 {
-    for (int i = 0;i < argc;i++)
+    struct TestObject
     {
-        if (!strcmp("--test",argv[i]))
+        QString name;
+        QObject* ptr;
+    };
+    static const TestObject tests[] = {
+        {"LanguageCpp",new Test::Language::Cpp}
+        ,{"ModelProject",new Test::Model::Project}
+    };
+    auto printTestList = [](QTextStream& out) {
+        out << QApplication::translate("main","Available unit tests:\n");
+        for (const auto& test: tests)
         {
-            std::swap(argv[i],argv[argc-1]);
-            argc--;
-            break;
+            out << test.name << "\n";
+        }
+    };
+    if (argc < 3)
+    {
+        QTextStream out(stdout);
+        printTestList(out);
+        return 0;
+    }
+    QString testName = argv[2];
+    QStringList arguments;
+    for (int i = 2;i < argc;i++)
+    {
+        arguments += argv[i];
+    }
+    for (const auto& test: tests)
+    {
+        if (test.name == testName)
+        {
+            return QTest::qExec(test.ptr,arguments);
         }
     }
-    int ret = 0;
-    ret |= QTest::qExec(new Test::Model::Project,argc,argv);
-    return ret;
+    QTextStream out(stdout);
+    auto msg = QApplication::translate("main","%1: Unknown unit test '%2'.\n");
+    msg = msg.arg(QApplication::applicationName(),testName);
+    out << msg;
+    printTestList(out);
+    return 1;
 }
 }

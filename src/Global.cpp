@@ -8,28 +8,15 @@ int main(
     ,char** argv
 )
 {
-    QApplication application(argc,argv);
     QApplication::setApplicationName("Socrates' Reference");
     QApplication::setApplicationVersion("1.0.9999");
-    QCommandLineParser parser;
-    parser.addHelpOption();
-    parser.addVersionOption();
-    parser.addOption(
-        {
-            "test"
-            ,QApplication::translate(
-                "main"
-                ,"Run all unit tests for this application and then exit."
-            )
-        }
-    );
-    parser.process(application);
-    if (!parser.isSet("test"))
-    {
-        return application.exec();
-    }
-    else
+    if (
+        argc >= 2
+        && !strcmp(argv[1],"--test")
+    )
     {
         return Test::execute(argc,argv);
     }
+    QApplication application(argc,argv);
+    return application.exec();
 }

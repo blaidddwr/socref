@@ -67,7 +67,6 @@ namespace Cpp
     {
         ClassIndex
         ,EnumerationIndex
-        ,FunctionIndex
         ,NamespaceIndex
     };
 }

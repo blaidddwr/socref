@@ -1,5 +1,6 @@
 #ifndef TEST_H
 #define TEST_H
+#include <QtGlobal>
 
 
 /*!
@@ -10,14 +11,15 @@ namespace Test
 
 
     /*!
-     * Executes all unit tests for this application, using the given argument
-     * count and arguments with the Qt unit test system. The given argument
-     * count and arguments must be valid and come from the main function's
-     * arguments.
+     * Executes a Qt unit test class for this application, using the given
+     * argument count and arguments with the Qt unit test system, excluding the
+     * first two.
      * 
-     * The arguments unique to this program are removed from the argument list.
-     * If this is not done the Qt unit test system will fail with unrecognized
-     * arguments.
+     * The first argument is assumed to be "--test". The second argument is the
+     * name of the unit test. If the name of the unit test is not valid or not
+     * given then a help message is printed with all available tests.
+     * 
+     * All other arguments are passed to the Qt unit test system.
      *
      * @param argc
      *        The argument count.
