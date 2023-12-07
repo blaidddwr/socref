@@ -34,7 +34,7 @@ void CppQt::createClass(
 
 
 void CppQt::createEnumeration(
-    )
+)
 {
     using namespace Block::CppQt;
     static const QSet<int> allowList {};
@@ -49,7 +49,7 @@ void CppQt::createEnumeration(
 
 
 void CppQt::createNamespace(
-    )
+)
 {
     using namespace Block::CppQt;
     static const QSet<int> allowList {NamespaceIndex,ClassIndex,EnumerationIndex};

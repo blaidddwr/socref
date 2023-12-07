@@ -1,5 +1,8 @@
 #include "Test.h"
 #include <QtTest>
+#include "TestBlockCppClass.h"
+#include "TestBlockCppEnumeration.h"
+#include "TestBlockCppNamespace.h"
 #include "TestLanguageCpp.h"
 #include "TestLanguageCppQt.h"
 #include "TestModelProject.h"
@@ -17,9 +20,12 @@ int execute(
         QObject* ptr;
     };
     static const TestObject tests[] = {
-        {"LanguageCpp",new Test::Language::Cpp}
-        ,{"LanguageCppQt",new Test::Language::CppQt}
-        ,{"ModelProject",new Test::Model::Project}
+        {"BlockCppClass",new Block::Cpp::Class}
+        ,{"BlockCppEnumeration",new Block::Cpp::Enumeration}
+        ,{"BlockCppNamespace",new Block::Cpp::Namespace}
+        ,{"LanguageCpp",new Language::Cpp}
+        ,{"LanguageCppQt",new Language::CppQt}
+        ,{"ModelProject",new Model::Project}
     };
     auto printTestList = [](QTextStream& out) {
         out << QApplication::translate("main","Available unit tests:\n");

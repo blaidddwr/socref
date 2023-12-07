@@ -211,7 +211,7 @@ class Abstract:
 
 
     /*!
-     * Sets this block's data from the given mapping using the given XML format
+     * Sets this block's data from the given mapping using the given format
      * version, overwriting any data contained in this block.
      *
      * @param map

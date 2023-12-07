@@ -15,6 +15,9 @@ SOURCES +=  Global.cpp \
             ModelMetaLanguage.cpp \
             ModelProject.cpp \
             Test.cpp \
+            TestBlockCppClass.cpp \
+            TestBlockCppEnumeration.cpp \
+            TestBlockCppNamespace.cpp \
             TestLanguageCpp.cpp \
             TestLanguageCppQt.cpp \
             TestModelProject.cpp \
@@ -41,6 +44,11 @@ HEADERS +=  Global.h \
             ModelMetaLanguage.h \
             ModelProject.h \
             Test.h \
+            TestBlock.h \
+            TestBlockCpp.h \
+            TestBlockCppClass.h \
+            TestBlockCppEnumeration.h \
+            TestBlockCppNamespace.h \
             TestLanguage.h \
             TestLanguageCpp.h \
             TestLanguageCppQt.h \
