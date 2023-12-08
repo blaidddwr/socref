@@ -10,15 +10,16 @@ namespace Cpp {
 /*!
  * This is a C++ block class. It represents a C++ class.
  * 
- * Its properties are parents and template string. The parents is a list of a
- * class's parent classes. The template string is self-explanatory.
+ * Its properties are parents and templates. The parents is a list of a class's
+ * parent classes. The templates list is a list of template arguments for a
+ * class.
  */
 class Class:
     public Block::Cpp::Base
 {
     Q_OBJECT
     QStringList _parents;
-    QString _template;
+    QStringList _templates;
     public:
     using ::Block::Cpp::Base::Base;
 
@@ -36,15 +37,14 @@ class Class:
 
 
     /*!
-     * Signals this block's template string property has changed to the given
-     * value.
+     * Signals this block's templates property has changed to the given value.
      *
      * @param value
      *        The value.
      */
     signals:
-    void templateStringChanged(
-        const QString& value
+    void templatesChanged(
+        const QStringList& value
     );
 
 
@@ -95,14 +95,14 @@ class Class:
 
 
     /*!
-     * Set this block's template string property to the given value.
+     * Set this block's templates property to the given value.
      *
      * @param value
      *        The value.
      */
     public:
-    void setTemplateString(
-        const QString& value
+    void setTemplates(
+        const QStringList& value
     );
 
 
@@ -110,10 +110,10 @@ class Class:
      * Getter method.
      *
      * @return
-     * This block's template string property.
+     * This block's templates property.
      */
     public:
-    const QString& templateString(
+    const QStringList& templates(
     ) const;
 };
 }

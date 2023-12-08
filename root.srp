@@ -705,7 +705,7 @@ Its properties are name and description. Name and description are self-explanato
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ class.
 
-Its properties are parents and template string. The parents is a list of a class's parent classes. The template string is self-explanatory.</__p_description>
+Its properties are parents and templates. The parents is a list of a class's parent classes. The templates list is a list of template arguments for a class.</__p_description>
                     <__p_name>Class</__p_name>
                     <__p_parents>public Block::Cpp::Base</__p_parents>
                     <Function>
@@ -736,11 +736,11 @@ Its properties are parents and template string. The parents is a list of a class
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Signals this block's template string property has changed to the given value.</__p_description>
+                        <__p_description>Signals this block's templates property has changed to the given value.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>templateStringChanged</__p_name>
+                        <__p_name>templatesChanged</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
@@ -749,7 +749,7 @@ Its properties are parents and template string. The parents is a list of a class
                         <Variable>
                             <__p_description>The value.</__p_description>
                             <__p_name>value</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
+                            <__p_type>const QStringList&amp;</__p_type>
                         </Variable>
                     </Function>
                     <Function>
@@ -875,11 +875,11 @@ Its properties are parents and template string. The parents is a list of a class
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Set this block's template string property to the given value.</__p_description>
+                        <__p_description>Set this block's templates property to the given value.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>setTemplateString</__p_name>
+                        <__p_name>setTemplates</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
@@ -888,7 +888,7 @@ Its properties are parents and template string. The parents is a list of a class
                         <Variable>
                             <__p_description>The value.</__p_description>
                             <__p_name>value</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
+                            <__p_type>const QStringList&amp;</__p_type>
                         </Variable>
                     </Function>
                     <Function>
@@ -901,11 +901,11 @@ Its properties are parents and template string. The parents is a list of a class
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>templateString</__p_name>
+                        <__p_name>templates</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This block's template string property.</__p_returnDescription>
-                        <__p_returnType>const QString&amp;</__p_returnType>
+                        <__p_returnDescription>This block's templates property.</__p_returnDescription>
+                        <__p_returnType>const QStringList&amp;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
@@ -2382,11 +2382,11 @@ A Qt string is thrown if any error is encountered.</__p_description>
                             <__p_const>0</__p_const>
                             <__p_default>0</__p_default>
                             <__p_deleted>0</__p_deleted>
-                            <__p_description>Tests the template string property.</__p_description>
+                            <__p_description>Tests the templates property.</__p_description>
                             <__p_explicit>0</__p_explicit>
                             <__p_final>0</__p_final>
                             <__p_invokable>0</__p_invokable>
-                            <__p_name>templateStringProperty</__p_name>
+                            <__p_name>templatesProperty</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
                             <__p_returnType>void</__p_returnType>

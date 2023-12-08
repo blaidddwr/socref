@@ -66,10 +66,10 @@ class Class:
 
 
     /*!
-     * Tests the template string property.
+     * Tests the templates property.
      */
     private slots:
-    void templateStringProperty(
+    void templatesProperty(
     );
 
 

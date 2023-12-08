@@ -35,19 +35,19 @@ void Class::initTestCase(
 void Class::loadFromMap(
 )
 {
-    static const QStringList testParents  = {"parent1","parent2"};
-    static const QString testTemplateString  = "template<class A,class B>";
+    static const QStringList testParents {"parent1","parent2"};
+    static const QStringList testTemplates {"class A","class B"};
     static const QMap<QString,QVariant> testData {
         {"name","name"}
         ,{"description","description"}
-        ,{"parents",testParents.join(";")}
-        ,{"template",testTemplateString}
+        ,{"parents",testParents.join(';')}
+        ,{"templates",testTemplates.join(';')}
     };
     auto block = create();
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->parents(),testParents);
-    QCOMPARE(block->templateString(),testTemplateString);
+    QCOMPARE(block->templates(),testTemplates);
     delete block;
 }
 
@@ -55,8 +55,9 @@ void Class::loadFromMap(
 void Class::loadFromMapLegacy(
 )
 {
-    static const QStringList testParents  = {"parent1","parent2"};
-    static const QString testTemplateString  = "template<class A,class B>";
+    static const QStringList testParents {"parent1","parent2"};
+    static const QString testTemplateString = "template <  class A   ,  class B>";
+    static const QStringList testTemplates {"class A","class B"};
     static const QMap<QString,QVariant> testData {
         {"name","name"}
         ,{"description","description"}
@@ -67,7 +68,7 @@ void Class::loadFromMapLegacy(
     QVERIFY(block);
     block->loadFromMap(testData,Socref_Legacy);
     QCOMPARE(block->parents(),testParents);
-    QCOMPARE(block->templateString(),testTemplateString);
+    QCOMPARE(block->templates(),testTemplates);
     delete block;
 }
 
@@ -91,37 +92,37 @@ void Class::saveToMap(
 {
     static const QString testName = "name";
     static const QString testDescription = "description";
-    static const QStringList testParents  = {"parent1","parent2"};
-    static const QString testTemplateString  = "template<class A,class B>";
+    static const QStringList testParents {"parent1","parent2"};
+    static const QStringList testTemplates {"class A","class B>"};
     static const QMap<QString,QVariant> testData {
         {"name",testName}
         ,{"description",testDescription}
-        ,{"parents",testParents.join(";")}
-        ,{"template",testTemplateString}
+        ,{"parents",testParents.join(';')}
+        ,{"template",testTemplates.join(';')}
     };
     auto block = create();
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);
     block->setParents(testParents);
-    block->setTemplateString(testTemplateString);
+    block->setTemplates(testTemplates);
     auto data = block->saveToMap();
     QCOMPARE(data,testData);
     delete block;
 }
 
 
-void Class::templateStringProperty(
+void Class::templatesProperty(
 )
 {
-    static const QString testTemplateString  = "template<class A,class B>";
-    QSignalSpy spy(_block,&::Block::Cpp::Class::templateStringChanged);
-    _block->setTemplateString(testTemplateString);
+    static const QStringList testTemplates {"class A","class B>"};
+    QSignalSpy spy(_block,&::Block::Cpp::Class::templatesChanged);
+    _block->setTemplates(testTemplates);
     QCOMPARE(spy.count(),1);
     auto arguments = spy.takeFirst();
     QCOMPARE(arguments.size(),1);
-    QCOMPARE(arguments.at(0),testTemplateString);
-    QCOMPARE(_block->templateString(),testTemplateString);
+    QCOMPARE(arguments.at(0),testTemplates);
+    QCOMPARE(_block->templates(),testTemplates);
 }
 
 

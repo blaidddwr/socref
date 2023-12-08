@@ -31,12 +31,19 @@ void Class::loadFromMap(
     if (version == Socref_Legacy)
     {
         _parents = map.value("parents").toString().split('\n',Qt::SkipEmptyParts);
+        auto str = map.value("template").toString();
+        str = str.replace("template","").replace("<","").replace(">","");
+        _templates = str.split(',');
+        for (auto& t: _templates)
+        {
+            t = t.trimmed();
+        }
     }
     else
     {
         _parents = map.value("parents").toString().split(';');
+        _templates = map.value("templates").toString().split(';');
     }
-    _template = map.value("template").toString();
 }
 
 
@@ -55,9 +62,9 @@ QMap<QString,QVariant> Class::saveToMap(
     {
         ret.insert("parents",_parents.join(';'));
     }
-    if (!_template.isEmpty())
+    if (!_templates.isEmpty())
     {
-        ret.insert("template",_template);
+        ret.insert("template",_templates.join(';'));
     }
     return ret;
 }
@@ -75,22 +82,22 @@ void Class::setParents(
 }
 
 
-void Class::setTemplateString(
-    const QString& value
+void Class::setTemplates(
+    const QStringList& value
 )
 {
-    if (_template != value)
+    if (_templates != value)
     {
-        _template = value;
-        emit templateStringChanged(value);
+        _templates = value;
+        emit templatesChanged(value);
     }
 }
 
 
-const QString& Class::templateString(
+const QStringList& Class::templates(
 ) const
 {
-    return _template;
+    return _templates;
 }
 }
 }
