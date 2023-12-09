@@ -136,7 +136,7 @@ class Abstract:
      * language, XML format version, XML reader, and parent. The given language
      * must be valid.
      * 
-     * A Qt string is thrown if any error is encountered.
+     * A read block exception is thrown if any error is encountered.
      *
      * @param language
      *        The language.

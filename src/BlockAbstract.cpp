@@ -1,5 +1,6 @@
 #include "BlockAbstract.h"
 #include <QtCore>
+#include "ExceptionBlockRead.h"
 #include "LanguageAbstract.h"
 #include "Global.h"
 #include "ModelMetaBlock.h"
@@ -48,7 +49,7 @@ Block::Abstract* Abstract::fromXml(
     auto i = language->indexFromName(blockName);
     if (i == -1)
     {
-        throw tr("Unknown block %1").arg(blockName);
+        throw Exception::Block::Read(tr("Unknown block %1").arg(blockName));
     }
     QMap<QString,QVariant> map;
     std::unique_ptr<Abstract> block(language->create(i));
@@ -81,7 +82,7 @@ Block::Abstract* Abstract::fromXml(
             {
                 if (map.contains(name))
                 {
-                    throw tr("Duplicate property element %1").arg(name);
+                    throw Exception::Block::Read(tr("Duplicate property element %1").arg(name));
                 }
                 map.insert(name,xml.readElementText());
             }

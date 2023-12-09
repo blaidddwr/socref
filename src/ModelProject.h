@@ -33,7 +33,8 @@ class Project:
      * Constructs this new model with the given path and parent. This model
      * loads its contents from the XML file at the given path.
      * 
-     * A Qt string is thrown if any error is encountered.
+     * A read project or file system exception are thrown if any error is
+     * encountered.
      *
      * @param path
      *        The path.
@@ -210,7 +211,8 @@ class Project:
     /*!
      * Loads this model from the given path.
      * 
-     * A Qt string is thrown if any error is encountered.
+     * A read project or file system exception are thrown if any error is
+     * encountered.
      *
      * @param path
      *        The path.
@@ -225,7 +227,7 @@ class Project:
      * Loads this model from the given XML reader, assuming the XML format is
      * legacy.
      * 
-     * A Qt string is thrown if any error is encountered.
+     * A read project exception is thrown if any error is encountered.
      *
      * @param xml
      *        The XML reader.

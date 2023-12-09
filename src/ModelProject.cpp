@@ -1,6 +1,9 @@
 #include "ModelProject.h"
 #include <QtCore>
 #include <QtGui>
+#include "ExceptionBase.h"
+#include "ExceptionProjectRead.h"
+#include "ExceptionSystemFile.h"
 #include "LanguageAbstract.h"
 #include "BlockAbstract.h"
 #include "FactoryLanguage.h"
@@ -193,7 +196,7 @@ void Project::read(
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly))
     {
-        throw tr("Failed opening %1").arg(path);
+        throw Exception::System::File(tr("Failed opening %1").arg(path));
     }
     QXmlStreamReader xml(&file);
     try
@@ -216,9 +219,11 @@ void Project::read(
             throw xml.errorString();
         }
     }
-    catch (QString& e)
+    catch (Exception::Base& e)
     {
-        throw tr("Failed reading %1 on line %2: %3").arg(path).arg(xml.lineNumber()).arg(e);
+        throw Exception::Project::Read(
+            tr("Failed reading %1 on line %2: %3").arg(path).arg(xml.lineNumber()).arg(e.message())
+        );
     }
 }
 
@@ -241,7 +246,7 @@ void Project::readLegacy(
                 auto i = factory->indexFromName(langName);
                 if (i == -1)
                 {
-                    throw tr("Unknown language %1").arg(langName);
+                    throw Exception::Project::Read(tr("Unknown language %1").arg(langName));
                 }
                 _language = factory->get(i);
                 Q_ASSERT(_language);
@@ -259,7 +264,9 @@ void Project::readLegacy(
             {
                 if (!_language)
                 {
-                    throw tr("Language not set before first block element");
+                    throw Exception::Project::Read(
+                        tr("Language not set before first block element")
+                    );
                 }
                 _root = Block::Abstract::fromXml(_language,Socref_Legacy,xml,this);
             }

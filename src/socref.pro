@@ -7,6 +7,7 @@ SOURCES +=  Global.cpp \
             BlockCppClass.cpp \
             BlockCppEnumeration.cpp \
             BlockCppNamespace.cpp \
+            ExceptionBase.cpp \
             FactoryLanguage.cpp \
             LanguageAbstract.cpp \
             LanguageCpp.cpp \
@@ -32,6 +33,14 @@ HEADERS +=  Global.h \
             BlockCppEnumeration.h \
             BlockCppNamespace.h \
             BlockCppQt.h \
+            Exception.h \
+            ExceptionBase.h \
+            ExceptionBlock.h \
+            ExceptionBlockRead.h \
+            ExceptionProject.h \
+            ExceptionProjectRead.h \
+            ExceptionSystem.h \
+            ExceptionSystemFile.h \
             Factory.h \
             FactoryLanguage.h \
             Language.h \
