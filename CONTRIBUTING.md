@@ -38,8 +38,6 @@ The body consists of multiple paragraphs each separated by a blank line. Each pa
 
 A paragraph's format in a body includes a __type__, a __scope__, and a __description__.
 
-The __scope__ must be something that easily identifies the file or programming object that has changed. For example Model::Foo for the foo model class in C++, README for the README markdown documentation, or docs/SOME_FEATURE for documentation within a directory. If a change involves renaming the words used for __scope__ then use the new name for the change's __scope__, referencing its old name in the description.
-
 The columns of any line in a paragraph must be equal to or less than 72. Paragraphs can be on multiple lines as needed.
 
 ```
@@ -47,6 +45,20 @@ The columns of any line in a paragraph must be equal to or less than 72. Paragra
 <BLANK LINE>
 <type>(<scope>): <description>
 ...
+```
+
+### Scope
+
+The __scope__ must be something that easily identifies the file or programming object that has changed. For example Model::Foo for the foo model class in C++, README for the README markdown documentation, or docs/SOME_FEATURE for documentation within a directory. If a change involves renaming the words used for __scope__ then use the new name for the change's __scope__, referencing its old name in the description.
+
+If an identical change was made in multiple __scopes__ then it can be added as one paragraph with the list of __scopes__. Each __scope__ is on a new line with a two space indent.
+
+```
+<type>(
+  <scope1>
+  <scope2>
+  <scope3>
+): <description>
 ```
 
 ### Body Description

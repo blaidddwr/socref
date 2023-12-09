@@ -4,7 +4,7 @@ namespace Test {
 
 
 /*!
- * Contains all block unit test namespaces.
+ * This contains all block unit test namespaces.
  */
 namespace Block
 {

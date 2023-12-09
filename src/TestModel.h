@@ -4,7 +4,7 @@ namespace Test {
 
 
 /*!
- * Contains all model unit test classes.
+ * This contains all model unit test classes.
  */
 namespace Model
 {

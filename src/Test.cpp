@@ -13,7 +13,7 @@ struct TestObject
     QString name;
     QObject* ptr;
 };
-const QList<TestObject>* tests {nullptr};
+const QList<TestObject>* _g_tests {nullptr};
 
 
 int execute(
@@ -21,10 +21,10 @@ int execute(
     ,char** argv
 )
 {
-    Q_ASSERT(tests);
+    Q_ASSERT(_g_tests);
     auto printTestList = [](QTextStream& out) {
         out << QApplication::translate("main","Available unit tests:\n");
-        for (const auto& test: *tests)
+        for (const auto& test: *_g_tests)
         {
             out << test.name << "\n";
         }
@@ -41,7 +41,7 @@ int execute(
     {
         arguments += argv[i];
     }
-    for (const auto& test: *tests)
+    for (const auto& test: *_g_tests)
     {
         if (test.name == testName)
         {
@@ -62,13 +62,13 @@ int executeAll(
     ,char** argv
 )
 {
-    Q_ASSERT(tests);
+    Q_ASSERT(_g_tests);
     QStringList arguments;
     for (int i = 2;i < argc;i++)
     {
         arguments += argv[i];
     }
-    for (const auto& test: *tests)
+    for (const auto& test: *_g_tests)
     {
         QStringList testArgs {"--test",test.name};
         auto status = QProcess::execute(argv[0],testArgs+arguments);
@@ -84,7 +84,8 @@ int executeAll(
 void initialize(
 )
 {
-    tests = new QList<TestObject> {
+    Q_ASSERT(!_g_tests);
+    _g_tests = new QList<TestObject> {
         {"BlockCppClass",new Block::Cpp::Class}
         ,{"BlockCppEnumeration",new Block::Cpp::Enumeration}
         ,{"BlockCppNamespace",new Block::Cpp::Namespace}

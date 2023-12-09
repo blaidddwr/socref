@@ -10,7 +10,7 @@
             <__p_name>Version</__p_name>
         </Enumeration>
         <Namespace>
-            <__p_description>Contains all block classes and namespaces.
+            <__p_description>This contains all block classes and namespaces.
 
 See the abstract block class for a detailed description of blocks.</__p_description>
             <__p_name>Block</__p_name>
@@ -471,7 +471,7 @@ The given index can go beyond the bounds of this block's children list. If it is
                 </Function>
             </Class>
             <Namespace>
-                <__p_description>Contains all C++ block enumerations and classes.</__p_description>
+                <__p_description>This contains all C++ block enumerations and classes.</__p_description>
                 <__p_name>Cpp</__p_name>
                 <Enumeration>
                     <__p_class>0</__p_class>
@@ -1100,7 +1100,7 @@ Its single property is class. It is self-explanatory.</__p_description>
                 </Class>
             </Namespace>
             <Namespace>
-                <__p_description>Contains all C++/Qt block enumerations and classes.</__p_description>
+                <__p_description>This contains all C++/Qt block enumerations and classes.</__p_description>
                 <__p_name>CppQt</__p_name>
                 <Enumeration>
                     <__p_class>0</__p_class>
@@ -1199,7 +1199,7 @@ Its single property is message. The message provides a detailed description of a
             </Namespace>
         </Namespace>
         <Namespace>
-            <__p_description>Contains all factory classes.</__p_description>
+            <__p_description>This contains all factory classes.</__p_description>
             <__p_name>Factory</__p_name>
             <Class>
                 <__p_description>This is a factory class. It is a singleton class. It creates abstract language implementations.</__p_description>
@@ -1348,7 +1348,7 @@ Its single property is message. The message provides a detailed description of a
             </Class>
         </Namespace>
         <Namespace>
-            <__p_description>Contains all language classes.
+            <__p_description>This contains all language classes.
 
 See the abstract language class for a detailed description of languages.</__p_description>
             <__p_name>Language</__p_name>
@@ -1702,10 +1702,10 @@ Its properties are meta and root index. Meta is self-explanatory. Root index is 
             </Class>
         </Namespace>
         <Namespace>
-            <__p_description>Contains all model classes and namespaces.</__p_description>
+            <__p_description>This contains all model classes and namespaces.</__p_description>
             <__p_name>Model</__p_name>
             <Namespace>
-                <__p_description>Contains all meta model classes.</__p_description>
+                <__p_description>This contains all meta model classes.</__p_description>
                 <__p_name>Meta</__p_name>
                 <Class>
                     <__p_description>This is a meta model class. It represents the meta information for a block implementation.
@@ -2342,13 +2342,13 @@ A read project exception is thrown if any error is encountered.</__p_description
             </Class>
         </Namespace>
         <Namespace>
-            <__p_description>Contains all unit test namespaces and functions.</__p_description>
+            <__p_description>This contains all unit test namespaces and functions.</__p_description>
             <__p_name>Test</__p_name>
             <Namespace>
-                <__p_description>Contains all block unit test namespaces.</__p_description>
+                <__p_description>This contains all block unit test namespaces.</__p_description>
                 <__p_name>Block</__p_name>
                 <Namespace>
-                    <__p_description>Contains all C++ block unit test classes.</__p_description>
+                    <__p_description>This contains all C++ block unit test classes.</__p_description>
                     <__p_name>Cpp</__p_name>
                     <Class>
                         <__p_description>This is a Qt unit test class. It tests the class C++ block class.</__p_description>
@@ -2736,7 +2736,7 @@ A read project exception is thrown if any error is encountered.</__p_description
                 </Namespace>
             </Namespace>
             <Namespace>
-                <__p_description>Contains all language unit test classes.</__p_description>
+                <__p_description>This contains all language unit test classes.</__p_description>
                 <__p_name>Language</__p_name>
                 <Class>
                     <__p_description>This is a Qt unit test class. It tests the C++ language class.</__p_description>
@@ -2950,7 +2950,7 @@ A read project exception is thrown if any error is encountered.</__p_description
                 </Class>
             </Namespace>
             <Namespace>
-                <__p_description>Contains all model unit test classes.</__p_description>
+                <__p_description>This contains all model unit test classes.</__p_description>
                 <__p_name>Model</__p_name>
                 <Class>
                     <__p_description>This is a Qt unit test class. It tests the project model class.</__p_description>
@@ -3062,10 +3062,10 @@ This must be called after the initialize function is called.</__p_description>
             </Function>
         </Namespace>
         <Namespace>
-            <__p_description>Contains all widget namespaces.</__p_description>
+            <__p_description>This contains all widget namespaces.</__p_description>
             <__p_name>Widget</__p_name>
             <Namespace>
-                <__p_description>Contains all block widget classes.
+                <__p_description>This contains all block widget classes.
 
 See the abstract block widget class for a detailed description of block widgets.</__p_description>
                 <__p_name>Block</__p_name>

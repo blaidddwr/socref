@@ -4,7 +4,7 @@
 
 
 /*!
- * Contains all unit test namespaces and functions.
+ * This contains all unit test namespaces and functions.
  */
 namespace Test
 {

@@ -3,7 +3,7 @@
 
 
 /*!
- * Contains all widget namespaces.
+ * This contains all widget namespaces.
  */
 namespace Widget
 {
