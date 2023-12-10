@@ -1,5 +1,7 @@
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
+#include <iostream>
+#define ASSERT(cond) if (!(cond)) { std::cout << "Assertion Failed @ " << __FILE__ << ":" << __LINE__ << "\n"; exit(1); }
 
 
 /*!

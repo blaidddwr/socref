@@ -11,8 +11,12 @@ namespace Cpp {
  * This is a C++ block class. It partially implements the abstract block class.
  * It represents a base block for C++ with properties all C++ blocks share.
  * 
- * Its properties are name and description. Name and description are
- * self-explanatory.
+ * Its properties are name, description, and scope name. Name and description
+ * are self-explanatory.
+ * 
+ * The scope name is used to construct a C++ block's scope. Each scope name of a
+ * block and it's parents is combined with "::" as their separator, excluding
+ * the root namespace block.
  */
 class Base:
     public Block::Abstract
@@ -87,6 +91,11 @@ class Base:
     ) const override;
 
 
+    public:
+    virtual QString scope(
+    ) const override;
+
+
     /*!
      * Sets this block's description property to the given value.
      *
@@ -121,6 +130,17 @@ class Base:
     virtual void onNameChanged(
         const QString& value
     );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This instance's scope name property.
+     */
+    protected:
+    virtual QString scopeName(
+    ) const;
 };
 }
 }

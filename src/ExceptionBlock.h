@@ -8,6 +8,7 @@ namespace Exception {
  */
 namespace Block
 {
+    class Logical;
     class Read;
 }
 }

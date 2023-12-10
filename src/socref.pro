@@ -36,6 +36,7 @@ HEADERS +=  Global.h \
             Exception.h \
             ExceptionBase.h \
             ExceptionBlock.h \
+            ExceptionBlockLogical.h \
             ExceptionBlockRead.h \
             ExceptionProject.h \
             ExceptionProjectRead.h \

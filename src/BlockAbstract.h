@@ -24,8 +24,13 @@ namespace Block {
  * it an argument of the function or a function being a child of a class making
  * it a method of the class.
  * 
- * Its properties are meta, display text, and display icon. Meta, display text,
- * and display icon are self-explanatory.
+ * Its properties are meta, display text, display icon, and scope. Meta, display
+ * text, and display icon are self-explanatory.
+ * 
+ * The scope is a that must be unique among all other blocks that share a common
+ * root block making up a project. The scope cannot contain non printable
+ * characters such as new lines. The root block of a project must have a scope
+ * of "ROOT".
  * 
  * A block can only have children blocks of any type in its meta's allow list
  * property.
@@ -132,9 +137,41 @@ class Abstract:
 
 
     /*!
+     * Creates and returns a new root block and all its children located in the
+     * given directory path with the given language, format version, and parent.
+     * The given language must be valid.
+     * 
+     * It is expected the given directory contains a valid multi-file project
+     * with the root block file named "ROOT.srb".
+     * 
+     * A read block or file system exception is thrown if any error is
+     * encountered.
+     *
+     * @param language
+     *        The language.
+     *
+     * @param version
+     *        The format version.
+     *
+     * @param path
+     *        The directory path.
+     *
+     * @param parent
+     *        The parent.
+     */
+    public:
+    static Block::Abstract* fromDir(
+        Language::Abstract* language
+        ,int version
+        ,const QString& path
+        ,QObject* parent = nullptr
+    );
+
+
+    /*!
      * Creates and returns a new block and all its children with the given
-     * language, XML format version, XML reader, and parent. The given language
-     * must be valid.
+     * language, format version, XML reader, and parent. The given language must
+     * be valid.
      * 
      * A read block exception is thrown if any error is encountered.
      *
@@ -142,7 +179,7 @@ class Abstract:
      *        The language.
      *
      * @param version
-     *        The XML format version.
+     *        The format version.
      *
      * @param xml
      *        The XML reader.
@@ -250,6 +287,17 @@ class Abstract:
      * Getter method.
      *
      * @return
+     * This instance's scope property.
+     */
+    public:
+    virtual QString scope(
+    ) const = 0;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
      * This block's total number of children blocks.
      */
     public:
@@ -272,6 +320,27 @@ class Abstract:
 
 
     /*!
+     * Writes this block and all its children to the given directory path using
+     * the most current format version of the multi-file system. This must be a
+     * root block.
+     * 
+     * Any SRB files that do not match any of this root block's and its
+     * descendant's SRB files are removed from the file system within the given
+     * directory.
+     * 
+     * A logical block or file system exception is thrown if an error is
+     * encountered.
+     *
+     * @param path
+     *        The directory path.
+     */
+    public:
+    void toDir(
+        const QString& path
+    ) const;
+
+
+    /*!
      * Writes this block and all its children to the given XML writer using the
      * most current XML format version.
      *
@@ -281,7 +350,7 @@ class Abstract:
     public:
     void toXml(
         QXmlStreamWriter& xml
-    );
+    ) const;
 
 
     /*!
@@ -309,6 +378,53 @@ class Abstract:
     void onMetaDestroyed(
         QObject* object
     );
+
+
+    /*!
+     * Creates and returns a new block and all its children located at the given
+     * path with the given language, format version, and parent. The given
+     * language must be valid.
+     * 
+     * The new block's children are expected to reside in the same directory as
+     * the new block's file's directory.
+     * 
+     * A read block or file system exception is thrown if any error is
+     * encountered.
+     *
+     * @param language
+     *        The language.
+     *
+     * @param version
+     *        The format version.
+     *
+     * @param path
+     *        The path.
+     *
+     * @param parent
+     *        The parent.
+     */
+    private:
+    static Block::Abstract* read(
+        Language::Abstract* language
+        ,int version
+        ,const QString& path
+        ,QObject* parent = nullptr
+    );
+
+
+    /*!
+     * Writes this block's data and children scope links to the SRB file at the
+     * given path.
+     * 
+     * A file system exception is thrown if any error is encountered.
+     *
+     * @param path
+     *        The path.
+     */
+    private:
+    void write(
+        const QString& path
+    ) const;
 };
 }
 

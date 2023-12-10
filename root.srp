@@ -19,7 +19,9 @@ See the abstract block class for a detailed description of blocks.</__p_descript
 
 A block represents an atomic element of a programming language such as a variable, function, or class. Blocks can contain any number of children and have only one parent. The only block that does not have a parent is the root block of a project. One and only one special block type must be assigned as the root block type for each implemented language. Blocks form tree relationships such as a variable block being the child of a function making it an argument of the function or a function being a child of a class making it a method of the class.
 
-Its properties are meta, display text, and display icon. Meta, display text, and display icon are self-explanatory.
+Its properties are meta, display text, display icon, and scope. Meta, display text, and display icon are self-explanatory.
+
+The scope is a that must be unique among all other blocks that share a common root block making up a project. The scope cannot contain non printable characters such as new lines. The root block of a project must have a scope of &quot;ROOT&quot;.
 
 A block can only have children blocks of any type in its meta's allow list property.</__p_description>
                 <__p_name>Abstract</__p_name>
@@ -183,7 +185,49 @@ A block can only have children blocks of any type in its meta's allow list prope
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Creates and returns a new block and all its children with the given language, XML format version, XML reader, and parent. The given language must be valid.
+                    <__p_description>Creates and returns a new root block and all its children located in the given directory path with the given language, format version, and parent. The given language must be valid.
+
+It is expected the given directory contains a valid multi-file project with the root block file named &quot;ROOT.srb&quot;.
+
+A read block or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>fromDir</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The language.</__p_description>
+                        <__p_name>language</__p_name>
+                        <__p_type>Language::Abstract*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The format version.</__p_description>
+                        <__p_name>version</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The directory path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a new block and all its children with the given language, format version, XML reader, and parent. The given language must be valid.
 
 A read block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
@@ -201,7 +245,7 @@ A read block exception is thrown if any error is encountered.</__p_description>
                         <__p_type>Language::Abstract*</__p_type>
                     </Variable>
                     <Variable>
-                        <__p_description>The XML format version.</__p_description>
+                        <__p_description>The format version.</__p_description>
                         <__p_name>version</__p_name>
                         <__p_type>int</__p_type>
                     </Variable>
@@ -353,6 +397,24 @@ The given index can go beyond the bounds of this block's children list. If it is
                     <__p_virtual>1</__p_virtual>
                 </Function>
                 <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>scope</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This instance's scope property.</__p_returnDescription>
+                    <__p_returnType>QString</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
                     <__p_const>1</__p_const>
@@ -395,7 +457,33 @@ The given index can go beyond the bounds of this block's children list. If it is
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Writes this block and all its children to the given directory path using the most current format version of the multi-file system. This must be a root block.
+
+Any SRB files that do not match any of this root block's and its descendant's SRB files are removed from the file system within the given directory.
+
+A logical block or file system exception is thrown if an error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>toDir</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The directory path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Writes this block and all its children to the given XML writer using the most current XML format version.</__p_description>
@@ -469,6 +557,72 @@ The given index can go beyond the bounds of this block's children list. If it is
                         <__p_type>QObject*</__p_type>
                     </Variable>
                 </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a new block and all its children located at the given path with the given language, format version, and parent. The given language must be valid.
+
+The new block's children are expected to reside in the same directory as the new block's file's directory.
+
+A read block or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>read</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The language.</__p_description>
+                        <__p_name>language</__p_name>
+                        <__p_type>Language::Abstract*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The format version.</__p_description>
+                        <__p_name>version</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Writes this block's data and children scope links to the SRB file at the given path.
+
+A file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>write</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
             </Class>
             <Namespace>
                 <__p_description>This contains all C++ block enumerations and classes.</__p_description>
@@ -496,7 +650,9 @@ The given index can go beyond the bounds of this block's children list. If it is
                 <Class>
                     <__p_description>This is a C++ block class. It partially implements the abstract block class. It represents a base block for C++ with properties all C++ blocks share.
 
-Its properties are name and description. Name and description are self-explanatory.</__p_description>
+Its properties are name, description, and scope name. Name and description are self-explanatory.
+
+The scope name is used to construct a C++ block's scope. Each scope name of a block and it's parents is combined with &quot;::&quot; as their separator, excluding the root namespace block.</__p_description>
                     <__p_name>Base</__p_name>
                     <__p_parents>public Block::Abstract</__p_parents>
                     <Function>
@@ -638,6 +794,22 @@ Its properties are name and description. Name and description are self-explanato
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>scope</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QString</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -700,6 +872,24 @@ Its properties are name and description. Name and description are self-explanato
                             <__p_name>value</__p_name>
                             <__p_type>const QString&amp;</__p_type>
                         </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>scopeName</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This instance's scope name property.</__p_returnDescription>
+                        <__p_returnType>QString</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
                     </Function>
                 </Class>
                 <Class>
@@ -1173,6 +1363,11 @@ Its single property is message. The message provides a detailed description of a
             <Namespace>
                 <__p_description>This contains all block exception classes.</__p_description>
                 <__p_name>Block</__p_name>
+                <Class>
+                    <__p_description>This is an exception class. It represents a logical block error.</__p_description>
+                    <__p_name>Logical</__p_name>
+                    <__p_parents>public Exception::Base</__p_parents>
+                </Class>
                 <Class>
                     <__p_description>This is an exception class. It represents a block reading error.</__p_description>
                     <__p_name>Read</__p_name>
@@ -2956,27 +3151,6 @@ A read project exception is thrown if any error is encountered.</__p_description
                     <__p_description>This is a Qt unit test class. It tests the project model class.</__p_description>
                     <__p_name>Project</__p_name>
                     <__p_parents>public QObject</__p_parents>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private Slots</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Tests the import static method with this project's own C++/Qt project file.
-
-TODO: The project model needs to be refactored to have a import static method, right now its constructor is being used.
-
-TODO: Eventually a project should be generated instead of using this project's own SRP file.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>importCppQt</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
                 </Class>
             </Namespace>
             <Function>
