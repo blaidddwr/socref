@@ -40,11 +40,6 @@ class Base:
     );
 
 
-    public:
-    virtual QString displayText(
-    ) const override;
-
-
     /*!
      * Signals this block's name property has changed to the given value.
      *
@@ -55,6 +50,11 @@ class Base:
     void nameChanged(
         const QString& value
     );
+
+
+    public:
+    virtual QString displayText(
+    ) const override;
 
 
     /*!

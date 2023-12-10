@@ -12,6 +12,7 @@ namespace Language
     class Abstract;
     class Cpp;
     class CppQt;
+    class Test;
 }
 
 

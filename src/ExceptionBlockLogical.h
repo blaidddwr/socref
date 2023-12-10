@@ -8,7 +8,7 @@ namespace Block {
 
 
 /*!
- * Detailed description.
+ * This is an exception class. It represents a logical block error.
  */
 class Logical:
     public Exception::Base

@@ -7,11 +7,13 @@ SOURCES +=  Global.cpp \
             BlockCppClass.cpp \
             BlockCppEnumeration.cpp \
             BlockCppNamespace.cpp \
+            BlockTestNode.cpp \
             ExceptionBase.cpp \
             FactoryLanguage.cpp \
             LanguageAbstract.cpp \
             LanguageCpp.cpp \
             LanguageCppQt.cpp \
+            LanguageTest.cpp \
             ModelMetaBlock.cpp \
             ModelMetaLanguage.cpp \
             ModelProject.cpp \
@@ -19,6 +21,7 @@ SOURCES +=  Global.cpp \
             TestBlockCppClass.cpp \
             TestBlockCppEnumeration.cpp \
             TestBlockCppNamespace.cpp \
+            TestLanguageAbstract.cpp \
             TestLanguageCpp.cpp \
             TestLanguageCppQt.cpp \
             TestModelProject.cpp \
@@ -33,6 +36,8 @@ HEADERS +=  Global.h \
             BlockCppEnumeration.h \
             BlockCppNamespace.h \
             BlockCppQt.h \
+            BlockTest.h \
+            BlockTestNode.h \
             Exception.h \
             ExceptionBase.h \
             ExceptionBlock.h \
@@ -48,6 +53,7 @@ HEADERS +=  Global.h \
             LanguageAbstract.h \
             LanguageCpp.h \
             LanguageCppQt.h \
+            LanguageTest.h \
             Model.h \
             ModelMeta.h \
             ModelMetaBlock.h \
@@ -60,6 +66,7 @@ HEADERS +=  Global.h \
             TestBlockCppEnumeration.h \
             TestBlockCppNamespace.h \
             TestLanguage.h \
+            TestLanguageAbstract.h \
             TestLanguageCpp.h \
             TestLanguageCppQt.h \
             TestModel.h \
