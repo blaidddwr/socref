@@ -25,15 +25,6 @@ class Class:
 
 
     /*!
-     * Creates and returns a new class C++ block. The returned block's parent is
-     * this unit test instance.
-     */
-    private:
-    ::Block::Cpp::Class* create(
-    );
-
-
-    /*!
      * Tests the load from map interface.
      */
     private slots:
@@ -75,6 +66,15 @@ class Class:
 
     private slots:
     void cleanupTestCase(
+    );
+
+
+    /*!
+     * Creates and returns a new class C++ block. The returned block's parent is
+     * this unit test instance.
+     */
+    private:
+    ::Block::Cpp::Class* create(
     );
 };
 }

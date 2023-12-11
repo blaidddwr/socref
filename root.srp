@@ -144,6 +144,24 @@ A block can only have children blocks of any type in its meta's allow list prope
                     </Variable>
                 </Function>
                 <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>descendants</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>A complete list of all descendant blocks contained in this block.</__p_returnDescription>
+                    <__p_returnType>QList&lt;Block::Abstract*&gt;</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
                     <__p_abstract>1</__p_abstract>
                     <__p_access>Public</__p_access>
                     <__p_const>1</__p_const>
@@ -535,6 +553,27 @@ A logical block or file system exception is thrown if an error is encountered.</
                     <__p_returnType>void</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private Slots</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called when one of this block's child block's destroyed signal is emitted.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>onChildDestroyed</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>object</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -1319,9 +1358,47 @@ Its single property is class. It is self-explanatory.</__p_description>
                 <Class>
                     <__p_description>This is a test block class. It represents no real language component or object, instead being used by this application's test system.
 
-Its single property is name. The name is self-explanatory.</__p_description>
+Its single property is name. The name is self-explanatory.
+
+Nodes have an add and remove count. This keeps track of how many times the add and remove events have been called by its parent abstract block class.
+
+The display icon property can be set with an appropriate setter method so it can be unit tested with abstract block.</__p_description>
                     <__p_name>Node</__p_name>
                     <__p_parents>public Block::Abstract</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>~^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>addCount</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This node's add count.</__p_returnDescription>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -1423,6 +1500,58 @@ Its single property is name. The name is self-explanatory.</__p_description>
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>removeCount</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This node's remove count.</__p_returnDescription>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Resets this node's add count to 0.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>resetAdd</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Resets this node's remove count to 0.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>resetRemove</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>1</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -1455,6 +1584,28 @@ Its single property is name. The name is self-explanatory.</__p_description>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this instance's display icon property to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setIcon</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>icon</__p_name>
+                            <__p_type>const QIcon&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_description>Sets this block's name property to the given value.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
@@ -1470,6 +1621,38 @@ Its single property is name. The name is self-explanatory.</__p_description>
                             <__p_name>value</__p_name>
                             <__p_type>const QString&amp;</__p_type>
                         </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>addEvent</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>removeEvent</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
                     </Function>
                 </Class>
             </Namespace>
@@ -2778,6 +2961,500 @@ A read project exception is thrown if any error is encountered.</__p_description
             <Namespace>
                 <__p_description>This contains all block unit test namespaces.</__p_description>
                 <__p_name>Block</__p_name>
+                <Class>
+                    <__p_description>This is a Qt unit test class. It tests the abstract block class.</__p_description>
+                    <__p_name>Abstract</__p_name>
+                    <__p_parents>public QObject</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>initTestCase</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the append method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>append</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the descendants method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>descendants</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the display icon property.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>displayIconProperty</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the display text property.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>displayTextProperty</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the from directory method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>fromDir</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the from XML method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>fromXml</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the from XML method using the legacy format.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>fromXmlLegacy</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the get method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>get</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the index of method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>indexOf</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the insert method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>insert</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the meta property.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>metaProperty</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the scope property.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>scopeProperty</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the size property.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>size</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the take method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>take</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the to directory method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>toDir</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the to XML method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>toXml</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>cleanupTestCase</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if the given first and second directories are equal. This is determined if the directories contain the same files and all those files are also equal.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>areDirsEqual</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The first directory.</__p_description>
+                            <__p_name>dir0</__p_name>
+                            <__p_type>const QDir&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The second directory.</__p_description>
+                            <__p_name>dir1</__p_name>
+                            <__p_type>const QDir&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if the first and second files at the given paths are equal. If either file cannot be opened they are considered to be not equal.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>areFilesEqual</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The first path.</__p_description>
+                            <__p_name>path0</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The second path.</__p_description>
+                            <__p_name>path1</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if the first and second XML files at the given paths are equal. If either file cannot be opened they are considered to be not equal.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>areXmlFilesEqual</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The first path.</__p_description>
+                            <__p_name>path0</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The second path.</__p_description>
+                            <__p_name>path1</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Creates and returns a new test node block. The returned block's parent is this unit test instance.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>::Block::Test::Node*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Creates a test node block file at the given path with the given name and child links. If a file exists at the given path then it is overwritten.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>createBlockFile</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The path.</__p_description>
+                            <__p_name>path</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The name.</__p_description>
+                            <__p_name>name</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The children links.</__p_description>
+                            <__p_name>links</__p_name>
+                            <__p_type>const QStringList</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Creates the test project directory used for unit testing the from and to directory methods. The root unit testing directory for the abstract block test must exist.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>createTestProjectDir</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Creates the test XML file using for unit testing the latest to and from XML methods. The root unit testing directory for the abstract block test must exist.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>createTestXml</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Creates the test XML legacy file using for unit testing the latest from XML method using the legacy format. The root unit testing directory for the abstract block test must exist.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>createTestXmlLegacy</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                </Class>
                 <Namespace>
                     <__p_description>This contains all C++ block unit test classes.</__p_description>
                     <__p_name>Cpp</__p_name>
@@ -2798,23 +3475,6 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
                             <__p_returnType>void</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_description>Creates and returns a new class C++ block. The returned block's parent is this unit test instance.</__p_description>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>create</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>::Block::Cpp::Class*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
                         </Function>
@@ -2919,6 +3579,23 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
                         </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Creates and returns a new class C++ block. The returned block's parent is this unit test instance.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>create</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>::Block::Cpp::Class*</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
                     </Class>
                     <Class>
                         <__p_description>This is a Qt unit test class. It tests the enumeration C++ block class.</__p_description>
@@ -2954,23 +3631,6 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
                             <__p_returnType>void</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_description>Creates and returns a new enumeration C++ block. The returned block's parent is this unit test instance.</__p_description>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>create</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>::Block::Cpp::Enumeration*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
                         </Function>
@@ -3024,6 +3684,23 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
                         </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Creates and returns a new enumeration C++ block. The returned block's parent is this unit test instance.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>create</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>::Block::Cpp::Enumeration*</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
                     </Class>
                     <Class>
                         <__p_description>This is a Qt unit test class. It tests the namespace C++ block class.</__p_description>
@@ -3042,23 +3719,6 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
                             <__p_returnType>void</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_description>Creates and returns a new namespace C++ block. The returned block's parent is this unit test instance.</__p_description>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>create</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>::Block::Cpp::Namespace*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
                         </Function>
@@ -3160,6 +3820,23 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
                             <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Creates and returns a new namespace C++ block. The returned block's parent is this unit test instance.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>create</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>::Block::Cpp::Namespace*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
                         </Function>
@@ -3528,6 +4205,34 @@ A read project exception is thrown if any error is encountered.</__p_description
                     <__p_parents>public QObject</__p_parents>
                 </Class>
             </Namespace>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Public</__p_access>
+                <__p_const>0</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Determines if the given first and second Qt icons are equal. This is done by writing them to a Qt byte array and seeing if the arrays are equal.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>areIconsEqual</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
+                <__p_returnType>bool</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
+                <Variable>
+                    <__p_description>The first icon.</__p_description>
+                    <__p_name>icon0</__p_name>
+                    <__p_type>const QIcon&amp;</__p_type>
+                </Variable>
+                <Variable>
+                    <__p_description>The second icon.</__p_description>
+                    <__p_name>icon1</__p_name>
+                    <__p_type>const QIcon&amp;</__p_type>
+                </Variable>
+            </Function>
             <Function>
                 <__p_abstract>0</__p_abstract>
                 <__p_access>Public</__p_access>

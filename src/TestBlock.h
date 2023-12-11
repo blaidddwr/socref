@@ -8,6 +8,7 @@ namespace Test {
  */
 namespace Block
 {
+    class Abstract;
 }
 }
 

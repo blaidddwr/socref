@@ -25,15 +25,6 @@ class Namespace:
 
 
     /*!
-     * Creates and returns a new namespace C++ block. The returned block's
-     * parent is this unit test instance.
-     */
-    private:
-    ::Block::Cpp::Namespace* create(
-    );
-
-
-    /*!
      * Tests the description property.
      */
     private slots:
@@ -75,6 +66,15 @@ class Namespace:
 
     private slots:
     void cleanupTestCase(
+    );
+
+
+    /*!
+     * Creates and returns a new namespace C++ block. The returned block's
+     * parent is this unit test instance.
+     */
+    private:
+    ::Block::Cpp::Namespace* create(
     );
 };
 }

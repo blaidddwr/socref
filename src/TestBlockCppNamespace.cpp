@@ -18,20 +18,6 @@ void Namespace::initTestCase(
 }
 
 
-::Block::Cpp::Namespace* Namespace::create(
-)
-{
-    using namespace ::Block::Cpp;
-    auto factory = Factory::Language::instance();
-    auto index = factory->indexFromName("cpp");
-    auto ret = qobject_cast<::Block::Cpp::Namespace*>(
-        factory->get(index)->create(NamespaceIndex,this)
-    );
-    Q_ASSERT(ret);
-    return ret;
-}
-
-
 void Namespace::descriptionProperty(
 )
 {
@@ -115,6 +101,20 @@ void Namespace::cleanupTestCase(
 )
 {
     delete _block;
+}
+
+
+::Block::Cpp::Namespace* Namespace::create(
+)
+{
+    using namespace ::Block::Cpp;
+    auto factory = Factory::Language::instance();
+    auto index = factory->indexFromName("cpp");
+    auto ret = qobject_cast<::Block::Cpp::Namespace*>(
+        factory->get(index)->create(NamespaceIndex,this)
+    );
+    Q_ASSERT(ret);
+    return ret;
 }
 }
 }

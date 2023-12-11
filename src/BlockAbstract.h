@@ -118,6 +118,17 @@ class Abstract:
      * Getter method.
      *
      * @return
+     * A complete list of all descendant blocks contained in this block.
+     */
+    public:
+    QList<Block::Abstract*> descendants(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
      * This block's display icon property.
      */
     public:
@@ -368,6 +379,16 @@ class Abstract:
      */
     protected:
     virtual void removeEvent(
+    );
+
+
+    /*!
+     * Called when one of this block's child block's destroyed signal is
+     * emitted.
+     */
+    private slots:
+    void onChildDestroyed(
+        QObject* object
     );
 
 

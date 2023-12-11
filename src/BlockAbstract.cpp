@@ -31,8 +31,21 @@ void Abstract::append(
     ASSERT(!_children.contains(block));
     ASSERT(!qobject_cast<Abstract*>(block->parent()));
     block->setParent(this);
+    connect(block,&QObject::destroyed,this,&Abstract::onChildDestroyed);
     _children.append(block);
     block->addEvent();
+}
+
+
+QList<Block::Abstract*> Abstract::descendants(
+) const
+{
+    QList<Block::Abstract*> ret = _children;
+    for (auto child: _children)
+    {
+        ret += child->descendants();
+    }
+    return ret;
 }
 
 
@@ -62,11 +75,15 @@ Block::Abstract* Abstract::fromXml(
 {
     ASSERT(language);
     auto blockName = xml.name().toString();
+    int i = -1;
     if (version == Socref_Legacy)
     {
-        blockName = blockName.toLower();
+        i = language->indexFromName(blockName.toLower());
     }
-    auto i = language->indexFromName(blockName);
+    else
+    {
+        i = language->indexFromName(blockName);
+    }
     if (i == -1)
     {
         throw Exception::Block::Read(tr("Unknown block %1").arg(blockName));
@@ -156,6 +173,7 @@ void Abstract::insert(
     ASSERT(!_children.contains(block));
     ASSERT(!qobject_cast<Abstract*>(block->parent()));
     block->setParent(this);
+    connect(block,&QObject::destroyed,this,&Abstract::onChildDestroyed);
     _children.insert(index,block);
     block->addEvent();
 }
@@ -184,6 +202,7 @@ Block::Abstract* Abstract::take(
     ASSERT(index < _children.size());
     _children.at(index)->removeEvent();
     auto ret = _children.takeAt(index);
+    disconnect(ret,&QObject::destroyed,this,&Abstract::onChildDestroyed);
     ret->setParent(nullptr);
     return ret;
 }
@@ -193,38 +212,36 @@ void Abstract::toDir(
     const QString& path
 ) const
 {
-    ASSERT(qobject_cast<Abstract*>(parent()));
+    ASSERT(!qobject_cast<Abstract*>(parent()));
     ASSERT(scope() == "ROOT");
     QHash<QString,const Abstract*> blocks;
-    std::function<void(const Abstract*)> getDescendants;
-    getDescendants = [getDescendants,&blocks](const Abstract* block) {
-        for (auto child: block->_children)
-        {
-            static const QRegularExpression nonPrintable("[\t\r\n\a\e\f]|(ROOT)");
-            auto scope = child->scope();
-            ASSERT(!scope.contains(nonPrintable));
-            auto childPath = scope+".srb";
-            if (blocks.contains(childPath))
-            {
-                throw Exception::Block::Logical(
-                    tr("Conflicting scope of %1 with two or more blocks.").arg(child->scope())
-                );
-            }
-            blocks.insert(childPath,child);
-            getDescendants(child);
-        }
-    };
-    getDescendants(this);
-    QFileInfo dirInfo(path);
-    if (!dirInfo.isDir())
+    for (auto descendant: descendants())
     {
-        throw Exception::System::File(tr("Given path %1 is not a directory.").arg(path));
+        static const QRegularExpression nonPrintable("[\t\r\n\a\e\f]|(ROOT)");
+        auto scope = descendant->scope();
+        ASSERT(!scope.contains(nonPrintable));
+        auto path = scope+".srb";
+        if (blocks.contains(path))
+        {
+            throw Exception::Block::Logical(
+                tr("Conflicting scope of %1 with two or more blocks.").arg(descendant->scope())
+            );
+        }
+        blocks.insert(path,descendant);
+    }
+    QFileInfo dirInfo(path);
+    QDir dir(path);
+    if (!dir.exists())
+    {
+        if (!dirInfo.dir().mkdir(dirInfo.fileName()))
+        {
+            throw Exception::System::File(tr("Failed making directory %1.").arg(path));
+        }
     }
     if (!dirInfo.isWritable())
     {
         throw Exception::System::File(tr("Given directory %1 is not writable.").arg(path));
     }
-    QDir dir(path);
     for (const auto& info: dir.entryInfoList({"*.srb"}))
     {
         if (!info.isWritable())
@@ -281,6 +298,18 @@ void Abstract::removeEvent(
 }
 
 
+void Abstract::onChildDestroyed(
+    QObject* object
+)
+{
+    auto index = _children.indexOf(object);
+    if (index != -1)
+    {
+        _children.removeAt(index);
+    }
+}
+
+
 void Abstract::onMetaDestroyed(
     QObject* object
 )
@@ -334,7 +363,7 @@ Block::Abstract* Abstract::read(
     {
         if (line.front() == ':')
         {
-            QString name = line.remove(1,1);
+            QString name = line.mid(1);
             if (map.contains(name))
             {
                 throw Exception::Block::Read(tr("Duplicate property element %1").arg(name));
@@ -347,17 +376,23 @@ Block::Abstract* Abstract::read(
                 );
                 throw Exception::Block::Read(msg.arg(path).arg(lineNumber));
             }
-            data = data.replace("\\\\","\\");
-            data = data.replace("\\n","\n");
+            data.replace("\\\\","\\");
+            data.replace("\\n","\n");
             map.insert(name,data);
         }
         else if (line.front() == '+')
         {
-            QString path = dir.absoluteFilePath(line.remove(1,1)+".srb");
-            block->append(read(language,version,path));
+            line = in.readLine();
+            break;
         }
         line = in.readLine();
         lineNumber++;
+    }
+    while (!line.isNull())
+    {
+        QString path = dir.absoluteFilePath(line+".srb");
+        block->append(read(language,version,path));
+        line = in.readLine();
     }
     block->loadFromMap(map,version);
     block->setParent(parent);
@@ -380,8 +415,8 @@ void Abstract::write(
     for (auto i = map.begin();i != map.end();i++)
     {
         auto data = i.value().toString();
-        data = data.replace("\\","\\\\");
-        data = data.replace("\n","\\n");
+        data.replace("\\","\\\\");
+        data.replace("\n","\\n");
         out << ":"+i.key() << "\n" << data << "\n";
     }
     out << "+CHILDREN+\n";

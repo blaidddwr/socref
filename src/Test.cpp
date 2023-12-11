@@ -1,6 +1,8 @@
 #include "Test.h"
 #include <QtCore>
+#include <QtGui>
 #include <QtTest>
+#include "TestBlockAbstract.h"
 #include "TestBlockCppClass.h"
 #include "TestBlockCppEnumeration.h"
 #include "TestBlockCppNamespace.h"
@@ -15,6 +17,21 @@ struct TestObject
     QObject* ptr;
 };
 const QList<TestObject>* _g_tests {nullptr};
+
+
+bool areIconsEqual(
+    const QIcon& icon0
+    ,const QIcon& icon1
+)
+{
+    QByteArray data0;
+    QByteArray data1;
+    QDataStream in0(&data0,QIODevice::WriteOnly);
+    QDataStream in1(&data1,QIODevice::WriteOnly);
+    in0 << icon0;
+    in1 << icon1;
+    return data0 == data1;
+}
 
 
 int execute(
@@ -37,7 +54,7 @@ int execute(
         return 0;
     }
     QString testName = argv[2];
-    QStringList arguments;
+    QStringList arguments {argv[0]};
     for (int i = 3;i < argc;i++)
     {
         arguments += argv[i];
@@ -87,7 +104,8 @@ void initialize(
 {
     Q_ASSERT(!_g_tests);
     _g_tests = new QList<TestObject> {
-        {"BlockCppClass",new Block::Cpp::Class}
+        {"Block",new Block::Abstract}
+        ,{"BlockCppClass",new Block::Cpp::Class}
         ,{"BlockCppEnumeration",new Block::Cpp::Enumeration}
         ,{"BlockCppNamespace",new Block::Cpp::Namespace}
         ,{"Language",new Language::Abstract}

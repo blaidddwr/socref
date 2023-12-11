@@ -33,15 +33,6 @@ class Enumeration:
 
 
     /*!
-     * Creates and returns a new enumeration C++ block. The returned block's
-     * parent is this unit test instance.
-     */
-    private:
-    ::Block::Cpp::Enumeration* create(
-    );
-
-
-    /*!
      * Tests the load from map interface.
      */
     private slots:
@@ -59,6 +50,15 @@ class Enumeration:
 
     private slots:
     void cleanupTestCase(
+    );
+
+
+    /*!
+     * Creates and returns a new enumeration C++ block. The returned block's
+     * parent is this unit test instance.
+     */
+    private:
+    ::Block::Cpp::Enumeration* create(
     );
 };
 }

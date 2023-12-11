@@ -1,6 +1,7 @@
 #ifndef TEST_H
 #define TEST_H
 #include <QtGlobal>
+class QIcon;
 
 
 /*!
@@ -8,6 +9,25 @@
  */
 namespace Test
 {
+
+
+    /*!
+     * Determines if the given first and second Qt icons are equal. This is done
+     * by writing them to a Qt byte array and seeing if the arrays are equal.
+     *
+     * @param icon0
+     *        The first icon.
+     *
+     * @param icon1
+     *        The second icon.
+     *
+     * @return
+     * True if they are equal or false otherwise.
+     */
+    bool areIconsEqual(
+        const QIcon& icon0
+        ,const QIcon& icon1
+    );
 
 
     /*!

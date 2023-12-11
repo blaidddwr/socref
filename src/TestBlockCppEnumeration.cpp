@@ -31,20 +31,6 @@ void Enumeration::classProperty(
 }
 
 
-::Block::Cpp::Enumeration* Enumeration::create(
-)
-{
-    using namespace ::Block::Cpp;
-    auto factory = Factory::Language::instance();
-    auto index = factory->indexFromName("cpp");
-    auto ret = qobject_cast<::Block::Cpp::Enumeration*>(
-        factory->get(index)->create(EnumerationIndex,this)
-        );
-    Q_ASSERT(ret);
-    return ret;
-}
-
-
 void Enumeration::loadFromMap(
 )
 {
@@ -86,6 +72,20 @@ void Enumeration::cleanupTestCase(
 )
 {
     delete _block;
+}
+
+
+::Block::Cpp::Enumeration* Enumeration::create(
+)
+{
+    using namespace ::Block::Cpp;
+    auto factory = Factory::Language::instance();
+    auto index = factory->indexFromName("cpp");
+    auto ret = qobject_cast<::Block::Cpp::Enumeration*>(
+        factory->get(index)->create(EnumerationIndex,this)
+        );
+    Q_ASSERT(ret);
+    return ret;
 }
 }
 }

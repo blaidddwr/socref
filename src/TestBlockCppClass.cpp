@@ -18,20 +18,6 @@ void Class::initTestCase(
 }
 
 
-::Block::Cpp::Class* Class::create(
-)
-{
-    using namespace ::Block::Cpp;
-    auto factory = Factory::Language::instance();
-    auto index = factory->indexFromName("cpp");
-    auto ret = qobject_cast<::Block::Cpp::Class*>(
-        factory->get(index)->create(ClassIndex,this)
-        );
-    Q_ASSERT(ret);
-    return ret;
-}
-
-
 void Class::loadFromMap(
 )
 {
@@ -130,6 +116,20 @@ void Class::cleanupTestCase(
 )
 {
     delete _block;
+}
+
+
+::Block::Cpp::Class* Class::create(
+)
+{
+    using namespace ::Block::Cpp;
+    auto factory = Factory::Language::instance();
+    auto index = factory->indexFromName("cpp");
+    auto ret = qobject_cast<::Block::Cpp::Class*>(
+        factory->get(index)->create(ClassIndex,this)
+        );
+    Q_ASSERT(ret);
+    return ret;
 }
 }
 }
