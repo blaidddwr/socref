@@ -21,6 +21,7 @@ void Abstract::initTestCase(
     _meta = new Model::Meta::Language("test","Test",this);
     _language = new Language::Test(_meta,this);
     _block = create();
+    QVERIFY(_block);
     auto dir = QDir::temp();
     if (dir.exists(TEST_DIR))
     {

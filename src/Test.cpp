@@ -6,6 +6,7 @@
 #include "TestBlockCppClass.h"
 #include "TestBlockCppEnumeration.h"
 #include "TestBlockCppNamespace.h"
+#include "TestFactoryLanguage.h"
 #include "TestLanguageAbstract.h"
 #include "TestLanguageCpp.h"
 #include "TestLanguageCppQt.h"
@@ -108,6 +109,7 @@ void initialize(
         ,{"BlockCppClass",new Block::Cpp::Class}
         ,{"BlockCppEnumeration",new Block::Cpp::Enumeration}
         ,{"BlockCppNamespace",new Block::Cpp::Namespace}
+        ,{"FactoryLanguage",new Factory::Language}
         ,{"Language",new Language::Abstract}
         ,{"LanguageCpp",new Language::Cpp}
         ,{"LanguageCppQt",new Language::CppQt}

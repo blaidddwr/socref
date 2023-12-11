@@ -33,6 +33,14 @@ class Enumeration:
 
 
     /*!
+     * Tests the display icon property.
+     */
+    private slots:
+    void displayIconProperty(
+    );
+
+
+    /*!
      * Tests the load from map interface.
      */
     private slots:

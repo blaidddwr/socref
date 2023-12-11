@@ -5,6 +5,7 @@
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
+#include "Test.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -28,6 +29,14 @@ void Enumeration::classProperty(
     QCOMPARE(arguments.size(),1);
     QCOMPARE(arguments.at(0),true);
     QCOMPARE(_block->isClass(),true);
+}
+
+
+void Enumeration::displayIconProperty(
+)
+{
+    static const QIcon testIcon(":/cpp/enumeration.svg");
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
 }
 
 

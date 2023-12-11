@@ -5,6 +5,7 @@
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
+#include "Test.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -15,6 +16,14 @@ void Class::initTestCase(
 {
     _block = create();
     QVERIFY(_block);
+}
+
+
+void Class::displayIconProperty(
+)
+{
+    static const QIcon testIcon(":/cpp/class.svg");
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
 }
 
 

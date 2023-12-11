@@ -5,6 +5,7 @@
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
+#include "Test.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -32,7 +33,15 @@ void Namespace::descriptionProperty(
 }
 
 
-void Namespace::displayText(
+void Namespace::displayIconProperty(
+)
+{
+    static const QIcon testIcon(":/cpp/namespace.svg");
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+}
+
+
+void Namespace::displayTextProperty(
 )
 {
     static const QString testName  = "TestingDisplay123";
@@ -94,6 +103,23 @@ void Namespace::saveToMap(
     auto data = block->saveToMap();
     QCOMPARE(data,testData);
     delete block;
+}
+
+
+void Namespace::scopeProperty(
+)
+{
+    static const QStringList testScope {"Test0","Test1"};
+    QCOMPARE(_block->size(),0);
+    auto child0 = create();
+    auto child1 = create();
+    child0->setName(testScope.at(0));
+    child1->setName(testScope.at(1));
+    _block->append(child0);
+    child0->append(child1);
+    QCOMPARE(child1->scope(),testScope.join("::"));
+    QCOMPARE(child0->scope(),testScope.at(0));
+    QCOMPARE(_block->scope(),"ROOT");
 }
 
 

@@ -33,10 +33,18 @@ class Namespace:
 
 
     /*!
+     * Tests the display icon property.
+     */
+    private slots:
+    void displayIconProperty(
+    );
+
+
+    /*!
      * Tests the display text property.
      */
     private slots:
-    void displayText(
+    void displayTextProperty(
     );
 
 
@@ -61,6 +69,14 @@ class Namespace:
      */
     private slots:
     void saveToMap(
+    );
+
+
+    /*!
+     * Tests the scope property.
+     */
+    private slots:
+    void scopeProperty(
     );
 
 

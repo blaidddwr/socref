@@ -63,7 +63,11 @@ QString Base::scope(
     }
     while (block)
     {
-        scopeNames.prepend(block->scopeName());
+        auto scopeName = block->scopeName();
+        if (!scopeName.isNull())
+        {
+            scopeNames.prepend(scopeName);
+        }
         block = qobject_cast<Base*>(block->parent());
     }
     return scopeNames.join("::");
@@ -106,6 +110,10 @@ void Base::onNameChanged(
 QString Base::scopeName(
 ) const
 {
+    if (!qobject_cast<Base*>(parent()))
+    {
+        return QString();
+    }
     return _name;
 }
 }
