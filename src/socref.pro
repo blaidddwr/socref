@@ -18,6 +18,7 @@ SOURCES +=  Global.cpp \
             ModelMetaLanguage.cpp \
             ModelProject.cpp \
             Test.cpp \
+            TestBase.cpp \
             TestBlockAbstract.cpp \
             TestBlockCppClass.cpp \
             TestBlockCppEnumeration.cpp \
@@ -62,6 +63,8 @@ HEADERS +=  Global.h \
             ModelMetaLanguage.h \
             ModelProject.h \
             Test.h \
+            TestBase.h \
+            TestBase.t.h \
             TestBlock.h \
             TestBlockAbstract.h \
             TestBlockCpp.h \

@@ -197,7 +197,7 @@ void Abstract::move(
     G_ASSERT(from >= 0);
     G_ASSERT(from < _children.size());
     G_ASSERT(to >= 0);
-    G_ASSERT(to <= _children.size());
+    G_ASSERT(to < _children.size());
     _children.move(from,to);
 }
 

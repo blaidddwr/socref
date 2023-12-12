@@ -2,11 +2,10 @@
 #include <QSignalSpy>
 #include <QTest>
 #include "BlockCppEnumeration.h"
-#include "Exception.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
-#include "Test.h"
+#include "TestBase.t.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -15,7 +14,15 @@ namespace Cpp {
 void Enumeration::initTestCase(
 )
 {
-    _block = create();
+    auto factory = Factory::Language::instance();
+    QVERIFY(factory);
+    auto langIndex = factory->indexFromName("cpp");
+    QVERIFY(langIndex >= 0);
+    initLanguage(Factory::Language::instance()->get(langIndex));
+    _blockIndex = language()->indexFromName("enumeration");
+    QVERIFY(_blockIndex >= 0);
+    _block = create<::Block::Cpp::Enumeration>(_blockIndex);
+    QVERIFY(_block);
 }
 
 
@@ -49,7 +56,7 @@ void Enumeration::loadFromMap(
         ,{"description","description"}
         ,{"class",true}
     };
-    auto block = create();
+    auto block = create<::Block::Cpp::Enumeration>(_blockIndex);
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->isClass(),true);
@@ -67,7 +74,7 @@ void Enumeration::saveToMap(
         ,{"description",testDescription}
         ,{"class",true}
     };
-    auto block = create();
+    auto block = create<::Block::Cpp::Enumeration>(_blockIndex);
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);
@@ -82,20 +89,6 @@ void Enumeration::cleanupTestCase(
 )
 {
     delete _block;
-}
-
-
-::Block::Cpp::Enumeration* Enumeration::create(
-)
-{
-    using namespace ::Block::Cpp;
-    auto factory = Factory::Language::instance();
-    auto index = factory->indexFromName("cpp");
-    auto ret = qobject_cast<::Block::Cpp::Enumeration*>(
-        factory->get(index)->create(EnumerationIndex,this)
-        );
-    G_ASSERT(ret);
-    return ret;
 }
 }
 }

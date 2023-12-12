@@ -1,7 +1,7 @@
 #ifndef TEST_BLOCK_CPP_ENUMERATION_H
 #define TEST_BLOCK_CPP_ENUMERATION_H
-#include <QObject>
 #include "BlockCpp.h"
+#include "TestBase.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -13,10 +13,11 @@ namespace Cpp {
  * This is a Qt unit test class. It tests the enumeration C++ block class.
  */
 class Enumeration:
-    public QObject
+    public Test::Base
 {
     Q_OBJECT
     ::Block::Cpp::Enumeration* _block;
+    int _blockIndex;
 
 
     private slots:
@@ -58,15 +59,6 @@ class Enumeration:
 
     private slots:
     void cleanupTestCase(
-    );
-
-
-    /*!
-     * Creates and returns a new enumeration C++ block. The returned block's
-     * parent is this unit test instance.
-     */
-    private:
-    ::Block::Cpp::Enumeration* create(
     );
 };
 }

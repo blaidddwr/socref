@@ -2,15 +2,11 @@
 #include <QSignalSpy>
 #include <QtTest>
 #include "BlockTestNode.h"
-#include "Exception.h"
 #include "Global.h"
 #include "LanguageTest.h"
 #include "ModelMetaLanguage.h"
-#include "Test.h"
-#define TEST_DIR "socref.unit_test.block.d"
-#define TEST_PROJ_DIR "testDir"
-#define TEST_XML "test.xml"
-#define TEST_XML_LEGACY "test.legacy.xml"
+#include "TestBase.t.h"
+#define BLOCK_INDEX 0
 namespace Test {
 namespace Block {
 
@@ -19,18 +15,9 @@ void Abstract::initTestCase(
 )
 {
     _meta = new Model::Meta::Language("test","Test",this);
-    _language = new Language::Test(_meta,this);
-    _block = create();
-    QVERIFY(_block);
-    auto dir = QDir::temp();
-    if (dir.exists(TEST_DIR))
-    {
-        QProcess::execute("rm",{"-fr",dir.absoluteFilePath(TEST_DIR)});
-    }
-    QVERIFY(dir.mkdir(TEST_DIR));
-    createTestXml();
-    createTestXmlLegacy();
-    createTestProjectDir();
+    initLanguage(new Language::Test(_meta,this));
+    _block = create<::Block::Test::Node>(BLOCK_INDEX);
+    QVERIFY(createTestDir());
 }
 
 
@@ -41,7 +28,8 @@ void Abstract::append(
     {
         delete _block->take(0);
     }
-    auto child = create();
+    auto child = create<::Block::Test::Node>(BLOCK_INDEX);
+    QVERIFY(child);
     _block->append(child);
     QCOMPARE(qobject_cast<::Block::Test::Node*>(child->parent()),_block);
     QCOMPARE(_block->size(),1);
@@ -65,9 +53,9 @@ void Abstract::descendants(
     {
         delete _block->take(0);
     }
-    auto child0 = create();
-    auto child1 = create();
-    auto child2 = create();
+    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
     _block->append(child0);
     child0->append(child1);
     child1->append(child2);
@@ -114,10 +102,8 @@ void Abstract::fromDir(
 )
 {
     using namespace ::Block::Test;
-    auto dir = QDir::temp();
-    QVERIFY(dir.cd(TEST_DIR));
     auto root = qobject_cast<Node*>(
-        ::Block::Abstract::fromDir(_language,Socref_1_0,dir.absoluteFilePath(TEST_PROJ_DIR),this)
+        ::Block::Abstract::fromDir(language(),Socref_1_0,testProjDir(),this)
     );
     QVERIFY(root);
     QCOMPARE(root->name(),"");
@@ -138,9 +124,7 @@ void Abstract::fromXml(
 )
 {
     using namespace ::Block::Test;
-    auto dir = QDir::temp();
-    QVERIFY(dir.cd(TEST_DIR));
-    QFile file(dir.absoluteFilePath(TEST_XML));
+    QFile file(testXml());
     QVERIFY(file.open(QIODevice::ReadOnly));
     QXmlStreamReader xml(&file);
     while (!xml.atEnd())
@@ -152,7 +136,7 @@ void Abstract::fromXml(
         )
         {
             auto root = qobject_cast<Node*>(
-                ::Block::Abstract::fromXml(_language,Socref_1_0,xml,this)
+                ::Block::Abstract::fromXml(language(),Socref_1_0,xml,this)
             );
             QVERIFY(root);
             QCOMPARE(root->name(),"");
@@ -177,9 +161,7 @@ void Abstract::fromXmlLegacy(
 )
 {
     using namespace ::Block::Test;
-    auto dir = QDir::temp();
-    QVERIFY(dir.cd(TEST_DIR));
-    QFile file(dir.absoluteFilePath(TEST_XML_LEGACY));
+    QFile file(testXmlLegacy());
     QVERIFY(file.open(QIODevice::ReadOnly));
     QXmlStreamReader xml(&file);
     while (!xml.atEnd())
@@ -191,7 +173,7 @@ void Abstract::fromXmlLegacy(
         )
         {
             auto root = qobject_cast<Node*>(
-                ::Block::Abstract::fromXml(_language,Socref_Legacy,xml,this)
+                ::Block::Abstract::fromXml(language(),Socref_Legacy,xml,this)
             );
             QVERIFY(root);
             QCOMPARE(root->name(),"");
@@ -219,9 +201,9 @@ void Abstract::get(
     {
         delete _block->take(0);
     }
-    auto child0 = create();
-    auto child1 = create();
-    auto child2 = create();
+    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
@@ -244,9 +226,9 @@ void Abstract::indexOf(
     {
         delete _block->take(0);
     }
-    auto child0 = create();
-    auto child1 = create();
-    auto child2 = create();
+    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
@@ -270,9 +252,9 @@ void Abstract::insert(
     {
         delete _block->take(0);
     }
-    auto child0 = create();
-    auto child1 = create();
-    auto child2 = create();
+    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
     _block->insert(0,child1);
     QCOMPARE(_block->get(0),child1);
     QCOMPARE(qobject_cast<Node*>(child1->parent()),_block);
@@ -294,7 +276,7 @@ void Abstract::insert(
 void Abstract::metaProperty(
 )
 {
-    QCOMPARE(_block->meta(),_language->blockMeta(::Block::Test::NodeIndex));
+    QCOMPARE(_block->meta(),language()->blockMeta(::Block::Test::NodeIndex));
 }
 
 
@@ -305,9 +287,9 @@ void Abstract::move(
     {
         delete _block->take(0);
     }
-    auto child0 = create();
-    auto child1 = create();
-    auto child2 = create();
+    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
@@ -319,6 +301,10 @@ void Abstract::move(
     QCOMPARE(_block->get(0),child2);
     QCOMPARE(_block->get(1),child1);
     QCOMPARE(_block->get(2),child0);
+    _block->move(2,1);
+    QCOMPARE(_block->get(0),child2);
+    QCOMPARE(_block->get(1),child0);
+    QCOMPARE(_block->get(2),child1);
 }
 
 
@@ -326,7 +312,8 @@ void Abstract::scopeProperty(
 )
 {
     static const QString testName = "Testing123";
-    auto child = create();
+    auto child = create<::Block::Test::Node>(BLOCK_INDEX);
+    QVERIFY(child);
     child->setName(testName);
     _block->append(child);
     QCOMPARE(child->scope(),testName);
@@ -340,7 +327,7 @@ void Abstract::size(
     {
         delete _block->take(0);
     }
-    _block->append(create());
+    _block->append(create<::Block::Abstract>(BLOCK_INDEX));
     QCOMPARE(_block->size(),1);
     delete _block->take(0);
     QCOMPARE(_block->size(),0);
@@ -355,9 +342,9 @@ void Abstract::take(
     {
         delete _block->take(0);
     }
-    auto child0 = create();
-    auto child1 = create();
-    auto child2 = create();
+    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
@@ -385,15 +372,15 @@ void Abstract::take(
 void Abstract::toDir(
 )
 {
-    auto dir = QDir::temp();
-    QVERIFY(dir.cd(TEST_DIR));
+    QDir dir(testDir());
+    QVERIFY(dir.exists());
     while (_block->size() > 0)
     {
         delete _block->take(0);
     }
     _block->setName("");
-    auto node0 = create();
-    auto node1 = create();
+    auto node0 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto node1 = create<::Block::Test::Node>(BLOCK_INDEX);
     node0->setName("Node\n0");
     node1->setName("Node\n1");
     _block->append(node0);
@@ -401,8 +388,9 @@ void Abstract::toDir(
     _block->toDir(dir.absoluteFilePath("outputDir"));
     QVERIFY(
         areDirsEqual(
-            QDir(dir.absoluteFilePath(TEST_PROJ_DIR))
+            QDir(testProjDir())
             ,QDir(dir.absoluteFilePath("outputDir"))
+            ,"*.srb"
         )
     );
 }
@@ -411,15 +399,15 @@ void Abstract::toDir(
 void Abstract::toXml(
 )
 {
-    auto dir = QDir::temp();
-    QVERIFY(dir.cd(TEST_DIR));
+    QDir dir(testDir());
+    QVERIFY(dir.exists());
     while (_block->size() > 0)
     {
         delete _block->take(0);
     }
     _block->setName("");
-    auto node0 = create();
-    auto node1 = create();
+    auto node0 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto node1 = create<::Block::Test::Node>(BLOCK_INDEX);
     node0->setName("Node0");
     node1->setName("Node1");
     _block->append(node0);
@@ -432,194 +420,16 @@ void Abstract::toXml(
     _block->toXml(xml);
     xml.writeEndDocument();
     QVERIFY(file.flush());
-    QVERIFY(
-        areXmlFilesEqual(dir.absoluteFilePath(TEST_XML),dir.absoluteFilePath("output.xml"))
-    );
+    QVERIFY(areXmlFilesEqual(testXml(),dir.absoluteFilePath("output.xml")));
 }
 
 
 void Abstract::cleanupTestCase(
 )
 {
-    QProcess::execute("rm",{"-fr",QDir::temp().absoluteFilePath(TEST_DIR)});
+    cleanup();
     delete _block;
-    delete _language;
     delete _meta;
-}
-
-
-bool Abstract::areDirsEqual(
-    const QDir& dir0
-    ,const QDir& dir1
-)
-{
-    for (const auto& info: dir0.entryInfoList(QDir::Files))
-    {
-        if (!dir1.exists(info.fileName()))
-        {
-            return false;
-        }
-        if (!areFilesEqual(info.absoluteFilePath(),dir1.absoluteFilePath(info.fileName())))
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-
-bool Abstract::areFilesEqual(
-    const QString& path0
-    ,const QString& path1
-)
-{
-    QFile file0(path0);
-    QFile file1(path1);
-    if (!file0.open(QIODevice::ReadOnly))
-    {
-        return false;
-    }
-    if (!file1.open(QIODevice::ReadOnly))
-    {
-        return false;
-    }
-    return file0.readAll() == file1.readAll();
-}
-
-
-bool Abstract::areXmlFilesEqual(
-    const QString& path0
-    ,const QString& path1
-)
-{
-    QFile file0(path0);
-    QFile file1(path1);
-    if (!file0.open(QIODevice::ReadOnly))
-    {
-        return false;
-    }
-    if (!file1.open(QIODevice::ReadOnly))
-    {
-        return false;
-    }
-    QXmlStreamReader xml0(&file0);
-    QXmlStreamReader xml1(&file1);
-    while (!xml0.atEnd())
-    {
-        if (xml0.tokenType() != xml1.tokenType())
-        {
-            return false;
-        }
-        if (xml0.name() != xml1.name())
-        {
-            return false;
-        }
-        if (xml0.attributes() != xml1.attributes())
-        {
-            return false;
-        }
-        if (xml0.text() != xml1.text())
-        {
-            return false;
-        }
-        xml0.readNext();
-        xml1.readNext();
-    }
-    return true;
-}
-
-
-::Block::Test::Node* Abstract::create(
-)
-{
-    G_ASSERT(_language);
-    auto ret = qobject_cast<::Block::Test::Node*>(_language->create(::Block::Test::NodeIndex,this));
-    G_ASSERT(ret);
-    return ret;
-}
-
-
-bool Abstract::createBlockFile(
-    const QString& path
-    ,const QString& name
-    ,const QStringList links
-)
-{
-    QFile file(path);
-    if (!file.open(QIODevice::WriteOnly|QIODevice::Truncate))
-    {
-        return false;
-    }
-    QTextStream out(&file);
-    out << "node\n";
-    out << ":name\n" << name << "\n";
-    out << "+CHILDREN+\n";
-    for (const auto& link: links)
-    {
-        out << link << "\n";
-    }
-    return (file.error() == QFileDevice::NoError);
-}
-
-
-void Abstract::createTestProjectDir(
-)
-{
-    auto dir = QDir::temp();
-    QVERIFY(dir.cd(TEST_DIR));
-    QVERIFY(dir.mkdir(TEST_PROJ_DIR));
-    QVERIFY(dir.cd(TEST_PROJ_DIR));
-    QVERIFY(createBlockFile(dir.absoluteFilePath("ROOT.srb"),"",{"Node0"}));
-    QVERIFY(createBlockFile(dir.absoluteFilePath("Node0.srb"),"Node\\n0",{"Node0:Node1"}));
-    QVERIFY(createBlockFile(dir.absoluteFilePath("Node0:Node1.srb"),"Node\\n1",{}));
-}
-
-
-void Abstract::createTestXml(
-)
-{
-    auto dir = QDir::temp();
-    QVERIFY(dir.cd(TEST_DIR));
-    QFile file(dir.absoluteFilePath(TEST_XML));
-    QVERIFY(file.open(QIODevice::WriteOnly|QIODevice::Truncate));
-    QXmlStreamWriter xml(&file);
-    xml.setAutoFormatting(true);
-    xml.writeStartDocument();
-    xml.writeStartElement("node");
-    xml.writeTextElement("_name","");
-    xml.writeStartElement("node");
-    xml.writeTextElement("_name","Node0");
-    xml.writeStartElement("node");
-    xml.writeTextElement("_name","Node1");
-    xml.writeEndElement();
-    xml.writeEndElement();
-    xml.writeEndElement();
-    xml.writeEndDocument();
-    QVERIFY(file.error() == QFileDevice::NoError);
-}
-
-
-void Abstract::createTestXmlLegacy(
-)
-{
-    auto dir = QDir::temp();
-    QVERIFY(dir.cd(TEST_DIR));
-    QFile file(dir.absoluteFilePath(TEST_XML_LEGACY));
-    QVERIFY(file.open(QIODevice::WriteOnly|QIODevice::Truncate));
-    QXmlStreamWriter xml(&file);
-    xml.setAutoFormatting(true);
-    xml.writeStartDocument();
-    xml.writeStartElement("NoDe");
-    xml.writeTextElement("__p_name","");
-    xml.writeStartElement("noDE");
-    xml.writeTextElement("__p_name","Node0");
-    xml.writeStartElement("nOdE");
-    xml.writeTextElement("__p_name","Node1");
-    xml.writeEndElement();
-    xml.writeEndElement();
-    xml.writeEndElement();
-    xml.writeEndDocument();
-    QVERIFY(file.error() == QFileDevice::NoError);
 }
 }
 }

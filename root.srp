@@ -3074,13 +3074,414 @@ A read project exception is thrown if any error is encountered.</__p_description
         <Namespace>
             <__p_description>This contains all unit test namespaces and functions.</__p_description>
             <__p_name>Test</__p_name>
+            <Class>
+                <__p_description>This is a Qt unit test class. It is a base class providing common functionality that many specific unit test classes require.</__p_description>
+                <__p_name>Base</__p_name>
+                <__p_parents>public QObject</__p_parents>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Determines if the given first and second directories are equal. Only files matching the given filter of each directory are checked for equality, whereas sub directories and unmatched files are ignored.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>areDirsEqual</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The first directory.</__p_description>
+                        <__p_name>dir0</__p_name>
+                        <__p_type>const QDir&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The second directory.</__p_description>
+                        <__p_name>dir1</__p_name>
+                        <__p_type>const QDir&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>QString()</__p_assignment>
+                        <__p_description>The filter.</__p_description>
+                        <__p_name>filter</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Determines if the first and second files at the given paths are equal. If either file cannot be opened they are considered to be not equal.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>areFilesEqual</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The first path.</__p_description>
+                        <__p_name>path0</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The second path.</__p_description>
+                        <__p_name>path1</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Determines if the given first and second Qt icons are equal. This is done by writing them to a Qt byte array and seeing if the arrays are equal.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>areIconsEqual</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The first icon.</__p_description>
+                        <__p_name>icon0</__p_name>
+                        <__p_type>const QIcon&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The second icon.</__p_description>
+                        <__p_name>icon1</__p_name>
+                        <__p_type>const QIcon&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Determines if the first and second XML files at the given paths are equal. If either file cannot be opened they are considered to be not equal.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>areXmlFilesEqual</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The first path.</__p_description>
+                        <__p_name>path0</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The second path.</__p_description>
+                        <__p_name>path1</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Cleans up this application's unit testing directory by removing it if it exists.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>cleanup</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a new block of the given type T with the given block index. The returned block's parent is this unit test instance. This instance's language must be initialized before this is called. The given block index must match the given block type T.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>create</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>T*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_template>template&lt;class T&gt;</__p_template>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates this application's unit test directory with all mock up test files. If the unit test directory already exists it is removed before this creates it again.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createTestDir</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Initializes this instance's language to the given one. The given language must be valid. This must be called before this instance's create method is called. This instance's language can only be initialized once.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>initLanguage</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The language.</__p_description>
+                        <__p_name>language</__p_name>
+                        <__p_type>Language::Abstract*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns this instance's language. This instance's language must be initialized before this is called.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>language</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Language::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>testDir</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The absolute path to this application's unit test directory.</__p_returnDescription>
+                    <__p_returnType>QString</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>testProjDir</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The absolute path to this application's test multi-file project directory. This can be used for unit testing the loading or saving of project directories.</__p_returnDescription>
+                    <__p_returnType>QString</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>testXml</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The absolute path to this application's test exported XML project file. This can be used for unit testing the import and export of projects.</__p_returnDescription>
+                    <__p_returnType>QString</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>testXmlLegacy</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The absolute path to this application's test exported XML legacy project file. This can be used for unit testing the import and export of projects using the legacy format.</__p_returnDescription>
+                    <__p_returnType>QString</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates a test node block file at the given path with the given name and child links. If a file exists at the given path then it is overwritten.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createBlockFile</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The name.</__p_description>
+                        <__p_name>name</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The children links.</__p_description>
+                        <__p_name>links</__p_name>
+                        <__p_type>const QStringList</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates a test project configuration file for a multi-file project directory at the given path. If a file exists at the given path it is overwritten.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createTestProjectConfig</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates the test multi-file project directory in this application's unit testing directory.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createTestProjectDir</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates the test XML project file in this applications unit testing directory.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createTestXml</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates the test XML legacy project file in this applications unit testing directory.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createTestXmlLegacy</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+            </Class>
             <Namespace>
                 <__p_description>This contains all block unit test namespaces.</__p_description>
                 <__p_name>Block</__p_name>
                 <Class>
                     <__p_description>This is a Qt unit test class. It tests the abstract block class.</__p_description>
                     <__p_name>Abstract</__p_name>
-                    <__p_parents>public QObject</__p_parents>
+                    <__p_parents>public Test::Base</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Private Slots</__p_access>
@@ -3402,191 +3803,6 @@ A read project exception is thrown if any error is encountered.</__p_description
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if the given first and second directories are equal. This is determined if the directories contain the same files and all those files are also equal.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>areDirsEqual</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
-                        <__p_static>1</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The first directory.</__p_description>
-                            <__p_name>dir0</__p_name>
-                            <__p_type>const QDir&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The second directory.</__p_description>
-                            <__p_name>dir1</__p_name>
-                            <__p_type>const QDir&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if the first and second files at the given paths are equal. If either file cannot be opened they are considered to be not equal.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>areFilesEqual</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
-                        <__p_static>1</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The first path.</__p_description>
-                            <__p_name>path0</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The second path.</__p_description>
-                            <__p_name>path1</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if the first and second XML files at the given paths are equal. If either file cannot be opened they are considered to be not equal.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>areXmlFilesEqual</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
-                        <__p_static>1</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The first path.</__p_description>
-                            <__p_name>path0</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The second path.</__p_description>
-                            <__p_name>path1</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Creates and returns a new test node block. The returned block's parent is this unit test instance.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>create</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>::Block::Test::Node*</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Creates a test node block file at the given path with the given name and child links. If a file exists at the given path then it is overwritten.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>createBlockFile</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
-                        <__p_static>1</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The path.</__p_description>
-                            <__p_name>path</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The name.</__p_description>
-                            <__p_name>name</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The children links.</__p_description>
-                            <__p_name>links</__p_name>
-                            <__p_type>const QStringList</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Creates the test project directory used for unit testing the from and to directory methods. The root unit testing directory for the abstract block test must exist.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>createTestProjectDir</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>1</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Creates the test XML file using for unit testing the latest to and from XML methods. The root unit testing directory for the abstract block test must exist.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>createTestXml</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>1</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Creates the test XML legacy file using for unit testing the latest from XML method using the legacy format. The root unit testing directory for the abstract block test must exist.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>createTestXmlLegacy</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>1</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
                 </Class>
                 <Namespace>
                     <__p_description>This contains all C++ block unit test classes.</__p_description>
@@ -3594,7 +3810,7 @@ A read project exception is thrown if any error is encountered.</__p_description
                     <Class>
                         <__p_description>This is a Qt unit test class. It tests the class C++ block class.</__p_description>
                         <__p_name>Class</__p_name>
-                        <__p_parents>public QObject</__p_parents>
+                        <__p_parents>public Test::Base</__p_parents>
                         <Function>
                             <__p_abstract>0</__p_abstract>
                             <__p_access>Private Slots</__p_access>
@@ -3729,28 +3945,11 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
                         </Function>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_description>Creates and returns a new class C++ block. The returned block's parent is this unit test instance.</__p_description>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>create</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>::Block::Cpp::Class*</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
                     </Class>
                     <Class>
                         <__p_description>This is a Qt unit test class. It tests the enumeration C++ block class.</__p_description>
                         <__p_name>Enumeration</__p_name>
-                        <__p_parents>public QObject</__p_parents>
+                        <__p_parents>public Test::Base</__p_parents>
                         <Function>
                             <__p_abstract>0</__p_abstract>
                             <__p_access>Private Slots</__p_access>
@@ -3851,28 +4050,11 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
                         </Function>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_description>Creates and returns a new enumeration C++ block. The returned block's parent is this unit test instance.</__p_description>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>create</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>::Block::Cpp::Enumeration*</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
                     </Class>
                     <Class>
                         <__p_description>This is a Qt unit test class. It tests the namespace C++ block class.</__p_description>
                         <__p_name>Namespace</__p_name>
-                        <__p_parents>public QObject</__p_parents>
+                        <__p_parents>public Test::Base</__p_parents>
                         <Function>
                             <__p_abstract>0</__p_abstract>
                             <__p_access>Private Slots</__p_access>
@@ -4021,23 +4203,6 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
                             <__p_returnType>void</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_description>Creates and returns a new namespace C++ block. The returned block's parent is this unit test instance.</__p_description>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>create</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>::Block::Cpp::Namespace*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
                         </Function>
@@ -4479,37 +4644,9 @@ A read project exception is thrown if any error is encountered.</__p_description
                 <Class>
                     <__p_description>This is a Qt unit test class. It tests the project model class.</__p_description>
                     <__p_name>Project</__p_name>
-                    <__p_parents>public QObject</__p_parents>
+                    <__p_parents>public Test::Base</__p_parents>
                 </Class>
             </Namespace>
-            <Function>
-                <__p_abstract>0</__p_abstract>
-                <__p_access>Public</__p_access>
-                <__p_const>0</__p_const>
-                <__p_default>0</__p_default>
-                <__p_deleted>0</__p_deleted>
-                <__p_description>Determines if the given first and second Qt icons are equal. This is done by writing them to a Qt byte array and seeing if the arrays are equal.</__p_description>
-                <__p_explicit>0</__p_explicit>
-                <__p_final>0</__p_final>
-                <__p_invokable>0</__p_invokable>
-                <__p_name>areIconsEqual</__p_name>
-                <__p_noexcept>0</__p_noexcept>
-                <__p_override>0</__p_override>
-                <__p_returnDescription>True if they are equal or false otherwise.</__p_returnDescription>
-                <__p_returnType>bool</__p_returnType>
-                <__p_static>0</__p_static>
-                <__p_virtual>0</__p_virtual>
-                <Variable>
-                    <__p_description>The first icon.</__p_description>
-                    <__p_name>icon0</__p_name>
-                    <__p_type>const QIcon&amp;</__p_type>
-                </Variable>
-                <Variable>
-                    <__p_description>The second icon.</__p_description>
-                    <__p_name>icon1</__p_name>
-                    <__p_type>const QIcon&amp;</__p_type>
-                </Variable>
-            </Function>
             <Function>
                 <__p_abstract>0</__p_abstract>
                 <__p_access>Public</__p_access>

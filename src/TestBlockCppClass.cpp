@@ -2,11 +2,10 @@
 #include <QSignalSpy>
 #include <QTest>
 #include "BlockCppClass.h"
-#include "Exception.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
-#include "Test.h"
+#include "TestBase.t.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -15,7 +14,14 @@ namespace Cpp {
 void Class::initTestCase(
 )
 {
-    _block = create();
+    auto factory = Factory::Language::instance();
+    QVERIFY(factory);
+    auto langIndex = factory->indexFromName("cpp");
+    QVERIFY(langIndex >= 0);
+    initLanguage(Factory::Language::instance()->get(langIndex));
+    _blockIndex = language()->indexFromName("class");
+    QVERIFY(_blockIndex >= 0);
+    _block = create<::Block::Cpp::Class>(_blockIndex);
     QVERIFY(_block);
 }
 
@@ -39,7 +45,7 @@ void Class::loadFromMap(
         ,{"parents",testParents.join(';')}
         ,{"templates",testTemplates.join(';')}
     };
-    auto block = create();
+    auto block = create<::Block::Cpp::Class>(_blockIndex);
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->parents(),testParents);
@@ -60,7 +66,7 @@ void Class::loadFromMapLegacy(
         ,{"parents",testParents.join("\n\n")}
         ,{"template",testTemplateString}
     };
-    auto block = create();
+    auto block = create<::Block::Cpp::Class>(_blockIndex);
     QVERIFY(block);
     block->loadFromMap(testData,Socref_Legacy);
     QCOMPARE(block->parents(),testParents);
@@ -96,7 +102,7 @@ void Class::saveToMap(
         ,{"parents",testParents.join(';')}
         ,{"template",testTemplates.join(';')}
     };
-    auto block = create();
+    auto block = create<::Block::Cpp::Class>(_blockIndex);
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);
@@ -126,20 +132,6 @@ void Class::cleanupTestCase(
 )
 {
     delete _block;
-}
-
-
-::Block::Cpp::Class* Class::create(
-)
-{
-    using namespace ::Block::Cpp;
-    auto factory = Factory::Language::instance();
-    auto index = factory->indexFromName("cpp");
-    auto ret = qobject_cast<::Block::Cpp::Class*>(
-        factory->get(index)->create(ClassIndex,this)
-        );
-    G_ASSERT(ret);
-    return ret;
 }
 }
 }

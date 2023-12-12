@@ -1,9 +1,8 @@
 #ifndef TEST_BLOCK_ABSTRACT_H
 #define TEST_BLOCK_ABSTRACT_H
-#include <QObject>
 #include "BlockTest.h"
-#include "Language.h"
 #include "ModelMeta.h"
+#include "TestBase.h"
 class QDir;
 namespace Test {
 namespace Block {
@@ -15,11 +14,10 @@ namespace Block {
  * This is a Qt unit test class. It tests the abstract block class.
  */
 class Abstract:
-    public QObject
+    public Test::Base
 {
     Q_OBJECT
     ::Block::Test::Node* _block;
-    Language::Test* _language;
     Model::Meta::Language* _meta;
 
 
@@ -166,131 +164,6 @@ class Abstract:
 
     private slots:
     void cleanupTestCase(
-    );
-
-
-    /*!
-     * Determines if the given first and second directories are equal. This is
-     * determined if the directories contain the same files and all those files
-     * are also equal.
-     *
-     * @param dir0
-     *        The first directory.
-     *
-     * @param dir1
-     *        The second directory.
-     *
-     * @return
-     * True if they are equal or false otherwise.
-     */
-    private:
-    static bool areDirsEqual(
-        const QDir& dir0
-        ,const QDir& dir1
-    );
-
-
-    /*!
-     * Determines if the first and second files at the given paths are equal. If
-     * either file cannot be opened they are considered to be not equal.
-     *
-     * @param path0
-     *        The first path.
-     *
-     * @param path1
-     *        The second path.
-     *
-     * @return
-     * True if they are equal or false otherwise.
-     */
-    private:
-    static bool areFilesEqual(
-        const QString& path0
-        ,const QString& path1
-    );
-
-
-    /*!
-     * Determines if the first and second XML files at the given paths are
-     * equal. If either file cannot be opened they are considered to be not
-     * equal.
-     *
-     * @param path0
-     *        The first path.
-     *
-     * @param path1
-     *        The second path.
-     *
-     * @return
-     * True if they are equal or false otherwise.
-     */
-    private:
-    static bool areXmlFilesEqual(
-        const QString& path0
-        ,const QString& path1
-    );
-
-
-    /*!
-     * Creates and returns a new test node block. The returned block's parent is
-     * this unit test instance.
-     */
-    private:
-    ::Block::Test::Node* create(
-    );
-
-
-    /*!
-     * Creates a test node block file at the given path with the given name and
-     * child links. If a file exists at the given path then it is overwritten.
-     *
-     * @param path
-     *        The path.
-     *
-     * @param name
-     *        The name.
-     *
-     * @param links
-     *        The children links.
-     *
-     * @return
-     * True on success or false otherwise.
-     */
-    private:
-    static bool createBlockFile(
-        const QString& path
-        ,const QString& name
-        ,const QStringList links
-    );
-
-
-    /*!
-     * Creates the test project directory used for unit testing the from and to
-     * directory methods. The root unit testing directory for the abstract block
-     * test must exist.
-     */
-    private:
-    static void createTestProjectDir(
-    );
-
-
-    /*!
-     * Creates the test XML file using for unit testing the latest to and from
-     * XML methods. The root unit testing directory for the abstract block test
-     * must exist.
-     */
-    private:
-    static void createTestXml(
-    );
-
-
-    /*!
-     * Creates the test XML legacy file using for unit testing the latest from
-     * XML method using the legacy format. The root unit testing directory for
-     * the abstract block test must exist.
-     */
-    private:
-    static void createTestXmlLegacy(
     );
 };
 }

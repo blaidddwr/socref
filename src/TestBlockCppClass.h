@@ -1,7 +1,7 @@
 #ifndef TEST_BLOCK_CPP_CLASS_H
 #define TEST_BLOCK_CPP_CLASS_H
-#include <QObject>
 #include "BlockCpp.h"
+#include "TestBase.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -13,10 +13,11 @@ namespace Cpp {
  * This is a Qt unit test class. It tests the class C++ block class.
  */
 class Class:
-    public QObject
+    public Test::Base
 {
     Q_OBJECT
     ::Block::Cpp::Class* _block;
+    int _blockIndex;
 
 
     private slots:
@@ -74,15 +75,6 @@ class Class:
 
     private slots:
     void cleanupTestCase(
-    );
-
-
-    /*!
-     * Creates and returns a new class C++ block. The returned block's parent is
-     * this unit test instance.
-     */
-    private:
-    ::Block::Cpp::Class* create(
     );
 };
 }

@@ -2,11 +2,10 @@
 #include <QSignalSpy>
 #include <QTest>
 #include "BlockCppNamespace.h"
-#include "Exception.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
-#include "Test.h"
+#include "TestBase.t.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -15,7 +14,14 @@ namespace Cpp {
 void Namespace::initTestCase(
 )
 {
-    _block = create();
+    auto factory = Factory::Language::instance();
+    QVERIFY(factory);
+    auto langIndex = factory->indexFromName("cpp");
+    QVERIFY(langIndex >= 0);
+    initLanguage(Factory::Language::instance()->get(langIndex));
+    _blockIndex = language()->indexFromName("namespace");
+    QVERIFY(_blockIndex >= 0);
+    _block = create<::Block::Cpp::Namespace>(_blockIndex);
     QVERIFY(_block);
 }
 
@@ -65,7 +71,7 @@ void Namespace::loadFromMap(
         {"name",testName}
         ,{"description",testDescription}
     };
-    auto block = create();
+    auto block = create<::Block::Cpp::Namespace>(_blockIndex);
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->name(),testName);
@@ -97,7 +103,7 @@ void Namespace::saveToMap(
         {"name",testName}
         ,{"description",testDescription}
     };
-    auto block = create();
+    auto block = create<::Block::Cpp::Namespace>(_blockIndex);
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);
@@ -115,8 +121,8 @@ void Namespace::scopeProperty(
     {
         delete _block->take(0);
     }
-    auto child0 = create();
-    auto child1 = create();
+    auto child0 = create<::Block::Cpp::Namespace>(_blockIndex);
+    auto child1 = create<::Block::Cpp::Namespace>(_blockIndex);
     child0->setName(testScope.at(0));
     child1->setName(testScope.at(1));
     _block->append(child0);
@@ -131,20 +137,6 @@ void Namespace::cleanupTestCase(
 )
 {
     delete _block;
-}
-
-
-::Block::Cpp::Namespace* Namespace::create(
-)
-{
-    using namespace ::Block::Cpp;
-    auto factory = Factory::Language::instance();
-    auto index = factory->indexFromName("cpp");
-    auto ret = qobject_cast<::Block::Cpp::Namespace*>(
-        factory->get(index)->create(NamespaceIndex,this)
-    );
-    G_ASSERT(ret);
-    return ret;
 }
 }
 }
