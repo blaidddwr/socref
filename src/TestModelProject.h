@@ -14,6 +14,32 @@ class Project:
     public Test::Base
 {
     Q_OBJECT
+
+
+    private slots:
+    void initTestCase(
+    );
+
+
+    /*!
+     * Tests the import method using the legacy format.
+     */
+    private slots:
+    void importLegacy(
+    );
+
+
+    /*!
+     * Tests the load constructor.
+     */
+    private slots:
+    void loadConstruct(
+    );
+
+
+    private slots:
+    void cleanupTestCase(
+    );
 };
 }
 }

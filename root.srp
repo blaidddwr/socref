@@ -1843,6 +1843,29 @@ Its single property is message. The message provides a detailed description of a
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
+                    <__p_description>Determines if this factory's language with the given index is hidden or visible. The given index must be valid.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>isHidden</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if it is hidden else visible.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
                     <__p_description>Returns this factory's language's meta at the given index. The given index must be valid.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
@@ -1899,7 +1922,9 @@ Its single property is message. The message provides a detailed description of a
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Appends the given language to this factory's list of languages. The given language must be valid and its meta name must be unique among all other language meta names in this factory. This factory takes ownership of the given language.</__p_description>
+                    <__p_description>Appends the given language to this factory's list of languages. The given language must be valid and its meta name must be unique among all other language meta names in this factory. This factory takes ownership of the given language.
+
+The &quot;is hidden&quot; flag is used to determine if the added language should be visible to the user or not. If the flag is true then it is hidden from the user else it is visible.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -1913,6 +1938,12 @@ Its single property is message. The message provides a detailed description of a
                         <__p_description>The language.</__p_description>
                         <__p_name>language</__p_name>
                         <__p_type>::Language::Abstract*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>false</__p_assignment>
+                        <__p_description>The &quot;is hidden&quot; flag.</__p_description>
+                        <__p_name>isHidden</__p_name>
+                        <__p_type>bool</__p_type>
                     </Variable>
                 </Function>
             </Class>
@@ -3366,6 +3397,50 @@ A read project exception is thrown if any error is encountered.</__p_description
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Writes the end project tags to the given XML writer required in a valid XML project file.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>writeEndProjectXml</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The XML writer.</__p_description>
+                        <__p_name>xml</__p_name>
+                        <__p_type>QXmlStreamWriter&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Writes the start project tags to the given XML writer required in a valid XML project file. The project's name is &quot;Testing123&quot;, its language is &quot;test&quot;, and its relative parse path is &quot;../testing&quot;.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>writeStartProjectXml</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The XML writer.</__p_description>
+                        <__p_name>xml</__p_name>
+                        <__p_type>QXmlStreamWriter&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
@@ -4255,6 +4330,23 @@ A read project exception is thrown if any error is encountered.</__p_description
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the &quot;is hidden&quot; method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isHidden</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_description>Tests the meta method.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
@@ -4645,6 +4737,72 @@ A read project exception is thrown if any error is encountered.</__p_description
                     <__p_description>This is a Qt unit test class. It tests the project model class.</__p_description>
                     <__p_name>Project</__p_name>
                     <__p_parents>public Test::Base</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>initTestCase</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the import method using the legacy format.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>importLegacy</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests the load constructor.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>loadConstruct</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>cleanupTestCase</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
                 </Class>
             </Namespace>
             <Function>

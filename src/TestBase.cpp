@@ -192,6 +192,25 @@ QString Base::testXmlLegacy(
 }
 
 
+void Base::writeEndProjectXml(
+    QXmlStreamWriter& xml
+)
+{
+    xml.writeEndElement();
+}
+
+
+void Base::writeStartProjectXml(
+    QXmlStreamWriter& xml
+)
+{
+    xml.writeStartElement("socref");
+    xml.writeTextElement("name","Testing123");
+    xml.writeTextElement("language","testing");
+    xml.writeTextElement("relativeParsePath","../testing");
+}
+
+
 bool Base::createBlockFile(
     const QString& path
     ,const QString& name
@@ -229,7 +248,7 @@ bool Base::createTestProjectConfig(
     xml.writeStartDocument();
     xml.writeStartElement("socref");
     xml.writeTextElement("name","Testing123");
-    xml.writeTextElement("language","testing");
+    xml.writeTextElement("language","test");
     xml.writeTextElement("relativeParsePath","../testing");
     xml.writeEndElement();
     xml.writeEndDocument();
@@ -289,6 +308,7 @@ bool Base::createTestXml(
     QXmlStreamWriter xml(&file);
     xml.setAutoFormatting(true);
     xml.writeStartDocument();
+    writeStartProjectXml(xml);
     xml.writeStartElement("node");
     xml.writeTextElement("_name","");
     xml.writeStartElement("node");
@@ -298,6 +318,7 @@ bool Base::createTestXml(
     xml.writeEndElement();
     xml.writeEndElement();
     xml.writeEndElement();
+    writeEndProjectXml(xml);
     xml.writeEndDocument();
     return (file.error() == QFileDevice::NoError);
 }
@@ -319,6 +340,10 @@ bool Base::createTestXmlLegacy(
     QXmlStreamWriter xml(&file);
     xml.setAutoFormatting(true);
     xml.writeStartDocument();
+    xml.writeStartElement("srp_project");
+    xml.writeTextElement("name","Testing123");
+    xml.writeTextElement("language","test");
+    xml.writeTextElement("parse_path","../testing");
     xml.writeStartElement("NoDe");
     xml.writeTextElement("__p_name","");
     xml.writeStartElement("noDE");

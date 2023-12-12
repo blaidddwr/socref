@@ -3,6 +3,7 @@
 #include <QObject>
 #include "Language.h"
 class QDir;
+class QXmlStreamWriter;
 namespace Test {
 
 
@@ -209,6 +210,33 @@ class Base:
     protected:
     QString testXmlLegacy(
     ) const;
+
+
+    /*!
+     * Writes the end project tags to the given XML writer required in a valid
+     * XML project file.
+     *
+     * @param xml
+     *        The XML writer.
+     */
+    protected:
+    static void writeEndProjectXml(
+        QXmlStreamWriter& xml
+    );
+
+
+    /*!
+     * Writes the start project tags to the given XML writer required in a valid
+     * XML project file. The project's name is "Testing123", its language is
+     * "test", and its relative parse path is "../testing".
+     *
+     * @param xml
+     *        The XML writer.
+     */
+    protected:
+    static void writeStartProjectXml(
+        QXmlStreamWriter& xml
+    );
 
 
     /*!

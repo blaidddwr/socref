@@ -417,7 +417,9 @@ void Abstract::toXml(
     QXmlStreamWriter xml(&file);
     xml.setAutoFormatting(true);
     xml.writeStartDocument();
+    writeStartProjectXml(xml);
     _block->toXml(xml);
+    writeEndProjectXml(xml);
     xml.writeEndDocument();
     QVERIFY(file.flush());
     QVERIFY(areXmlFilesEqual(testXml(),dir.absoluteFilePath("output.xml")));
