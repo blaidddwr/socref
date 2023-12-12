@@ -12,9 +12,9 @@ namespace Model {
 /*!
  * This is a model class. It represents a Socrates' Reference project.
  * 
- * Its properties are language, name, directory path, and parse path. The
- * language and name are self-explanatory. The directory path is where a
- * project's save file is located. The parse path is the path, relative to the
+ * Its properties are language, name, directory path, and relative parse path.
+ * The language and name are self-explanatory. The directory path is where a
+ * project's files are located. The parse path is the path, relative to the
  * location of a project's directory path, where a project's source code is
  * contained.
  */
@@ -26,25 +26,27 @@ class Project:
     Language::Abstract* _language {nullptr};
     QString _directoryPath;
     QString _name;
-    QString _parsePath;
+    QString _relativeParsePath;
+    static const char* _CONFIG_FILE;
 
 
     /*!
-     * Constructs this new model with the given path and parent. This model
-     * loads its contents from the XML file at the given path.
+     * Constructs this new project with the given directory path and parent.
+     * This project's data and its block's data is loaded from the given
+     * directory path.
      * 
      * A read project or file system exception are thrown if any error is
      * encountered.
      *
-     * @param path
-     *        The path.
+     * @param directoryPath
+     *        The directory path.
      *
      * @param parent
      *        The parent.
      */
     public:
     Project(
-        const QString& path
+        const QString& directoryPath
         ,QObject* parent = nullptr
     );
 
@@ -75,15 +77,25 @@ class Project:
 
 
     /*!
-     * Signals this model's parse path property has changed to the given value.
+     * Signals this instance's relative parse path property has changed to the
+     * given value.
      *
      * @param value
      *        The value.
      */
     signals:
-    void parsePathChanged(
+    void relativeParsePathChanged(
         const QString& value
     );
+
+
+    /*!
+     * Returns this project's absolute parse path, derived its directory path
+     * and relative parse path.
+     */
+    public:
+    QString absoluteParsePath(
+    ) const;
 
 
     public:
@@ -107,6 +119,26 @@ class Project:
      */
     public:
     const QString& directoryPath(
+    ) const;
+
+
+    /*!
+     * Creates and returns a new project model with the given parent imported
+     * from an exported XML file located at the given path.
+     * 
+     * A read project or file system exception are thrown if any error is
+     * encountered.
+     *
+     * @param path
+     *        The path.
+     *
+     * @param parent
+     *        The parent.
+     */
+    public:
+    static Model::Project* import(
+        const QString& path
+        ,QObject* parent = nullptr
     );
 
 
@@ -126,7 +158,7 @@ class Project:
      */
     public:
     Language::Abstract* language(
-    );
+    ) const;
 
 
     /*!
@@ -137,7 +169,7 @@ class Project:
      */
     public:
     const QString& name(
-    );
+    ) const;
 
 
     public:
@@ -150,29 +182,17 @@ class Project:
      * Getter method.
      *
      * @return
-     * This model's parse path property.
+     * This instance's relative parse path property.
      */
     public:
-    const QString& parsePath(
-    );
+    const QString& relativeParsePath(
+    ) const;
 
 
     public:
     virtual int rowCount(
         const QModelIndex& parent = QModelIndex()
     ) const override final;
-
-
-    /*!
-     * Sets this model's directory path property to the given value.
-     *
-     * @param value
-     *        The value.
-     */
-    public:
-    void setDirectoryPath(
-        const QString& value
-    );
 
 
     /*!
@@ -188,15 +208,20 @@ class Project:
 
 
     /*!
-     * Sets this model's parse path property to the given value.
+     * Sets this instance's relative parse path property to the given value.
      *
      * @param value
      *        The value.
      */
     public:
-    void setParsePath(
+    void setRelativeParsePath(
         const QString& value
     );
+
+
+    private:
+    Project(
+    ) = default;
 
 
     /*!
@@ -209,7 +234,8 @@ class Project:
 
 
     /*!
-     * Loads this model from the given path.
+     * Reads in this model's data and its block's data from the multi-file
+     * project directory at the given path.
      * 
      * A read project or file system exception are thrown if any error is
      * encountered.
@@ -218,14 +244,46 @@ class Project:
      *        The path.
      */
     private:
-    void read(
+    void readDir(
         const QString& path
     );
 
 
     /*!
-     * Loads this model from the given XML reader, assuming the XML format is
-     * legacy.
+     * Reads in this model's data from the multi-file directory configuration
+     * file at the given path.
+     * 
+     * A read project exception is thrown if any error is encountered.
+     *
+     * @param path
+     *        The path.
+     */
+    private:
+    void readDirConfig(
+        const QString& path
+    );
+
+
+    /*!
+     * Reads in this model's data and its block's data from the exported XML
+     * file at the given path.
+     * 
+     * A read project or file system exception are thrown if any error is
+     * encountered.
+     *
+     * @param path
+     *        The path.
+     */
+    private:
+    void readXml(
+        const QString& path
+    );
+
+
+    /*!
+     * Reads in this model's data and its block's data from the given XML reader
+     * using the legacy format. The given XML reader's current token position
+     * must be the start element of the project.
      * 
      * A read project exception is thrown if any error is encountered.
      *
@@ -233,7 +291,7 @@ class Project:
      *        The XML reader.
      */
     private:
-    void readLegacy(
+    void readXmlLegacy(
         QXmlStreamReader& xml
     );
 };

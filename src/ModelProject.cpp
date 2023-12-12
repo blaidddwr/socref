@@ -1,6 +1,7 @@
 #include "ModelProject.h"
 #include <QtCore>
 #include <QtGui>
+#include "Exception.h"
 #include "ExceptionBase.h"
 #include "ExceptionProjectRead.h"
 #include "ExceptionSystemFile.h"
@@ -9,15 +10,24 @@
 #include "FactoryLanguage.h"
 #include "Global.h"
 namespace Model {
+const char* Project::_CONFIG_FILE = "project.xml";
 
 
 Project::Project(
-    const QString& path
+    const QString& directoryPath
     ,QObject* parent
 ):
     QAbstractItemModel(parent)
+    ,_directoryPath(directoryPath)
 {
-    read(path);
+    readDir(directoryPath);
+}
+
+
+QString Project::absoluteParsePath(
+) const
+{
+    return QDir(_directoryPath).absoluteFilePath(_relativeParsePath);
 }
 
 
@@ -35,15 +45,15 @@ QVariant Project::data(
     ,int role
 ) const
 {
-    Q_ASSERT(index.isValid());
-    auto b = reinterpret_cast<Block::Abstract*>(index.internalPointer());
-    Q_ASSERT(b);
+    ASSERT(index.isValid());
+    auto block = reinterpret_cast<Block::Abstract*>(index.internalPointer());
+    ASSERT(block);
     switch (role)
     {
     case Qt::DisplayRole:
-        return b->displayText();
+        return block->displayText();
     case Qt::DecorationRole:
-        return b->displayIcon();
+        return block->displayIcon();
     default:
         return QVariant();
     }
@@ -51,9 +61,21 @@ QVariant Project::data(
 
 
 const QString& Project::directoryPath(
-)
+) const
 {
     return _directoryPath;
+}
+
+
+Model::Project* Project::import(
+    const QString& path
+    ,QObject* parent
+)
+{
+    std::unique_ptr<Project> ret(new Project);
+    ret->readXml(path);
+    ret->setParent(parent);
+    return ret.release();
 }
 
 
@@ -63,29 +85,29 @@ QModelIndex Project::index(
     ,const QModelIndex& parent
 ) const
 {
-    Q_ASSERT(row >= 0);
-    Q_ASSERT(column == 0);
-    auto p = _root;
+    ASSERT(row >= 0);
+    ASSERT(column == 0);
+    auto realParent = _root;
     if (parent.isValid())
     {
-        p = reinterpret_cast<Block::Abstract*>(parent.internalPointer());
+        realParent = reinterpret_cast<Block::Abstract*>(parent.internalPointer());
     }
-    Q_ASSERT(p);
-    Q_ASSERT(row < p->size());
-    return createIndex(row,column,p->get(row));
+    ASSERT(realParent);
+    ASSERT(row < realParent->size());
+    return createIndex(row,column,realParent->get(row));
 }
 
 
 Language::Abstract* Project::language(
-)
+) const
 {
-    Q_ASSERT(_language);
+    ASSERT(_language);
     return _language;
 }
 
 
 const QString& Project::name(
-)
+) const
 {
     return _name;
 }
@@ -95,9 +117,9 @@ QModelIndex Project::parent(
     const QModelIndex& index
 ) const
 {
-    Q_ASSERT(index.isValid());
+    ASSERT(index.isValid());
     auto b = reinterpret_cast<Block::Abstract*>(index.internalPointer());
-    Q_ASSERT(b);
+    ASSERT(b);
     auto p = qobject_cast<Block::Abstract*>(b->parent());
     if (!p)
     {
@@ -113,15 +135,15 @@ QModelIndex Project::parent(
     {
         return QModelIndex();
     }
-    Q_ASSERT(row < gp->size());
+    ASSERT(row < gp->size());
     return createIndex(row,0,p);
 }
 
 
-const QString& Project::parsePath(
-)
+const QString& Project::relativeParsePath(
+) const
 {
-    return _parsePath;
+    return _relativeParsePath;
 }
 
 
@@ -142,18 +164,6 @@ int Project::rowCount(
 }
 
 
-void Project::setDirectoryPath(
-    const QString& value
-)
-{
-    if (_directoryPath != value)
-    {
-        _directoryPath = value;
-        emit directoryPathChanged(value);
-    }
-}
-
-
 void Project::setName(
     const QString& value
 )
@@ -166,14 +176,14 @@ void Project::setName(
 }
 
 
-void Project::setParsePath(
+void Project::setRelativeParsePath(
     const QString& value
 )
 {
-    if (_parsePath != value)
+    if (_relativeParsePath != value)
     {
-        _parsePath = value;
-        emit parsePathChanged(value);
+        _relativeParsePath = value;
+        emit relativeParsePathChanged(value);
     }
 }
 
@@ -189,14 +199,85 @@ void Project::onLanguageDestroyed(
 }
 
 
-void Project::read(
+void Project::readDir(
+    const QString& path
+)
+{
+    QDir dir(path);
+    if (!dir.exists())
+    {
+        throw Exception::System::File(tr("No such directory at path %1.").arg(path));
+    }
+    if (!dir.isReadable())
+    {
+        throw Exception::System::File(tr("The directory at %1 is not readable.").arg(path));
+    }
+    try
+    {
+        readDirConfig(dir.absoluteFilePath(_CONFIG_FILE));
+        _root = Block::Abstract::fromDir(_language,Socref_1_0,dir.absolutePath(),this);
+    }
+    catch (Exception::Base& e)
+    {
+        throw Exception::Project::Read(tr("Failed reading %1: %2").arg(path,e.message()));
+    }
+}
+
+
+void Project::readDirConfig(
     const QString& path
 )
 {
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly))
     {
-        throw Exception::System::File(tr("Failed opening %1").arg(path));
+        throw Exception::System::File(tr("Failed opening %1: %2").arg(path,file.errorString()));
+    }
+    QXmlStreamReader xml(&file);
+    while(!xml.atEnd())
+    {
+        xml.readNext();
+        if (xml.isStartElement())
+        {
+            auto name = xml.name().toString();
+            if (name == "language")
+            {
+                auto langName = xml.readElementText();
+                auto factory = Factory::Language::instance();
+                auto i = factory->indexFromName(langName);
+                if (i == -1)
+                {
+                    throw Exception::Project::Read(tr("Unknown language %1.").arg(langName));
+                }
+                _language = factory->get(i);
+                ASSERT(_language);
+                connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
+            }
+            else if (name == "name")
+            {
+                _name = xml.readElementText();
+            }
+            else if (name == "relativeParsePath")
+            {
+                _relativeParsePath = xml.readElementText();
+            }
+        }
+    }
+    if (!_language)
+    {
+        throw Exception::Project::Read(tr("Language not set in project config file."));
+    }
+}
+
+
+void Project::readXml(
+    const QString& path
+)
+{
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        throw Exception::System::File(tr("Failed opening %1: %2").arg(path,file.errorString()));
     }
     QXmlStreamReader xml(&file);
     try
@@ -209,7 +290,7 @@ void Project::read(
                 auto name = xml.name().toString();
                 if (name == "srp_project")
                 {
-                    readLegacy(xml);
+                    readXmlLegacy(xml);
                     break;
                 }
             }
@@ -228,7 +309,7 @@ void Project::read(
 }
 
 
-void Project::readLegacy(
+void Project::readXmlLegacy(
     QXmlStreamReader& xml
 )
 {
@@ -246,10 +327,10 @@ void Project::readLegacy(
                 auto i = factory->indexFromName(langName);
                 if (i == -1)
                 {
-                    throw Exception::Project::Read(tr("Unknown language %1").arg(langName));
+                    throw Exception::Project::Read(tr("Unknown language %1.").arg(langName));
                 }
                 _language = factory->get(i);
-                Q_ASSERT(_language);
+                ASSERT(_language);
                 connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
             }
             else if (name == "name")
@@ -258,14 +339,14 @@ void Project::readLegacy(
             }
             else if (name == "parse_path")
             {
-                _parsePath = xml.readElementText();
+                _relativeParsePath = xml.readElementText();
             }
             else if (!_root)
             {
                 if (!_language)
                 {
                     throw Exception::Project::Read(
-                        tr("Language not set before first block element")
+                        tr("Language not set before first block element.")
                     );
                 }
                 _root = Block::Abstract::fromXml(_language,Socref_Legacy,xml,this);

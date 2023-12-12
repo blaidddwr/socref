@@ -2558,7 +2558,7 @@ Its properties are name and label. The name is the machine name and the label is
             <Class>
                 <__p_description>This is a model class. It represents a Socrates' Reference project.
 
-Its properties are language, name, directory path, and parse path. The language and name are self-explanatory. The directory path is where a project's save file is located. The parse path is the path, relative to the location of a project's directory path, where a project's source code is contained.</__p_description>
+Its properties are language, name, directory path, and relative parse path. The language and name are self-explanatory. The directory path is where a project's files are located. The parse path is the path, relative to the location of a project's directory path, where a project's source code is contained.</__p_description>
                 <__p_name>Project</__p_name>
                 <__p_parents>public QAbstractItemModel</__p_parents>
                 <Function>
@@ -2567,7 +2567,7 @@ Its properties are language, name, directory path, and parse path. The language 
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Constructs this new model with the given path and parent. This model loads its contents from the XML file at the given path.
+                    <__p_description>Constructs this new project with the given directory path and parent. This project's data and its block's data is loaded from the given directory path.
 
 A read project or file system exception are thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
@@ -2580,8 +2580,8 @@ A read project or file system exception are thrown if any error is encountered.<
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
+                        <__p_description>The directory path.</__p_description>
+                        <__p_name>directoryPath</__p_name>
                         <__p_type>const QString&amp;</__p_type>
                     </Variable>
                     <Variable>
@@ -2641,11 +2641,11 @@ A read project or file system exception are thrown if any error is encountered.<
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Signals this model's parse path property has changed to the given value.</__p_description>
+                    <__p_description>Signals this instance's relative parse path property has changed to the given value.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>parsePathChanged</__p_name>
+                    <__p_name>relativeParsePathChanged</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
@@ -2656,6 +2656,23 @@ A read project or file system exception are thrown if any error is encountered.<
                         <__p_name>value</__p_name>
                         <__p_type>const QString&amp;</__p_type>
                     </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns this project's absolute parse path, derived its directory path and relative parse path.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>absoluteParsePath</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>QString</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -2706,7 +2723,7 @@ A read project or file system exception are thrown if any error is encountered.<
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Getter method.</__p_description>
@@ -2720,6 +2737,36 @@ A read project or file system exception are thrown if any error is encountered.<
                     <__p_returnType>const QString&amp;</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a new project model with the given parent imported from an exported XML file located at the given path.
+
+A read project or file system exception are thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>import</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Model::Project*</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -2753,7 +2800,7 @@ A read project or file system exception are thrown if any error is encountered.<
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Getter method.</__p_description>
@@ -2771,7 +2818,7 @@ A read project or file system exception are thrown if any error is encountered.<
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Getter method.</__p_description>
@@ -2809,17 +2856,17 @@ A read project or file system exception are thrown if any error is encountered.<
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Getter method.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>parsePath</__p_name>
+                    <__p_name>relativeParsePath</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This model's parse path property.</__p_returnDescription>
+                    <__p_returnDescription>This instance's relative parse path property.</__p_returnDescription>
                     <__p_returnType>const QString&amp;</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -2851,28 +2898,6 @@ A read project or file system exception are thrown if any error is encountered.<
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Sets this model's directory path property to the given value.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>setDirectoryPath</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The value.</__p_description>
-                        <__p_name>value</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
                     <__p_description>Sets this model's name property to the given value.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
@@ -2895,11 +2920,11 @@ A read project or file system exception are thrown if any error is encountered.<
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Sets this model's parse path property to the given value.</__p_description>
+                    <__p_description>Sets this instance's relative parse path property to the given value.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>setParsePath</__p_name>
+                    <__p_name>setRelativeParsePath</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
@@ -2910,6 +2935,22 @@ A read project or file system exception are thrown if any error is encountered.<
                         <__p_name>value</__p_name>
                         <__p_type>const QString&amp;</__p_type>
                     </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>1</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -2938,13 +2979,13 @@ A read project or file system exception are thrown if any error is encountered.<
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Loads this model from the given path.
+                    <__p_description>Reads in this model's data and its block's data from the multi-file project directory at the given path.
 
 A read project or file system exception are thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>read</__p_name>
+                    <__p_name>readDir</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
@@ -2962,13 +3003,61 @@ A read project or file system exception are thrown if any error is encountered.<
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Loads this model from the given XML reader, assuming the XML format is legacy.
+                    <__p_description>Reads in this model's data from the multi-file directory configuration file at the given path.
 
 A read project exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>readLegacy</__p_name>
+                    <__p_name>readDirConfig</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Reads in this model's data and its block's data from the exported XML file at the given path.
+
+A read project or file system exception are thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>readXml</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Reads in this model's data and its block's data from the given XML reader using the legacy format. The given XML reader's current token position must be the start element of the project.
+
+A read project exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>readXmlLegacy</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>

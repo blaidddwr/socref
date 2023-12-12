@@ -86,7 +86,7 @@ Block::Abstract* Abstract::fromXml(
     }
     if (i == -1)
     {
-        throw Exception::Block::Read(tr("Unknown block %1").arg(blockName));
+        throw Exception::Block::Read(tr("Unknown block %1.").arg(blockName));
     }
     QMap<QString,QVariant> map;
     std::unique_ptr<Abstract> block(language->create(i));
@@ -119,7 +119,7 @@ Block::Abstract* Abstract::fromXml(
             {
                 if (map.contains(name))
                 {
-                    throw Exception::Block::Read(tr("Duplicate property element %1").arg(name));
+                    throw Exception::Block::Read(tr("Duplicate property element %1.").arg(name));
                 }
                 map.insert(name,xml.readElementText());
             }
@@ -377,7 +377,7 @@ Block::Abstract* Abstract::read(
             QString name = line.mid(1);
             if (map.contains(name))
             {
-                throw Exception::Block::Read(tr("Duplicate property element %1").arg(name));
+                throw Exception::Block::Read(tr("Duplicate property element %1.").arg(name));
             }
             QString data = in.readLine();
             if (data.isNull())
