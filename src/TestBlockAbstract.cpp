@@ -37,7 +37,10 @@ void Abstract::initTestCase(
 void Abstract::append(
 )
 {
-    QCOMPARE(_block->size(),0);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
     auto child = create();
     _block->append(child);
     QCOMPARE(qobject_cast<::Block::Test::Node*>(child->parent()),_block);
@@ -58,7 +61,10 @@ void Abstract::append(
 void Abstract::descendants(
 )
 {
-    QCOMPARE(_block->size(),0);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
     auto child0 = create();
     auto child1 = create();
     auto child2 = create();
@@ -70,7 +76,6 @@ void Abstract::descendants(
     QVERIFY(descendants.contains(child0));
     QVERIFY(descendants.contains(child1));
     QVERIFY(descendants.contains(child2));
-    delete child0;
 }
 
 
@@ -210,7 +215,10 @@ void Abstract::fromXmlLegacy(
 void Abstract::get(
 )
 {
-    QCOMPARE(_block->size(),0);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
     auto child0 = create();
     auto child1 = create();
     auto child2 = create();
@@ -226,14 +234,16 @@ void Abstract::get(
     QCOMPARE(_block->get(1),child2);
     delete child0;
     QCOMPARE(_block->get(0),child2);
-    delete child2;
 }
 
 
 void Abstract::indexOf(
 )
 {
-    QCOMPARE(_block->size(),0);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
     auto child0 = create();
     auto child1 = create();
     auto child2 = create();
@@ -249,7 +259,6 @@ void Abstract::indexOf(
     QCOMPARE(_block->indexOf(child2),1);
     delete child0;
     QCOMPARE(_block->indexOf(child2),0);
-    delete child2;
 }
 
 
@@ -257,7 +266,10 @@ void Abstract::insert(
 )
 {
     using namespace ::Block::Test;
-    QCOMPARE(_block->size(),0);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
     auto child0 = create();
     auto child1 = create();
     auto child2 = create();
@@ -276,9 +288,6 @@ void Abstract::insert(
     QCOMPARE(_block->get(0),child0);
     QCOMPARE(_block->get(1),child1);
     QCOMPARE(_block->get(2),child2);
-    delete child0;
-    delete child1;
-    delete child2;
 }
 
 
@@ -286,6 +295,30 @@ void Abstract::metaProperty(
 )
 {
     QCOMPARE(_block->meta(),_language->blockMeta(::Block::Test::NodeIndex));
+}
+
+
+void Abstract::move(
+)
+{
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
+    auto child0 = create();
+    auto child1 = create();
+    auto child2 = create();
+    _block->append(child0);
+    _block->append(child1);
+    _block->append(child2);
+    _block->move(0,1);
+    QCOMPARE(_block->get(0),child1);
+    QCOMPARE(_block->get(1),child0);
+    QCOMPARE(_block->get(2),child2);
+    _block->move(2,0);
+    QCOMPARE(_block->get(0),child2);
+    QCOMPARE(_block->get(1),child1);
+    QCOMPARE(_block->get(2),child0);
 }
 
 
@@ -297,14 +330,16 @@ void Abstract::scopeProperty(
     child->setName(testName);
     _block->append(child);
     QCOMPARE(child->scope(),testName);
-    delete child;
 }
 
 
 void Abstract::size(
 )
 {
-    QCOMPARE(_block->size(),0);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
     _block->append(create());
     QCOMPARE(_block->size(),1);
     delete _block->take(0);
@@ -316,7 +351,10 @@ void Abstract::take(
 )
 {
     using namespace ::Block::Test;
-    QCOMPARE(_block->size(),0);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
     auto child0 = create();
     auto child1 = create();
     auto child2 = create();
@@ -341,9 +379,6 @@ void Abstract::take(
     QCOMPARE(orphan->removeCount(),1);
     QCOMPARE(orphan->parent(),nullptr);
     QCOMPARE(_block->size(),0);
-    delete child0;
-    delete child1;
-    delete child2;
 }
 
 
@@ -352,7 +387,10 @@ void Abstract::toDir(
 {
     auto dir = QDir::temp();
     QVERIFY(dir.cd(TEST_DIR));
-    QCOMPARE(_block->size(),0);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
     _block->setName("");
     auto node0 = create();
     auto node1 = create();
@@ -367,7 +405,6 @@ void Abstract::toDir(
             ,QDir(dir.absoluteFilePath("outputDir"))
         )
     );
-    delete node0;
 }
 
 
@@ -376,7 +413,10 @@ void Abstract::toXml(
 {
     auto dir = QDir::temp();
     QVERIFY(dir.cd(TEST_DIR));
-    QCOMPARE(_block->size(),0);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
     _block->setName("");
     auto node0 = create();
     auto node1 = create();
@@ -395,7 +435,6 @@ void Abstract::toXml(
     QVERIFY(
         areXmlFilesEqual(dir.absoluteFilePath(TEST_XML),dir.absoluteFilePath("output.xml"))
     );
-    delete node0;
 }
 
 

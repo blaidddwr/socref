@@ -287,6 +287,23 @@ class Abstract:
 
 
     /*!
+     * Moves this block's child at the given from index to the given to index.
+     * The given from and to indexes must be valid.
+     *
+     * @param from
+     *        The from index.
+     *
+     * @param to
+     *        The to index.
+     */
+    public:
+    void move(
+        int from
+        ,int to
+    );
+
+
+    /*!
      * Saves this blocks data to a returned mapping.
      */
     public:

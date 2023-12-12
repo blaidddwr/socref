@@ -110,7 +110,10 @@ void Namespace::scopeProperty(
 )
 {
     static const QStringList testScope {"Test0","Test1"};
-    QCOMPARE(_block->size(),0);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
     auto child0 = create();
     auto child1 = create();
     child0->setName(testScope.at(0));

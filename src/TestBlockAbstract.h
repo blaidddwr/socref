@@ -117,6 +117,14 @@ class Abstract:
 
 
     /*!
+     * Tests the move method.
+     */
+    private slots:
+    void move(
+    );
+
+
+    /*!
      * Tests the scope property.
      */
     private slots:

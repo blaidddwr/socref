@@ -169,6 +169,8 @@ void Abstract::insert(
 )
 {
     ASSERT(block);
+    ASSERT(index >= 0);
+    ASSERT(index <= _children.size());
     ASSERT(meta()->allowList().contains(block->meta()->index()));
     ASSERT(!_children.contains(block));
     ASSERT(!qobject_cast<Abstract*>(block->parent()));
@@ -184,6 +186,15 @@ Model::Meta::Block* Abstract::meta(
 {
     ASSERT(_meta);
     return _meta;
+}
+
+
+void Abstract::move(
+    int from
+    ,int to
+)
+{
+    _children.move(from,to);
 }
 
 
