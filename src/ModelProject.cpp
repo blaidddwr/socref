@@ -45,9 +45,9 @@ QVariant Project::data(
     ,int role
 ) const
 {
-    ASSERT(index.isValid());
+    G_ASSERT(index.isValid());
     auto block = reinterpret_cast<Block::Abstract*>(index.internalPointer());
-    ASSERT(block);
+    G_ASSERT(block);
     switch (role)
     {
     case Qt::DisplayRole:
@@ -85,15 +85,15 @@ QModelIndex Project::index(
     ,const QModelIndex& parent
 ) const
 {
-    ASSERT(row >= 0);
-    ASSERT(column == 0);
+    G_ASSERT(row >= 0);
+    G_ASSERT(column == 0);
     auto realParent = _root;
     if (parent.isValid())
     {
         realParent = reinterpret_cast<Block::Abstract*>(parent.internalPointer());
     }
-    ASSERT(realParent);
-    ASSERT(row < realParent->size());
+    G_ASSERT(realParent);
+    G_ASSERT(row < realParent->size());
     return createIndex(row,column,realParent->get(row));
 }
 
@@ -101,7 +101,7 @@ QModelIndex Project::index(
 Language::Abstract* Project::language(
 ) const
 {
-    ASSERT(_language);
+    G_ASSERT(_language);
     return _language;
 }
 
@@ -117,9 +117,9 @@ QModelIndex Project::parent(
     const QModelIndex& index
 ) const
 {
-    ASSERT(index.isValid());
+    G_ASSERT(index.isValid());
     auto b = reinterpret_cast<Block::Abstract*>(index.internalPointer());
-    ASSERT(b);
+    G_ASSERT(b);
     auto p = qobject_cast<Block::Abstract*>(b->parent());
     if (!p)
     {
@@ -135,7 +135,7 @@ QModelIndex Project::parent(
     {
         return QModelIndex();
     }
-    ASSERT(row < gp->size());
+    G_ASSERT(row < gp->size());
     return createIndex(row,0,p);
 }
 
@@ -250,7 +250,7 @@ void Project::readDirConfig(
                     throw Exception::Project::Read(tr("Unknown language %1.").arg(langName));
                 }
                 _language = factory->get(i);
-                ASSERT(_language);
+                G_ASSERT(_language);
                 connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
             }
             else if (name == "name")
@@ -330,7 +330,7 @@ void Project::readXmlLegacy(
                     throw Exception::Project::Read(tr("Unknown language %1.").arg(langName));
                 }
                 _language = factory->get(i);
-                ASSERT(_language);
+                G_ASSERT(_language);
                 connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
             }
             else if (name == "name")

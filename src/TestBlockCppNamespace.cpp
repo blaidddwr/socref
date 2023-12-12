@@ -2,6 +2,7 @@
 #include <QSignalSpy>
 #include <QTest>
 #include "BlockCppNamespace.h"
+#include "Exception.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
@@ -142,7 +143,7 @@ void Namespace::cleanupTestCase(
     auto ret = qobject_cast<::Block::Cpp::Namespace*>(
         factory->get(index)->create(NamespaceIndex,this)
     );
-    Q_ASSERT(ret);
+    G_ASSERT(ret);
     return ret;
 }
 }

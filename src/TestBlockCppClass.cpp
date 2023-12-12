@@ -2,6 +2,7 @@
 #include <QSignalSpy>
 #include <QTest>
 #include "BlockCppClass.h"
+#include "Exception.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
@@ -137,7 +138,7 @@ void Class::cleanupTestCase(
     auto ret = qobject_cast<::Block::Cpp::Class*>(
         factory->get(index)->create(ClassIndex,this)
         );
-    Q_ASSERT(ret);
+    G_ASSERT(ret);
     return ret;
 }
 }

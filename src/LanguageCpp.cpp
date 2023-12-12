@@ -3,6 +3,7 @@
 #include "BlockCppClass.h"
 #include "BlockCppEnumeration.h"
 #include "BlockCppNamespace.h"
+#include "Exception.h"
 #include "ModelMetaBlock.h"
 namespace Language {
 using namespace Block::Cpp;
@@ -38,23 +39,23 @@ Block::Abstract* Cpp::create(
     case NamespaceIndex:
     {
         auto meta = blockMeta(index);
-        Q_ASSERT(meta->index() == NamespaceIndex);
+        G_ASSERT(meta->index() == NamespaceIndex);
         return new Namespace(meta,parent);
     }
     case ClassIndex:
     {
         auto meta = blockMeta(index);
-        Q_ASSERT(meta->index() == ClassIndex);
+        G_ASSERT(meta->index() == ClassIndex);
         return new Class(meta,parent);
     }
     case EnumerationIndex:
     {
         auto meta = blockMeta(index);
-        Q_ASSERT(meta->index() == EnumerationIndex);
+        G_ASSERT(meta->index() == EnumerationIndex);
         return new Enumeration(meta,parent);
     }
     default:
-        Q_ASSERT(false);
+        G_ASSERT(false);
         return nullptr;
     }
 }

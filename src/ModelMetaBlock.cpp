@@ -1,4 +1,5 @@
 #include "ModelMetaBlock.h"
+#include "Exception.h"
 namespace Model {
 namespace Meta {
 
@@ -16,7 +17,7 @@ Block::Block(
     ,_allowList(allowList)
     ,_index(index)
 {
-    Q_ASSERT(language);
+    G_ASSERT(language);
     connect(language,&QObject::destroyed,this,&Block::onLanguageDestroyed);
 }
 
@@ -38,7 +39,7 @@ int Block::index(
 Model::Meta::Language* Block::language(
 ) const
 {
-    Q_ASSERT(_language);
+    G_ASSERT(_language);
     return _language;
 }
 

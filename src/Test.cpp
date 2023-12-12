@@ -1,7 +1,7 @@
 #include "Test.h"
-#include <QtCore>
 #include <QtGui>
 #include <QtTest>
+#include "Exception.h"
 #include "TestBlockAbstract.h"
 #include "TestBlockCppClass.h"
 #include "TestBlockCppEnumeration.h"
@@ -40,7 +40,7 @@ int execute(
     ,char** argv
 )
 {
-    Q_ASSERT(_g_tests);
+    G_ASSERT(_g_tests);
     auto printTestList = [](QTextStream& out) {
         out << QApplication::translate("main","Available unit tests:\n");
         for (const auto& test: *_g_tests)
@@ -81,7 +81,7 @@ int executeAll(
     ,char** argv
 )
 {
-    Q_ASSERT(_g_tests);
+    G_ASSERT(_g_tests);
     QStringList arguments;
     for (int i = 2;i < argc;i++)
     {
@@ -103,7 +103,7 @@ int executeAll(
 void initialize(
 )
 {
-    Q_ASSERT(!_g_tests);
+    G_ASSERT(!_g_tests);
     _g_tests = new QList<TestObject> {
         {"Block",new Block::Abstract}
         ,{"BlockCppClass",new Block::Cpp::Class}

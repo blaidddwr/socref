@@ -532,9 +532,9 @@ bool Abstract::areXmlFilesEqual(
 ::Block::Test::Node* Abstract::create(
 )
 {
-    ASSERT(_language);
+    G_ASSERT(_language);
     auto ret = qobject_cast<::Block::Test::Node*>(_language->create(::Block::Test::NodeIndex,this));
-    ASSERT(ret);
+    G_ASSERT(ret);
     return ret;
 }
 

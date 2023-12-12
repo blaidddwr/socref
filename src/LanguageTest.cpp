@@ -27,11 +27,11 @@ Block::Abstract* Test::create(
     case NodeIndex:
     {
         auto meta = blockMeta(index);
-        Q_ASSERT(meta->index() == NodeIndex);
+        G_ASSERT(meta->index() == NodeIndex);
         return new Node(meta,parent);
     }
     default:
-        ASSERT(false);
+        G_ASSERT(false);
         return nullptr;
     }
 }

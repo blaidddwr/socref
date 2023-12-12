@@ -1,4 +1,5 @@
 #include "LanguageAbstract.h"
+#include "Exception.h"
 #include "ModelMetaBlock.h"
 #include "ModelMetaLanguage.h"
 namespace Language {
@@ -11,7 +12,7 @@ Abstract::Abstract(
     QObject(parent)
     ,_meta(meta)
 {
-    Q_ASSERT(meta);
+    G_ASSERT(meta);
     connect(meta,&QObject::destroyed,this,&Abstract::onMetaDestroyed);
 }
 
@@ -20,8 +21,8 @@ Model::Meta::Block* Abstract::blockMeta(
     int index
 ) const
 {
-    Q_ASSERT(index >= 0);
-    Q_ASSERT(index < _blocks.size());
+    G_ASSERT(index >= 0);
+    G_ASSERT(index < _blocks.size());
     return _blocks.at(index);
 }
 
@@ -37,7 +38,7 @@ int Abstract::indexFromName(
 Model::Meta::Language* Abstract::meta(
 ) const
 {
-    Q_ASSERT(_meta);
+    G_ASSERT(_meta);
     return _meta;
 }
 
@@ -53,11 +54,11 @@ void Abstract::appendBlock(
     Model::Meta::Block* meta
 )
 {
-    Q_ASSERT(meta);
+    G_ASSERT(meta);
     auto name = meta->name();
-    Q_ASSERT(!_lookup.contains(name));
-    Q_ASSERT(!name.isEmpty());
-    Q_ASSERT(name.at(0) != '_');
+    G_ASSERT(!_lookup.contains(name));
+    G_ASSERT(!name.isEmpty());
+    G_ASSERT(name.at(0) != '_');
     meta->setParent(this);
     _lookup.insert(name,_blocks.size());
     _blocks.append(meta);

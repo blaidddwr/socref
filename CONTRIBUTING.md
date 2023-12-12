@@ -61,6 +61,8 @@ If an identical change was made in multiple __scopes__ then it can be added as o
 ): <description>
 ```
 
+If a change effects every single modified file in a commit then an asterisk can be used for the __scope__.
+
 ### Body Description
 
 The __description__ of each paragraph in a body must use correct and clear grammar. It must answer the following questions:

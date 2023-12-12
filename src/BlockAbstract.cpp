@@ -17,7 +17,7 @@ Abstract::Abstract(
     QObject(parent)
     ,_meta(meta)
 {
-    ASSERT(meta);
+    G_ASSERT(meta);
     connect(meta,&QObject::destroyed,this,&Abstract::onMetaDestroyed);
 }
 
@@ -26,10 +26,10 @@ void Abstract::append(
     Block::Abstract* block
 )
 {
-    ASSERT(block);
-    ASSERT(meta()->allowList().contains(block->meta()->index()));
-    ASSERT(!_children.contains(block));
-    ASSERT(!qobject_cast<Abstract*>(block->parent()));
+    G_ASSERT(block);
+    G_ASSERT(meta()->allowList().contains(block->meta()->index()));
+    G_ASSERT(!_children.contains(block));
+    G_ASSERT(!qobject_cast<Abstract*>(block->parent()));
     block->setParent(this);
     connect(block,&QObject::destroyed,this,&Abstract::onChildDestroyed);
     _children.append(block);
@@ -56,7 +56,7 @@ Block::Abstract* Abstract::fromDir(
     ,QObject* parent
 )
 {
-    ASSERT(language);
+    G_ASSERT(language);
     QDir dir(path);
     if (!dir.isReadable())
     {
@@ -73,7 +73,7 @@ Block::Abstract* Abstract::fromXml(
     ,QObject* parent
 )
 {
-    ASSERT(language);
+    G_ASSERT(language);
     auto blockName = xml.name().toString();
     int i = -1;
     if (version == Socref_Legacy)
@@ -149,8 +149,8 @@ Block::Abstract* Abstract::get(
     int index
 ) const
 {
-    ASSERT(index >= 0);
-    ASSERT(index < _children.size());
+    G_ASSERT(index >= 0);
+    G_ASSERT(index < _children.size());
     return _children.at(index);
 }
 
@@ -168,12 +168,12 @@ void Abstract::insert(
     ,Block::Abstract* block
 )
 {
-    ASSERT(block);
-    ASSERT(index >= 0);
-    ASSERT(index <= _children.size());
-    ASSERT(meta()->allowList().contains(block->meta()->index()));
-    ASSERT(!_children.contains(block));
-    ASSERT(!qobject_cast<Abstract*>(block->parent()));
+    G_ASSERT(block);
+    G_ASSERT(index >= 0);
+    G_ASSERT(index <= _children.size());
+    G_ASSERT(meta()->allowList().contains(block->meta()->index()));
+    G_ASSERT(!_children.contains(block));
+    G_ASSERT(!qobject_cast<Abstract*>(block->parent()));
     block->setParent(this);
     connect(block,&QObject::destroyed,this,&Abstract::onChildDestroyed);
     _children.insert(index,block);
@@ -184,7 +184,7 @@ void Abstract::insert(
 Model::Meta::Block* Abstract::meta(
 ) const
 {
-    ASSERT(_meta);
+    G_ASSERT(_meta);
     return _meta;
 }
 
@@ -194,6 +194,10 @@ void Abstract::move(
     ,int to
 )
 {
+    G_ASSERT(from >= 0);
+    G_ASSERT(from < _children.size());
+    G_ASSERT(to >= 0);
+    G_ASSERT(to <= _children.size());
     _children.move(from,to);
 }
 
@@ -209,8 +213,8 @@ Block::Abstract* Abstract::take(
     int index
 )
 {
-    ASSERT(index >= 0);
-    ASSERT(index < _children.size());
+    G_ASSERT(index >= 0);
+    G_ASSERT(index < _children.size());
     _children.at(index)->removeEvent();
     auto ret = _children.takeAt(index);
     disconnect(ret,&QObject::destroyed,this,&Abstract::onChildDestroyed);
@@ -223,14 +227,14 @@ void Abstract::toDir(
     const QString& path
 ) const
 {
-    ASSERT(!qobject_cast<Abstract*>(parent()));
-    ASSERT(scope() == "ROOT");
+    G_ASSERT(!qobject_cast<Abstract*>(parent()));
+    G_ASSERT(scope() == "ROOT");
     QHash<QString,const Abstract*> blocks;
     for (auto descendant: descendants())
     {
         static const QRegularExpression nonPrintable("[\t\r\n\a\e\f]|(ROOT)");
         auto scope = descendant->scope();
-        ASSERT(!scope.contains(nonPrintable));
+        G_ASSERT(!scope.contains(nonPrintable));
         auto path = scope+".srb";
         if (blocks.contains(path))
         {
@@ -339,7 +343,7 @@ Block::Abstract* Abstract::read(
     ,QObject* parent
 )
 {
-    ASSERT(language);
+    G_ASSERT(language);
     QFileInfo info(path);
     if (!info.isFile())
     {
@@ -435,7 +439,7 @@ void Abstract::write(
     {
         static const QRegularExpression nonPrintable("[\t\r\n\a\e\f]|(ROOT)");
         auto scope = child->scope();
-        ASSERT(!scope.contains(nonPrintable));
+        G_ASSERT(!scope.contains(nonPrintable));
         out << child->scope() << "\n";
     }
     if (file.error() != QFileDevice::NoError)

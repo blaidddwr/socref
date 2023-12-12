@@ -1,5 +1,6 @@
 #include "FactoryLanguage.h"
 #include <QtCore>
+#include "Exception.h"
 #include "LanguageCpp.h"
 #include "LanguageCppQt.h"
 #include "ModelMetaLanguage.h"
@@ -11,8 +12,8 @@ Language* Language::_instance {nullptr};
     int index
 ) const
 {
-    Q_ASSERT(index >= 0);
-    Q_ASSERT(index < _languages.size());
+    G_ASSERT(index >= 0);
+    G_ASSERT(index < _languages.size());
     return _languages.at(index);
 }
 
@@ -40,8 +41,8 @@ Model::Meta::Language* Language::meta(
     int index
 ) const
 {
-    Q_ASSERT(index >= 0);
-    Q_ASSERT(index < _languages.size());
+    G_ASSERT(index >= 0);
+    G_ASSERT(index < _languages.size());
     return _languages.at(index)->meta();
 }
 
@@ -67,9 +68,9 @@ void Language::appendLanguage(
     ::Language::Abstract* language
 )
 {
-    Q_ASSERT(language);
+    G_ASSERT(language);
     auto meta = language->meta();
-    Q_ASSERT(!_lookup.contains(meta->name()));
+    G_ASSERT(!_lookup.contains(meta->name()));
     meta->setParent(this);
     language->setParent(this);
     _lookup.insert(meta->name(),_languages.size());

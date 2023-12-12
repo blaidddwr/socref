@@ -2,6 +2,7 @@
 #include <QSignalSpy>
 #include <QTest>
 #include "BlockCppEnumeration.h"
+#include "Exception.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
@@ -93,7 +94,7 @@ void Enumeration::cleanupTestCase(
     auto ret = qobject_cast<::Block::Cpp::Enumeration*>(
         factory->get(index)->create(EnumerationIndex,this)
         );
-    Q_ASSERT(ret);
+    G_ASSERT(ret);
     return ret;
 }
 }
