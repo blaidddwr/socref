@@ -59,6 +59,28 @@ class Class:
     ) const override final;
 
 
+    /*!
+     * Determines if this class is abstract.
+     *
+     * @return
+     * True if it is abstract otherwise false.
+     */
+    public:
+    bool isAbstract(
+    ) const;
+
+
+    /*!
+     * Determines if this class is virtual.
+     *
+     * @return
+     * True if it is virtual otherwise false.
+     */
+    public:
+    bool isVirtual(
+    ) const;
+
+
     public:
     virtual void loadFromMap(
         const QMap<QString,QVariant>& map
@@ -115,6 +137,14 @@ class Class:
     public:
     const QStringList& templates(
     ) const;
+
+
+    /*!
+     * Forces this class to update its display icon property.
+     */
+    public:
+    void updateDisplayIcon(
+    );
 };
 }
 }

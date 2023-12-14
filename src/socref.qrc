@@ -1,7 +1,29 @@
 <RCC>
     <qresource prefix="/cpp/">
+        <file alias="abstract_class.svg">../data/cpp/abstract_class.svg</file>
+        <file alias="abstract_protected_destructor.svg">../data/cpp/abstract_protected_destructor.svg</file>
+        <file alias="abstract_protected_function.svg">../data/cpp/abstract_protected_function.svg</file>
+        <file alias="abstract_public_destructor.svg">../data/cpp/abstract_public_destructor.svg</file>
+        <file alias="abstract_public_function.svg">../data/cpp/abstract_public_function.svg</file>
         <file alias="class.svg">../data/cpp/class.svg</file>
         <file alias="enumeration.svg">../data/cpp/enumeration.svg</file>
         <file alias="namespace.svg">../data/cpp/namespace.svg</file>
+        <file alias="private_constructor.svg">../data/cpp/private_constructor.svg</file>
+        <file alias="private_destructor.svg">../data/cpp/private_destructor.svg</file>
+        <file alias="private_function.svg">../data/cpp/private_function.svg</file>
+        <file alias="private_operator.svg">../data/cpp/private_operator.svg</file>
+        <file alias="protected_constructor.svg">../data/cpp/protected_constructor.svg</file>
+        <file alias="protected_destructor.svg">../data/cpp/protected_destructor.svg</file>
+        <file alias="protected_function.svg">../data/cpp/protected_function.svg</file>
+        <file alias="protected_operator.svg">../data/cpp/protected_operator.svg</file>
+        <file alias="public_constructor.svg">../data/cpp/public_constructor.svg</file>
+        <file alias="public_destructor.svg">../data/cpp/public_destructor.svg</file>
+        <file alias="public_function.svg">../data/cpp/public_function.svg</file>
+        <file alias="public_operator.svg">../data/cpp/public_operator.svg</file>
+        <file alias="virtual_class.svg">../data/cpp/virtual_class.svg</file>
+        <file alias="virtual_protected_destructor.svg">../data/cpp/virtual_protected_destructor.svg</file>
+        <file alias="virtual_protected_function.svg">../data/cpp/virtual_protected_function.svg</file>
+        <file alias="virtual_public_destructor.svg">../data/cpp/virtual_public_destructor.svg</file>
+        <file alias="virtual_public_function.svg">../data/cpp/virtual_public_function.svg</file>
     </qresource>
 </RCC>

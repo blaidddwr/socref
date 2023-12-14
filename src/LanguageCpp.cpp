@@ -2,6 +2,7 @@
 #include "BlockCpp.h"
 #include "BlockCppClass.h"
 #include "BlockCppEnumeration.h"
+#include "BlockCppFunction.h"
 #include "BlockCppNamespace.h"
 #include "Exception.h"
 #include "ModelMetaBlock.h"
@@ -15,15 +16,16 @@ Cpp::Cpp(
 ):
     Abstract(meta,parent)
 {
-    appendBlock(new Model::Meta::Block(meta,ClassIndex,"class","Class",{}));
+    appendBlock(new Model::Meta::Block(meta,ClassIndex,"class","Class",{FunctionIndex}));
     appendBlock(new Model::Meta::Block(meta,EnumerationIndex,"enumeration","Enumeration",{}));
+    appendBlock(new Model::Meta::Block(meta,FunctionIndex,"function","Function",{}));
     appendBlock(
         new Model::Meta::Block(
             meta
             ,NamespaceIndex
             ,"namespace"
             ,"Namespace"
-            ,{NamespaceIndex,ClassIndex,EnumerationIndex}
+            ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex}
         )
     );
 }
@@ -36,12 +38,6 @@ Block::Abstract* Cpp::create(
 {
     switch (index)
     {
-    case NamespaceIndex:
-    {
-        auto meta = blockMeta(index);
-        G_ASSERT(meta->index() == NamespaceIndex);
-        return new Namespace(meta,parent);
-    }
     case ClassIndex:
     {
         auto meta = blockMeta(index);
@@ -53,6 +49,18 @@ Block::Abstract* Cpp::create(
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == EnumerationIndex);
         return new Enumeration(meta,parent);
+    }
+    case FunctionIndex:
+    {
+        auto meta = blockMeta(index);
+        G_ASSERT(meta->index() == FunctionIndex);
+        return new Function(meta,parent);
+    }
+    case NamespaceIndex:
+    {
+        auto meta = blockMeta(index);
+        G_ASSERT(meta->index() == NamespaceIndex);
+        return new Namespace(meta,parent);
     }
     default:
         G_ASSERT(false);

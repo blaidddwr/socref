@@ -1,5 +1,6 @@
 #include "BlockCppClass.h"
 #include <QtGui>
+#include "BlockCppFunction.h"
 #include "Global.h"
 namespace Block {
 namespace Cpp {
@@ -18,7 +19,53 @@ Widget::Block::Abstract* Class::createWidget(
 QIcon Class::displayIcon(
 ) const
 {
-    return QIcon(":/cpp/class.svg");
+    if (isAbstract())
+    {
+        return QIcon(":/cpp/abstract_class.svg");
+
+    }
+    else if (isVirtual())
+    {
+        return QIcon(":/cpp/virtual_class.svg");
+    }
+    else
+    {
+        return QIcon(":/cpp/class.svg");
+    }
+}
+
+
+bool Class::isAbstract(
+) const
+{
+    for (int i = 0;i < size();i++)
+    {
+        if (auto f = qobject_cast<Function*>(get(i)))
+        {
+            if (f->isAbstract())
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+bool Class::isVirtual(
+) const
+{
+    for (int i = 0;i < size();i++)
+    {
+        if (auto f = qobject_cast<Function*>(get(i)))
+        {
+            if (f->isVirtual())
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 
@@ -98,6 +145,13 @@ const QStringList& Class::templates(
 ) const
 {
     return _templates;
+}
+
+
+void Class::updateDisplayIcon(
+)
+{
+    emit displayIconChanged(displayIcon());
 }
 }
 }
