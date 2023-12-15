@@ -20,6 +20,7 @@ class Class:
     Q_OBJECT
     QStringList _parents;
     QStringList _templates;
+    const QIcon* _icon;
     public:
     using ::Block::Cpp::Base::Base;
 
@@ -49,6 +50,13 @@ class Class:
 
 
     public:
+    Class(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
+    );
+
+
+    public:
     virtual Widget::Block::Abstract* createWidget(
         QObject* parent = nullptr
     ) const override final;
@@ -60,24 +68,36 @@ class Class:
 
 
     /*!
-     * Determines if this class is abstract.
+     * Determines if this class is abstract. The given ignore pointer is used to
+     * ignore any matching child function block in determining if this class is
+     * abstract.
+     *
+     * @param ignore
+     *        The ignore pointer.
      *
      * @return
      * True if it is abstract otherwise false.
      */
     public:
     bool isAbstract(
+        const Block::Abstract* ignore = nullptr
     ) const;
 
 
     /*!
-     * Determines if this class is virtual.
+     * Determines if this class is virtual. The given ignore pointer is used to
+     * ignore any matching child function block in determining if this class is
+     * virtual.
+     *
+     * @param ignore
+     *        The ignore pointer.
      *
      * @return
      * True if it is virtual otherwise false.
      */
     public:
     bool isVirtual(
+        const Block::Abstract* ignore = nullptr
     ) const;
 
 
@@ -140,10 +160,62 @@ class Class:
 
 
     /*!
-     * Forces this class to update its display icon property.
+     * Forces this instance to update its display icon property. The given
+     * ignore pointer is used to ignore any matching child function block in
+     * determining if this class is concrete, virtual, or abstract.
+     *
+     * @param ignore
+     *        The ignore pointer.
      */
     public:
     void updateDisplayIcon(
+        const Block::Abstract* ignore = nullptr
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The class icon.
+     */
+    private:
+    static const QIcon* icon(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The abstract class icon.
+     */
+    private:
+    static const QIcon* iconAbstract(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The virtual class icon.
+     */
+    private:
+    static const QIcon* iconVirtual(
+    );
+
+
+    /*!
+     * Sets this instance's display icon property to the value at the given
+     * memory location. The given memory location must be a valid Qt icon.
+     *
+     * @param pointer
+     *        The memory location.
+     */
+    private:
+    void setDisplayIcon(
+        const QIcon* pointer
     );
 };
 }

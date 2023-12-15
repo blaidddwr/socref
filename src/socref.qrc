@@ -7,6 +7,7 @@
         <file alias="abstract_public_function.svg">../data/cpp/abstract_public_function.svg</file>
         <file alias="class.svg">../data/cpp/class.svg</file>
         <file alias="enumeration.svg">../data/cpp/enumeration.svg</file>
+        <file alias="invalid_function.svg">../data/cpp/invalid_function.svg</file>
         <file alias="namespace.svg">../data/cpp/namespace.svg</file>
         <file alias="private_constructor.svg">../data/cpp/private_constructor.svg</file>
         <file alias="private_destructor.svg">../data/cpp/private_destructor.svg</file>

@@ -1,9 +1,20 @@
 #include "BlockCppClass.h"
 #include <QtGui>
 #include "BlockCppFunction.h"
+#include "Exception.h"
 #include "Global.h"
 namespace Block {
 namespace Cpp {
+
+
+Class::Class(
+    Model::Meta::Block* meta
+    ,QObject* parent
+):
+    Base(meta,parent)
+    ,_icon(icon())
+{
+}
 
 
 Widget::Block::Abstract* Class::createWidget(
@@ -19,30 +30,23 @@ Widget::Block::Abstract* Class::createWidget(
 QIcon Class::displayIcon(
 ) const
 {
-    if (isAbstract())
-    {
-        return QIcon(":/cpp/abstract_class.svg");
-
-    }
-    else if (isVirtual())
-    {
-        return QIcon(":/cpp/virtual_class.svg");
-    }
-    else
-    {
-        return QIcon(":/cpp/class.svg");
-    }
+    G_ASSERT(_icon);
+    return *_icon;
 }
 
 
 bool Class::isAbstract(
+    const Block::Abstract* ignore
 ) const
 {
     for (int i = 0;i < size();i++)
     {
         if (auto f = qobject_cast<Function*>(get(i)))
         {
-            if (f->isAbstract())
+            if (
+                f != ignore
+                && f->isAbstract()
+            )
             {
                 return true;
             }
@@ -53,13 +57,17 @@ bool Class::isAbstract(
 
 
 bool Class::isVirtual(
+    const Block::Abstract* ignore
 ) const
 {
     for (int i = 0;i < size();i++)
     {
         if (auto f = qobject_cast<Function*>(get(i)))
         {
-            if (f->isVirtual())
+            if (
+                f != ignore
+                && f->isVirtual()
+            )
             {
                 return true;
             }
@@ -149,9 +157,59 @@ const QStringList& Class::templates(
 
 
 void Class::updateDisplayIcon(
+    const Block::Abstract* ignore
 )
 {
-    emit displayIconChanged(displayIcon());
+    if (isAbstract(ignore))
+    {
+        setDisplayIcon(iconAbstract());
+
+    }
+    else if (isVirtual(ignore))
+    {
+        setDisplayIcon(iconVirtual());
+    }
+    else
+    {
+        setDisplayIcon(icon());
+    }
+}
+
+
+const QIcon* Class::icon(
+)
+{
+    static const QIcon ret(":/cpp/class.svg");
+    return &ret;
+}
+
+
+const QIcon* Class::iconAbstract(
+)
+{
+    static const QIcon ret(":/cpp/abstract_class.svg");
+    return &ret;
+}
+
+
+const QIcon* Class::iconVirtual(
+)
+{
+    static const QIcon ret(":/cpp/virtual_class.svg");
+    return &ret;
+}
+
+
+void Class::setDisplayIcon(
+    const QIcon* pointer
+)
+{
+    G_ASSERT(pointer);
+    if (_icon != pointer)
+    {
+        _icon = pointer;
+        emit displayIconChanged(*pointer);
+    }
 }
 }
 }

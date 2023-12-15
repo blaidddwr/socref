@@ -42,6 +42,14 @@ class Cpp:
 
 
     /*!
+     * Tests creation of a function block.
+     */
+    private slots:
+    void createFunction(
+    );
+
+
+    /*!
      * Tests creation of a namespace block.
      */
     private slots:

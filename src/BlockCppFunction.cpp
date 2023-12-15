@@ -6,23 +6,15 @@
 #include "Global.h"
 namespace Block {
 namespace Cpp {
-const QHash<QString,int> Function::_REVERSE_FLAG_LOOKUP {
-    {"noexcept",NoExceptFunctionFlag}
-    ,{"explicit",NoExceptFunctionFlag}
-    ,{"static",NoExceptFunctionFlag}
-    ,{"const",NoExceptFunctionFlag}
-    ,{"virtual",NoExceptFunctionFlag}
-    ,{"override",NoExceptFunctionFlag}
-    ,{"final",NoExceptFunctionFlag}
-};
+QHash<QString,int>* Function::_reverseFlagLookup {nullptr};
 const QHash<int,QString> Function::_FLAG_STRINGS {
     {NoExceptFunctionFlag,"noexcept"}
-    ,{NoExceptFunctionFlag,"explicit"}
-    ,{NoExceptFunctionFlag,"static"}
-    ,{NoExceptFunctionFlag,"const"}
-    ,{NoExceptFunctionFlag,"virtual"}
-    ,{NoExceptFunctionFlag,"override"}
-    ,{NoExceptFunctionFlag,"final"}
+    ,{ExplicitFunctionFlag,"explicit"}
+    ,{StaticFunctionFlag,"static"}
+    ,{ConstantFunctionFlag,"const"}
+    ,{VirtualFunctionFlag,"virtual"}
+    ,{OverrideFunctionFlag,"override"}
+    ,{FinalFunctionFlag,"final"}
 };
 const QStringList Function::_ACCESS_STRINGS = {
     "public"
@@ -42,6 +34,26 @@ const QStringList Function::_TYPE_STRINGS = {
     ,"destructor"
     ,"operator"
 };
+
+
+Function::Function(
+    Model::Meta::Block* meta
+    ,QObject* parent
+):
+    Base(meta,parent)
+    ,_icon(iconPublic())
+{
+}
+
+
+Function::~Function(
+)
+{
+    if (auto p = qobject_cast<Class*>(parent()))
+    {
+        p->updateDisplayIcon(this);
+    }
+}
 
 
 int Function::access(
@@ -84,106 +96,8 @@ Widget::Block::Abstract* Function::createWidget(
 QIcon Function::displayIcon(
 ) const
 {
-    if (isAbstract())
-    {
-        switch (_type)
-        {
-        case MethodFunctionType:
-            switch(_access)
-            {
-            case PublicAccess:
-                return QIcon(":/cpp/abstract_public_function.svg");
-            case ProtectedAccess:
-                return QIcon(":/cpp/abstract_protected_function.svg");
-            }
-            break;
-        case DestructorFunctionType:
-            switch(_access)
-            {
-            case PublicAccess:
-                return QIcon(":/cpp/abstract_public_destructor.svg");
-            case ProtectedAccess:
-                return QIcon(":/cpp/abstract_protected_destructor.svg");
-            }
-            break;
-        }
-    }
-    else if (isVirtual())
-    {
-        switch (_type)
-        {
-        case MethodFunctionType:
-            switch(_access)
-            {
-            case PublicAccess:
-                return QIcon(":/cpp/virtual_public_function.svg");
-            case ProtectedAccess:
-                return QIcon(":/cpp/virtual_protected_function.svg");
-            }
-            break;
-        case DestructorFunctionType:
-            switch(_access)
-            {
-            case PublicAccess:
-                return QIcon(":/cpp/virtual_public_destructor.svg");
-            case ProtectedAccess:
-                return QIcon(":/cpp/virtual_protected_destructor.svg");
-            }
-            break;
-        }
-    }
-    else
-    {
-        switch (_type)
-        {
-        case RegularFunctionType:
-        case MethodFunctionType:
-            switch(_access)
-            {
-            case PublicAccess:
-                return QIcon(":/cpp/public_function.svg");
-            case ProtectedAccess:
-                return QIcon(":/cpp/protected_function.svg");
-            case PrivateAccess:
-                return QIcon(":/cpp/private_function.svg");
-            }
-            break;
-        case ConstructorFunctionType:
-            switch(_access)
-            {
-            case PublicAccess:
-                return QIcon(":/cpp/public_constructor.svg");
-            case ProtectedAccess:
-                return QIcon(":/cpp/protected_constructor.svg");
-            case PrivateAccess:
-                return QIcon(":/cpp/private_constructor.svg");
-            }
-            break;
-        case DestructorFunctionType:
-            switch(_access)
-            {
-            case PublicAccess:
-                return QIcon(":/cpp/public_destructor.svg");
-            case ProtectedAccess:
-                return QIcon(":/cpp/protected_destructor.svg");
-            case PrivateAccess:
-                return QIcon(":/cpp/private_destructor.svg");
-            }
-            break;
-        case OperatorFunctionType:
-            switch(_access)
-            {
-            case PublicAccess:
-                return QIcon(":/cpp/public_operator.svg");
-            case ProtectedAccess:
-                return QIcon(":/cpp/protected_operator.svg");
-            case PrivateAccess:
-                return QIcon(":/cpp/private_operator.svg");
-            }
-            break;
-        }
-    }
-    return QIcon(":/cpp/invalid_function.svg");
+    G_ASSERT(_icon);
+    return *_icon;
 }
 
 
@@ -195,12 +109,12 @@ QString Function::displayText(
     {
         ret.append("template<"+_templates.join(",")+">");
     }
-    addLeftFlags(ret);
-    addReturn(ret);
-    addSignature(ret);
-    addRightSignatureFlags(ret);
-    addRightFlags(ret);
-    addAssignment(ret);
+    appendLeftFlags(ret);
+    appendReturn(ret);
+    appendSignature(ret);
+    appendRightSignatureFlags(ret);
+    appendRightFlags(ret);
+    appendAssignment(ret);
     return ret.join(" ");
 }
 
@@ -311,7 +225,7 @@ void Function::setAccess(
     {
         _access = value;
         emit accessChanged(value);
-        emit displayIconChanged(displayIcon());
+        updateDisplayIcon();
     }
 }
 
@@ -325,7 +239,7 @@ void Function::setAssignment(
         _assignment = value;
         emit assignmentChanged(value);
         emit displayTextChanged(displayText());
-        emit displayIconChanged(displayIcon());
+        updateDisplayIcon();
         if (auto p = qobject_cast<Class*>(parent()))
         {
             p->updateDisplayIcon();
@@ -343,7 +257,7 @@ void Function::setFlags(
         _flags = value;
         emit flagsChanged(value);
         emit displayTextChanged(displayText());
-        emit displayIconChanged(displayIcon());
+        updateDisplayIcon();
         if (auto p = qobject_cast<Class*>(parent()))
         {
             p->updateDisplayIcon();
@@ -399,7 +313,7 @@ void Function::setType(
         _type = value;
         emit typeChanged(value);
         emit displayTextChanged(displayText());
-        emit displayIconChanged(displayIcon());
+        updateDisplayIcon();
     }
 }
 
@@ -434,28 +348,6 @@ QStringList Function::arguments(
 }
 
 
-void Function::addAssignment(
-    QStringList& words
-) const
-{
-    switch (_assignment)
-    {
-    case DefaultFunctionAssignment:
-        words.append("=");
-        words.append("default");
-        break;
-    case DeleteFunctionAssignment:
-        words.append("=");
-        words.append("delete");
-        break;
-    case AbstractFunctionAssignment:
-        words.append("=");
-        words.append("0");
-        break;
-    }
-}
-
-
 void Function::addEvent(
 )
 {
@@ -478,7 +370,29 @@ void Function::addEvent(
 }
 
 
-void Function::addLeftFlags(
+void Function::appendAssignment(
+    QStringList& words
+) const
+{
+    switch (_assignment)
+    {
+    case DefaultFunctionAssignment:
+        words.append("=");
+        words.append("default");
+        break;
+    case DeleteFunctionAssignment:
+        words.append("=");
+        words.append("delete");
+        break;
+    case AbstractFunctionAssignment:
+        words.append("=");
+        words.append("0");
+        break;
+    }
+}
+
+
+void Function::appendLeftFlags(
     QStringList& words
 ) const
 {
@@ -497,7 +411,7 @@ void Function::addLeftFlags(
 }
 
 
-void Function::addReturn(
+void Function::appendReturn(
     QStringList& words
 ) const
 {
@@ -512,7 +426,7 @@ void Function::addReturn(
 }
 
 
-void Function::addRightFlags(
+void Function::appendRightFlags(
     QStringList& words
 ) const
 {
@@ -531,7 +445,7 @@ void Function::addRightFlags(
 }
 
 
-void Function::addRightSignatureFlags(
+void Function::appendRightSignatureFlags(
     QStringList& words
 ) const
 {
@@ -542,7 +456,7 @@ void Function::addRightSignatureFlags(
 }
 
 
-void Function::addSignature(
+void Function::appendSignature(
     QStringList& words
 ) const
 {
@@ -622,14 +536,14 @@ int Function::loadAssignmentLegacy(
     if (
         map.contains("default")
         && map.value("default").toBool()
-        )
+    )
     {
         return DefaultFunctionAssignment;
     }
     if (
         map.contains("deleted")
         && map.value("deleted").toBool()
-        )
+    )
     {
         return DeleteFunctionAssignment;
     }
@@ -644,9 +558,10 @@ int Function::loadFlags(
 {
     Q_UNUSED(version);
     int ret = 0;
+    auto reverseLookup = reverseFlagLookup();
     for (const auto& flagString: value.toString().split(";"))
     {
-        auto flag = _REVERSE_FLAG_LOOKUP.value(flagString,-1);
+        auto flag = reverseLookup.value(flagString,-1);
         if (flag != -1)
         {
             ret |= flag;
@@ -661,7 +576,8 @@ int Function::loadFlagsLegacy(
 )
 {
     int ret = 0;
-    for (auto i = _REVERSE_FLAG_LOOKUP.begin();i != _REVERSE_FLAG_LOOKUP.end();i++)
+    auto reverseLookup = reverseFlagLookup();
+    for (auto i = reverseLookup.begin();i != reverseLookup.end();i++)
     {
         if (
             map.contains(i.key())
@@ -735,7 +651,21 @@ void Function::removeEvent(
 {
     if (auto p = qobject_cast<Class*>(parent()))
     {
+        p->updateDisplayIcon(this);
         disconnect(p,&Base::nameChanged,this,&Function::onClassNameChanged);
+    }
+}
+
+
+void Function::setDisplayIcon(
+    const QIcon* pointer
+)
+{
+    G_ASSERT(pointer);
+    if (_icon != pointer)
+    {
+        _icon = pointer;
+        emit displayIconChanged(*pointer);
     }
 }
 
@@ -744,9 +674,360 @@ QString Function::scopeName(
 ) const
 {
     QStringList ret;
-    addSignature(ret);
-    addRightSignatureFlags(ret);
+    appendSignature(ret);
+    appendRightSignatureFlags(ret);
     return ret.join("");
+}
+
+
+void Function::updateDisplayIcon(
+)
+{
+    if (isAbstract())
+    {
+        switch (_type)
+        {
+        case MethodFunctionType:
+            switch(_access)
+            {
+            case PublicAccess:
+                setDisplayIcon(iconAbstractPublic());
+                break;
+            case ProtectedAccess:
+                setDisplayIcon(iconAbstractProtected());
+                break;
+            }
+            break;
+        case DestructorFunctionType:
+            switch(_access)
+            {
+            case PublicAccess:
+                setDisplayIcon(iconAbstractDestructorPublic());
+                break;
+            case ProtectedAccess:
+                setDisplayIcon(iconAbstractDestructorProtected());
+                break;
+            }
+            break;
+        }
+    }
+    else if (isVirtual())
+    {
+        switch (_type)
+        {
+        case MethodFunctionType:
+            switch(_access)
+            {
+            case PublicAccess:
+                setDisplayIcon(iconVirtualPublic());
+                break;
+            case ProtectedAccess:
+                setDisplayIcon(iconVirtualProtected());
+                break;
+            }
+            break;
+        case DestructorFunctionType:
+            switch(_access)
+            {
+            case PublicAccess:
+                setDisplayIcon(iconVirtualDestructorPublic());
+                break;
+            case ProtectedAccess:
+                setDisplayIcon(iconVirtualDestructorProtected());
+                break;
+            }
+            break;
+        }
+    }
+    else
+    {
+        switch (_type)
+        {
+        case RegularFunctionType:
+        case MethodFunctionType:
+            if (_flags&StaticFunctionFlag)
+            {
+                switch(_access)
+                {
+                case PublicAccess:
+                    setDisplayIcon(iconStaticPublic());
+                    break;
+                case ProtectedAccess:
+                    setDisplayIcon(iconStaticProtected());
+                    break;
+                case PrivateAccess:
+                    setDisplayIcon(iconStaticPrivate());
+                    break;
+                }
+            }
+            else
+            {
+                switch(_access)
+                {
+                case PublicAccess:
+                    setDisplayIcon(iconPublic());
+                    break;
+                case ProtectedAccess:
+                    setDisplayIcon(iconProtected());
+                    break;
+                case PrivateAccess:
+                    setDisplayIcon(iconPrivate());
+                    break;
+                }
+            }
+            break;
+        case ConstructorFunctionType:
+            switch(_access)
+            {
+            case PublicAccess:
+                setDisplayIcon(iconConstructorPublic());
+                break;
+            case ProtectedAccess:
+                setDisplayIcon(iconConstructorProtected());
+                break;
+            case PrivateAccess:
+                setDisplayIcon(iconConstructorPrivate());
+                break;
+            }
+            break;
+        case DestructorFunctionType:
+            switch(_access)
+            {
+            case PublicAccess:
+                setDisplayIcon(iconDestructorPublic());
+                break;
+            case ProtectedAccess:
+                setDisplayIcon(iconDestructorProtected());
+                break;
+            case PrivateAccess:
+                setDisplayIcon(iconDestructorPrivate());
+                break;
+            }
+            break;
+        case OperatorFunctionType:
+            switch(_access)
+            {
+            case PublicAccess:
+                setDisplayIcon(iconOperatorPublic());
+                break;
+            case ProtectedAccess:
+                setDisplayIcon(iconOperatorProtected());
+                break;
+            case PrivateAccess:
+                setDisplayIcon(iconOperatorPrivate());
+                break;
+            }
+            break;
+        }
+    }
+    setDisplayIcon(iconInvalid());
+}
+
+
+const QHash<QString,int>& Function::reverseFlagLookup(
+)
+{
+    if (!_reverseFlagLookup)
+    {
+        _reverseFlagLookup = new QHash<QString,int>;
+        for (auto i = _FLAG_STRINGS.begin();i != _FLAG_STRINGS.end();i++)
+        {
+            _reverseFlagLookup->insert(i.value(),i.key());
+        }
+    }
+    return *_reverseFlagLookup;
+}
+
+
+const QIcon* Function::iconAbstractDestructorProtected(
+)
+{
+    static const QIcon ret(":/cpp/abstract_protected_destructor.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconAbstractDestructorPublic(
+)
+{
+    static const QIcon ret(":/cpp/abstract_public_destructor.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconAbstractProtected(
+)
+{
+    static const QIcon ret(":/cpp/abstract_protected_function.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconAbstractPublic(
+)
+{
+    static const QIcon ret(":/cpp/abstract_public_function.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconConstructorPrivate(
+)
+{
+    static const QIcon ret(":/cpp/private_constructor.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconConstructorProtected(
+)
+{
+    static const QIcon ret(":/cpp/protected_constructor.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconConstructorPublic(
+)
+{
+    static const QIcon ret(":/cpp/public_constructor.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconDestructorPrivate(
+)
+{
+    static const QIcon ret(":/cpp/private_desctructor.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconDestructorProtected(
+)
+{
+    static const QIcon ret(":/cpp/protected_desctructor.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconDestructorPublic(
+)
+{
+    static const QIcon ret(":/cpp/public_desctructor.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconInvalid(
+)
+{
+    static const QIcon ret(":/cpp/invalid_function.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconOperatorPrivate(
+)
+{
+    static const QIcon ret(":/cpp/private_operator.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconOperatorProtected(
+)
+{
+    static const QIcon ret(":/cpp/protected_operator.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconOperatorPublic(
+)
+{
+    static const QIcon ret(":/cpp/public_operator.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconPrivate(
+)
+{
+    static const QIcon ret(":/cpp/private_function.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconProtected(
+)
+{
+    static const QIcon ret(":/cpp/protected_function.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconPublic(
+)
+{
+    static const QIcon ret(":/cpp/public_function.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconStaticPrivate(
+)
+{
+    static const QIcon ret(":/cpp/static_private_function.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconStaticProtected(
+)
+{
+    static const QIcon ret(":/cpp/static_protected_function.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconStaticPublic(
+)
+{
+    static const QIcon ret(":/cpp/static_public_function.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconVirtualDestructorProtected(
+)
+{
+    static const QIcon ret(":/cpp/virtual_protected_destructor.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconVirtualDestructorPublic(
+)
+{
+    static const QIcon ret(":/cpp/virtual_public_destructor.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconVirtualProtected(
+)
+{
+    static const QIcon ret(":/cpp/virtual_protected_function.svg");
+    return &ret;
+}
+
+
+const QIcon* Function::iconVirtualPublic(
+)
+{
+    static const QIcon ret(":/cpp/virtual_public_function.svg");
+    return &ret;
 }
 }
 }

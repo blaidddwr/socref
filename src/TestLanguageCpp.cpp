@@ -22,7 +22,7 @@ void Cpp::createClass(
 )
 {
     using namespace Block::Cpp;
-    static const QSet<int> allowList {};
+    static const QSet<int> allowList {FunctionIndex};
     auto block = _language->create(ClassIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),ClassIndex);
@@ -48,11 +48,26 @@ void Cpp::createEnumeration(
 }
 
 
+void Cpp::createFunction(
+)
+{
+    using namespace Block::Cpp;
+    static const QSet<int> allowList {};
+    auto block = _language->create(FunctionIndex,this);
+    auto meta = block->meta();
+    QCOMPARE(meta->index(),FunctionIndex);
+    QCOMPARE(meta->name(),"function");
+    QCOMPARE(meta->label(),"Function");
+    QCOMPARE(meta->allowList(),allowList);
+    QCOMPARE(meta->language(),_meta);
+}
+
+
 void Cpp::createNamespace(
 )
 {
     using namespace Block::Cpp;
-    static const QSet<int> allowList {NamespaceIndex,ClassIndex,EnumerationIndex};
+    static const QSet<int> allowList {ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex};
     auto block = _language->create(NamespaceIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),NamespaceIndex);

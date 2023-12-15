@@ -17,7 +17,6 @@ class Class:
 {
     Q_OBJECT
     ::Block::Cpp::Class* _block;
-    int _blockIndex;
 
 
     private slots:

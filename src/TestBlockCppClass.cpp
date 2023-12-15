@@ -2,6 +2,7 @@
 #include <QSignalSpy>
 #include <QTest>
 #include "BlockCppClass.h"
+#include "BlockCppFunction.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
@@ -9,6 +10,8 @@
 namespace Test {
 namespace Block {
 namespace Cpp {
+using ClassBlock = ::Block::Cpp::Class;
+using namespace ::Block::Cpp;
 
 
 void Class::initTestCase(
@@ -19,9 +22,7 @@ void Class::initTestCase(
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
     initLanguage(Factory::Language::instance()->get(langIndex));
-    _blockIndex = language()->indexFromName("class");
-    QVERIFY(_blockIndex >= 0);
-    _block = create<::Block::Cpp::Class>(_blockIndex);
+    _block = create<ClassBlock>(ClassIndex);
     QVERIFY(_block);
 }
 
@@ -29,7 +30,46 @@ void Class::initTestCase(
 void Class::displayIconProperty(
 )
 {
+    using namespace ::Block::Cpp;
     static const QIcon testIcon(":/cpp/class.svg");
+    static const QIcon testIconAbstract(":/cpp/abstract_class.svg");
+    static const QIcon testIconVirtual(":/cpp/virtual_class.svg");
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    QSignalSpy spy(_block,&ClassBlock::displayIconChanged);
+    auto function = create<Function>(FunctionIndex);
+    _block->append(function);
+    QCOMPARE(spy.count(),0);
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    function->setAssignment(AbstractFunctionAssignment);
+    QCOMPARE(spy.count(),1);
+    auto arguments = spy.takeLast();
+    QCOMPARE(arguments.size(),1);
+    QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),testIconAbstract));
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIconAbstract));
+    spy.clear();
+    function->setAssignment(NoFunctionAssignment);
+    QCOMPARE(spy.count(),1);
+    arguments = spy.takeLast();
+    QCOMPARE(arguments.size(),1);
+    QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),testIcon));
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    spy.clear();
+    function->setFlags(VirtualFunctionFlag);
+    QCOMPARE(spy.count(),1);
+    arguments = spy.takeLast();
+    QCOMPARE(arguments.size(),1);
+    QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),testIconVirtual));
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIconVirtual));
+    spy.clear();
+    delete function;
+    QCOMPARE(spy.count(),1);
+    arguments = spy.takeLast();
+    QCOMPARE(arguments.size(),1);
+    QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),testIcon));
     QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
 }
 
@@ -45,7 +85,7 @@ void Class::loadFromMap(
         ,{"parents",testParents.join(';')}
         ,{"templates",testTemplates.join(';')}
     };
-    auto block = create<::Block::Cpp::Class>(_blockIndex);
+    auto block = create<ClassBlock>(ClassIndex);
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->parents(),testParents);
@@ -66,7 +106,7 @@ void Class::loadFromMapLegacy(
         ,{"parents",testParents.join("\n\n")}
         ,{"template",testTemplateString}
     };
-    auto block = create<::Block::Cpp::Class>(_blockIndex);
+    auto block = create<ClassBlock>(ClassIndex);
     QVERIFY(block);
     block->loadFromMap(testData,Socref_Legacy);
     QCOMPARE(block->parents(),testParents);
@@ -79,7 +119,7 @@ void Class::parentsProperty(
 )
 {
     static const QStringList testParents  = {"parent1","parent2"};
-    QSignalSpy spy(_block,&::Block::Cpp::Class::parentsChanged);
+    QSignalSpy spy(_block,&ClassBlock::parentsChanged);
     _block->setParents(testParents);
     QCOMPARE(spy.count(),1);
     auto arguments = spy.takeFirst();
@@ -102,7 +142,7 @@ void Class::saveToMap(
         ,{"parents",testParents.join(';')}
         ,{"template",testTemplates.join(';')}
     };
-    auto block = create<::Block::Cpp::Class>(_blockIndex);
+    auto block = create<ClassBlock>(ClassIndex);
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);
@@ -118,7 +158,7 @@ void Class::templatesProperty(
 )
 {
     static const QStringList testTemplates {"class A","class B>"};
-    QSignalSpy spy(_block,&::Block::Cpp::Class::templatesChanged);
+    QSignalSpy spy(_block,&ClassBlock::templatesChanged);
     _block->setTemplates(testTemplates);
     QCOMPARE(spy.count(),1);
     auto arguments = spy.takeFirst();

@@ -1016,6 +1016,31 @@ Its properties are parents and templates. The parents is a list of a class's par
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>meta</__p_name>
+                            <__p_type>Model::Meta::Block*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -1056,7 +1081,7 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this class is abstract.</__p_description>
+                        <__p_description>Determines if this class is abstract. The given ignore pointer is used to ignore any matching child function block in determining if this class is abstract.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -1067,6 +1092,12 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_description>The ignore pointer.</__p_description>
+                            <__p_name>ignore</__p_name>
+                            <__p_type>const Block::Abstract*</__p_type>
+                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -1074,7 +1105,7 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this class is virtual.</__p_description>
+                        <__p_description>Determines if this class is virtual. The given ignore pointer is used to ignore any matching child function block in determining if this class is virtual.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -1085,6 +1116,12 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_description>The ignore pointer.</__p_description>
+                            <__p_name>ignore</__p_name>
+                            <__p_type>const Block::Abstract*</__p_type>
+                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -1212,7 +1249,7 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Forces this class to update its display icon property.</__p_description>
+                        <__p_description>Forces this instance to update its display icon property. The given ignore pointer is used to ignore any matching child function block in determining if this class is concrete, virtual, or abstract.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -1222,6 +1259,88 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_description>The ignore pointer.</__p_description>
+                            <__p_name>ignore</__p_name>
+                            <__p_type>const Block::Abstract*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>icon</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The class icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconAbstract</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The abstract class icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconVirtual</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The virtual class icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this instance's display icon property to the value at the given memory location. The given memory location must be a valid Qt icon.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setDisplayIcon</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The memory location.</__p_description>
+                            <__p_name>pointer</__p_name>
+                            <__p_type>const QIcon*</__p_type>
+                        </Variable>
                     </Function>
                 </Class>
                 <Class>
@@ -1535,6 +1654,47 @@ A words list is generated in order to correctly build the definition of a functi
                             <__p_name>value</__p_name>
                             <__p_type>int</__p_type>
                         </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>meta</__p_name>
+                            <__p_type>Model::Meta::Block*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>~^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -2045,28 +2205,6 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Protected</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Adds the assignment words for this function's definition to the given words list.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>addAssignment</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_description>The words list.</__p_description>
-                            <__p_name>words</__p_name>
-                            <__p_type>QStringList&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -2086,33 +2224,11 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Adds the flag(specifier) keywords for this function's definition that belong on the left side of its name to the given words list.</__p_description>
+                        <__p_description>Appends the assignment words for this function's definition to the given words list.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>addLeftFlags</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_description>The words.</__p_description>
-                            <__p_name>words</__p_name>
-                            <__p_type>QStringList&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Adds the return type words to the given words list.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>addReturn</__p_name>
+                        <__p_name>appendAssignment</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
@@ -2130,11 +2246,11 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Adds the flag(specifier) keywords for this function's definition that belong on the right side of its name to the given words list. This does not include signature relevant flags which are added in the add right signature flags method.</__p_description>
+                        <__p_description>Appends the flag(specifier) words for this function's definition that belong on the left side of its name to the given words list.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>addRightFlags</__p_name>
+                        <__p_name>appendLeftFlags</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
@@ -2152,11 +2268,33 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Adds the signature relevant flag(specifier) keywords for this function's definition that belong on the right side of its name to the given words list. Signature relevant means it is a flag used to make a unique function signature in C++ such as constant.</__p_description>
+                        <__p_description>Appends the return type words to the given words list.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>addRightSignatureFlags</__p_name>
+                        <__p_name>appendReturn</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_description>The words list.</__p_description>
+                            <__p_name>words</__p_name>
+                            <__p_type>QStringList&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Appends the flag(specifier) words for this function's definition that belong on the right side of its name to the given words list. This does not include signature relevant flags which are added in the add right signature flags method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>appendRightFlags</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
@@ -2174,11 +2312,33 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Adds the signature words to the given words list. Signature in this context means the function name and argument types enclosed within parentheses.</__p_description>
+                        <__p_description>Appends the signature relevant flag(specifier) words for this function's definition that belong on the right side of its name to the given words list. Signature relevant means it is a flag used to make a unique function signature in C++ such as constant.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>addSignature</__p_name>
+                        <__p_name>appendRightSignatureFlags</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_description>The words.</__p_description>
+                            <__p_name>words</__p_name>
+                            <__p_type>QStringList&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Appends the signature words to the given words list. Signature in this context means the function name and argument types enclosed within parentheses.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>appendSignature</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
@@ -2382,6 +2542,28 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this instance's display icon property to the value at the given memory location. The given memory location must be a valid Qt icon.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setDisplayIcon</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The memory location.</__p_description>
+                            <__p_name>pointer</__p_name>
+                            <__p_type>const QIcon*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -2394,6 +2576,472 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                         <__p_returnType>QString</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Forces this instance to update its display icon property.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>updateDisplayIcon</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Returns the reverse flag lookup hash table. The first time this is called the hash table is constructed.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>reverseFlagLookup</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>const QHash&lt;QString,int&gt;&amp;</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconAbstractDestructorProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The abstract protected destructor icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconAbstractDestructorPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The abstract public destructor icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconAbstractProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The abstract protected function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconAbstractPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The abstract public function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconConstructorPrivate</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The private constructor icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconConstructorProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The protected constructor icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconConstructorPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The public constructor icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconDestructorPrivate</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The private destructor icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconDestructorProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The protected destructor icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconDestructorPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The public destructor icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconInvalid</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The invalid function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconOperatorPrivate</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The private operator icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconOperatorProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The protected operator icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconOperatorPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The public operator icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconPrivate</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The private function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The protected function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The public function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconStaticPrivate</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The static private function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconStaticProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The static protected function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconStaticPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The static public function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconVirtualDestructorProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The virtual protected destructor icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconVirtualDestructorPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The virtual public destructor icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconVirtualProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The virtual protected function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconVirtualPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The virtual public function icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
                     </Function>
                 </Class>
                 <Class>
@@ -5651,6 +6299,23 @@ A read project exception is thrown if any error is encountered.</__p_description
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>createEnumeration</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests creation of a function block.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>createFunction</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
