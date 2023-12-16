@@ -1,6 +1,5 @@
 #include "TestBlockCppNamespace.h"
-#include <QSignalSpy>
-#include <QTest>
+#include <QtTest>
 #include "BlockCppNamespace.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
@@ -9,6 +8,8 @@
 namespace Test {
 namespace Block {
 namespace Cpp {
+using NamespaceBlock = ::Block::Cpp::Namespace;
+using namespace ::Block::Cpp;
 
 
 void Namespace::initTestCase(
@@ -19,10 +20,8 @@ void Namespace::initTestCase(
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
     initLanguage(Factory::Language::instance()->get(langIndex));
-    _blockIndex = language()->indexFromName("namespace");
-    QVERIFY(_blockIndex >= 0);
-    _block = create<::Block::Cpp::Namespace>(_blockIndex);
-    QVERIFY(_block);
+    _block = create<NamespaceBlock>(NamespaceIndex);
+    QCOMPARE(_block->description(),"Detailed description.");
 }
 
 
@@ -30,7 +29,7 @@ void Namespace::descriptionProperty(
 )
 {
     static const QString testDescription  = "Testing\n\n 1 2\n 3";
-    QSignalSpy spy(_block,&::Block::Cpp::Namespace::descriptionChanged);
+    QSignalSpy spy(_block,&NamespaceBlock::descriptionChanged);
     _block->setDescription(testDescription);
     QCOMPARE(spy.count(),1);
     auto arguments = spy.takeFirst();
@@ -71,7 +70,7 @@ void Namespace::loadFromMap(
         {"name",testName}
         ,{"description",testDescription}
     };
-    auto block = create<::Block::Cpp::Namespace>(_blockIndex);
+    auto block = create<NamespaceBlock>(NamespaceIndex);
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->name(),testName);
@@ -84,7 +83,7 @@ void Namespace::nameProperty(
 )
 {
     static const QString testName  = "Testing123";
-    QSignalSpy spy(_block,&::Block::Cpp::Namespace::nameChanged);
+    QSignalSpy spy(_block,&NamespaceBlock::nameChanged);
     _block->setName(testName);
     QCOMPARE(spy.count(),1);
     auto arguments = spy.takeFirst();
@@ -103,7 +102,7 @@ void Namespace::saveToMap(
         {"name",testName}
         ,{"description",testDescription}
     };
-    auto block = create<::Block::Cpp::Namespace>(_blockIndex);
+    auto block = create<NamespaceBlock>(NamespaceIndex);
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);
@@ -121,8 +120,8 @@ void Namespace::scopeProperty(
     {
         delete _block->take(0);
     }
-    auto child0 = create<::Block::Cpp::Namespace>(_blockIndex);
-    auto child1 = create<::Block::Cpp::Namespace>(_blockIndex);
+    auto child0 = create<NamespaceBlock>(NamespaceIndex);
+    auto child1 = create<NamespaceBlock>(NamespaceIndex);
     child0->setName(testScope.at(0));
     child1->setName(testScope.at(1));
     _block->append(child0);

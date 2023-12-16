@@ -17,7 +17,6 @@ class Namespace:
 {
     Q_OBJECT
     ::Block::Cpp::Namespace* _block;
-    int _blockIndex;
 
 
     private slots:

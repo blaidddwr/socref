@@ -38,6 +38,7 @@ class Function:
     public Block::Cpp::Base
 {
     Q_OBJECT
+    QString _displayText;
     QString _returnDescription;
     QString _returnType {"void"};
     QStringList _templates;
@@ -250,10 +251,175 @@ class Function:
 
 
     /*!
-     * Determines if this function is virtual.
+     * Determines if this function has the constant flag.
      *
      * @return
-     * True if it is virtual otherwise false.
+     * True if it has the constant flag otherwise false.
+     */
+    public:
+    bool isConstant(
+    ) const;
+
+
+    /*!
+     * Determines if this function is a constructor.
+     *
+     * @return
+     * True if it is a constructor otherwise false.
+     */
+    public:
+    bool isConstructor(
+    ) const;
+
+
+    /*!
+     * Determines if this function is default.
+     *
+     * @return
+     * True if it is default otherwise false.
+     */
+    public:
+    bool isDefault(
+    ) const;
+
+
+    /*!
+     * Determines if this function is deleted.
+     *
+     * @return
+     * True if it is deleted otherwise false.
+     */
+    public:
+    bool isDeleted(
+    ) const;
+
+
+    /*!
+     * Determines if this function is a destructor.
+     *
+     * @return
+     * True if it is a destructor otherwise false.
+     */
+    public:
+    bool isDestructor(
+    ) const;
+
+
+    /*!
+     * Determines if this function has the explicit flag.
+     *
+     * @return
+     * True if it has the explicit flag otherwise false.
+     */
+    public:
+    bool isExplicit(
+    ) const;
+
+
+    /*!
+     * Determines if this function has the final flag.
+     *
+     * @return
+     * True if it has the final flag otherwise false.
+     */
+    public:
+    bool isFinal(
+    ) const;
+
+
+    /*!
+     * Determines if this function is a method.
+     *
+     * @return
+     * True if it is a method otherwise false.
+     */
+    public:
+    bool isMethod(
+    ) const;
+
+
+    /*!
+     * Determines if this function has the no exception flag.
+     *
+     * @return
+     * True if it has the no exception flag otherwise false.
+     */
+    public:
+    bool isNoExcept(
+    ) const;
+
+
+    /*!
+     * Determines if this function is a operator.
+     *
+     * @return
+     * True if it is a operator otherwise false.
+     */
+    public:
+    bool isOperator(
+    ) const;
+
+
+    /*!
+     * Determines if this function has the override flag.
+     *
+     * @return
+     * True if it has the override flag otherwise false.
+     */
+    public:
+    bool isOverride(
+    ) const;
+
+
+    /*!
+     * Determines in this function's access is private.
+     *
+     * @return
+     * True it its access is private otherwise false.
+     */
+    public:
+    bool isPrivate(
+    ) const;
+
+
+    /*!
+     * Determines in this function's access is protected.
+     *
+     * @return
+     * True it its access is protected otherwise false.
+     */
+    public:
+    bool isProtected(
+    ) const;
+
+
+    /*!
+     * Determines in this function's access is public.
+     *
+     * @return
+     * True it its access is public otherwise false.
+     */
+    public:
+    bool isPublic(
+    ) const;
+
+
+    /*!
+     * Determines if this function has the static flag.
+     *
+     * @return
+     * True if it has the static flag otherwise false.
+     */
+    public:
+    bool isStatic(
+    ) const;
+
+
+    /*!
+     * Determines if this function has the virtual flag.
+     *
+     * @return
+     * True if it has the virtual flag otherwise false.
      */
     public:
     bool isVirtual(
@@ -620,6 +786,18 @@ class Function:
     );
 
 
+    /*!
+     * Called when this block's name property has changed to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    protected:
+    virtual void onNameChanged(
+        const QString& value
+    ) override final;
+
+
     protected:
     virtual void removeEvent(
     ) override final;
@@ -644,7 +822,7 @@ class Function:
 
 
     /*!
-     * Forces this instance to update its display icon property.
+     * Updates this instance's display icon property.
      */
     protected:
     virtual void updateDisplayIcon(
@@ -921,6 +1099,14 @@ class Function:
      */
     private:
     static const QIcon* iconVirtualPublic(
+    );
+
+
+    /*!
+     * Updates this instance's display text property.
+     */
+    private:
+    void updateDisplayText(
     );
 };
 }

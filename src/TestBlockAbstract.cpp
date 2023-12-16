@@ -1,14 +1,14 @@
 #include "TestBlockAbstract.h"
-#include <QSignalSpy>
 #include <QtTest>
 #include "BlockTestNode.h"
 #include "Global.h"
 #include "LanguageTest.h"
 #include "ModelMetaLanguage.h"
 #include "TestBase.t.h"
-#define BLOCK_INDEX 0
 namespace Test {
 namespace Block {
+using NodeBlock = ::Block::Test::Node;
+using namespace ::Block::Test;
 
 
 void Abstract::initTestCase(
@@ -16,7 +16,7 @@ void Abstract::initTestCase(
 {
     _meta = new Model::Meta::Language("test","Test",this);
     initLanguage(new Language::Test(_meta,this));
-    _block = create<::Block::Test::Node>(BLOCK_INDEX);
+    _block = create<NodeBlock>(NodeIndex);
     QVERIFY(createTestDir());
 }
 
@@ -28,10 +28,10 @@ void Abstract::append(
     {
         delete _block->take(0);
     }
-    auto child = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child = create<NodeBlock>(NodeIndex);
     QVERIFY(child);
     _block->append(child);
-    QCOMPARE(qobject_cast<::Block::Test::Node*>(child->parent()),_block);
+    QCOMPARE(qobject_cast<NodeBlock*>(child->parent()),_block);
     QCOMPARE(_block->size(),1);
     QCOMPARE(_block->get(0),child);
     QCOMPARE(child->addCount(),1);
@@ -53,9 +53,9 @@ void Abstract::descendants(
     {
         delete _block->take(0);
     }
-    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child0 = create<NodeBlock>(NodeIndex);
+    auto child1 = create<NodeBlock>(NodeIndex);
+    auto child2 = create<NodeBlock>(NodeIndex);
     _block->append(child0);
     child0->append(child1);
     child1->append(child2);
@@ -101,7 +101,6 @@ void Abstract::displayTextProperty(
 void Abstract::fromDir(
 )
 {
-    using namespace ::Block::Test;
     auto root = qobject_cast<Node*>(
         ::Block::Abstract::fromDir(language(),Socref_1_0,testProjDir(),this)
     );
@@ -123,7 +122,6 @@ void Abstract::fromDir(
 void Abstract::fromXml(
 )
 {
-    using namespace ::Block::Test;
     QFile file(testXml());
     QVERIFY(file.open(QIODevice::ReadOnly));
     QXmlStreamReader xml(&file);
@@ -160,7 +158,6 @@ void Abstract::fromXml(
 void Abstract::fromXmlLegacy(
 )
 {
-    using namespace ::Block::Test;
     QFile file(testXmlLegacy());
     QVERIFY(file.open(QIODevice::ReadOnly));
     QXmlStreamReader xml(&file);
@@ -201,9 +198,9 @@ void Abstract::get(
     {
         delete _block->take(0);
     }
-    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child0 = create<NodeBlock>(NodeIndex);
+    auto child1 = create<NodeBlock>(NodeIndex);
+    auto child2 = create<NodeBlock>(NodeIndex);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
@@ -226,9 +223,9 @@ void Abstract::indexOf(
     {
         delete _block->take(0);
     }
-    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child0 = create<NodeBlock>(NodeIndex);
+    auto child1 = create<NodeBlock>(NodeIndex);
+    auto child2 = create<NodeBlock>(NodeIndex);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
@@ -247,14 +244,13 @@ void Abstract::indexOf(
 void Abstract::insert(
 )
 {
-    using namespace ::Block::Test;
     while (_block->size() > 0)
     {
         delete _block->take(0);
     }
-    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child0 = create<NodeBlock>(NodeIndex);
+    auto child1 = create<NodeBlock>(NodeIndex);
+    auto child2 = create<NodeBlock>(NodeIndex);
     _block->insert(0,child1);
     QCOMPARE(_block->get(0),child1);
     QCOMPARE(qobject_cast<Node*>(child1->parent()),_block);
@@ -276,7 +272,7 @@ void Abstract::insert(
 void Abstract::metaProperty(
 )
 {
-    QCOMPARE(_block->meta(),language()->blockMeta(::Block::Test::NodeIndex));
+    QCOMPARE(_block->meta(),language()->blockMeta(NodeIndex));
 }
 
 
@@ -287,9 +283,9 @@ void Abstract::move(
     {
         delete _block->take(0);
     }
-    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child0 = create<NodeBlock>(NodeIndex);
+    auto child1 = create<NodeBlock>(NodeIndex);
+    auto child2 = create<NodeBlock>(NodeIndex);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
@@ -312,7 +308,7 @@ void Abstract::scopeProperty(
 )
 {
     static const QString testName = "Testing123";
-    auto child = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child = create<NodeBlock>(NodeIndex);
     QVERIFY(child);
     child->setName(testName);
     _block->append(child);
@@ -327,7 +323,7 @@ void Abstract::size(
     {
         delete _block->take(0);
     }
-    _block->append(create<::Block::Abstract>(BLOCK_INDEX));
+    _block->append(create<::Block::Abstract>(NodeIndex));
     QCOMPARE(_block->size(),1);
     delete _block->take(0);
     QCOMPARE(_block->size(),0);
@@ -337,14 +333,13 @@ void Abstract::size(
 void Abstract::take(
 )
 {
-    using namespace ::Block::Test;
     while (_block->size() > 0)
     {
         delete _block->take(0);
     }
-    auto child0 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child1 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto child2 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto child0 = create<NodeBlock>(NodeIndex);
+    auto child1 = create<NodeBlock>(NodeIndex);
+    auto child2 = create<NodeBlock>(NodeIndex);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
@@ -379,8 +374,8 @@ void Abstract::toDir(
         delete _block->take(0);
     }
     _block->setName("");
-    auto node0 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto node1 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto node0 = create<NodeBlock>(NodeIndex);
+    auto node1 = create<NodeBlock>(NodeIndex);
     node0->setName("Node\n0");
     node1->setName("Node\n1");
     _block->append(node0);
@@ -406,8 +401,8 @@ void Abstract::toXml(
         delete _block->take(0);
     }
     _block->setName("");
-    auto node0 = create<::Block::Test::Node>(BLOCK_INDEX);
-    auto node1 = create<::Block::Test::Node>(BLOCK_INDEX);
+    auto node0 = create<NodeBlock>(NodeIndex);
+    auto node1 = create<NodeBlock>(NodeIndex);
     node0->setName("Node0");
     node1->setName("Node1");
     _block->append(node0);

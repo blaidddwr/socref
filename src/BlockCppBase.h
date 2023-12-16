@@ -23,7 +23,7 @@ class Base:
     public Block::Abstract
 {
     Q_OBJECT
-    QString _description;
+    QString _description {"Detailed description."};
     QString _name;
     public:
     using Block::Abstract::Abstract;

@@ -17,7 +17,6 @@ class Enumeration:
 {
     Q_OBJECT
     ::Block::Cpp::Enumeration* _block;
-    int _blockIndex;
 
 
     private slots:

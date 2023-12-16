@@ -41,6 +41,7 @@ Function::Function(
     ,QObject* parent
 ):
     Base(meta,parent)
+    ,_displayText("function(); -> void")
     ,_icon(iconPublic())
 {
 }
@@ -104,18 +105,7 @@ QIcon Function::displayIcon(
 QString Function::displayText(
 ) const
 {
-    QStringList ret;
-    if (!_templates.isEmpty())
-    {
-        ret.append("template<"+_templates.join(",")+">");
-    }
-    appendLeftFlags(ret);
-    appendReturn(ret);
-    appendSignature(ret);
-    appendRightSignatureFlags(ret);
-    appendRightFlags(ret);
-    appendAssignment(ret);
-    return ret.join(" ");
+    return _displayText;
 }
 
 
@@ -145,6 +135,111 @@ bool Function::isAbstract(
 ) const
 {
     return _assignment == AbstractFunctionAssignment;
+}
+
+
+bool Function::isConstant(
+) const
+{
+    return _flags&ConstantFunctionFlag;
+}
+
+
+bool Function::isConstructor(
+) const
+{
+    return _type == ConstructorFunctionType;
+}
+
+
+bool Function::isDefault(
+) const
+{
+    return _assignment == DefaultFunctionAssignment;
+}
+
+
+bool Function::isDeleted(
+) const
+{
+    return _assignment == DeleteFunctionAssignment;
+}
+
+
+bool Function::isDestructor(
+) const
+{
+    return _type == DestructorFunctionType;
+}
+
+
+bool Function::isExplicit(
+) const
+{
+    return _flags&ExplicitFunctionFlag;
+}
+
+
+bool Function::isFinal(
+) const
+{
+    return _flags&FinalFunctionFlag;
+}
+
+
+bool Function::isMethod(
+) const
+{
+    return _type == MethodFunctionType;
+}
+
+
+bool Function::isNoExcept(
+) const
+{
+    return _flags&NoExceptFunctionFlag;
+}
+
+
+bool Function::isOperator(
+) const
+{
+    return _type == OperatorFunctionType;
+}
+
+
+bool Function::isOverride(
+) const
+{
+    return _flags&OverrideFunctionFlag;
+}
+
+
+bool Function::isPrivate(
+) const
+{
+    return _access == PrivateAccess;
+}
+
+
+bool Function::isProtected(
+) const
+{
+    return _access == ProtectedAccess;
+}
+
+
+bool Function::isPublic(
+) const
+{
+    return _access == PublicAccess;
+}
+
+
+bool Function::isStatic(
+) const
+{
+    return _flags&StaticFunctionFlag;
 }
 
 
@@ -238,7 +333,7 @@ void Function::setAssignment(
     {
         _assignment = value;
         emit assignmentChanged(value);
-        emit displayTextChanged(displayText());
+        updateDisplayText();
         updateDisplayIcon();
         if (auto p = qobject_cast<Class*>(parent()))
         {
@@ -256,7 +351,7 @@ void Function::setFlags(
     {
         _flags = value;
         emit flagsChanged(value);
-        emit displayTextChanged(displayText());
+        updateDisplayText();
         updateDisplayIcon();
         if (auto p = qobject_cast<Class*>(parent()))
         {
@@ -286,7 +381,7 @@ void Function::setReturnType(
     {
         _returnType = value;
         emit returnTypeChanged(value);
-        emit displayTextChanged(displayText());
+        updateDisplayText();
     }
 }
 
@@ -299,7 +394,7 @@ void Function::setTemplates(
     {
         _templates = value;
         emit templatesChanged(value);
-        emit displayTextChanged(displayText());
+        updateDisplayText();
     }
 }
 
@@ -312,8 +407,15 @@ void Function::setType(
     {
         _type = value;
         emit typeChanged(value);
-        emit displayTextChanged(displayText());
+        updateDisplayText();
         updateDisplayIcon();
+        if (
+            isConstructor()
+            || isDestructor()
+        )
+        {
+            setName("");
+        }
     }
 }
 
@@ -396,15 +498,15 @@ void Function::appendLeftFlags(
     QStringList& words
 ) const
 {
-    if (_flags&StaticFunctionFlag)
+    if (isStatic())
     {
         words.append("static");
     }
-    if (_flags&VirtualFunctionFlag)
+    if (isVirtual())
     {
         words.append("virtual");
     }
-    if (_flags&ExplicitFunctionFlag)
+    if (isExplicit())
     {
         words.append("explicit");
     }
@@ -430,15 +532,15 @@ void Function::appendRightFlags(
     QStringList& words
 ) const
 {
-    if (_flags&NoExceptFunctionFlag)
+    if (isNoExcept())
     {
         words.append("noexcept");
     }
-    if (_flags&OverrideFunctionFlag)
+    if (isOverride())
     {
         words.append("override");
     }
-    if (_flags&FinalFunctionFlag)
+    if (isFinal())
     {
         words.append("final");
     }
@@ -449,7 +551,7 @@ void Function::appendRightSignatureFlags(
     QStringList& words
 ) const
 {
-    if (_flags&ConstantFunctionFlag)
+    if (isConstant())
     {
         words.append("const");
     }
@@ -471,7 +573,7 @@ void Function::appendSignature(
     {
         auto parentBlock = qobject_cast<Class*>(parent());
         G_ASSERT(parentBlock);
-        if (_type == DestructorFunctionType)
+        if (isDestructor())
         {
             words.append("~"+parentBlock->name()+"("+arguments(true).join(",")+")");
         }
@@ -637,11 +739,26 @@ void Function::onClassNameChanged(
 {
     Q_UNUSED(value);
     if (
-        _type == ConstructorFunctionType
-        || _type == DestructorFunctionType
+        isConstructor()
+        || isDestructor()
     )
     {
-        emit displayTextChanged(displayText());
+        updateDisplayText();
+    }
+}
+
+
+void Function::onNameChanged(
+    const QString& value
+)
+{
+    Q_UNUSED(value);
+    if (
+        !isConstructor()
+        && !isDestructor()
+    )
+    {
+        updateDisplayText();
     }
 }
 
@@ -691,22 +808,22 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconAbstractPublic());
-                break;
+                setDisplayIcon(iconAbstractPublic());//X
+                return;
             case ProtectedAccess:
-                setDisplayIcon(iconAbstractProtected());
-                break;
+                setDisplayIcon(iconAbstractProtected());//X
+                return;
             }
             break;
         case DestructorFunctionType:
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconAbstractDestructorPublic());
-                break;
+                setDisplayIcon(iconAbstractDestructorPublic());//X
+                return;
             case ProtectedAccess:
-                setDisplayIcon(iconAbstractDestructorProtected());
-                break;
+                setDisplayIcon(iconAbstractDestructorProtected());//X
+                return;
             }
             break;
         }
@@ -720,10 +837,10 @@ void Function::updateDisplayIcon(
             {
             case PublicAccess:
                 setDisplayIcon(iconVirtualPublic());
-                break;
+                return;
             case ProtectedAccess:
                 setDisplayIcon(iconVirtualProtected());
-                break;
+                return;
             }
             break;
         case DestructorFunctionType:
@@ -731,10 +848,10 @@ void Function::updateDisplayIcon(
             {
             case PublicAccess:
                 setDisplayIcon(iconVirtualDestructorPublic());
-                break;
+                return;
             case ProtectedAccess:
                 setDisplayIcon(iconVirtualDestructorProtected());
-                break;
+                return;
             }
             break;
         }
@@ -744,20 +861,33 @@ void Function::updateDisplayIcon(
         switch (_type)
         {
         case RegularFunctionType:
+            switch(_access)
+            {
+            case PublicAccess:
+                setDisplayIcon(iconPublic());//X
+                return;
+            case ProtectedAccess:
+                setDisplayIcon(iconProtected());//X
+                return;
+            case PrivateAccess:
+                setDisplayIcon(iconPrivate());//X
+                return;
+            }
+            break;
         case MethodFunctionType:
-            if (_flags&StaticFunctionFlag)
+            if (isStatic())
             {
                 switch(_access)
                 {
                 case PublicAccess:
-                    setDisplayIcon(iconStaticPublic());
-                    break;
+                    setDisplayIcon(iconStaticPublic());//X
+                    return;
                 case ProtectedAccess:
-                    setDisplayIcon(iconStaticProtected());
-                    break;
+                    setDisplayIcon(iconStaticProtected());//X
+                    return;
                 case PrivateAccess:
-                    setDisplayIcon(iconStaticPrivate());
-                    break;
+                    setDisplayIcon(iconStaticPrivate());//X
+                    return;
                 }
             }
             else
@@ -765,14 +895,14 @@ void Function::updateDisplayIcon(
                 switch(_access)
                 {
                 case PublicAccess:
-                    setDisplayIcon(iconPublic());
-                    break;
+                    setDisplayIcon(iconPublic());//X
+                    return;
                 case ProtectedAccess:
-                    setDisplayIcon(iconProtected());
-                    break;
+                    setDisplayIcon(iconProtected());//X
+                    return;
                 case PrivateAccess:
-                    setDisplayIcon(iconPrivate());
-                    break;
+                    setDisplayIcon(iconPrivate());//X
+                    return;
                 }
             }
             break;
@@ -780,42 +910,42 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconConstructorPublic());
-                break;
+                setDisplayIcon(iconConstructorPublic());//X
+                return;
             case ProtectedAccess:
-                setDisplayIcon(iconConstructorProtected());
-                break;
+                setDisplayIcon(iconConstructorProtected());//X
+                return;
             case PrivateAccess:
-                setDisplayIcon(iconConstructorPrivate());
-                break;
+                setDisplayIcon(iconConstructorPrivate());//X
+                return;
             }
             break;
         case DestructorFunctionType:
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconDestructorPublic());
-                break;
+                setDisplayIcon(iconDestructorPublic());//X
+                return;
             case ProtectedAccess:
-                setDisplayIcon(iconDestructorProtected());
-                break;
+                setDisplayIcon(iconDestructorProtected());//X
+                return;
             case PrivateAccess:
-                setDisplayIcon(iconDestructorPrivate());
-                break;
+                setDisplayIcon(iconDestructorPrivate());//X
+                return;
             }
             break;
         case OperatorFunctionType:
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconOperatorPublic());
-                break;
+                setDisplayIcon(iconOperatorPublic());//X
+                return;
             case ProtectedAccess:
-                setDisplayIcon(iconOperatorProtected());
-                break;
+                setDisplayIcon(iconOperatorProtected());//X
+                return;
             case PrivateAccess:
-                setDisplayIcon(iconOperatorPrivate());
-                break;
+                setDisplayIcon(iconOperatorPrivate());//X
+                return;
             }
             break;
         }
@@ -898,7 +1028,7 @@ const QIcon* Function::iconConstructorPublic(
 const QIcon* Function::iconDestructorPrivate(
 )
 {
-    static const QIcon ret(":/cpp/private_desctructor.svg");
+    static const QIcon ret(":/cpp/private_destructor.svg");
     return &ret;
 }
 
@@ -906,7 +1036,7 @@ const QIcon* Function::iconDestructorPrivate(
 const QIcon* Function::iconDestructorProtected(
 )
 {
-    static const QIcon ret(":/cpp/protected_desctructor.svg");
+    static const QIcon ret(":/cpp/protected_destructor.svg");
     return &ret;
 }
 
@@ -914,7 +1044,7 @@ const QIcon* Function::iconDestructorProtected(
 const QIcon* Function::iconDestructorPublic(
 )
 {
-    static const QIcon ret(":/cpp/public_desctructor.svg");
+    static const QIcon ret(":/cpp/public_destructor.svg");
     return &ret;
 }
 
@@ -1028,6 +1158,30 @@ const QIcon* Function::iconVirtualPublic(
 {
     static const QIcon ret(":/cpp/virtual_public_function.svg");
     return &ret;
+}
+
+
+void Function::updateDisplayText(
+)
+{
+    QStringList left;
+    QStringList right;
+    if (!_templates.isEmpty())
+    {
+        right.append("template<"+_templates.join(",")+">");
+    }
+    appendLeftFlags(right);
+    appendReturn(right);
+    appendSignature(left);
+    appendRightSignatureFlags(left);
+    appendRightFlags(left);
+    appendAssignment(left);
+    auto displayText = left.join(" ")+"; -> "+right.join(" ");
+    if (_displayText != displayText)
+    {
+        _displayText = displayText;
+        emit displayTextChanged(displayText);
+    }
 }
 }
 }

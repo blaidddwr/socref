@@ -1,6 +1,5 @@
 #include "TestBlockCppClass.h"
-#include <QSignalSpy>
-#include <QTest>
+#include <QtTest>
 #include "BlockCppClass.h"
 #include "BlockCppFunction.h"
 #include "FactoryLanguage.h"
@@ -17,20 +16,22 @@ using namespace ::Block::Cpp;
 void Class::initTestCase(
 )
 {
+    static const QIcon testIcon(":/cpp/class.svg");
     auto factory = Factory::Language::instance();
     QVERIFY(factory);
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
     initLanguage(Factory::Language::instance()->get(langIndex));
     _block = create<ClassBlock>(ClassIndex);
-    QVERIFY(_block);
+    QVERIFY(_block->parents().isEmpty());
+    QVERIFY(_block->templates().isEmpty());
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
 }
 
 
 void Class::displayIconProperty(
 )
 {
-    using namespace ::Block::Cpp;
     static const QIcon testIcon(":/cpp/class.svg");
     static const QIcon testIconAbstract(":/cpp/abstract_class.svg");
     static const QIcon testIconVirtual(":/cpp/virtual_class.svg");
@@ -40,37 +41,27 @@ void Class::displayIconProperty(
     }
     QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
     QSignalSpy spy(_block,&ClassBlock::displayIconChanged);
+    auto verify = [&spy,this](const QIcon& icon)
+    {
+        QCOMPARE(spy.count(),1);
+        auto arguments = spy.takeLast();
+        QCOMPARE(arguments.size(),1);
+        QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),icon));
+        QVERIFY(areIconsEqual(_block->displayIcon(),icon));
+        spy.clear();
+    };
     auto function = create<Function>(FunctionIndex);
     _block->append(function);
     QCOMPARE(spy.count(),0);
     QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
     function->setAssignment(AbstractFunctionAssignment);
-    QCOMPARE(spy.count(),1);
-    auto arguments = spy.takeLast();
-    QCOMPARE(arguments.size(),1);
-    QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),testIconAbstract));
-    QVERIFY(areIconsEqual(_block->displayIcon(),testIconAbstract));
-    spy.clear();
+    verify(testIconAbstract);
     function->setAssignment(NoFunctionAssignment);
-    QCOMPARE(spy.count(),1);
-    arguments = spy.takeLast();
-    QCOMPARE(arguments.size(),1);
-    QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),testIcon));
-    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
-    spy.clear();
+    verify(testIcon);
     function->setFlags(VirtualFunctionFlag);
-    QCOMPARE(spy.count(),1);
-    arguments = spy.takeLast();
-    QCOMPARE(arguments.size(),1);
-    QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),testIconVirtual));
-    QVERIFY(areIconsEqual(_block->displayIcon(),testIconVirtual));
-    spy.clear();
+    verify(testIconVirtual);
     delete function;
-    QCOMPARE(spy.count(),1);
-    arguments = spy.takeLast();
-    QCOMPARE(arguments.size(),1);
-    QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),testIcon));
-    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    verify(testIcon);
 }
 
 

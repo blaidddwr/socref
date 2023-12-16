@@ -1,5 +1,5 @@
 #include "TestLanguageCpp.h"
-#include <QTest>
+#include <QtTest>
 #include "BlockAbstract.h"
 #include "BlockCpp.h"
 #include "LanguageCpp.h"

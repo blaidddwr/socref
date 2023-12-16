@@ -1881,14 +1881,284 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this function is virtual.</__p_description>
+                        <__p_description>Determines if this function has the constant flag.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isConstant</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it has the constant flag otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function is a constructor.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isConstructor</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is a constructor otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function is default.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isDefault</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is default otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function is deleted.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isDeleted</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is deleted otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function is a destructor.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isDestructor</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is a destructor otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function has the explicit flag.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isExplicit</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it has the explicit flag otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function has the final flag.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isFinal</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it has the final flag otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function is a method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isMethod</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is a method otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function has the no exception flag.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isNoExcept</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it has the no exception flag otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function is a operator.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isOperator</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is a operator otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function has the override flag.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isOverride</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it has the override flag otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines in this function's access is private.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isPrivate</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True it its access is private otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines in this function's access is protected.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True it its access is protected otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines in this function's access is public.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True it its access is public otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function has the static flag.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isStatic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it has the static flag otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function has the virtual flag.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>isVirtual</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>True if it is virtual otherwise false.</__p_returnDescription>
+                        <__p_returnDescription>True if it has the virtual flag otherwise false.</__p_returnDescription>
                         <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -2529,6 +2799,28 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Called when this block's name property has changed to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>onNameChanged</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>1</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -2583,7 +2875,7 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Forces this instance to update its display icon property.</__p_description>
+                        <__p_description>Updates this instance's display icon property.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -3041,6 +3333,23 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                         <__p_returnDescription>The virtual public function icon.</__p_returnDescription>
                         <__p_returnType>const QIcon*</__p_returnType>
                         <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Updates this instance's display text property.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>updateDisplayText</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
                 </Class>
@@ -5835,6 +6144,536 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_final>0</__p_final>
                             <__p_invokable>0</__p_invokable>
                             <__p_name>saveToMap</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>cleanupTestCase</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                    </Class>
+                    <Class>
+                        <__p_description>This is a Qt unit test class. It tests the function C++ block class.</__p_description>
+                        <__p_name>Function</__p_name>
+                        <__p_parents>public Test::Base</__p_parents>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>initTestCase</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the access property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>accessProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the assignment property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>assignmentProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the display icon property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>displayIconProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the display text property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>displayTextProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the flags property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>flagsProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is abstract&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isAbstract</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is constant&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isConstant</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Test the &quot;is constructor&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isConstructor</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is default&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isDefault</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is deleted&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isDeleted</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is destructor&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isDestructor</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is explicit&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isExplicit</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is final&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isFinal</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is method&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isMethod</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is no exception&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isNoExcept</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is operator&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isOperator</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is override&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isOverride</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is private&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isPrivate</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is protected&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isProtected</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is public&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isPublic</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is static&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isStatic</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is virtual&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isVirtual</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the load from map interface.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>loadFromMap</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the load from map interface using the legacy version.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>loadFromMapLegacy</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the return description property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>returnDescriptionProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the return type property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>returnTypeProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the save to map interface.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>saveToMap</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the templates property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>templatesProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the type property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>typeProperty</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
                             <__p_returnType>void</__p_returnType>

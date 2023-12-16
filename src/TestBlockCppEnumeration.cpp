@@ -1,6 +1,5 @@
 #include "TestBlockCppEnumeration.h"
-#include <QSignalSpy>
-#include <QTest>
+#include <QtTest>
 #include "BlockCppEnumeration.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
@@ -9,6 +8,8 @@
 namespace Test {
 namespace Block {
 namespace Cpp {
+using EnumerationBlock = ::Block::Cpp::Enumeration;
+using namespace ::Block::Cpp;
 
 
 void Enumeration::initTestCase(
@@ -19,10 +20,8 @@ void Enumeration::initTestCase(
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
     initLanguage(Factory::Language::instance()->get(langIndex));
-    _blockIndex = language()->indexFromName("enumeration");
-    QVERIFY(_blockIndex >= 0);
-    _block = create<::Block::Cpp::Enumeration>(_blockIndex);
-    QVERIFY(_block);
+    _block = create<EnumerationBlock>(EnumerationIndex);
+    QCOMPARE(_block->isClass(),false);
 }
 
 
@@ -30,7 +29,7 @@ void Enumeration::classProperty(
 )
 {
     QCOMPARE(_block->isClass(),false);
-    QSignalSpy spy(_block,&::Block::Cpp::Enumeration::classChanged);
+    QSignalSpy spy(_block,&EnumerationBlock::classChanged);
     _block->setClass(true);
     QCOMPARE(spy.count(),1);
     auto arguments = spy.takeFirst();
@@ -56,8 +55,7 @@ void Enumeration::loadFromMap(
         ,{"description","description"}
         ,{"class",true}
     };
-    auto block = create<::Block::Cpp::Enumeration>(_blockIndex);
-    QVERIFY(block);
+    auto block = create<EnumerationBlock>(EnumerationIndex);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->isClass(),true);
     delete block;
@@ -74,8 +72,7 @@ void Enumeration::saveToMap(
         ,{"description",testDescription}
         ,{"class",true}
     };
-    auto block = create<::Block::Cpp::Enumeration>(_blockIndex);
-    QVERIFY(block);
+    auto block = create<EnumerationBlock>(EnumerationIndex);
     block->setName(testName);
     block->setDescription(testDescription);
     block->setClass(true);

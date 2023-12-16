@@ -11,6 +11,7 @@ namespace Cpp
 {
     class Class;
     class Enumeration;
+    class Function;
     class Namespace;
 }
 }
