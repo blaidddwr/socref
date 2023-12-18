@@ -53,8 +53,6 @@ class Function:
     static const QStringList _ASSIGNMENT_STRINGS;
     static const QStringList _TYPE_STRINGS;
     using Base::setName;
-    public:
-    using ::Block::Cpp::Base::Base;
 
 
     /*!

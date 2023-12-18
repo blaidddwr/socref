@@ -21,6 +21,7 @@ void Enumeration::initTestCase(
     QVERIFY(langIndex >= 0);
     initLanguage(Factory::Language::instance()->get(langIndex));
     _block = create<EnumerationBlock>(EnumerationIndex);
+    QCOMPARE(_block->name(),"enumeration");
     QCOMPARE(_block->isClass(),false);
 }
 

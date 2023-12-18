@@ -41,7 +41,7 @@ Function::Function(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base(meta,parent)
+    Base("function",meta,parent)
     ,_displayText("function() -> void")
     ,_icon(iconPublic())
 {

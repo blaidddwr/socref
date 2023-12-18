@@ -99,6 +99,17 @@ void Base::setName(
 }
 
 
+Base::Base(
+    const QString& name
+    ,Model::Meta::Block* meta
+    ,QObject* parent
+):
+    Abstract(meta,parent)
+    ,_name(name)
+{
+}
+
+
 void Base::onNameChanged(
     const QString& value
 )

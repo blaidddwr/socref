@@ -25,8 +25,6 @@ class Base:
     Q_OBJECT
     QString _description {"Detailed description."};
     QString _name;
-    public:
-    using Block::Abstract::Abstract;
 
 
     /*!
@@ -118,6 +116,28 @@ class Base:
     public:
     void setName(
         const QString& value
+    );
+
+
+    /*!
+     * Constructs this new instance with the given name, meta, and parent. The
+     * given meta must be valid and cannot be destroyed during the life of this
+     * instance.
+     *
+     * @param name
+     *        The name.
+     *
+     * @param meta
+     *        The meta.
+     *
+     * @param parent
+     *        The parent.
+     */
+    protected:
+    Base(
+        const QString& name
+        ,Model::Meta::Block* meta
+        ,QObject* parent = nullptr
     );
 
 

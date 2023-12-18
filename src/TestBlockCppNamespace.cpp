@@ -21,6 +21,7 @@ void Namespace::initTestCase(
     QVERIFY(langIndex >= 0);
     initLanguage(Factory::Language::instance()->get(langIndex));
     _block = create<NamespaceBlock>(NamespaceIndex);
+    QCOMPARE(_block->name(),"namespace");
     QCOMPARE(_block->description(),"Detailed description.");
 }
 

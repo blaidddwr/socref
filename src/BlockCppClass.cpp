@@ -11,7 +11,7 @@ Class::Class(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base(meta,parent)
+    Base("class",meta,parent)
     ,_icon(icon())
 {
 }

@@ -14,8 +14,13 @@ class Namespace:
     public Block::Cpp::Base
 {
     Q_OBJECT
+
+
     public:
-    using ::Block::Cpp::Base::Base;
+    Namespace(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
+    );
 
 
     public:

@@ -21,8 +21,6 @@ class Class:
     QStringList _parents;
     QStringList _templates;
     const QIcon* _icon;
-    public:
-    using ::Block::Cpp::Base::Base;
 
 
     /*!

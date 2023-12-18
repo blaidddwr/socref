@@ -17,8 +17,6 @@ class Enumeration:
 {
     Q_OBJECT
     bool _class {false};
-    public:
-    using ::Block::Cpp::Base::Base;
 
 
     /*!
@@ -30,6 +28,13 @@ class Enumeration:
     signals:
     void classChanged(
         bool value
+    );
+
+
+    public:
+    Enumeration(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
     );
 
 

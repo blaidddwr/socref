@@ -4,6 +4,15 @@ namespace Block {
 namespace Cpp {
 
 
+Enumeration::Enumeration(
+    Model::Meta::Block* meta
+    ,QObject* parent
+):
+    Base("enumeration",meta,parent)
+{
+}
+
+
 Widget::Block::Abstract* Enumeration::createWidget(
     QObject* parent
 ) const

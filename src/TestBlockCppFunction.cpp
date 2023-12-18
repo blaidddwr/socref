@@ -21,6 +21,7 @@ void Function::initTestCase(
     QVERIFY(langIndex >= 0);
     initLanguage(Factory::Language::instance()->get(langIndex));
     _block = create<FunctionBlock>(FunctionIndex);
+    QCOMPARE(_block->name(),"function");
     QCOMPARE(_block->access(),PublicAccess);
     QCOMPARE(_block->assignment(),NoFunctionAssignment);
     QCOMPARE(_block->type(),RegularFunctionType);

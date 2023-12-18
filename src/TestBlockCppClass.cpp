@@ -23,6 +23,7 @@ void Class::initTestCase(
     QVERIFY(langIndex >= 0);
     initLanguage(Factory::Language::instance()->get(langIndex));
     _block = create<ClassBlock>(ClassIndex);
+    QCOMPARE(_block->name(),"class");
     QVERIFY(_block->parents().isEmpty());
     QVERIFY(_block->templates().isEmpty());
     QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
