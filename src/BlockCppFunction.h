@@ -48,10 +48,11 @@ class Function:
     int _flags {0};
     int _type {RegularFunctionType};
     static QHash<QString,int>* _reverseFlagLookup;
-    static const QHash<int,QString> _FLAG_STRINGS;
+    static const QMap<int,QString> _FLAG_STRINGS;
     static const QStringList _ACCESS_STRINGS;
     static const QStringList _ASSIGNMENT_STRINGS;
     static const QStringList _TYPE_STRINGS;
+    using Base::setName;
     public:
     using ::Block::Cpp::Base::Base;
 
@@ -461,38 +462,40 @@ class Function:
 
 
     /*!
-     * Sets this instance's access property to the given value.
+     * Sets this instance's name, return type, type, access, assignment, and
+     * flags properties to the given values. If the given combination of
+     * properties do not make a valid C++ function then no property values are
+     * changed.
+     * 
+     * A logical block exception is thrown if the given set of property values
+     * do not make a valid C++ function.
      *
-     * @param value
-     *        The value.
+     * @param name
+     *        The name.
+     *
+     * @param returnType
+     *        The return type.
+     *
+     * @param type
+     *        The type.
+     *
+     * @param access
+     *        The access.
+     *
+     * @param assignment
+     *        The assignment.
+     *
+     * @param flags
+     *        The flags.
      */
     public:
-    void setAccess(
-        int value
-    );
-
-
-    /*!
-     * Sets this instance's assignment property to the given value.
-     *
-     * @param value
-     *        The value.
-     */
-    public:
-    void setAssignment(
-        int value
-    );
-
-
-    /*!
-     * Sets this instance's flags property to the given value.
-     *
-     * @param value
-     *        The value.
-     */
-    public:
-    void setFlags(
-        int value
+    void set(
+        const QString& name
+        ,const QString& returnType
+        ,int type
+        ,int access
+        ,int assignment
+        ,int flags
     );
 
 
@@ -509,18 +512,6 @@ class Function:
 
 
     /*!
-     * Sets this instance's return type property to the given value.
-     *
-     * @param value
-     *        The value.
-     */
-    public:
-    void setReturnType(
-        const QString& value
-    );
-
-
-    /*!
      * Sets this instance's templates property to the given value.
      *
      * @param value
@@ -529,18 +520,6 @@ class Function:
     public:
     void setTemplates(
         const QStringList& value
-    );
-
-
-    /*!
-     * Sets this instance's type property to the given value.
-     *
-     * @param value
-     *        The value.
-     */
-    public:
-    void setType(
-        int value
     );
 
 
@@ -680,6 +659,18 @@ class Function:
     virtual void appendSignature(
         QStringList& words
     ) const;
+
+
+    /*!
+     * Checks to see if this instance's current properties make a valid
+     * function.
+     * 
+     * A logical block exception is thrown if this instance's properties do not
+     * make a valid function.
+     */
+    protected:
+    virtual void check(
+    );
 
 
     /*!
@@ -826,15 +817,6 @@ class Function:
      */
     protected:
     virtual void updateDisplayIcon(
-    );
-
-
-    /*!
-     * Returns the reverse flag lookup hash table. The first time this is called
-     * the hash table is constructed.
-     */
-    private:
-    static const QHash<QString,int>& reverseFlagLookup(
     );
 
 
@@ -1103,10 +1085,79 @@ class Function:
 
 
     /*!
+     * Returns the reverse flag lookup hash table. The first time this is called
+     * the hash table is constructed.
+     */
+    private:
+    static const QHash<QString,int>& reverseFlagLookup(
+    );
+
+
+    /*!
      * Updates this instance's display text property.
      */
     private:
     void updateDisplayText(
+    );
+
+
+    /*!
+     * Sets this instance's access property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    private:
+    void setAccess(
+        int value
+    );
+
+
+    /*!
+     * Sets this instance's assignment property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    private:
+    void setAssignment(
+        int value
+    );
+
+
+    /*!
+     * Sets this instance's flags property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    private:
+    void setFlags(
+        int value
+    );
+
+
+    /*!
+     * Sets this instance's return type property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    private:
+    void setReturnType(
+        const QString& value
+    );
+
+
+    /*!
+     * Sets this instance's type property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    private:
+    void setType(
+        int value
     );
 };
 }

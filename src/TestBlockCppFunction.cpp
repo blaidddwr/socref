@@ -3,9 +3,11 @@
 #include "BlockCppClass.h"
 #include "BlockCppFunction.h"
 #include "FactoryLanguage.h"
+#include "Global.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
+using ClassBlock = ::Block::Cpp::Class;
 using FunctionBlock = ::Block::Cpp::Function;
 using namespace ::Block::Cpp;
 
@@ -25,16 +27,21 @@ void Function::initTestCase(
     QCOMPARE(_block->flags(),0);
     QCOMPARE(_block->returnType(),"void");
     QCOMPARE(_block->returnDescription(),"");
+    _parent = create<ClassBlock>(ClassIndex);
+    _parent->setName("class123");
+    QCOMPARE(_parent->name(),"class123");
+    _parent->append(_block);
+    QCOMPARE(_block->type(),MethodFunctionType);
 }
 
 
 void Function::accessProperty(
 )
 {
-    _block->setAccess(PublicAccess);
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
     QCOMPARE(_block->access(),PublicAccess);
     QSignalSpy spy(_block,&FunctionBlock::accessChanged);
-    _block->setAccess(ProtectedAccess);
+    _block->set("test","void",MethodFunctionType,ProtectedAccess,NoFunctionAssignment,0);
     QCOMPARE(spy.count(),1);
     auto arguments = spy.takeFirst();
     QCOMPARE(arguments.size(),1);
@@ -46,10 +53,17 @@ void Function::accessProperty(
 void Function::assignmentProperty(
 )
 {
-    _block->setAssignment(NoFunctionAssignment);
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
     QCOMPARE(_block->assignment(),NoFunctionAssignment);
     QSignalSpy spy(_block,&FunctionBlock::assignmentChanged);
-    _block->setAssignment(AbstractFunctionAssignment);
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag
+    );
     QCOMPARE(spy.count(),1);
     auto arguments = spy.takeFirst();
     QCOMPARE(arguments.size(),1);
@@ -86,11 +100,7 @@ void Function::displayIconProperty(
     static const QIcon testIconVirtualDestructorPublic(":/cpp/virtual_public_destructor.svg");
     static const QIcon testIconVirtualProtected(":/cpp/virtual_protected_function.svg");
     static const QIcon testIconVirtualPublic(":/cpp/virtual_public_function.svg");
-    auto parentClass = create<::Block::Cpp::Class>(ClassIndex);
-    _block->setType(RegularFunctionType);
-    _block->setAssignment(NoFunctionAssignment);
-    _block->setFlags(0);
-    _block->setAccess(PublicAccess);
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
     QVERIFY(areIconsEqual(_block->displayIcon(),testIconPublic));
     QSignalSpy spy(_block,&FunctionBlock::displayIconChanged);
     auto verify = [&spy,this](const QIcon& icon)
@@ -102,219 +112,584 @@ void Function::displayIconProperty(
         QVERIFY(areIconsEqual(_block->displayIcon(),icon));
         spy.clear();
     };
-    _block->setAccess(ProtectedAccess);
+    _block->set("test","void",MethodFunctionType,ProtectedAccess,NoFunctionAssignment,0);
     verify(testIconProtected);
-    _block->setAccess(PrivateAccess);
+    _block->set("test","void",MethodFunctionType,PrivateAccess,NoFunctionAssignment,0);
     verify(testIconPrivate);
-    parentClass->append(_block);
     spy.clear();
-    _block->setFlags(StaticFunctionFlag);
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PrivateAccess
+        ,NoFunctionAssignment
+        ,StaticFunctionFlag
+    );
     verify(testIconStaticPrivate);
-    _block->setAccess(ProtectedAccess);
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,ProtectedAccess
+        ,NoFunctionAssignment
+        ,StaticFunctionFlag
+    );
     verify(testIconStaticProtected);
-    _block->setAccess(PublicAccess);
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,StaticFunctionFlag
+    );
     verify(testIconStaticPublic);
-    _block->setFlags(0);
-    verify(testIconPublic);
-    _block->setAccess(ProtectedAccess);
-    verify(testIconProtected);
-    _block->setAccess(PrivateAccess);
-    verify(testIconPrivate);
-    _block->setType(ConstructorFunctionType);
+    _block->set("","",ConstructorFunctionType,PrivateAccess,NoFunctionAssignment,0);
     verify(testIconConstructorPrivate);
-    _block->setAccess(ProtectedAccess);
+    _block->set("","",ConstructorFunctionType,ProtectedAccess,NoFunctionAssignment,0);
     verify(testIconConstructorProtected);
-    _block->setAccess(PublicAccess);
+    _block->set("","",ConstructorFunctionType,PublicAccess,NoFunctionAssignment,0);
     verify(testIconConstructorPublic);
-    _block->setType(DestructorFunctionType);
+    _block->set("","",DestructorFunctionType,PublicAccess,NoFunctionAssignment,0);
     verify(testIconDestructorPublic);
-    _block->setAccess(ProtectedAccess);
+    _block->set("","",DestructorFunctionType,ProtectedAccess,NoFunctionAssignment,0);
     verify(testIconDestructorProtected);
-    _block->setAccess(PrivateAccess);
+    _block->set("","",DestructorFunctionType,PrivateAccess,NoFunctionAssignment,0);
     verify(testIconDestructorPrivate);
-    _block->setType(OperatorFunctionType);
+    _block->set("++","void",OperatorFunctionType,PrivateAccess,NoFunctionAssignment,0);
     verify(testIconOperatorPrivate);
-    _block->setAccess(ProtectedAccess);
+    _block->set("++","void",OperatorFunctionType,ProtectedAccess,NoFunctionAssignment,0);
     verify(testIconOperatorProtected);
-    _block->setAccess(PublicAccess);
+    _block->set("++","void",OperatorFunctionType,PublicAccess,NoFunctionAssignment,0);
     verify(testIconOperatorPublic);
-    _block->setType(MethodFunctionType);
-    _block->setFlags(VirtualFunctionFlag);
-    spy.clear();
-    _block->setAssignment(AbstractFunctionAssignment);
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag
+    );
     verify(testIconAbstractPublic);
-    _block->setAccess(ProtectedAccess);
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,ProtectedAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag
+    );
     verify(testIconAbstractProtected);
-    _block->setType(DestructorFunctionType);
+    _block->set(
+        ""
+        ,""
+        ,DestructorFunctionType
+        ,ProtectedAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag
+    );
     verify(testIconAbstractDestructorProtected);
-    _block->setAccess(PublicAccess);
+    _block->set(
+        ""
+        ,""
+        ,DestructorFunctionType
+        ,PublicAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag
+    );
     verify(testIconAbstractDestructorPublic);
-    _block->setAssignment(NoFunctionAssignment);
+    _block->set("","",DestructorFunctionType,PublicAccess,NoFunctionAssignment,VirtualFunctionFlag);
     verify(testIconVirtualDestructorPublic);
-    _block->setAccess(ProtectedAccess);
+    _block->set(
+        ""
+        ,""
+        ,DestructorFunctionType
+        ,ProtectedAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag
+    );
     verify(testIconVirtualDestructorProtected);
-    _block->setType(MethodFunctionType);
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,ProtectedAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag
+    );
     verify(testIconVirtualProtected);
-    _block->setAccess(PublicAccess);
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag
+    );
     verify(testIconVirtualPublic);
-    parentClass->take(0);
-    delete parentClass;
 }
 
 
 void Function::displayTextProperty(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QCOMPARE(_block->displayText(),"test() -> void");
+    QSignalSpy spy(_block,&FunctionBlock::displayTextChanged);
+    auto verify = [&spy,this](const QString& displayText)
+    {
+        QCOMPARE(spy.count(),1);
+        auto arguments = spy.takeLast();
+        QCOMPARE(arguments.size(),1);
+        QCOMPARE(arguments.at(0).toString(),displayText);
+        QCOMPARE(_block->displayText(),displayText);
+        spy.clear();
+    };
+    _block->set("testing123","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    verify("testing123() -> void");
+    _block->set(
+        "testing123"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag|ConstantFunctionFlag
+    );
+    verify("testing123() const -> virtual void");
+    _block->set(
+        "testing123"
+        ,"int"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag|ConstantFunctionFlag
+    );
+    verify("testing123() const -> virtual int");
+    _block->set(
+        "testing123"
+        ,"int"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag|ConstantFunctionFlag
+    );
+    verify("testing123() const = 0 -> virtual int");
+    _block->set("","",ConstructorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    verify("class123()");
+    _block->set("","",DestructorFunctionType,PublicAccess,NoFunctionAssignment,VirtualFunctionFlag);
+    verify("~class123() -> virtual");
+    _block->set("++","void",OperatorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    verify("operator++() -> void");
 }
 
 
 void Function::flagsProperty(
 )
 {
+    static const int testFlags {
+        VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag|ConstantFunctionFlag
+    };
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QCOMPARE(_block->flags(),0);
+    QSignalSpy spy(_block,&FunctionBlock::flagsChanged);
+    _block->set("test","void",MethodFunctionType,PublicAccess,AbstractFunctionAssignment,testFlags);
+    QCOMPARE(spy.count(),1);
+    auto arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(),1);
+    QCOMPARE(arguments.at(0).toInt(),testFlags);
+    QCOMPARE(_block->flags(),testFlags);
 }
 
 
 void Function::isAbstract(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isAbstract());
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag
+    );
+    QVERIFY(_block->isAbstract());
 }
 
 
 void Function::isConstant(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isConstant());
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,ConstantFunctionFlag
+    );
+    QVERIFY(_block->isConstant());
 }
 
 
 void Function::isConstructor(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isConstructor());
+    _block->set("","",ConstructorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(_block->isConstructor());
 }
 
 
 void Function::isDefault(
 )
 {
+    _block->set("","",ConstructorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isDefault());
+    _block->set("","",ConstructorFunctionType,PublicAccess,DefaultFunctionAssignment,0);
+    QVERIFY(_block->isDefault());
 }
 
 
 void Function::isDeleted(
 )
 {
+    _block->set("","",ConstructorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isDeleted());
+    _block->set("","",ConstructorFunctionType,PublicAccess,DeleteFunctionAssignment,0);
+    QVERIFY(_block->isDeleted());
 }
 
 
 void Function::isDestructor(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isDestructor());
+    _block->set("","",DestructorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(_block->isDestructor());
 }
 
 
 void Function::isExplicit(
 )
 {
+    _block->set("","",ConstructorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isExplicit());
+    _block->set(
+        ""
+        ,""
+        ,ConstructorFunctionType
+        ,PublicAccess
+        ,DeleteFunctionAssignment
+        ,ExplicitFunctionFlag
+    );
+    QVERIFY(_block->isExplicit());
 }
 
 
 void Function::isFinal(
 )
 {
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag|OverrideFunctionFlag
+    );
+    QVERIFY(!_block->isFinal());
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag
+    );
+    QVERIFY(_block->isFinal());
 }
 
 
 void Function::isMethod(
 )
 {
+    _parent->take(0);
+    _block->set("test","void",RegularFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isMethod());
+    _parent->append(_block);
+    QVERIFY(_block->isMethod());
 }
 
 
 void Function::isNoExcept(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isNoExcept());
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,NoExceptFunctionFlag
+    );
+    QVERIFY(_block->isNoExcept());
 }
 
 
 void Function::isOperator(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isOperator());
+    _block->set("test","void",OperatorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(_block->isOperator());
 }
 
 
 void Function::isOverride(
 )
 {
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag
+    );
+    QVERIFY(!_block->isOverride());
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag|OverrideFunctionFlag
+    );
+    QVERIFY(_block->isOverride());
 }
 
 
 void Function::isPrivate(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isPrivate());
+    _block->set("test","void",MethodFunctionType,PrivateAccess,NoFunctionAssignment,0);
+    QVERIFY(_block->isPrivate());
 }
 
 
 void Function::isProtected(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isProtected());
+    _block->set("test","void",MethodFunctionType,ProtectedAccess,NoFunctionAssignment,0);
+    QVERIFY(_block->isProtected());
 }
 
 
 void Function::isPublic(
 )
 {
+    _block->set("test","void",MethodFunctionType,PrivateAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isPublic());
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(_block->isPublic());
 }
 
 
 void Function::isStatic(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isStatic());
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,StaticFunctionFlag
+    );
+    QVERIFY(_block->isStatic());
 }
 
 
 void Function::isVirtual(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(!_block->isVirtual());
+    _block->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag
+    );
+    QVERIFY(_block->isVirtual());
 }
 
 
 void Function::loadFromMap(
 )
 {
+    static const QString testName = "name";
+    static const QString testDescription = "description";
+    static const QString testReturnType = "void";
+    static const QString testReturnDescription = "description";
+    static const QStringList testFlags {"virtual","override"};
+    static const QMap<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"returnType",testReturnType}
+        ,{"returnDescription",testReturnDescription}
+        ,{"type","method"}
+        ,{"access","public"}
+        ,{"assignment","none"}
+        ,{"flags",testFlags.join(";")}
+    };
+    _block->set("","",ConstructorFunctionType,PrivateAccess,DefaultFunctionAssignment,0);
+    _block->loadFromMap(testData,Socref_1_0);
+    QCOMPARE(_block->name(),testName);
+    QCOMPARE(_block->description(),testDescription);
+    QCOMPARE(_block->returnType(),testReturnType);
+    QCOMPARE(_block->returnDescription(),testReturnDescription);
+    QCOMPARE(_block->type(),MethodFunctionType);
+    QCOMPARE(_block->access(),PublicAccess);
+    QCOMPARE(_block->assignment(),NoFunctionAssignment);
+    QCOMPARE(_block->flags(),VirtualFunctionFlag|OverrideFunctionFlag);
 }
 
 
 void Function::loadFromMapLegacy(
 )
 {
+    static const QString testName = "^";
+    static const QString testDescription = "description";
+    static const QString testReturnDescription = "description";
+    static const QMap<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"returnType","void"}
+        ,{"returnDescription",testReturnDescription}
+        ,{"access","Public"}
+        ,{"default","1"}
+        ,{"explicit",1}
+    };
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    _block->loadFromMap(testData,Socref_Legacy);
+    QCOMPARE(_block->displayText(),"class123() = default -> explicit");
+    QCOMPARE(_block->name(),"");
+    QCOMPARE(_block->description(),testDescription);
+    QCOMPARE(_block->returnType(),"");
+    QCOMPARE(_block->returnDescription(),testReturnDescription);
+    QCOMPARE(_block->type(),ConstructorFunctionType);
+    QCOMPARE(_block->access(),PublicAccess);
+    QCOMPARE(_block->assignment(),DefaultFunctionAssignment);
+    QCOMPARE(_block->flags(),ExplicitFunctionFlag);
 }
 
 
 void Function::returnDescriptionProperty(
 )
 {
+    static const QString testDescription = "testing\n1\n2\n3";
+    _block->setReturnDescription("");
+    QSignalSpy spy(_block,&FunctionBlock::returnDescriptionChanged);
+    _block->setReturnDescription(testDescription);
+    QCOMPARE(spy.count(),1);
+    auto arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(),1);
+    QCOMPARE(arguments.at(0).toString(),testDescription);
+    QCOMPARE(_block->returnDescription(),testDescription);
 }
 
 
 void Function::returnTypeProperty(
 )
 {
+    static const QString testType = "QList<int>";
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QSignalSpy spy(_block,&FunctionBlock::returnTypeChanged);
+    _block->set("test",testType,MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QCOMPARE(spy.count(),1);
+    auto arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(),1);
+    QCOMPARE(arguments.at(0).toString(),testType);
+    QCOMPARE(_block->returnType(),testType);
 }
 
 
 void Function::saveToMap(
 )
 {
+    static const QString testName = "name";
+    static const QString testDescription = "description";
+    static const QString testReturnType = "void";
+    static const QString testReturnDescription = "description";
+    static const QStringList testFlags {"virtual","override"};
+    static const QMap<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"returnType",testReturnType}
+        ,{"returnDescription",testReturnDescription}
+        ,{"type","method"}
+        ,{"access","public"}
+        ,{"assignment","none"}
+        ,{"flags",testFlags.join(";")}
+    };
+    _block->set(
+        testName
+        ,testReturnType
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag|Block::Cpp::OverrideFunctionFlag
+    );
+    _block->setDescription(testDescription);
+    _block->setReturnDescription(testReturnDescription);
+    auto data = _block->saveToMap();
+    QCOMPARE(data,testData);
 }
 
 
 void Function::templatesProperty(
 )
 {
+    static const QStringList testTemplates {"class A","class B>"};
+    QSignalSpy spy(_block,&FunctionBlock::templatesChanged);
+    _block->setTemplates(testTemplates);
+    QCOMPARE(spy.count(),1);
+    auto arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(),1);
+    QCOMPARE(arguments.at(0),testTemplates);
+    QCOMPARE(_block->templates(),testTemplates);
 }
 
 
 void Function::typeProperty(
 )
 {
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QSignalSpy spy(_block,&FunctionBlock::typeChanged);
+    _block->set("test","void",OperatorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QCOMPARE(spy.count(),1);
+    auto arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(),1);
+    QCOMPARE(arguments.at(0).toInt(),OperatorFunctionType);
+    QCOMPARE(_block->type(),OperatorFunctionType);
 }
 
 

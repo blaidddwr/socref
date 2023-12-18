@@ -54,11 +54,23 @@ void Class::displayIconProperty(
     _block->append(function);
     QCOMPARE(spy.count(),0);
     QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
-    function->setAssignment(AbstractFunctionAssignment);
+    function->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag
+    );
     verify(testIconAbstract);
-    function->setAssignment(NoFunctionAssignment);
-    verify(testIcon);
-    function->setFlags(VirtualFunctionFlag);
+    function->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag
+    );
     verify(testIconVirtual);
     delete function;
     verify(testIcon);

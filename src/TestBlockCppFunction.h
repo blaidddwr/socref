@@ -16,6 +16,7 @@ class Function:
     public Test::Base
 {
     Q_OBJECT
+    ::Block::Cpp::Class* _parent;
     ::Block::Cpp::Function* _block;
 
 

@@ -2,12 +2,13 @@
 #include <QtGui>
 #include "BlockCppClass.h"
 #include "Exception.h"
+#include "ExceptionBlockLogical.h"
 #include "ExceptionBlockRead.h"
 #include "Global.h"
 namespace Block {
 namespace Cpp {
 QHash<QString,int>* Function::_reverseFlagLookup {nullptr};
-const QHash<int,QString> Function::_FLAG_STRINGS {
+const QMap<int,QString> Function::_FLAG_STRINGS {
     {NoExceptFunctionFlag,"noexcept"}
     ,{ExplicitFunctionFlag,"explicit"}
     ,{StaticFunctionFlag,"static"}
@@ -41,7 +42,7 @@ Function::Function(
     ,QObject* parent
 ):
     Base(meta,parent)
-    ,_displayText("function(); -> void")
+    ,_displayText("function() -> void")
     ,_icon(iconPublic())
 {
 }
@@ -270,6 +271,8 @@ void Function::loadFromMap(
         _flags = loadFlags(map.value("flags"),version);
         _assignment = loadAssignment(map.value("assignment"),version);
     }
+    updateDisplayIcon();
+    updateDisplayText();
 }
 
 
@@ -312,50 +315,51 @@ QMap<QString,QVariant> Function::saveToMap(
 }
 
 
-void Function::setAccess(
-    int value
+void Function::set(
+    const QString& name
+    ,const QString& returnType
+    ,int type
+    ,int access
+    ,int assignment
+    ,int flags
 )
 {
-    if (_access != value)
+    if (
+        Base::name() != name
+        || _returnType != returnType
+        || _type != type
+        || _access != access
+        || _assignment != assignment
+        || _flags != flags
+    )
     {
-        _access = value;
-        emit accessChanged(value);
-        updateDisplayIcon();
-    }
-}
-
-
-void Function::setAssignment(
-    int value
-)
-{
-    if (_assignment != value)
-    {
-        _assignment = value;
-        emit assignmentChanged(value);
-        updateDisplayText();
-        updateDisplayIcon();
-        if (auto p = qobject_cast<Class*>(parent()))
+        auto oldName = Base::name();
+        auto oldReturnType = _returnType;
+        auto oldType = _type;
+        auto oldAccess = _access;
+        auto oldAssignment = _assignment;
+        auto oldFlags = _flags;
+        try
         {
-            p->updateDisplayIcon();
+            setName(name);
+            setReturnType(returnType);
+            setType(type);
+            setAccess(access);
+            setAssignment(assignment);
+            setFlags(flags);
+            check();
+            updateDisplayIcon();
+            updateDisplayText();
         }
-    }
-}
-
-
-void Function::setFlags(
-    int value
-)
-{
-    if (_flags != value)
-    {
-        _flags = value;
-        emit flagsChanged(value);
-        updateDisplayText();
-        updateDisplayIcon();
-        if (auto p = qobject_cast<Class*>(parent()))
+        catch (Exception::Block::Logical& e)
         {
-            p->updateDisplayIcon();
+            setName(oldName);
+            setReturnType(oldReturnType);
+            setType(oldType);
+            setAccess(oldAccess);
+            setAssignment(oldAssignment);
+            setFlags(oldFlags);
+            throw;
         }
     }
 }
@@ -373,19 +377,6 @@ void Function::setReturnDescription(
 }
 
 
-void Function::setReturnType(
-    const QString& value
-)
-{
-    if (_returnType != value)
-    {
-        _returnType = value;
-        emit returnTypeChanged(value);
-        updateDisplayText();
-    }
-}
-
-
 void Function::setTemplates(
     const QStringList& value
 )
@@ -395,27 +386,6 @@ void Function::setTemplates(
         _templates = value;
         emit templatesChanged(value);
         updateDisplayText();
-    }
-}
-
-
-void Function::setType(
-    int value
-)
-{
-    if (_type != value)
-    {
-        _type = value;
-        emit typeChanged(value);
-        updateDisplayText();
-        updateDisplayIcon();
-        if (
-            isConstructor()
-            || isDestructor()
-        )
-        {
-            setName("");
-        }
     }
 }
 
@@ -577,12 +547,208 @@ void Function::appendSignature(
         {
             words.append("~"+parentBlock->name()+"("+arguments(true).join(",")+")");
         }
-        words.append(parentBlock->name()+"("+arguments(true).join(",")+")");
+        else
+        {
+            words.append(parentBlock->name()+"("+arguments(true).join(",")+")");
+        }
         break;
     }
     case OperatorFunctionType:
         words.append("operator"+name()+"("+arguments(true).join(",")+")");
         break;
+    }
+}
+
+
+void Function::check(
+)
+{
+    static const int allFlags {
+        NoExceptFunctionFlag
+        |ExplicitFunctionFlag
+        |StaticFunctionFlag
+        |ConstantFunctionFlag
+        |VirtualFunctionFlag
+        |OverrideFunctionFlag
+        |FinalFunctionFlag
+    };
+    static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
+    static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
+    using Error = Exception::Block::Logical;
+    if (
+        access() < 0
+        || access() >= UserAccess
+    )
+    {
+        throw Error(tr("Unkonwn C++ access encountered!"));
+    }
+    if (
+        assignment() < 0
+        || assignment() >= UserFunctionAssignment
+    )
+    {
+        throw Error(tr("Unknown function assignment encountered!"));
+    }
+    if (flags()&(!allFlags))
+    {
+        throw Error(tr("Unknown function flag encountered!"));
+    }
+    switch (type())
+    {
+    case RegularFunctionType:
+        if (name().isEmpty())
+        {
+            throw Error(tr("Functions must have a name."));
+        }
+        if (!validName.match(name()).hasMatch())
+        {
+            throw Error(tr("Invalid name '%1' for Function."));
+        }
+        if (returnType().isEmpty())
+        {
+            throw Error(tr("Functions must have a return type."));
+        }
+        if (access() != PublicAccess)
+        {
+            throw Error(tr("Functions must have public access."));
+        }
+        if (assignment() != NoFunctionAssignment)
+        {
+            throw Error(tr("Functions cannot have an assignment."));
+        }
+        if (flags()&(~ExplicitFunctionFlag))
+        {
+            throw Error(tr("Functions cannot have specifiers beside 'No Exceptions'."));
+        }
+        break;
+    case MethodFunctionType:
+        if (name().isEmpty())
+        {
+            throw Error(tr("Methods must have a name."));
+        }
+        if (!validName.match(name()).hasMatch())
+        {
+            throw Error(tr("Invalid name '%1' for Method."));
+        }
+        if (returnType().isEmpty())
+        {
+            throw Error(tr("Methods must have a return type."));
+        }
+        if (
+            assignment() == DefaultFunctionAssignment
+            || assignment() == DeleteFunctionAssignment
+        )
+        {
+            throw Error(tr("Methods cannot be assigned default/deleted."));
+        }
+        if (
+            assignment() == AbstractFunctionAssignment
+            && !isVirtual()
+        )
+        {
+            throw Error(tr("Abstract method must be virtual."));
+        }
+        if (
+            flags()&(OverrideFunctionFlag|FinalFunctionFlag)
+            && !isVirtual()
+        )
+        {
+            throw Error(tr("Methods with override/final specifiers must be virtual."));
+        }
+        if (
+            isFinal()
+            && !isOverride()
+        )
+        {
+            throw Error(tr("Methods with final specifier must also have override."));
+        }
+        if (isExplicit())
+        {
+            throw Error(tr("Methods cannot be explicit."));
+        }
+        break;
+    case OperatorFunctionType:
+        if (name().isEmpty())
+        {
+            throw Error(tr("Methods must have a name."));
+        }
+        if (returnType().isEmpty())
+        {
+            throw Error(tr("Methods must have a return type."));
+        }
+        if (
+            assignment() == DefaultFunctionAssignment
+            || assignment() == DeleteFunctionAssignment
+        )
+        {
+            throw Error(tr("Operators cannot be assigned default/deleted."));
+        }
+        if (
+            flags()&virtualFlags
+            || assignment() == AbstractFunctionAssignment
+        )
+        {
+            throw Error(tr("Operators cannot be virtual/abstract."));
+        }
+        if (isExplicit())
+        {
+            throw Error(tr("Operators cannot be explicit."));
+        }
+        break;
+    case ConstructorFunctionType:
+        if (!name().isEmpty())
+        {
+            throw Error(tr("Constructors cannot have a name."));
+        }
+        if (!returnType().isEmpty())
+        {
+            throw Error(tr("Constructors cannot have a return type."));
+        }
+        if (
+            flags()&virtualFlags
+            || assignment() == AbstractFunctionAssignment
+        )
+        {
+            throw Error(tr("Constructors cannot be virtual/abstract."));
+        }
+        break;
+    case DestructorFunctionType:
+        if (!name().isEmpty())
+        {
+            throw Error(tr("Destructors cannot have a name."));
+        }
+        if (!returnType().isEmpty())
+        {
+            throw Error(tr("Destructors cannot have a return type."));
+        }
+        if (
+            assignment() == AbstractFunctionAssignment
+            && !isVirtual()
+        )
+        {
+            throw Error(tr("Abstract destructor must be virtual."));
+        }
+        if (
+            flags()&(OverrideFunctionFlag|FinalFunctionFlag)
+            && !isVirtual()
+        )
+        {
+            throw Error(tr("Destructors with override/final specifiers must be virtual."));
+        }
+        if (
+            isFinal()
+            && !isOverride()
+        )
+        {
+            throw Error(tr("Destructors with final specifier must also have override."));
+        }
+        if (isExplicit())
+        {
+            throw Error(tr("Destructors cannot be explicit."));
+        }
+        break;
+    default:
+        throw Error(tr("Unknown function type encountered!"));
     }
 }
 
@@ -703,11 +869,13 @@ int Function::loadType(
         if (name() == "^")
         {
             setName("");
+            _returnType = "";
             return ConstructorFunctionType;
         }
         else if (name() == "~^")
         {
             setName("");
+            _returnType = "";
             return DestructorFunctionType;
         }
         else if (name().startsWith("operator"))
@@ -753,13 +921,6 @@ void Function::onNameChanged(
 )
 {
     Q_UNUSED(value);
-    if (
-        !isConstructor()
-        && !isDestructor()
-    )
-    {
-        updateDisplayText();
-    }
 }
 
 
@@ -783,6 +944,10 @@ void Function::setDisplayIcon(
     {
         _icon = pointer;
         emit displayIconChanged(*pointer);
+        if (auto p = qobject_cast<Class*>(parent()))
+        {
+            p->updateDisplayIcon();
+        }
     }
 }
 
@@ -808,10 +973,10 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconAbstractPublic());//X
+                setDisplayIcon(iconAbstractPublic());
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconAbstractProtected());//X
+                setDisplayIcon(iconAbstractProtected());
                 return;
             }
             break;
@@ -819,10 +984,10 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconAbstractDestructorPublic());//X
+                setDisplayIcon(iconAbstractDestructorPublic());
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconAbstractDestructorProtected());//X
+                setDisplayIcon(iconAbstractDestructorProtected());
                 return;
             }
             break;
@@ -864,13 +1029,7 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconPublic());//X
-                return;
-            case ProtectedAccess:
-                setDisplayIcon(iconProtected());//X
-                return;
-            case PrivateAccess:
-                setDisplayIcon(iconPrivate());//X
+                setDisplayIcon(iconPublic());
                 return;
             }
             break;
@@ -880,13 +1039,13 @@ void Function::updateDisplayIcon(
                 switch(_access)
                 {
                 case PublicAccess:
-                    setDisplayIcon(iconStaticPublic());//X
+                    setDisplayIcon(iconStaticPublic());
                     return;
                 case ProtectedAccess:
-                    setDisplayIcon(iconStaticProtected());//X
+                    setDisplayIcon(iconStaticProtected());
                     return;
                 case PrivateAccess:
-                    setDisplayIcon(iconStaticPrivate());//X
+                    setDisplayIcon(iconStaticPrivate());
                     return;
                 }
             }
@@ -895,13 +1054,13 @@ void Function::updateDisplayIcon(
                 switch(_access)
                 {
                 case PublicAccess:
-                    setDisplayIcon(iconPublic());//X
+                    setDisplayIcon(iconPublic());
                     return;
                 case ProtectedAccess:
-                    setDisplayIcon(iconProtected());//X
+                    setDisplayIcon(iconProtected());
                     return;
                 case PrivateAccess:
-                    setDisplayIcon(iconPrivate());//X
+                    setDisplayIcon(iconPrivate());
                     return;
                 }
             }
@@ -910,13 +1069,13 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconConstructorPublic());//X
+                setDisplayIcon(iconConstructorPublic());
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconConstructorProtected());//X
+                setDisplayIcon(iconConstructorProtected());
                 return;
             case PrivateAccess:
-                setDisplayIcon(iconConstructorPrivate());//X
+                setDisplayIcon(iconConstructorPrivate());
                 return;
             }
             break;
@@ -924,13 +1083,13 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconDestructorPublic());//X
+                setDisplayIcon(iconDestructorPublic());
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconDestructorProtected());//X
+                setDisplayIcon(iconDestructorProtected());
                 return;
             case PrivateAccess:
-                setDisplayIcon(iconDestructorPrivate());//X
+                setDisplayIcon(iconDestructorPrivate());
                 return;
             }
             break;
@@ -938,34 +1097,19 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconOperatorPublic());//X
+                setDisplayIcon(iconOperatorPublic());
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconOperatorProtected());//X
+                setDisplayIcon(iconOperatorProtected());
                 return;
             case PrivateAccess:
-                setDisplayIcon(iconOperatorPrivate());//X
+                setDisplayIcon(iconOperatorPrivate());
                 return;
             }
             break;
         }
     }
     setDisplayIcon(iconInvalid());
-}
-
-
-const QHash<QString,int>& Function::reverseFlagLookup(
-)
-{
-    if (!_reverseFlagLookup)
-    {
-        _reverseFlagLookup = new QHash<QString,int>;
-        for (auto i = _FLAG_STRINGS.begin();i != _FLAG_STRINGS.end();i++)
-        {
-            _reverseFlagLookup->insert(i.value(),i.key());
-        }
-    }
-    return *_reverseFlagLookup;
 }
 
 
@@ -1161,6 +1305,21 @@ const QIcon* Function::iconVirtualPublic(
 }
 
 
+const QHash<QString,int>& Function::reverseFlagLookup(
+)
+{
+    if (!_reverseFlagLookup)
+    {
+        _reverseFlagLookup = new QHash<QString,int>;
+        for (auto i = _FLAG_STRINGS.begin();i != _FLAG_STRINGS.end();i++)
+        {
+            _reverseFlagLookup->insert(i.value(),i.key());
+        }
+    }
+    return *_reverseFlagLookup;
+}
+
+
 void Function::updateDisplayText(
 )
 {
@@ -1176,11 +1335,76 @@ void Function::updateDisplayText(
     appendRightSignatureFlags(left);
     appendRightFlags(left);
     appendAssignment(left);
-    auto displayText = left.join(" ")+"; -> "+right.join(" ");
+    if (!right.isEmpty())
+    {
+        left.append("->");
+        left += right;
+    }
+    auto displayText = left.join(" ");
     if (_displayText != displayText)
     {
         _displayText = displayText;
         emit displayTextChanged(displayText);
+    }
+}
+
+
+void Function::setAccess(
+    int value
+)
+{
+    if (_access != value)
+    {
+        _access = value;
+        emit accessChanged(value);
+    }
+}
+
+
+void Function::setAssignment(
+    int value
+)
+{
+    if (_assignment != value)
+    {
+        _assignment = value;
+        emit assignmentChanged(value);
+    }
+}
+
+
+void Function::setFlags(
+    int value
+)
+{
+    if (_flags != value)
+    {
+        _flags = value;
+        emit flagsChanged(value);
+    }
+}
+
+
+void Function::setReturnType(
+    const QString& value
+)
+{
+    if (_returnType != value)
+    {
+        _returnType = value;
+        emit returnTypeChanged(value);
+    }
+}
+
+
+void Function::setType(
+    int value
+)
+{
+    if (_type != value)
+    {
+        _type = value;
+        emit typeChanged(value);
     }
 }
 }
