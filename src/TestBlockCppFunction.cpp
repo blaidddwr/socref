@@ -104,19 +104,20 @@ void Function::displayIconProperty(
     _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
     QVERIFY(areIconsEqual(_block->displayIcon(),testIconPublic));
     QSignalSpy spy(_block,&FunctionBlock::displayIconChanged);
-    auto verify = [&spy,this](const QIcon& icon)
+    auto verify = [&spy,this](const QIcon& icon) -> bool
     {
-        QCOMPARE(spy.count(),1);
+        if (spy.count() != 1) return false;
         auto arguments = spy.takeLast();
-        QCOMPARE(arguments.size(),1);
-        QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),icon));
-        QVERIFY(areIconsEqual(_block->displayIcon(),icon));
+        if (arguments.size() != 1) return false;
+        if (!areIconsEqual(arguments.at(0).value<QIcon>(),icon)) return false;
+        if (!areIconsEqual(_block->displayIcon(),icon)) return false;
         spy.clear();
+        return true;
     };
     _block->set("test","void",MethodFunctionType,ProtectedAccess,NoFunctionAssignment,0);
     verify(testIconProtected);
     _block->set("test","void",MethodFunctionType,PrivateAccess,NoFunctionAssignment,0);
-    verify(testIconPrivate);
+    QVERIFY(verify(testIconPrivate));
     spy.clear();
     _block->set(
         "test"
@@ -126,7 +127,7 @@ void Function::displayIconProperty(
         ,NoFunctionAssignment
         ,StaticFunctionFlag
     );
-    verify(testIconStaticPrivate);
+    QVERIFY(verify(testIconStaticPrivate));
     _block->set(
         "test"
         ,"void"
@@ -135,7 +136,7 @@ void Function::displayIconProperty(
         ,NoFunctionAssignment
         ,StaticFunctionFlag
     );
-    verify(testIconStaticProtected);
+    QVERIFY(verify(testIconStaticProtected));
     _block->set(
         "test"
         ,"void"
@@ -144,25 +145,25 @@ void Function::displayIconProperty(
         ,NoFunctionAssignment
         ,StaticFunctionFlag
     );
-    verify(testIconStaticPublic);
+    QVERIFY(verify(testIconStaticPublic));
     _block->set("","",ConstructorFunctionType,PrivateAccess,NoFunctionAssignment,0);
-    verify(testIconConstructorPrivate);
+    QVERIFY(verify(testIconConstructorPrivate));
     _block->set("","",ConstructorFunctionType,ProtectedAccess,NoFunctionAssignment,0);
-    verify(testIconConstructorProtected);
+    QVERIFY(verify(testIconConstructorProtected));
     _block->set("","",ConstructorFunctionType,PublicAccess,NoFunctionAssignment,0);
-    verify(testIconConstructorPublic);
+    QVERIFY(verify(testIconConstructorPublic));
     _block->set("","",DestructorFunctionType,PublicAccess,NoFunctionAssignment,0);
-    verify(testIconDestructorPublic);
+    QVERIFY(verify(testIconDestructorPublic));
     _block->set("","",DestructorFunctionType,ProtectedAccess,NoFunctionAssignment,0);
-    verify(testIconDestructorProtected);
+    QVERIFY(verify(testIconDestructorProtected));
     _block->set("","",DestructorFunctionType,PrivateAccess,NoFunctionAssignment,0);
-    verify(testIconDestructorPrivate);
+    QVERIFY(verify(testIconDestructorPrivate));
     _block->set("++","void",OperatorFunctionType,PrivateAccess,NoFunctionAssignment,0);
-    verify(testIconOperatorPrivate);
+    QVERIFY(verify(testIconOperatorPrivate));
     _block->set("++","void",OperatorFunctionType,ProtectedAccess,NoFunctionAssignment,0);
-    verify(testIconOperatorProtected);
+    QVERIFY(verify(testIconOperatorProtected));
     _block->set("++","void",OperatorFunctionType,PublicAccess,NoFunctionAssignment,0);
-    verify(testIconOperatorPublic);
+    QVERIFY(verify(testIconOperatorPublic));
     _block->set(
         "test"
         ,"void"
@@ -171,7 +172,7 @@ void Function::displayIconProperty(
         ,AbstractFunctionAssignment
         ,VirtualFunctionFlag
     );
-    verify(testIconAbstractPublic);
+    QVERIFY(verify(testIconAbstractPublic));
     _block->set(
         "test"
         ,"void"
@@ -180,7 +181,7 @@ void Function::displayIconProperty(
         ,AbstractFunctionAssignment
         ,VirtualFunctionFlag
     );
-    verify(testIconAbstractProtected);
+    QVERIFY(verify(testIconAbstractProtected));
     _block->set(
         ""
         ,""
@@ -189,7 +190,7 @@ void Function::displayIconProperty(
         ,AbstractFunctionAssignment
         ,VirtualFunctionFlag
     );
-    verify(testIconAbstractDestructorProtected);
+    QVERIFY(verify(testIconAbstractDestructorProtected));
     _block->set(
         ""
         ,""
@@ -198,9 +199,9 @@ void Function::displayIconProperty(
         ,AbstractFunctionAssignment
         ,VirtualFunctionFlag
     );
-    verify(testIconAbstractDestructorPublic);
+    QVERIFY(verify(testIconAbstractDestructorPublic));
     _block->set("","",DestructorFunctionType,PublicAccess,NoFunctionAssignment,VirtualFunctionFlag);
-    verify(testIconVirtualDestructorPublic);
+    QVERIFY(verify(testIconVirtualDestructorPublic));
     _block->set(
         ""
         ,""
@@ -209,7 +210,7 @@ void Function::displayIconProperty(
         ,NoFunctionAssignment
         ,VirtualFunctionFlag
     );
-    verify(testIconVirtualDestructorProtected);
+    QVERIFY(verify(testIconVirtualDestructorProtected));
     _block->set(
         "test"
         ,"void"
@@ -218,7 +219,7 @@ void Function::displayIconProperty(
         ,NoFunctionAssignment
         ,VirtualFunctionFlag
     );
-    verify(testIconVirtualProtected);
+    QVERIFY(verify(testIconVirtualProtected));
     _block->set(
         "test"
         ,"void"
@@ -227,7 +228,7 @@ void Function::displayIconProperty(
         ,NoFunctionAssignment
         ,VirtualFunctionFlag
     );
-    verify(testIconVirtualPublic);
+    QVERIFY(verify(testIconVirtualPublic));
 }
 
 

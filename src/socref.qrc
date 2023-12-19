@@ -30,4 +30,14 @@
         <file alias="virtual_public_destructor.svg">../data/cpp/virtual_public_destructor.svg</file>
         <file alias="virtual_public_function.svg">../data/cpp/virtual_public_function.svg</file>
     </qresource>
+    <qresource prefix="/cppqt/">
+        <file alias="abstract_protected_slot.svg">../data/cppqt/abstract_protected_slot.svg</file>
+        <file alias="abstract_public_slot.svg">../data/cppqt/abstract_public_slot.svg</file>
+        <file alias="private_slot.svg">../data/cppqt/private_slot.svg</file>
+        <file alias="protected_slot.svg">../data/cppqt/protected_slot.svg</file>
+        <file alias="public_slot.svg">../data/cppqt/public_slot.svg</file>
+        <file alias="signal.svg">../data/cppqt/signal.svg</file>
+        <file alias="virtual_protected_slot.svg">../data/cppqt/virtual_protected_slot.svg</file>
+        <file alias="virtual_public_slot.svg">../data/cppqt/virtual_public_slot.svg</file>
+    </qresource>
 </RCC>

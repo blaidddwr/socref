@@ -25,14 +25,20 @@ namespace Cpp {
  * expansion of any of these properties it can be done by making their own
  * enumeration that begins with the C++ enumeration's user role.
  * 
- * There are numerous virtual methods that can be overridden to expand the
- * property types which allow expansion. These methods deal with formatting
- * these properties into strings, loading them from strings, and saving them to
- * strings.
+ * Due to the complexity of a function's properties and all the possible
+ * exceptions that would make it an invalid C++ function, almost all properties
+ * must be set for a function at the same time using the set method. This method
+ * in turn checks the validity of the given values.
+ * 
+ * There are two primary groups of virtual methods used to expand the property
+ * values of the above mentioned properties. The first private mapping lists for
+ * all valid values. The second provides words for constructing a function's
+ * display text.
  * 
  * A words list is generated in order to correctly build the definition of a
- * function. There are many protected methods called to add to this word list
- * based off the properties that can be expanded upon.
+ * function. There are many protected methods called to append to this word list
+ * based off the properties. These methods are virtual and can be expanded upon
+ * with new property value enumerations.
  */
 class Function:
     public Block::Cpp::Base
@@ -47,11 +53,6 @@ class Function:
     int _assignment {NoFunctionAssignment};
     int _flags {0};
     int _type {RegularFunctionType};
-    static QHash<QString,int>* _reverseFlagLookup;
-    static const QMap<int,QString> _FLAG_STRINGS;
-    static const QStringList _ACCESS_STRINGS;
-    static const QStringList _ASSIGNMENT_STRINGS;
-    static const QStringList _TYPE_STRINGS;
     using Base::setName;
 
 
@@ -173,7 +174,7 @@ class Function:
      * This instance's access property as a string.
      */
     public:
-    virtual QString accessString(
+    QString accessString(
     ) const;
 
 
@@ -195,14 +196,14 @@ class Function:
      * This instance's assignment property as a string.
      */
     public:
-    virtual QString assignmentString(
+    QString assignmentString(
     ) const;
 
 
     public:
     virtual Widget::Block::Abstract* createWidget(
         QObject* parent = nullptr
-    ) const override final;
+    ) const override;
 
 
     public:
@@ -223,7 +224,7 @@ class Function:
      * represents an enabled flag.
      */
     public:
-    virtual QStringList flagStrings(
+    QStringList flagStrings(
     ) const;
 
 
@@ -371,10 +372,10 @@ class Function:
 
 
     /*!
-     * Determines in this function's access is private.
+     * Determines if this function's access is private.
      *
      * @return
-     * True it its access is private otherwise false.
+     * True if its access is private otherwise false.
      */
     public:
     bool isPrivate(
@@ -382,10 +383,10 @@ class Function:
 
 
     /*!
-     * Determines in this function's access is protected.
+     * Determines if this function's access is protected.
      *
      * @return
-     * True it its access is protected otherwise false.
+     * True if its access is protected otherwise false.
      */
     public:
     bool isProtected(
@@ -393,10 +394,10 @@ class Function:
 
 
     /*!
-     * Determines in this function's access is public.
+     * Determines if this function's access is public.
      *
      * @return
-     * True it its access is public otherwise false.
+     * True if its access is public otherwise false.
      */
     public:
     bool isPublic(
@@ -550,20 +551,25 @@ class Function:
      * This instance's type property as a string.
      */
     public:
-    virtual QString typeString(
+    QString typeString(
     ) const;
 
 
     /*!
-     * Determines if this instance's flag property is valid, containing nothing
-     * but valid flags.
+     * Getter method.
      *
      * @return
-     * True if it is valid otherwise false.
+     * A complete list of all valid access enumerations as strings. The order of
+     * the returned string list must match the order of enumerations.
      */
     protected:
-    virtual bool areFlagsValid(
+    virtual const QStringList& accessStrings(
     ) const;
+
+
+    protected:
+    virtual void addEvent(
+    ) override final;
 
 
     /*!
@@ -582,11 +588,6 @@ class Function:
     virtual QStringList arguments(
         bool onlyTypes = false
     ) const;
-
-
-    protected:
-    virtual void addEvent(
-    ) override final;
 
 
     /*!
@@ -672,11 +673,27 @@ class Function:
 
 
     /*!
+     * Getter method.
+     *
+     * @return
+     * A complete list of all valid function assignment enumerations as strings.
+     * The order of the returned string list must match the order of
+     * enumerations.
+     */
+    protected:
+    virtual const QStringList& assignmentStrings(
+    ) const;
+
+
+    /*!
      * Checks to see if this instance's current properties make a valid
      * function.
      * 
-     * A logical block exception is thrown if this instance's properties do not
-     * make a valid function.
+     * If this is overridden to provide additional checks then this base method
+     * must be called in the overriding method.
+     * 
+     * A logical block exception is thrown if this instance's properties are not
+     * valid.
      */
     protected:
     virtual void check(
@@ -684,70 +701,15 @@ class Function:
 
 
     /*!
-     * Determines if this instance's access property value is valid.
+     * Getter method.
      *
      * @return
-     * True if it is valid otherwise false.
+     * A complete mapping of all valid function flags to their representation as
+     * a string.
      */
     protected:
-    virtual bool isAccessValid(
+    virtual const QMap<int,QString>& flagStringMap(
     ) const;
-
-
-    /*!
-     * Determines if this instance's assignment property value is valid.
-     *
-     * @return
-     * True if it is valid otherwise false.
-     */
-    protected:
-    virtual bool isAssignmentValid(
-    ) const;
-
-
-    /*!
-     * Determines if this instance's type property value is valid.
-     *
-     * @return
-     * True if it is valid otherwise false.
-     */
-    protected:
-    virtual bool isTypeValid(
-    ) const;
-
-
-    /*!
-     * Loads and returns the access from the given value using the given format
-     * version.
-     *
-     * @param value
-     *        The value.
-     *
-     * @param version
-     *        The format version.
-     */
-    protected:
-    virtual int loadAccess(
-        const QVariant& value
-        ,int version
-    );
-
-
-    /*!
-     * Loads and returns the function assignment from the given value using the
-     * given format version.
-     *
-     * @param value
-     *        The value.
-     *
-     * @param version
-     *        The format version.
-     */
-    protected:
-    virtual int loadAssignment(
-        const QVariant& value
-        ,int version
-    );
 
 
     /*!
@@ -764,23 +726,6 @@ class Function:
 
 
     /*!
-     * Loads and returns the function flags from the given value using the given
-     * format version.
-     *
-     * @param value
-     *        The value.
-     *
-     * @param version
-     *        The format version.
-     */
-    protected:
-    virtual int loadFlags(
-        const QVariant& value
-        ,int version
-    );
-
-
-    /*!
      * Loads and returns the function flags from the given map using the legacy
      * format version.
      *
@@ -790,23 +735,6 @@ class Function:
     protected:
     virtual int loadFlagsLegacy(
         const QMap<QString,QVariant>& map
-    );
-
-
-    /*!
-     * Loads and returns the function type from the given value using the given
-     * format version.
-     *
-     * @param value
-     *        The value.
-     *
-     * @param version
-     *        The format version.
-     */
-    protected:
-    virtual int loadType(
-        const QVariant& value
-        ,int version
     );
 
 
@@ -856,11 +784,94 @@ class Function:
 
 
     /*!
+     * Getter method.
+     *
+     * @return
+     * A complete list of all valid function type enumerations as strings. The
+     * order of the returned string list must match the order of enumerations.
+     */
+    protected:
+    virtual const QStringList& typeStrings(
+    ) const;
+
+
+    /*!
      * Updates this instance's display icon property.
      */
     protected:
     virtual void updateDisplayIcon(
     );
+
+
+    /*!
+     * Determines if this instance's flag property is valid, containing nothing
+     * but valid flags.
+     *
+     * @return
+     * True if it is valid otherwise false.
+     */
+    private:
+    bool areFlagsValid(
+    ) const;
+
+
+    /*!
+     * Checks to see if this instance's current properties make a valid
+     * constructor.
+     * 
+     * A logical block exception is thrown if this instance's properties are not
+     * valid.
+     */
+    private:
+    void checkConstructor(
+    ) const;
+
+
+    /*!
+     * Checks to see if this instance's current properties make a valid
+     * destructor.
+     * 
+     * A logical block exception is thrown if this instance's properties are not
+     * valid.
+     */
+    private:
+    void checkDestructor(
+    ) const;
+
+
+    /*!
+     * Checks to see if this instance's current properties make a valid method.
+     * 
+     * A logical block exception is thrown if this instance's properties are not
+     * valid.
+     */
+    private:
+    void checkMethod(
+    ) const;
+
+
+    /*!
+     * Checks to see if this instance's current properties make a valid
+     * operator.
+     * 
+     * A logical block exception is thrown if this instance's properties are not
+     * valid.
+     */
+    private:
+    void checkOperator(
+    ) const;
+
+
+    /*!
+     * Checks to see if this instance's current properties make a valid regular
+     * function.
+     * 
+     * A logical block exception is thrown if this instance's properties are not
+     * valid.
+     */
+    private:
+    void checkRegular(
+    ) const;
 
 
     /*!
@@ -1128,12 +1139,121 @@ class Function:
 
 
     /*!
+     * Determines if this instance's access property value is valid.
+     *
+     * @return
+     * True if it is valid otherwise false.
+     */
+    private:
+    bool isAccessValid(
+    ) const;
+
+
+    /*!
+     * Determines if this instance's assignment property value is valid.
+     *
+     * @return
+     * True if it is valid otherwise false.
+     */
+    private:
+    bool isAssignmentValid(
+    ) const;
+
+
+    /*!
+     * Determines if this instance's type property value is valid.
+     *
+     * @return
+     * True if it is valid otherwise false.
+     */
+    private:
+    bool isTypeValid(
+    ) const;
+
+
+    /*!
+     * Loads this instance's access property from the given value using the
+     * given format version.
+     * 
+     * A read block exception is thrown if any error is encountered.
+     *
+     * @param value
+     *        The value.
+     *
+     * @param version
+     *        The format version.
+     */
+    private:
+    void loadAccess(
+        const QVariant& value
+        ,int version
+    );
+
+
+    /*!
+     * Loads this instance's assignment property from the given value using the
+     * given format version. This cannot load data from the legacy format.
+     * 
+     * A read block exception is thrown if any error is encountered.
+     *
+     * @param value
+     *        The value.
+     *
+     * @param version
+     *        The format version.
+     */
+    private:
+    void loadAssignment(
+        const QVariant& value
+        ,int version
+    );
+
+
+    /*!
+     * Loads this instance's flags property from the given value using the given
+     * format version. This cannot load data from the legacy format.
+     * 
+     * A read block exception is thrown if any error is encountered.
+     *
+     * @param value
+     *        The value.
+     *
+     * @param version
+     *        The format version.
+     */
+    private:
+    void loadFlags(
+        const QVariant& value
+        ,int version
+    );
+
+
+    /*!
+     * Loads this instance's type property from the given value using the given
+     * format version.
+     * 
+     * A read block exception is thrown if any error is encountered.
+     *
+     * @param value
+     *        The value.
+     *
+     * @param version
+     *        The format version.
+     */
+    private:
+    void loadType(
+        const QVariant& value
+        ,int version
+    );
+
+
+    /*!
      * Returns the reverse flag lookup hash table. The first time this is called
      * the hash table is constructed.
      */
     private:
-    static const QHash<QString,int>& reverseFlagLookup(
-    );
+    const QHash<QString,int>& reverseFlagLookup(
+    ) const;
 
 
     /*!

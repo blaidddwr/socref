@@ -261,6 +261,8 @@ class Abstract:
     /*!
      * Sets this block's data from the given mapping using the given format
      * version, overwriting any data contained in this block.
+     * 
+     * A read block exception is thrown if any error is encountered.
      *
      * @param map
      *        The mapping.

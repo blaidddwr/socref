@@ -9,18 +9,7 @@ namespace Block {
  */
 namespace CppQt
 {
-
-
-    /*!
-     * Enumerates additional access types for Qt signals and slots.
-     */
-    enum Access
-    {
-        SignalAccess = Cpp::UserAccess
-        ,PublicSlotAccess
-        ,ProtectedSlotAccess
-        ,PrivateSlotAccess
-    };
+    class Function;
 
 
     /*!
@@ -33,12 +22,23 @@ namespace CppQt
 
 
     /*!
+     * Enumerates additional function types for Qt methods.
+     */
+    enum FunctionType
+    {
+        SignalFunctionType = Cpp::UserFunctionType
+        ,SlotFunctionType
+    };
+
+
+    /*!
      * Enumerates all C++/Qt block implementations' indexes.
      */
     enum Index
     {
         ClassIndex
         ,EnumerationIndex
+        ,FunctionIndex
         ,NamespaceIndex
     };
 }

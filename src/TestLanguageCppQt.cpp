@@ -22,7 +22,7 @@ void CppQt::createClass(
 )
 {
     using namespace Block::CppQt;
-    static const QSet<int> allowList {};
+    static const QSet<int> allowList {FunctionIndex};
     auto block = _language->create(ClassIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),ClassIndex);
@@ -52,7 +52,7 @@ void CppQt::createNamespace(
 )
 {
     using namespace Block::CppQt;
-    static const QSet<int> allowList {NamespaceIndex,ClassIndex,EnumerationIndex};
+    static const QSet<int> allowList {ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex};
     auto block = _language->create(NamespaceIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),NamespaceIndex);

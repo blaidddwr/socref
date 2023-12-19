@@ -358,7 +358,9 @@ The given index can go beyond the bounds of this block's children list. If it is
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Sets this block's data from the given mapping using the given format version, overwriting any data contained in this block.</__p_description>
+                    <__p_description>Sets this block's data from the given mapping using the given format version, overwriting any data contained in this block.
+
+A read block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -1554,9 +1556,11 @@ Its properties are type, assignment, access, return type, return description, te
 
 The property type for the assignment, type, access, and flags properties are integers to allow for expansion. If another language, such as C++/Qt, can inherit a C++ function for its own version of a function but require expansion of any of these properties it can be done by making their own enumeration that begins with the C++ enumeration's user role.
 
-There are numerous virtual methods that can be overridden to expand the property types which allow expansion. These methods deal with formatting these properties into strings, loading them from strings, and saving them to strings.
+Due to the complexity of a function's properties and all the possible exceptions that would make it an invalid C++ function, almost all properties must be set for a function at the same time using the set method. This method in turn checks the validity of the given values.
 
-A words list is generated in order to correctly build the definition of a function. There are many protected methods called to add to this word list based off the properties that can be expanded upon.</__p_description>
+There are two primary groups of virtual methods used to expand the property values of the above mentioned properties. The first private mapping lists for all valid values. The second provides words for constructing a function's display text.
+
+A words list is generated in order to correctly build the definition of a function. There are many protected methods called to append to this word list based off the properties. These methods are virtual and can be expanded upon with new property value enumerations.</__p_description>
                     <__p_name>Function</__p_name>
                     <__p_parents>public Block::Cpp::Base</__p_parents>
                     <Function>
@@ -1788,7 +1792,7 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_returnDescription>This instance's access property as a string.</__p_returnDescription>
                         <__p_returnType>QString</__p_returnType>
                         <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
+                        <__p_virtual>0</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -1824,7 +1828,7 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_returnDescription>This instance's assignment property as a string.</__p_returnDescription>
                         <__p_returnType>QString</__p_returnType>
                         <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
+                        <__p_virtual>0</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -1833,7 +1837,7 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
                         <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
+                        <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>createWidget</__p_name>
                         <__p_noexcept>0</__p_noexcept>
@@ -1895,7 +1899,7 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_returnDescription>This instance's flags property as a list of strings where each string represents an enabled flag.</__p_returnDescription>
                         <__p_returnType>QStringList</__p_returnType>
                         <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
+                        <__p_virtual>0</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -2137,14 +2141,14 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines in this function's access is private.</__p_description>
+                        <__p_description>Determines if this function's access is private.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>isPrivate</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>True it its access is private otherwise false.</__p_returnDescription>
+                        <__p_returnDescription>True if its access is private otherwise false.</__p_returnDescription>
                         <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -2155,14 +2159,14 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines in this function's access is protected.</__p_description>
+                        <__p_description>Determines if this function's access is protected.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>isProtected</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>True it its access is protected otherwise false.</__p_returnDescription>
+                        <__p_returnDescription>True if its access is protected otherwise false.</__p_returnDescription>
                         <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -2173,14 +2177,14 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines in this function's access is public.</__p_description>
+                        <__p_description>Determines if this function's access is public.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>isPublic</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>True it its access is public otherwise false.</__p_returnDescription>
+                        <__p_returnDescription>True if its access is public otherwise false.</__p_returnDescription>
                         <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -2442,7 +2446,7 @@ A logical block exception is thrown if the given set of property values do not m
                         <__p_returnDescription>This instance's type property as a string.</__p_returnDescription>
                         <__p_returnType>QString</__p_returnType>
                         <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
+                        <__p_virtual>0</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -2450,15 +2454,31 @@ A logical block exception is thrown if the given set of property values do not m
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this instance's flag property is valid, containing nothing but valid flags.</__p_description>
+                        <__p_description>Getter method.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>areFlagsValid</__p_name>
+                        <__p_name>accessStrings</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
+                        <__p_returnDescription>A complete list of all valid access enumerations as strings. The order of the returned string list must match the order of enumerations.</__p_returnDescription>
+                        <__p_returnType>const QStringList&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>addEvent</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                     </Function>
@@ -2486,22 +2506,6 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                             <__p_name>onlyTypes</__p_name>
                             <__p_type>bool</__p_type>
                         </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>addEvent</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -2641,9 +2645,29 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>assignmentStrings</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>A complete list of all valid function assignment enumerations as strings. The order of the returned string list must match the order of enumerations.</__p_returnDescription>
+                        <__p_returnType>const QStringList&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_description>Checks to see if this instance's current properties make a valid function.
 
-A logical block exception is thrown if this instance's properties do not make a valid function.</__p_description>
+If this is overridden to provide additional checks then this base method must be called in the overriding method.
+
+A logical block exception is thrown if this instance's properties are not valid.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -2660,107 +2684,17 @@ A logical block exception is thrown if this instance's properties do not make a 
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this instance's access property value is valid.</__p_description>
+                        <__p_description>Getter method.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>isAccessValid</__p_name>
+                        <__p_name>flagStringMap</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
+                        <__p_returnDescription>A complete mapping of all valid function flags to their representation as a string.</__p_returnDescription>
+                        <__p_returnType>const QMap&lt;int,QString&gt;&amp;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this instance's assignment property value is valid.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>isAssignmentValid</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this instance's type property value is valid.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>isTypeValid</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Loads and returns the access from the given value using the given format version.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>loadAccess</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>int</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QVariant&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The format version.</__p_description>
-                            <__p_name>version</__p_name>
-                            <__p_type>int</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Loads and returns the function assignment from the given value using the given format version.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>loadAssignment</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>int</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QVariant&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The format version.</__p_description>
-                            <__p_name>version</__p_name>
-                            <__p_type>int</__p_type>
-                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -2790,33 +2724,6 @@ A logical block exception is thrown if this instance's properties do not make a 
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Loads and returns the function flags from the given value using the given format version.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>loadFlags</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>int</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QVariant&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The format version.</__p_description>
-                            <__p_name>version</__p_name>
-                            <__p_type>int</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
                         <__p_description>Loads and returns the function flags from the given map using the legacy format version.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
@@ -2831,33 +2738,6 @@ A logical block exception is thrown if this instance's properties do not make a 
                             <__p_description>The map.</__p_description>
                             <__p_name>map</__p_name>
                             <__p_type>const QMap&lt;QString,QVariant&gt;&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Loads and returns the function type from the given value using the given format version.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>loadType</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>int</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QVariant&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The format version.</__p_description>
-                            <__p_name>version</__p_name>
-                            <__p_type>int</__p_type>
                         </Variable>
                     </Function>
                     <Function>
@@ -2960,6 +2840,24 @@ A logical block exception is thrown if this instance's properties do not make a 
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>typeStrings</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>A complete list of all valid function type enumerations as strings. The order of the returned string list must match the order of enumerations.</__p_returnDescription>
+                        <__p_returnType>const QStringList&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -2973,6 +2871,119 @@ A logical block exception is thrown if this instance's properties do not make a 
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this instance's flag property is valid, containing nothing but valid flags.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>areFlagsValid</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Checks to see if this instance's current properties make a valid constructor.
+
+A logical block exception is thrown if this instance's properties are not valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>checkConstructor</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Checks to see if this instance's current properties make a valid destructor.
+
+A logical block exception is thrown if this instance's properties are not valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>checkDestructor</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Checks to see if this instance's current properties make a valid method.
+
+A logical block exception is thrown if this instance's properties are not valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>checkMethod</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Checks to see if this instance's current properties make a valid operator.
+
+A logical block exception is thrown if this instance's properties are not valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>checkOperator</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Checks to see if this instance's current properties make a valid regular function.
+
+A logical block exception is thrown if this instance's properties are not valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>checkRegular</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -3409,7 +3420,177 @@ A logical block exception is thrown if this instance's properties do not make a 
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this instance's access property value is valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isAccessValid</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this instance's assignment property value is valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isAssignmentValid</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this instance's type property value is valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isTypeValid</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
                         <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Loads this instance's access property from the given value using the given format version.
+
+A read block exception is thrown if any error is encountered.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>loadAccess</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QVariant&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The format version.</__p_description>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Loads this instance's assignment property from the given value using the given format version. This cannot load data from the legacy format.
+
+A read block exception is thrown if any error is encountered.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>loadAssignment</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QVariant&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The format version.</__p_description>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Loads this instance's flags property from the given value using the given format version. This cannot load data from the legacy format.
+
+A read block exception is thrown if any error is encountered.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>loadFlags</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QVariant&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The format version.</__p_description>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Loads this instance's type property from the given value using the given format version.
+
+A read block exception is thrown if any error is encountered.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>loadType</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QVariant&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The format version.</__p_description>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
                         <__p_description>Returns the reverse flag lookup hash table. The first time this is called the hash table is constructed.</__p_description>
@@ -3420,7 +3601,7 @@ A logical block exception is thrown if this instance's properties do not make a 
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>const QHash&lt;QString,int&gt;&amp;</__p_returnType>
-                        <__p_static>1</__p_static>
+                        <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
                     <Function>
@@ -3622,15 +3803,383 @@ A logical block exception is thrown if this instance's properties do not make a 
             <Namespace>
                 <__p_description>This contains all C++/Qt block enumerations and classes.</__p_description>
                 <__p_name>CppQt</__p_name>
-                <Enumeration>
-                    <__p_class>0</__p_class>
-                    <__p_description>Enumerates additional access types for Qt signals and slots.</__p_description>
-                    <__p_name>Access</__p_name>
-                </Enumeration>
+                <Class>
+                    <__p_description>This is a C++/Qt block class. It represents a C++/Qt function.
+
+It extends the C++ function with the Qt concepts of signals and slots. It also implements the Qt invokable specifier which allows methods to be called from the Qt meta object system.</__p_description>
+                    <__p_name>Function</__p_name>
+                    <__p_parents>public Block::Cpp::Function</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>createWidget</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Widget::Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function is invokable from Qt's meta object system.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isQtInvokable</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is invokable otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function is a Qt signal.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isSignal</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is a Qt signal otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function is a Qt slot.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isSlot</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is a Qt slot otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>appendLeftFlags</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>words</__p_name>
+                            <__p_type>QStringList&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>check</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>flagStringMap</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>const QMap&lt;int,QString&gt;&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>loadFlagsLegacy</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>map</__p_name>
+                            <__p_type>const QMap&lt;QString,QVariant&gt;&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>typeStrings</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>const QStringList&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>updateDisplayIcon</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Checks to see if this instance's current properties make a valid Qt signal.
+
+A logical block exception is thrown if this instance's properties are not valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>checkSignal</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Checks to see if this instance's current properties make a valid Qt slot.
+
+A logical block exception is thrown if this instance's properties are not valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>checkSlot</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconAbstractSlotProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The abstract protected slot icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconAbstractSlotPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The abstract public slot icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconSignal</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The signal icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconSlotPrivate</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The private slot icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconSlotProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The protected slot icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconSlotPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The public slot icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconVirtualSlotProtected</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The virtual protected slot icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconVirtualSlotPublic</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The virtual public slot icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                </Class>
                 <Enumeration>
                     <__p_class>0</__p_class>
                     <__p_description>Enumerates additional function flags for Qt methods.</__p_description>
                     <__p_name>FunctionFlags</__p_name>
+                </Enumeration>
+                <Enumeration>
+                    <__p_class>0</__p_class>
+                    <__p_description>Enumerates additional function types for Qt methods.</__p_description>
+                    <__p_name>FunctionType</__p_name>
                 </Enumeration>
                 <Enumeration>
                     <__p_class>0</__p_class>
