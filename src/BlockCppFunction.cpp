@@ -411,6 +411,22 @@ QString Function::typeString(
 }
 
 
+bool Function::areFlagsValid(
+) const
+{
+    static const int allFlags {
+        NoExceptFunctionFlag
+        |ExplicitFunctionFlag
+        |StaticFunctionFlag
+        |ConstantFunctionFlag
+        |VirtualFunctionFlag
+        |OverrideFunctionFlag
+        |FinalFunctionFlag
+    };
+    return !(flags()&(~allFlags));
+}
+
+
 QStringList Function::arguments(
     bool onlyTypes
 ) const
@@ -561,35 +577,24 @@ void Function::appendSignature(
 
 
 void Function::check(
-)
+) const
 {
-    static const int allFlags {
-        NoExceptFunctionFlag
-        |ExplicitFunctionFlag
-        |StaticFunctionFlag
-        |ConstantFunctionFlag
-        |VirtualFunctionFlag
-        |OverrideFunctionFlag
-        |FinalFunctionFlag
-    };
     static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
     using Error = Exception::Block::Logical;
-    if (
-        access() < 0
-        || access() >= UserAccess
-    )
+    if (!isTypeValid())
     {
-        throw Error(tr("Unkonwn C++ access encountered!"));
+        throw Error(tr("Unknown function type encountered!"));
     }
-    if (
-        assignment() < 0
-        || assignment() >= UserFunctionAssignment
-    )
+    if (!isAccessValid())
+    {
+        throw Error(tr("Unkonwn function access encountered!"));
+    }
+    if (!isAssignmentValid())
     {
         throw Error(tr("Unknown function assignment encountered!"));
     }
-    if (flags()&(!allFlags))
+    if (!areFlagsValid())
     {
         throw Error(tr("Unknown function flag encountered!"));
     }
@@ -747,9 +752,28 @@ void Function::check(
             throw Error(tr("Destructors cannot be explicit."));
         }
         break;
-    default:
-        throw Error(tr("Unknown function type encountered!"));
     }
+}
+
+
+bool Function::isAccessValid(
+) const
+{
+    return access() >= 0 && access() < UserAccess;
+}
+
+
+bool Function::isAssignmentValid(
+) const
+{
+    return assignment() >= 0 && assignment() < UserFunctionAssignment;
+}
+
+
+bool Function::isTypeValid(
+) const
+{
+    return type() >= 0 && type() < UserFunctionType;
 }
 
 

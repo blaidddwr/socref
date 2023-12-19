@@ -2450,6 +2450,24 @@ A logical block exception is thrown if the given set of property values do not m
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this instance's flag property is valid, containing nothing but valid flags.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>areFlagsValid</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_description>Returns the list of arguments for this function derived from its variable block children. Each string in the returned list represents an individual argument formatted correctly for use in code output.
 
 The &quot;only types&quot; flag determines if only the type is returned. If it is true then the name of each argument is omitted otherwise the name is included.</__p_description>
@@ -2620,7 +2638,7 @@ The &quot;only types&quot; flag determines if only the type is returned. If it i
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
+                        <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
                         <__p_description>Checks to see if this instance's current properties make a valid function.
@@ -2633,6 +2651,60 @@ A logical block exception is thrown if this instance's properties do not make a 
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this instance's access property value is valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isAccessValid</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this instance's assignment property value is valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isAssignmentValid</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this instance's type property value is valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isTypeValid</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is valid otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                     </Function>

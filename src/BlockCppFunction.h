@@ -555,6 +555,18 @@ class Function:
 
 
     /*!
+     * Determines if this instance's flag property is valid, containing nothing
+     * but valid flags.
+     *
+     * @return
+     * True if it is valid otherwise false.
+     */
+    protected:
+    virtual bool areFlagsValid(
+    ) const;
+
+
+    /*!
      * Returns the list of arguments for this function derived from its variable
      * block children. Each string in the returned list represents an individual
      * argument formatted correctly for use in code output.
@@ -668,7 +680,40 @@ class Function:
      */
     protected:
     virtual void check(
-    );
+    ) const;
+
+
+    /*!
+     * Determines if this instance's access property value is valid.
+     *
+     * @return
+     * True if it is valid otherwise false.
+     */
+    protected:
+    virtual bool isAccessValid(
+    ) const;
+
+
+    /*!
+     * Determines if this instance's assignment property value is valid.
+     *
+     * @return
+     * True if it is valid otherwise false.
+     */
+    protected:
+    virtual bool isAssignmentValid(
+    ) const;
+
+
+    /*!
+     * Determines if this instance's type property value is valid.
+     *
+     * @return
+     * True if it is valid otherwise false.
+     */
+    protected:
+    virtual bool isTypeValid(
+    ) const;
 
 
     /*!
