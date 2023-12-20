@@ -115,7 +115,7 @@ void Function::displayIconProperty(
         return true;
     };
     _block->set("test","void",MethodFunctionType,ProtectedAccess,NoFunctionAssignment,0);
-    verify(testIconProtected);
+    QVERIFY(verify(testIconProtected));
     _block->set("test","void",MethodFunctionType,PrivateAccess,NoFunctionAssignment,0);
     QVERIFY(verify(testIconPrivate));
     spy.clear();

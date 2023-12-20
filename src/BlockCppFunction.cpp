@@ -543,6 +543,9 @@ void Function::appendSignature(
     case OperatorFunctionType:
         words.append("operator"+name()+"("+arguments(true).join(",")+")");
         break;
+    default:
+        G_ASSERT(false);
+        break;
     }
 }
 

@@ -3913,6 +3913,48 @@ It extends the C++ function with the Qt concepts of signals and slots. It also i
                         <__p_explicit>0</__p_explicit>
                         <__p_final>1</__p_final>
                         <__p_invokable>0</__p_invokable>
+                        <__p_name>appendReturn</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_description>The words list.</__p_description>
+                            <__p_name>words</__p_name>
+                            <__p_type>QStringList&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>appendSignature</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_description>The words list.</__p_description>
+                            <__p_name>words</__p_name>
+                            <__p_type>QStringList&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
                         <__p_name>check</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
@@ -7602,6 +7644,132 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_final>0</__p_final>
                             <__p_invokable>0</__p_invokable>
                             <__p_name>scopeProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>cleanupTestCase</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                    </Class>
+                </Namespace>
+                <Namespace>
+                    <__p_description>This contains all C++/Qt block unit test classes.</__p_description>
+                    <__p_name>CppQt</__p_name>
+                    <Class>
+                        <__p_description>This is a Qt unit test class. It tests the function C++/Qt block class.</__p_description>
+                        <__p_name>Function</__p_name>
+                        <__p_parents>public Test::Base</__p_parents>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>initTestCase</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the display icon property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>displayIconProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the display text property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>displayTextProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is Qt invokable&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isQtInvokable</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is signal&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isSignal</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the &quot;is slot&quot; method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>isSlot</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
                             <__p_returnType>void</__p_returnType>

@@ -68,6 +68,18 @@ class Function:
 
 
     protected:
+    virtual void appendReturn(
+        QStringList& words
+    ) const override final;
+
+
+    protected:
+    virtual void appendSignature(
+        QStringList& words
+    ) const override final;
+
+
+    protected:
     virtual void check(
     ) const override final;
 

@@ -52,6 +52,40 @@ void Function::appendLeftFlags(
     {
         words.append("QInvokable");
     }
+    Cpp::Function::appendLeftFlags(words);
+}
+
+
+void Function::appendReturn(
+    QStringList& words
+) const
+{
+    switch (type())
+    {
+    case SignalFunctionType:
+    case SlotFunctionType:
+        words.append(returnType());
+        break;
+    default:
+        Cpp::Function::appendReturn(words);
+    }
+}
+
+
+void Function::appendSignature(
+    QStringList& words
+) const
+{
+    switch (type())
+    {
+    case SignalFunctionType:
+    case SlotFunctionType:
+        words.append(name()+"("+arguments(true).join(",")+")");
+        break;
+    default:
+        Cpp::Function::appendSignature(words);
+        break;
+    }
 }
 
 
