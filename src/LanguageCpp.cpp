@@ -4,6 +4,7 @@
 #include "BlockCppEnumeration.h"
 #include "BlockCppFunction.h"
 #include "BlockCppNamespace.h"
+#include "BlockCppVariable.h"
 #include "Exception.h"
 #include "ModelMetaBlock.h"
 namespace Language {
@@ -18,7 +19,7 @@ Cpp::Cpp(
 {
     appendBlock(new Model::Meta::Block(meta,ClassIndex,"class","Class",{FunctionIndex}));
     appendBlock(new Model::Meta::Block(meta,EnumerationIndex,"enumeration","Enumeration",{}));
-    appendBlock(new Model::Meta::Block(meta,FunctionIndex,"function","Function",{}));
+    appendBlock(new Model::Meta::Block(meta,FunctionIndex,"function","Function",{VariableIndex}));
     appendBlock(
         new Model::Meta::Block(
             meta
@@ -28,6 +29,7 @@ Cpp::Cpp(
             ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex}
         )
     );
+    appendBlock(new Model::Meta::Block(meta,VariableIndex,"variable","Variable",{}));
 }
 
 
@@ -61,6 +63,12 @@ Block::Abstract* Cpp::create(
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == NamespaceIndex);
         return new Namespace(meta,parent);
+    }
+    case VariableIndex:
+    {
+        auto meta = blockMeta(index);
+        G_ASSERT(meta->index() == VariableIndex);
+        return new Variable(meta,parent);
     }
     default:
         G_ASSERT(false);

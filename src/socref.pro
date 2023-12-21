@@ -8,6 +8,7 @@ SOURCES +=  Global.cpp \
             BlockCppEnumeration.cpp \
             BlockCppFunction.cpp \
             BlockCppNamespace.cpp \
+            BlockCppVariable.cpp \
             BlockCppQtFunction.cpp \
             BlockTestNode.cpp \
             ExceptionBase.cpp \
@@ -43,6 +44,7 @@ HEADERS +=  Global.h \
             BlockCppEnumeration.h \
             BlockCppFunction.h \
             BlockCppNamespace.h \
+            BlockCppVariable.h \
             BlockCppQt.h \
             BlockCppQtFunction.h \
             BlockTest.h \

@@ -52,7 +52,7 @@ void Cpp::createFunction(
 )
 {
     using namespace Block::Cpp;
-    static const QSet<int> allowList {};
+    static const QSet<int> allowList {VariableIndex};
     auto block = _language->create(FunctionIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),FunctionIndex);

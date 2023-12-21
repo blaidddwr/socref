@@ -13,6 +13,7 @@ namespace Cpp
     class Enumeration;
     class Function;
     class Namespace;
+    class Variable;
 
 
     /*!
@@ -87,6 +88,7 @@ namespace Cpp
         ,EnumerationIndex
         ,FunctionIndex
         ,NamespaceIndex
+        ,VariableIndex
     };
 }
 }

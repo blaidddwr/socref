@@ -1,6 +1,7 @@
 #include "BlockCppFunction.h"
 #include <QtGui>
 #include "BlockCppClass.h"
+#include "BlockCppVariable.h"
 #include "Exception.h"
 #include "ExceptionBlockLogical.h"
 #include "ExceptionBlockRead.h"
@@ -386,6 +387,35 @@ QString Function::typeString(
 }
 
 
+void Function::updateDisplayText(
+)
+{
+    QStringList left;
+    QStringList right;
+    if (!_templates.isEmpty())
+    {
+        right.append("template<"+_templates.join(",")+">");
+    }
+    appendLeftFlags(right);
+    appendReturn(right);
+    appendSignature(left);
+    appendRightSignatureFlags(left);
+    appendRightFlags(left);
+    appendAssignment(left);
+    if (!right.isEmpty())
+    {
+        left.append("->");
+        left += right;
+    }
+    auto displayText = left.join(" ");
+    if (_displayText != displayText)
+    {
+        _displayText = displayText;
+        emit displayTextChanged(displayText);
+    }
+}
+
+
 const QStringList& Function::accessStrings(
 ) const
 {
@@ -424,8 +454,24 @@ QStringList Function::arguments(
     bool onlyTypes
 ) const
 {
-    Q_UNUSED(onlyTypes);
-    return {};//TODO: need variable block to do this
+    QStringList ret;
+    for (int i = 0;i < size();i++)
+    {
+        if (auto var = qobject_cast<Variable*>(get(i)))
+        {
+            auto arg = var->type();
+            if (!onlyTypes)
+            {
+                arg += " "+var->name();
+                if (!var->assignment().isEmpty())
+                {
+                    arg += " = "+var->assignment();
+                }
+            }
+            ret.append(arg);
+        }
+    }
+    return ret;
 }
 
 
@@ -1425,35 +1471,6 @@ const QHash<QString,int>& Function::reverseFlagLookup(
         }
     }
     return *ret;
-}
-
-
-void Function::updateDisplayText(
-)
-{
-    QStringList left;
-    QStringList right;
-    if (!_templates.isEmpty())
-    {
-        right.append("template<"+_templates.join(",")+">");
-    }
-    appendLeftFlags(right);
-    appendReturn(right);
-    appendSignature(left);
-    appendRightSignatureFlags(left);
-    appendRightFlags(left);
-    appendAssignment(left);
-    if (!right.isEmpty())
-    {
-        left.append("->");
-        left += right;
-    }
-    auto displayText = left.join(" ");
-    if (_displayText != displayText)
-    {
-        _displayText = displayText;
-        emit displayTextChanged(displayText);
-    }
 }
 
 

@@ -556,6 +556,14 @@ class Function:
 
 
     /*!
+     * Forces this instance to update its display text property.
+     */
+    public:
+    void updateDisplayText(
+    );
+
+
+    /*!
      * Getter method.
      *
      * @return
@@ -1254,14 +1262,6 @@ class Function:
     private:
     const QHash<QString,int>& reverseFlagLookup(
     ) const;
-
-
-    /*!
-     * Updates this instance's display text property.
-     */
-    private:
-    void updateDisplayText(
-    );
 
 
     /*!
