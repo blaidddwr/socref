@@ -36,17 +36,13 @@ QIcon Class::displayIcon(
 
 
 bool Class::isAbstract(
-    const Block::Abstract* ignore
 ) const
 {
     for (int i = 0;i < size();i++)
     {
         if (auto f = qobject_cast<Function*>(get(i)))
         {
-            if (
-                f != ignore
-                && f->isAbstract()
-            )
+            if (f->isAbstract())
             {
                 return true;
             }
@@ -57,17 +53,13 @@ bool Class::isAbstract(
 
 
 bool Class::isVirtual(
-    const Block::Abstract* ignore
 ) const
 {
     for (int i = 0;i < size();i++)
     {
         if (auto f = qobject_cast<Function*>(get(i)))
         {
-            if (
-                f != ignore
-                && f->isVirtual()
-            )
+            if (f->isVirtual())
             {
                 return true;
             }
@@ -157,15 +149,14 @@ const QStringList& Class::templates(
 
 
 void Class::updateDisplayIcon(
-    const Block::Abstract* ignore
 )
 {
-    if (isAbstract(ignore))
+    if (isAbstract())
     {
         setDisplayIcon(iconAbstract());
 
     }
-    else if (isVirtual(ignore))
+    else if (isVirtual())
     {
         setDisplayIcon(iconVirtual());
     }

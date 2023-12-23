@@ -27,6 +27,7 @@ SOURCES +=  Global.cpp \
             TestBlockCppEnumeration.cpp \
             TestBlockCppFunction.cpp \
             TestBlockCppNamespace.cpp \
+            TestBlockCppVariable.cpp \
             TestBlockCppQtFunction.cpp \
             TestFactoryLanguage.cpp \
             TestLanguageAbstract.cpp \
@@ -80,6 +81,7 @@ HEADERS +=  Global.h \
             TestBlockCppEnumeration.h \
             TestBlockCppFunction.h \
             TestBlockCppNamespace.h \
+            TestBlockCppVariable.h \
             TestBlockCppQt.h \
             TestBlockCppQtFunction.h \
             TestFactory.h \

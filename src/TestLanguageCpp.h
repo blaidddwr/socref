@@ -58,6 +58,14 @@ class Cpp:
 
 
     /*!
+     * Tests creation of a variable block.
+     */
+    private slots:
+    void createVariable(
+    );
+
+
+    /*!
      * Tests the root index interface.
      */
     private slots:

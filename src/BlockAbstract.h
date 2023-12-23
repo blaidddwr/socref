@@ -384,20 +384,45 @@ class Abstract:
 
 
     /*!
-     * Called right after this block has been added as a child to its new parent
-     * block.
+     * Called right after this instance has been added at the given index as a
+     * child to its new parent block.
+     *
+     * @param index
+     *        The index.
      */
     protected:
     virtual void addEvent(
+        int index
     );
 
 
     /*!
-     * Called right before it is removed as a child from its current parent
-     * block.
+     * Called right after this instance has been moved as a child in its parent
+     * from the given from index to the given to index.
+     *
+     * @param from
+     *        The from index.
+     *
+     * @param to
+     *        The to index.
+     */
+    protected:
+    virtual void moveEvent(
+        int from
+        ,int to
+    );
+
+
+    /*!
+     * Called right after this instance has been removed at the given index as a
+     * child from its current parent block and before its parent is set to null.
+     *
+     * @param index
+     *        The index.
      */
     protected:
     virtual void removeEvent(
+        int index
     );
 
 

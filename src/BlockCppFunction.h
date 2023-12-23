@@ -577,6 +577,7 @@ class Function:
 
     protected:
     virtual void addEvent(
+        int index
     ) override final;
 
 
@@ -770,6 +771,7 @@ class Function:
 
     protected:
     virtual void removeEvent(
+        int index
     ) override final;
 
 

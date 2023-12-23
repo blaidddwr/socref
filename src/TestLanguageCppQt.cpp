@@ -7,6 +7,7 @@
 #include "ModelMetaLanguage.h"
 namespace Test {
 namespace Language {
+using namespace Block::CppQt;
 
 
 void CppQt::initTestCase(
@@ -21,7 +22,6 @@ void CppQt::initTestCase(
 void CppQt::createClass(
 )
 {
-    using namespace Block::CppQt;
     static const QSet<int> allowList {FunctionIndex};
     auto block = _language->create(ClassIndex,this);
     auto meta = block->meta();
@@ -36,7 +36,6 @@ void CppQt::createClass(
 void CppQt::createEnumeration(
 )
 {
-    using namespace Block::CppQt;
     static const QSet<int> allowList {};
     auto block = _language->create(EnumerationIndex,this);
     auto meta = block->meta();
@@ -48,10 +47,23 @@ void CppQt::createEnumeration(
 }
 
 
+void CppQt::createFunction(
+)
+{
+    static const QSet<int> allowList {};
+    auto block = _language->create(FunctionIndex,this);
+    auto meta = block->meta();
+    QCOMPARE(meta->index(),FunctionIndex);
+    QCOMPARE(meta->name(),"function");
+    QCOMPARE(meta->label(),"Function");
+    QCOMPARE(meta->allowList(),allowList);
+    QCOMPARE(meta->language(),_meta);
+}
+
+
 void CppQt::createNamespace(
 )
 {
-    using namespace Block::CppQt;
     static const QSet<int> allowList {ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex};
     auto block = _language->create(NamespaceIndex,this);
     auto meta = block->meta();
@@ -66,7 +78,7 @@ void CppQt::createNamespace(
 void CppQt::rootIndex(
 )
 {
-    QCOMPARE(_language->rootIndex(),Block::CppQt::NamespaceIndex);
+    QCOMPARE(_language->rootIndex(),NamespaceIndex);
 }
 
 

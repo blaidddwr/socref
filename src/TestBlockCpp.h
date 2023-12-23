@@ -13,6 +13,7 @@ namespace Cpp
     class Enumeration;
     class Function;
     class Namespace;
+    class Variable;
 }
 }
 }

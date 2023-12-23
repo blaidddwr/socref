@@ -7,6 +7,7 @@
 #include "ModelMetaLanguage.h"
 namespace Test {
 namespace Language {
+using namespace Block::Cpp;
 
 
 void Cpp::initTestCase(
@@ -21,7 +22,6 @@ void Cpp::initTestCase(
 void Cpp::createClass(
 )
 {
-    using namespace Block::Cpp;
     static const QSet<int> allowList {FunctionIndex};
     auto block = _language->create(ClassIndex,this);
     auto meta = block->meta();
@@ -36,7 +36,6 @@ void Cpp::createClass(
 void Cpp::createEnumeration(
 )
 {
-    using namespace Block::Cpp;
     static const QSet<int> allowList {};
     auto block = _language->create(EnumerationIndex,this);
     auto meta = block->meta();
@@ -51,7 +50,6 @@ void Cpp::createEnumeration(
 void Cpp::createFunction(
 )
 {
-    using namespace Block::Cpp;
     static const QSet<int> allowList {VariableIndex};
     auto block = _language->create(FunctionIndex,this);
     auto meta = block->meta();
@@ -66,13 +64,26 @@ void Cpp::createFunction(
 void Cpp::createNamespace(
 )
 {
-    using namespace Block::Cpp;
     static const QSet<int> allowList {ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex};
     auto block = _language->create(NamespaceIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),NamespaceIndex);
     QCOMPARE(meta->name(),"namespace");
     QCOMPARE(meta->label(),"Namespace");
+    QCOMPARE(meta->allowList(),allowList);
+    QCOMPARE(meta->language(),_meta);
+}
+
+
+void Cpp::createVariable(
+)
+{
+    static const QSet<int> allowList {};
+    auto block = _language->create(VariableIndex,this);
+    auto meta = block->meta();
+    QCOMPARE(meta->index(),VariableIndex);
+    QCOMPARE(meta->name(),"variable");
+    QCOMPARE(meta->label(),"Variable");
     QCOMPARE(meta->allowList(),allowList);
     QCOMPARE(meta->language(),_meta);
 }

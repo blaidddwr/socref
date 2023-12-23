@@ -2,13 +2,16 @@
 #include <QtTest>
 #include "BlockCppClass.h"
 #include "BlockCppFunction.h"
+#include "BlockCppVariable.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
+#include "TestBase.t.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
 using ClassBlock = ::Block::Cpp::Class;
 using FunctionBlock = ::Block::Cpp::Function;
+using VariableBlock = ::Block::Cpp::Variable;
 using namespace ::Block::Cpp;
 
 
@@ -282,6 +285,22 @@ void Function::displayTextProperty(
     verify("~class123() -> virtual");
     _block->set("++","void",OperatorFunctionType,PublicAccess,NoFunctionAssignment,0);
     verify("operator++() -> void");
+    _block->set("main","int",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    spy.clear();
+    auto arg1 = create<VariableBlock>(VariableIndex);
+    auto arg2 = create<VariableBlock>(VariableIndex);
+    arg1->setType("int");
+    arg2->setType("char**");
+    _block->append(arg1);
+    verify("main(int) -> int");
+    _block->append(arg2);
+    verify("main(int,char**) -> int");
+    _block->move(1,0);
+    verify("main(char**,int) -> int");
+    delete arg1;
+    verify("main(char**) -> int");
+    delete arg2;
+    verify("main() -> int");
 }
 
 

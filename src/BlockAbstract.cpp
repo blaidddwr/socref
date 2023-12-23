@@ -33,7 +33,7 @@ void Abstract::append(
     block->setParent(this);
     connect(block,&QObject::destroyed,this,&Abstract::onChildDestroyed);
     _children.append(block);
-    block->addEvent();
+    block->addEvent(_children.size()-1);
 }
 
 
@@ -177,7 +177,7 @@ void Abstract::insert(
     block->setParent(this);
     connect(block,&QObject::destroyed,this,&Abstract::onChildDestroyed);
     _children.insert(index,block);
-    block->addEvent();
+    block->addEvent(index);
 }
 
 
@@ -199,6 +199,7 @@ void Abstract::move(
     G_ASSERT(to >= 0);
     G_ASSERT(to < _children.size());
     _children.move(from,to);
+    _children.at(from)->moveEvent(from,to);
 }
 
 
@@ -215,9 +216,9 @@ Block::Abstract* Abstract::take(
 {
     G_ASSERT(index >= 0);
     G_ASSERT(index < _children.size());
-    _children.at(index)->removeEvent();
     auto ret = _children.takeAt(index);
     disconnect(ret,&QObject::destroyed,this,&Abstract::onChildDestroyed);
+    ret->removeEvent(index);
     ret->setParent(nullptr);
     return ret;
 }
@@ -302,14 +303,28 @@ void Abstract::toXml(
 
 
 void Abstract::addEvent(
+    int index
 )
 {
+    Q_UNUSED(index);
+}
+
+
+void Abstract::moveEvent(
+    int from
+    ,int to
+)
+{
+    Q_UNUSED(from);
+    Q_UNUSED(to);
 }
 
 
 void Abstract::removeEvent(
+    int index
 )
 {
+    Q_UNUSED(index);
 }
 
 

@@ -52,6 +52,11 @@ class Variable:
     );
 
 
+    public:
+    virtual ~Variable(
+    ) override;
+
+
     /*!
      * Getter method.
      *
@@ -71,6 +76,18 @@ class Variable:
 
     public:
     virtual QIcon displayIcon(
+    ) const override final;
+
+
+    public:
+    virtual void loadFromMap(
+        const QMap<QString,QVariant>& map
+        ,int version
+    ) override final;
+
+
+    public:
+    virtual QMap<QString,QVariant> saveToMap(
     ) const override final;
 
 
@@ -111,11 +128,20 @@ class Variable:
 
     protected:
     virtual void addEvent(
+        int index
     ) override final;
 
 
     protected:
+    virtual void moveEvent(
+        int from
+        ,int to
+    );
+
+
+    protected:
     virtual void removeEvent(
+        int index
     ) override final;
 };
 }

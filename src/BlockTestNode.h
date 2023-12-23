@@ -14,8 +14,10 @@ namespace Test {
  * 
  * Its single property is name. The name is self-explanatory.
  * 
- * Nodes have an add and remove count. This keeps track of how many times the
- * add and remove events have been called by its parent abstract block class.
+ * Nodes have an add, remove, and move count. This keeps track of how many times
+ * the add and remove events have been called by its parent abstract block
+ * class. It also has getter methods for getting the last indexes of said
+ * interfaces.
  * 
  * The display icon property can be set with an appropriate setter method so it
  * can be unit tested with abstract block.
@@ -27,6 +29,11 @@ class Node:
     QIcon* _icon {nullptr};
     QString _name;
     int _addCount {0};
+    int _lastAddIndex {-1};
+    int _moveCount {0};
+    int _lastMoveFromIndex {-1};
+    int _lastMoveToIndex {-1};
+    int _lastRemoveIndex {-1};
     int _removeCount {0};
     public:
     using Block::Abstract::Abstract;
@@ -68,10 +75,43 @@ class Node:
      * Getter method.
      *
      * @return
-     * This block's name property.
+     * The index argument from the last add event interface call.
      */
     public:
-    const QString& name(
+    int lastAddIndex(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The from index argument from the last move event interface call.
+     */
+    public:
+    int lastMoveFromIndex(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The to index argument from the last move event interface call.
+     */
+    public:
+    int lastMoveToIndex(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The index argument from the last remove event interface call.
+     */
+    public:
+    int lastRemoveIndex(
     ) const;
 
 
@@ -80,6 +120,28 @@ class Node:
         const QMap<QString,QVariant>& map
         ,int version
     ) override final;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This node's move count.
+     */
+    public:
+    int moveCount(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This block's name property.
+     */
+    public:
+    const QString& name(
+    ) const;
 
 
     /*!
@@ -98,6 +160,14 @@ class Node:
      */
     public:
     void resetAdd(
+    );
+
+
+    /*!
+     * Resets this node's move count to 0.
+     */
+    public:
+    void resetMove(
     );
 
 
@@ -145,12 +215,21 @@ class Node:
 
     protected:
     virtual void addEvent(
-    ) override;
+        int index
+    ) override final;
+
+
+    protected:
+    virtual void moveEvent(
+        int from
+        ,int to
+    ) override final;
 
 
     protected:
     virtual void removeEvent(
-    ) override;
+        int index
+    ) override final;
 };
 }
 }

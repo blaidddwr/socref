@@ -1,6 +1,7 @@
 #include "BlockCppVariable.h"
 #include <QtGui>
 #include "BlockCppFunction.h"
+#include "Exception.h"
 namespace Block {
 namespace Cpp {
 
@@ -11,6 +12,18 @@ Variable::Variable(
 ):
     Base("variable",meta,parent)
 {
+}
+
+
+Variable::~Variable(
+)
+{
+    if (auto p = qobject_cast<Function*>(parent()))
+    {
+        auto index = p->indexOf(this);
+        G_ASSERT(index != -1);
+        p->take(index);
+    }
 }
 
 
@@ -34,6 +47,30 @@ QIcon Variable::displayIcon(
 ) const
 {
     return QIcon(":/cpp/variable.svg");
+}
+
+
+void Variable::loadFromMap(
+    const QMap<QString,QVariant>& map
+    ,int version
+)
+{
+    Base::loadFromMap(map,version);
+    _type = map.value("type").toString();
+    _assignment = map.value("assignment").toString();
+}
+
+
+QMap<QString,QVariant> Variable::saveToMap(
+) const
+{
+    auto ret = Base::saveToMap();
+    ret.insert("type",_type);
+    if (!_assignment.isEmpty())
+    {
+        ret.insert("assignment",_assignment);
+    }
+    return ret;
 }
 
 
@@ -73,8 +110,24 @@ const QString& Variable::type(
 
 
 void Variable::addEvent(
+    int index
 )
 {
+    Q_UNUSED(index);
+    if (auto p = qobject_cast<Function*>(parent()))
+    {
+        p->updateDisplayText();
+    }
+}
+
+
+void Variable::moveEvent(
+    int from
+    ,int to
+)
+{
+    Q_UNUSED(from);
+    Q_UNUSED(to);
     if (auto p = qobject_cast<Function*>(parent()))
     {
         p->updateDisplayText();
@@ -83,8 +136,10 @@ void Variable::addEvent(
 
 
 void Variable::removeEvent(
+    int index
 )
 {
+    Q_UNUSED(index);
     if (auto p = qobject_cast<Function*>(parent()))
     {
         p->updateDisplayText();

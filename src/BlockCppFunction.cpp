@@ -26,7 +26,9 @@ Function::~Function(
 {
     if (auto p = qobject_cast<Class*>(parent()))
     {
-        p->updateDisplayIcon(this);
+        auto index = p->indexOf(this);
+        G_ASSERT(index != -1);
+        p->take(index);
     }
 }
 
@@ -429,8 +431,10 @@ const QStringList& Function::accessStrings(
 
 
 void Function::addEvent(
+    int index
 )
 {
+    Q_UNUSED(index);
     if (auto p = qobject_cast<Class*>(parent()))
     {
         if (_type == RegularFunctionType)
@@ -739,11 +743,13 @@ void Function::onNameChanged(
 
 
 void Function::removeEvent(
+    int index
 )
 {
+    Q_UNUSED(index);
     if (auto p = qobject_cast<Class*>(parent()))
     {
-        p->updateDisplayIcon(this);
+        p->updateDisplayIcon();
         disconnect(p,&Base::nameChanged,this,&Function::onClassNameChanged);
     }
 }

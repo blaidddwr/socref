@@ -48,10 +48,31 @@ QString Node::displayText(
 }
 
 
-const QString& Node::name(
+int Node::lastAddIndex(
 ) const
 {
-    return _name;
+    return _lastAddIndex;
+}
+
+
+int Node::lastMoveFromIndex(
+) const
+{
+    return _lastMoveFromIndex;
+}
+
+
+int Node::lastMoveToIndex(
+) const
+{
+    return _lastMoveToIndex;
+}
+
+
+int Node::lastRemoveIndex(
+) const
+{
+    return _lastRemoveIndex;
 }
 
 
@@ -62,6 +83,20 @@ void Node::loadFromMap(
 {
     Q_UNUSED(version);
     _name = map.value("name").toString();
+}
+
+
+int Node::moveCount(
+) const
+{
+    return _moveCount;
+}
+
+
+const QString& Node::name(
+) const
+{
+    return _name;
 }
 
 
@@ -76,6 +111,13 @@ void Node::resetAdd(
 )
 {
     _addCount = 0;
+}
+
+
+void Node::resetMove(
+)
+{
+    _moveCount = 0;
 }
 
 
@@ -145,15 +187,30 @@ void Node::setName(
 
 
 void Node::addEvent(
+    int index
 )
 {
+    _lastAddIndex = index;
     _addCount++;
 }
 
 
-void Node::removeEvent(
+void Node::moveEvent(
+    int from
+    ,int to
 )
 {
+    _lastMoveFromIndex = from;
+    _lastMoveToIndex = to;
+    _moveCount++;
+}
+
+
+void Node::removeEvent(
+    int index
+)
+{
+    _lastRemoveIndex = index;
     _removeCount++;
 }
 }

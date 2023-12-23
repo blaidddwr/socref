@@ -66,36 +66,24 @@ class Class:
 
 
     /*!
-     * Determines if this class is abstract. The given ignore pointer is used to
-     * ignore any matching child function block in determining if this class is
-     * abstract.
-     *
-     * @param ignore
-     *        The ignore pointer.
+     * Determines if this class is abstract.
      *
      * @return
      * True if it is abstract otherwise false.
      */
     public:
     bool isAbstract(
-        const Block::Abstract* ignore = nullptr
     ) const;
 
 
     /*!
-     * Determines if this class is virtual. The given ignore pointer is used to
-     * ignore any matching child function block in determining if this class is
-     * virtual.
-     *
-     * @param ignore
-     *        The ignore pointer.
+     * Determines if this class is virtual.
      *
      * @return
      * True if it is virtual otherwise false.
      */
     public:
     bool isVirtual(
-        const Block::Abstract* ignore = nullptr
     ) const;
 
 
@@ -158,16 +146,10 @@ class Class:
 
 
     /*!
-     * Forces this instance to update its display icon property. The given
-     * ignore pointer is used to ignore any matching child function block in
-     * determining if this class is concrete, virtual, or abstract.
-     *
-     * @param ignore
-     *        The ignore pointer.
+     * Forces this instance to update its display icon property.
      */
     public:
     void updateDisplayIcon(
-        const Block::Abstract* ignore = nullptr
     );
 
 

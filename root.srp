@@ -555,7 +555,7 @@ A logical block or file system exception is thrown if an error is encountered.</
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Called right after this block has been added as a child to its new parent block.</__p_description>
+                    <__p_description>Called right after this instance has been added at the given index as a child to its new parent block.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -565,6 +565,11 @@ A logical block or file system exception is thrown if an error is encountered.</
                     <__p_returnType>void</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_description>The index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -572,7 +577,34 @@ A logical block or file system exception is thrown if an error is encountered.</
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Called right before it is removed as a child from its current parent block.</__p_description>
+                    <__p_description>Called right after this instance has been moved as a child in its parent from the given from index to the given to index.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>moveEvent</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_description>The from index.</__p_description>
+                        <__p_name>from</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The to index.</__p_description>
+                        <__p_name>to</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called right after this instance has been removed at the given index as a child from its current parent block and before its parent is set to null.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -582,6 +614,11 @@ A logical block or file system exception is thrown if an error is encountered.</
                     <__p_returnType>void</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_description>The index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -1116,7 +1153,7 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this class is abstract. The given ignore pointer is used to ignore any matching child function block in determining if this class is abstract.</__p_description>
+                        <__p_description>Determines if this class is abstract.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -1127,12 +1164,6 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_assignment>nullptr</__p_assignment>
-                            <__p_description>The ignore pointer.</__p_description>
-                            <__p_name>ignore</__p_name>
-                            <__p_type>const Block::Abstract*</__p_type>
-                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -1140,7 +1171,7 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this class is virtual. The given ignore pointer is used to ignore any matching child function block in determining if this class is virtual.</__p_description>
+                        <__p_description>Determines if this class is virtual.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -1151,12 +1182,6 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_assignment>nullptr</__p_assignment>
-                            <__p_description>The ignore pointer.</__p_description>
-                            <__p_name>ignore</__p_name>
-                            <__p_type>const Block::Abstract*</__p_type>
-                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -1284,7 +1309,7 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Forces this instance to update its display icon property. The given ignore pointer is used to ignore any matching child function block in determining if this class is concrete, virtual, or abstract.</__p_description>
+                        <__p_description>Forces this instance to update its display icon property.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -1294,12 +1319,6 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_assignment>nullptr</__p_assignment>
-                            <__p_description>The ignore pointer.</__p_description>
-                            <__p_name>ignore</__p_name>
-                            <__p_type>const Block::Abstract*</__p_type>
-                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -2498,6 +2517,10 @@ A logical block exception is thrown if the given set of property values do not m
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>index</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -2815,6 +2838,10 @@ A logical block exception is thrown if this instance's properties are not valid.
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>index</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -3877,6 +3904,22 @@ Its properties are type and assignment. Both are self-explanatory.</__p_descript
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>~^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -3926,6 +3969,46 @@ Its properties are type and assignment. Both are self-explanatory.</__p_descript
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
                         <__p_returnType>QIcon</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>loadFromMap</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>map</__p_name>
+                            <__p_type>const QMap&lt;QString,QVariant&gt;&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>saveToMap</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QMap&lt;QString,QVariant&gt;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                     </Function>
@@ -4006,6 +4089,34 @@ Its properties are type and assignment. Both are self-explanatory.</__p_descript
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>index</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>moveEvent</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>from</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>to</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -4022,6 +4133,10 @@ Its properties are type and assignment. Both are self-explanatory.</__p_descript
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>index</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
                     </Function>
                 </Class>
             </Namespace>
@@ -4467,7 +4582,7 @@ A logical block exception is thrown if this instance's properties are not valid.
 
 Its single property is name. The name is self-explanatory.
 
-Nodes have an add and remove count. This keeps track of how many times the add and remove events have been called by its parent abstract block class.
+Nodes have an add, remove, and move count. This keeps track of how many times the add and remove events have been called by its parent abstract block class. It also has getter methods for getting the last indexes of said interfaces.
 
 The display icon property can be set with an appropriate setter method so it can be unit tested with abstract block.</__p_description>
                     <__p_name>Node</__p_name>
@@ -4569,11 +4684,65 @@ The display icon property can be set with an appropriate setter method so it can
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>name</__p_name>
+                        <__p_name>lastAddIndex</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This block's name property.</__p_returnDescription>
-                        <__p_returnType>const QString&amp;</__p_returnType>
+                        <__p_returnDescription>The index argument from the last add event interface call.</__p_returnDescription>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>lastMoveFromIndex</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The from index argument from the last move event interface call.</__p_returnDescription>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>lastMoveToIndex</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The to index argument from the last move event interface call.</__p_returnDescription>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>lastRemoveIndex</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The index argument from the last remove event interface call.</__p_returnDescription>
+                        <__p_returnType>int</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
@@ -4611,6 +4780,42 @@ The display icon property can be set with an appropriate setter method so it can
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
+                        <__p_name>moveCount</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This node's move count.</__p_returnDescription>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>name</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This block's name property.</__p_returnDescription>
+                        <__p_returnType>const QString&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
                         <__p_name>removeCount</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
@@ -4630,6 +4835,23 @@ The display icon property can be set with an appropriate setter method so it can
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>resetAdd</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Resets this node's move count to 0.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>resetMove</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
@@ -4736,7 +4958,7 @@ The display icon property can be set with an appropriate setter method so it can
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
                         <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
+                        <__p_final>1</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>addEvent</__p_name>
                         <__p_noexcept>0</__p_noexcept>
@@ -4744,6 +4966,10 @@ The display icon property can be set with an appropriate setter method so it can
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>index</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -4752,7 +4978,31 @@ The display icon property can be set with an appropriate setter method so it can
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
                         <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>moveEvent</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>from</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>to</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>removeEvent</__p_name>
                         <__p_noexcept>0</__p_noexcept>
@@ -4760,6 +5010,10 @@ The display icon property can be set with an appropriate setter method so it can
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>index</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
                     </Function>
                 </Class>
             </Namespace>
@@ -7892,6 +8146,128 @@ A read project exception is thrown if any error is encountered.</__p_description
                             <__p_virtual>0</__p_virtual>
                         </Function>
                     </Class>
+                    <Class>
+                        <__p_description>This is a Qt unit test class. It tests the variable C++ block class.</__p_description>
+                        <__p_name>Variable</__p_name>
+                        <__p_parents>public Test::Base</__p_parents>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>initTestCase</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the type property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>assignmentProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the display icon property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>displayIconProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the load from map interface.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>loadFromMap</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the save to map interface.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>saveToMap</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Tests the type property.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>typeProperty</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>cleanupTestCase</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                    </Class>
                 </Namespace>
                 <Namespace>
                     <__p_description>This contains all C++/Qt block unit test classes.</__p_description>
@@ -8349,6 +8725,23 @@ A read project exception is thrown if any error is encountered.</__p_description
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests creation of a variable block.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>createVariable</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_description>Tests the root index interface.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
@@ -8425,6 +8818,23 @@ A read project exception is thrown if any error is encountered.</__p_description
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>createEnumeration</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests creation of a function block.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>createFunction</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
