@@ -199,7 +199,7 @@ void Abstract::move(
     G_ASSERT(to >= 0);
     G_ASSERT(to < _children.size());
     _children.move(from,to);
-    _children.at(from)->moveEvent(from,to);
+    _children.at(to)->moveEvent(from,to);
 }
 
 
