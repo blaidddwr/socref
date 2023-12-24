@@ -4,6 +4,7 @@
 #include "TestBlockAbstract.h"
 #include "TestBlockCppClass.h"
 #include "TestBlockCppEnumeration.h"
+#include "TestBlockCppException.h"
 #include "TestBlockCppFunction.h"
 #include "TestBlockCppNamespace.h"
 #include "TestBlockCppQtFunction.h"
@@ -95,6 +96,7 @@ void initialize(
         {"Block",new Block::Abstract}
         ,{"BlockCppClass",new Block::Cpp::Class}
         ,{"BlockCppEnumeration",new Block::Cpp::Enumeration}
+        ,{"BlockCppException",new Block::Cpp::Exception}
         ,{"BlockCppFunction",new Block::Cpp::Function}
         ,{"BlockCppNamespace",new Block::Cpp::Namespace}
         ,{"BlockCppVariable",new Block::Cpp::Variable}

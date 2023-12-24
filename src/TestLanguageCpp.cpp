@@ -47,10 +47,24 @@ void Cpp::createEnumeration(
 }
 
 
+void Cpp::createException(
+)
+{
+    static const QSet<int> allowList {};
+    auto block = _language->create(ExceptionIndex,this);
+    auto meta = block->meta();
+    QCOMPARE(meta->index(),ExceptionIndex);
+    QCOMPARE(meta->name(),"exception");
+    QCOMPARE(meta->label(),"Exception");
+    QCOMPARE(meta->allowList(),allowList);
+    QCOMPARE(meta->language(),_meta);
+}
+
+
 void Cpp::createFunction(
 )
 {
-    static const QSet<int> allowList {VariableIndex};
+    static const QSet<int> allowList {ExceptionIndex,VariableIndex};
     auto block = _language->create(FunctionIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),FunctionIndex);

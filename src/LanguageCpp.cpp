@@ -2,6 +2,7 @@
 #include "BlockCpp.h"
 #include "BlockCppClass.h"
 #include "BlockCppEnumeration.h"
+#include "BlockCppException.h"
 #include "BlockCppFunction.h"
 #include "BlockCppNamespace.h"
 #include "BlockCppVariable.h"
@@ -19,7 +20,12 @@ Cpp::Cpp(
 {
     appendBlock(new Model::Meta::Block(meta,ClassIndex,"class","Class",{FunctionIndex}));
     appendBlock(new Model::Meta::Block(meta,EnumerationIndex,"enumeration","Enumeration",{}));
-    appendBlock(new Model::Meta::Block(meta,FunctionIndex,"function","Function",{VariableIndex}));
+    appendBlock(new Model::Meta::Block(meta,ExceptionIndex,"exception","Exception",{}));
+    appendBlock(
+        new Model::Meta::Block(
+            meta,FunctionIndex,"function","Function",{ExceptionIndex,VariableIndex}
+        )
+    );
     appendBlock(
         new Model::Meta::Block(
             meta
@@ -38,6 +44,7 @@ Block::Abstract* Cpp::create(
     ,QObject* parent
 ) const
 {
+    using Exception = Block::Cpp::Exception;
     switch (index)
     {
     case ClassIndex:
@@ -51,6 +58,12 @@ Block::Abstract* Cpp::create(
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == EnumerationIndex);
         return new Enumeration(meta,parent);
+    }
+    case ExceptionIndex:
+    {
+        auto meta = blockMeta(index);
+        G_ASSERT(meta->index() == ExceptionIndex);
+        return new Exception(meta,parent);
     }
     case FunctionIndex:
     {

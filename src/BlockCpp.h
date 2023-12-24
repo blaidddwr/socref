@@ -11,6 +11,7 @@ namespace Cpp
     class Base;
     class Class;
     class Enumeration;
+    class Exception;
     class Function;
     class Namespace;
     class Variable;
@@ -86,6 +87,7 @@ namespace Cpp
     {
         ClassIndex
         ,EnumerationIndex
+        ,ExceptionIndex
         ,FunctionIndex
         ,NamespaceIndex
         ,VariableIndex

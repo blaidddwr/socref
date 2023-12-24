@@ -6,6 +6,7 @@ SOURCES +=  Global.cpp \
             BlockCppBase.cpp \
             BlockCppClass.cpp \
             BlockCppEnumeration.cpp \
+            BlockCppException.cpp \
             BlockCppFunction.cpp \
             BlockCppNamespace.cpp \
             BlockCppVariable.cpp \
@@ -25,6 +26,7 @@ SOURCES +=  Global.cpp \
             TestBlockAbstract.cpp \
             TestBlockCppClass.cpp \
             TestBlockCppEnumeration.cpp \
+            TestBlockCppException.cpp \
             TestBlockCppFunction.cpp \
             TestBlockCppNamespace.cpp \
             TestBlockCppVariable.cpp \
@@ -43,6 +45,7 @@ HEADERS +=  Global.h \
             BlockCppBase.h \
             BlockCppClass.h \
             BlockCppEnumeration.h \
+            BlockCppException.h \
             BlockCppFunction.h \
             BlockCppNamespace.h \
             BlockCppVariable.h \
@@ -79,6 +82,7 @@ HEADERS +=  Global.h \
             TestBlockCpp.h \
             TestBlockCppClass.h \
             TestBlockCppEnumeration.h \
+            TestBlockCppException.h \
             TestBlockCppFunction.h \
             TestBlockCppNamespace.h \
             TestBlockCppVariable.h \

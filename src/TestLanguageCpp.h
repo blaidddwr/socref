@@ -42,6 +42,14 @@ class Cpp:
 
 
     /*!
+     * Tests creation of an exception block.
+     */
+    private slots:
+    void createException(
+    );
+
+
+    /*!
      * Tests creation of a function block.
      */
     private slots:
