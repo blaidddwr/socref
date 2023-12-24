@@ -50,7 +50,7 @@ void CppQt::createEnumeration(
 void CppQt::createFunction(
 )
 {
-    static const QSet<int> allowList {};
+    static const QSet<int> allowList {VariableIndex};
     auto block = _language->create(FunctionIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),FunctionIndex);
@@ -70,6 +70,20 @@ void CppQt::createNamespace(
     QCOMPARE(meta->index(),NamespaceIndex);
     QCOMPARE(meta->name(),"namespace");
     QCOMPARE(meta->label(),"Namespace");
+    QCOMPARE(meta->allowList(),allowList);
+    QCOMPARE(meta->language(),_meta);
+}
+
+
+void CppQt::createVariable(
+)
+{
+    static const QSet<int> allowList {};
+    auto block = _language->create(VariableIndex,this);
+    auto meta = block->meta();
+    QCOMPARE(meta->index(),VariableIndex);
+    QCOMPARE(meta->name(),"variable");
+    QCOMPARE(meta->label(),"Variable");
     QCOMPARE(meta->allowList(),allowList);
     QCOMPARE(meta->language(),_meta);
 }

@@ -4,6 +4,7 @@
 #include "BlockCppEnumeration.h"
 #include "BlockCppNamespace.h"
 #include "BlockCppQtFunction.h"
+#include "BlockCppVariable.h"
 #include "Exception.h"
 #include "ModelMetaBlock.h"
 namespace Language {
@@ -11,6 +12,7 @@ using namespace Block::CppQt;
 using Class = Block::Cpp::Class;
 using Enumeration = Block::Cpp::Enumeration;
 using Namespace = Block::Cpp::Namespace;
+using Variable = Block::Cpp::Variable;
 
 
 CppQt::CppQt(
@@ -21,7 +23,7 @@ CppQt::CppQt(
 {
     appendBlock(new Model::Meta::Block(meta,ClassIndex,"class","Class",{FunctionIndex}));
     appendBlock(new Model::Meta::Block(meta,EnumerationIndex,"enumeration","Enumeration",{}));
-    appendBlock(new Model::Meta::Block(meta,FunctionIndex,"function","Function",{}));
+    appendBlock(new Model::Meta::Block(meta,FunctionIndex,"function","Function",{VariableIndex}));
     appendBlock(
         new Model::Meta::Block(
             meta
@@ -31,6 +33,7 @@ CppQt::CppQt(
             ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex}
         )
     );
+    appendBlock(new Model::Meta::Block(meta,VariableIndex,"variable","Variable",{}));
 }
 
 
@@ -64,6 +67,12 @@ Block::Abstract* CppQt::create(
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == NamespaceIndex);
         return new Namespace(meta,parent);
+    }
+    case VariableIndex:
+    {
+        auto meta = blockMeta(index);
+        G_ASSERT(meta->index() == VariableIndex);
+        return new Variable(meta,parent);
     }
     default:
         G_ASSERT(false);
