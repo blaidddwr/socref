@@ -686,6 +686,28 @@ void Function::saveToMap(
 }
 
 
+void Function::scopeName(
+)
+{
+    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QCOMPARE(_block->scope(),"test()");
+    auto arg1 = create<VariableBlock>(VariableIndex);
+    auto arg2 = create<VariableBlock>(VariableIndex);
+    arg1->setType("int");
+    arg2->setType("char**");
+    _block->append(arg1);
+    QCOMPARE(_block->scope(),"test(int)");
+    _block->append(arg2);
+    QCOMPARE(_block->scope(),"test(int,char**)");
+    _block->move(1,0);
+    QCOMPARE(_block->scope(),"test(char**,int)");
+    delete arg1;
+    QCOMPARE(_block->scope(),"test(char**)");
+    delete arg2;
+    QCOMPARE(_block->scope(),"test()");
+}
+
+
 void Function::templatesProperty(
 )
 {

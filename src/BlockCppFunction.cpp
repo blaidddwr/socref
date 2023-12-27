@@ -329,7 +329,7 @@ void Function::set(
             updateDisplayIcon();
             updateDisplayText();
         }
-        catch (::Exception::Block::Logical& e)
+        catch (Exception::Block::Logical& e)
         {
             setName(oldName);
             setReturnType(oldReturnType);
@@ -616,7 +616,7 @@ const QStringList& Function::assignmentStrings(
 void Function::check(
 ) const
 {
-    using Error = ::Exception::Block::Logical;
+    using Error = Exception::Block::Logical;
     if (!isTypeValid())
     {
         throw Error(tr("Unknown function type encountered!"));
@@ -963,7 +963,7 @@ bool Function::areFlagsValid(
 void Function::checkConstructor(
 ) const
 {
-    using Error = ::Exception::Block::Logical;
+    using Error = Exception::Block::Logical;
     static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
     if (!name().isEmpty())
     {
@@ -986,7 +986,7 @@ void Function::checkConstructor(
 void Function::checkDestructor(
 ) const
 {
-    using Error = ::Exception::Block::Logical;
+    using Error = Exception::Block::Logical;
     if (!name().isEmpty())
     {
         throw Error(tr("Destructors cannot have a name."));
@@ -1033,7 +1033,7 @@ void Function::checkDestructor(
 void Function::checkMethod(
 ) const
 {
-    using Error = ::Exception::Block::Logical;
+    using Error = Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
     if (name().isEmpty())
     {
@@ -1092,7 +1092,7 @@ void Function::checkMethod(
 void Function::checkOperator(
 ) const
 {
-    using Error = ::Exception::Block::Logical;
+    using Error = Exception::Block::Logical;
     static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
     if (name().isEmpty())
     {
@@ -1126,7 +1126,7 @@ void Function::checkOperator(
 void Function::checkRegular(
 ) const
 {
-    using Error = ::Exception::Block::Logical;
+    using Error = Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
     if (name().isEmpty())
     {
@@ -1381,7 +1381,7 @@ void Function::loadAccess(
     _access = accessStrings().indexOf(accessString);
     if (_access == -1)
     {
-        throw ::Exception::Block::Read(tr("Unknown C++ access %1.").arg(accessString));
+        throw Exception::Block::Read(tr("Unknown C++ access %1.").arg(accessString));
     }
 }
 
@@ -1396,7 +1396,7 @@ void Function::loadAssignment(
     _assignment = assignmentStrings().indexOf(assignmentString);
     if (_assignment == -1)
     {
-        throw ::Exception::Block::Read(
+        throw Exception::Block::Read(
             tr("Unknown C++ function assignment %1").arg(assignmentString)
         );
     }
@@ -1415,7 +1415,7 @@ void Function::loadFlags(
         auto flag = reverseFlagLookup().value(flagString,-1);
         if (flag == -1)
         {
-            throw ::Exception::Block::Read(tr("Unkonwn function flag %1.").arg(flagString));
+            throw Exception::Block::Read(tr("Unkonwn function flag %1.").arg(flagString));
         }
         _flags |= flag;
     }
@@ -1457,7 +1457,7 @@ void Function::loadType(
         _type = typeStrings().indexOf(typeString);
         if (_type == -1)
         {
-            throw ::Exception::Block::Read(tr("Unknown C++ function type %1.").arg(typeString));
+            throw Exception::Block::Read(tr("Unknown C++ function type %1.").arg(typeString));
         }
     }
 }

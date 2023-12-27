@@ -11,7 +11,7 @@ namespace Cpp
 {
     class Class;
     class Enumeration;
-    class Exception;
+    class ExceptionItem;
     class Function;
     class Namespace;
     class Variable;

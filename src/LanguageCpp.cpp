@@ -2,7 +2,7 @@
 #include "BlockCpp.h"
 #include "BlockCppClass.h"
 #include "BlockCppEnumeration.h"
-#include "BlockCppException.h"
+#include "BlockCppExceptionItem.h"
 #include "BlockCppFunction.h"
 #include "BlockCppNamespace.h"
 #include "BlockCppVariable.h"
@@ -44,7 +44,6 @@ Block::Abstract* Cpp::create(
     ,QObject* parent
 ) const
 {
-    using Exception = Block::Cpp::Exception;
     switch (index)
     {
     case ClassIndex:
@@ -63,7 +62,7 @@ Block::Abstract* Cpp::create(
     {
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == ExceptionIndex);
-        return new Exception(meta,parent);
+        return new ExceptionItem(meta,parent);
     }
     case FunctionIndex:
     {

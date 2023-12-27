@@ -1,10 +1,11 @@
-#include "BlockCppException.h"
+#include "BlockCppExceptionItem.h"
 #include <QtGui>
+#include "Exception.h"
 namespace Block {
 namespace Cpp {
 
 
-Exception::Exception(
+ExceptionItem::ExceptionItem(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
@@ -13,7 +14,7 @@ Exception::Exception(
 }
 
 
-Widget::Block::Abstract* Exception::createWidget(
+Widget::Block::Abstract* ExceptionItem::createWidget(
     QObject* parent
 ) const
 {
@@ -22,7 +23,7 @@ Widget::Block::Abstract* Exception::createWidget(
 }
 
 
-QIcon Exception::displayIcon(
+QIcon ExceptionItem::displayIcon(
 ) const
 {
     return QIcon(":/cpp/exception.svg");

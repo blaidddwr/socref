@@ -156,8 +156,8 @@ Block::Abstract* Abstract::get(
 
 
 int Abstract::indexOf(
-    Block::Abstract* block
-)
+    const Block::Abstract* block
+) const
 {
     return _children.indexOf(block);
 }

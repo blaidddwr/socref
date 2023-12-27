@@ -1,16 +1,16 @@
-#include "TestBlockCppException.h"
+#include "TestBlockCppExceptionItem.h"
 #include <QtTest>
-#include "BlockCppException.h"
+#include "BlockCppExceptionItem.h"
 #include "FactoryLanguage.h"
 #include "TestBase.t.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
-using ExceptionBlock = ::Block::Cpp::Exception;
+using ExceptionBlock = ::Block::Cpp::ExceptionItem;
 using namespace ::Block::Cpp;
 
 
-void Exception::initTestCase(
+void ExceptionItem::initTestCase(
 )
 {
     QVERIFY(!_block);
@@ -24,7 +24,7 @@ void Exception::initTestCase(
 }
 
 
-void Exception::displayIconProperty(
+void ExceptionItem::displayIconProperty(
 )
 {
     static const QIcon testIcon(":/cpp/exception.svg");
@@ -32,7 +32,7 @@ void Exception::displayIconProperty(
 }
 
 
-void Exception::cleanupTestCase(
+void ExceptionItem::cleanupTestCase(
 )
 {
     QVERIFY(_block);

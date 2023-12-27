@@ -242,6 +242,14 @@ class Function:
 
 
     /*!
+     * Tests the scope name interface implementation.
+     */
+    private slots:
+    void scopeName(
+    );
+
+
+    /*!
      * Tests the templates property.
      */
     private slots:

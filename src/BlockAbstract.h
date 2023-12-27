@@ -230,8 +230,8 @@ class Abstract:
      */
     public:
     int indexOf(
-        Block::Abstract* block
-    );
+        const Block::Abstract* block
+    ) const;
 
 
     /*!

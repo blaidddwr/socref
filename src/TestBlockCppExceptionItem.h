@@ -1,5 +1,5 @@
-#ifndef TEST_BLOCK_CPP_EXCEPTION_H
-#define TEST_BLOCK_CPP_EXCEPTION_H
+#ifndef TEST_BLOCK_CPP_EXCEPTIONITEM_H
+#define TEST_BLOCK_CPP_EXCEPTIONITEM_H
 #include "BlockCpp.h"
 #include "TestBase.h"
 namespace Test {
@@ -10,13 +10,13 @@ namespace Cpp {
 
 
 /*!
- * This is a Qt unit test class. It tests the exception C++ block class.
+ * This is a Qt unit test class. It tests the exception item C++ block class.
  */
-class Exception:
+class ExceptionItem:
     public Test::Base
 {
     Q_OBJECT
-    ::Block::Cpp::Exception* _block {nullptr};
+    ::Block::Cpp::ExceptionItem* _block {nullptr};
 
 
     private slots:
