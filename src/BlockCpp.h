@@ -14,6 +14,7 @@ namespace Cpp
     class ExceptionItem;
     class Function;
     class Namespace;
+    class Property;
     class Variable;
 
 
@@ -90,6 +91,7 @@ namespace Cpp
         ,ExceptionIndex
         ,FunctionIndex
         ,NamespaceIndex
+        ,PropertyIndex
         ,VariableIndex
     };
 }

@@ -5,6 +5,7 @@
 #include "BlockCppExceptionItem.h"
 #include "BlockCppFunction.h"
 #include "BlockCppNamespace.h"
+#include "BlockCppProperty.h"
 #include "BlockCppVariable.h"
 #include "Exception.h"
 #include "ModelMetaBlock.h"
@@ -18,7 +19,9 @@ Cpp::Cpp(
 ):
     Abstract(meta,parent)
 {
-    appendBlock(new Model::Meta::Block(meta,ClassIndex,"class","Class",{FunctionIndex}));
+    appendBlock(
+        new Model::Meta::Block(meta,ClassIndex,"class","Class",{FunctionIndex,PropertyIndex})
+    );
     appendBlock(new Model::Meta::Block(meta,EnumerationIndex,"enumeration","Enumeration",{}));
     appendBlock(new Model::Meta::Block(meta,ExceptionIndex,"exception","Exception",{}));
     appendBlock(
@@ -35,6 +38,7 @@ Cpp::Cpp(
             ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex}
         )
     );
+    appendBlock(new Model::Meta::Block(meta,PropertyIndex,"property","Property",{}));
     appendBlock(new Model::Meta::Block(meta,VariableIndex,"variable","Variable",{}));
 }
 
@@ -75,6 +79,12 @@ Block::Abstract* Cpp::create(
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == NamespaceIndex);
         return new Namespace(meta,parent);
+    }
+    case PropertyIndex:
+    {
+        auto meta = blockMeta(index);
+        G_ASSERT(meta->index() == PropertyIndex);
+        return new Property(meta,parent);
     }
     case VariableIndex:
     {

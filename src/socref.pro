@@ -9,6 +9,7 @@ SOURCES +=  Global.cpp \
             BlockCppExceptionItem.cpp \
             BlockCppFunction.cpp \
             BlockCppNamespace.cpp \
+            BlockCppProperty.cpp \
             BlockCppVariable.cpp \
             BlockCppQtFunction.cpp \
             BlockTestNode.cpp \
@@ -29,6 +30,7 @@ SOURCES +=  Global.cpp \
             TestBlockCppExceptionItem.cpp \
             TestBlockCppFunction.cpp \
             TestBlockCppNamespace.cpp \
+            TestBlockCppProperty.cpp \
             TestBlockCppVariable.cpp \
             TestBlockCppQtFunction.cpp \
             TestFactoryLanguage.cpp \
@@ -48,6 +50,7 @@ HEADERS +=  Global.h \
             BlockCppExceptionItem.h \
             BlockCppFunction.h \
             BlockCppNamespace.h \
+            BlockCppProperty.h \
             BlockCppVariable.h \
             BlockCppQt.h \
             BlockCppQtFunction.h \
@@ -85,6 +88,7 @@ HEADERS +=  Global.h \
             TestBlockCppExceptionItem.h \
             TestBlockCppFunction.h \
             TestBlockCppNamespace.h \
+            TestBlockCppProperty.h \
             TestBlockCppVariable.h \
             TestBlockCppQt.h \
             TestBlockCppQtFunction.h \

@@ -42,7 +42,7 @@ class Cpp:
 
 
     /*!
-     * Tests creation of an exception block.
+     * Tests creation of an exception item block.
      */
     private slots:
     void createException(
@@ -62,6 +62,14 @@ class Cpp:
      */
     private slots:
     void createNamespace(
+    );
+
+
+    /*!
+     * Tests creation of a property block.
+     */
+    private slots:
+    void createProperty(
     );
 
 

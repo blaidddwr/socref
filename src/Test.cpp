@@ -7,6 +7,7 @@
 #include "TestBlockCppExceptionItem.h"
 #include "TestBlockCppFunction.h"
 #include "TestBlockCppNamespace.h"
+#include "TestBlockCppProperty.h"
 #include "TestBlockCppQtFunction.h"
 #include "TestBlockCppVariable.h"
 #include "TestFactoryLanguage.h"
@@ -99,6 +100,7 @@ void initialize(
         ,{"BlockCppException",new Block::Cpp::ExceptionItem}
         ,{"BlockCppFunction",new Block::Cpp::Function}
         ,{"BlockCppNamespace",new Block::Cpp::Namespace}
+        ,{"BlockCppProperty",new Block::Cpp::Property}
         ,{"BlockCppVariable",new Block::Cpp::Variable}
         ,{"BlockCppQtFunction",new Block::CppQt::Function}
         ,{"FactoryLanguage",new Factory::Language}
