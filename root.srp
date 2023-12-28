@@ -1040,7 +1040,7 @@ The scope name is used to construct a C++ block's scope. Each scope name of a bl
 
 Its properties are parents and templates. The parents is a list of a class's parent classes. The templates list is a list of template arguments for a class.</__p_description>
                     <__p_name>Class</__p_name>
-                    <__p_parents>public Block::Cpp::Base</__p_parents>
+                    <__p_parents>public Block::Cpp::Property</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Signals</__p_access>
@@ -1130,58 +1130,6 @@ Its properties are parents and templates. The parents is a list of a class's par
                             <__p_name>parent</__p_name>
                             <__p_type>QObject*</__p_type>
                         </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>displayIcon</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>QIcon</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this class is abstract.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>isAbstract</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>True if it is abstract otherwise false.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Determines if this class is virtual.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>isVirtual</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>True if it is virtual otherwise false.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -1311,14 +1259,14 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_deleted>0</__p_deleted>
                         <__p_description>Forces this instance to update its display icon property.</__p_description>
                         <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
+                        <__p_final>1</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>updateDisplayIcon</__p_name>
                         <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
+                        <__p_override>1</__p_override>
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
+                        <__p_virtual>1</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -1373,28 +1321,6 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_returnType>const QIcon*</__p_returnType>
                         <__p_static>1</__p_static>
                         <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Sets this instance's display icon property to the value at the given memory location. The given memory location must be a valid Qt icon.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>setDisplayIcon</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The memory location.</__p_description>
-                            <__p_name>pointer</__p_name>
-                            <__p_type>const QIcon*</__p_type>
-                        </Variable>
                     </Function>
                 </Class>
                 <Class>
@@ -2235,6 +2161,24 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnDescription>True if its access is private otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this function is a property method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isPropertyMethod</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is a property method otherwise false.</__p_returnDescription>
                         <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -3894,7 +3838,9 @@ A read block exception is thrown if any error is encountered.</__p_description>
                     </Function>
                 </Class>
                 <Class>
-                    <__p_description>This is a C++ block class. It represents a C++ class property. While this is not a concrete type defined in the C++ language, it is an abstract concept used pervasively enough in classes to conceptualize it as a block. A property's setter and getter are added as children to a property.</__p_description>
+                    <__p_description>This is a C++ block class. It represents a C++ class property. While this is not a concrete type defined in the C++ language, it is an abstract concept used pervasively enough in classes to conceptualize it as a block. A property's setter and getter are added as children to a property.
+
+This also serves as a base class for the class C++ block because it shares all common algorithms pertaining to holding functions and determining if it is abstract, virtual, or regular.</__p_description>
                     <__p_name>Property</__p_name>
                     <__p_parents>public Block::Cpp::Base</__p_parents>
                     <Function>
@@ -3929,7 +3875,7 @@ A read block exception is thrown if any error is encountered.</__p_description>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
                         <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
+                        <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>createWidget</__p_name>
                         <__p_noexcept>0</__p_noexcept>
@@ -3958,6 +3904,173 @@ A read block exception is thrown if any error is encountered.</__p_description>
                         <__p_returnType>QIcon</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this block is abstract.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isAbstract</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is abstract otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Determines if this block is virtual.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>isVirtual</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if it is virtual otherwise false.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Forces this instance to update its display icon property.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>updateDisplayIcon</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Constructs this new instance with the given name, icon, meta, and parent. The given meta must be valid and cannot be destroyed during the life of this instance. The given icon must be valid.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The name.</__p_description>
+                            <__p_name>name</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The icon.</__p_description>
+                            <__p_name>icon</__p_name>
+                            <__p_type>const QIcon*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The meta.</__p_description>
+                            <__p_name>meta</__p_name>
+                            <__p_type>Model::Meta::Block*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_description>The parent.</__p_description>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this instance's display icon property to the value at the given memory location. The given memory location must be a valid Qt icon.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setDisplayIcon</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The memory location.</__p_description>
+                            <__p_name>pointer</__p_name>
+                            <__p_type>const QIcon*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>icon</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The property icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconAbstract</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The abstract property icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>iconVirtual</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The virtual property icon.</__p_returnDescription>
+                        <__p_returnType>const QIcon*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
                     </Function>
                 </Class>
                 <Class>

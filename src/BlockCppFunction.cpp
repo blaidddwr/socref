@@ -1,11 +1,12 @@
 #include "BlockCppFunction.h"
 #include <QtGui>
-#include "BlockCppClass.h"
+#include "BlockCppProperty.h"
 #include "BlockCppVariable.h"
 #include "Exception.h"
 #include "ExceptionBlockLogical.h"
 #include "ExceptionBlockRead.h"
 #include "Global.h"
+#include "ModelMetaBlock.h"
 namespace Block {
 namespace Cpp {
 
@@ -24,7 +25,7 @@ Function::Function(
 Function::~Function(
 )
 {
-    if (auto p = qobject_cast<Class*>(parent()))
+    if (auto p = qobject_cast<Property*>(parent()))
     {
         auto index = p->indexOf(this);
         G_ASSERT(index != -1);
@@ -198,6 +199,20 @@ bool Function::isPrivate(
 ) const
 {
     return _access == PrivateAccess;
+}
+
+
+bool Function::isPropertyMethod(
+) const
+{
+    if (_type == MethodFunctionType)
+    {
+        if (auto p = qobject_cast<Abstract*>(parent()))
+        {
+            return p->meta()->index() == PropertyIndex;
+        }
+    }
+    return false;
 }
 
 
@@ -435,7 +450,7 @@ void Function::addEvent(
 )
 {
     Q_UNUSED(index);
-    if (auto p = qobject_cast<Class*>(parent()))
+    if (auto p = qobject_cast<Property*>(parent()))
     {
         if (_type == RegularFunctionType)
         {
@@ -578,7 +593,7 @@ void Function::appendSignature(
     case ConstructorFunctionType:
     case DestructorFunctionType:
     {
-        auto parentBlock = qobject_cast<Class*>(parent());
+        auto parentBlock = qobject_cast<Property*>(parent());
         G_ASSERT(parentBlock);
         if (isDestructor())
         {
@@ -747,7 +762,7 @@ void Function::removeEvent(
 )
 {
     Q_UNUSED(index);
-    if (auto p = qobject_cast<Class*>(parent()))
+    if (auto p = qobject_cast<Property*>(parent()))
     {
         p->updateDisplayIcon();
         disconnect(p,&Base::nameChanged,this,&Function::onClassNameChanged);
@@ -764,7 +779,7 @@ void Function::setDisplayIcon(
     {
         _icon = pointer;
         emit displayIconChanged(*pointer);
-        if (auto p = qobject_cast<Class*>(parent()))
+        if (auto p = qobject_cast<Property*>(parent()))
         {
             p->updateDisplayIcon();
         }

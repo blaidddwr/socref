@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/cpp/">
         <file alias="abstract_class.svg">../data/cpp/abstract_class.svg</file>
+        <file alias="abstract_property.svg">../data/cpp/abstract_property.svg</file>
         <file alias="abstract_protected_destructor.svg">../data/cpp/abstract_protected_destructor.svg</file>
         <file alias="abstract_protected_function.svg">../data/cpp/abstract_protected_function.svg</file>
         <file alias="abstract_public_destructor.svg">../data/cpp/abstract_public_destructor.svg</file>
@@ -28,6 +29,7 @@
         <file alias="static_public_function.svg">../data/cpp/static_public_function.svg</file>
         <file alias="variable.svg">../data/cpp/variable.svg</file>
         <file alias="virtual_class.svg">../data/cpp/virtual_class.svg</file>
+        <file alias="virtual_property.svg">../data/cpp/virtual_property.svg</file>
         <file alias="virtual_protected_destructor.svg">../data/cpp/virtual_protected_destructor.svg</file>
         <file alias="virtual_protected_function.svg">../data/cpp/virtual_protected_function.svg</file>
         <file alias="virtual_public_destructor.svg">../data/cpp/virtual_public_destructor.svg</file>

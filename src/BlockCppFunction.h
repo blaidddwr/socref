@@ -383,6 +383,17 @@ class Function:
 
 
     /*!
+     * Determines if this function is a property method.
+     *
+     * @return
+     * True if it is a property method otherwise false.
+     */
+    public:
+    bool isPropertyMethod(
+    ) const;
+
+
+    /*!
      * Determines if this function's access is protected.
      *
      * @return

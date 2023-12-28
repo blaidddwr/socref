@@ -52,8 +52,9 @@ void Class::displayIconProperty(
     };
     auto function = create<Function>(FunctionIndex);
     _block->append(function);
-    QCOMPARE(spy.count(),0);
+    QCOMPARE(spy.count(),1);
     QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    spy.clear();
     function->set(
         "test"
         ,"void"

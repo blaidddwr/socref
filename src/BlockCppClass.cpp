@@ -1,7 +1,5 @@
 #include "BlockCppClass.h"
 #include <QtGui>
-#include "BlockCppFunction.h"
-#include "Exception.h"
 #include "Global.h"
 namespace Block {
 namespace Cpp {
@@ -11,8 +9,7 @@ Class::Class(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base("class",meta,parent)
-    ,_icon(icon())
+    Property("class",icon(),meta,parent)
 {
 }
 
@@ -24,48 +21,6 @@ Widget::Block::Abstract* Class::createWidget(
     //TODO
     Q_UNUSED(parent);
     return nullptr;
-}
-
-
-QIcon Class::displayIcon(
-) const
-{
-    G_ASSERT(_icon);
-    return *_icon;
-}
-
-
-bool Class::isAbstract(
-) const
-{
-    for (int i = 0;i < size();i++)
-    {
-        if (auto f = qobject_cast<Function*>(get(i)))
-        {
-            if (f->isAbstract())
-            {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-
-bool Class::isVirtual(
-) const
-{
-    for (int i = 0;i < size();i++)
-    {
-        if (auto f = qobject_cast<Function*>(get(i)))
-        {
-            if (f->isVirtual())
-            {
-                return true;
-            }
-        }
-    }
-    return false;
 }
 
 
@@ -188,19 +143,6 @@ const QIcon* Class::iconVirtual(
 {
     static const QIcon ret(":/cpp/virtual_class.svg");
     return &ret;
-}
-
-
-void Class::setDisplayIcon(
-    const QIcon* pointer
-)
-{
-    G_ASSERT(pointer);
-    if (_icon != pointer)
-    {
-        _icon = pointer;
-        emit displayIconChanged(*pointer);
-    }
 }
 }
 }
