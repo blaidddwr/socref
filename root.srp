@@ -4446,6 +4446,21 @@ Its properties are type and assignment. Both are self-explanatory.</__p_descript
             <Namespace>
                 <__p_description>This contains all C++/Qt block enumerations and classes.</__p_description>
                 <__p_name>CppQt</__p_name>
+                <Enumeration>
+                    <__p_class>0</__p_class>
+                    <__p_description>Enumerates additional function flags for Qt methods.</__p_description>
+                    <__p_name>FunctionFlags</__p_name>
+                </Enumeration>
+                <Enumeration>
+                    <__p_class>0</__p_class>
+                    <__p_description>Enumerates additional function types for Qt methods.</__p_description>
+                    <__p_name>FunctionType</__p_name>
+                </Enumeration>
+                <Enumeration>
+                    <__p_class>0</__p_class>
+                    <__p_description>Enumerates all C++/Qt block implementations' indexes.</__p_description>
+                    <__p_name>Index</__p_name>
+                </Enumeration>
                 <Class>
                     <__p_description>This is a C++/Qt block class. It represents a C++/Qt function.
 
@@ -4856,21 +4871,201 @@ A logical block exception is thrown if this instance's properties are not valid.
                         <__p_virtual>0</__p_virtual>
                     </Function>
                 </Class>
-                <Enumeration>
-                    <__p_class>0</__p_class>
-                    <__p_description>Enumerates additional function flags for Qt methods.</__p_description>
-                    <__p_name>FunctionFlags</__p_name>
-                </Enumeration>
-                <Enumeration>
-                    <__p_class>0</__p_class>
-                    <__p_description>Enumerates additional function types for Qt methods.</__p_description>
-                    <__p_name>FunctionType</__p_name>
-                </Enumeration>
-                <Enumeration>
-                    <__p_class>0</__p_class>
-                    <__p_description>Enumerates all C++/Qt block implementations' indexes.</__p_description>
-                    <__p_name>Index</__p_name>
-                </Enumeration>
+                <Class>
+                    <__p_description>This is a C++/Qt block class. It represents a C++/Qt property.
+
+It extends the C++ property with the three new properties. These properties are used to generate the Qt property macro call in order to register it with the Qt meta object property system.
+
+Its properties are read method, write method, and notify signal. All these methods are strings used to generate the Qt property macro line, registering it with the Qt meta object system.</__p_description>
+                    <__p_name>Property</__p_name>
+                    <__p_parents>public Block::Cpp::Property</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Signals</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Signals this instance's notify signal property has changed to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>notifySignalChanged</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Signals</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Signals this instance's read method property has changed to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>readMethodChanged</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Signals</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Signals this instance's write method property has changed to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>writeMethodChanged</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>notifySignal</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This instance's notify signal property.</__p_returnDescription>
+                        <__p_returnType>const QString&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>readMethod</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This instance's read method property.</__p_returnDescription>
+                        <__p_returnType>const QString&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this instance's notify signal property to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setNotifySignal</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this instance's read method property to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setReadMethod</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this instance's write method property to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setWriteMethod</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>writeMethod</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This instance's write method property.</__p_returnDescription>
+                        <__p_returnType>const QString&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                </Class>
             </Namespace>
             <Namespace>
                 <__p_description>This contains all test block enumerations and classes.</__p_description>
@@ -9326,6 +9521,23 @@ A read project exception is thrown if any error is encountered.</__p_description
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests creation of an exception block.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>createException</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_description>Tests creation of a function block.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
@@ -9348,6 +9560,23 @@ A read project exception is thrown if any error is encountered.</__p_description
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>createNamespace</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Tests creation of a property block.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>createProperty</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>

@@ -10,6 +10,7 @@ namespace Block {
 namespace CppQt
 {
     class Function;
+    class Property;
 
 
     /*!
@@ -38,8 +39,10 @@ namespace CppQt
     {
         ClassIndex
         ,EnumerationIndex
+        ,ExceptionIndex
         ,FunctionIndex
         ,NamespaceIndex
+        ,PropertyIndex
         ,VariableIndex
     };
 }

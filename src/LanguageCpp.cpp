@@ -32,7 +32,11 @@ Cpp::Cpp(
     appendBlock(new Model::Meta::Block(meta,ExceptionIndex,"exception","Exception",{}));
     appendBlock(
         new Model::Meta::Block(
-            meta,FunctionIndex,"function","Function",{ExceptionIndex,VariableIndex}
+            meta
+            ,FunctionIndex
+            ,"function"
+            ,"Function"
+            ,{ExceptionIndex,VariableIndex}
         )
     );
     appendBlock(

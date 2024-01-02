@@ -22,7 +22,7 @@ void CppQt::initTestCase(
 void CppQt::createClass(
 )
 {
-    static const QSet<int> allowList {FunctionIndex};
+    static const QSet<int> allowList {FunctionIndex,PropertyIndex,VariableIndex};
     auto block = _language->create(ClassIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),ClassIndex);
@@ -47,10 +47,24 @@ void CppQt::createEnumeration(
 }
 
 
+void CppQt::createException(
+)
+{
+    static const QSet<int> allowList {};
+    auto block = _language->create(ExceptionIndex,this);
+    auto meta = block->meta();
+    QCOMPARE(meta->index(),ExceptionIndex);
+    QCOMPARE(meta->name(),"exception");
+    QCOMPARE(meta->label(),"Exception");
+    QCOMPARE(meta->allowList(),allowList);
+    QCOMPARE(meta->language(),_meta);
+}
+
+
 void CppQt::createFunction(
 )
 {
-    static const QSet<int> allowList {VariableIndex};
+    static const QSet<int> allowList {ExceptionIndex,VariableIndex};
     auto block = _language->create(FunctionIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),FunctionIndex);
@@ -70,6 +84,20 @@ void CppQt::createNamespace(
     QCOMPARE(meta->index(),NamespaceIndex);
     QCOMPARE(meta->name(),"namespace");
     QCOMPARE(meta->label(),"Namespace");
+    QCOMPARE(meta->allowList(),allowList);
+    QCOMPARE(meta->language(),_meta);
+}
+
+
+void CppQt::createProperty(
+)
+{
+    static const QSet<int> allowList {FunctionIndex,VariableIndex};
+    auto block = _language->create(PropertyIndex,this);
+    auto meta = block->meta();
+    QCOMPARE(meta->index(),PropertyIndex);
+    QCOMPARE(meta->name(),"property");
+    QCOMPARE(meta->label(),"Property");
     QCOMPARE(meta->allowList(),allowList);
     QCOMPARE(meta->language(),_meta);
 }

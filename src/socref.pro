@@ -12,6 +12,7 @@ SOURCES +=  Global.cpp \
             BlockCppProperty.cpp \
             BlockCppVariable.cpp \
             BlockCppQtFunction.cpp \
+            BlockCppQtProperty.cpp \
             BlockTestNode.cpp \
             ExceptionBase.cpp \
             FactoryLanguage.cpp \
@@ -54,6 +55,7 @@ HEADERS +=  Global.h \
             BlockCppVariable.h \
             BlockCppQt.h \
             BlockCppQtFunction.h \
+            BlockCppQtProperty.h \
             BlockTest.h \
             BlockTestNode.h \
             Exception.h \

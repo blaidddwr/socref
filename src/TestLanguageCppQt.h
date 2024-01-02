@@ -42,6 +42,14 @@ class CppQt:
 
 
     /*!
+     * Tests creation of an exception block.
+     */
+    private slots:
+    void createException(
+    );
+
+
+    /*!
      * Tests creation of a function block.
      */
     private slots:
@@ -54,6 +62,14 @@ class CppQt:
      */
     private slots:
     void createNamespace(
+    );
+
+
+    /*!
+     * Tests creation of a property block.
+     */
+    private slots:
+    void createProperty(
     );
 
 
