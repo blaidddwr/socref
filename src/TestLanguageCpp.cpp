@@ -22,7 +22,7 @@ void Cpp::initTestCase(
 void Cpp::createClass(
 )
 {
-    static const QSet<int> allowList {FunctionIndex,PropertyIndex};
+    static const QSet<int> allowList {FunctionIndex,PropertyIndex,VariableIndex};
     auto block = _language->create(ClassIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),ClassIndex);
@@ -92,7 +92,7 @@ void Cpp::createNamespace(
 void Cpp::createProperty(
 )
 {
-    static const QSet<int> allowList {};
+    static const QSet<int> allowList {FunctionIndex,VariableIndex};
     auto block = _language->create(PropertyIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),PropertyIndex);

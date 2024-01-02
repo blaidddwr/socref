@@ -32,6 +32,22 @@ class Property:
     );
 
 
+    /*!
+     * Tests the "is abstract" method.
+     */
+    private slots:
+    void isAbstract(
+    );
+
+
+    /*!
+     * Tests the "is virtual" method.
+     */
+    private slots:
+    void isVirtual(
+    );
+
+
     private slots:
     void cleanupTestCase(
     );

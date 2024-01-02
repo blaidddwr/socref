@@ -32,6 +32,11 @@ class Property:
 
 
     public:
+    virtual ~Property(
+    ) override;
+
+
+    public:
     virtual Widget::Block::Abstract* createWidget(
         QObject* parent = nullptr
     ) const override;
@@ -96,6 +101,18 @@ class Property:
         ,Model::Meta::Block* meta
         ,QObject* parent = nullptr
     );
+
+
+    protected:
+    virtual void addEvent(
+        int index
+    ) override final;
+
+
+    protected:
+    virtual void removeEvent(
+        int index
+    ) override final;
 
 
     /*!

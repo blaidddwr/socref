@@ -16,6 +16,18 @@ Property::Property(
 }
 
 
+Property::~Property(
+)
+{
+    if (auto p = qobject_cast<Property*>(parent()))
+    {
+        auto index = p->indexOf(this);
+        G_ASSERT(index != -1);
+        p->take(index);
+    }
+}
+
+
 Widget::Block::Abstract* Property::createWidget(
     QObject* parent
 ) const
@@ -91,6 +103,10 @@ void Property::updateDisplayIcon(
     {
         setDisplayIcon(icon());
     }
+    if (auto p = qobject_cast<Property*>(parent()))
+    {
+        p->updateDisplayIcon();
+    }
 }
 
 
@@ -104,6 +120,30 @@ Property::Property(
     ,_icon(icon)
 {
     G_ASSERT(icon);
+}
+
+
+void Property::addEvent(
+    int index
+)
+{
+    Q_UNUSED(index);
+    if (auto p = qobject_cast<Property*>(parent()))
+    {
+        p->updateDisplayIcon();
+    }
+}
+
+
+void Property::removeEvent(
+    int index
+)
+{
+    Q_UNUSED(index);
+    if (auto p = qobject_cast<Property*>(parent()))
+    {
+        p->updateDisplayIcon();
+    }
 }
 
 

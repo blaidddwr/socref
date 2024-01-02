@@ -75,6 +75,36 @@ void Class::displayIconProperty(
     verify(testIconVirtual);
     delete function;
     verify(testIcon);
+    function = create<Function>(FunctionIndex);
+    auto property = create<Property>(PropertyIndex);
+    _block->append(property);
+    QCOMPARE(spy.count(),1);
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    spy.clear();
+    property->append(function);
+    QCOMPARE(spy.count(),1);
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    spy.clear();
+    function->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag
+    );
+    verify(testIconAbstract);
+    function->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag
+    );
+    verify(testIconVirtual);
+    delete property;
+    verify(testIcon);
 }
 
 

@@ -20,7 +20,13 @@ Cpp::Cpp(
     Abstract(meta,parent)
 {
     appendBlock(
-        new Model::Meta::Block(meta,ClassIndex,"class","Class",{FunctionIndex,PropertyIndex})
+        new Model::Meta::Block(
+            meta
+            ,ClassIndex
+            ,"class"
+            ,"Class"
+            ,{FunctionIndex,PropertyIndex,VariableIndex}
+        )
     );
     appendBlock(new Model::Meta::Block(meta,EnumerationIndex,"enumeration","Enumeration",{}));
     appendBlock(new Model::Meta::Block(meta,ExceptionIndex,"exception","Exception",{}));
@@ -38,7 +44,15 @@ Cpp::Cpp(
             ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex}
         )
     );
-    appendBlock(new Model::Meta::Block(meta,PropertyIndex,"property","Property",{}));
+    appendBlock(
+        new Model::Meta::Block(
+            meta
+            ,PropertyIndex
+            ,"property"
+            ,"Property"
+            ,{FunctionIndex,VariableIndex}
+        )
+    );
     appendBlock(new Model::Meta::Block(meta,VariableIndex,"variable","Variable",{}));
 }
 
