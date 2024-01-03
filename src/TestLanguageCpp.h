@@ -74,6 +74,14 @@ class Cpp:
 
 
     /*!
+     * Tests creation of a union block.
+     */
+    private slots:
+    void createUnion(
+    );
+
+
+    /*!
      * Tests creation of a variable block.
      */
     private slots:

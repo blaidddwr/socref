@@ -10,9 +10,10 @@ SOURCES +=  Global.cpp \
             BlockCppFunction.cpp \
             BlockCppNamespace.cpp \
             BlockCppProperty.cpp \
-            BlockCppVariable.cpp \
             BlockCppQtFunction.cpp \
             BlockCppQtProperty.cpp \
+            BlockCppUnion.cpp \
+            BlockCppVariable.cpp \
             BlockTestNode.cpp \
             ExceptionBase.cpp \
             FactoryLanguage.cpp \
@@ -52,10 +53,11 @@ HEADERS +=  Global.h \
             BlockCppFunction.h \
             BlockCppNamespace.h \
             BlockCppProperty.h \
-            BlockCppVariable.h \
             BlockCppQt.h \
             BlockCppQtFunction.h \
             BlockCppQtProperty.h \
+            BlockCppUnion.h \
+            BlockCppVariable.h \
             BlockTest.h \
             BlockTestNode.h \
             Exception.h \

@@ -15,6 +15,7 @@ namespace Cpp
     class Function;
     class Namespace;
     class Property;
+    class Union;
     class Variable;
 
 
@@ -92,6 +93,7 @@ namespace Cpp
         ,FunctionIndex
         ,NamespaceIndex
         ,PropertyIndex
+        ,UnionIndex
         ,VariableIndex
     };
 }

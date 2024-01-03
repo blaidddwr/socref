@@ -6,6 +6,7 @@
 #include "BlockCppFunction.h"
 #include "BlockCppNamespace.h"
 #include "BlockCppProperty.h"
+#include "BlockCppUnion.h"
 #include "BlockCppVariable.h"
 #include "Exception.h"
 #include "ModelMetaBlock.h"
@@ -45,7 +46,7 @@ Cpp::Cpp(
             ,NamespaceIndex
             ,"namespace"
             ,"Namespace"
-            ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex}
+            ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex,UnionIndex}
         )
     );
     appendBlock(
@@ -57,6 +58,7 @@ Cpp::Cpp(
             ,{FunctionIndex,VariableIndex}
         )
     );
+    appendBlock(new Model::Meta::Block(meta,UnionIndex,"union","Union",{}));
     appendBlock(new Model::Meta::Block(meta,VariableIndex,"variable","Variable",{}));
 }
 
@@ -103,6 +105,12 @@ Block::Abstract* Cpp::create(
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == PropertyIndex);
         return new Property(meta,parent);
+    }
+    case UnionIndex:
+    {
+        auto meta = blockMeta(index);
+        G_ASSERT(meta->index() == UnionIndex);
+        return new Union(meta,parent);
     }
     case VariableIndex:
     {

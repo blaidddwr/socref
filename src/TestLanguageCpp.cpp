@@ -78,7 +78,13 @@ void Cpp::createFunction(
 void Cpp::createNamespace(
 )
 {
-    static const QSet<int> allowList {ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex};
+    static const QSet<int> allowList {
+        ClassIndex
+        ,EnumerationIndex
+        ,FunctionIndex
+        ,NamespaceIndex
+        ,UnionIndex
+    };
     auto block = _language->create(NamespaceIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),NamespaceIndex);
@@ -98,6 +104,20 @@ void Cpp::createProperty(
     QCOMPARE(meta->index(),PropertyIndex);
     QCOMPARE(meta->name(),"property");
     QCOMPARE(meta->label(),"Property");
+    QCOMPARE(meta->allowList(),allowList);
+    QCOMPARE(meta->language(),_meta);
+}
+
+
+void Cpp::createUnion(
+)
+{
+    static const QSet<int> allowList {};
+    auto block = _language->create(UnionIndex,this);
+    auto meta = block->meta();
+    QCOMPARE(meta->index(),UnionIndex);
+    QCOMPARE(meta->name(),"union");
+    QCOMPARE(meta->label(),"Union");
     QCOMPARE(meta->allowList(),allowList);
     QCOMPARE(meta->language(),_meta);
 }
