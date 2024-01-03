@@ -1,8 +1,8 @@
 #ifndef TEST_LANGUAGE_CPPQT_H
 #define TEST_LANGUAGE_CPPQT_H
-#include <QObject>
 #include "Language.h"
 #include "ModelMeta.h"
+#include "TestBase.h"
 namespace Test {
 namespace Language {
 
@@ -13,7 +13,7 @@ namespace Language {
  * This is a Qt unit test class. It tests the C++/Qt language class.
  */
 class CppQt:
-    public QObject
+    public Test::Base
 {
     Q_OBJECT
     Model::Meta::Language* _meta;

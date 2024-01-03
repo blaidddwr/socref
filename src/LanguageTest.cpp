@@ -1,4 +1,5 @@
 #include "LanguageTest.h"
+#include <QtGui>
 #include "Exception.h"
 #include "BlockTest.h"
 #include "BlockTestNode.h"
@@ -13,7 +14,7 @@ Test::Test(
 ):
     Abstract(meta,parent)
 {
-    appendBlock(new Model::Meta::Block(meta,NodeIndex,"node","Node",{NodeIndex}));
+    appendBlock(new Model::Meta::Block(meta,NodeIndex,"node","Node",new QIcon(),{NodeIndex}));
 }
 
 

@@ -1,4 +1,5 @@
 #include "ModelMetaBlock.h"
+#include <QtGui>
 #include "Exception.h"
 namespace Model {
 namespace Meta {
@@ -9,16 +10,26 @@ Block::Block(
     ,int index
     ,const QString& name
     ,const QString& label
+    ,const QIcon* displayIcon
     ,const QSet<int>& allowList
     ,QObject* parent
 ):
     Language(name,label,parent)
     ,_language(language)
+    ,_displayIcon(displayIcon)
     ,_allowList(allowList)
     ,_index(index)
 {
     G_ASSERT(language);
+    G_ASSERT(displayIcon);
     connect(language,&QObject::destroyed,this,&Block::onLanguageDestroyed);
+}
+
+
+Block::~Block(
+)
+{
+    delete _displayIcon;
 }
 
 
@@ -26,6 +37,14 @@ const QSet<int>& Block::allowList(
 ) const
 {
     return _allowList;
+}
+
+
+QIcon Block::displayIcon(
+) const
+{
+    G_ASSERT(_displayIcon);
+    return *_displayIcon;
 }
 
 

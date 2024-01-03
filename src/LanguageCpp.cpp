@@ -1,4 +1,5 @@
 #include "LanguageCpp.h"
+#include <QtGui>
 #include "BlockCpp.h"
 #include "BlockCppClass.h"
 #include "BlockCppEnumeration.h"
@@ -26,17 +27,37 @@ Cpp::Cpp(
             ,ClassIndex
             ,"class"
             ,"Class"
+            ,new QIcon(":/cpp/class.svg")
             ,{FunctionIndex,PropertyIndex,VariableIndex}
         )
     );
-    appendBlock(new Model::Meta::Block(meta,EnumerationIndex,"enumeration","Enumeration",{}));
-    appendBlock(new Model::Meta::Block(meta,ExceptionIndex,"exception","Exception",{}));
+    appendBlock(
+        new Model::Meta::Block(
+            meta
+            ,EnumerationIndex
+            ,"enumeration"
+            ,"Enumeration"
+            ,new QIcon(":/cpp/enumeration.svg")
+            ,{}
+        )
+    );
+    appendBlock(
+        new Model::Meta::Block(
+            meta
+            ,ExceptionIndex
+            ,"exception"
+            ,"Exception"
+            ,new QIcon(":/cpp/exception.svg")
+            ,{}
+        )
+    );
     appendBlock(
         new Model::Meta::Block(
             meta
             ,FunctionIndex
             ,"function"
             ,"Function"
+            ,new QIcon(":/cpp/public_function.svg")
             ,{ExceptionIndex,VariableIndex}
         )
     );
@@ -46,6 +67,7 @@ Cpp::Cpp(
             ,NamespaceIndex
             ,"namespace"
             ,"Namespace"
+            ,new QIcon(":/cpp/namespace.svg")
             ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex,UnionIndex}
         )
     );
@@ -55,11 +77,23 @@ Cpp::Cpp(
             ,PropertyIndex
             ,"property"
             ,"Property"
+            ,new QIcon(":/cpp/property.svg")
             ,{FunctionIndex,VariableIndex}
         )
     );
-    appendBlock(new Model::Meta::Block(meta,UnionIndex,"union","Union",{}));
-    appendBlock(new Model::Meta::Block(meta,VariableIndex,"variable","Variable",{}));
+    appendBlock(
+        new Model::Meta::Block(meta,UnionIndex,"union","Union",new QIcon(":/cpp/union.svg"),{})
+    );
+    appendBlock(
+        new Model::Meta::Block(
+            meta
+            ,VariableIndex
+            ,"variable"
+            ,"Variable"
+            ,new QIcon(":/cpp/variable.svg")
+            ,{}
+        )
+    );
 }
 
 
