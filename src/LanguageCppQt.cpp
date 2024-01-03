@@ -6,6 +6,7 @@
 #include "BlockCppNamespace.h"
 #include "BlockCppQtFunction.h"
 #include "BlockCppQtProperty.h"
+#include "BlockCppUnion.h"
 #include "BlockCppVariable.h"
 #include "Exception.h"
 #include "ModelMetaBlock.h"
@@ -15,6 +16,7 @@ using Class = Block::Cpp::Class;
 using Enumeration = Block::Cpp::Enumeration;
 using ExceptionItem = Block::Cpp::ExceptionItem;
 using Namespace = Block::Cpp::Namespace;
+using Union = Block::Cpp::Union;
 using Variable = Block::Cpp::Variable;
 
 
@@ -50,7 +52,7 @@ CppQt::CppQt(
             ,NamespaceIndex
             ,"namespace"
             ,"Namespace"
-            ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex}
+            ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex,UnionIndex}
         )
     );
     appendBlock(
@@ -62,6 +64,7 @@ CppQt::CppQt(
             ,{FunctionIndex,VariableIndex}
         )
     );
+    appendBlock(new Model::Meta::Block(meta,UnionIndex,"union","Union",{}));
     appendBlock(new Model::Meta::Block(meta,VariableIndex,"variable","Variable",{}));
 }
 
@@ -108,6 +111,12 @@ Block::Abstract* CppQt::create(
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == PropertyIndex);
         return new Property(meta,parent);
+    }
+    case UnionIndex:
+    {
+        auto meta = blockMeta(index);
+        G_ASSERT(meta->index() == UnionIndex);
+        return new Union(meta,parent);
     }
     case VariableIndex:
     {

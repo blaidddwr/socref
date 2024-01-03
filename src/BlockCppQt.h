@@ -43,6 +43,7 @@ namespace CppQt
         ,FunctionIndex
         ,NamespaceIndex
         ,PropertyIndex
+        ,UnionIndex
         ,VariableIndex
     };
 }
