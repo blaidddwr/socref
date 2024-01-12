@@ -154,7 +154,7 @@ void Class::loadFromMapLegacy(
         {"name","name"}
         ,{"description","description"}
         ,{"parents",testParents.join("\n\n")}
-        ,{"templates",testTemplateString}
+        ,{"template",testTemplateString}
     };
     auto block = create<ClassBlock>(ClassIndex);
     QVERIFY(block);

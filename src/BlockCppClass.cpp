@@ -47,7 +47,7 @@ void Class::loadFromMap(
     if (version == Socref_Legacy)
     {
         _parents = map.value("parents").toString().split('\n',Qt::SkipEmptyParts);
-        auto str = map.value("templates").toString();
+        auto str = map.value("template").toString();
         str = str.replace("template","").replace("<","").replace(">","");
         _templates = str.split(',');
         for (auto& t: _templates)

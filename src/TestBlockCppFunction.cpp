@@ -610,7 +610,7 @@ void Function::loadFromMapLegacy(
         ,{"description",testDescription}
         ,{"returnType","void"}
         ,{"returnDescription",testReturnDescription}
-        ,{"templates",testTemplateString}
+        ,{"template",testTemplateString}
         ,{"access","Public"}
         ,{"default","1"}
         ,{"explicit",1}

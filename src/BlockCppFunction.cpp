@@ -258,7 +258,7 @@ void Function::loadFromMap(
     {
         _flags = loadFlagsLegacy(map);
         _assignment = loadAssignmentLegacy(map);
-        auto str = map.value("templates").toString();
+        auto str = map.value("template").toString();
         str = str.replace("template","").replace("<","").replace(">","");
         _templates = str.split(',');
         for (auto& t: _templates)
