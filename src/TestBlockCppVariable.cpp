@@ -91,6 +91,45 @@ void Variable::saveToMap(
 }
 
 
+void Variable::setState(
+)
+{
+    static const QString testType = "float";
+    static const QString testAssignment = "3.14";
+    static const QHash<QString,QVariant> testData {
+        {"name","name"}
+        ,{"description","description"}
+        ,{"type",testType}
+        ,{"assignment",testAssignment}
+    };
+    _block->setState(testData);
+    QCOMPARE(_block->type(),testType);
+    QCOMPARE(_block->assignment(),testAssignment);
+}
+
+
+void Variable::state(
+)
+{
+    static const QString testName = "name";
+    static const QString testDescription = "description";
+    static const QString testType = "float";
+    static const QString testAssignment = "3.14";
+    static const QHash<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"type",testType}
+        ,{"assignment",testAssignment}
+    };
+    _block->setName(testName);
+    _block->setDescription(testDescription);
+    _block->setType(testType);
+    _block->setAssignment(testAssignment);
+    auto data = _block->state();
+    QCOMPARE(data,testData);
+}
+
+
 void Variable::typeProperty(
 )
 {

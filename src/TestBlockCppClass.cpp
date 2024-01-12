@@ -108,6 +108,22 @@ void Class::displayIconProperty(
 }
 
 
+void Class::displayTextProperty(
+)
+{
+    _block->setName("class123");
+    _block->setTemplates({});
+    QCOMPARE(_block->displayText(),"class123");
+    QSignalSpy spy(_block,&ClassBlock::displayTextChanged);
+    _block->setTemplates({"class A","class B"});
+    QCOMPARE(spy.count(),1);
+    auto arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(),1);
+    QCOMPARE(arguments.at(0),"class123 -> template<class A,class B>");
+    QCOMPARE(_block->displayText(),"class123 -> template<class A,class B>");
+}
+
+
 void Class::loadFromMap(
 )
 {
@@ -138,7 +154,7 @@ void Class::loadFromMapLegacy(
         {"name","name"}
         ,{"description","description"}
         ,{"parents",testParents.join("\n\n")}
-        ,{"template",testTemplateString}
+        ,{"templates",testTemplateString}
     };
     auto block = create<ClassBlock>(ClassIndex);
     QVERIFY(block);
@@ -174,7 +190,7 @@ void Class::saveToMap(
         {"name",testName}
         ,{"description",testDescription}
         ,{"parents",testParents.join(';')}
-        ,{"template",testTemplates.join(';')}
+        ,{"templates",testTemplates.join(';')}
     };
     auto block = create<ClassBlock>(ClassIndex);
     QVERIFY(block);
@@ -185,6 +201,45 @@ void Class::saveToMap(
     auto data = block->saveToMap();
     QCOMPARE(data,testData);
     delete block;
+}
+
+
+void Class::setState(
+)
+{
+    static const QStringList testParents {"parent1","parent2"};
+    static const QStringList testTemplates {"class A","class B"};
+    static const QHash<QString,QVariant> testData {
+        {"name","name"}
+        ,{"description","description"}
+        ,{"parents",testParents}
+        ,{"templates",testTemplates}
+    };
+    _block->setState(testData);
+    QCOMPARE(_block->parents(),testParents);
+    QCOMPARE(_block->templates(),testTemplates);
+}
+
+
+void Class::state(
+)
+{
+    static const QString testName = "name";
+    static const QString testDescription = "description";
+    static const QStringList testParents {"parent1","parent2"};
+    static const QStringList testTemplates {"class A","class B"};
+    static const QHash<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"parents",testParents}
+        ,{"templates",testTemplates}
+    };
+    _block->setName(testName);
+    _block->setDescription(testDescription);
+    _block->setParents(testParents);
+    _block->setTemplates(testTemplates);
+    auto data = _block->state();
+    QCOMPARE(data,testData);
 }
 
 

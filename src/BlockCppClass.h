@@ -60,6 +60,11 @@ class Class:
 
 
     public:
+    virtual QString displayText(
+    ) const override final;
+
+
+    public:
     virtual void loadFromMap(
         const QMap<QString,QVariant>& map
         ,int version
@@ -94,6 +99,12 @@ class Class:
     );
 
 
+    public:
+    virtual void setState(
+        const QHash<QString,QVariant>& state
+    ) override final;
+
+
     /*!
      * Set this block's templates property to the given value.
      *
@@ -104,6 +115,11 @@ class Class:
     void setTemplates(
         const QStringList& value
     );
+
+
+    public:
+    virtual QHash<QString,QVariant> state(
+    ) const override final;
 
 
     /*!

@@ -1,4 +1,5 @@
 #include "BlockCppQtProperty.h"
+#include <QtCore>
 namespace Block {
 namespace CppQt {
 
@@ -41,6 +42,17 @@ void Property::setReadMethod(
 }
 
 
+void Property::setState(
+    const QHash<QString,QVariant>& state
+)
+{
+    Cpp::Property::setState(state);
+    setReadMethod(state.value("readMethod").toString());
+    setWriteMethod(state.value("writeMethod").toString());
+    setNotifySignal(state.value("notifySignal").toString());
+}
+
+
 void Property::setWriteMethod(
     const QString& value
 )
@@ -50,6 +62,17 @@ void Property::setWriteMethod(
         _writeMethod = value;
         emit writeMethodChanged(value);
     }
+}
+
+
+QHash<QString,QVariant> Property::state(
+) const
+{
+    auto ret = Cpp::Property::state();
+    ret.insert("readMethod",_readMethod);
+    ret.insert("writeMethod",_writeMethod);
+    ret.insert("notifySignal",_notifySignal);
+    return ret;
 }
 
 

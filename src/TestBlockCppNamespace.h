@@ -80,6 +80,22 @@ class Namespace:
     );
 
 
+    /*!
+     * Tests the "set state" interface.
+     */
+    private slots:
+    void setState(
+    );
+
+
+    /*!
+     * Tests the state interface.
+     */
+    private slots:
+    void state(
+    );
+
+
     private slots:
     void cleanupTestCase(
     );

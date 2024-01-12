@@ -82,6 +82,37 @@ void Enumeration::saveToMap(
 }
 
 
+void Enumeration::setState(
+)
+{
+    static const QHash<QString,QVariant> testData {
+        {"name","name"}
+        ,{"description","description"}
+        ,{"class",true}
+    };
+    _block->setState(testData);
+    QCOMPARE(_block->isClass(),true);
+}
+
+
+void Enumeration::state(
+)
+{
+    static const QString testName = "name";
+    static const QString testDescription = "description";
+    static const QHash<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"class",true}
+    };
+    _block->setName(testName);
+    _block->setDescription(testDescription);
+    _block->setClass(true);
+    auto data = _block->state();
+    QCOMPARE(data,testData);
+}
+
+
 void Enumeration::cleanupTestCase(
 )
 {

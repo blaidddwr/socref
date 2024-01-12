@@ -213,6 +213,17 @@ class Node:
     );
 
 
+    public:
+    virtual void setState(
+        const QHash<QString,QVariant>& state
+    ) override final;
+
+
+    public:
+    virtual QHash<QString,QVariant> state(
+    ) const override final;
+
+
     protected:
     virtual void addEvent(
         int index

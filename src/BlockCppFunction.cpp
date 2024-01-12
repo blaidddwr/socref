@@ -258,11 +258,19 @@ void Function::loadFromMap(
     {
         _flags = loadFlagsLegacy(map);
         _assignment = loadAssignmentLegacy(map);
+        auto str = map.value("templates").toString();
+        str = str.replace("template","").replace("<","").replace(">","");
+        _templates = str.split(',');
+        for (auto& t: _templates)
+        {
+            t = t.trimmed();
+        }
     }
     else
     {
         loadFlags(map.value("flags"),version);
         loadAssignment(map.value("assignment"),version);
+        _templates = map.value("templates").toString().split(';');
     }
     updateDisplayIcon();
     updateDisplayText();
@@ -296,7 +304,7 @@ QMap<QString,QVariant> Function::saveToMap(
     }
     if (!_templates.isEmpty())
     {
-        ret.insert("template",_templates.join(';'));
+        ret.insert("templates",_templates.join(';'));
     }
     auto flags = flagStrings();
     if (!flags.isEmpty())
@@ -370,6 +378,24 @@ void Function::setReturnDescription(
 }
 
 
+void Function::setState(
+    const QHash<QString,QVariant>& state
+)
+{
+    setDescription(state.value("description").toString());
+    set(
+        state.value("name").toString()
+        ,state.value("returnType").toString()
+        ,state.value("type").toInt()
+        ,state.value("access").toInt()
+        ,state.value("assignment").toInt()
+        ,state.value("flags").toInt()
+    );
+    setReturnDescription(state.value("returnDescription").toString());
+    setTemplates(state.value("templates").toStringList());
+}
+
+
 void Function::setTemplates(
     const QStringList& value
 )
@@ -380,6 +406,21 @@ void Function::setTemplates(
         emit templatesChanged(value);
         updateDisplayText();
     }
+}
+
+
+QHash<QString,QVariant> Function::state(
+) const
+{
+    auto ret = Base::state();
+    ret.insert("returnType",_returnType);
+    ret.insert("type",_type);
+    ret.insert("access",_access);
+    ret.insert("assignment",_assignment);
+    ret.insert("flags",_flags);
+    ret.insert("returnDescription",_returnDescription);
+    ret.insert("templates",_templates);
+    return ret;
 }
 
 

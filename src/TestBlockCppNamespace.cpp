@@ -65,7 +65,7 @@ void Namespace::loadFromMap(
 )
 {
     static const QString testName = "Testing123";
-    static const QString testDescription = "Testing\n\n 1 2\n 3";
+    static const QString testDescription = "Testing\n\n 1\\ 2\n 3";
     static const QMap<QString,QVariant> testData {
         {"name",testName}
         ,{"description",testDescription}
@@ -97,7 +97,7 @@ void Namespace::saveToMap(
 )
 {
     static const QString testName = "Testing123";
-    static const QString testDescription = "Testing\n\n 1 2\n 3";
+    static const QString testDescription = "Testing\n\n 1\\ 2\n 3";
     static const QMap<QString,QVariant> testData {
         {"name",testName}
         ,{"description",testDescription}
@@ -129,6 +129,37 @@ void Namespace::scopeProperty(
     QCOMPARE(child1->scope(),testScope.join("::"));
     QCOMPARE(child0->scope(),testScope.at(0));
     QCOMPARE(_block->scope(),"ROOT");
+}
+
+
+void Namespace::setState(
+)
+{
+    static const QString testName = "Testing123";
+    static const QString testDescription = "Testing\n\n 1\\ 2\n 3";
+    static const QHash<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+    };
+    _block->setState(testData);
+    QCOMPARE(_block->name(),testName);
+    QCOMPARE(_block->description(),testDescription);
+}
+
+
+void Namespace::state(
+)
+{
+    static const QString testName = "Testing123";
+    static const QString testDescription = "Testing\n\n 1\\ 2\n 3";
+    static const QHash<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+    };
+    _block->setName(testName);
+    _block->setDescription(testDescription);
+    auto data = _block->state();
+    QCOMPARE(data,testData);
 }
 
 

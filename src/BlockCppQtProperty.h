@@ -114,6 +114,12 @@ class Property:
     );
 
 
+    public:
+    virtual void setState(
+        const QHash<QString,QVariant>& state
+    ) override final;
+
+
     /*!
      * Sets this instance's write method property to the given value.
      *
@@ -124,6 +130,11 @@ class Property:
     void setWriteMethod(
         const QString& value
     );
+
+
+    public:
+    virtual QHash<QString,QVariant> state(
+    ) const override final;
 
 
     /*!

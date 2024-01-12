@@ -69,5 +69,23 @@ void Enumeration::setClass(
         emit classChanged(value);
     }
 }
+
+
+void Enumeration::setState(
+    const QHash<QString,QVariant>& state
+)
+{
+    Base::setState(state);
+    setClass(state.value("class").toBool());
+}
+
+
+QHash<QString,QVariant> Enumeration::state(
+) const
+{
+    auto ret = Base::state();
+    ret.insert("class",_class);
+    return ret;
+}
 }
 }

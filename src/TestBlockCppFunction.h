@@ -242,6 +242,22 @@ class Function:
 
 
     /*!
+     * Tests the "set state" interface.
+     */
+    private slots:
+    void setState(
+    );
+
+
+    /*!
+     * Tests the state interface.
+     */
+    private slots:
+    void state(
+    );
+
+
+    /*!
      * Tests the scope name interface implementation.
      */
     private slots:

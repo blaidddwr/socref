@@ -86,6 +86,16 @@ void Variable::setAssignment(
 }
 
 
+void Variable::setState(
+    const QHash<QString,QVariant>& state
+)
+{
+    Base::setState(state);
+    setType(state.value("type").toString());
+    setAssignment(state.value("assignment").toString());
+}
+
+
 void Variable::setType(
     const QString& value
 )
@@ -99,6 +109,16 @@ void Variable::setType(
             p->updateDisplayText();
         }
     }
+}
+
+
+QHash<QString,QVariant> Variable::state(
+) const
+{
+    auto ret = Base::state();
+    ret.insert("type",_type);
+    ret.insert("assignment",_assignment);
+    return ret;
 }
 
 

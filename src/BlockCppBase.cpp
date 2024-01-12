@@ -99,6 +99,25 @@ void Base::setName(
 }
 
 
+void Base::setState(
+    const QHash<QString,QVariant>& state
+)
+{
+    setName(state.value("name").toString());
+    setDescription(state.value("description").toString());
+}
+
+
+QHash<QString,QVariant> Base::state(
+) const
+{
+    return {
+        {"name",_name}
+        ,{"description",_description}
+    };
+}
+
+
 Base::Base(
     const QString& name
     ,Model::Meta::Block* meta

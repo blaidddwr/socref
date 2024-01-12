@@ -24,6 +24,20 @@ Widget::Block::Abstract* Class::createWidget(
 }
 
 
+QString Class::displayText(
+) const
+{
+    if (!_templates.isEmpty())
+    {
+        return Base::displayText()+" -> template<"+_templates.join(",")+">";
+    }
+    else
+    {
+        return Base::displayText();
+    }
+}
+
+
 void Class::loadFromMap(
     const QMap<QString,QVariant>& map
     ,int version
@@ -33,7 +47,7 @@ void Class::loadFromMap(
     if (version == Socref_Legacy)
     {
         _parents = map.value("parents").toString().split('\n',Qt::SkipEmptyParts);
-        auto str = map.value("template").toString();
+        auto str = map.value("templates").toString();
         str = str.replace("template","").replace("<","").replace(">","");
         _templates = str.split(',');
         for (auto& t: _templates)
@@ -66,7 +80,7 @@ QMap<QString,QVariant> Class::saveToMap(
     }
     if (!_templates.isEmpty())
     {
-        ret.insert("template",_templates.join(';'));
+        ret.insert("templates",_templates.join(';'));
     }
     return ret;
 }
@@ -84,6 +98,16 @@ void Class::setParents(
 }
 
 
+void Class::setState(
+    const QHash<QString,QVariant>& state
+)
+{
+    Base::setState(state);
+    setParents(state.value("parents").toStringList());
+    setTemplates(state.value("templates").toStringList());
+}
+
+
 void Class::setTemplates(
     const QStringList& value
 )
@@ -92,7 +116,18 @@ void Class::setTemplates(
     {
         _templates = value;
         emit templatesChanged(value);
+        emit displayTextChanged(displayText());
     }
+}
+
+
+QHash<QString,QVariant> Class::state(
+) const
+{
+    auto ret = Base::state();
+    ret.insert("parents",_parents);
+    ret.insert("templates",_templates);
+    return ret;
 }
 
 

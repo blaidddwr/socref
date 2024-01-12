@@ -82,6 +82,17 @@ class Enumeration:
     void setClass(
         bool value
     );
+
+
+    public:
+    virtual void setState(
+        const QHash<QString,QVariant>& state
+    ) override final;
+
+
+    public:
+    virtual QHash<QString,QVariant> state(
+    ) const override final;
 };
 }
 }

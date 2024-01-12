@@ -570,12 +570,14 @@ void Function::loadFromMap(
     static const QString testDescription = "description";
     static const QString testReturnType = "void";
     static const QString testReturnDescription = "description";
+    static const QStringList testTemplates = {"Class A","Class B"};
     static const QStringList testFlags {"virtual","override"};
     static const QMap<QString,QVariant> testData {
         {"name",testName}
         ,{"description",testDescription}
         ,{"returnType",testReturnType}
         ,{"returnDescription",testReturnDescription}
+        ,{"templates",testTemplates.join(";")}
         ,{"type","method"}
         ,{"access","public"}
         ,{"assignment","none"}
@@ -587,6 +589,7 @@ void Function::loadFromMap(
     QCOMPARE(_block->description(),testDescription);
     QCOMPARE(_block->returnType(),testReturnType);
     QCOMPARE(_block->returnDescription(),testReturnDescription);
+    QCOMPARE(_block->templates(),testTemplates);
     QCOMPARE(_block->type(),MethodFunctionType);
     QCOMPARE(_block->access(),PublicAccess);
     QCOMPARE(_block->assignment(),NoFunctionAssignment);
@@ -600,22 +603,26 @@ void Function::loadFromMapLegacy(
     static const QString testName = "^";
     static const QString testDescription = "description";
     static const QString testReturnDescription = "description";
+    static const QStringList testTemplates {"class A","class B"};
+    static const QString testTemplateString = "template <  class A   ,  class B>";
     static const QMap<QString,QVariant> testData {
         {"name",testName}
         ,{"description",testDescription}
         ,{"returnType","void"}
         ,{"returnDescription",testReturnDescription}
+        ,{"templates",testTemplateString}
         ,{"access","Public"}
         ,{"default","1"}
         ,{"explicit",1}
     };
     _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
     _block->loadFromMap(testData,Socref_Legacy);
-    QCOMPARE(_block->displayText(),"class123() = default -> explicit");
+    QCOMPARE(_block->displayText(),"class123() = default -> template<class A,class B> explicit");
     QCOMPARE(_block->name(),"");
     QCOMPARE(_block->description(),testDescription);
     QCOMPARE(_block->returnType(),"");
     QCOMPARE(_block->returnDescription(),testReturnDescription);
+    QCOMPARE(_block->templates(),testTemplates);
     QCOMPARE(_block->type(),ConstructorFunctionType);
     QCOMPARE(_block->access(),PublicAccess);
     QCOMPARE(_block->assignment(),DefaultFunctionAssignment);
@@ -660,12 +667,14 @@ void Function::saveToMap(
     static const QString testDescription = "description";
     static const QString testReturnType = "void";
     static const QString testReturnDescription = "description";
+    static const QStringList testTemplates = {"class A","class B"};
     static const QStringList testFlags {"virtual","override"};
     static const QMap<QString,QVariant> testData {
         {"name",testName}
         ,{"description",testDescription}
         ,{"returnType",testReturnType}
         ,{"returnDescription",testReturnDescription}
+        ,{"templates",testTemplates.join(";")}
         ,{"type","method"}
         ,{"access","public"}
         ,{"assignment","none"}
@@ -681,7 +690,76 @@ void Function::saveToMap(
     );
     _block->setDescription(testDescription);
     _block->setReturnDescription(testReturnDescription);
+    _block->setTemplates(testTemplates);
     auto data = _block->saveToMap();
+    QCOMPARE(data,testData);
+}
+
+
+void Function::setState(
+)
+{
+    static const QString testName = "name";
+    static const QString testDescription = "description";
+    static const QString testReturnType = "void";
+    static const QString testReturnDescription = "description";
+    static const QStringList testTemplates = {"class A","class B"};
+    static const int testType = MethodFunctionType;
+    static const int testAccess = PublicAccess;
+    static const int testAssignment = NoFunctionAssignment;
+    static const int testFlags = VirtualFunctionFlag|OverrideFunctionFlag;
+    static const QHash<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"returnType",testReturnType}
+        ,{"returnDescription",testReturnDescription}
+        ,{"templates",testTemplates}
+        ,{"type",testType}
+        ,{"access",testAccess}
+        ,{"assignment",testAssignment}
+        ,{"flags",testFlags}
+    };
+    _block->set("","",ConstructorFunctionType,PrivateAccess,DefaultFunctionAssignment,0);
+    _block->setState(testData);
+    QCOMPARE(_block->name(),testName);
+    QCOMPARE(_block->description(),testDescription);
+    QCOMPARE(_block->returnType(),testReturnType);
+    QCOMPARE(_block->returnDescription(),testReturnDescription);
+    QCOMPARE(_block->type(),MethodFunctionType);
+    QCOMPARE(_block->access(),PublicAccess);
+    QCOMPARE(_block->assignment(),NoFunctionAssignment);
+    QCOMPARE(_block->flags(),VirtualFunctionFlag|OverrideFunctionFlag);
+}
+
+
+void Function::state(
+)
+{
+    static const QString testName = "name";
+    static const QString testDescription = "description";
+    static const QString testReturnType = "void";
+    static const QString testReturnDescription = "description";
+    static const QStringList testTemplates = {"Class A","Class B"};
+    static const int testType = MethodFunctionType;
+    static const int testAccess = PublicAccess;
+    static const int testAssignment = NoFunctionAssignment;
+    static const int testFlags = VirtualFunctionFlag|OverrideFunctionFlag;
+    static const QHash<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"returnType",testReturnType}
+        ,{"returnDescription",testReturnDescription}
+        ,{"templates",testTemplates}
+        ,{"type",testType}
+        ,{"access",testAccess}
+        ,{"assignment",testAssignment}
+        ,{"flags",testFlags}
+    };
+    _block->set(testName,testReturnType,testType,testAccess,testAssignment,testFlags);
+    _block->setDescription(testDescription);
+    _block->setReturnDescription(testReturnDescription);
+    _block->setTemplates(testTemplates);
+    auto data = _block->state();
     QCOMPARE(data,testData);
 }
 

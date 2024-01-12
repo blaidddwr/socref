@@ -521,6 +521,12 @@ class Function:
     );
 
 
+    public:
+    virtual void setState(
+        const QHash<QString,QVariant>& state
+    ) override final;
+
+
     /*!
      * Sets this instance's templates property to the given value.
      *
@@ -531,6 +537,11 @@ class Function:
     void setTemplates(
         const QStringList& value
     );
+
+
+    public:
+    virtual QHash<QString,QVariant> state(
+    ) const override final;
 
 
     /*!

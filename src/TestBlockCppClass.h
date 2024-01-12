@@ -33,6 +33,14 @@ class Class:
 
 
     /*!
+     * Tests the display text property.
+     */
+    private slots:
+    void displayTextProperty(
+    );
+
+
+    /*!
      * Tests the load from map interface.
      */
     private slots:
@@ -61,6 +69,22 @@ class Class:
      */
     private slots:
     void saveToMap(
+    );
+
+
+    /*!
+     * Tests the "set state" interface.
+     */
+    private slots:
+    void setState(
+    );
+
+
+    /*!
+     * Tests the state interface.
+     */
+    private slots:
+    void state(
     );
 
 

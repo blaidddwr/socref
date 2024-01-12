@@ -103,6 +103,12 @@ class Variable:
     );
 
 
+    public:
+    virtual void setState(
+        const QHash<QString,QVariant>& state
+    ) override final;
+
+
     /*!
      * Sets this instance's type property to the given value.
      *
@@ -113,6 +119,11 @@ class Variable:
     void setType(
         const QString& value
     );
+
+
+    public:
+    virtual QHash<QString,QVariant> state(
+    ) const override final;
 
 
     /*!

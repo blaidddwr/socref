@@ -119,6 +119,17 @@ class Base:
     );
 
 
+    public:
+    virtual void setState(
+        const QHash<QString,QVariant>& state
+    ) override;
+
+
+    public:
+    virtual QHash<QString,QVariant> state(
+    ) const override;
+
+
     /*!
      * Constructs this new instance with the given name, meta, and parent. The
      * given meta must be valid and cannot be destroyed during the life of this

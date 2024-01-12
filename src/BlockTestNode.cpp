@@ -186,6 +186,23 @@ void Node::setName(
 }
 
 
+void Node::setState(
+    const QHash<QString,QVariant>& state
+)
+{
+    setName(state.value("name").toString());
+}
+
+
+QHash<QString,QVariant> Node::state(
+) const
+{
+    return {
+        {"name",_name}
+    };
+}
+
+
 void Node::addEvent(
     int index
 )
