@@ -9,6 +9,7 @@
 #include "TestBlockCppNamespace.h"
 #include "TestBlockCppProperty.h"
 #include "TestBlockCppQtFunction.h"
+#include "TestBlockCppQtProperty.h"
 #include "TestBlockCppVariable.h"
 #include "TestFactoryLanguage.h"
 #include "TestLanguageAbstract.h"
@@ -103,6 +104,7 @@ void initialize(
         ,{"BlockCppProperty",new Block::Cpp::Property}
         ,{"BlockCppVariable",new Block::Cpp::Variable}
         ,{"BlockCppQtFunction",new Block::CppQt::Function}
+        ,{"BlockCppQtProperty",new Block::CppQt::Property}
         ,{"FactoryLanguage",new Factory::Language}
         ,{"Language",new Language::Abstract}
         ,{"LanguageCpp",new Language::Cpp}

@@ -33,8 +33,9 @@ SOURCES +=  Global.cpp \
             TestBlockCppFunction.cpp \
             TestBlockCppNamespace.cpp \
             TestBlockCppProperty.cpp \
-            TestBlockCppVariable.cpp \
             TestBlockCppQtFunction.cpp \
+            TestBlockCppQtProperty.cpp \
+            TestBlockCppVariable.cpp \
             TestFactoryLanguage.cpp \
             TestLanguageAbstract.cpp \
             TestLanguageCpp.cpp \
@@ -93,9 +94,10 @@ HEADERS +=  Global.h \
             TestBlockCppFunction.h \
             TestBlockCppNamespace.h \
             TestBlockCppProperty.h \
-            TestBlockCppVariable.h \
             TestBlockCppQt.h \
             TestBlockCppQtFunction.h \
+            TestBlockCppQtProperty.h \
+            TestBlockCppVariable.h \
             TestFactory.h \
             TestFactoryLanguage.h \
             TestLanguage.h \
