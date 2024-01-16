@@ -15,6 +15,7 @@ SOURCES +=  Global.cpp \
             BlockCppUnion.cpp \
             BlockCppVariable.cpp \
             BlockTestNode.cpp \
+            CommandProjectAbstract.cpp \
             ExceptionBase.cpp \
             FactoryLanguage.cpp \
             LanguageAbstract.cpp \
@@ -61,6 +62,9 @@ HEADERS +=  Global.h \
             BlockCppVariable.h \
             BlockTest.h \
             BlockTestNode.h \
+            Command.h \
+            CommandProject.h \
+            CommandProjectAbstract.h \
             Exception.h \
             ExceptionBase.h \
             ExceptionBlock.h \
