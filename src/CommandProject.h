@@ -12,6 +12,7 @@ namespace Command {
 namespace Project
 {
     class Abstract;
+    class Insert;
 }
 }
 

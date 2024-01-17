@@ -1,6 +1,7 @@
 #ifndef COMMAND_PROJECT_ABSTRACT_H
 #define COMMAND_PROJECT_ABSTRACT_H
 #include <QObject>
+#include "Block.h"
 #include "Model.h"
 namespace Command {
 namespace Project {
@@ -60,6 +61,9 @@ class Abstract:
 
     /*!
      * Modifies this instance's parent project model with its project command.
+     *
+     * @return
+     * True on success or false otherwise.
      */
     public:
     virtual bool redo(
@@ -69,6 +73,9 @@ class Abstract:
     /*!
      * Reverts the modification done on this instance's parent project model by
      * its project command.
+     *
+     * @return
+     * True on success or false otherwise.
      */
     public:
     virtual bool undo(
@@ -76,8 +83,23 @@ class Abstract:
 
 
     /*!
-     * Converts the given index to a list of row indexes. The given index must
-     * be a valid index generated from this instance's parent project model.
+     * Returns the block pointer from the given index using this instance's
+     * parent project model. If the given index is invalid then the root block
+     * pointer is returned.
+     *
+     * @param index
+     *        The index.
+     */
+    protected:
+    Block::Abstract* blockFromIndex(
+        const QModelIndex& index
+    ) const;
+
+
+    /*!
+     * Converts the given index to a list of row indexes using this instance's
+     * parent project model. If the given index is invalid(root) then an empty
+     * list is returned.
      *
      * @param index
      *        The index.
@@ -92,9 +114,9 @@ class Abstract:
 
 
     /*!
-     * Converts the given list of row indexes to a valid Qt model index. The
-     * given list of row indexes must be able to generate a valid Qt model index
-     * from this instance's parent project model.
+     * Converts the given list of row indexes to a Qt model index using this
+     * instance's parent project model. If the given list of row indexes is
+     * empty then an invalid index is returned.
      *
      * @param list
      *        The list of row indexes.

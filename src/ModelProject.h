@@ -2,6 +2,7 @@
 #define MODEL_PROJECT_H
 #include <QAbstractItemModel>
 #include "Block.h"
+#include "CommandProject.h"
 #include "Language.h"
 class QXmlStreamReader;
 namespace Model {
@@ -22,6 +23,8 @@ class Project:
     public QAbstractItemModel
 {
     Q_OBJECT
+    friend class Command::Project::Abstract;
+    friend class Command::Project::Insert;
     Block::Abstract* _root {nullptr};
     Language::Abstract* _language {nullptr};
     QString _directoryPath;

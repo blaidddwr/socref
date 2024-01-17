@@ -23,17 +23,31 @@ Model::Project& Abstract::project(
 }
 
 
+Block::Abstract* Abstract::blockFromIndex(
+    const QModelIndex& index
+) const
+{
+    if (!index.isValid())
+    {
+        return project()._root;
+    }
+    else
+    {
+        return reinterpret_cast<Block::Abstract*>(index.internalPointer());
+    }
+}
+
+
 QList<int> Abstract::convertIndexToList(
     const QModelIndex& index
 )
 {
     QList<int> ret;
-    G_ASSERT(index.isValid());
-    ret.append(index.row());
-    auto p = index.parent();
+    auto p = index;
     while (p.isValid())
     {
         ret.append(p.row());
+        p = p.parent();
     }
     return ret;
 }
@@ -43,12 +57,10 @@ QModelIndex Abstract::convertListToIndex(
     const QList<int>& list
 )
 {
-    G_ASSERT(!list.isEmpty());
     QModelIndex ret;
     for (int i = list.size()-1;i >= 0;i++)
     {
         ret = project().index(list.at(i),0,ret);
-        G_ASSERT(ret.isValid());
     }
     return ret;
 }
