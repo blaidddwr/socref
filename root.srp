@@ -6165,6 +6165,126 @@ This new instance takes ownership of the given block.</__p_description>
                         <__p_virtual>1</__p_virtual>
                     </Function>
                 </Class>
+                <Class>
+                    <__p_description>This is a project command class. It represents a move operation. A move operation moves a child block from a given index/row to another given index/row in a project model.</__p_description>
+                    <__p_name>Move</__p_name>
+                    <__p_parents>public Command::Project::Abstract</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Constructs this new instance with the given from row, to row, parent index, and parent.
+
+The given from and to rows must make a valid move operation within the given parent index.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The from row.</__p_description>
+                            <__p_name>from</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The to row.</__p_description>
+                            <__p_name>to</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The parent index.</__p_description>
+                            <__p_name>parentIndex</__p_name>
+                            <__p_type>const QModelIndex&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The parent.</__p_description>
+                            <__p_name>parent</__p_name>
+                            <__p_type>Model::Project*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>description</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QString</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>redo</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>undo</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Moves the child block at the given from index to the given to index in this instance's parent block.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>move</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The from index.</__p_description>
+                            <__p_name>from</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The to index.</__p_description>
+                            <__p_name>to</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                </Class>
             </Namespace>
         </Namespace>
         <Namespace>

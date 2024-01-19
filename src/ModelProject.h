@@ -25,6 +25,7 @@ class Project:
     Q_OBJECT
     friend class Command::Project::Abstract;
     friend class Command::Project::Insert;
+    friend class Command::Project::Move;
     Block::Abstract* _root {nullptr};
     Language::Abstract* _language {nullptr};
     QString _directoryPath;

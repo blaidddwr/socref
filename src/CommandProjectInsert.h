@@ -18,8 +18,7 @@ class Insert:
     Q_OBJECT
     Block::Abstract* _block;
     QList<int> _parent;
-    QString _blockScope;
-    QString _parentScope;
+    QString _description;
     int _row;
 
 

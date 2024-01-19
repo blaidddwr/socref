@@ -21,16 +21,17 @@ Insert::Insert(
     G_ASSERT(_row >= 0);
     G_ASSERT(_row <= project().rowCount(parentIndex));
     _block->setParent(this);
-    _blockScope = _block->scope();
-    _parentScope = blockFromIndex(parentIndex)->scope();
+    auto blockScope = _block->scope();
+    auto parentScope = blockFromIndex(parentIndex)->scope();
+    _description = tr("Inserting block %1 into block %2 at row %3.");
+    _description = _description.arg(blockScope,parentScope);
 }
 
 
 QString Insert::description(
 ) const
 {
-    auto ret = tr("Inserting block %1 into block %2 at row %3.");
-    return ret.arg(_blockScope,_parentScope).arg(_row);
+    return _description;
 }
 
 

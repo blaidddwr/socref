@@ -17,6 +17,7 @@ SOURCES +=  Global.cpp \
             BlockTestNode.cpp \
             CommandProjectAbstract.cpp \
             CommandProjectInsert.cpp \
+            CommandProjectMove.cpp \
             ExceptionBase.cpp \
             FactoryLanguage.cpp \
             LanguageAbstract.cpp \
@@ -67,6 +68,7 @@ HEADERS +=  Global.h \
             CommandProject.h \
             CommandProjectAbstract.h \
             CommandProjectInsert.h \
+            CommandProjectMove.h \
             Exception.h \
             ExceptionBase.h \
             ExceptionBlock.h \
