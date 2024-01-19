@@ -14,6 +14,7 @@ namespace Project
     class Abstract;
     class Insert;
     class Move;
+    class Remove;
 }
 }
 

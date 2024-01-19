@@ -6072,7 +6072,9 @@ Its single property is description. The description provides a user readable des
                     </Function>
                 </Class>
                 <Class>
-                    <__p_description>This is a project command class. It represents an insert operation. An insert operation inserts a given block into a project model.</__p_description>
+                    <__p_description>This is a project command class. It represents an insert operation. An insert operation inserts a given block into a project model.
+
+This class can also act as a base class for other operations that utilize inserting and removing a block, such as a remove operation. A protected constructor and methods are provided to facilitate the use of this class as a base project command parent class.</__p_description>
                     <__p_name>Insert</__p_name>
                     <__p_parents>public Command::Project::Abstract</__p_parents>
                     <Function>
@@ -6139,7 +6141,7 @@ This new instance takes ownership of the given block.</__p_description>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
                         <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
+                        <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>redo</__p_name>
                         <__p_noexcept>0</__p_noexcept>
@@ -6155,7 +6157,7 @@ This new instance takes ownership of the given block.</__p_description>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
                         <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
+                        <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>undo</__p_name>
                         <__p_noexcept>0</__p_noexcept>
@@ -6163,6 +6165,98 @@ This new instance takes ownership of the given block.</__p_description>
                         <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Constructs this new instance with the given row, parent index, and parent.
+
+The given parent must be valid. The given row must be a valid insertion/removal point for the given parent index.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The row.</__p_description>
+                            <__p_name>row</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The parent index.</__p_description>
+                            <__p_name>parentIndex</__p_name>
+                            <__p_type>const QModelIndex&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The parent.</__p_description>
+                            <__p_name>parent</__p_name>
+                            <__p_type>Model::Project*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Inserts this instance's block into its parent project model. If this instance does not have ownership over a block then this fails.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>insert</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Removes the child block from this instance's parent project model, taking ownership of the removed block. If this instance currently has a block then this fails.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>remove</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this instance's description property to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setDescription</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
                     </Function>
                 </Class>
                 <Class>
@@ -6283,6 +6377,77 @@ The given from and to rows must make a valid move operation within the given par
                             <__p_name>to</__p_name>
                             <__p_type>int</__p_type>
                         </Variable>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_description>This is a project command class. It represents a remove operation. A remove operation removes a given block from a project model.</__p_description>
+                    <__p_name>Remove</__p_name>
+                    <__p_parents>public Command::Project::Insert</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Constructs this new instance with the given row, parent index, and parent.
+
+The given parent must be valid. The given row must be a valid removal point for the given parent index.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The row.</__p_description>
+                            <__p_name>row</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The parent index.</__p_description>
+                            <__p_name>parentIndex</__p_name>
+                            <__p_type>const QModelIndex&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The parent.</__p_description>
+                            <__p_name>parent</__p_name>
+                            <__p_type>Model::Project*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>redo</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>undo</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
                     </Function>
                 </Class>
             </Namespace>

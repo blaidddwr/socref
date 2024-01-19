@@ -23,7 +23,7 @@ Move::Move(
     G_ASSERT(from <= rc);
     G_ASSERT(to <= rc);
     auto parentScope = blockFromIndex(parentIndex)->scope();
-    _description = tr("Moving child block at %1 to %2 in parent block %3.");
+    _description = tr("Moving child block at row %1 to row %2 in parent block %3.");
     _description = _description.arg(_from,_to).arg(parentScope);
 }
 

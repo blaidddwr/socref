@@ -11,12 +11,17 @@ namespace Project {
 /*!
  * This is a project command class. It represents an insert operation. An insert
  * operation inserts a given block into a project model.
+ * 
+ * This class can also act as a base class for other operations that utilize
+ * inserting and removing a block, such as a remove operation. A protected
+ * constructor and methods are provided to facilitate the use of this class as a
+ * base project command parent class.
  */
 class Insert:
     public Command::Project::Abstract
 {
     Q_OBJECT
-    Block::Abstract* _block;
+    Block::Abstract* _block {nullptr};
     QList<int> _parent;
     QString _description;
     int _row;
@@ -59,12 +64,73 @@ class Insert:
 
     public:
     virtual bool redo(
-    ) override final;
+    ) override;
 
 
     public:
     virtual bool undo(
-    ) override final;
+    ) override;
+
+
+    /*!
+     * Constructs this new instance with the given row, parent index, and
+     * parent.
+     * 
+     * The given parent must be valid. The given row must be a valid
+     * insertion/removal point for the given parent index.
+     *
+     * @param row
+     *        The row.
+     *
+     * @param parentIndex
+     *        The parent index.
+     *
+     * @param parent
+     *        The parent.
+     */
+    protected:
+    Insert(
+        int row
+        ,const QModelIndex& parentIndex
+        ,Model::Project* parent
+    );
+
+
+    /*!
+     * Inserts this instance's block into its parent project model. If this
+     * instance does not have ownership over a block then this fails.
+     *
+     * @return
+     * True on success or false otherwise.
+     */
+    protected:
+    bool insert(
+    );
+
+
+    /*!
+     * Removes the child block from this instance's parent project model, taking
+     * ownership of the removed block. If this instance currently has a block
+     * then this fails.
+     *
+     * @return
+     * True on success or false otherwise.
+     */
+    protected:
+    bool remove(
+    );
+
+
+    /*!
+     * Sets this instance's description property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    protected:
+    void setDescription(
+        const QString& value
+    );
 };
 }
 }

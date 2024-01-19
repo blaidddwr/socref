@@ -18,6 +18,7 @@ SOURCES +=  Global.cpp \
             CommandProjectAbstract.cpp \
             CommandProjectInsert.cpp \
             CommandProjectMove.cpp \
+            CommandProjectRemove.cpp \
             ExceptionBase.cpp \
             FactoryLanguage.cpp \
             LanguageAbstract.cpp \
@@ -69,6 +70,7 @@ HEADERS +=  Global.h \
             CommandProjectAbstract.h \
             CommandProjectInsert.h \
             CommandProjectMove.h \
+            CommandProjectRemove.h \
             Exception.h \
             ExceptionBase.h \
             ExceptionBlock.h \
