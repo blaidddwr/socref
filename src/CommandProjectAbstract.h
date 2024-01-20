@@ -83,20 +83,6 @@ class Abstract:
 
 
     /*!
-     * Returns the block pointer from the given index using this instance's
-     * parent project model. If the given index is invalid then the root block
-     * pointer is returned.
-     *
-     * @param index
-     *        The index.
-     */
-    protected:
-    Block::Abstract* blockFromIndex(
-        const QModelIndex& index
-    ) const;
-
-
-    /*!
      * Converts the given index to a list of row indexes using this instance's
      * parent project model. If the given index is invalid(root) then an empty
      * list is returned.

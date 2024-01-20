@@ -22,7 +22,7 @@ Move::Move(
     auto rc = project().rowCount(parentIndex);
     G_ASSERT(from <= rc);
     G_ASSERT(to <= rc);
-    auto parentScope = blockFromIndex(parentIndex)->scope();
+    auto parentScope = project().block(parentIndex)->scope();
     _description = tr("Moving child block at row %1 to row %2 in parent block %3.");
     _description = _description.arg(_from,_to).arg(parentScope);
 }
@@ -55,7 +55,7 @@ bool Move::move(
 )
 {
     auto parent = convertListToIndex(_parent);
-    auto pb = blockFromIndex(parent);
+    auto pb = project().block(parent);
     if (
         from >= pb->size()
         || to >= pb->size()

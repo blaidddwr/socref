@@ -20,7 +20,7 @@ Insert::Insert(
     G_ASSERT(_row <= project().rowCount(parentIndex));
     _block->setParent(this);
     auto blockScope = _block->scope();
-    auto parentScope = blockFromIndex(parentIndex)->scope();
+    auto parentScope = project().block(parentIndex)->scope();
     _description = tr("Inserting block %1 into block %2 at row %3.");
     _description = _description.arg(blockScope,parentScope);
 }
@@ -70,7 +70,7 @@ bool Insert::insert(
     }
     auto parent = convertListToIndex(_parent);
     project().beginInsertColumns(parent,_row,_row);
-    blockFromIndex(parent)->insert(_row,_block);
+    project().block(parent)->insert(_row,_block);
     _block = nullptr;
     project().endInsertColumns();
     return true;
@@ -86,7 +86,7 @@ bool Insert::remove(
     }
     auto parent = convertListToIndex(_parent);
     project().beginRemoveRows(parent,_row,_row);
-    _block = blockFromIndex(parent)->take(_row);
+    _block = project().block(parent)->take(_row);
     _block->setParent(this);
     project().endRemoveRows();
     return true;

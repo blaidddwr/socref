@@ -102,6 +102,19 @@ class Project:
     ) const;
 
 
+    /*!
+     * Returns the block contained in this model at the given index. If the
+     * given index is invalid then the root block is returned.
+     *
+     * @param index
+     *        The index.
+     */
+    public:
+    Block::Abstract* block(
+        const QModelIndex& index
+    ) const;
+
+
     public:
     virtual int columnCount(
         const QModelIndex& parent = QModelIndex()

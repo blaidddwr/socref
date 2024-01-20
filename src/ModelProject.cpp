@@ -31,6 +31,21 @@ QString Project::absoluteParsePath(
 }
 
 
+Block::Abstract* Project::block(
+    const QModelIndex& index
+) const
+{
+    if (!index.isValid())
+    {
+        return _root;
+    }
+    else
+    {
+        return reinterpret_cast<Block::Abstract*>(index.internalPointer());
+    }
+}
+
+
 int Project::columnCount(
     const QModelIndex& parent
 ) const

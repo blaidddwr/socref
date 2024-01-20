@@ -23,21 +23,6 @@ Model::Project& Abstract::project(
 }
 
 
-Block::Abstract* Abstract::blockFromIndex(
-    const QModelIndex& index
-) const
-{
-    if (!index.isValid())
-    {
-        return project()._root;
-    }
-    else
-    {
-        return reinterpret_cast<Block::Abstract*>(index.internalPointer());
-    }
-}
-
-
 QList<int> Abstract::convertIndexToList(
     const QModelIndex& index
 )

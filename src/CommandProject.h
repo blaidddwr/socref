@@ -15,6 +15,7 @@ namespace Project
     class Insert;
     class Move;
     class Remove;
+    class Set;
 }
 }
 
