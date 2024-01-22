@@ -30,8 +30,10 @@ class Project:
     friend class Command::Project::Set;
     Block::Abstract* _root {nullptr};
     Language::Abstract* _language {nullptr};
+    QHash<QString,QVariant> _previousState;
     QList<Command::Project::Abstract*> _redoStack;
     QList<Command::Project::Abstract*> _undoStack;
+    QPersistentModelIndex _setIndex;
     QString _directoryPath;
     QString _name;
     QString _relativeParsePath;
@@ -117,6 +119,20 @@ class Project:
 
 
     /*!
+     * Informs this model the block given in the last start set call failed in
+     * changing its state, therefore not making any state change to the block.
+     * 
+     * The start set method must be called before this method.
+     *
+     * @return
+     * True on success or false otherwise.
+     */
+    public:
+    bool abortSet(
+    );
+
+
+    /*!
      * Returns this project's absolute parse path, derived its directory path
      * and relative parse path.
      */
@@ -171,6 +187,20 @@ class Project:
     public:
     const QString& directoryPath(
     ) const;
+
+
+    /*!
+     * Informs this model the block given in the last start set call has
+     * successfully had its state changed.
+     * 
+     * The start set method must be called before this method.
+     *
+     * @return
+     * True on success or false otherwise.
+     */
+    public:
+    bool finishSet(
+    );
 
 
     /*!
@@ -236,6 +266,33 @@ class Project:
     public:
     Language::Abstract* language(
     ) const;
+
+
+    /*!
+     * Moves the child block of the given parent index from the given from row
+     * to the given to row.
+     * 
+     * The given from and to rows must produce a valid move operation in this
+     * model.
+     *
+     * @param parent
+     *        The parent index.
+     *
+     * @param from
+     *        The from row.
+     *
+     * @param to
+     *        The to row.
+     *
+     * @return
+     * True on success or false otherwise.
+     */
+    public:
+    bool move(
+        const QModelIndex& parent
+        ,int from
+        ,int to
+    );
 
 
     /*!
@@ -321,6 +378,27 @@ class Project:
     public:
     void setRelativeParsePath(
         const QString& value
+    );
+
+
+    /*!
+     * Informs this model that the block at the given index is about to have its
+     * state changed.
+     * 
+     * This must be called before the finish or abort set methods. Once this
+     * method is called it cannot be called again until the finish or abort set
+     * method is called to finish the set operation. The given index must be
+     * valid.
+     *
+     * @param index
+     *        The index.
+     *
+     * @return
+     * The block this is about to be set on success or null otherwise.
+     */
+    public:
+    Block::Abstract* startSet(
+        const QModelIndex& index
     );
 
 

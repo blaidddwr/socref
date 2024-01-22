@@ -2,7 +2,9 @@
 #include <QtCore>
 #include <QtGui>
 #include "CommandProjectInsert.h"
+#include "CommandProjectMove.h"
 #include "CommandProjectRemove.h"
+#include "CommandProjectSet.h"
 #include "Exception.h"
 #include "ExceptionBase.h"
 #include "ExceptionProjectRead.h"
@@ -37,6 +39,21 @@ Project::Project(
     ,_directoryPath(directoryPath)
 {
     readDir(directoryPath);
+}
+
+
+bool Project::abortSet(
+)
+{
+    if (
+        !_setIndex.isValid()
+    )
+    {
+        return false;
+    }
+    _setIndex = QPersistentModelIndex();
+    _previousState.clear();
+    return true;
 }
 
 
@@ -97,6 +114,24 @@ const QString& Project::directoryPath(
 }
 
 
+bool Project::finishSet(
+)
+{
+    if (
+        !_setIndex.isValid()
+    )
+    {
+        return false;
+    }
+    _undoStack.push_back(
+        new Command::Project::Set(_previousState,block(_setIndex)->state(),_setIndex,this)
+    );
+    _setIndex = QPersistentModelIndex();
+    _previousState.clear();
+    return true;
+}
+
+
 Model::Project* Project::import(
     const QString& path
     ,QObject* parent
@@ -134,10 +169,15 @@ bool Project::insert(
     ,const QModelIndex& parent
 )
 {
-    G_ASSERT(blockIndex >= 0);
-    G_ASSERT(blockIndex < _language->size());
-    G_ASSERT(row >= 0);
-    G_ASSERT(row <= block(parent)->size());
+    if (
+        blockIndex < 0
+        || blockIndex >= _language->size()
+        || row < 0
+        || row > block(parent)->size()
+    )
+    {
+        return false;
+    }
     auto command = new Command::Project::Insert(_language->create(blockIndex),row,parent,this);
     if (command->redo())
     {
@@ -157,6 +197,36 @@ Language::Abstract* Project::language(
 {
     G_ASSERT(_language);
     return _language;
+}
+
+
+bool Project::move(
+    const QModelIndex& parent
+    ,int from
+    ,int to
+)
+{
+    if (
+        from == to
+        || from < 0
+        || from >= rowCount(parent)
+        || to < 0
+        || to >= rowCount(parent)
+    )
+    {
+        return false;
+    }
+    auto command = new Command::Project::Move(from,to,parent,this);
+    if (command->redo())
+    {
+        _undoStack.push_back(command);
+        return true;
+    }
+    else
+    {
+        delete command;
+        return false;
+    }
 }
 
 
@@ -225,8 +295,12 @@ bool Project::remove(
     const QModelIndex& index
 )
 {
-    G_ASSERT(index.isValid());
-    G_ASSERT(index.model() == this);
+    if (
+        !index.isValid()
+        || index.model() != this)
+    {
+        return false;
+    }
     auto command = new Command::Project::Remove(index.row(),index.parent(),this);
     if (command->redo())
     {
@@ -279,6 +353,25 @@ void Project::setRelativeParsePath(
         _relativeParsePath = value;
         emit relativeParsePathChanged(value);
     }
+}
+
+
+Block::Abstract* Project::startSet(
+    const QModelIndex& index
+)
+{
+    if (
+        index.model() != this
+        || !index.isValid()
+        || _setIndex.isValid()
+    )
+    {
+        return nullptr;
+    }
+    _setIndex = index;
+    auto ret = block(index);
+    _previousState = ret->state();
+    return ret;
 }
 
 

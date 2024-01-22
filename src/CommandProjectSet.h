@@ -20,6 +20,7 @@ class Set:
     QHash<QString,QVariant> _nextState;
     QHash<QString,QVariant> _previousState;
     QList<int> _location;
+    QString _description;
 
 
     /*!
@@ -48,6 +49,11 @@ class Set:
         ,const QModelIndex& index
         ,Model::Project* parent
     );
+
+
+    public:
+    virtual QString description(
+    ) const override final;
 
 
     public:

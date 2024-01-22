@@ -19,6 +19,15 @@ Set::Set(
 {
     G_ASSERT(index.isValid());
     G_ASSERT(project().block(index));
+    auto blockScope = project().block(index)->scope();
+    _description = tr("Set state of block %1.").arg(blockScope);
+}
+
+
+QString Set::description(
+) const
+{
+    return _description;
 }
 
 
