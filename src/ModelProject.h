@@ -28,10 +28,31 @@ class Project:
     friend class Command::Project::Move;
     Block::Abstract* _root {nullptr};
     Language::Abstract* _language {nullptr};
+    QList<Command::Project::Abstract*> _redoStack;
+    QList<Command::Project::Abstract*> _undoStack;
     QString _directoryPath;
     QString _name;
     QString _relativeParsePath;
-    static const char* _CONFIG_FILE;
+
+
+    /*!
+     * Constructs this new instance with the given language index and parent.
+     * 
+     * This instance is a new project.
+     * 
+     * The given language index must be valid.
+     *
+     * @param languageIndex
+     *        The language index.
+     *
+     * @param parent
+     *        The parent.
+     */
+    public:
+    Project(
+        int languageIndex
+        ,QObject* parent = nullptr
+    );
 
 
     /*!
@@ -103,8 +124,10 @@ class Project:
 
 
     /*!
-     * Returns the block contained in this model at the given index. If the
-     * given index is invalid then the root block is returned.
+     * Returns the block contained in this model at the given index.
+     * 
+     * If the given index is invalid then the root block is returned, else if
+     * the given index is valid then it must be derived from this model.
      *
      * @param index
      *        The index.
@@ -168,6 +191,32 @@ class Project:
 
 
     /*!
+     * Inserts a new block with the given block index into this model at the
+     * given row in the given parent.
+     * 
+     * The given block index and row must be valid.
+     *
+     * @param blockIndex
+     *        The block index.
+     *
+     * @param row
+     *        The row.
+     *
+     * @param parent
+     *        The parent.
+     *
+     * @return
+     * True on success or false otherwise.
+     */
+    public:
+    bool insert(
+        int blockIndex
+        ,int row
+        ,const QModelIndex& parent
+    );
+
+
+    /*!
      * Getter method.
      *
      * @return
@@ -204,6 +253,23 @@ class Project:
     public:
     const QString& relativeParsePath(
     ) const;
+
+
+    /*!
+     * Removes the block at the given index in this model.
+     * 
+     * The given index must be valid.
+     *
+     * @param index
+     *        The index.
+     *
+     * @return
+     * True on success or false otherwise.
+     */
+    public:
+    bool remove(
+        const QModelIndex& index
+    );
 
 
     public:

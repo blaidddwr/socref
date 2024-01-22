@@ -1,6 +1,8 @@
 #include "ModelProject.h"
 #include <QtCore>
 #include <QtGui>
+#include "CommandProjectInsert.h"
+#include "CommandProjectRemove.h"
 #include "Exception.h"
 #include "ExceptionBase.h"
 #include "ExceptionProjectRead.h"
@@ -9,8 +11,22 @@
 #include "BlockAbstract.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
+#define CONFIG_FILE "project.xml"
 namespace Model {
-const char* Project::_CONFIG_FILE = "project.xml";
+
+
+Project::Project(
+    int languageIndex
+    ,QObject* parent
+):
+    QAbstractItemModel(parent)
+    ,_language(Factory::Language::instance()->get(languageIndex))
+{
+    G_ASSERT(_language);
+    connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
+    _root = _language->create(_language->rootIndex(),this);
+    G_ASSERT(_root);
+}
 
 
 Project::Project(
@@ -41,6 +57,7 @@ Block::Abstract* Project::block(
     }
     else
     {
+        G_ASSERT(index.model() == this);
         return reinterpret_cast<Block::Abstract*>(index.internalPointer());
     }
 }
@@ -113,6 +130,30 @@ QModelIndex Project::index(
 }
 
 
+bool Project::insert(
+    int blockIndex
+    ,int row
+    ,const QModelIndex& parent
+)
+{
+    G_ASSERT(blockIndex >= 0);
+    G_ASSERT(blockIndex < _language->size());
+    G_ASSERT(row >= 0);
+    G_ASSERT(row <= block(parent)->size());
+    auto command = new Command::Project::Insert(_language->create(blockIndex),row,parent,this);
+    if (command->redo())
+    {
+        _undoStack.push_front(command);
+        return true;
+    }
+    else
+    {
+        delete command;
+        return false;
+    }
+}
+
+
 Language::Abstract* Project::language(
 ) const
 {
@@ -159,6 +200,26 @@ const QString& Project::relativeParsePath(
 ) const
 {
     return _relativeParsePath;
+}
+
+
+bool Project::remove(
+    const QModelIndex& index
+)
+{
+    G_ASSERT(index.isValid());
+    G_ASSERT(index.model() == this);
+    auto command = new Command::Project::Remove(index.row(),index.parent(),this);
+    if (command->redo())
+    {
+        _undoStack.push_front(command);
+        return true;
+    }
+    else
+    {
+        delete command;
+        return false;
+    }
 }
 
 
@@ -229,7 +290,7 @@ void Project::readDir(
     }
     try
     {
-        readDirConfig(dir.absoluteFilePath(_CONFIG_FILE));
+        readDirConfig(dir.absoluteFilePath(CONFIG_FILE));
         _root = Block::Abstract::fromDir(_language,Socref_1_0,dir.absolutePath(),this);
     }
     catch (Exception::Base& e)

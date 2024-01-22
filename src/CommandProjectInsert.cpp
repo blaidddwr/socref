@@ -69,10 +69,10 @@ bool Insert::insert(
         return false;
     }
     auto parent = convertListToIndex(_parent);
-    project().beginInsertColumns(parent,_row,_row);
+    project().beginInsertRows(parent,_row,_row);
     project().block(parent)->insert(_row,_block);
     _block = nullptr;
-    project().endInsertColumns();
+    project().endInsertRows();
     return true;
 }
 
