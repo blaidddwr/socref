@@ -26,6 +26,8 @@ class Project:
     friend class Command::Project::Abstract;
     friend class Command::Project::Insert;
     friend class Command::Project::Move;
+    friend class Command::Project::Remove;
+    friend class Command::Project::Set;
     Block::Abstract* _root {nullptr};
     Language::Abstract* _language {nullptr};
     QList<Command::Project::Abstract*> _redoStack;
@@ -33,6 +35,44 @@ class Project:
     QString _directoryPath;
     QString _name;
     QString _relativeParsePath;
+
+
+    /*!
+     * Signals this model's directory path property has changed to the given
+     * value.
+     *
+     * @param value
+     *        The value.
+     */
+    signals:
+    void directoryPathChanged(
+        const QString& value
+    );
+
+
+    /*!
+     * Signals this model's name property has changed to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    signals:
+    void nameChanged(
+        const QString& value
+    );
+
+
+    /*!
+     * Signals this instance's relative parse path property has changed to the
+     * given value.
+     *
+     * @param value
+     *        The value.
+     */
+    signals:
+    void relativeParsePathChanged(
+        const QString& value
+    );
 
 
     /*!
@@ -77,44 +117,6 @@ class Project:
 
 
     /*!
-     * Signals this model's directory path property has changed to the given
-     * value.
-     *
-     * @param value
-     *        The value.
-     */
-    signals:
-    void directoryPathChanged(
-        const QString& value
-    );
-
-
-    /*!
-     * Signals this model's name property has changed to the given value.
-     *
-     * @param value
-     *        The value.
-     */
-    signals:
-    void nameChanged(
-        const QString& value
-    );
-
-
-    /*!
-     * Signals this instance's relative parse path property has changed to the
-     * given value.
-     *
-     * @param value
-     *        The value.
-     */
-    signals:
-    void relativeParsePathChanged(
-        const QString& value
-    );
-
-
-    /*!
      * Returns this project's absolute parse path, derived its directory path
      * and relative parse path.
      */
@@ -124,17 +126,26 @@ class Project:
 
 
     /*!
-     * Returns the block contained in this model at the given index.
-     * 
-     * If the given index is invalid then the root block is returned, else if
-     * the given index is valid then it must be derived from this model.
+     * Determines if there is an undone command in this project model that can
+     * be redone.
      *
-     * @param index
-     *        The index.
+     * @return
+     * True if there is a command that can be redone or false otherwise.
      */
     public:
-    Block::Abstract* block(
-        const QModelIndex& index
+    bool canRedo(
+    ) const;
+
+
+    /*!
+     * Determines if there is a done command in this project model that can be
+     * undone.
+     *
+     * @return
+     * True if there is a command that can be undone or false otherwise.
+     */
+    public:
+    bool canUndo(
     ) const;
 
 
@@ -245,6 +256,17 @@ class Project:
 
 
     /*!
+     * Redoes the last command undone on this project model.
+     *
+     * @return
+     * True on success or false otherwise.
+     */
+    public:
+    bool redo(
+    );
+
+
+    /*!
      * Getter method.
      *
      * @return
@@ -302,9 +324,35 @@ class Project:
     );
 
 
+    /*!
+     * Undoes the last command done or redone on this project model.
+     *
+     * @return
+     * True on success or false otherwise.
+     */
+    public:
+    bool undo(
+    );
+
+
     private:
     Project(
     ) = default;
+
+
+    /*!
+     * Returns the block contained in this model at the given index.
+     * 
+     * If the given index is invalid then the root block is returned, else if
+     * the given index is valid then it must be derived from this model.
+     *
+     * @param index
+     *        The index.
+     */
+    private:
+    Block::Abstract* block(
+        const QModelIndex& index
+    ) const;
 
 
     /*!

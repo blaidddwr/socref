@@ -47,19 +47,17 @@ QString Project::absoluteParsePath(
 }
 
 
-Block::Abstract* Project::block(
-    const QModelIndex& index
+bool Project::canRedo(
 ) const
 {
-    if (!index.isValid())
-    {
-        return _root;
-    }
-    else
-    {
-        G_ASSERT(index.model() == this);
-        return reinterpret_cast<Block::Abstract*>(index.internalPointer());
-    }
+    return !_redoStack.isEmpty();
+}
+
+
+bool Project::canUndo(
+) const
+{
+    return !_undoStack.isEmpty();
 }
 
 
@@ -196,6 +194,26 @@ QModelIndex Project::parent(
 }
 
 
+bool Project::redo(
+)
+{
+    if (_redoStack.isEmpty())
+    {
+        return false;
+    }
+    if (_redoStack.front()->redo())
+    {
+        _undoStack.push_front(_redoStack.front());
+        _redoStack.pop_front();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
 const QString& Project::relativeParsePath(
 ) const
 {
@@ -260,6 +278,42 @@ void Project::setRelativeParsePath(
     {
         _relativeParsePath = value;
         emit relativeParsePathChanged(value);
+    }
+}
+
+
+bool Project::undo(
+)
+{
+    if (_undoStack.isEmpty())
+    {
+        return false;
+    }
+    if (_undoStack.front()->undo())
+    {
+        _redoStack.push_front(_undoStack.front());
+        _undoStack.pop_front();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
+Block::Abstract* Project::block(
+    const QModelIndex& index
+) const
+{
+    if (!index.isValid())
+    {
+        return _root;
+    }
+    else
+    {
+        G_ASSERT(index.model() == this);
+        return reinterpret_cast<Block::Abstract*>(index.internalPointer());
     }
 }
 
