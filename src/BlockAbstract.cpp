@@ -37,6 +37,20 @@ void Abstract::append(
 }
 
 
+Block::Abstract* Abstract::copy(
+    QObject* parent
+) const
+{
+    auto ret = create(parent);
+    ret->setState(state());
+    for (auto child: _children)
+    {
+        ret->append(child->copy());
+    }
+    return ret;
+}
+
+
 QList<Block::Abstract*> Abstract::descendants(
 ) const
 {

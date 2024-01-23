@@ -81,5 +81,13 @@ const QString& Property::writeMethod(
 {
     return _writeMethod;
 }
+
+
+Block::Abstract* Property::create(
+    QObject* parent
+) const
+{
+    return new Property(meta(),parent);
+}
 }
 }

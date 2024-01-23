@@ -27,5 +27,13 @@ QIcon Namespace::displayIcon(
 {
     return QIcon(":/cpp/namespace.svg");
 }
+
+
+Block::Abstract* Namespace::create(
+    QObject* parent
+) const
+{
+    return new Namespace(meta(),parent);
+}
 }
 }

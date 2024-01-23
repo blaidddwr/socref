@@ -135,6 +135,14 @@ void Property::addEvent(
 }
 
 
+Block::Abstract* Property::create(
+    QObject* parent
+) const
+{
+    return new Property(meta(),parent);
+}
+
+
 void Property::removeEvent(
     int index
 )

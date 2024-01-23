@@ -144,6 +144,12 @@ class Variable:
 
 
     protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
+    ) const override final;
+
+
+    protected:
     virtual void moveEvent(
         int from
         ,int to

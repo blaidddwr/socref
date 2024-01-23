@@ -87,5 +87,13 @@ QHash<QString,QVariant> Enumeration::state(
     ret.insert("class",_class);
     return ret;
 }
+
+
+Block::Abstract* Enumeration::create(
+    QObject* parent
+) const
+{
+    return new Enumeration(meta(),parent);
+}
 }
 }

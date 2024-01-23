@@ -32,6 +32,12 @@ class Namespace:
     public:
     virtual QIcon displayIcon(
     ) const override final;
+
+
+    protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
+    ) const override final;
 };
 }
 }

@@ -105,6 +105,14 @@ void Function::check(
 }
 
 
+Block::Abstract* Function::create(
+    QObject* parent
+) const
+{
+    return new Function(meta(),parent);
+}
+
+
 const QMap<int,QString>& Function::flagStringMap(
 ) const
 {

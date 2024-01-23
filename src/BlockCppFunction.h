@@ -731,6 +731,12 @@ class Function:
     ) const;
 
 
+    protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
+    ) const override;
+
+
     /*!
      * Getter method.
      *

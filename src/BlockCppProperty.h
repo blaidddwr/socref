@@ -110,6 +110,12 @@ class Property:
 
 
     protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
+    ) const override;
+
+
+    protected:
     virtual void removeEvent(
         int index
     ) override final;

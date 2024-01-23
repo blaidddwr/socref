@@ -27,5 +27,13 @@ QIcon Union::displayIcon(
 {
     return QIcon(":/cpp/union.svg");
 }
+
+
+Block::Abstract* Union::create(
+    QObject* parent
+) const
+{
+    return new Union(meta(),parent);
+}
 }
 }

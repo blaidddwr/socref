@@ -37,6 +37,7 @@ class Project:
     QString _directoryPath;
     QString _name;
     QString _relativeParsePath;
+    static QList<Block::Abstract*> _copied;
 
 
     /*!
@@ -142,6 +143,19 @@ class Project:
 
 
     /*!
+     * Returns the number of copied blocks that can be pasted into this model at
+     * the given parent index.
+     *
+     * @param parent
+     *        The parent index.
+     */
+    public:
+    int canPaste(
+        const QModelIndex& parent
+    ) const;
+
+
+    /*!
      * Determines if there is an undone command in this project model that can
      * be redone.
      *
@@ -169,6 +183,36 @@ class Project:
     virtual int columnCount(
         const QModelIndex& parent = QModelIndex()
     ) const override final;
+
+
+    /*!
+     * Copies the blocks in this model at the given indexes.
+     *
+     * @param indexes
+     *        The indexes.
+     *
+     * @return
+     * The number of blocks copied.
+     */
+    public:
+    int copy(
+        const QModelIndexList& indexes
+    ) const;
+
+
+    /*!
+     * Cuts the blocks in this model at the given indexes.
+     *
+     * @param indexes
+     *        The indexes.
+     *
+     * @return
+     * The number of blocks cut.
+     */
+    public:
+    int cut(
+        const QModelIndexList& indexes
+    );
 
 
     public:
@@ -313,6 +357,27 @@ class Project:
 
 
     /*!
+     * Pastes the copied blocks into this model within the given parent index at
+     * the given row. If any copied block cannot be a child block of the given
+     * parent index block then it is ignored.
+     *
+     * @param parent
+     *        The parent index.
+     *
+     * @param row
+     *        The row.
+     *
+     * @return
+     * The number of blocks pasted.
+     */
+    public:
+    int paste(
+        const QModelIndex& parent
+        ,int row
+    );
+
+
+    /*!
      * Redoes the last command undone on this project model.
      *
      * @return
@@ -335,19 +400,17 @@ class Project:
 
 
     /*!
-     * Removes the block at the given index in this model.
-     * 
-     * The given index must be valid.
+     * Removes the blocks at the given indexes in this model.
      *
-     * @param index
-     *        The index.
+     * @param indexes
+     *        The indexes.
      *
      * @return
-     * True on success or false otherwise.
+     * The number of blocks removed.
      */
     public:
-    bool remove(
-        const QModelIndex& index
+    int remove(
+        const QModelIndexList& indexes
     );
 
 

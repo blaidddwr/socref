@@ -141,6 +141,12 @@ class Class:
     ) override final;
 
 
+    protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
+    ) const override final;
+
+
     /*!
      * Getter method.
      *

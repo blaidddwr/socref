@@ -85,6 +85,12 @@ class Function:
 
 
     protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
+    ) const override final;
+
+
+    protected:
     virtual const QMap<int,QString>& flagStringMap(
     ) const override final;
 

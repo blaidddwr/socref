@@ -141,6 +141,14 @@ void Variable::addEvent(
 }
 
 
+Block::Abstract* Variable::create(
+    QObject* parent
+) const
+{
+    return new Variable(meta(),parent);
+}
+
+
 void Variable::moveEvent(
     int from
     ,int to

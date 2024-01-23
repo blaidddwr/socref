@@ -146,6 +146,12 @@ class Property:
     public:
     const QString& writeMethod(
     ) const;
+
+
+    protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
+    ) const override final;
 };
 }
 }

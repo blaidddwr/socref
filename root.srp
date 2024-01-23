@@ -25,7 +25,7 @@ The scope is an identifier that must be unique among all other blocks that share
 
 A block can only have children blocks of any type in its meta's allow list property.
 
-A block's data, or state, can be loaded, saved, retrieved, or set. The load and save methods, load from map and save to map, are used for loading and saving a block's data to the file system. The state and set state methods are used to saving or setting a block's state saved in temporary memory. Because the load and save methods are used for file system IO, the mapped values must be saved as strings and the block's data must be formatted in a way it can be saved as a string. There is no such limitation for the state and set state methods.</__p_description>
+A block's data, or state, can be loaded, saved, retrieved, or set. The load and save methods, &quot;load from map&quot; and &quot;save to map&quot;, are used for loading and saving a block's data to the file system. The state and &quot;set state&quot; methods are used to save or set a block's state. Because the load and save methods are used for file system IO, the mapped values must be saved as strings and be version aware for backwards save file compatibility. There is no such limitation for the state and set state methods.</__p_description>
                 <__p_name>Abstract</__p_name>
                 <__p_parents>public QObject</__p_parents>
                 <Function>
@@ -120,6 +120,29 @@ A block's data, or state, can be loaded, saved, retrieved, or set. The load and 
                         <__p_description>The block.</__p_description>
                         <__p_name>block</__p_name>
                         <__p_type>Block::Abstract*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a copy of this block with the given parent, including all of its descendant blocks.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>copy</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -612,6 +635,29 @@ A logical block or file system exception is thrown if an error is encountered.</
                         <__p_description>The index.</__p_description>
                         <__p_name>index</__p_name>
                         <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a new instance of this block with the given parent.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>create</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -1401,6 +1447,27 @@ Its properties are parents and templates. The parents is a list of a class's par
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
                         <__p_access>Private</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
@@ -1660,6 +1727,27 @@ Its single property is class. It is self-explanatory.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                     </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
                 </Class>
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ exception that can be thrown from within a function.</__p_description>
@@ -1726,6 +1814,27 @@ Its single property is class. It is self-explanatory.</__p_description>
                         <__p_returnType>QIcon</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
                     </Function>
                 </Class>
                 <Class>
@@ -2938,6 +3047,27 @@ A logical block exception is thrown if this instance's properties are not valid.
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_description>Getter method.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
@@ -4039,6 +4169,27 @@ A read block exception is thrown if any error is encountered.</__p_description>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                     </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
                 </Class>
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ class property. While this is not a concrete type defined in the C++ language, it is an abstract concept used pervasively enough in classes to conceptualize it as a block. A property's setter and getter are added as children to a property.
@@ -4238,6 +4389,27 @@ This also serves as a base class for the class C++ block because it shares all c
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -4397,6 +4569,27 @@ This also serves as a base class for the class C++ block because it shares all c
                         <__p_returnType>QIcon</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
                     </Function>
                 </Class>
                 <Class>
@@ -4706,6 +4899,27 @@ Its properties are type and assignment. Both are self-explanatory.</__p_descript
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -4925,6 +5139,27 @@ It extends the C++ function with the Qt concepts of signals and slots. It also i
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -5407,6 +5642,27 @@ Its properties are read method, write method, and notify signal. All these metho
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
                 </Class>
             </Namespace>
             <Namespace>
@@ -5845,6 +6101,27 @@ The display icon property can be set with an appropriate setter method so it can
                         <Variable>
                             <__p_name>index</__p_name>
                             <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>create</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
                         </Variable>
                     </Function>
                     <Function>
@@ -7640,6 +7917,28 @@ The start set method must be called before this method.</__p_description>
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns the number of copied blocks that can be pasted into this model at the given parent index.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>canPaste</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The parent index.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>const QModelIndex&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
                     <__p_description>Determines if there is an undone command in this project model that can be redone.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
@@ -7689,6 +7988,52 @@ The start set method must be called before this method.</__p_description>
                         <__p_assignment>QModelIndex()</__p_assignment>
                         <__p_name>parent</__p_name>
                         <__p_type>const QModelIndex&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Copies the blocks in this model at the given indexes.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>copy</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The number of blocks copied.</__p_returnDescription>
+                    <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The indexes.</__p_description>
+                        <__p_name>indexes</__p_name>
+                        <__p_type>const QModelIndexList&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Cuts the blocks in this model at the given indexes.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>cut</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The number of blocks cut.</__p_returnDescription>
+                    <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The indexes.</__p_description>
+                        <__p_name>indexes</__p_name>
+                        <__p_type>const QModelIndexList&amp;</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -7945,6 +8290,34 @@ The given from and to rows must produce a valid move operation in this model.</_
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
+                    <__p_description>Pastes the copied blocks into this model within the given parent index at the given row. If any copied block cannot be a child block of the given parent index block then it is ignored.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>paste</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The number of blocks pasted.</__p_returnDescription>
+                    <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The parent index.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>const QModelIndex&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The row.</__p_description>
+                        <__p_name>row</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
                     <__p_description>Redoes the last command undone on this project model.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
@@ -7981,23 +8354,21 @@ The given from and to rows must produce a valid move operation in this model.</_
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Removes the block at the given index in this model.
-
-The given index must be valid.</__p_description>
+                    <__p_description>Removes the blocks at the given indexes in this model.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
                     <__p_name>remove</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
-                    <__p_returnType>bool</__p_returnType>
+                    <__p_returnDescription>The number of blocks removed.</__p_returnDescription>
+                    <__p_returnType>int</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
-                        <__p_description>The index.</__p_description>
-                        <__p_name>index</__p_name>
-                        <__p_type>const QModelIndex&amp;</__p_type>
+                        <__p_description>The indexes.</__p_description>
+                        <__p_name>indexes</__p_name>
+                        <__p_type>const QModelIndexList&amp;</__p_type>
                     </Variable>
                 </Function>
                 <Function>

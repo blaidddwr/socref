@@ -212,6 +212,14 @@ void Node::addEvent(
 }
 
 
+Block::Abstract* Node::create(
+    QObject* parent
+) const
+{
+    return new Node(meta(),parent);
+}
+
+
 void Node::moveEvent(
     int from
     ,int to

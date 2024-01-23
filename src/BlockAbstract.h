@@ -36,13 +36,12 @@ namespace Block {
  * property.
  * 
  * A block's data, or state, can be loaded, saved, retrieved, or set. The load
- * and save methods, load from map and save to map, are used for loading and
- * saving a block's data to the file system. The state and set state methods are
- * used to saving or setting a block's state saved in temporary memory. Because
- * the load and save methods are used for file system IO, the mapped values must
- * be saved as strings and the block's data must be formatted in a way it can be
- * saved as a string. There is no such limitation for the state and set state
- * methods.
+ * and save methods, "load from map" and "save to map", are used for loading and
+ * saving a block's data to the file system. The state and "set state" methods
+ * are used to save or set a block's state. Because the load and save methods
+ * are used for file system IO, the mapped values must be saved as strings and
+ * be version aware for backwards save file compatibility. There is no such
+ * limitation for the state and set state methods.
  */
 class Abstract:
     public QObject
@@ -109,6 +108,19 @@ class Abstract:
     void append(
         Block::Abstract* block
     );
+
+
+    /*!
+     * Creates and returns a copy of this block with the given parent, including
+     * all of its descendant blocks.
+     *
+     * @param parent
+     *        The parent.
+     */
+    public:
+    Block::Abstract* copy(
+        QObject* parent = nullptr
+    ) const;
 
 
     /*!
@@ -427,6 +439,18 @@ class Abstract:
     virtual void addEvent(
         int index
     );
+
+
+    /*!
+     * Creates and returns a new instance of this block with the given parent.
+     *
+     * @param parent
+     *        The parent.
+     */
+    protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
+    ) const = 0;
 
 
     /*!

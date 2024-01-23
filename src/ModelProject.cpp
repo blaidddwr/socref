@@ -10,11 +10,13 @@
 #include "ExceptionProjectRead.h"
 #include "ExceptionSystemFile.h"
 #include "LanguageAbstract.h"
+#include "ModelMetaBlock.h"
 #include "BlockAbstract.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
 #define CONFIG_FILE "project.xml"
 namespace Model {
+QList<Block::Abstract*> Project::_copied {};
 
 
 Project::Project(
@@ -64,6 +66,23 @@ QString Project::absoluteParsePath(
 }
 
 
+int Project::canPaste(
+    const QModelIndex& parent
+) const
+{
+    int ret = 0;
+    auto pb = block(parent);
+    for (auto block: _copied)
+    {
+        if (pb->meta()->allowList().contains(block->meta()->index()))
+        {
+            ret++;
+        }
+    }
+    return ret;
+}
+
+
 bool Project::canRedo(
 ) const
 {
@@ -84,6 +103,65 @@ int Project::columnCount(
 {
     Q_UNUSED(parent);
     return 1;
+}
+
+
+int Project::copy(
+    const QModelIndexList& indexes
+) const
+{
+    int ret = 0;
+    qDeleteAll(_copied);
+    _copied.clear();
+    for (const auto& index: indexes)
+    {
+        if (
+            index.isValid()
+            && index.model() == this
+        )
+        {
+            _copied.append(block(index)->copy());
+            ret++;
+        }
+    }
+    return ret;
+}
+
+
+int Project::cut(
+    const QModelIndexList& indexes
+)
+{
+    int ret = 0;
+    qDeleteAll(_copied);
+    _copied.clear();
+    QList<QPersistentModelIndex> pi;
+    for (const auto& index: indexes)
+    {
+        pi.append(index);
+    }
+    for (const auto& index: pi)
+    {
+        if (
+            index.isValid()
+            && index.model() == this
+        )
+        {
+            std::unique_ptr<Block::Abstract> copy(block(index)->copy());
+            auto command = new Command::Project::Remove(index.row(),index.parent(),this);
+            if (command->redo())
+            {
+                _copied.append(copy.release());
+                _undoStack.push_front(command);
+                ret++;
+            }
+            else
+            {
+                delete command;
+            }
+        }
+    }
+    return ret;
 }
 
 
@@ -264,6 +342,41 @@ QModelIndex Project::parent(
 }
 
 
+int Project::paste(
+    const QModelIndex& parent
+    ,int row
+)
+{
+    if (
+        _copied.isEmpty()
+        || row < 0
+        || row > rowCount(parent)
+    )
+    {
+        return 0;
+    }
+    int ret = 0;
+    for (auto b: _copied)
+    {
+        std::unique_ptr<Block::Abstract> copy(b->copy());
+        if (block(parent)->meta()->allowList().contains(copy->meta()->index()))
+        {
+            auto command = new Command::Project::Insert(copy.release(),row,parent,this);
+            if (command->redo())
+            {
+                _undoStack.push_back(command);
+                ret++;
+            }
+            else
+            {
+                delete command;
+            }
+        }
+    }
+    return ret;
+}
+
+
 bool Project::redo(
 )
 {
@@ -291,27 +404,36 @@ const QString& Project::relativeParsePath(
 }
 
 
-bool Project::remove(
-    const QModelIndex& index
+int Project::remove(
+    const QModelIndexList& indexes
 )
 {
-    if (
-        !index.isValid()
-        || index.model() != this)
+    int ret = 0;
+    QList<QPersistentModelIndex> pi;
+    for (const auto& index: indexes)
     {
-        return false;
+        pi.append(index);
     }
-    auto command = new Command::Project::Remove(index.row(),index.parent(),this);
-    if (command->redo())
+    for (const auto& index: pi)
     {
-        _undoStack.push_front(command);
-        return true;
+        if (
+            index.isValid()
+            && index.model() == this
+        )
+        {
+            auto command = new Command::Project::Remove(index.row(),index.parent(),this);
+            if (command->redo())
+            {
+                _undoStack.push_front(command);
+                ret++;
+            }
+            else
+            {
+                delete command;
+            }
+        }
     }
-    else
-    {
-        delete command;
-        return false;
-    }
+    return ret;
 }
 
 

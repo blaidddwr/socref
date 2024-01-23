@@ -28,5 +28,13 @@ QIcon ExceptionItem::displayIcon(
 {
     return QIcon(":/cpp/exception.svg");
 }
+
+
+Block::Abstract* ExceptionItem::create(
+    QObject* parent
+) const
+{
+    return new ExceptionItem(meta(),parent);
+}
 }
 }
