@@ -78,8 +78,11 @@ HEADERS +=  Global.h \
             ExceptionBlock.h \
             ExceptionBlockLogical.h \
             ExceptionBlockRead.h \
+            ExceptionBlockWrite.h \
             ExceptionProject.h \
+            ExceptionProjectLogical.h \
             ExceptionProjectRead.h \
+            ExceptionProjectWrite.h \
             ExceptionSystem.h \
             ExceptionSystemFile.h \
             Factory.h \

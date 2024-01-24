@@ -3,11 +3,16 @@
 #include "Exception.h"
 #include "ExceptionBlockLogical.h"
 #include "ExceptionBlockRead.h"
+#include "ExceptionBlockWrite.h"
 #include "ExceptionSystemFile.h"
 #include "LanguageAbstract.h"
 #include "Global.h"
 #include "ModelMetaBlock.h"
 namespace Block {
+using FileError = Exception::System::File;
+using LogicalError = Exception::Block::Logical;
+using ReadError = Exception::Block::Read;
+using WriteError = Exception::Block::Write;
 
 
 Abstract::Abstract(
@@ -74,7 +79,7 @@ Block::Abstract* Abstract::fromDir(
     QDir dir(path);
     if (!dir.isReadable())
     {
-        throw Exception::System::File(tr("Directory %1 is not readable.").arg(path));
+        throw FileError(tr("Directory %1 is not readable.").arg(path));
     }
     return read(language,version,dir.absoluteFilePath("ROOT.srb"),parent);
 }
@@ -100,7 +105,7 @@ Block::Abstract* Abstract::fromXml(
     }
     if (i == -1)
     {
-        throw Exception::Block::Read(tr("Unknown block %1.").arg(blockName));
+        throw ReadError(tr("Unknown block %1.").arg(blockName));
     }
     QMap<QString,QVariant> map;
     std::unique_ptr<Abstract> block(language->create(i));
@@ -133,7 +138,7 @@ Block::Abstract* Abstract::fromXml(
             {
                 if (map.contains(name))
                 {
-                    throw Exception::Block::Read(tr("Duplicate property element %1.").arg(name));
+                    throw ReadError(tr("Duplicate property element %1.").arg(name));
                 }
                 map.insert(name,xml.readElementText());
             }
@@ -253,7 +258,7 @@ void Abstract::toDir(
         auto path = scope+".srb";
         if (blocks.contains(path))
         {
-            throw Exception::Block::Logical(
+            throw LogicalError(
                 tr("Conflicting scope of %1 with two or more blocks.").arg(descendant->scope())
             );
         }
@@ -270,23 +275,19 @@ void Abstract::toDir(
     }
     if (!dirInfo.isWritable())
     {
-        throw Exception::System::File(tr("Given directory %1 is not writable.").arg(path));
+        throw FileError(tr("Given directory %1 is not writable.").arg(path));
     }
     for (const auto& info: dir.entryInfoList({"*.srb"}))
     {
         if (!info.isWritable())
         {
-            throw Exception::System::File(
-                tr("Block file %1 is not writable.").arg(info.fileName())
-            );
+            throw FileError(tr("Block file %1 is not writable.").arg(info.fileName()));
         }
         if (!blocks.contains(info.fileName()))
         {
             if (!dir.remove(info.fileName()))
             {
-                throw Exception::System::File(
-                    tr("Failed removing trash block file %1.").arg(info.fileName())
-                );
+                throw FileError(tr("Failed removing trash block file %1.").arg(info.fileName()));
             }
         }
     }
@@ -376,16 +377,16 @@ Block::Abstract* Abstract::read(
     QFileInfo info(path);
     if (!info.isFile())
     {
-        throw Exception::System::File(tr("Given path %1 is not a file.").arg(path));
+        throw FileError(tr("Given path %1 is not a file.").arg(path));
     }
     if (!info.isReadable())
     {
-        throw Exception::System::File(tr("Given file %1 is not readablee.").arg(path));
+        throw FileError(tr("Given file %1 is not readablee.").arg(path));
     }
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly))
     {
-        throw Exception::System::File(tr("Failed opening %1: %2").arg(path,file.errorString()));
+        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
     }
     QTextStream in(&file);
     auto blockName = in.readLine();
@@ -396,7 +397,7 @@ Block::Abstract* Abstract::read(
     auto i = language->indexFromName(blockName);
     if (i == -1)
     {
-        throw Exception::Block::Read(tr("Unknown block %1").arg(blockName));
+        throw ReadError(tr("Unknown block %1").arg(blockName));
     }
     std::unique_ptr<Abstract> block(language->create(i));
     QMap<QString,QVariant> map;
@@ -410,7 +411,7 @@ Block::Abstract* Abstract::read(
             QString name = line.mid(1);
             if (map.contains(name))
             {
-                throw Exception::Block::Read(tr("Duplicate property element %1.").arg(name));
+                throw ReadError(tr("Duplicate property element %1.").arg(name));
             }
             QString data = in.readLine();
             if (data.isNull())
@@ -418,7 +419,7 @@ Block::Abstract* Abstract::read(
                 static const QString msg = tr(
                     "Failed reading %1: Expected data after line %2, got EOF instead."
                 );
-                throw Exception::Block::Read(msg.arg(path).arg(lineNumber));
+                throw ReadError(msg.arg(path).arg(lineNumber));
             }
             data.replace("\\\\","\\");
             data.replace("\\n","\n");
@@ -451,7 +452,7 @@ void Abstract::write(
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly|QIODevice::Truncate))
     {
-        throw Exception::System::File(tr("Failed opening %1: %2").arg(path,file.errorString()));
+        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
     }
     QTextStream out(&file);
     out << meta()->name() << "\n";
@@ -473,9 +474,7 @@ void Abstract::write(
     }
     if (file.error() != QFileDevice::NoError)
     {
-        throw Exception::System::File(
-            tr("Failed writing block file %1: %2").arg(path,file.errorString())
-        );
+        throw WriteError(tr("Failed writing block file %1: %2").arg(path,file.errorString()));
     }
 }
 }

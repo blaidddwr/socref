@@ -6863,13 +6863,28 @@ Its single property is message. The message provides a detailed description of a
                     <__p_name>Read</__p_name>
                     <__p_parents>public Exception::Base</__p_parents>
                 </Class>
+                <Class>
+                    <__p_description>This is an exception class. It represents a block writing error.</__p_description>
+                    <__p_name>Write</__p_name>
+                    <__p_parents>public Exception::Base</__p_parents>
+                </Class>
             </Namespace>
             <Namespace>
                 <__p_description>This contains all project exception classes.</__p_description>
                 <__p_name>Project</__p_name>
                 <Class>
+                    <__p_description>This is an exception class. It represents a logical project error.</__p_description>
+                    <__p_name>Logical</__p_name>
+                    <__p_parents>public Exception::Base</__p_parents>
+                </Class>
+                <Class>
                     <__p_description>This is an exception class. It represents a project reading error.</__p_description>
                     <__p_name>Read</__p_name>
+                    <__p_parents>public Exception::Base</__p_parents>
+                </Class>
+                <Class>
+                    <__p_description>This is an exception class. It represents a project writing error.</__p_description>
+                    <__p_name>Write</__p_name>
                     <__p_parents>public Exception::Base</__p_parents>
                 </Class>
             </Namespace>
@@ -8398,6 +8413,49 @@ The given from and to rows must produce a valid move operation in this model.</_
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
+                    <__p_description>Saves this project to the multi-file project directory at its directory path. This instance cannot be a new project with no set directory path.
+
+A logical project, write project, or file system exception are thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>save</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Saves this project to the multi-file project directory at the given path. If saving is successful then this instance's directory path property is changed to the given path.
+
+A write project or file system exception are thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>saveToDir</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
                     <__p_description>Sets this model's name property to the given value.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
@@ -8572,7 +8630,7 @@ A read project or file system exception are thrown if any error is encountered.<
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Reads in this model's data from the multi-file directory configuration file at the given path.
 
-A read project exception is thrown if any error is encountered.</__p_description>
+A read project or file system exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -8634,6 +8692,76 @@ A read project exception is thrown if any error is encountered.</__p_description
                         <__p_description>The XML reader.</__p_description>
                         <__p_name>xml</__p_name>
                         <__p_type>QXmlStreamReader&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Sets this instance's directory path property to the given value.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>setDirectoryPath</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The value.</__p_description>
+                        <__p_name>value</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Writes out this model's data and its block's data to the multi-file project directory at the given path.
+
+A write project or file system exception are thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>writeDir</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Writes out this model's data to the multi-file directory configuration file at the given path.
+
+A write project or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>writeDirConfig</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
                     </Variable>
                 </Function>
             </Class>

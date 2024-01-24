@@ -7,7 +7,9 @@
 #include "CommandProjectSet.h"
 #include "Exception.h"
 #include "ExceptionBase.h"
+#include "ExceptionProjectLogical.h"
 #include "ExceptionProjectRead.h"
+#include "ExceptionProjectWrite.h"
 #include "ExceptionSystemFile.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaBlock.h"
@@ -16,6 +18,10 @@
 #include "Global.h"
 #define CONFIG_FILE "project.xml"
 namespace Model {
+using FileError = Exception::System::File;
+using LogicalError = Exception::Project::Logical;
+using ReadError = Exception::Project::Read;
+using WriteError = Exception::Project::Write;
 QList<Block::Abstract*> Project::_copied {};
 
 
@@ -38,7 +44,7 @@ Project::Project(
     ,QObject* parent
 ):
     QAbstractItemModel(parent)
-    ,_directoryPath(directoryPath)
+    ,_directoryPath(QFileInfo(directoryPath).absoluteFilePath())
 {
     readDir(directoryPath);
 }
@@ -454,6 +460,26 @@ int Project::rowCount(
 }
 
 
+void Project::save(
+)
+{
+    if (_directoryPath.isNull())
+    {
+        throw LogicalError(tr("Cannot save new project without directory path."));
+    }
+    writeDir(_directoryPath);
+}
+
+
+void Project::saveToDir(
+    const QString& path
+)
+{
+    writeDir(path);
+    setDirectoryPath(QFileInfo(path).absoluteFilePath());
+}
+
+
 void Project::setName(
     const QString& value
 )
@@ -551,11 +577,11 @@ void Project::readDir(
     QDir dir(path);
     if (!dir.exists())
     {
-        throw Exception::System::File(tr("No such directory at path %1.").arg(path));
+        throw FileError(tr("No such directory at path %1.").arg(path));
     }
     if (!dir.isReadable())
     {
-        throw Exception::System::File(tr("The directory at %1 is not readable.").arg(path));
+        throw FileError(tr("The directory at %1 is not readable.").arg(path));
     }
     try
     {
@@ -564,7 +590,7 @@ void Project::readDir(
     }
     catch (Exception::Base& e)
     {
-        throw Exception::Project::Read(tr("Failed reading %1: %2").arg(path,e.message()));
+        throw ReadError(tr("Failed reading %1: %2").arg(path,e.message()));
     }
 }
 
@@ -576,7 +602,7 @@ void Project::readDirConfig(
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly))
     {
-        throw Exception::System::File(tr("Failed opening %1: %2").arg(path,file.errorString()));
+        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
     }
     QXmlStreamReader xml(&file);
     while(!xml.atEnd())
@@ -592,7 +618,7 @@ void Project::readDirConfig(
                 auto i = factory->indexFromName(langName);
                 if (i == -1)
                 {
-                    throw Exception::Project::Read(tr("Unknown language %1.").arg(langName));
+                    throw ReadError(tr("Unknown language %1.").arg(langName));
                 }
                 _language = factory->get(i);
                 G_ASSERT(_language);
@@ -610,7 +636,7 @@ void Project::readDirConfig(
     }
     if (!_language)
     {
-        throw Exception::Project::Read(tr("Language not set in project config file."));
+        throw ReadError(tr("Language not set in project config file."));
     }
 }
 
@@ -622,7 +648,7 @@ void Project::readXml(
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly))
     {
-        throw Exception::System::File(tr("Failed opening %1: %2").arg(path,file.errorString()));
+        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
     }
     QXmlStreamReader xml(&file);
     try
@@ -642,12 +668,12 @@ void Project::readXml(
         }
         if (xml.hasError())
         {
-            throw xml.errorString();
+            throw ReadError(xml.errorString());
         }
     }
     catch (Exception::Base& e)
     {
-        throw Exception::Project::Read(
+        throw ReadError(
             tr("Failed reading %1 on line %2: %3").arg(path).arg(xml.lineNumber()).arg(e.message())
         );
     }
@@ -672,7 +698,7 @@ void Project::readXmlLegacy(
                 auto i = factory->indexFromName(langName);
                 if (i == -1)
                 {
-                    throw Exception::Project::Read(tr("Unknown language %1.").arg(langName));
+                    throw ReadError(tr("Unknown language %1.").arg(langName));
                 }
                 _language = factory->get(i);
                 G_ASSERT(_language);
@@ -690,13 +716,76 @@ void Project::readXmlLegacy(
             {
                 if (!_language)
                 {
-                    throw Exception::Project::Read(
-                        tr("Language not set before first block element.")
-                    );
+                    throw ReadError(tr("Language not set before first block element."));
                 }
                 _root = Block::Abstract::fromXml(_language,Socref_Legacy,xml,this);
             }
         }
+    }
+}
+
+
+void Project::setDirectoryPath(
+    const QString& value
+)
+{
+    if (_directoryPath != value)
+    {
+        _directoryPath = value;
+        emit directoryPathChanged(value);
+    }
+}
+
+
+void Project::writeDir(
+    const QString& path
+)
+{
+    QDir dir(path);
+    if (!dir.exists())
+    {
+        if (!dir.mkpath("."))
+        {
+            throw FileError(tr("Failed creating directory %1.").arg(path));
+        }
+    }
+    if (!dir.isReadable())
+    {
+        throw FileError(tr("The directory at %1 is not readable.").arg(path));
+    }
+    try
+    {
+        writeDirConfig(dir.absoluteFilePath(CONFIG_FILE));
+        _root->toDir(path);
+    }
+    catch (Exception::Base& e)
+    {
+        throw WriteError(tr("Failed writing %1: %2").arg(path,e.message()));
+    }
+}
+
+
+void Project::writeDirConfig(
+    const QString& path
+)
+{
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly|QIODevice::Truncate))
+    {
+        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
+    }
+    QXmlStreamWriter xml(&file);
+    xml.setAutoFormatting(true);
+    xml.writeStartDocument();
+    xml.writeStartElement("socref");
+    xml.writeTextElement("name",_name);
+    xml.writeTextElement("language",_language->meta()->name());
+    xml.writeTextElement("relativeParsePath",_relativeParsePath);
+    xml.writeEndElement();
+    xml.writeEndDocument();
+    if (file.error() != QFileDevice::NoError)
+    {
+        throw WriteError(tr("Failed writing project file %1: %2").arg(path,file.errorString()));
     }
 }
 }

@@ -10,6 +10,7 @@ namespace Block
 {
     class Logical;
     class Read;
+    class Write;
 }
 }
 

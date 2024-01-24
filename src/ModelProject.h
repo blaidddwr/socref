@@ -421,6 +421,35 @@ class Project:
 
 
     /*!
+     * Saves this project to the multi-file project directory at its directory
+     * path. This instance cannot be a new project with no set directory path.
+     * 
+     * A logical project, write project, or file system exception are thrown if
+     * any error is encountered.
+     */
+    public:
+    void save(
+    );
+
+
+    /*!
+     * Saves this project to the multi-file project directory at the given path.
+     * If saving is successful then this instance's directory path property is
+     * changed to the given path.
+     * 
+     * A write project or file system exception are thrown if any error is
+     * encountered.
+     *
+     * @param path
+     *        The path.
+     */
+    public:
+    void saveToDir(
+        const QString& path
+    );
+
+
+    /*!
      * Sets this model's name property to the given value.
      *
      * @param value
@@ -525,7 +554,8 @@ class Project:
      * Reads in this model's data from the multi-file directory configuration
      * file at the given path.
      * 
-     * A read project exception is thrown if any error is encountered.
+     * A read project or file system exception is thrown if any error is
+     * encountered.
      *
      * @param path
      *        The path.
@@ -565,6 +595,50 @@ class Project:
     private:
     void readXmlLegacy(
         QXmlStreamReader& xml
+    );
+
+
+    /*!
+     * Sets this instance's directory path property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    private:
+    void setDirectoryPath(
+        const QString& value
+    );
+
+
+    /*!
+     * Writes out this model's data and its block's data to the multi-file
+     * project directory at the given path.
+     * 
+     * A write project or file system exception are thrown if any error is
+     * encountered.
+     *
+     * @param path
+     *        The path.
+     */
+    private:
+    void writeDir(
+        const QString& path
+    );
+
+
+    /*!
+     * Writes out this model's data to the multi-file directory configuration
+     * file at the given path.
+     * 
+     * A write project or file system exception is thrown if any error is
+     * encountered.
+     *
+     * @param path
+     *        The path.
+     */
+    private:
+    void writeDirConfig(
+        const QString& path
     );
 };
 }

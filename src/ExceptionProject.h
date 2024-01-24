@@ -8,7 +8,9 @@ namespace Exception {
  */
 namespace Project
 {
+    class Logical;
     class Read;
+    class Write;
 }
 }
 
