@@ -11985,13 +11985,14 @@ Writer classes write the data of a class to an output device.</__p_description>
             <Class>
                 <__p_description>This is a writer class. It writes a given block's data and its descendant block's data to a directory at a given directory path using the multi block file system.</__p_description>
                 <__p_name>Block</__p_name>
+                <__p_parents>public QObject</__p_parents>
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Constructs this new instance with the given directory path.</__p_description>
+                    <__p_description>Constructs this new instance with the given directory path and parent.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -12005,6 +12006,12 @@ Writer classes write the data of a class to an output device.</__p_description>
                         <__p_description>The directory path.</__p_description>
                         <__p_name>path</__p_name>
                         <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -12047,17 +12054,47 @@ A file system exception is thrown if any error is encountered.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                 </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Writes the block file from the given block to the given path.
+
+A file system or write block exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>writeFile</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
             </Class>
             <Class>
                 <__p_description>This is a writer class. It writes a given block's data and its descendant block's data to a given XML stream writer.</__p_description>
                 <__p_name>BlockXml</__p_name>
+                <__p_parents>public QObject</__p_parents>
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Constructs this new instance with the given XML stream writer.</__p_description>
+                    <__p_description>Constructs this new instance with the given XML stream writer and parent.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -12071,6 +12108,12 @@ A file system exception is thrown if any error is encountered.</__p_description>
                         <__p_description>The XML stream writer.</__p_description>
                         <__p_name>xml</__p_name>
                         <__p_type>QXmlStreamWriter&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -12098,13 +12141,14 @@ A file system exception is thrown if any error is encountered.</__p_description>
             <Class>
                 <__p_description>This is a writer class. It writes a given project to a directory at a given directory path using the multi block file system.</__p_description>
                 <__p_name>Project</__p_name>
+                <__p_parents>public QObject</__p_parents>
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Constructs this new instance with the given directory path.</__p_description>
+                    <__p_description>Constructs this new instance with the given directory path and parent.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -12118,6 +12162,12 @@ A file system exception is thrown if any error is encountered.</__p_description>
                         <__p_description>The directory path.</__p_description>
                         <__p_name>path</__p_name>
                         <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -12159,6 +12209,30 @@ A file system exception is thrown if any error is encountered.</__p_description>
                     <__p_returnType>void</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Writes the project configuration file from the given project to this instance's directory path.
+
+A file system or write project exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>writeConfig</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The project.</__p_description>
+                        <__p_name>project</__p_name>
+                        <__p_type>const Model::Project&amp;</__p_type>
+                    </Variable>
                 </Function>
             </Class>
         </Namespace>

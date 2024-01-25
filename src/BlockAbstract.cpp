@@ -1,7 +1,6 @@
 #include "BlockAbstract.h"
 #include <QtCore>
 #include "Exception.h"
-#include "ExceptionBlockLogical.h"
 #include "ExceptionBlockRead.h"
 #include "ExceptionBlockWrite.h"
 #include "ExceptionSystemFile.h"

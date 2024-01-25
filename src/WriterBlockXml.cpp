@@ -8,8 +8,10 @@ namespace Writer {
 
 BlockXml::BlockXml(
     QXmlStreamWriter& xml
+    ,QObject* parent
 ):
-    _xml(xml)
+    QObject(parent)
+    ,_xml(xml)
 {
 }
 

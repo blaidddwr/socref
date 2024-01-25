@@ -14,23 +14,28 @@ namespace Writer {
  * block's data to a directory at a given directory path using the multi block
  * file system.
  */
-class Block
+class Block:
+    public QObject
 {
+    Q_OBJECT
     QString _path;
     QSet<QString> _scopes;
     bool _open {false};
-    QString tr(const char* text) { return QObject::tr(text); }
 
 
     /*!
-     * Constructs this new instance with the given directory path.
+     * Constructs this new instance with the given directory path and parent.
      *
      * @param path
      *        The directory path.
+     *
+     * @param parent
+     *        The parent.
      */
     public:
     Block(
         const QString& path
+        ,QObject* parent = nullptr
     );
 
 
@@ -51,6 +56,25 @@ class Block
      */
     public:
     void open(
+    );
+
+
+    /*!
+     * Writes the block file from the given block to the given path.
+     * 
+     * A file system or write block exception is thrown if any error is
+     * encountered.
+     *
+     * @param block
+     *        The block.
+     *
+     * @param path
+     *        The path.
+     */
+    private:
+    void writeFile(
+        const ::Block::Abstract& block
+        ,const QString& path
     );
 };
 }
