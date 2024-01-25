@@ -6,7 +6,6 @@
 #include "CommandProjectRemove.h"
 #include "CommandProjectSet.h"
 #include "Exception.h"
-#include "ExceptionBase.h"
 #include "ExceptionProjectLogical.h"
 #include "ExceptionProjectRead.h"
 #include "ExceptionProjectWrite.h"
@@ -16,6 +15,7 @@
 #include "BlockAbstract.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
+#include "WriterProject.h"
 #define CONFIG_FILE "project.xml"
 namespace Model {
 using FileError = Exception::System::File;
@@ -467,7 +467,16 @@ void Project::save(
     {
         throw LogicalError(tr("Cannot save new project without directory path."));
     }
-    writeDir(_directoryPath);
+    try
+    {
+        Writer::Project writer(_directoryPath);
+        writer.open();
+        writer << *this;
+    }
+    catch (Exception::Base& e)
+    {
+        throw WriteError(e.message());
+    }
 }
 
 
@@ -475,8 +484,17 @@ void Project::saveToDir(
     const QString& path
 )
 {
-    writeDir(path);
-    setDirectoryPath(QFileInfo(path).absoluteFilePath());
+    try
+    {
+        Writer::Project writer(path);
+        writer.open();
+        writer << *this;
+        setDirectoryPath(QFileInfo(path).absoluteFilePath());
+    }
+    catch (Exception::Base& e)
+    {
+        throw WriteError(e.message());
+    }
 }
 
 
@@ -733,59 +751,6 @@ void Project::setDirectoryPath(
     {
         _directoryPath = value;
         emit directoryPathChanged(value);
-    }
-}
-
-
-void Project::writeDir(
-    const QString& path
-)
-{
-    QDir dir(path);
-    if (!dir.exists())
-    {
-        if (!dir.mkpath("."))
-        {
-            throw FileError(tr("Failed creating directory %1.").arg(path));
-        }
-    }
-    if (!dir.isReadable())
-    {
-        throw FileError(tr("The directory at %1 is not readable.").arg(path));
-    }
-    try
-    {
-        writeDirConfig(dir.absoluteFilePath(CONFIG_FILE));
-        _root->toDir(path);
-    }
-    catch (Exception::Base& e)
-    {
-        throw WriteError(tr("Failed writing %1: %2").arg(path,e.message()));
-    }
-}
-
-
-void Project::writeDirConfig(
-    const QString& path
-)
-{
-    QFile file(path);
-    if (!file.open(QIODevice::WriteOnly|QIODevice::Truncate))
-    {
-        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
-    }
-    QXmlStreamWriter xml(&file);
-    xml.setAutoFormatting(true);
-    xml.writeStartDocument();
-    xml.writeStartElement("socref");
-    xml.writeTextElement("name",_name);
-    xml.writeTextElement("language",_language->meta()->name());
-    xml.writeTextElement("relativeParsePath",_relativeParsePath);
-    xml.writeEndElement();
-    xml.writeEndDocument();
-    if (file.error() != QFileDevice::NoError)
-    {
-        throw WriteError(tr("Failed writing project file %1: %2").arg(path,file.errorString()));
     }
 }
 }

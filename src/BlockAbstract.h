@@ -4,6 +4,7 @@
 #include "Language.h"
 #include "ModelMeta.h"
 #include "WidgetBlock.h"
+#include "Writer.h"
 class QXmlStreamReader;
 class QXmlStreamWriter;
 namespace Block {
@@ -47,6 +48,8 @@ class Abstract:
     public QObject
 {
     Q_OBJECT
+    friend class Writer::Block;
+    friend class Writer::BlockXml;
     Model::Meta::Block* _meta;
     QList<Abstract*> _children;
 
@@ -396,15 +399,9 @@ class Abstract:
 
     /*!
      * Writes this block and all its children to the given directory path using
-     * the most current format version of the multi-file system. This must be a
-     * root block.
+     * the most current format version of the multi block file system.
      * 
-     * Any SRB files that do not match any of this root block's and its
-     * descendant's SRB files are removed from the file system within the given
-     * directory.
-     * 
-     * A logical block or file system exception is thrown if an error is
-     * encountered.
+     * A write block exception is thrown if an error is encountered.
      *
      * @param path
      *        The directory path.
@@ -418,6 +415,8 @@ class Abstract:
     /*!
      * Writes this block and all its children to the given XML writer using the
      * most current XML format version.
+     * 
+     * A write block exception is thrown if an error is encountered.
      *
      * @param xml
      *        The XML writer.
@@ -532,21 +531,6 @@ class Abstract:
         ,const QString& path
         ,QObject* parent = nullptr
     );
-
-
-    /*!
-     * Writes this block's data and children scope links to the SRB file at the
-     * given path.
-     * 
-     * A file system exception is thrown if any error is encountered.
-     *
-     * @param path
-     *        The path.
-     */
-    private:
-    void write(
-        const QString& path
-    ) const;
 };
 }
 

@@ -573,11 +573,9 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes this block and all its children to the given directory path using the most current format version of the multi-file system. This must be a root block.
+                    <__p_description>Writes this block and all its children to the given directory path using the most current format version of the multi block file system.
 
-Any SRB files that do not match any of this root block's and its descendant's SRB files are removed from the file system within the given directory.
-
-A logical block or file system exception is thrown if an error is encountered.</__p_description>
+A write block exception is thrown if an error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -599,7 +597,9 @@ A logical block or file system exception is thrown if an error is encountered.</
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes this block and all its children to the given XML writer using the most current XML format version.</__p_description>
+                    <__p_description>Writes this block and all its children to the given XML writer using the most current XML format version.
+
+A write block exception is thrown if an error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -791,30 +791,6 @@ A read block or file system exception is thrown if any error is encountered.</__
                         <__p_description>The parent.</__p_description>
                         <__p_name>parent</__p_name>
                         <__p_type>QObject*</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Private</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes this block's data and children scope links to the SRB file at the given path.
-
-A file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>write</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
                     </Variable>
                 </Function>
             </Class>
@@ -8415,7 +8391,7 @@ The given from and to rows must produce a valid move operation in this model.</_
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Saves this project to the multi-file project directory at its directory path. This instance cannot be a new project with no set directory path.
 
-A logical project, write project, or file system exception are thrown if any error is encountered.</__p_description>
+A logical or write project exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -8434,7 +8410,7 @@ A logical project, write project, or file system exception are thrown if any err
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Saves this project to the multi-file project directory at the given path. If saving is successful then this instance's directory path property is changed to the given path.
 
-A write project or file system exception are thrown if any error is encountered.</__p_description>
+A write project exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -8713,54 +8689,6 @@ A read project exception is thrown if any error is encountered.</__p_description
                     <Variable>
                         <__p_description>The value.</__p_description>
                         <__p_name>value</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes out this model's data and its block's data to the multi-file project directory at the given path.
-
-A write project or file system exception are thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>writeDir</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes out this model's data to the multi-file directory configuration file at the given path.
-
-A write project or file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>writeDirConfig</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
                         <__p_type>const QString&amp;</__p_type>
                     </Variable>
                 </Function>
@@ -12048,6 +11976,191 @@ See the abstract block widget class for a detailed description of block widgets.
                     </Function>
                 </Class>
             </Namespace>
+        </Namespace>
+        <Namespace>
+            <__p_description>This contains all writer classes.
+
+Writer classes write the data of a class to an output device.</__p_description>
+            <__p_name>Writer</__p_name>
+            <Class>
+                <__p_description>This is a writer class. It writes a given block's data and its descendant block's data to a directory at a given directory path using the multi block file system.</__p_description>
+                <__p_name>Block</__p_name>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Constructs this new instance with the given directory path.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The directory path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>A file system, logical block, or write block exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>operator&lt;&lt;</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Writer::Block&amp;</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>block</__p_name>
+                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Opens this instance's directory path for writing block data files.
+
+A file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>open</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+            </Class>
+            <Class>
+                <__p_description>This is a writer class. It writes a given block's data and its descendant block's data to a given XML stream writer.</__p_description>
+                <__p_name>BlockXml</__p_name>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Constructs this new instance with the given XML stream writer.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The XML stream writer.</__p_description>
+                        <__p_name>xml</__p_name>
+                        <__p_type>QXmlStreamWriter&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>A write block exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>operator&lt;&lt;</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Writer::BlockXml&amp;</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>block</__p_name>
+                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                    </Variable>
+                </Function>
+            </Class>
+            <Class>
+                <__p_description>This is a writer class. It writes a given project to a directory at a given directory path using the multi block file system.</__p_description>
+                <__p_name>Project</__p_name>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Constructs this new instance with the given directory path.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The directory path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>A file system or write project exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>operator&lt;&lt;</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Writer::Project&amp;</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>project</__p_name>
+                        <__p_type>const Model::Project&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Opens this instance's directory path for writing a project and its blocks.
+
+A file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>open</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+            </Class>
         </Namespace>
         <Function>
             <__p_abstract>0</__p_abstract>

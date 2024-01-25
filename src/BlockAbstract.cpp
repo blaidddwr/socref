@@ -8,11 +8,9 @@
 #include "LanguageAbstract.h"
 #include "Global.h"
 #include "ModelMetaBlock.h"
+#include "WriterBlock.h"
+#include "WriterBlockXml.h"
 namespace Block {
-using FileError = Exception::System::File;
-using LogicalError = Exception::Block::Logical;
-using ReadError = Exception::Block::Read;
-using WriteError = Exception::Block::Write;
 
 
 Abstract::Abstract(
@@ -75,6 +73,7 @@ Block::Abstract* Abstract::fromDir(
     ,QObject* parent
 )
 {
+    using FileError = Exception::System::File;
     G_ASSERT(language);
     QDir dir(path);
     if (!dir.isReadable())
@@ -92,6 +91,7 @@ Block::Abstract* Abstract::fromXml(
     ,QObject* parent
 )
 {
+    using ReadError = Exception::Block::Read;
     G_ASSERT(language);
     auto blockName = xml.name().toString();
     int i = -1;
@@ -247,54 +247,16 @@ void Abstract::toDir(
     const QString& path
 ) const
 {
-    G_ASSERT(!qobject_cast<Abstract*>(parent()));
-    G_ASSERT(scope() == "ROOT");
-    QHash<QString,const Abstract*> blocks;
-    for (auto descendant: descendants())
+    using WriteError = Exception::Block::Write;
+    try
     {
-        static const QRegularExpression nonPrintable("[\t\r\n\a\e\f]|(ROOT)");
-        auto scope = descendant->scope();
-        G_ASSERT(!scope.contains(nonPrintable));
-        auto path = scope+".srb";
-        if (blocks.contains(path))
-        {
-            throw LogicalError(
-                tr("Conflicting scope of %1 with two or more blocks.").arg(descendant->scope())
-            );
-        }
-        blocks.insert(path,descendant);
+        Writer::Block writer(path);
+        writer.open();
+        writer << *this;
     }
-    QFileInfo dirInfo(path);
-    QDir dir(path);
-    if (!dir.exists())
+    catch (Exception::Base& e)
     {
-        if (!dirInfo.dir().mkdir(dirInfo.fileName()))
-        {
-            throw Exception::System::File(tr("Failed making directory %1.").arg(path));
-        }
-    }
-    if (!dirInfo.isWritable())
-    {
-        throw FileError(tr("Given directory %1 is not writable.").arg(path));
-    }
-    for (const auto& info: dir.entryInfoList({"*.srb"}))
-    {
-        if (!info.isWritable())
-        {
-            throw FileError(tr("Block file %1 is not writable.").arg(info.fileName()));
-        }
-        if (!blocks.contains(info.fileName()))
-        {
-            if (!dir.remove(info.fileName()))
-            {
-                throw FileError(tr("Failed removing trash block file %1.").arg(info.fileName()));
-            }
-        }
-    }
-    write(dir.absoluteFilePath("ROOT.srb"));
-    for (auto i = blocks.begin();i != blocks.end();i++)
-    {
-        i.value()->write(dir.absoluteFilePath(i.key()));
+        throw WriteError(e.message());
     }
 }
 
@@ -303,17 +265,16 @@ void Abstract::toXml(
     QXmlStreamWriter& xml
 ) const
 {
-    xml.writeStartElement(meta()->name());
-    auto map = saveToMap();
-    for (auto i = map.begin();i != map.end();i++)
+    using WriteError = Exception::Block::Write;
+    try
     {
-        xml.writeTextElement("_"+i.key(),i.value().toString());
+        Writer::BlockXml writer(xml);
+        writer << *this;
     }
-    for (auto child: _children)
+    catch (Exception::Base& e)
     {
-        child->toXml(xml);
+        throw WriteError(e.message());
     }
-    xml.writeEndElement();
 }
 
 
@@ -373,6 +334,8 @@ Block::Abstract* Abstract::read(
     ,QObject* parent
 )
 {
+    using FileError = Exception::System::File;
+    using ReadError = Exception::Block::Read;
     G_ASSERT(language);
     QFileInfo info(path);
     if (!info.isFile())
@@ -442,39 +405,5 @@ Block::Abstract* Abstract::read(
     block->loadFromMap(map,version);
     block->setParent(parent);
     return block.release();
-}
-
-
-void Abstract::write(
-    const QString& path
-) const
-{
-    QFile file(path);
-    if (!file.open(QIODevice::WriteOnly|QIODevice::Truncate))
-    {
-        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
-    }
-    QTextStream out(&file);
-    out << meta()->name() << "\n";
-    auto map = saveToMap();
-    for (auto i = map.begin();i != map.end();i++)
-    {
-        auto data = i.value().toString();
-        data.replace("\\","\\\\");
-        data.replace("\n","\\n");
-        out << ":"+i.key() << "\n" << data << "\n";
-    }
-    out << "+CHILDREN+\n";
-    for (auto child: _children)
-    {
-        static const QRegularExpression nonPrintable("[\t\r\n\a\e\f]|(ROOT)");
-        auto scope = child->scope();
-        G_ASSERT(!scope.contains(nonPrintable));
-        out << child->scope() << "\n";
-    }
-    if (file.error() != QFileDevice::NoError)
-    {
-        throw WriteError(tr("Failed writing block file %1: %2").arg(path,file.errorString()));
-    }
 }
 }

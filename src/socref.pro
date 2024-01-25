@@ -46,7 +46,10 @@ SOURCES +=  Global.cpp \
             TestLanguageCpp.cpp \
             TestLanguageCppQt.cpp \
             TestModelProject.cpp \
-            WidgetBlockAbstract.cpp
+            WidgetBlockAbstract.cpp \
+            WriterBlock.cpp \
+            WriterBlockXml.cpp \
+            WriterProject.cpp
 
 HEADERS +=  Global.h \
             Block.h \
@@ -123,6 +126,10 @@ HEADERS +=  Global.h \
             TestModelProject.h \
             Widget.h \
             WidgetBlock.h \
-            WidgetBlockAbstract.h
+            WidgetBlockAbstract.h \
+            Writer.h \
+            WriterBlock.h \
+            WriterBlockXml.h \
+            WriterProject.h
 
 RESOURCES += socref.qrc

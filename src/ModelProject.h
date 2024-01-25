@@ -4,6 +4,7 @@
 #include "Block.h"
 #include "CommandProject.h"
 #include "Language.h"
+#include "Writer.h"
 class QXmlStreamReader;
 namespace Model {
 
@@ -28,6 +29,7 @@ class Project:
     friend class Command::Project::Move;
     friend class Command::Project::Remove;
     friend class Command::Project::Set;
+    friend class Writer::Project;
     Block::Abstract* _root {nullptr};
     Language::Abstract* _language {nullptr};
     QHash<QString,QVariant> _previousState;
@@ -424,8 +426,8 @@ class Project:
      * Saves this project to the multi-file project directory at its directory
      * path. This instance cannot be a new project with no set directory path.
      * 
-     * A logical project, write project, or file system exception are thrown if
-     * any error is encountered.
+     * A logical or write project exception is thrown if any error is
+     * encountered.
      */
     public:
     void save(
@@ -437,8 +439,7 @@ class Project:
      * If saving is successful then this instance's directory path property is
      * changed to the given path.
      * 
-     * A write project or file system exception are thrown if any error is
-     * encountered.
+     * A write project exception is thrown if any error is encountered.
      *
      * @param path
      *        The path.
@@ -607,38 +608,6 @@ class Project:
     private:
     void setDirectoryPath(
         const QString& value
-    );
-
-
-    /*!
-     * Writes out this model's data and its block's data to the multi-file
-     * project directory at the given path.
-     * 
-     * A write project or file system exception are thrown if any error is
-     * encountered.
-     *
-     * @param path
-     *        The path.
-     */
-    private:
-    void writeDir(
-        const QString& path
-    );
-
-
-    /*!
-     * Writes out this model's data to the multi-file directory configuration
-     * file at the given path.
-     * 
-     * A write project or file system exception is thrown if any error is
-     * encountered.
-     *
-     * @param path
-     *        The path.
-     */
-    private:
-    void writeDirConfig(
-        const QString& path
     );
 };
 }
