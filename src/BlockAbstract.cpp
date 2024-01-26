@@ -1,14 +1,7 @@
 #include "BlockAbstract.h"
 #include <QtCore>
 #include "Exception.h"
-#include "ExceptionBlockRead.h"
-#include "ExceptionBlockWrite.h"
-#include "ExceptionSystemFile.h"
-#include "LanguageAbstract.h"
-#include "Global.h"
 #include "ModelMetaBlock.h"
-#include "WriterBlock.h"
-#include "WriterBlockXml.h"
 namespace Block {
 
 
@@ -62,104 +55,6 @@ QList<Block::Abstract*> Abstract::descendants(
         ret += child->descendants();
     }
     return ret;
-}
-
-
-Block::Abstract* Abstract::fromDir(
-    Language::Abstract* language
-    ,int version
-    ,const QString& path
-    ,QObject* parent
-)
-{
-    using FileError = Exception::System::File;
-    G_ASSERT(language);
-    QDir dir(path);
-    if (!dir.isReadable())
-    {
-        throw FileError(tr("Directory %1 is not readable.").arg(path));
-    }
-    return read(language,version,dir.absoluteFilePath("ROOT.srb"),parent);
-}
-
-
-Block::Abstract* Abstract::fromXml(
-    Language::Abstract* language
-    ,int version
-    ,QXmlStreamReader& xml
-    ,QObject* parent
-)
-{
-    using ReadError = Exception::Block::Read;
-    G_ASSERT(language);
-    auto blockName = xml.name().toString();
-    int i = -1;
-    if (version == Socref_Legacy)
-    {
-        i = language->indexFromName(blockName.toLower());
-    }
-    else
-    {
-        i = language->indexFromName(blockName);
-    }
-    if (i == -1)
-    {
-        throw ReadError(tr("Unknown block %1.").arg(blockName));
-    }
-    QMap<QString,QVariant> map;
-    std::unique_ptr<Abstract> block(language->create(i));
-    while (!xml.atEnd())
-    {
-        xml.readNext();
-        switch (xml.tokenType())
-        {
-        case QXmlStreamReader::StartElement:
-        {
-            auto name = xml.name().toString();
-            bool isProp = false;
-            if (version == Socref_Legacy)
-            {
-                if (name.first(4) == "__p_")
-                {
-                    name = name.mid(4);
-                    isProp = true;
-                }
-            }
-            else
-            {
-                if (name.at(0) == '_')
-                {
-                    name = name.mid(1);
-                    isProp = true;
-                }
-            }
-            if (isProp)
-            {
-                if (map.contains(name))
-                {
-                    throw ReadError(tr("Duplicate property element %1.").arg(name));
-                }
-                map.insert(name,xml.readElementText());
-            }
-            else
-            {
-                block->append(fromXml(language,version,xml));
-            }
-            break;
-        }
-        case QXmlStreamReader::EndElement:
-            if (xml.name() == blockName)
-            {
-                block->loadFromMap(map,Socref_Legacy);
-                block->setParent(parent);
-                return block.release();
-            }
-            break;
-        default:
-            break;
-        }
-    }
-    return nullptr;
 }
 
 
@@ -221,6 +116,14 @@ void Abstract::move(
 }
 
 
+const QString& Abstract::rootScope(
+)
+{
+    static const QString ret = "ROOT";
+    return ret;
+}
+
+
 int Abstract::size(
 ) const
 {
@@ -239,41 +142,6 @@ Block::Abstract* Abstract::take(
     ret->removeEvent(index);
     ret->setParent(nullptr);
     return ret;
-}
-
-
-void Abstract::toDir(
-    const QString& path
-) const
-{
-    using WriteError = Exception::Block::Write;
-    try
-    {
-        Writer::Block writer(path);
-        writer.open();
-        writer << *this;
-    }
-    catch (Exception::Base& e)
-    {
-        throw WriteError(e.message());
-    }
-}
-
-
-void Abstract::toXml(
-    QXmlStreamWriter& xml
-) const
-{
-    using WriteError = Exception::Block::Write;
-    try
-    {
-        Writer::BlockXml writer(xml);
-        writer << *this;
-    }
-    catch (Exception::Base& e)
-    {
-        throw WriteError(e.message());
-    }
 }
 
 
@@ -323,86 +191,5 @@ void Abstract::onMetaDestroyed(
     {
         _meta = nullptr;
     }
-}
-
-
-Block::Abstract* Abstract::read(
-    Language::Abstract* language
-    ,int version
-    ,const QString& path
-    ,QObject* parent
-)
-{
-    using FileError = Exception::System::File;
-    using ReadError = Exception::Block::Read;
-    G_ASSERT(language);
-    QFileInfo info(path);
-    if (!info.isFile())
-    {
-        throw FileError(tr("Given path %1 is not a file.").arg(path));
-    }
-    if (!info.isReadable())
-    {
-        throw FileError(tr("Given file %1 is not readablee.").arg(path));
-    }
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
-    }
-    QTextStream in(&file);
-    auto blockName = in.readLine();
-    if (version == Socref_Legacy)
-    {
-        blockName = blockName.toLower();
-    }
-    auto i = language->indexFromName(blockName);
-    if (i == -1)
-    {
-        throw ReadError(tr("Unknown block %1").arg(blockName));
-    }
-    std::unique_ptr<Abstract> block(language->create(i));
-    QMap<QString,QVariant> map;
-    int lineNumber = 1;
-    QString line = in.readLine();
-    auto dir = info.dir();
-    while (!line.isNull())
-    {
-        if (line.front() == ':')
-        {
-            QString name = line.mid(1);
-            if (map.contains(name))
-            {
-                throw ReadError(tr("Duplicate property element %1.").arg(name));
-            }
-            QString data = in.readLine();
-            if (data.isNull())
-            {
-                static const QString msg = tr(
-                    "Failed reading %1: Expected data after line %2, got EOF instead."
-                );
-                throw ReadError(msg.arg(path).arg(lineNumber));
-            }
-            data.replace("\\\\","\\");
-            data.replace("\\n","\n");
-            map.insert(name,data);
-        }
-        else if (line.front() == '+')
-        {
-            line = in.readLine();
-            break;
-        }
-        line = in.readLine();
-        lineNumber++;
-    }
-    while (!line.isNull())
-    {
-        QString path = dir.absoluteFilePath(line+".srb");
-        block->append(read(language,version,path));
-        line = in.readLine();
-    }
-    block->loadFromMap(map,version);
-    block->setParent(parent);
-    return block.release();
 }
 }

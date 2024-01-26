@@ -1,10 +1,9 @@
 #ifndef BLOCK_ABSTRACT_H
 #define BLOCK_ABSTRACT_H
 #include <QObject>
-#include "Language.h"
 #include "ModelMeta.h"
+#include "Stream.h"
 #include "WidgetBlock.h"
-#include "Writer.h"
 class QXmlStreamReader;
 class QXmlStreamWriter;
 namespace Block {
@@ -31,7 +30,8 @@ namespace Block {
  * The scope is an identifier that must be unique among all other blocks that
  * share a common root block making up a project. The scope cannot contain non
  * printable characters such as new lines. The root block of a project must have
- * a scope of "ROOT".
+ * a scope value equal to the value returned by the "root scope" static getter
+ * method.
  * 
  * A block can only have children blocks of any type in its meta's allow list
  * property.
@@ -48,8 +48,7 @@ class Abstract:
     public QObject
 {
     Q_OBJECT
-    friend class Writer::Block;
-    friend class Writer::BlockXml;
+    friend class Stream::Block;
     Model::Meta::Block* _meta;
     QList<Abstract*> _children;
 
@@ -172,66 +171,6 @@ class Abstract:
 
 
     /*!
-     * Creates and returns a new root block and all its children located in the
-     * given directory path with the given language, format version, and parent.
-     * The given language must be valid.
-     * 
-     * It is expected the given directory contains a valid multi-file project
-     * with the root block file named "ROOT.srb".
-     * 
-     * A read block or file system exception is thrown if any error is
-     * encountered.
-     *
-     * @param language
-     *        The language.
-     *
-     * @param version
-     *        The format version.
-     *
-     * @param path
-     *        The directory path.
-     *
-     * @param parent
-     *        The parent.
-     */
-    public:
-    static Block::Abstract* fromDir(
-        Language::Abstract* language
-        ,int version
-        ,const QString& path
-        ,QObject* parent = nullptr
-    );
-
-
-    /*!
-     * Creates and returns a new block and all its children with the given
-     * language, format version, XML reader, and parent. The given language must
-     * be valid.
-     * 
-     * A read block exception is thrown if any error is encountered.
-     *
-     * @param language
-     *        The language.
-     *
-     * @param version
-     *        The format version.
-     *
-     * @param xml
-     *        The XML reader.
-     *
-     * @param parent
-     *        The parent.
-     */
-    public:
-    static Block::Abstract* fromXml(
-        Language::Abstract* language
-        ,int version
-        ,QXmlStreamReader& xml
-        ,QObject* parent = nullptr
-    );
-
-
-    /*!
      * Returns this block's child block at the given index. The given index must
      * be valid.
      *
@@ -330,6 +269,17 @@ class Abstract:
 
 
     /*!
+     * Getter method.
+     *
+     * @return
+     * The special root scope.
+     */
+    public:
+    static const QString& rootScope(
+    );
+
+
+    /*!
      * Saves this blocks data to a returned mapping.
      */
     public:
@@ -395,36 +345,6 @@ class Abstract:
     Block::Abstract* take(
         int index
     );
-
-
-    /*!
-     * Writes this block and all its children to the given directory path using
-     * the most current format version of the multi block file system.
-     * 
-     * A write block exception is thrown if an error is encountered.
-     *
-     * @param path
-     *        The directory path.
-     */
-    public:
-    void toDir(
-        const QString& path
-    ) const;
-
-
-    /*!
-     * Writes this block and all its children to the given XML writer using the
-     * most current XML format version.
-     * 
-     * A write block exception is thrown if an error is encountered.
-     *
-     * @param xml
-     *        The XML writer.
-     */
-    public:
-    void toXml(
-        QXmlStreamWriter& xml
-    ) const;
 
 
     /*!
@@ -498,38 +418,6 @@ class Abstract:
     private slots:
     void onMetaDestroyed(
         QObject* object
-    );
-
-
-    /*!
-     * Creates and returns a new block and all its children located at the given
-     * path with the given language, format version, and parent. The given
-     * language must be valid.
-     * 
-     * The new block's children are expected to reside in the same directory as
-     * the new block's file's directory.
-     * 
-     * A read block or file system exception is thrown if any error is
-     * encountered.
-     *
-     * @param language
-     *        The language.
-     *
-     * @param version
-     *        The format version.
-     *
-     * @param path
-     *        The path.
-     *
-     * @param parent
-     *        The parent.
-     */
-    private:
-    static Block::Abstract* read(
-        Language::Abstract* language
-        ,int version
-        ,const QString& path
-        ,QObject* parent = nullptr
     );
 };
 }

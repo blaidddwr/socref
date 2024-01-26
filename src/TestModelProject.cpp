@@ -1,7 +1,9 @@
 #include "TestModelProject.h"
 #include <QtTest>
+#include "ExceptionBase.h"
 #include "FactoryLanguage.h"
 #include "ModelProject.h"
+#include "StreamProject.h"
 namespace Test {
 namespace Model {
 
@@ -13,27 +15,45 @@ void Project::initTestCase(
 }
 
 
-void Project::importLegacy(
+void Project::fromDir(
 )
 {
-    auto factory = Factory::Language::instance();
-    int index = factory->indexFromName("test");
-    auto project = ::Model::Project::import(testXmlLegacy(),this);
-    QCOMPARE(project->name(),"Testing123");
-    QCOMPARE(project->language(),factory->get(index));
-    QCOMPARE(project->relativeParsePath(),"../testing");
+    try
+    {
+        auto factory = Factory::Language::instance();
+        int index = factory->indexFromName("test");
+        auto project = Stream::Project::fromDir(testProjDir(),this);
+        QCOMPARE(project->name(),"Testing123");
+        QCOMPARE(project->language(),factory->get(index));
+        QCOMPARE(project->relativeParsePath(),"../testing");
+        delete project;
+    }
+    catch (Exception::Base& e)
+    {
+        qDebug() << e.message();
+        QVERIFY(false);
+    }
 }
 
 
-void Project::loadConstruct(
+void Project::fromXmlLegacy(
 )
 {
-    auto factory = Factory::Language::instance();
-    int index = factory->indexFromName("test");
-    ::Model::Project project(testProjDir());
-    QCOMPARE(project.name(),"Testing123");
-    QCOMPARE(project.language(),factory->get(index));
-    QCOMPARE(project.relativeParsePath(),"../testing");
+    try
+    {
+        auto factory = Factory::Language::instance();
+        int index = factory->indexFromName("test");
+        auto project = Stream::Project::fromXml(testXmlLegacy(),this);
+        QCOMPARE(project->name(),"Testing123");
+        QCOMPARE(project->language(),factory->get(index));
+        QCOMPARE(project->relativeParsePath(),"../testing");
+        delete project;
+    }
+    catch (Exception::Base& e)
+    {
+        qDebug() << e.message();
+        QVERIFY(false);
+    }
 }
 
 

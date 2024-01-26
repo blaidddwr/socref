@@ -6,22 +6,12 @@
 #include "CommandProjectRemove.h"
 #include "CommandProjectSet.h"
 #include "Exception.h"
-#include "ExceptionProjectLogical.h"
-#include "ExceptionProjectRead.h"
-#include "ExceptionProjectWrite.h"
-#include "ExceptionSystemFile.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaBlock.h"
 #include "BlockAbstract.h"
 #include "FactoryLanguage.h"
-#include "Global.h"
-#include "WriterProject.h"
 #define CONFIG_FILE "project.xml"
 namespace Model {
-using FileError = Exception::System::File;
-using LogicalError = Exception::Project::Logical;
-using ReadError = Exception::Project::Read;
-using WriteError = Exception::Project::Write;
 QList<Block::Abstract*> Project::_copied {};
 
 
@@ -36,17 +26,6 @@ Project::Project(
     connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
     _root = _language->create(_language->rootIndex(),this);
     G_ASSERT(_root);
-}
-
-
-Project::Project(
-    const QString& directoryPath
-    ,QObject* parent
-):
-    QAbstractItemModel(parent)
-    ,_directoryPath(QFileInfo(directoryPath).absoluteFilePath())
-{
-    readDir(directoryPath);
 }
 
 
@@ -213,18 +192,6 @@ bool Project::finishSet(
     _setIndex = QPersistentModelIndex();
     _previousState.clear();
     return true;
-}
-
-
-Model::Project* Project::import(
-    const QString& path
-    ,QObject* parent
-)
-{
-    std::unique_ptr<Project> ret(new Project);
-    ret->readXml(path);
-    ret->setParent(parent);
-    return ret.release();
 }
 
 
@@ -460,44 +427,6 @@ int Project::rowCount(
 }
 
 
-void Project::save(
-)
-{
-    if (_directoryPath.isNull())
-    {
-        throw LogicalError(tr("Cannot save new project without directory path."));
-    }
-    try
-    {
-        Writer::Project writer(_directoryPath);
-        writer.open();
-        writer << *this;
-    }
-    catch (Exception::Base& e)
-    {
-        throw WriteError(e.message());
-    }
-}
-
-
-void Project::saveToDir(
-    const QString& path
-)
-{
-    try
-    {
-        Writer::Project writer(path);
-        writer.open();
-        writer << *this;
-        setDirectoryPath(QFileInfo(path).absoluteFilePath());
-    }
-    catch (Exception::Base& e)
-    {
-        throw WriteError(e.message());
-    }
-}
-
-
 void Project::setName(
     const QString& value
 )
@@ -584,161 +513,6 @@ void Project::onLanguageDestroyed(
     if (_language == object)
     {
         _language = nullptr;
-    }
-}
-
-
-void Project::readDir(
-    const QString& path
-)
-{
-    QDir dir(path);
-    if (!dir.exists())
-    {
-        throw FileError(tr("No such directory at path %1.").arg(path));
-    }
-    if (!dir.isReadable())
-    {
-        throw FileError(tr("The directory at %1 is not readable.").arg(path));
-    }
-    try
-    {
-        readDirConfig(dir.absoluteFilePath(CONFIG_FILE));
-        _root = Block::Abstract::fromDir(_language,Socref_1_0,dir.absolutePath(),this);
-    }
-    catch (Exception::Base& e)
-    {
-        throw ReadError(tr("Failed reading %1: %2").arg(path,e.message()));
-    }
-}
-
-
-void Project::readDirConfig(
-    const QString& path
-)
-{
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
-    }
-    QXmlStreamReader xml(&file);
-    while(!xml.atEnd())
-    {
-        xml.readNext();
-        if (xml.isStartElement())
-        {
-            auto name = xml.name().toString();
-            if (name == "language")
-            {
-                auto langName = xml.readElementText();
-                auto factory = Factory::Language::instance();
-                auto i = factory->indexFromName(langName);
-                if (i == -1)
-                {
-                    throw ReadError(tr("Unknown language %1.").arg(langName));
-                }
-                _language = factory->get(i);
-                G_ASSERT(_language);
-                connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
-            }
-            else if (name == "name")
-            {
-                _name = xml.readElementText();
-            }
-            else if (name == "relativeParsePath")
-            {
-                _relativeParsePath = xml.readElementText();
-            }
-        }
-    }
-    if (!_language)
-    {
-        throw ReadError(tr("Language not set in project config file."));
-    }
-}
-
-
-void Project::readXml(
-    const QString& path
-)
-{
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
-    }
-    QXmlStreamReader xml(&file);
-    try
-    {
-        while (!xml.atEnd())
-        {
-            xml.readNext();
-            if (xml.isStartElement())
-            {
-                auto name = xml.name().toString();
-                if (name == "srp_project")
-                {
-                    readXmlLegacy(xml);
-                    break;
-                }
-            }
-        }
-        if (xml.hasError())
-        {
-            throw ReadError(xml.errorString());
-        }
-    }
-    catch (Exception::Base& e)
-    {
-        throw ReadError(
-            tr("Failed reading %1 on line %2: %3").arg(path).arg(xml.lineNumber()).arg(e.message())
-        );
-    }
-}
-
-
-void Project::readXmlLegacy(
-    QXmlStreamReader& xml
-)
-{
-    while(!xml.atEnd())
-    {
-        xml.readNext();
-        if (xml.isStartElement())
-        {
-            auto name = xml.name().toString();
-            if (name == "language")
-            {
-                auto langName = xml.readElementText().toLower();
-                langName.replace("+","p").replace("/","");
-                auto factory = Factory::Language::instance();
-                auto i = factory->indexFromName(langName);
-                if (i == -1)
-                {
-                    throw ReadError(tr("Unknown language %1.").arg(langName));
-                }
-                _language = factory->get(i);
-                G_ASSERT(_language);
-                connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
-            }
-            else if (name == "name")
-            {
-                _name = xml.readElementText();
-            }
-            else if (name == "parse_path")
-            {
-                _relativeParsePath = xml.readElementText();
-            }
-            else if (!_root)
-            {
-                if (!_language)
-                {
-                    throw ReadError(tr("Language not set before first block element."));
-                }
-                _root = Block::Abstract::fromXml(_language,Socref_Legacy,xml,this);
-            }
-        }
     }
 }
 

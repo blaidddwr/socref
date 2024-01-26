@@ -4,7 +4,7 @@
 #include "Block.h"
 #include "CommandProject.h"
 #include "Language.h"
-#include "Writer.h"
+#include "Stream.h"
 class QXmlStreamReader;
 namespace Model {
 
@@ -29,7 +29,7 @@ class Project:
     friend class Command::Project::Move;
     friend class Command::Project::Remove;
     friend class Command::Project::Set;
-    friend class Writer::Project;
+    friend class Stream::Project;
     Block::Abstract* _root {nullptr};
     Language::Abstract* _language {nullptr};
     QHash<QString,QVariant> _previousState;
@@ -96,27 +96,6 @@ class Project:
     public:
     Project(
         int languageIndex
-        ,QObject* parent = nullptr
-    );
-
-
-    /*!
-     * Constructs this new project with the given directory path and parent.
-     * This project's data and its block's data is loaded from the given
-     * directory path.
-     * 
-     * A read project or file system exception are thrown if any error is
-     * encountered.
-     *
-     * @param directoryPath
-     *        The directory path.
-     *
-     * @param parent
-     *        The parent.
-     */
-    public:
-    Project(
-        const QString& directoryPath
         ,QObject* parent = nullptr
     );
 
@@ -246,26 +225,6 @@ class Project:
      */
     public:
     bool finishSet(
-    );
-
-
-    /*!
-     * Creates and returns a new project model with the given parent imported
-     * from an exported XML file located at the given path.
-     * 
-     * A read project or file system exception are thrown if any error is
-     * encountered.
-     *
-     * @param path
-     *        The path.
-     *
-     * @param parent
-     *        The parent.
-     */
-    public:
-    static Model::Project* import(
-        const QString& path
-        ,QObject* parent = nullptr
     );
 
 
@@ -423,34 +382,6 @@ class Project:
 
 
     /*!
-     * Saves this project to the multi-file project directory at its directory
-     * path. This instance cannot be a new project with no set directory path.
-     * 
-     * A logical or write project exception is thrown if any error is
-     * encountered.
-     */
-    public:
-    void save(
-    );
-
-
-    /*!
-     * Saves this project to the multi-file project directory at the given path.
-     * If saving is successful then this instance's directory path property is
-     * changed to the given path.
-     * 
-     * A write project exception is thrown if any error is encountered.
-     *
-     * @param path
-     *        The path.
-     */
-    public:
-    void saveToDir(
-        const QString& path
-    );
-
-
-    /*!
      * Sets this model's name property to the given value.
      *
      * @param value
@@ -532,70 +463,6 @@ class Project:
     private slots:
     void onLanguageDestroyed(
         QObject* object
-    );
-
-
-    /*!
-     * Reads in this model's data and its block's data from the multi-file
-     * project directory at the given path.
-     * 
-     * A read project or file system exception are thrown if any error is
-     * encountered.
-     *
-     * @param path
-     *        The path.
-     */
-    private:
-    void readDir(
-        const QString& path
-    );
-
-
-    /*!
-     * Reads in this model's data from the multi-file directory configuration
-     * file at the given path.
-     * 
-     * A read project or file system exception is thrown if any error is
-     * encountered.
-     *
-     * @param path
-     *        The path.
-     */
-    private:
-    void readDirConfig(
-        const QString& path
-    );
-
-
-    /*!
-     * Reads in this model's data and its block's data from the exported XML
-     * file at the given path.
-     * 
-     * A read project or file system exception are thrown if any error is
-     * encountered.
-     *
-     * @param path
-     *        The path.
-     */
-    private:
-    void readXml(
-        const QString& path
-    );
-
-
-    /*!
-     * Reads in this model's data and its block's data from the given XML reader
-     * using the legacy format. The given XML reader's current token position
-     * must be the start element of the project.
-     * 
-     * A read project exception is thrown if any error is encountered.
-     *
-     * @param xml
-     *        The XML reader.
-     */
-    private:
-    void readXmlLegacy(
-        QXmlStreamReader& xml
     );
 
 

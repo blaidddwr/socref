@@ -59,7 +59,8 @@ class Abstract:
 
 
     /*!
-     * Tests the from directory method.
+     * Tests the "from directory" method from the streaming class using the
+     * current format.
      */
     private slots:
     void fromDir(
@@ -67,7 +68,8 @@ class Abstract:
 
 
     /*!
-     * Tests the from XML method.
+     * Tests the "from XML" method from the streaming class using the current
+     * format.
      */
     private slots:
     void fromXml(
@@ -75,7 +77,8 @@ class Abstract:
 
 
     /*!
-     * Tests the from XML method using the legacy format.
+     * Tests the "from XML" method from the streaming class using the legacy
+     * format.
      */
     private slots:
     void fromXmlLegacy(
@@ -147,7 +150,8 @@ class Abstract:
 
 
     /*!
-     * Tests the to directory method.
+     * Tests the "to directory" method from the streaming class using the
+     * current format.
      */
     private slots:
     void toDir(
@@ -155,7 +159,8 @@ class Abstract:
 
 
     /*!
-     * Tests the to XML method.
+     * Tests the "to XML" method from the streaming class using the current
+     * format.
      */
     private slots:
     void toXml(

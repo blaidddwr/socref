@@ -144,7 +144,7 @@ QString Node::scope(
     auto block = qobject_cast<Node*>(parent());
     if (!block)
     {
-        return "ROOT";
+        return rootScope();
     }
     while (block)
     {

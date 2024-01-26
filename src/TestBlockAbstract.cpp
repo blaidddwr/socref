@@ -4,6 +4,7 @@
 #include "Global.h"
 #include "LanguageTest.h"
 #include "ModelMetaLanguage.h"
+#include "StreamBlock.h"
 #include "TestBase.t.h"
 namespace Test {
 namespace Block {
@@ -105,7 +106,7 @@ void Abstract::fromDir(
 )
 {
     auto root = qobject_cast<Node*>(
-        ::Block::Abstract::fromDir(language(),Socref_1_0,testProjDir(),this)
+        Stream::Block::fromDir(language(),Socref_1_0,testProjDir(),this)
     );
     QVERIFY(root);
     QCOMPARE(root->name(),"");
@@ -136,9 +137,7 @@ void Abstract::fromXml(
             && xml.name().toString() == "node"
         )
         {
-            auto root = qobject_cast<Node*>(
-                ::Block::Abstract::fromXml(language(),Socref_1_0,xml,this)
-            );
+            auto root = qobject_cast<Node*>(Stream::Block::fromXml(language(),Socref_1_0,xml,this));
             QVERIFY(root);
             QCOMPARE(root->name(),"");
             QCOMPARE(root->size(),1);
@@ -173,7 +172,7 @@ void Abstract::fromXmlLegacy(
         )
         {
             auto root = qobject_cast<Node*>(
-                ::Block::Abstract::fromXml(language(),Socref_Legacy,xml,this)
+                Stream::Block::fromXml(language(),Socref_Legacy,xml,this)
             );
             QVERIFY(root);
             QCOMPARE(root->name(),"");
@@ -398,7 +397,7 @@ void Abstract::toDir(
     node1->setName("Node\n1");
     _block->append(node0);
     node0->append(node1);
-    _block->toDir(dir.absoluteFilePath("outputDir"));
+    Stream::Block::toDir(*_block,dir.absoluteFilePath("outputDir"));
     QVERIFY(
         areDirsEqual(
             QDir(testProjDir())
@@ -431,7 +430,7 @@ void Abstract::toXml(
     xml.setAutoFormatting(true);
     xml.writeStartDocument();
     writeStartProjectXml(xml);
-    _block->toXml(xml);
+    Stream::Block::toXml(*_block,xml);
     writeEndProjectXml(xml);
     xml.writeEndDocument();
     QVERIFY(file.flush());

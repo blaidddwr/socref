@@ -1,6 +1,7 @@
 #include "TestBase.h"
 #include <QtGui>
 #include "Exception.h"
+#include "Global.h"
 #include "LanguageAbstract.h"
 #define TEST_DIR "socref.unit_test.d"
 #define TEST_PROJ_DIR "testDir"
@@ -204,7 +205,8 @@ void Base::writeStartProjectXml(
     QXmlStreamWriter& xml
 )
 {
-    xml.writeStartElement("socref");
+    xml.writeStartElement("SocratesReference");
+    xml.writeAttribute("version",QString::number(Socref_1_0));
     xml.writeTextElement("name","Testing123");
     xml.writeTextElement("language","testing");
     xml.writeTextElement("relativeParsePath","../testing");
@@ -225,7 +227,7 @@ bool Base::createBlockFile(
     QTextStream out(&file);
     out << "node\n";
     out << ":name\n" << name << "\n";
-    out << "+CHILDREN+\n";
+    out << "+children\n";
     for (const auto& link: links)
     {
         out << link << "\n";
@@ -246,7 +248,8 @@ bool Base::createTestProjectConfig(
     QXmlStreamWriter xml(&file);
     xml.setAutoFormatting(true);
     xml.writeStartDocument();
-    xml.writeStartElement("socref");
+    xml.writeStartElement("SocratesReference");
+    xml.writeAttribute("version",QString::number(Socref_1_0));
     xml.writeTextElement("name","Testing123");
     xml.writeTextElement("language","test");
     xml.writeTextElement("relativeParsePath","../testing");

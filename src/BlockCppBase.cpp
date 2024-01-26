@@ -59,7 +59,7 @@ QString Base::scope(
     auto block = qobject_cast<Base*>(parent());
     if (!block)
     {
-        return "ROOT";
+        return rootScope();
     }
     while (block)
     {

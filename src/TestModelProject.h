@@ -22,18 +22,20 @@ class Project:
 
 
     /*!
-     * Tests the import method using the legacy format.
+     * Tests the "from directory" method from the streaming class using the
+     * current format.
      */
     private slots:
-    void importLegacy(
+    void fromDir(
     );
 
 
     /*!
-     * Tests the load constructor.
+     * Tests the "from XML" method from the streaming class using the legacy
+     * format.
      */
     private slots:
-    void loadConstruct(
+    void fromXmlLegacy(
     );
 
 
