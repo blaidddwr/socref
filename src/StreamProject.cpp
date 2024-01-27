@@ -207,6 +207,35 @@ void Project::toXml(
     ,const QString& path
 )
 {
+    using FileError = Exception::System::File;
+    using WriteError = Exception::Project::Write;
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly|QIODevice::Truncate))
+    {
+        throw FileError(tr("Failed opening %1: %2").arg(path,file.errorString()));
+    }
+    try
+    {
+        QXmlStreamWriter xml(&file);
+        xml.setAutoFormatting(true);
+        xml.writeStartDocument();
+        xml.writeStartElement("SocratesReference");
+        xml.writeAttribute("version",QString::number(Socref_Current));
+        xml.writeTextElement("name",project._name);
+        xml.writeTextElement("language",project._language->meta()->name());
+        xml.writeTextElement("relativeParsePath",project._relativeParsePath);
+        Block::toXml(*project._root,xml);
+        xml.writeEndElement();
+        xml.writeEndDocument();
+        if (file.error() != QFileDevice::NoError)
+        {
+            throw WriteError(file.errorString());
+        }
+    }
+    catch (Exception::Base& e)
+    {
+        throw WriteError(tr("Failed writing project file %1: %2").arg(path,e.message()));
+    }
 }
 
 
@@ -343,7 +372,7 @@ void Project::write(
     xml.setAutoFormatting(true);
     xml.writeStartDocument();
     xml.writeStartElement("SocratesReference");
-    xml.writeAttribute("version",QString::number(Socref_1_0));
+    xml.writeAttribute("version",QString::number(Socref_Current));
     xml.writeTextElement("name",project._name);
     xml.writeTextElement("language",project._language->meta()->name());
     xml.writeTextElement("relativeParsePath",project._relativeParsePath);
