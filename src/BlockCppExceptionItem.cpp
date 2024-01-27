@@ -1,6 +1,5 @@
 #include "BlockCppExceptionItem.h"
 #include <QtGui>
-#include "Exception.h"
 namespace Block {
 namespace Cpp {
 

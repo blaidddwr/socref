@@ -1,6 +1,6 @@
 #include "BlockAbstract.h"
 #include <QtCore>
-#include "Exception.h"
+#include "Exceptions.h"
 #include "ModelMetaBlock.h"
 namespace Block {
 

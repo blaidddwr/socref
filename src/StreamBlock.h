@@ -22,6 +22,25 @@ class Block:
 
 
     /*!
+     * Returns a list of deprecated block files not used by the given block and
+     * its descendants in the multi block file directory at the given path.
+     * 
+     * A file system exception is thrown if any error is encountered.
+     *
+     * @param block
+     *        The block.
+     *
+     * @param path
+     *        The path.
+     */
+    public:
+    static QStringList deprecatedFiles(
+        const ::Block::Abstract& block
+        ,const QString& path
+    );
+
+
+    /*!
      * Reads in a root block and all its descendants from a multi block file
      * directory at the given path using the given language and format version.
      * The root block's parent is set to the given parent.
@@ -86,6 +105,32 @@ class Block:
         ,int version
         ,QXmlStreamReader& xml
         ,QObject* parent = nullptr
+    );
+
+
+    /*!
+     * Removes deprecated block files not used by the given block and its
+     * descendants in the multi block file directory at the given path.
+     * 
+     * If the git flag is true then the git command is used for removing
+     * deprecated block files, else the standard system remove command is used.
+     * 
+     * A file or run system exception is thrown if any error is encountered.
+     *
+     * @param block
+     *        The block.
+     *
+     * @param path
+     *        The path.
+     *
+     * @param git
+     *        The git flag.
+     */
+    public:
+    static void removeFiles(
+        const ::Block::Abstract& block
+        ,const QString& path
+        ,bool git = false
     );
 
 

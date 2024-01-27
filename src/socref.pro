@@ -77,16 +77,7 @@ HEADERS +=  Global.h \
             CommandProjectSet.h \
             Exception.h \
             ExceptionBase.h \
-            ExceptionBlock.h \
-            ExceptionBlockLogical.h \
-            ExceptionBlockRead.h \
-            ExceptionBlockWrite.h \
-            ExceptionProject.h \
-            ExceptionProjectLogical.h \
-            ExceptionProjectRead.h \
-            ExceptionProjectWrite.h \
-            ExceptionSystem.h \
-            ExceptionSystemFile.h \
+            Exceptions.h \
             Factory.h \
             FactoryLanguage.h \
             Language.h \

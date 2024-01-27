@@ -1,6 +1,6 @@
 #include "LanguageTest.h"
 #include <QtGui>
-#include "Exception.h"
+#include "Exceptions.h"
 #include "BlockTest.h"
 #include "BlockTestNode.h"
 #include "ModelMetaBlock.h"

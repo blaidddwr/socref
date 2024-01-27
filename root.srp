@@ -6672,53 +6672,6 @@ Its single property is message. The message provides a detailed description of a
                     <__p_virtual>0</__p_virtual>
                 </Function>
             </Class>
-            <Namespace>
-                <__p_description>This contains all block exception classes.</__p_description>
-                <__p_name>Block</__p_name>
-                <Class>
-                    <__p_description>This is an exception class. It represents a logical block error.</__p_description>
-                    <__p_name>Logical</__p_name>
-                    <__p_parents>public Exception::Base</__p_parents>
-                </Class>
-                <Class>
-                    <__p_description>This is an exception class. It represents a block reading error.</__p_description>
-                    <__p_name>Read</__p_name>
-                    <__p_parents>public Exception::Base</__p_parents>
-                </Class>
-                <Class>
-                    <__p_description>This is an exception class. It represents a block writing error.</__p_description>
-                    <__p_name>Write</__p_name>
-                    <__p_parents>public Exception::Base</__p_parents>
-                </Class>
-            </Namespace>
-            <Namespace>
-                <__p_description>This contains all project exception classes.</__p_description>
-                <__p_name>Project</__p_name>
-                <Class>
-                    <__p_description>This is an exception class. It represents a logical project error.</__p_description>
-                    <__p_name>Logical</__p_name>
-                    <__p_parents>public Exception::Base</__p_parents>
-                </Class>
-                <Class>
-                    <__p_description>This is an exception class. It represents a project reading error.</__p_description>
-                    <__p_name>Read</__p_name>
-                    <__p_parents>public Exception::Base</__p_parents>
-                </Class>
-                <Class>
-                    <__p_description>This is an exception class. It represents a project writing error.</__p_description>
-                    <__p_name>Write</__p_name>
-                    <__p_parents>public Exception::Base</__p_parents>
-                </Class>
-            </Namespace>
-            <Namespace>
-                <__p_description>This contains all system exception classes.</__p_description>
-                <__p_name>System</__p_name>
-                <Class>
-                    <__p_description>This is an exception class. It represents a file system error.</__p_description>
-                    <__p_name>File</__p_name>
-                    <__p_parents>public Exception::Base</__p_parents>
-                </Class>
-            </Namespace>
         </Namespace>
         <Namespace>
             <__p_description>This contains all factory classes.</__p_description>
@@ -8356,6 +8309,35 @@ Stream classes write class instance data to output devices and read class instan
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns a list of deprecated block files not used by the given block and its descendants in the multi block file directory at the given path.
+
+A file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>deprecatedFiles</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>QStringList</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
                     <__p_description>Reads in a root block and all its descendants from a multi block file directory at the given path using the given language and format version. The root block's parent is set to the given parent.
 
 The given language and format version must be valid.
@@ -8434,6 +8416,43 @@ A read block or file system exception is thrown if any error is encountered.</__
                         <__p_description>The parent.</__p_description>
                         <__p_name>parent</__p_name>
                         <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Removes deprecated block files not used by the given block and its descendants in the multi block file directory at the given path.
+
+If the git flag is true then the git command is used for removing deprecated block files, else the standard system remove command is used.
+
+A file or run system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>removeFiles</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>false</__p_assignment>
+                        <__p_description>The git flag.</__p_description>
+                        <__p_name>git</__p_name>
+                        <__p_type>bool</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -8592,6 +8611,30 @@ A file system or write block exception is thrown if any error is encountered.</_
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns a list of deprecated block files not used by the given project in its multi block file directory. The given project must have a valid directory path.
+
+A logical project or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>deprecatedFiles</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>QStringList</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The project.</__p_description>
+                        <__p_name>project</__p_name>
+                        <__p_type>const Model::Project&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
                     <__p_description>Reads in a project from a multi block file directory at the given path. The project model's parent is set to the given parent.
 
 A read project, read block, or file system exception is thrown if any error is encountered.</__p_description>
@@ -8645,6 +8688,38 @@ A read project, read block, or file system exception is thrown if any error is e
                         <__p_description>The parent.</__p_description>
                         <__p_name>parent</__p_name>
                         <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Removes deprecated block files not used by the given project in its multi block file directory. The given project must have a valid directory path.
+
+If the git flag is true then the git command is used for removing deprecated block files, else the standard system remove command is used.
+
+A logical project, file system, or run system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>removeFiles</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The project.</__p_description>
+                        <__p_name>project</__p_name>
+                        <__p_type>const Model::Project&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>false</__p_assignment>
+                        <__p_description>The git flag.</__p_description>
+                        <__p_name>git</__p_name>
+                        <__p_type>bool</__p_type>
                     </Variable>
                 </Function>
                 <Function>

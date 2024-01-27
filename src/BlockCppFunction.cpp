@@ -2,9 +2,7 @@
 #include <QtGui>
 #include "BlockCppProperty.h"
 #include "BlockCppVariable.h"
-#include "Exception.h"
-#include "ExceptionBlockLogical.h"
-#include "ExceptionBlockRead.h"
+#include "Exceptions.h"
 #include "Global.h"
 #include "ModelMetaBlock.h"
 namespace Block {

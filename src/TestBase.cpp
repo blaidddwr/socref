@@ -1,6 +1,6 @@
 #include "TestBase.h"
 #include <QtGui>
-#include "Exception.h"
+#include "Exceptions.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
 #define TEST_DIR "socref.unit_test.d"

@@ -1,6 +1,6 @@
 #include "Test.h"
 #include <QtTest>
-#include "Exception.h"
+#include "Exceptions.h"
 #include "TestBlockAbstract.h"
 #include "TestBlockCppClass.h"
 #include "TestBlockCppEnumeration.h"

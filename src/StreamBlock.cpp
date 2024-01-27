@@ -1,17 +1,46 @@
 #include "StreamBlock.h"
 #include <QtCore>
 #include "BlockAbstract.h"
-#include "Exception.h"
-#include "ExceptionBlockLogical.h"
-#include "ExceptionBlockRead.h"
-#include "ExceptionBlockWrite.h"
-#include "ExceptionSystemFile.h"
+#include "Exceptions.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaBlock.h"
 #define EXT ".srb"
 namespace Stream {
 Block* Block::_instance {nullptr};
+
+
+QStringList Block::deprecatedFiles(
+    const ::Block::Abstract& block
+    ,const QString& path
+)
+{
+    using FileError = Exception::System::File;
+    QDir dir(path);
+    if (!dir.exists())
+    {
+        throw FileError(tr("Directory %1 does not exist.").arg(path));
+    }
+    QSet<QString> filenames {block.scope()+EXT};
+    for (auto descendant: block.descendants())
+    {
+        static const QRegularExpression nonPrintable(
+            "[\t\r\n\a\e\f]|("+::Block::Abstract::rootScope()+")"
+        );
+        auto scope = descendant->scope();
+        G_ASSERT(!scope.contains(nonPrintable));
+        filenames.insert(scope+EXT);
+    }
+    QStringList ret;
+    for (const auto& filename: dir.entryList({"*.srb"},QDir::Files))
+    {
+        if (!filenames.contains(filename))
+        {
+            ret.append(filename);
+        }
+    }
+    return ret;
+}
 
 
 ::Block::Abstract* Block::fromDir(
@@ -109,6 +138,39 @@ Block* Block::_instance {nullptr};
         }
     }
     return nullptr;
+}
+
+
+void Block::removeFiles(
+    const ::Block::Abstract& block
+    ,const QString& path
+    ,bool git
+)
+{
+    using FileError = Exception::System::File;
+    using RunError = Exception::System::Run;
+    QDir dir(path);
+    for (const auto& filename: deprecatedFiles(block,path))
+    {
+        if (git)
+        {
+            QProcess process;
+            process.setWorkingDirectory(dir.absolutePath());
+            process.start("git",{"rm",filename});
+            process.waitForFinished();
+            if (process.exitCode())
+            {
+                throw RunError(tr("Failed running git command: %1").arg(process.readAll()));
+            }
+        }
+        else
+        {
+            if (!dir.remove(filename))
+            {
+                throw FileError(tr("Failed removing %1 in %2.").arg(filename,path));
+            }
+        }
+    }
 }
 
 

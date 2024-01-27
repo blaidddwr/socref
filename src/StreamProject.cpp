@@ -1,10 +1,6 @@
 #include "StreamProject.h"
 #include <QtCore>
-#include "Exception.h"
-#include "ExceptionProjectRead.h"
-#include "ExceptionProjectWrite.h"
-#include "ExceptionProjectLogical.h"
-#include "ExceptionSystemFile.h"
+#include "Exceptions.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
@@ -14,6 +10,21 @@
 #define CONFIG_FILE "project.xml"
 namespace Stream {
 Project* Project::_instance {nullptr};
+
+
+QStringList Project::deprecatedFiles(
+    const Model::Project& project
+)
+{
+    using LogicalError = Exception::Project::Logical;
+    if (project._directoryPath.isNull())
+    {
+        throw LogicalError(
+            tr("Cannot generate deprecated files from new project without directory path.")
+        );
+    }
+    return Block::deprecatedFiles(*project._root,project._directoryPath);
+}
 
 
 Model::Project* Project::fromDir(
@@ -149,6 +160,22 @@ Model::Project* Project::fromXml(
     }
     ret->setParent(parent);
     return ret.release();
+}
+
+
+void Project::removeFiles(
+    const Model::Project& project
+    ,bool git
+)
+{
+    using LogicalError = Exception::Project::Logical;
+    if (project._directoryPath.isNull())
+    {
+        throw LogicalError(
+            tr("Cannot remove deprecated files from new project without directory path.")
+        );
+    }
+    Block::removeFiles(*project._root,project._directoryPath,git);
 }
 
 

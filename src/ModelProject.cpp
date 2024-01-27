@@ -5,7 +5,7 @@
 #include "CommandProjectMove.h"
 #include "CommandProjectRemove.h"
 #include "CommandProjectSet.h"
-#include "Exception.h"
+#include "Exceptions.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaBlock.h"
 #include "BlockAbstract.h"

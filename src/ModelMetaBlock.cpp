@@ -1,6 +1,6 @@
 #include "ModelMetaBlock.h"
 #include <QtGui>
-#include "Exception.h"
+#include "Exceptions.h"
 namespace Model {
 namespace Meta {
 
