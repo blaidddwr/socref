@@ -8,6 +8,7 @@ int main(
     ,char** argv
 )
 {
+    QApplication application(argc,argv);
     QApplication::setApplicationName("Socrates' Reference");
     QApplication::setApplicationVersion("1.0.9999");
     if (argc >= 2)
@@ -23,6 +24,5 @@ int main(
             return Test::executeAll(argc,argv);
         }
     }
-    QApplication application(argc,argv);
     return application.exec();
 }

@@ -4,10 +4,11 @@ namespace Test {
 
 
 /*!
- * Contains all language unit test classes.
+ * This contains all language unit test classes.
  */
 namespace Language
 {
+    class Abstract;
     class Cpp;
     class CppQt;
 }

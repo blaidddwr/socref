@@ -1,7 +1,7 @@
 #ifndef TEST_BLOCK_CPP_CLASS_H
 #define TEST_BLOCK_CPP_CLASS_H
-#include <QObject>
 #include "BlockCpp.h"
+#include "TestBase.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -13,7 +13,7 @@ namespace Cpp {
  * This is a Qt unit test class. It tests the class C++ block class.
  */
 class Class:
-    public QObject
+    public Test::Base
 {
     Q_OBJECT
     ::Block::Cpp::Class* _block;
@@ -25,11 +25,18 @@ class Class:
 
 
     /*!
-     * Creates and returns a new class C++ block. The returned block's parent is
-     * this unit test instance.
+     * Tests the display icon property.
      */
-    private:
-    ::Block::Cpp::Class* create(
+    private slots:
+    void displayIconProperty(
+    );
+
+
+    /*!
+     * Tests the display text property.
+     */
+    private slots:
+    void displayTextProperty(
     );
 
 
@@ -66,10 +73,26 @@ class Class:
 
 
     /*!
-     * Tests the template string property.
+     * Tests the "set state" interface.
      */
     private slots:
-    void templateStringProperty(
+    void setState(
+    );
+
+
+    /*!
+     * Tests the state interface.
+     */
+    private slots:
+    void state(
+    );
+
+
+    /*!
+     * Tests the templates property.
+     */
+    private slots:
+    void templatesProperty(
     );
 
 

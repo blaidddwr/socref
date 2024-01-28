@@ -17,8 +17,6 @@ class Enumeration:
 {
     Q_OBJECT
     bool _class {false};
-    public:
-    using ::Block::Cpp::Base::Base;
 
 
     /*!
@@ -30,6 +28,13 @@ class Enumeration:
     signals:
     void classChanged(
         bool value
+    );
+
+
+    public:
+    Enumeration(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
     );
 
 
@@ -77,6 +82,23 @@ class Enumeration:
     void setClass(
         bool value
     );
+
+
+    public:
+    virtual void setState(
+        const QHash<QString,QVariant>& state
+    ) override final;
+
+
+    public:
+    virtual QHash<QString,QVariant> state(
+    ) const override final;
+
+
+    protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
+    ) const override final;
 };
 }
 }

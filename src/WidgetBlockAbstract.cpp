@@ -1,5 +1,6 @@
 #include "WidgetBlockAbstract.h"
 #include "BlockAbstract.h"
+#include "Exceptions.h"
 namespace Widget {
 namespace Block {
 
@@ -11,7 +12,7 @@ Abstract::Abstract(
     QWidget(parent)
     ,_block(block)
 {
-    Q_ASSERT(block);
+    G_ASSERT(block);
     connect(block,&QObject::destroyed,this,&Abstract::onBlockDestroyed);
 }
 
@@ -19,7 +20,7 @@ Abstract::Abstract(
 ::Block::Abstract* Abstract::block(
 ) const
 {
-    Q_ASSERT(_block);
+    G_ASSERT(_block);
     return _block;
 }
 

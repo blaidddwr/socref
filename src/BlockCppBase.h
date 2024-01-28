@@ -11,17 +11,20 @@ namespace Cpp {
  * This is a C++ block class. It partially implements the abstract block class.
  * It represents a base block for C++ with properties all C++ blocks share.
  * 
- * Its properties are name and description. Name and description are
- * self-explanatory.
+ * Its properties are name, description, and scope name. Name and description
+ * are self-explanatory.
+ * 
+ * The scope name is used to construct a C++ block's scope. Each scope name of a
+ * block and it's parents are combined with "::" as their separator. If a scope
+ * name is a null string then it is ignored and not combined with the other
+ * scope names. The root namespace block's name scope must be null.
  */
 class Base:
     public Block::Abstract
 {
     Q_OBJECT
-    QString _description;
+    QString _description {"Detailed description."};
     QString _name;
-    public:
-    using Block::Abstract::Abstract;
 
 
     /*!
@@ -36,11 +39,6 @@ class Base:
     );
 
 
-    public:
-    virtual QString displayText(
-    ) const override;
-
-
     /*!
      * Signals this block's name property has changed to the given value.
      *
@@ -51,6 +49,11 @@ class Base:
     void nameChanged(
         const QString& value
     );
+
+
+    public:
+    virtual QString displayText(
+    ) const override;
 
 
     /*!
@@ -87,6 +90,11 @@ class Base:
     ) const override;
 
 
+    public:
+    virtual QString scope(
+    ) const override;
+
+
     /*!
      * Sets this block's description property to the given value.
      *
@@ -111,6 +119,39 @@ class Base:
     );
 
 
+    public:
+    virtual void setState(
+        const QHash<QString,QVariant>& state
+    ) override;
+
+
+    public:
+    virtual QHash<QString,QVariant> state(
+    ) const override;
+
+
+    /*!
+     * Constructs this new instance with the given name, meta, and parent. The
+     * given meta must be valid and cannot be destroyed during the life of this
+     * instance.
+     *
+     * @param name
+     *        The name.
+     *
+     * @param meta
+     *        The meta.
+     *
+     * @param parent
+     *        The parent.
+     */
+    protected:
+    Base(
+        const QString& name
+        ,Model::Meta::Block* meta
+        ,QObject* parent = nullptr
+    );
+
+
     /*!
      * Called when this block's name property has changed to the given value.
      *
@@ -121,6 +162,17 @@ class Base:
     virtual void onNameChanged(
         const QString& value
     );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This instance's scope name property.
+     */
+    protected:
+    virtual QString scopeName(
+    ) const;
 };
 }
 }

@@ -52,6 +52,28 @@ QMap<QString,QVariant> Base::saveToMap(
 }
 
 
+QString Base::scope(
+) const
+{
+    QStringList scopeNames {scopeName()};
+    auto block = qobject_cast<Base*>(parent());
+    if (!block)
+    {
+        return rootScope();
+    }
+    while (block)
+    {
+        auto scopeName = block->scopeName();
+        if (!scopeName.isNull())
+        {
+            scopeNames.prepend(scopeName);
+        }
+        block = qobject_cast<Base*>(block->parent());
+    }
+    return scopeNames.join("::");
+}
+
+
 void Base::setDescription(
     const QString& value
 )
@@ -77,11 +99,52 @@ void Base::setName(
 }
 
 
+void Base::setState(
+    const QHash<QString,QVariant>& state
+)
+{
+    setName(state.value("name").toString());
+    setDescription(state.value("description").toString());
+}
+
+
+QHash<QString,QVariant> Base::state(
+) const
+{
+    return {
+        {"name",_name}
+        ,{"description",_description}
+    };
+}
+
+
+Base::Base(
+    const QString& name
+    ,Model::Meta::Block* meta
+    ,QObject* parent
+):
+    Abstract(meta,parent)
+    ,_name(name)
+{
+}
+
+
 void Base::onNameChanged(
     const QString& value
 )
 {
     emit displayTextChanged(value);
+}
+
+
+QString Base::scopeName(
+) const
+{
+    if (!qobject_cast<Base*>(parent()))
+    {
+        return QString();
+    }
+    return _name;
 }
 }
 }

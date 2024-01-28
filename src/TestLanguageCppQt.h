@@ -1,8 +1,8 @@
 #ifndef TEST_LANGUAGE_CPPQT_H
 #define TEST_LANGUAGE_CPPQT_H
-#include <QObject>
 #include "Language.h"
 #include "ModelMeta.h"
+#include "TestBase.h"
 namespace Test {
 namespace Language {
 
@@ -13,7 +13,7 @@ namespace Language {
  * This is a Qt unit test class. It tests the C++/Qt language class.
  */
 class CppQt:
-    public QObject
+    public Test::Base
 {
     Q_OBJECT
     Model::Meta::Language* _meta;
@@ -42,10 +42,50 @@ class CppQt:
 
 
     /*!
+     * Tests creation of an exception block.
+     */
+    private slots:
+    void createException(
+    );
+
+
+    /*!
+     * Tests creation of a function block.
+     */
+    private slots:
+    void createFunction(
+    );
+
+
+    /*!
      * Tests creation of a namespace block.
      */
     private slots:
     void createNamespace(
+    );
+
+
+    /*!
+     * Tests creation of a property block.
+     */
+    private slots:
+    void createProperty(
+    );
+
+
+    /*!
+     * Tests creation of a union block.
+     */
+    private slots:
+    void createUnion(
+    );
+
+
+    /*!
+     * Tests creation of a variable block.
+     */
+    private slots:
+    void createVariable(
     );
 
 

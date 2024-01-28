@@ -1,6 +1,6 @@
 #ifndef BLOCK_CPP_CLASS_H
 #define BLOCK_CPP_CLASS_H
-#include "BlockCppBase.h"
+#include "BlockCppProperty.h"
 namespace Block {
 namespace Cpp {
 
@@ -10,17 +10,16 @@ namespace Cpp {
 /*!
  * This is a C++ block class. It represents a C++ class.
  * 
- * Its properties are parents and template string. The parents is a list of a
- * class's parent classes. The template string is self-explanatory.
+ * Its properties are parents and templates. The parents is a list of a class's
+ * parent classes. The templates list is a list of template arguments for a
+ * class.
  */
 class Class:
-    public Block::Cpp::Base
+    public Block::Cpp::Property
 {
     Q_OBJECT
     QStringList _parents;
-    QString _template;
-    public:
-    using ::Block::Cpp::Base::Base;
+    QStringList _templates;
 
 
     /*!
@@ -36,15 +35,21 @@ class Class:
 
 
     /*!
-     * Signals this block's template string property has changed to the given
-     * value.
+     * Signals this block's templates property has changed to the given value.
      *
      * @param value
      *        The value.
      */
     signals:
-    void templateStringChanged(
-        const QString& value
+    void templatesChanged(
+        const QStringList& value
+    );
+
+
+    public:
+    Class(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
     );
 
 
@@ -55,7 +60,7 @@ class Class:
 
 
     public:
-    virtual QIcon displayIcon(
+    virtual QString displayText(
     ) const override final;
 
 
@@ -94,15 +99,62 @@ class Class:
     );
 
 
+    public:
+    virtual void setState(
+        const QHash<QString,QVariant>& state
+    ) override final;
+
+
     /*!
-     * Set this block's template string property to the given value.
+     * Set this block's templates property to the given value.
      *
      * @param value
      *        The value.
      */
     public:
-    void setTemplateString(
-        const QString& value
+    void setTemplates(
+        const QStringList& value
+    );
+
+
+    public:
+    virtual QHash<QString,QVariant> state(
+    ) const override final;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This block's templates property.
+     */
+    public:
+    const QStringList& templates(
+    ) const;
+
+
+    /*!
+     * Forces this instance to update its display icon property.
+     */
+    public:
+    virtual void updateDisplayIcon(
+    ) override final;
+
+
+    protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
+    ) const override final;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The class icon.
+     */
+    private:
+    static const QIcon* icon(
     );
 
 
@@ -110,11 +162,22 @@ class Class:
      * Getter method.
      *
      * @return
-     * This block's template string property.
+     * The abstract class icon.
      */
-    public:
-    const QString& templateString(
-    ) const;
+    private:
+    static const QIcon* iconAbstract(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The virtual class icon.
+     */
+    private:
+    static const QIcon* iconVirtual(
+    );
 };
 }
 }

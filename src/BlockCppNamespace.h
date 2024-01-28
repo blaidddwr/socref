@@ -14,8 +14,13 @@ class Namespace:
     public Block::Cpp::Base
 {
     Q_OBJECT
+
+
     public:
-    using ::Block::Cpp::Base::Base;
+    Namespace(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
+    );
 
 
     public:
@@ -26,6 +31,12 @@ class Namespace:
 
     public:
     virtual QIcon displayIcon(
+    ) const override final;
+
+
+    protected:
+    virtual Block::Abstract* create(
+        QObject* parent = nullptr
     ) const override final;
 };
 }

@@ -4,18 +4,25 @@ namespace Block {
 
 
 /*!
- * Contains all C++ block enumerations and classes.
+ * This contains all C++ block enumerations and classes.
  */
 namespace Cpp
 {
     class Base;
     class Class;
     class Enumeration;
+    class ExceptionItem;
+    class Function;
     class Namespace;
+    class Property;
+    class Union;
+    class Variable;
 
 
     /*!
      * Enumerates all access types for C++ blocks whose parent is a class block.
+     * In order to expand this enumeration one must use the user access as the
+     * first new enumeration.
      */
     enum Access
     {
@@ -27,36 +34,51 @@ namespace Cpp
 
 
     /*!
-     * Enumerates all function flags for C++ function blocks. Each flag takes
-     * one bit of an integer. To expand this enumeration it must use unused bits
-     * to the left starting with the user function flag bit.
+     * Enumerates all function assignments for C++ function blocks. In order to
+     * expand this enumeration one must use the user function assignment as the
+     * first new enumeration.
      */
-    enum FunctionFlags
+    enum FunctionAssignment
     {
-        NoExceptFunctionFlag = 1
-        ,DefaultFunctionFlag = 2
-        ,DeletedFunctionFlag = 4
-        ,ExplicitFunctionFlag = 8
-        ,StaticFunctionFlag = 16
-        ,ConstantFunctionFlag = 32
-        ,VirtualFunctionFlag = 64
-        ,OverrideFunctionFlag = 128
-        ,FinalFunctionFlag = 256
-        ,AbstractFunctionFlag = 512
-        ,UserFunctionFlag = 1024
+        NoFunctionAssignment
+        ,DefaultFunctionAssignment
+        ,DeleteFunctionAssignment
+        ,AbstractFunctionAssignment
+        ,UserFunctionAssignment
     };
 
 
     /*!
-     * Enumerates all function types for C++ function blocks.
+     * Enumerates all function flags for C++ function blocks. Each flag takes
+     * one bit of an integer. In order to expand this enumeration one must use
+     * unused bits to the left starting with the user function flag bit.
      */
-    enum class FunctionType
+    enum FunctionFlags
     {
-        Regular
-        ,Method
-        ,Constructor
-        ,Destructor
-        ,Operator
+        NoExceptFunctionFlag = 1
+        ,ExplicitFunctionFlag = 2
+        ,StaticFunctionFlag = 4
+        ,ConstantFunctionFlag = 8
+        ,VirtualFunctionFlag = 16
+        ,OverrideFunctionFlag = 32
+        ,FinalFunctionFlag = 64
+        ,UserFunctionFlag = 128
+    };
+
+
+    /*!
+     * Enumerates all function types for C++ function blocks. In order to expand
+     * this enumeration one must use the user function type as the first new
+     * enumeration.
+     */
+    enum FunctionType
+    {
+        RegularFunctionType
+        ,MethodFunctionType
+        ,ConstructorFunctionType
+        ,DestructorFunctionType
+        ,OperatorFunctionType
+        ,UserFunctionType
     };
 
 
@@ -67,7 +89,12 @@ namespace Cpp
     {
         ClassIndex
         ,EnumerationIndex
+        ,ExceptionIndex
+        ,FunctionIndex
         ,NamespaceIndex
+        ,PropertyIndex
+        ,UnionIndex
+        ,VariableIndex
     };
 }
 }

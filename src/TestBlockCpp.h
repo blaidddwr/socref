@@ -5,13 +5,17 @@ namespace Block {
 
 
 /*!
- * Contains all C++ block unit test classes.
+ * This contains all C++ block unit test classes.
  */
 namespace Cpp
 {
     class Class;
     class Enumeration;
+    class ExceptionItem;
+    class Function;
     class Namespace;
+    class Property;
+    class Variable;
 }
 }
 }

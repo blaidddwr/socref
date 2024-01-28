@@ -1,6 +1,6 @@
 #ifndef TEST_MODEL_PROJECT_H
 #define TEST_MODEL_PROJECT_H
-#include <QObject>
+#include "TestBase.h"
 namespace Test {
 namespace Model {
 
@@ -11,23 +11,36 @@ namespace Model {
  * This is a Qt unit test class. It tests the project model class.
  */
 class Project:
-    public QObject
+    public Test::Base
 {
     Q_OBJECT
 
 
+    private slots:
+    void initTestCase(
+    );
+
+
     /*!
-     * Tests the import static method with this project's own C++/Qt project
-     * file.
-     * 
-     * TODO: The project model needs to be refactored to have a import static
-     * method, right now its constructor is being used.
-     * 
-     * TODO: Eventually a project should be generated instead of using this
-     * project's own SRP file.
+     * Tests the "from directory" method from the streaming class using the
+     * current format.
      */
     private slots:
-    void importCppQt(
+    void fromDir(
+    );
+
+
+    /*!
+     * Tests the "from XML" method from the streaming class using the legacy
+     * format.
+     */
+    private slots:
+    void fromXmlLegacy(
+    );
+
+
+    private slots:
+    void cleanupTestCase(
     );
 };
 }

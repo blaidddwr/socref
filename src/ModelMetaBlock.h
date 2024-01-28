@@ -12,24 +12,27 @@ namespace Meta {
  * This is a meta model class. It represents the meta information for a block
  * implementation.
  * 
- * Its properties are language, index, and allow list. The language is the meta
- * information a meta block's language implementation. The index is the index
- * used for creating a meta's block from its language. The allow list is a set
- * of block indexes that a meta's block is allowed to have as children blocks.
+ * Its properties are language, index, display icon, and allow list. The
+ * language is the meta information a meta block's language implementation. The
+ * index is the index used for creating a meta's block from its language. The
+ * display icon is self-explanatory. The allow list is a set of block indexes
+ * that a meta's block is allowed to have as children blocks.
  */
 class Block:
     public Model::Meta::Language
 {
     Q_OBJECT
     Language* _language;
+    const QIcon* _displayIcon;
     QSet<int> _allowList;
     int _index;
 
 
     /*!
      * Constructs this new model with the given language, index, name, label,
-     * allow list, and parent. The given language must be valid and cannot be
-     * destroyed during the life of this model.
+     * display icon, allow list, and parent. The given language must be valid
+     * and cannot be destroyed during the life of this model. The given display
+     * icon must be valid and this new instance takes ownership of it.
      *
      * @param language
      *        The language.
@@ -43,6 +46,9 @@ class Block:
      * @param label
      *        The label.
      *
+     * @param displayIcon
+     *        The display icon.
+     *
      * @param allowList
      *        The allow list.
      *
@@ -55,9 +61,15 @@ class Block:
         ,int index
         ,const QString& name
         ,const QString& label
+        ,const QIcon* displayIcon
         ,const QSet<int>& allowList
         ,QObject* parent = nullptr
     );
+
+
+    public:
+    virtual ~Block(
+    ) override;
 
 
     /*!
@@ -68,6 +80,17 @@ class Block:
      */
     public:
     const QSet<int>& allowList(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This instance's display icon property.
+     */
+    public:
+    QIcon displayIcon(
     ) const;
 
 

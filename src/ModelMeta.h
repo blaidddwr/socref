@@ -4,7 +4,7 @@ namespace Model {
 
 
 /*!
- * Contains all meta model classes.
+ * This contains all meta model classes.
  */
 namespace Meta
 {

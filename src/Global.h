@@ -9,6 +9,7 @@ enum Version
 {
     Socref_Legacy
     ,Socref_1_0
+    ,Socref_Current = Socref_1_0
 };
 
 

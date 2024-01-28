@@ -1,7 +1,6 @@
 #include "BlockAbstract.h"
 #include <QtCore>
-#include "LanguageAbstract.h"
-#include "Global.h"
+#include "Exceptions.h"
 #include "ModelMetaBlock.h"
 namespace Block {
 
@@ -13,7 +12,7 @@ Abstract::Abstract(
     QObject(parent)
     ,_meta(meta)
 {
-    Q_ASSERT(meta);
+    G_ASSERT(meta);
     connect(meta,&QObject::destroyed,this,&Abstract::onMetaDestroyed);
 }
 
@@ -22,88 +21,40 @@ void Abstract::append(
     Block::Abstract* block
 )
 {
-    Q_ASSERT(block);
-    Q_ASSERT(meta()->allowList().contains(block->meta()->index()));
-    Q_ASSERT(!_children.contains(block));
-    Q_ASSERT(!qobject_cast<Abstract*>(block->parent()));
+    G_ASSERT(block);
+    G_ASSERT(meta()->allowList().contains(block->meta()->index()));
+    G_ASSERT(!_children.contains(block));
+    G_ASSERT(!qobject_cast<Abstract*>(block->parent()));
     block->setParent(this);
+    connect(block,&QObject::destroyed,this,&Abstract::onChildDestroyed);
     _children.append(block);
-    block->addEvent();
+    block->addEvent(_children.size()-1);
 }
 
 
-Block::Abstract* Abstract::fromXml(
-    Language::Abstract* language
-    ,int version
-    ,QXmlStreamReader& xml
-    ,QObject* parent
-)
+Block::Abstract* Abstract::copy(
+    QObject* parent
+) const
 {
-    Q_ASSERT(language);
-    auto blockName = xml.name().toString();
-    if (version == Socref_Legacy)
+    auto ret = create(parent);
+    ret->setState(state());
+    for (auto child: _children)
     {
-        blockName = blockName.toLower();
+        ret->append(child->copy());
     }
-    auto i = language->indexFromName(blockName);
-    if (i == -1)
+    return ret;
+}
+
+
+QList<Block::Abstract*> Abstract::descendants(
+) const
+{
+    QList<Block::Abstract*> ret = _children;
+    for (auto child: _children)
     {
-        throw tr("Unknown block %1").arg(blockName);
+        ret += child->descendants();
     }
-    QMap<QString,QVariant> map;
-    std::unique_ptr<Abstract> block(language->create(i));
-    while (!xml.atEnd())
-    {
-        xml.readNext();
-        switch (xml.tokenType())
-        {
-        case QXmlStreamReader::StartElement:
-        {
-            auto name = xml.name().toString();
-            bool isProp = false;
-            if (version == Socref_Legacy)
-            {
-                if (name.first(4) == "__p_")
-                {
-                    name = name.mid(4);
-                    isProp = true;
-                }
-            }
-            else
-            {
-                if (name.at(0) == '_')
-                {
-                    name = name.mid(1);
-                    isProp = true;
-                }
-            }
-            if (isProp)
-            {
-                if (map.contains(name))
-                {
-                    throw tr("Duplicate property element %1").arg(name);
-                }
-                map.insert(name,xml.readElementText());
-            }
-            else
-            {
-                block->append(fromXml(language,version,xml));
-            }
-            break;
-        }
-        case QXmlStreamReader::EndElement:
-            if (xml.name() == blockName)
-            {
-                block->loadFromMap(map,Socref_Legacy);
-                block->setParent(parent);
-                return block.release();
-            }
-            break;
-        default:
-            break;
-        }
-    }
-    return nullptr;
+    return ret;
 }
 
 
@@ -111,15 +62,15 @@ Block::Abstract* Abstract::get(
     int index
 ) const
 {
-    Q_ASSERT(index >= 0);
-    Q_ASSERT(index < _children.size());
+    G_ASSERT(index >= 0);
+    G_ASSERT(index < _children.size());
     return _children.at(index);
 }
 
 
 int Abstract::indexOf(
-    Block::Abstract* block
-)
+    const Block::Abstract* block
+) const
 {
     return _children.indexOf(block);
 }
@@ -130,21 +81,46 @@ void Abstract::insert(
     ,Block::Abstract* block
 )
 {
-    Q_ASSERT(block);
-    Q_ASSERT(meta()->allowList().contains(block->meta()->index()));
-    Q_ASSERT(!_children.contains(block));
-    Q_ASSERT(!qobject_cast<Abstract*>(block->parent()));
+    G_ASSERT(block);
+    G_ASSERT(index >= 0);
+    G_ASSERT(index <= _children.size());
+    G_ASSERT(meta()->allowList().contains(block->meta()->index()));
+    G_ASSERT(!_children.contains(block));
+    G_ASSERT(!qobject_cast<Abstract*>(block->parent()));
     block->setParent(this);
+    connect(block,&QObject::destroyed,this,&Abstract::onChildDestroyed);
     _children.insert(index,block);
-    block->addEvent();
+    block->addEvent(index);
 }
 
 
 Model::Meta::Block* Abstract::meta(
 ) const
 {
-    Q_ASSERT(_meta);
+    G_ASSERT(_meta);
     return _meta;
+}
+
+
+void Abstract::move(
+    int from
+    ,int to
+)
+{
+    G_ASSERT(from >= 0);
+    G_ASSERT(from < _children.size());
+    G_ASSERT(to >= 0);
+    G_ASSERT(to < _children.size());
+    _children.move(from,to);
+    _children.at(to)->moveEvent(from,to);
+}
+
+
+const QString& Abstract::rootScope(
+)
+{
+    static const QString ret = "ROOT";
+    return ret;
 }
 
 
@@ -159,42 +135,51 @@ Block::Abstract* Abstract::take(
     int index
 )
 {
-    Q_ASSERT(index >= 0);
-    Q_ASSERT(index < _children.size());
-    _children.at(index)->removeEvent();
+    G_ASSERT(index >= 0);
+    G_ASSERT(index < _children.size());
     auto ret = _children.takeAt(index);
+    disconnect(ret,&QObject::destroyed,this,&Abstract::onChildDestroyed);
+    ret->removeEvent(index);
     ret->setParent(nullptr);
     return ret;
 }
 
 
-void Abstract::toXml(
-    QXmlStreamWriter& xml
+void Abstract::addEvent(
+    int index
 )
 {
-    xml.writeStartElement(meta()->name());
-    auto map = saveToMap();
-    for (auto i = map.begin();i != map.end();i++)
-    {
-        xml.writeTextElement("_"+i.key(),i.value().toString());
-    }
-    for (auto child: _children)
-    {
-        child->toXml(xml);
-    }
-    xml.writeEndElement();
+    Q_UNUSED(index);
 }
 
 
-void Abstract::addEvent(
+void Abstract::moveEvent(
+    int from
+    ,int to
 )
 {
+    Q_UNUSED(from);
+    Q_UNUSED(to);
 }
 
 
 void Abstract::removeEvent(
+    int index
 )
 {
+    Q_UNUSED(index);
+}
+
+
+void Abstract::onChildDestroyed(
+    QObject* object
+)
+{
+    auto index = _children.indexOf(object);
+    if (index != -1)
+    {
+        _children.removeAt(index);
+    }
 }
 
 

@@ -5,6 +5,15 @@ namespace Block {
 namespace Cpp {
 
 
+Class::Class(
+    Model::Meta::Block* meta
+    ,QObject* parent
+):
+    Property("class",icon(),meta,parent)
+{
+}
+
+
 Widget::Block::Abstract* Class::createWidget(
     QObject* parent
 ) const
@@ -15,10 +24,17 @@ Widget::Block::Abstract* Class::createWidget(
 }
 
 
-QIcon Class::displayIcon(
+QString Class::displayText(
 ) const
 {
-    return QIcon(":/cpp/class.svg");
+    if (!_templates.isEmpty())
+    {
+        return Base::displayText()+" -> template<"+_templates.join(",")+">";
+    }
+    else
+    {
+        return Base::displayText();
+    }
 }
 
 
@@ -31,12 +47,19 @@ void Class::loadFromMap(
     if (version == Socref_Legacy)
     {
         _parents = map.value("parents").toString().split('\n',Qt::SkipEmptyParts);
+        auto str = map.value("template").toString();
+        str = str.replace("template","").replace("<","").replace(">","");
+        _templates = str.split(',');
+        for (auto& t: _templates)
+        {
+            t = t.trimmed();
+        }
     }
     else
     {
         _parents = map.value("parents").toString().split(';');
+        _templates = map.value("templates").toString().split(';');
     }
-    _template = map.value("template").toString();
 }
 
 
@@ -55,9 +78,9 @@ QMap<QString,QVariant> Class::saveToMap(
     {
         ret.insert("parents",_parents.join(';'));
     }
-    if (!_template.isEmpty())
+    if (!_templates.isEmpty())
     {
-        ret.insert("template",_template);
+        ret.insert("templates",_templates.join(';'));
     }
     return ret;
 }
@@ -75,22 +98,94 @@ void Class::setParents(
 }
 
 
-void Class::setTemplateString(
-    const QString& value
+void Class::setState(
+    const QHash<QString,QVariant>& state
 )
 {
-    if (_template != value)
+    Base::setState(state);
+    setParents(state.value("parents").toStringList());
+    setTemplates(state.value("templates").toStringList());
+}
+
+
+void Class::setTemplates(
+    const QStringList& value
+)
+{
+    if (_templates != value)
     {
-        _template = value;
-        emit templateStringChanged(value);
+        _templates = value;
+        emit templatesChanged(value);
+        emit displayTextChanged(displayText());
     }
 }
 
 
-const QString& Class::templateString(
+QHash<QString,QVariant> Class::state(
 ) const
 {
-    return _template;
+    auto ret = Base::state();
+    ret.insert("parents",_parents);
+    ret.insert("templates",_templates);
+    return ret;
+}
+
+
+const QStringList& Class::templates(
+) const
+{
+    return _templates;
+}
+
+
+void Class::updateDisplayIcon(
+)
+{
+    if (isAbstract())
+    {
+        setDisplayIcon(iconAbstract());
+
+    }
+    else if (isVirtual())
+    {
+        setDisplayIcon(iconVirtual());
+    }
+    else
+    {
+        setDisplayIcon(icon());
+    }
+}
+
+
+Block::Abstract* Class::create(
+    QObject* parent
+) const
+{
+    return new Class(meta(),parent);
+}
+
+
+const QIcon* Class::icon(
+)
+{
+    static const QIcon ret(":/cpp/class.svg");
+    return &ret;
+}
+
+
+const QIcon* Class::iconAbstract(
+)
+{
+    static const QIcon ret(":/cpp/abstract_class.svg");
+    return &ret;
+}
+
+
+const QIcon* Class::iconVirtual(
+)
+{
+    static const QIcon ret(":/cpp/virtual_class.svg");
+    return &ret;
 }
 }
 }

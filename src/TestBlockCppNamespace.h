@@ -1,7 +1,7 @@
 #ifndef TEST_BLOCK_CPP_NAMESPACE_H
 #define TEST_BLOCK_CPP_NAMESPACE_H
-#include <QObject>
 #include "BlockCpp.h"
+#include "TestBase.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -13,7 +13,7 @@ namespace Cpp {
  * This is a Qt unit test class. It tests the namespace C++ block class.
  */
 class Namespace:
-    public QObject
+    public Test::Base
 {
     Q_OBJECT
     ::Block::Cpp::Namespace* _block;
@@ -21,15 +21,6 @@ class Namespace:
 
     private slots:
     void initTestCase(
-    );
-
-
-    /*!
-     * Creates and returns a new namespace C++ block. The returned block's
-     * parent is this unit test instance.
-     */
-    private:
-    ::Block::Cpp::Namespace* create(
     );
 
 
@@ -42,10 +33,18 @@ class Namespace:
 
 
     /*!
+     * Tests the display icon property.
+     */
+    private slots:
+    void displayIconProperty(
+    );
+
+
+    /*!
      * Tests the display text property.
      */
     private slots:
-    void displayText(
+    void displayTextProperty(
     );
 
 
@@ -70,6 +69,30 @@ class Namespace:
      */
     private slots:
     void saveToMap(
+    );
+
+
+    /*!
+     * Tests the scope property.
+     */
+    private slots:
+    void scopeProperty(
+    );
+
+
+    /*!
+     * Tests the "set state" interface.
+     */
+    private slots:
+    void setState(
+    );
+
+
+    /*!
+     * Tests the state interface.
+     */
+    private slots:
+    void state(
     );
 
 

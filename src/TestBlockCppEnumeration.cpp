@@ -1,19 +1,27 @@
 #include "TestBlockCppEnumeration.h"
-#include <QSignalSpy>
-#include <QTest>
+#include <QtTest>
 #include "BlockCppEnumeration.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
-#include "LanguageAbstract.h"
+#include "TestBase.t.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
+using EnumerationBlock = ::Block::Cpp::Enumeration;
+using namespace ::Block::Cpp;
 
 
 void Enumeration::initTestCase(
 )
 {
-    _block = create();
+    auto factory = Factory::Language::instance();
+    QVERIFY(factory);
+    auto langIndex = factory->indexFromName("cpp");
+    QVERIFY(langIndex >= 0);
+    initLanguage(Factory::Language::instance()->get(langIndex));
+    _block = create<EnumerationBlock>(EnumerationIndex);
+    QCOMPARE(_block->name(),"enumeration");
+    QCOMPARE(_block->isClass(),false);
 }
 
 
@@ -21,7 +29,7 @@ void Enumeration::classProperty(
 )
 {
     QCOMPARE(_block->isClass(),false);
-    QSignalSpy spy(_block,&::Block::Cpp::Enumeration::classChanged);
+    QSignalSpy spy(_block,&EnumerationBlock::classChanged);
     _block->setClass(true);
     QCOMPARE(spy.count(),1);
     auto arguments = spy.takeFirst();
@@ -31,17 +39,11 @@ void Enumeration::classProperty(
 }
 
 
-::Block::Cpp::Enumeration* Enumeration::create(
+void Enumeration::displayIconProperty(
 )
 {
-    using namespace ::Block::Cpp;
-    auto factory = Factory::Language::instance();
-    auto index = factory->indexFromName("cpp");
-    auto ret = qobject_cast<::Block::Cpp::Enumeration*>(
-        factory->get(index)->create(EnumerationIndex,this)
-        );
-    Q_ASSERT(ret);
-    return ret;
+    static const QIcon testIcon(":/cpp/enumeration.svg");
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
 }
 
 
@@ -53,8 +55,7 @@ void Enumeration::loadFromMap(
         ,{"description","description"}
         ,{"class",true}
     };
-    auto block = create();
-    QVERIFY(block);
+    auto block = create<EnumerationBlock>(EnumerationIndex);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->isClass(),true);
     delete block;
@@ -71,14 +72,44 @@ void Enumeration::saveToMap(
         ,{"description",testDescription}
         ,{"class",true}
     };
-    auto block = create();
-    QVERIFY(block);
+    auto block = create<EnumerationBlock>(EnumerationIndex);
     block->setName(testName);
     block->setDescription(testDescription);
     block->setClass(true);
     auto data = block->saveToMap();
     QCOMPARE(data,testData);
     delete block;
+}
+
+
+void Enumeration::setState(
+)
+{
+    static const QHash<QString,QVariant> testData {
+        {"name","name"}
+        ,{"description","description"}
+        ,{"class",true}
+    };
+    _block->setState(testData);
+    QCOMPARE(_block->isClass(),true);
+}
+
+
+void Enumeration::state(
+)
+{
+    static const QString testName = "name";
+    static const QString testDescription = "description";
+    static const QHash<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"class",true}
+    };
+    _block->setName(testName);
+    _block->setDescription(testDescription);
+    _block->setClass(true);
+    auto data = _block->state();
+    QCOMPARE(data,testData);
 }
 
 

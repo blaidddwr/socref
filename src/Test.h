@@ -1,13 +1,15 @@
 #ifndef TEST_H
 #define TEST_H
 #include <QtGlobal>
+class QIcon;
 
 
 /*!
- * Contains all unit test namespaces and functions.
+ * This contains all unit test namespaces and functions.
  */
 namespace Test
 {
+    class Base;
 
 
     /*!
