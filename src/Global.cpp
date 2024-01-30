@@ -1,6 +1,7 @@
 #include "Global.h"
 #include <QtWidgets>
 #include "Test.h"
+#include "WidgetWindowMain.h"
 
 
 int main(
@@ -24,5 +25,7 @@ int main(
             return Test::executeAll(argc,argv);
         }
     }
+    auto window = new Widget::Window::Main;
+    window->show();
     return application.exec();
 }
