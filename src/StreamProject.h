@@ -115,7 +115,7 @@ class Project:
      */
     public:
     static void toDir(
-        const Model::Project& project
+        Model::Project& project
     );
 
 

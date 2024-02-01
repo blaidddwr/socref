@@ -7,6 +7,7 @@
  */
 namespace Widget
 {
+    class Project;
 }
 
 

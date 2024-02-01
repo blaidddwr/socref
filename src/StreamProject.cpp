@@ -46,6 +46,7 @@ Model::Project* Project::fromDir(
     auto version = read(dir.absoluteFilePath(CONFIG_FILE),*ret);
     ret->_root = Block::fromDir(ret->_language,version,dir.absolutePath(),ret.get());
     ret->_directoryPath = QFileInfo(path).absoluteFilePath();
+    ret->_modified = false;
     ret->setParent(parent);
     return ret.release();
 }
@@ -158,6 +159,7 @@ Model::Project* Project::fromXml(
     {
         throw ReadError(tr("Missing root block in project XML file."));
     }
+    ret->_modified = false;
     ret->setParent(parent);
     return ret.release();
 }
@@ -180,7 +182,7 @@ void Project::removeFiles(
 
 
 void Project::toDir(
-    const Model::Project& project
+    Model::Project& project
 )
 {
     using LogicalError = Exception::Project::Logical;
@@ -189,6 +191,7 @@ void Project::toDir(
         throw LogicalError(tr("Cannot save new project without directory path."));
     }
     saveDir(project,project._directoryPath);
+    project.setModified(false);
 }
 
 
@@ -199,6 +202,7 @@ void Project::toDir(
 {
     saveDir(project,path);
     project.setDirectoryPath(QFileInfo(path).absolutePath());
+    project.setModified(false);
 }
 
 

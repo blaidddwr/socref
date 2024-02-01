@@ -3,6 +3,8 @@
 #include "FactoryLanguage.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaLanguage.h"
+#include "ModelProject.h"
+#include "WidgetProject.h"
 namespace Widget {
 namespace Window {
 
@@ -19,7 +21,10 @@ Main::Main(
     menu->addMenu(helpMenu());
     addToolBar(fileToolBar());
     addToolBar(editToolBar());
+    setCentralWidget(projectWidget());
     statusBar();
+    updateTitle();
+    updateActions();
 }
 
 
@@ -55,8 +60,36 @@ void Main::new_(
     int index
 )
 {
-    Q_UNUSED(index);
-    //TODO
+    auto model = new Model::Project(index,this);
+    model->setName(tr("New Project"));
+    auto window = this;
+    if (_projectModel)
+    {
+        window = new Main;
+        window->show();
+    }
+    window->setProjectModel(model);
+}
+
+
+void Main::onProjectModelDestroyed(
+    QObject* object
+)
+{
+    if (_projectModel == object)
+    {
+        _projectModel = nullptr;
+        updateTitle();
+        updateActions();
+    }
+}
+
+
+void Main::onProjectModelModifiedChanged(
+    bool value
+)
+{
+    setWindowModified(value);
 }
 
 
@@ -146,7 +179,18 @@ QMenu* Main::editMenu(
     if (!_editMenu)
     {
         _editMenu = new QMenu(tr("Edit"),this);
-        //TODO
+        _editMenu->addAction(projectWidget()->undoAction());
+        _editMenu->addAction(projectWidget()->redoAction());
+        _editMenu->addSeparator();
+        _editMenu->addMenu(projectWidget()->addMenu());
+        _editMenu->addAction(projectWidget()->removeAction());
+        _editMenu->addSeparator();
+        _editMenu->addAction(projectWidget()->cutAction());
+        _editMenu->addAction(projectWidget()->copyAction());
+        _editMenu->addAction(projectWidget()->pasteAction());
+        _editMenu->addSeparator();
+        _editMenu->addAction(projectWidget()->moveUpAction());
+        _editMenu->addAction(projectWidget()->moveDownAction());
     }
     return _editMenu;
 }
@@ -158,7 +202,13 @@ QToolBar* Main::editToolBar(
     if (!_editToolBar)
     {
         _editToolBar = new QToolBar(tr("Edit"),this);
-        //TODO
+        _editToolBar->addAction(projectWidget()->undoAction());
+        _editToolBar->addAction(projectWidget()->redoAction());
+        _editToolBar->addAction(projectWidget()->cutAction());
+        _editToolBar->addAction(projectWidget()->copyAction());
+        _editToolBar->addAction(projectWidget()->pasteAction());
+        _editToolBar->addAction(projectWidget()->moveUpAction());
+        _editToolBar->addAction(projectWidget()->moveDownAction());
     }
     return _editToolBar;
 }
@@ -317,6 +367,17 @@ QAction* Main::parseAction(
 }
 
 
+Widget::Project* Main::projectWidget(
+)
+{
+    if (!_projectWidget)
+    {
+        _projectWidget = new Widget::Project(this);
+    }
+    return _projectWidget;
+}
+
+
 QAction* Main::propertiesAction(
 )
 {
@@ -355,6 +416,72 @@ QAction* Main::saveAsAction(
         connect(_saveAsAction,&QAction::triggered,this,&Main::saveAs);
     }
     return _saveAsAction;
+}
+
+
+void Main::setProjectModel(
+    Model::Project* model
+)
+{
+    if (_projectModel)
+    {
+        disconnect(_projectModel,&QObject::destroyed,this,&Main::onProjectModelDestroyed);
+        disconnect(
+            _projectModel
+            ,&Model::Project::modifiedChanged
+            ,this
+            ,&Main::onProjectModelModifiedChanged
+        );
+    }
+    _projectModel = model;
+    projectWidget()->setModel(model);
+    if (_projectModel)
+    {
+        _projectModel->setParent(this);
+        connect(_projectModel,&QObject::destroyed,this,&Main::onProjectModelDestroyed);
+        connect(
+            _projectModel
+            ,&Model::Project::modifiedChanged
+            ,this
+            ,&Main::onProjectModelModifiedChanged
+        );
+    }
+    updateTitle();
+    setWindowModified(_projectModel && _projectModel->modified());
+    updateActions();
+}
+
+
+void Main::updateActions(
+)
+{
+    saveAction()->setDisabled(
+        !_projectModel
+        || _projectModel->directoryPath().isNull()
+    );
+    saveAsAction()->setDisabled(!_projectModel);
+    closeAction()->setDisabled(!_projectModel);
+    propertiesAction()->setDisabled(!_projectModel);
+    parseAction()->setDisabled(!_projectModel);
+    buildAction()->setDisabled(!_projectModel);
+    makeAction()->setDisabled(!_projectModel);
+}
+
+
+void Main::updateTitle(
+)
+{
+    if (_projectModel)
+    {
+        auto title = tr("%1[*] (%2) - Socrates' Reference");
+        setWindowTitle(
+            title.arg(_projectModel->name(),_projectModel->language()->meta()->label())
+        );
+    }
+    else
+    {
+        setWindowTitle(tr("Socrates' Reference"));
+    }
 }
 }
 }

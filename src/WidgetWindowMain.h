@@ -1,6 +1,8 @@
 #ifndef WIDGET_WINDOW_MAIN_H
 #define WIDGET_WINDOW_MAIN_H
 #include <QMainWindow>
+#include "Model.h"
+#include "Widget.h"
 namespace Widget {
 namespace Window {
 
@@ -14,6 +16,7 @@ class Main:
     public QMainWindow
 {
     Q_OBJECT
+    Model::Project* _projectModel {nullptr};
     QAction* _aboutAction {nullptr};
     QAction* _aboutQtAction {nullptr};
     QAction* _buildAction {nullptr};
@@ -31,6 +34,7 @@ class Main:
     QMenu* _newMenu {nullptr};
     QToolBar* _editToolBar {nullptr};
     QToolBar* _fileToolBar {nullptr};
+    Widget::Project* _projectWidget {nullptr};
 
 
     public:
@@ -82,6 +86,25 @@ class Main:
     private slots:
     void new_(
         int index
+    );
+
+
+    /*!
+     * Called when this instance's project model's destroyed signal is emitted.
+     */
+    private slots:
+    void onProjectModelDestroyed(
+        QObject* object
+    );
+
+
+    /*!
+     * Called when this instance's project model's modified changed signal is
+     * emitted.
+     */
+    private slots:
+    void onProjectModelModifiedChanged(
+        bool value
     );
 
 
@@ -283,6 +306,17 @@ class Main:
      * Getter method.
      *
      * @return
+     * This instance's project widget.
+     */
+    private:
+    Widget::Project* projectWidget(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
      * This widget's properties action.
      */
     private:
@@ -309,6 +343,34 @@ class Main:
      */
     private:
     QAction* saveAsAction(
+    );
+
+
+    /*!
+     * Sets this widget's project model to the given model.
+     *
+     * @param model
+     *        The model.
+     */
+    private:
+    void setProjectModel(
+        Model::Project* model
+    );
+
+
+    /*!
+     * Updates this widget's actions.
+     */
+    private:
+    void updateActions(
+    );
+
+
+    /*!
+     * Updates this widget's window title.
+     */
+    private:
+    void updateTitle(
     );
 };
 }

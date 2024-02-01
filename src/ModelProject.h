@@ -14,11 +14,11 @@ namespace Model {
 /*!
  * This is a model class. It represents a Socrates' Reference project.
  * 
- * Its properties are language, name, directory path, and relative parse path.
- * The language and name are self-explanatory. The directory path is where a
- * project's files are located. The parse path is the path, relative to the
- * location of a project's directory path, where a project's source code is
- * contained.
+ * Its properties are language, name, directory path, relative parse path, and
+ * modified. The language and name are self-explanatory. The directory path is
+ * where a project's files are located. The parse path is the path, relative to
+ * the location of a project's directory path, where a project's source code is
+ * contained The modified flag is self-explanatory.
  */
 class Project:
     public QAbstractItemModel
@@ -39,6 +39,7 @@ class Project:
     QString _directoryPath;
     QString _name;
     QString _relativeParsePath;
+    bool mutable _modified {true};
     static QList<Block::Abstract*> _copied;
 
 
@@ -52,6 +53,18 @@ class Project:
     signals:
     void directoryPathChanged(
         const QString& value
+    );
+
+
+    /*!
+     * Signals this model's modified property has changed to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    signals:
+    void modifiedChanged(
+        bool value
     );
 
 
@@ -274,6 +287,17 @@ class Project:
 
 
     /*!
+     * Getter method.
+     *
+     * @return
+     * This model's modified property.
+     */
+    public:
+    bool modified(
+    ) const;
+
+
+    /*!
      * Moves the child block of the given parent index from the given from row
      * to the given to row.
      * 
@@ -475,6 +499,18 @@ class Project:
     private:
     void setDirectoryPath(
         const QString& value
+    );
+
+
+    /*!
+     * Sets this model's modified property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    private:
+    void setModified(
+        bool value
     );
 };
 }

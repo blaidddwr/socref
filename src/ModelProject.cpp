@@ -251,6 +251,13 @@ Language::Abstract* Project::language(
 }
 
 
+bool Project::modified(
+) const
+{
+    return _modified;
+}
+
+
 bool Project::move(
     const QModelIndex& parent
     ,int from
@@ -525,6 +532,18 @@ void Project::setDirectoryPath(
     {
         _directoryPath = value;
         emit directoryPathChanged(value);
+    }
+}
+
+
+void Project::setModified(
+    bool value
+)
+{
+    if (_modified != value)
+    {
+        _modified = value;
+        emit modifiedChanged(value);
     }
 }
 }
