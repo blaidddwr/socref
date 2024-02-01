@@ -29,6 +29,7 @@ class Project:
     QMenu* _addMenu {nullptr};
     QSplitter* _splitter {nullptr};
     QWidget* _blankBlockWidget {nullptr};
+    int _addActionBlockIndex {-1};
 
 
     public:
@@ -194,11 +195,31 @@ class Project:
 
 
     /*!
+     * Called when this widget's list view's item selection model's current
+     * index changed signal is emitted.
+     */
+    private slots:
+    void onCurrentIndexChanged(
+        const QModelIndex& current
+        ,const QModelIndex& previous
+    );
+
+
+    /*!
      * Called when this widget's project model's destroyed signal is emitted.
      */
     private slots:
     void onModelDestroyed(
         QObject* object
+    );
+
+
+    /*!
+     * Called when this widget's list view's item selection model's selection
+     * changed signal is emitted.
+     */
+    private slots:
+    void onSelectionChanged(
     );
 
 
@@ -278,18 +299,34 @@ class Project:
 
     /*!
      * Updates this widget's actions.
+     * 
+     * The given index is this instance's list view's item selection model's
+     * current index. If this instance has no model then the given index is
+     * invalid.
+     *
+     * @param index
+     *        The index.
      */
     private:
     void updateActions(
+        const QModelIndex& index
     );
 
 
     /*!
      * Updates this widget's add actions, removing the list of previous add
      * actions and generating new add actions.
+     * 
+     * The given index is this instance's list view's item selection model's
+     * current index. If this instance has no model then the given index is
+     * invalid.
+     *
+     * @param index
+     *        The index.
      */
     private:
     void updateAddActions(
+        const QModelIndex& index
     );
 };
 }

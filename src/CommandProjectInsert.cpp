@@ -71,6 +71,10 @@ bool Insert::insert(
     auto parent = convertListToIndex(_parent);
     project().beginInsertRows(parent,_row,_row);
     project().block(parent)->insert(_row,_block);
+    auto p = &project();
+    auto b = _block;
+    connect(b,&Block::Abstract::displayIconChanged,p,[p,b](){ p->onBlockDisplayIconChanged(b); });
+    connect(b,&Block::Abstract::displayTextChanged,p,[p,b](){ p->onBlockDisplayTextChanged(b); });
     _block = nullptr;
     project().endInsertRows();
     return true;
@@ -87,6 +91,8 @@ bool Insert::remove(
     auto parent = convertListToIndex(_parent);
     project().beginRemoveRows(parent,_row,_row);
     _block = project().block(parent)->take(_row);
+    disconnect(_block,&Block::Abstract::displayIconChanged,&project(),nullptr);
+    disconnect(_block,&Block::Abstract::displayTextChanged,&project(),nullptr);
     _block->setParent(this);
     project().endRemoveRows();
     return true;

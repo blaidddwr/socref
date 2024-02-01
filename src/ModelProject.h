@@ -117,7 +117,7 @@ class Project:
      * Informs this model the block given in the last start set call failed in
      * changing its state, therefore not making any state change to the block.
      * 
-     * The start set method must be called before this method.
+     * The begin set method must be called before this method.
      *
      * @return
      * True on success or false otherwise.
@@ -133,6 +133,70 @@ class Project:
      */
     public:
     QString absoluteParsePath(
+    ) const;
+
+
+    /*!
+     * Informs this model that the block at the given index is about to have its
+     * state changed.
+     * 
+     * This must be called before the finish or abort set methods. Once this
+     * method is called it cannot be called again until the finish or abort set
+     * method is called to finish the set operation. The given index must be
+     * valid.
+     *
+     * @param index
+     *        The index.
+     *
+     * @return
+     * The block this is about to be set on success or null otherwise.
+     */
+    public:
+    Block::Abstract* beginSet(
+        const QModelIndex& index
+    );
+
+
+    /*!
+     * Returns the block index of this model's block at the given Qt model
+     * index.
+     *
+     * @param index
+     *        The Qt model index.
+     */
+    public:
+    int blockIndex(
+        const QModelIndex& index
+    ) const;
+
+
+    /*!
+     * Determines if this model's block at the given index can be moved down.
+     *
+     * @param index
+     *        The index.
+     *
+     * @return
+     * True if it can be moved done or false otherwise.
+     */
+    public:
+    bool canMoveDown(
+        const QModelIndex& index
+    ) const;
+
+
+    /*!
+     * Determines if this model's block at the given index can be moved up.
+     *
+     * @param index
+     *        The index.
+     *
+     * @return
+     * True if it can be moved up or false otherwise.
+     */
+    public:
+    bool canMoveUp(
+        const QModelIndex& index
     ) const;
 
 
@@ -231,7 +295,7 @@ class Project:
      * Informs this model the block given in the last start set call has
      * successfully had its state changed.
      * 
-     * The start set method must be called before this method.
+     * The finish set method must be called before this method.
      *
      * @return
      * True on success or false otherwise.
@@ -430,27 +494,6 @@ class Project:
 
 
     /*!
-     * Informs this model that the block at the given index is about to have its
-     * state changed.
-     * 
-     * This must be called before the finish or abort set methods. Once this
-     * method is called it cannot be called again until the finish or abort set
-     * method is called to finish the set operation. The given index must be
-     * valid.
-     *
-     * @param index
-     *        The index.
-     *
-     * @return
-     * The block this is about to be set on success or null otherwise.
-     */
-    public:
-    Block::Abstract* startSet(
-        const QModelIndex& index
-    );
-
-
-    /*!
      * Undoes the last command done or redone on this project model.
      *
      * @return
@@ -479,6 +522,36 @@ class Project:
     Block::Abstract* block(
         const QModelIndex& index
     ) const;
+
+
+    /*!
+     * Called when the given block in this model's display icon changed signal
+     * is emitted.
+     * 
+     * The given block must be valid.
+     *
+     * @param block
+     *        The block.
+     */
+    private slots:
+    void onBlockDisplayIconChanged(
+        Block::Abstract* block
+    );
+
+
+    /*!
+     * Called when the given block in this model's display text changed signal
+     * is emitted.
+     * 
+     * The given block must be valid.
+     *
+     * @param block
+     *        The block.
+     */
+    private slots:
+    void onBlockDisplayTextChanged(
+        Block::Abstract* block
+    );
 
 
     /*!

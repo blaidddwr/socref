@@ -1,6 +1,8 @@
 #include "WidgetProject.h"
 #include <QtWidgets>
 #include "Exceptions.h"
+#include "LanguageAbstract.h"
+#include "ModelMetaBlock.h"
 #include "ModelProject.h"
 namespace Widget {
 
@@ -13,6 +15,7 @@ Project::Project(
     auto layout = new QVBoxLayout;
     layout->addWidget(splitter());
     setLayout(layout);
+    updateActions(QModelIndex());
 }
 
 
@@ -131,8 +134,20 @@ void Project::setModel(
     if (_model)
     {
         connect(_model,&QObject::destroyed,this,&Project::onModelDestroyed);
+        connect(
+            listView()->selectionModel()
+            ,&QItemSelectionModel::currentChanged
+            ,this
+            ,&Project::onCurrentIndexChanged
+        );
+        connect(
+            listView()->selectionModel()
+            ,&QItemSelectionModel::selectionChanged
+            ,this
+            ,&Project::onSelectionChanged
+        );
     }
-    updateActions();
+    updateActions(QModelIndex());
 }
 
 
@@ -186,6 +201,16 @@ void Project::moveUp(
 }
 
 
+void Project::onCurrentIndexChanged(
+    const QModelIndex& current
+    ,const QModelIndex& previous
+)
+{
+    Q_UNUSED(previous);
+    updateActions(current);
+}
+
+
 void Project::onModelDestroyed(
     QObject* object
 )
@@ -193,8 +218,17 @@ void Project::onModelDestroyed(
     if (_model == object)
     {
         _model = nullptr;
-        updateActions();
+        updateActions(QModelIndex());
     }
+}
+
+
+void Project::onSelectionChanged(
+)
+{
+    auto itemSelectionModel = listView()->selectionModel();
+    G_ASSERT(itemSelectionModel);
+    updateActions(itemSelectionModel->currentIndex());
 }
 
 
@@ -272,15 +306,61 @@ QSplitter* Project::splitter(
 
 
 void Project::updateActions(
+    const QModelIndex& index
 )
 {
-    //TODO
+    if (_model)
+    {
+        auto itemSelectionModel = listView()->selectionModel();
+        G_ASSERT(itemSelectionModel);
+        _copyAction->setDisabled(!itemSelectionModel->hasSelection());
+        _cutAction->setDisabled(!itemSelectionModel->hasSelection());
+        _pasteAction->setDisabled(!_model->canPaste(index));
+        _redoAction->setDisabled(!_model->canRedo());
+        _removeAction->setDisabled(!index.isValid());
+        _undoAction->setDisabled(!_model->canUndo());
+        _moveDownAction->setDisabled(!_model->canMoveDown(index));
+        _moveUpAction->setDisabled(!_model->canMoveUp(index));
+    }
+    else
+    {
+        _copyAction->setDisabled(true);
+        _cutAction->setDisabled(true);
+        _moveDownAction->setDisabled(true);
+        _moveUpAction->setDisabled(true);
+        _pasteAction->setDisabled(true);
+        _redoAction->setDisabled(true);
+        _removeAction->setDisabled(true);
+        _undoAction->setDisabled(true);
+    }
+    updateAddActions(index);
 }
 
 
 void Project::updateAddActions(
+    const QModelIndex& index
 )
 {
-    //TODO
+    int blockIndex = -1;
+    if (_model)
+    {
+        blockIndex = _model->blockIndex(index);
+    }
+    if (_addActionBlockIndex != blockIndex)
+    {
+        addMenu()->clear();
+        if (_model)
+        {
+            auto language = _model->language();
+            for (auto index: language->blockMeta(blockIndex)->allowList())
+            {
+                auto meta = language->blockMeta(index);
+                auto action = new QAction(meta->displayIcon(),meta->label(),addMenu());
+                addMenu()->addAction(action);
+            }
+        }
+        _addActionBlockIndex = blockIndex;
+    }
+    addMenu()->setDisabled(addMenu()->isEmpty());
 }
 }

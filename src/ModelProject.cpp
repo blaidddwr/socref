@@ -51,6 +51,57 @@ QString Project::absoluteParsePath(
 }
 
 
+Block::Abstract* Project::beginSet(
+    const QModelIndex& index
+)
+{
+    if (
+        index.model() != this
+        || !index.isValid()
+        || _setIndex.isValid()
+    )
+    {
+        return nullptr;
+    }
+    _setIndex = index;
+    auto ret = block(index);
+    _previousState = ret->state();
+    return ret;
+}
+
+
+int Project::blockIndex(
+    const QModelIndex& index
+) const
+{
+    return block(index)->meta()->index();
+}
+
+
+bool Project::canMoveDown(
+    const QModelIndex& index
+) const
+{
+    if (!index.isValid())
+    {
+        return false;
+    }
+    return (index.row()+1) < rowCount(parent(index));
+}
+
+
+bool Project::canMoveUp(
+    const QModelIndex& index
+) const
+{
+    if (!index.isValid())
+    {
+        return false;
+    }
+    return index.row() > 0;
+}
+
+
 int Project::canPaste(
     const QModelIndex& parent
 ) const
@@ -186,9 +237,11 @@ bool Project::finishSet(
     {
         return false;
     }
+    QModelIndex index = _setIndex;
     _undoStack.push_back(
-        new Command::Project::Set(_previousState,block(_setIndex)->state(),_setIndex,this)
+        new Command::Project::Set(_previousState,block(index)->state(),_setIndex,this)
     );
+    emit dataChanged(index,index,{Qt::DisplayRole});
     _setIndex = QPersistentModelIndex();
     _previousState.clear();
     return true;
@@ -458,25 +511,6 @@ void Project::setRelativeParsePath(
 }
 
 
-Block::Abstract* Project::startSet(
-    const QModelIndex& index
-)
-{
-    if (
-        index.model() != this
-        || !index.isValid()
-        || _setIndex.isValid()
-    )
-    {
-        return nullptr;
-    }
-    _setIndex = index;
-    auto ret = block(index);
-    _previousState = ret->state();
-    return ret;
-}
-
-
 bool Project::undo(
 )
 {
@@ -509,6 +543,32 @@ Block::Abstract* Project::block(
     {
         G_ASSERT(index.model() == this);
         return reinterpret_cast<Block::Abstract*>(index.internalPointer());
+    }
+}
+
+
+void Project::onBlockDisplayIconChanged(
+    Block::Abstract* block
+)
+{
+    G_ASSERT(block);
+    if (auto p = qobject_cast<Block::Abstract*>(block->parent()))
+    {
+        auto index = createIndex(p->indexOf(block),0,p);
+        emit dataChanged(index,index,{Qt::DecorationRole});
+    }
+}
+
+
+void Project::onBlockDisplayTextChanged(
+    Block::Abstract* block
+)
+{
+    G_ASSERT(block);
+    if (auto p = qobject_cast<Block::Abstract*>(block->parent()))
+    {
+        auto index = createIndex(p->indexOf(block),0,p);
+        emit dataChanged(index,index,{Qt::DisplayRole});
     }
 }
 

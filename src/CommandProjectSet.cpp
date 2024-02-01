@@ -34,7 +34,9 @@ QString Set::description(
 bool Set::redo(
 )
 {
-    project().block(convertListToIndex(_location))->setState(_nextState);
+    auto index = convertListToIndex(_location);
+    project().block(index)->setState(_nextState);
+    emit project().dataChanged(index,index,{Qt::DisplayRole});
     return true;
 }
 
@@ -42,7 +44,9 @@ bool Set::redo(
 bool Set::undo(
 )
 {
-    project().block(convertListToIndex(_location))->setState(_previousState);
+    auto index = convertListToIndex(_location);
+    project().block(index)->setState(_previousState);
+    emit project().dataChanged(index,index,{Qt::DisplayRole});
     return true;
 }
 }
