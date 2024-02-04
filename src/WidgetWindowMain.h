@@ -21,17 +21,21 @@ class Main:
     QAction* _aboutQtAction {nullptr};
     QAction* _buildAction {nullptr};
     QAction* _closeAction {nullptr};
+    QAction* _importAction {nullptr};
     QAction* _exitAction {nullptr};
+    QAction* _exportAction {nullptr};
     QAction* _makeAction {nullptr};
     QAction* _openAction {nullptr};
     QAction* _parseAction {nullptr};
     QAction* _propertiesAction {nullptr};
     QAction* _saveAction {nullptr};
     QAction* _saveAsAction {nullptr};
+    QMenu* _codeMenu {nullptr};
     QMenu* _editMenu {nullptr};
     QMenu* _fileMenu {nullptr};
     QMenu* _helpMenu {nullptr};
     QMenu* _newMenu {nullptr};
+    QToolBar* _codeToolBar {nullptr};
     QToolBar* _editToolBar {nullptr};
     QToolBar* _fileToolBar {nullptr};
     Widget::Project* _projectWidget {nullptr};
@@ -69,6 +73,22 @@ class Main:
 
 
     /*!
+     * Called when this widget's export action is triggered.
+     */
+    private slots:
+    void exportProject(
+    );
+
+
+    /*!
+     * Called when this widget's import action is triggered.
+     */
+    private slots:
+    void import(
+    );
+
+
+    /*!
      * Called when this widget's make action is triggered.
      */
     private slots:
@@ -84,7 +104,7 @@ class Main:
      *        The language index.
      */
     private slots:
-    void new_(
+    void newProject(
         int index
     );
 
@@ -185,6 +205,28 @@ class Main:
      * Getter method.
      *
      * @return
+     * This widget's code menu.
+     */
+    private:
+    QMenu* codeMenu(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's code tool bar.
+     */
+    private:
+    QToolBar* codeToolBar(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
      * This widget's edit menu.
      */
     private:
@@ -211,6 +253,17 @@ class Main:
      */
     private:
     QAction* exitAction(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's export action.
+     */
+    private:
+    QAction* exportAction(
     );
 
 
@@ -255,6 +308,17 @@ class Main:
      */
     private:
     QMenu* helpMenu(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's import action.
+     */
+    private:
+    QAction* importAction(
     );
 
 

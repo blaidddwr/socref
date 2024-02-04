@@ -37,6 +37,7 @@ QAction* Project::copyAction(
     {
         _copyAction = new QAction(QIcon::fromTheme("edit-copy"),tr("Copy"),this);
         _copyAction->setStatusTip(tr("Copy the selected block or blocks."));
+        _copyAction->setShortcut(QKeySequence::Copy);
         connect(_copyAction,&QAction::triggered,this,&Project::copy);
     }
     return _copyAction;
@@ -50,6 +51,7 @@ QAction* Project::cutAction(
     {
         _cutAction = new QAction(QIcon::fromTheme("edit-cut"),tr("Cut"),this);
         _cutAction->setStatusTip(tr("Cut the selected block or blocks."));
+        _cutAction->setShortcut(QKeySequence::Cut);
         connect(_cutAction,&QAction::triggered,this,&Project::cut);
     }
     return _cutAction;
@@ -63,6 +65,7 @@ QAction* Project::moveDownAction(
     {
         _moveDownAction = new QAction(QIcon::fromTheme("go-down"),tr("Move Down"),this);
         _moveDownAction->setStatusTip(tr("Move the currently selected block down by one."));
+        _moveDownAction->setShortcut(Qt::CTRL|Qt::Key_Down);
         connect(_moveDownAction,&QAction::triggered,this,&Project::moveDown);
     }
     return _moveDownAction;
@@ -76,6 +79,7 @@ QAction* Project::moveUpAction(
     {
         _moveUpAction = new QAction(QIcon::fromTheme("go-up"),tr("Move Up"),this);
         _moveUpAction->setStatusTip(tr("Move the currently selected block up by one."));
+        _moveUpAction->setShortcut(Qt::CTRL|Qt::Key_Up);
         connect(_moveUpAction,&QAction::triggered,this,&Project::moveUp);
     }
     return _moveUpAction;
@@ -89,6 +93,7 @@ QAction* Project::pasteAction(
     {
         _pasteAction = new QAction(QIcon::fromTheme("edit-paste"),tr("Paste"),this);
         _pasteAction->setStatusTip(tr("Paste copied blocks into the currently selected block."));
+        _pasteAction->setShortcut(QKeySequence::Paste);
         connect(_pasteAction,&QAction::triggered,this,&Project::paste);
     }
     return _pasteAction;
@@ -102,6 +107,7 @@ QAction* Project::redoAction(
     {
         _redoAction = new QAction(QIcon::fromTheme("edit-redo"),tr("Redo"),this);
         _redoAction->setStatusTip(tr("Redo the previously undone command."));
+        _redoAction->setShortcut(QKeySequence::Redo);
         connect(_redoAction,&QAction::triggered,this,&Project::redo);
     }
     return _redoAction;
@@ -115,6 +121,7 @@ QAction* Project::removeAction(
     {
         _removeAction = new QAction(QIcon::fromTheme("list-remove"),tr("Remove"),this);
         _removeAction->setStatusTip(tr("Remove the selected block or blocks."));
+        _removeAction->setShortcut(QKeySequence::Delete);
         connect(_removeAction,&QAction::triggered,this,&Project::remove);
     }
     return _removeAction;
@@ -158,6 +165,7 @@ QAction* Project::undoAction(
     {
         _undoAction = new QAction(QIcon::fromTheme("edit-undo"),tr("Undo"),this);
         _undoAction->setStatusTip(tr("Undo the previously done command."));
+        _undoAction->setShortcut(QKeySequence::Undo);
         connect(_undoAction,&QAction::triggered,this,&Project::undo);
     }
     return _undoAction;
@@ -313,25 +321,25 @@ void Project::updateActions(
     {
         auto itemSelectionModel = listView()->selectionModel();
         G_ASSERT(itemSelectionModel);
-        _copyAction->setDisabled(!itemSelectionModel->hasSelection());
-        _cutAction->setDisabled(!itemSelectionModel->hasSelection());
-        _pasteAction->setDisabled(!_model->canPaste(index));
-        _redoAction->setDisabled(!_model->canRedo());
-        _removeAction->setDisabled(!index.isValid());
-        _undoAction->setDisabled(!_model->canUndo());
-        _moveDownAction->setDisabled(!_model->canMoveDown(index));
-        _moveUpAction->setDisabled(!_model->canMoveUp(index));
+        copyAction()->setDisabled(!itemSelectionModel->hasSelection());
+        cutAction()->setDisabled(!itemSelectionModel->hasSelection());
+        pasteAction()->setDisabled(!_model->canPaste(index));
+        redoAction()->setDisabled(!_model->canRedo());
+        removeAction()->setDisabled(!index.isValid());
+        undoAction()->setDisabled(!_model->canUndo());
+        moveDownAction()->setDisabled(!_model->canMoveDown(index));
+        moveUpAction()->setDisabled(!_model->canMoveUp(index));
     }
     else
     {
-        _copyAction->setDisabled(true);
-        _cutAction->setDisabled(true);
-        _moveDownAction->setDisabled(true);
-        _moveUpAction->setDisabled(true);
-        _pasteAction->setDisabled(true);
-        _redoAction->setDisabled(true);
-        _removeAction->setDisabled(true);
-        _undoAction->setDisabled(true);
+        copyAction()->setDisabled(true);
+        cutAction()->setDisabled(true);
+        moveDownAction()->setDisabled(true);
+        moveUpAction()->setDisabled(true);
+        pasteAction()->setDisabled(true);
+        redoAction()->setDisabled(true);
+        removeAction()->setDisabled(true);
+        undoAction()->setDisabled(true);
     }
     updateAddActions(index);
 }
@@ -352,11 +360,15 @@ void Project::updateAddActions(
         if (_model)
         {
             auto language = _model->language();
-            for (auto index: language->blockMeta(blockIndex)->allowList())
+            const auto& allowed = language->blockMeta(blockIndex)->allowList();
+            for (int i = 0;i < language->size();i++)
             {
-                auto meta = language->blockMeta(index);
-                auto action = new QAction(meta->displayIcon(),meta->label(),addMenu());
-                addMenu()->addAction(action);
+                if (allowed.contains(i))
+                {
+                    auto meta = language->blockMeta(i);
+                    auto action = new QAction(meta->displayIcon(),meta->label(),addMenu());
+                    addMenu()->addAction(action);
+                }
             }
         }
         _addActionBlockIndex = blockIndex;

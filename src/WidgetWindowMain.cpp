@@ -17,9 +17,11 @@ Main::Main(
 {
     auto menu = menuBar();
     menu->addMenu(fileMenu());
+    menu->addMenu(codeMenu());
     menu->addMenu(editMenu());
     menu->addMenu(helpMenu());
     addToolBar(fileToolBar());
+    addToolBar(codeToolBar());
     addToolBar(editToolBar());
     setCentralWidget(projectWidget());
     statusBar();
@@ -49,6 +51,18 @@ void Main::close(
 }
 
 
+void Main::exportProject(
+)
+{
+}
+
+
+void Main::import(
+)
+{
+}
+
+
 void Main::make(
 )
 {
@@ -56,7 +70,7 @@ void Main::make(
 }
 
 
-void Main::new_(
+void Main::newProject(
     int index
 )
 {
@@ -166,10 +180,36 @@ QAction* Main::buildAction(
                 " implementation code from parsing."
             )
         );
-        _buildAction->setShortcut(Qt::CTRL|Qt::Key_B);
+        _buildAction->setShortcut(Qt::CTRL|Qt::ALT|Qt::Key_B);
         connect(_buildAction,&QAction::triggered,this,&Main::build);
     }
     return _buildAction;
+}
+
+
+QMenu* Main::codeMenu(
+)
+{
+    if (!_codeMenu)
+    {
+        _codeMenu = new QMenu(tr("Code"),this);
+        _codeMenu->addAction(parseAction());
+        _codeMenu->addAction(buildAction());
+        _codeMenu->addAction(makeAction());
+    }
+    return _codeMenu;
+}
+
+
+QToolBar* Main::codeToolBar(
+)
+{
+    if (!_codeToolBar)
+    {
+        _codeToolBar = new QToolBar(tr("Edit"),this);
+        _codeToolBar->addAction(makeAction());
+    }
+    return _codeToolBar;
 }
 
 
@@ -228,6 +268,21 @@ QAction* Main::exitAction(
 }
 
 
+QAction* Main::exportAction(
+)
+{
+    if (!_exportAction)
+    {
+        _exportAction = new QAction(tr("Export"),this);
+        _exportAction->setStatusTip(
+            tr("Export this window's project to a Socrates' Reference project file.")
+        );
+        connect(_exportAction,&QAction::triggered,this,&Main::exportProject);
+    }
+    return _exportAction;
+}
+
+
 QMenu* Main::fileMenu(
 )
 {
@@ -240,11 +295,10 @@ QMenu* Main::fileMenu(
         _fileMenu->addAction(saveAsAction());
         _fileMenu->addAction(closeAction());
         _fileMenu->addSeparator();
-        _fileMenu->addAction(propertiesAction());
+        _fileMenu->addAction(importAction());
+        _fileMenu->addAction(exportAction());
         _fileMenu->addSeparator();
-        _fileMenu->addAction(parseAction());
-        _fileMenu->addAction(buildAction());
-        _fileMenu->addAction(makeAction());
+        _fileMenu->addAction(propertiesAction());
         _fileMenu->addSeparator();
         _fileMenu->addAction(exitAction());
     }
@@ -261,7 +315,6 @@ QToolBar* Main::fileToolBar(
         _fileToolBar->addAction(openAction());
         _fileToolBar->addAction(saveAction());
         _fileToolBar->addAction(saveAsAction());
-        _fileToolBar->addAction(makeAction());
     }
     return _fileToolBar;
 }
@@ -294,16 +347,31 @@ QMenu* Main::helpMenu(
 }
 
 
+QAction* Main::importAction(
+)
+{
+    if (!_importAction)
+    {
+        _importAction = new QAction(tr("Import"),this);
+        _importAction->setStatusTip(
+            tr("Import a project from a Socrates' Reference project file.")
+        );
+        connect(_importAction,&QAction::triggered,this,&Main::import);
+    }
+    return _importAction;
+}
+
+
 QAction* Main::makeAction(
 )
 {
     if (!_makeAction)
     {
-        _makeAction = new QAction(QIcon::fromTheme("view-refresh"),tr("Make"),this);
+        _makeAction = new QAction(tr("Make"),this);
         _makeAction->setStatusTip(
             tr("Parse and then build the source code of this window's project.")
         );
-        _makeAction->setShortcut(Qt::CTRL|Qt::Key_M);
+        _makeAction->setShortcut(Qt::CTRL|Qt::ALT|Qt::Key_M);
         connect(_makeAction,&QAction::triggered,this,&Main::make);
     }
     return _makeAction;
@@ -324,8 +392,8 @@ QMenu* Main::newMenu(
             {
                 auto label = factory->get(i)->meta()->label();
                 auto action = new QAction(label,this);
-                action->setStatusTip(tr("Create a new %1 project in this window.").arg(label));
-                connect(action,&QAction::triggered,this,[this,i](){ new_(i); });
+                action->setStatusTip(tr("Create a new %1 project.").arg(label));
+                connect(action,&QAction::triggered,this,[this,i](){ newProject(i); });
                 _newMenu->addAction(action);
             }
         }
@@ -340,7 +408,7 @@ QAction* Main::openAction(
     if (!_openAction)
     {
         _openAction = new QAction(QIcon::fromTheme("document-open"),tr("Open"),this);
-        _openAction->setStatusTip(tr("Open an existing project in this window."));
+        _openAction->setStatusTip(tr("Open a project from a project directory."));
         _openAction->setShortcut(QKeySequence::Open);
         connect(_openAction,&QAction::triggered,this,&Main::open);
     }
@@ -360,7 +428,7 @@ QAction* Main::parseAction(
                 " code found."
             )
         );
-        _parseAction->setShortcut(Qt::CTRL|Qt::Key_P);
+        _parseAction->setShortcut(Qt::CTRL|Qt::ALT|Qt::Key_P);
         connect(_parseAction,&QAction::triggered,this,&Main::parse);
     }
     return _parseAction;
@@ -461,6 +529,7 @@ void Main::updateActions(
     );
     saveAsAction()->setDisabled(!_projectModel);
     closeAction()->setDisabled(!_projectModel);
+    exportAction()->setDisabled(!_projectModel);
     propertiesAction()->setDisabled(!_projectModel);
     parseAction()->setDisabled(!_projectModel);
     buildAction()->setDisabled(!_projectModel);
