@@ -30,6 +30,19 @@ QMenu* Project::addMenu(
 }
 
 
+QAction* Project::clearAction(
+)
+{
+    if (!_clearAction)
+    {
+        _clearAction = new QAction(QIcon::fromTheme("edit-clear"),tr("Clear"),this);
+        _clearAction->setStatusTip(tr("Clear all selected and current blocks."));
+        connect(_clearAction,&QAction::triggered,this,&Project::clear);
+    }
+    return _clearAction;
+}
+
+
 QAction* Project::copyAction(
 )
 {
@@ -137,18 +150,18 @@ void Project::setModel(
         disconnect(_model,&QObject::destroyed,this,&Project::onModelDestroyed);
     }
     _model = model;
-    listView()->setModel(model);
+    treeView()->setModel(model);
     if (_model)
     {
         connect(_model,&QObject::destroyed,this,&Project::onModelDestroyed);
         connect(
-            listView()->selectionModel()
+            treeView()->selectionModel()
             ,&QItemSelectionModel::currentChanged
             ,this
             ,&Project::onCurrentIndexChanged
         );
         connect(
-            listView()->selectionModel()
+            treeView()->selectionModel()
             ,&QItemSelectionModel::selectionChanged
             ,this
             ,&Project::onSelectionChanged
@@ -176,8 +189,25 @@ void Project::add(
     int index
 )
 {
-    Q_UNUSED(index);
-    //TODO
+    if (_model)
+    {
+        auto parent = treeView()->selectionModel()->currentIndex();
+        _model->insert(index,0,parent);
+        if (!parent.isValid())
+        {
+            treeView()->setCurrentIndex(parent);
+        }
+    }
+}
+
+
+void Project::clear(
+)
+{
+    if (_model)
+    {
+        treeView()->setCurrentIndex(QModelIndex());
+    }
 }
 
 
@@ -198,14 +228,14 @@ void Project::cut(
 void Project::moveDown(
 )
 {
-    //TODO
+    move(1);
 }
 
 
 void Project::moveUp(
 )
 {
-    //TODO
+    move(-1);
 }
 
 
@@ -234,7 +264,7 @@ void Project::onModelDestroyed(
 void Project::onSelectionChanged(
 )
 {
-    auto itemSelectionModel = listView()->selectionModel();
+    auto itemSelectionModel = treeView()->selectionModel();
     G_ASSERT(itemSelectionModel);
     updateActions(itemSelectionModel->currentIndex());
 }
@@ -257,7 +287,15 @@ void Project::redo(
 void Project::remove(
 )
 {
-    //TODO
+    auto itemSelectionModel = treeView()->selectionModel();
+    G_ASSERT(itemSelectionModel);
+    if (
+        _model
+        && itemSelectionModel->hasSelection()
+    )
+    {
+        _model->remove(itemSelectionModel->selectedIndexes());
+    }
 }
 
 
@@ -279,14 +317,35 @@ QWidget* Project::blankBlockWidget(
 }
 
 
-QListView* Project::listView(
+void Project::move(
+    int delta
 )
 {
-    if (!_listView)
+    if (_model)
     {
-        _listView = new QListView(this);
+        auto index = treeView()->selectionModel()->currentIndex();
+        if (index.isValid())
+        {
+            auto parent = index.parent();
+            auto row = index.row();
+            if (_model->move(parent,row,row+delta))
+            {
+                auto newIndex = _model->index(row+delta,0,parent);
+                treeView()->selectionModel()->setCurrentIndex(
+                    newIndex
+                    ,QItemSelectionModel::SelectCurrent
+                );
+                if (newIndex == treeView()->currentIndex())
+                {
+                    updateActions(newIndex);
+                }
+                else
+                {
+                    treeView()->setCurrentIndex(newIndex);
+                }
+            }
+        }
     }
-    return _listView;
 }
 
 
@@ -306,10 +365,22 @@ QSplitter* Project::splitter(
     {
         _splitter = new QSplitter(this);
         _splitter->setChildrenCollapsible(false);
-        _splitter->addWidget(listView());
+        _splitter->addWidget(treeView());
         _splitter->addWidget(blankBlockWidget());
     }
     return _splitter;
+}
+
+
+QTreeView* Project::treeView(
+)
+{
+    if (!_treeView)
+    {
+        _treeView = new QTreeView(this);
+        _treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    }
+    return _treeView;
 }
 
 
@@ -319,7 +390,7 @@ void Project::updateActions(
 {
     if (_model)
     {
-        auto itemSelectionModel = listView()->selectionModel();
+        auto itemSelectionModel = treeView()->selectionModel();
         G_ASSERT(itemSelectionModel);
         copyAction()->setDisabled(!itemSelectionModel->hasSelection());
         cutAction()->setDisabled(!itemSelectionModel->hasSelection());
@@ -327,8 +398,8 @@ void Project::updateActions(
         redoAction()->setDisabled(!_model->canRedo());
         removeAction()->setDisabled(!index.isValid());
         undoAction()->setDisabled(!_model->canUndo());
-        moveDownAction()->setDisabled(!_model->canMoveDown(index));
-        moveUpAction()->setDisabled(!_model->canMoveUp(index));
+        moveDownAction()->setDisabled(!_model->canMove(index.parent(),index.row(),index.row()+1));
+        moveUpAction()->setDisabled(!_model->canMove(index.parent(),index.row(),index.row()-1));
     }
     else
     {
@@ -367,6 +438,10 @@ void Project::updateAddActions(
                 {
                     auto meta = language->blockMeta(i);
                     auto action = new QAction(meta->displayIcon(),meta->label(),addMenu());
+                    action->setStatusTip(
+                        tr("Add %1 block into the current block.").arg(meta->label())
+                    );
+                    connect(action,&QAction::triggered,this,[this,i](){ add(i); });
                     addMenu()->addAction(action);
                 }
             }

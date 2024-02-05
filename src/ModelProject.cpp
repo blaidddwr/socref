@@ -78,27 +78,27 @@ int Project::blockIndex(
 }
 
 
-bool Project::canMoveDown(
-    const QModelIndex& index
+bool Project::canMove(
+    const QModelIndex& parent
+    ,int from
+    ,int to
 ) const
 {
-    if (!index.isValid())
+    if (
+        (parent.isValid() && parent.model() != this)
+        || from == to
+        || from < 0
+        || from >= rowCount(parent)
+        || to < 0
+        || to >= rowCount(parent)
+    )
     {
         return false;
     }
-    return (index.row()+1) < rowCount(parent(index));
-}
-
-
-bool Project::canMoveUp(
-    const QModelIndex& index
-) const
-{
-    if (!index.isValid())
+    else
     {
-        return false;
+        return true;
     }
-    return index.row() > 0;
 }
 
 
@@ -248,6 +248,27 @@ bool Project::finishSet(
 }
 
 
+QVariant Project::headerData(
+    int section
+    ,Qt::Orientation orientation
+    ,int role
+) const
+{
+    if (
+        section == 0
+        && orientation == Qt::Horizontal
+        && role == Qt::DisplayRole
+    )
+    {
+        return _language->meta()->label();
+    }
+    else
+    {
+        return QVariant();
+    }
+}
+
+
 QModelIndex Project::index(
     int row
     ,int column
@@ -317,13 +338,7 @@ bool Project::move(
     ,int to
 )
 {
-    if (
-        from == to
-        || from < 0
-        || from >= rowCount(parent)
-        || to < 0
-        || to >= rowCount(parent)
-    )
+    if (!canMove(parent,from,to))
     {
         return false;
     }

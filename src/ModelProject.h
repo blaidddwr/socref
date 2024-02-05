@@ -171,32 +171,26 @@ class Project:
 
 
     /*!
-     * Determines if this model's block at the given index can be moved down.
+     * Determines if this model's block in the given parent index can be moved
+     * from the given from index to the given to index.
      *
-     * @param index
-     *        The index.
+     * @param parent
+     *        The parent index.
      *
-     * @return
-     * True if it can be moved done or false otherwise.
-     */
-    public:
-    bool canMoveDown(
-        const QModelIndex& index
-    ) const;
-
-
-    /*!
-     * Determines if this model's block at the given index can be moved up.
+     * @param from
+     *        The from row.
      *
-     * @param index
-     *        The index.
+     * @param to
+     *        The to row.
      *
      * @return
-     * True if it can be moved up or false otherwise.
+     * True if it can be moved or false otherwise.
      */
     public:
-    bool canMoveUp(
-        const QModelIndex& index
+    bool canMove(
+        const QModelIndex& parent
+        ,int from
+        ,int to
     ) const;
 
 
@@ -303,6 +297,14 @@ class Project:
     public:
     bool finishSet(
     );
+
+
+    public:
+    virtual QVariant headerData(
+        int section
+        ,Qt::Orientation orientation
+        ,int role
+    ) const override final;
 
 
     public:

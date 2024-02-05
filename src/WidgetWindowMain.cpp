@@ -231,6 +231,8 @@ QMenu* Main::editMenu(
         _editMenu->addSeparator();
         _editMenu->addAction(projectWidget()->moveUpAction());
         _editMenu->addAction(projectWidget()->moveDownAction());
+        _editMenu->addSeparator();
+        _editMenu->addAction(projectWidget()->clearAction());
     }
     return _editMenu;
 }
@@ -249,6 +251,7 @@ QToolBar* Main::editToolBar(
         _editToolBar->addAction(projectWidget()->pasteAction());
         _editToolBar->addAction(projectWidget()->moveUpAction());
         _editToolBar->addAction(projectWidget()->moveDownAction());
+        _editToolBar->addAction(projectWidget()->clearAction());
     }
     return _editToolBar;
 }

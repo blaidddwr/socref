@@ -2,8 +2,8 @@
 #define WIDGET_PROJECT_H
 #include <QWidget>
 #include "Model.h"
-class QListView;
 class QSplitter;
+class QTreeView;
 namespace Widget {
 
 
@@ -19,13 +19,14 @@ class Project:
     Model::Project* _model {nullptr};
     QAction* _copyAction {nullptr};
     QAction* _cutAction {nullptr};
+    QAction* _clearAction {nullptr};
     QAction* _moveDownAction {nullptr};
     QAction* _moveUpAction {nullptr};
     QAction* _pasteAction {nullptr};
     QAction* _redoAction {nullptr};
     QAction* _removeAction {nullptr};
     QAction* _undoAction {nullptr};
-    QListView* _listView {nullptr};
+    QTreeView* _treeView {nullptr};
     QMenu* _addMenu {nullptr};
     QSplitter* _splitter {nullptr};
     QWidget* _blankBlockWidget {nullptr};
@@ -46,6 +47,17 @@ class Project:
      */
     public:
     QMenu* addMenu(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's clear action.
+     */
+    public:
+    QAction* clearAction(
     );
 
 
@@ -163,6 +175,14 @@ class Project:
 
 
     /*!
+     * Called when this widget's clear action is triggered.
+     */
+    private slots:
+    void clear(
+    );
+
+
+    /*!
      * Called when this widget's copy action is triggered.
      */
     private slots:
@@ -256,7 +276,9 @@ class Project:
 
 
     /*!
-     * Getter method.
+     * Returns this widget's blank block widget. This is used to fill the block
+     * widget view with a blank widget when no valid index is selected in this
+     * widget's tree view.
      */
     private:
     QWidget* blankBlockWidget(
@@ -264,13 +286,18 @@ class Project:
 
 
     /*!
-     * Getter method.
+     * Moves this widget's project model's block at this widget's current index
+     * by the given delta within its parent block.
+     * 
+     * If this widget has no model or it has no valid current index then this
+     * does nothing.
      *
-     * @return
-     * This widget's list view.
+     * @param delta
+     *        The delta.
      */
     private:
-    QListView* listView(
+    void move(
+        int delta
     );
 
 
@@ -294,6 +321,17 @@ class Project:
      */
     private:
     QSplitter* splitter(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's tree view.
+     */
+    private:
+    QTreeView* treeView(
     );
 
 

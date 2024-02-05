@@ -63,11 +63,14 @@ bool Move::move(
     {
         return false;
     }
-    if (to > from)
+    auto qtTo = to;
+    if (qtTo > from)
     {
-        to++;
+        qtTo++;
     }
-    project().beginMoveRows(parent,from,from,parent,to);
+    project().beginMoveRows(parent,from,from,parent,qtTo);
+    pb->move(from,to);
+    project().endMoveRows();
     return true;
 }
 }
