@@ -184,16 +184,10 @@ int Project::cut(
         )
         {
             std::unique_ptr<Block::Abstract> copy(block(index)->copy());
-            auto command = new Command::Project::Remove(index.row(),index.parent(),this);
-            if (command->redo())
+            if (pushCommand(new Command::Project::Remove(index.row(),index.parent(),this)))
             {
                 _copied.append(copy.release());
-                _undoStack.push_front(command);
                 ret++;
-            }
-            else
-            {
-                delete command;
             }
         }
     }
@@ -303,17 +297,7 @@ bool Project::insert(
     {
         return false;
     }
-    auto command = new Command::Project::Insert(_language->create(blockIndex),row,parent,this);
-    if (command->redo())
-    {
-        _undoStack.push_front(command);
-        return true;
-    }
-    else
-    {
-        delete command;
-        return false;
-    }
+    return pushCommand(new Command::Project::Insert(_language->create(blockIndex),row,parent,this));
 }
 
 
@@ -342,17 +326,7 @@ bool Project::move(
     {
         return false;
     }
-    auto command = new Command::Project::Move(from,to,parent,this);
-    if (command->redo())
-    {
-        _undoStack.push_back(command);
-        return true;
-    }
-    else
-    {
-        delete command;
-        return false;
-    }
+    return pushCommand(new Command::Project::Move(from,to,parent,this));
 }
 
 
@@ -409,15 +383,9 @@ int Project::paste(
         std::unique_ptr<Block::Abstract> copy(b->copy());
         if (block(parent)->meta()->allowList().contains(copy->meta()->index()))
         {
-            auto command = new Command::Project::Insert(copy.release(),row,parent,this);
-            if (command->redo())
+            if (pushCommand(new Command::Project::Insert(copy.release(),row,parent,this)))
             {
-                _undoStack.push_back(command);
                 ret++;
-            }
-            else
-            {
-                delete command;
             }
         }
     }
@@ -432,10 +400,10 @@ bool Project::redo(
     {
         return false;
     }
-    if (_redoStack.front()->redo())
+    if (_redoStack.back()->redo())
     {
-        _undoStack.push_front(_redoStack.front());
-        _redoStack.pop_front();
+        _undoStack.push_back(_redoStack.back());
+        _redoStack.pop_back();
         return true;
     }
     else
@@ -469,15 +437,9 @@ int Project::remove(
             && index.model() == this
         )
         {
-            auto command = new Command::Project::Remove(index.row(),index.parent(),this);
-            if (command->redo())
+            if (pushCommand(new Command::Project::Remove(index.row(),index.parent(),this)))
             {
-                _undoStack.push_front(command);
                 ret++;
-            }
-            else
-            {
-                delete command;
             }
         }
     }
@@ -533,10 +495,10 @@ bool Project::undo(
     {
         return false;
     }
-    if (_undoStack.front()->undo())
+    if (_undoStack.back()->undo())
     {
-        _redoStack.push_front(_undoStack.front());
-        _undoStack.pop_front();
+        _redoStack.push_back(_undoStack.back());
+        _undoStack.pop_back();
         return true;
     }
     else
@@ -595,6 +557,24 @@ void Project::onLanguageDestroyed(
     if (_language == object)
     {
         _language = nullptr;
+    }
+}
+
+
+bool Project::pushCommand(
+    Command::Project::Abstract* command
+)
+{
+    G_ASSERT(command);
+    if (command->redo())
+    {
+        _undoStack.push_back(command);
+        return true;
+    }
+    else
+    {
+        delete command;
+        return false;
     }
 }
 

@@ -566,6 +566,29 @@ class Project:
 
 
     /*!
+     * Pushes the given command onto this model's undo stack and calls its redo
+     * interface beforehand.
+     * 
+     * This does not take ownership of the given command.
+     * 
+     * If the called redo interface returns false then this does not push the
+     * given command onto this model's undo stack and deletes the given command.
+     * 
+     * The given command must be valid.
+     *
+     * @param command
+     *        The command.
+     *
+     * @return
+     * True if the command was pushed or false otherwise.
+     */
+    private:
+    bool pushCommand(
+        Command::Project::Abstract* command
+    );
+
+
+    /*!
      * Sets this instance's directory path property to the given value.
      *
      * @param value

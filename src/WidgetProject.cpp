@@ -36,7 +36,7 @@ QAction* Project::clearAction(
     if (!_clearAction)
     {
         _clearAction = new QAction(QIcon::fromTheme("edit-clear"),tr("Clear"),this);
-        _clearAction->setStatusTip(tr("Clear all selected and current blocks."));
+        _clearAction->setStatusTip(tr("Clear all selected blocks."));
         connect(_clearAction,&QAction::triggered,this,&Project::clear);
     }
     return _clearAction;
@@ -191,7 +191,7 @@ void Project::add(
 {
     if (_model)
     {
-        auto parent = treeView()->selectionModel()->currentIndex();
+        auto parent = treeView()->currentIndex();
         _model->insert(index,0,parent);
         if (!parent.isValid())
         {
@@ -214,14 +214,31 @@ void Project::clear(
 void Project::copy(
 )
 {
-    //TODO
+    auto selectionModel = treeView()->selectionModel();
+    if (
+        _model
+        && selectionModel->hasSelection()
+    )
+    {
+        _model->copy(selectionModel->selectedIndexes());
+    }
 }
 
 
 void Project::cut(
 )
 {
-    //TODO
+    auto selectionModel = treeView()->selectionModel();
+    if (
+        _model
+        && selectionModel->hasSelection()
+        )
+    {
+        if (_model->cut(selectionModel->selectedIndexes()) > 0)
+        {
+            updateActions(treeView()->currentIndex());
+        }
+    }
 }
 
 
@@ -264,37 +281,46 @@ void Project::onModelDestroyed(
 void Project::onSelectionChanged(
 )
 {
-    auto itemSelectionModel = treeView()->selectionModel();
-    G_ASSERT(itemSelectionModel);
-    updateActions(itemSelectionModel->currentIndex());
+    updateActions(treeView()->selectionModel()->currentIndex());
 }
 
 
 void Project::paste(
 )
 {
-    //TODO
+    if (_model)
+    {
+        if (_model->paste(treeView()->currentIndex(),0) > 0)
+        {
+            updateActions(treeView()->currentIndex());
+        }
+    }
 }
 
 
 void Project::redo(
 )
 {
-    //TODO
+    if (_model)
+    {
+        if (_model->redo())
+        {
+            updateActions(treeView()->currentIndex());
+        }
+    }
 }
 
 
 void Project::remove(
 )
 {
-    auto itemSelectionModel = treeView()->selectionModel();
-    G_ASSERT(itemSelectionModel);
+    auto selectionModel = treeView()->selectionModel();
     if (
         _model
-        && itemSelectionModel->hasSelection()
+        && selectionModel->hasSelection()
     )
     {
-        _model->remove(itemSelectionModel->selectedIndexes());
+        _model->remove(selectionModel->selectedIndexes());
     }
 }
 
@@ -302,7 +328,13 @@ void Project::remove(
 void Project::undo(
 )
 {
-    //TODO
+    if (_model)
+    {
+        if (_model->undo())
+        {
+            updateActions(treeView()->currentIndex());
+        }
+    }
 }
 
 
@@ -323,7 +355,7 @@ void Project::move(
 {
     if (_model)
     {
-        auto index = treeView()->selectionModel()->currentIndex();
+        auto index = treeView()->currentIndex();
         if (index.isValid())
         {
             auto parent = index.parent();
@@ -390,10 +422,9 @@ void Project::updateActions(
 {
     if (_model)
     {
-        auto itemSelectionModel = treeView()->selectionModel();
-        G_ASSERT(itemSelectionModel);
-        copyAction()->setDisabled(!itemSelectionModel->hasSelection());
-        cutAction()->setDisabled(!itemSelectionModel->hasSelection());
+        auto selectionModel = treeView()->selectionModel();
+        copyAction()->setDisabled(!selectionModel->hasSelection());
+        cutAction()->setDisabled(!selectionModel->hasSelection());
         pasteAction()->setDisabled(!_model->canPaste(index));
         redoAction()->setDisabled(!_model->canRedo());
         removeAction()->setDisabled(!index.isValid());
@@ -439,7 +470,7 @@ void Project::updateAddActions(
                     auto meta = language->blockMeta(i);
                     auto action = new QAction(meta->displayIcon(),meta->label(),addMenu());
                     action->setStatusTip(
-                        tr("Add %1 block into the current block.").arg(meta->label())
+                        tr("Add %1 block into the currently selected block.").arg(meta->label())
                     );
                     connect(action,&QAction::triggered,this,[this,i](){ add(i); });
                     addMenu()->addAction(action);
