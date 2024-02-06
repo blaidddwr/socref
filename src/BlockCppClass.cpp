@@ -57,8 +57,8 @@ void Class::loadFromMap(
     }
     else
     {
-        _parents = map.value("parents").toString().split(';');
-        _templates = map.value("templates").toString().split(';');
+        _parents = map.value("parents").toString().split(';',Qt::SkipEmptyParts);
+        _templates = map.value("templates").toString().split(';',Qt::SkipEmptyParts);
     }
 }
 

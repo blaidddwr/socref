@@ -65,7 +65,7 @@ void Main::import(
     auto path = QFileDialog::getOpenFileName(
         this
         ,tr("Import Socrates' Reference Project")
-        ,"."
+        ,QString()
         ,"Socrates' Reference Project File (*.srp)"
     );
     if (!path.isNull())
@@ -144,7 +144,33 @@ void Main::onProjectModelModifiedChanged(
 void Main::open(
 )
 {
-    //TODO
+    auto path = QFileDialog::getExistingDirectory(this,tr("Open Project from Directory"));
+    if (!path.isNull())
+    {
+        try
+        {
+            auto model = Stream::Project::fromDir(path,this);
+            auto window = this;
+            if (_projectModel)
+            {
+                window = new Main;
+                window->show();
+            }
+            window->setProjectModel(model);
+        }
+        catch (Exception::Project::Read& e)
+        {
+            QMessageBox::warning(this,tr("Read Project Error"),e.message());
+        }
+        catch (Exception::Block::Read& e)
+        {
+            QMessageBox::warning(this,tr("Read Block Error"),e.message());
+        }
+        catch (Exception::System::File& e)
+        {
+            QMessageBox::warning(this,tr("File System Error"),e.message());
+        }
+    }
 }
 
 
@@ -172,7 +198,29 @@ void Main::save(
 void Main::saveAs(
 )
 {
-    //TODO
+    if (_projectModel)
+    {
+        auto path = QFileDialog::getExistingDirectory(this,"Save Project to Directory");
+        if (!path.isNull())
+        {
+            try
+            {
+                Stream::Project::toDir(*_projectModel,path);
+            }
+            catch (Exception::Project::Write& e)
+            {
+                QMessageBox::warning(this,tr("Write Project Error"),e.message());
+            }
+            catch (Exception::Block::Write& e)
+            {
+                QMessageBox::warning(this,tr("Write Block Error"),e.message());
+            }
+            catch (Exception::System::File& e)
+            {
+                QMessageBox::warning(this,tr("File System Error"),e.message());
+            }
+        }
+    }
 }
 
 

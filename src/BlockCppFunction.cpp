@@ -268,7 +268,7 @@ void Function::loadFromMap(
     {
         loadFlags(map.value("flags"),version);
         loadAssignment(map.value("assignment"),version);
-        _templates = map.value("templates").toString().split(';');
+        _templates = map.value("templates").toString().split(';',Qt::SkipEmptyParts);
     }
     updateDisplayIcon();
     updateDisplayText();
@@ -1484,7 +1484,7 @@ void Function::loadFlags(
 {
     Q_UNUSED(version);
     _flags = 0;
-    for (const auto& flagString: value.toString().split(";"))
+    for (const auto& flagString: value.toString().split(";",Qt::SkipEmptyParts))
     {
         auto flag = reverseFlagLookup().value(flagString,-1);
         if (flag == -1)

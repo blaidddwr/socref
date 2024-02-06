@@ -330,6 +330,7 @@ void Block::toXml(
     catch (...)
     {
         block->setParent(nullptr);
+        throw;
     }
     return block.release();
 }

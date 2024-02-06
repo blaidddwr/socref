@@ -11,7 +11,7 @@ int main(
 {
     QApplication application(argc,argv);
     QApplication::setApplicationName("Socrates' Reference");
-    QApplication::setApplicationVersion("1.0.9999");
+    QApplication::setApplicationVersion("1.0.0-DEV");
     if (argc >= 2)
     {
         if (!strcmp(argv[1],"--test"))
