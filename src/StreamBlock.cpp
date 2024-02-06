@@ -121,15 +121,25 @@ QStringList Block::deprecatedFiles(
             }
             else
             {
-                block->append(fromXml(language,version,xml));
+                auto child = fromXml(language,version,xml,block.get());
+                child->setParent(nullptr);
+                block->append(child);
             }
             break;
         }
         case QXmlStreamReader::EndElement:
             if (xml.name() == blockName)
             {
-                block->loadFromMap(map,Socref_Legacy);
                 block->setParent(parent);
+                try
+                {
+                    block->loadFromMap(map,Socref_Legacy);
+                }
+                catch (...)
+                {
+                    block->setParent(nullptr);
+                    throw;
+                }
                 return block.release();
             }
             break;
@@ -307,11 +317,20 @@ void Block::toXml(
     while (!line.isNull())
     {
         QString path = dir.absoluteFilePath(line+EXT);
-        block->append(read(language,version,path));
+        auto child = read(language,version,path,block.get());
+        child->setParent(nullptr);
+        block->append(child);
         line = in.readLine();
     }
-    block->loadFromMap(map,version);
     block->setParent(parent);
+    try
+    {
+        block->loadFromMap(map,version);
+    }
+    catch (...)
+    {
+        block->setParent(nullptr);
+    }
     return block.release();
 }
 

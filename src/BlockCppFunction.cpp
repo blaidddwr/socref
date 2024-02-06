@@ -258,7 +258,7 @@ void Function::loadFromMap(
         _assignment = loadAssignmentLegacy(map);
         auto str = map.value("template").toString();
         str = str.replace("template","").replace("<","").replace(">","");
-        _templates = str.split(',');
+        _templates = str.split(',',Qt::SkipEmptyParts);
         for (auto& t: _templates)
         {
             t = t.trimmed();
@@ -732,6 +732,24 @@ const QMap<int,QString>& Function::flagStringMap(
 }
 
 
+void Function::loadAccess(
+    const QVariant& value
+    ,int version
+)
+{
+    auto accessString = value.toString();
+    if (version == Socref_Legacy)
+    {
+        accessString = accessString.toLower();
+    }
+    _access = accessStrings().indexOf(accessString);
+    if (_access == -1)
+    {
+        throw Exception::Block::Read(tr("Unknown C++ access %1.").arg(accessString));
+    }
+}
+
+
 int Function::loadAssignmentLegacy(
     const QMap<QString,QVariant>& map
 )
@@ -830,6 +848,18 @@ void Function::setDisplayIcon(
         {
             p->updateDisplayIcon();
         }
+    }
+}
+
+
+void Function::setType(
+    int value
+)
+{
+    if (_type != value)
+    {
+        _type = value;
+        emit typeChanged(value);
     }
 }
 
@@ -1430,24 +1460,6 @@ bool Function::isTypeValid(
 }
 
 
-void Function::loadAccess(
-    const QVariant& value
-    ,int version
-)
-{
-    auto accessString = value.toString();
-    if (version == Socref_Legacy)
-    {
-        accessString = accessString.toLower();
-    }
-    _access = accessStrings().indexOf(accessString);
-    if (_access == -1)
-    {
-        throw Exception::Block::Read(tr("Unknown C++ access %1.").arg(accessString));
-    }
-}
-
-
 void Function::loadAssignment(
     const QVariant& value
     ,int version
@@ -1507,6 +1519,10 @@ void Function::loadType(
         {
             setName(name().mid(8));
             _type = OperatorFunctionType;
+        }
+        else if (qobject_cast<Property*>(parent()))
+        {
+            _type = MethodFunctionType;
         }
         else
         {
@@ -1586,18 +1602,6 @@ void Function::setReturnType(
     {
         _returnType = value;
         emit returnTypeChanged(value);
-    }
-}
-
-
-void Function::setType(
-    int value
-)
-{
-    if (_type != value)
-    {
-        _type = value;
-        emit typeChanged(value);
     }
 }
 }

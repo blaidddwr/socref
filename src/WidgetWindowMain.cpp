@@ -1,9 +1,11 @@
 #include "WidgetWindowMain.h"
 #include <QtWidgets>
+#include "Exceptions.h"
 #include "FactoryLanguage.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaLanguage.h"
 #include "ModelProject.h"
+#include "StreamProject.h"
 #include "WidgetProject.h"
 namespace Widget {
 namespace Window {
@@ -60,6 +62,38 @@ void Main::exportProject(
 void Main::import(
 )
 {
+    auto path = QFileDialog::getOpenFileName(
+        this
+        ,tr("Import Socrates' Reference Project")
+        ,"."
+        ,"Socrates' Reference Project File (*.srp)"
+    );
+    if (!path.isNull())
+    {
+        try
+        {
+            auto model = Stream::Project::fromXml(path,this);
+            auto window = this;
+            if (_projectModel)
+            {
+                window = new Main;
+                window->show();
+            }
+            window->setProjectModel(model);
+        }
+        catch (Exception::Project::Read& e)
+        {
+            QMessageBox::warning(this,tr("Read Project Error"),e.message());
+        }
+        catch (Exception::Block::Read& e)
+        {
+            QMessageBox::warning(this,tr("Read Block Error"),e.message());
+        }
+        catch (Exception::System::File& e)
+        {
+            QMessageBox::warning(this,tr("File System Error"),e.message());
+        }
+    }
 }
 
 

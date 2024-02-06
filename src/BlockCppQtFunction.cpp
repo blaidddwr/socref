@@ -2,6 +2,7 @@
 #include <QtGui>
 #include "BlockCppQt.h"
 #include "Exceptions.h"
+#include "Global.h"
 namespace Block {
 namespace CppQt {
 
@@ -123,6 +124,34 @@ const QMap<int,QString>& Function::flagStringMap(
         ret->insert(QtInvokableFunctionFlag,"qtinvokable");
     }
     return *ret;
+}
+
+
+void Function::loadAccess(
+    const QVariant& value
+    ,int version
+)
+{
+    static const QHash<QString,QString> legacyAccessLookup {
+        {"Signals","public"}
+        ,{"Public Slots","public"}
+        ,{"Protected Slots","protected"}
+        ,{"Private Slots","private"}
+    };
+    static const QHash<QString,int> legacyTypeLookup {
+        {"Signals",SignalFunctionType}
+        ,{"Public Slots",SlotFunctionType}
+        ,{"Protected Slots",SlotFunctionType}
+        ,{"Private Slots",SlotFunctionType}
+    };
+    if (version != Socref_Legacy)
+    {
+        Cpp::Function::loadAccess(value,version);
+        return;
+    }
+    auto access = value.toString();
+    Cpp::Function::loadAccess(legacyAccessLookup.value(access,access),version);
+    setType(legacyTypeLookup.value(access,type()));
 }
 
 

@@ -31,8 +31,8 @@ void Base::loadFromMap(
 )
 {
     Q_UNUSED(version);
-    _name = map.value("name").toString();
-    _description = map.value("description").toString();
+    setName(map.value("name").toString());
+    setDescription(map.value("description").toString());
 }
 
 

@@ -49,7 +49,7 @@ void Class::loadFromMap(
         _parents = map.value("parents").toString().split('\n',Qt::SkipEmptyParts);
         auto str = map.value("template").toString();
         str = str.replace("template","").replace("<","").replace(">","");
-        _templates = str.split(',');
+        _templates = str.split(',',Qt::SkipEmptyParts);
         for (auto& t: _templates)
         {
             t = t.trimmed();

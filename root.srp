@@ -2908,6 +2908,35 @@ A logical block exception is thrown if this instance's properties are not valid.
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Loads this instance's access property from the given value using the given format version.
+
+A read block exception is thrown if any error is encountered.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>loadAccess</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QVariant&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The format version.</__p_description>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_description>Loads and returns the function assignment from the given map using the legacy format version.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
@@ -3029,6 +3058,28 @@ A logical block exception is thrown if this instance's properties are not valid.
                             <__p_description>The memory location.</__p_description>
                             <__p_name>pointer</__p_name>
                             <__p_type>const QIcon*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this instance's type property to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setType</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>int</__p_type>
                         </Variable>
                     </Function>
                     <Function>
@@ -3687,35 +3738,6 @@ A logical block exception is thrown if this instance's properties are not valid.
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Loads this instance's access property from the given value using the given format version.
-
-A read block exception is thrown if any error is encountered.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>loadAccess</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QVariant&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The format version.</__p_description>
-                            <__p_name>version</__p_name>
-                            <__p_type>int</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
                         <__p_description>Loads this instance's assignment property from the given value using the given format version. This cannot load data from the legacy format.
 
 A read block exception is thrown if any error is encountered.</__p_description>
@@ -3900,28 +3922,6 @@ A read block exception is thrown if any error is encountered.</__p_description>
                             <__p_description>The value.</__p_description>
                             <__p_name>value</__p_name>
                             <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Sets this instance's type property to the given value.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>setType</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>int</__p_type>
                         </Variable>
                     </Function>
                 </Class>
@@ -4998,6 +4998,30 @@ It extends the C++ function with the Qt concepts of signals and slots. It also i
                         <__p_returnType>const QMap&lt;int,QString&gt;&amp;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>loadAccess</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QVariant&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>

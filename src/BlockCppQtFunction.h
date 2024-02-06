@@ -96,6 +96,13 @@ class Function:
 
 
     protected:
+    virtual void loadAccess(
+        const QVariant& value
+        ,int version
+    ) override final;
+
+
+    protected:
     virtual int loadFlagsLegacy(
         const QMap<QString,QVariant>& map
     ) override final;

@@ -750,6 +750,25 @@ class Function:
 
 
     /*!
+     * Loads this instance's access property from the given value using the
+     * given format version.
+     * 
+     * A read block exception is thrown if any error is encountered.
+     *
+     * @param value
+     *        The value.
+     *
+     * @param version
+     *        The format version.
+     */
+    protected:
+    virtual void loadAccess(
+        const QVariant& value
+        ,int version
+    );
+
+
+    /*!
      * Loads and returns the function assignment from the given map using the
      * legacy format version.
      *
@@ -813,6 +832,18 @@ class Function:
     protected:
     void setDisplayIcon(
         const QIcon* pointer
+    );
+
+
+    /*!
+     * Sets this instance's type property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    protected:
+    void setType(
+        int value
     );
 
 
@@ -1210,25 +1241,6 @@ class Function:
 
 
     /*!
-     * Loads this instance's access property from the given value using the
-     * given format version.
-     * 
-     * A read block exception is thrown if any error is encountered.
-     *
-     * @param value
-     *        The value.
-     *
-     * @param version
-     *        The format version.
-     */
-    private:
-    void loadAccess(
-        const QVariant& value
-        ,int version
-    );
-
-
-    /*!
      * Loads this instance's assignment property from the given value using the
      * given format version. This cannot load data from the legacy format.
      * 
@@ -1339,18 +1351,6 @@ class Function:
     private:
     void setReturnType(
         const QString& value
-    );
-
-
-    /*!
-     * Sets this instance's type property to the given value.
-     *
-     * @param value
-     *        The value.
-     */
-    private:
-    void setType(
-        int value
     );
 };
 }
