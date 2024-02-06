@@ -847,11 +847,6 @@ class Function:
     );
 
 
-    protected:
-    virtual QString scopeName(
-    ) const override final;
-
-
     /*!
      * Getter method.
      *

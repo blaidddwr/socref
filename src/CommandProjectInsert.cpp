@@ -19,10 +19,7 @@ Insert::Insert(
     G_ASSERT(_row >= 0);
     G_ASSERT(_row <= project().rowCount(parentIndex));
     _block->setParent(this);
-    auto blockScope = _block->scope();
-    auto parentScope = project().block(parentIndex)->scope();
-    _description = tr("Inserting block %1 into block %2 at row %3.");
-    _description = _description.arg(blockScope,parentScope);
+    _description = tr("Inserting block at row %3.").arg(row);
 }
 
 

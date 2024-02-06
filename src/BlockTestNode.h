@@ -184,11 +184,6 @@ class Node:
     ) const override final;
 
 
-    public:
-    virtual QString scope(
-    ) const override final;
-
-
     /*!
      * Sets this instance's display icon property to the given value.
      *

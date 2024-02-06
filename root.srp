@@ -19,9 +19,9 @@ See the abstract block class for a detailed description of blocks.</__p_descript
 
 A block represents an atomic element of a programming language such as a variable, function, or class. Blocks can contain any number of children and have only one parent. The only block that does not have a parent is the root block of a project. One and only one special block type must be assigned as the root block type for each implemented language. Blocks form tree relationships such as a variable block being the child of a function making it an argument of the function or a function being a child of a class making it a method of the class.
 
-Its properties are meta, display text, display icon, and scope. Meta, display text, and display icon are self-explanatory.
+Its properties are meta, display text, display icon, and identification. Meta, display text, and display icon are self-explanatory.
 
-The scope is an identifier that must be unique among all other blocks that share a common root block making up a project. The scope cannot contain non printable characters such as new lines. The root block of a project must have a scope value equal to the value returned by the &quot;root scope&quot; static getter method.
+The identification is unique among all other blocks that share a common root block making up a project. Whenever a root block and its descendants are saved to a multi file directory the &quot;generate missing ids&quot; method must be called to generate new ids for any new blocks in the project. The root block of a project has a special identification.
 
 A block can only have children blocks of any type in its meta's allow list property.
 
@@ -225,6 +225,25 @@ A block's data, or state, can be loaded, saved, retrieved, or set. The load and 
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Generates valid identification values for this block and its descendants which have the invalid 0 identification.
+
+This must be called before getting the identification of this block or its descendants.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>genMissingIds</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
@@ -243,6 +262,25 @@ A block's data, or state, can be loaded, saved, retrieved, or set. The load and 
                         <__p_name>index</__p_name>
                         <__p_type>int</__p_type>
                     </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns this block's identification property.
+
+This block must have a valid identification.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>id</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>quint32</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -379,11 +417,11 @@ A read block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>rootScope</__p_name>
+                    <__p_name>rootId</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>The special root scope.</__p_returnDescription>
-                    <__p_returnType>const QString&amp;</__p_returnType>
+                    <__p_returnDescription>The special root id.</__p_returnDescription>
+                    <__p_returnType>quint32</__p_returnType>
                     <__p_static>1</__p_static>
                     <__p_virtual>0</__p_virtual>
                 </Function>
@@ -427,24 +465,6 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                         <__p_name>state</__p_name>
                         <__p_type>const QHash&lt;QString,QVariant&gt;&amp;</__p_type>
                     </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>1</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Getter method.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>scope</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnDescription>This instance's scope property.</__p_returnDescription>
-                    <__p_returnType>QString</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>1</__p_virtual>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -671,9 +691,7 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                 <Class>
                     <__p_description>This is a C++ block class. It partially implements the abstract block class. It represents a base block for C++ with properties all C++ blocks share.
 
-Its properties are name, description, and scope name. Name and description are self-explanatory.
-
-The scope name is used to construct a C++ block's scope. Each scope name of a block and it's parents are combined with &quot;::&quot; as their separator. If a scope name is a null string then it is ignored and not combined with the other scope names. The root namespace block's name scope must be null.</__p_description>
+Its properties are name, description, and scope name. Name and description are self-explanatory.</__p_description>
                     <__p_name>Base</__p_name>
                     <__p_parents>public Block::Abstract</__p_parents>
                     <Function>
@@ -815,22 +833,6 @@ The scope name is used to construct a C++ block's scope. Each scope name of a bl
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>scope</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>QString</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -962,24 +964,6 @@ The scope name is used to construct a C++ block's scope. Each scope name of a bl
                             <__p_name>value</__p_name>
                             <__p_type>const QString&amp;</__p_type>
                         </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>scopeName</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>This instance's scope name property.</__p_returnDescription>
-                        <__p_returnType>QString</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
                     </Function>
                 </Class>
                 <Class>
@@ -3081,22 +3065,6 @@ A read block exception is thrown if any error is encountered.</__p_description>
                             <__p_name>value</__p_name>
                             <__p_type>int</__p_type>
                         </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>scopeName</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>QString</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -5836,22 +5804,6 @@ The display icon property can be set with an appropriate setter method so it can
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>scope</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>QString</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -8546,7 +8498,9 @@ The given command must be valid.</__p_description>
 Stream classes write class instance data to output devices and read class instance data from input devices.</__p_description>
             <__p_name>Stream</__p_name>
             <Class>
-                <__p_description>This is a stream class. It is a singleton class. It handles all input and output for abstract block class instances.</__p_description>
+                <__p_description>This is a stream class. It is a singleton class. It handles all input and output for abstract block class instances.
+
+When saving block files, their filenames are generated by taking the base 64 encoding of their identification. The base 64 specification used has one unique difference to the standard. The forward slash character is replaced with the exclamation mark character.</__p_description>
                 <__p_name>Block</__p_name>
                 <__p_parents>public QObject</__p_parents>
                 <Function>
@@ -8709,7 +8663,9 @@ A file or run system exception is thrown if any error is encountered.</__p_descr
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Writes out the given block and all its descendants to a multi block file directory at the given path.
 
-A write block, logical block, or file system exception is thrown if any error is encountered.</__p_description>
+The given block must be a root block of its project.
+
+A write block or file system exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -8722,7 +8678,7 @@ A write block, logical block, or file system exception is thrown if any error is
                     <Variable>
                         <__p_description>The block.</__p_description>
                         <__p_name>block</__p_name>
-                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                        <__p_type>::Block::Abstract&amp;</__p_type>
                     </Variable>
                     <Variable>
                         <__p_description>The path.</__p_description>
@@ -8781,7 +8737,53 @@ A write block exception is thrown if any error is encountered.</__p_description>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Creates and returns a new block and all its children located at the given path with the given language, format version, and parent. The given language must be valid.
+                    <__p_description>Decodes the given base 64 value into a block identification.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>base64ToId</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The block identification.</__p_returnDescription>
+                    <__p_returnType>quint32</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The base 64 value.</__p_description>
+                        <__p_name>value</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Encodes the given block identification to a base 64 value.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>idToBase64</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The base 64 value.</__p_returnDescription>
+                    <__p_returnType>QString</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block identification.</__p_description>
+                        <__p_name>id</__p_name>
+                        <__p_type>quint32</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a new block and all its children located at the given directory with the given block identification, language, format version, and parent. The given language must be valid.
 
 The new block's children are expected to reside in the same directory as the new block's file's directory.
 
@@ -8806,9 +8808,14 @@ A read block or file system exception is thrown if any error is encountered.</__
                         <__p_type>int</__p_type>
                     </Variable>
                     <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
+                        <__p_description>The directory.</__p_description>
+                        <__p_name>dir</__p_name>
+                        <__p_type>const QDir&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The block identification.</__p_description>
+                        <__p_name>id</__p_name>
+                        <__p_type>quint32</__p_type>
                     </Variable>
                     <Variable>
                         <__p_assignment>nullptr</__p_assignment>

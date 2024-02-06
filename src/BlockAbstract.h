@@ -24,14 +24,14 @@ namespace Block {
  * it an argument of the function or a function being a child of a class making
  * it a method of the class.
  * 
- * Its properties are meta, display text, display icon, and scope. Meta, display
- * text, and display icon are self-explanatory.
+ * Its properties are meta, display text, display icon, and identification.
+ * Meta, display text, and display icon are self-explanatory.
  * 
- * The scope is an identifier that must be unique among all other blocks that
- * share a common root block making up a project. The scope cannot contain non
- * printable characters such as new lines. The root block of a project must have
- * a scope value equal to the value returned by the "root scope" static getter
- * method.
+ * The identification is unique among all other blocks that share a common root
+ * block making up a project. Whenever a root block and its descendants are
+ * saved to a multi file directory the "generate missing ids" method must be
+ * called to generate new ids for any new blocks in the project. The root block
+ * of a project has a special identification.
  * 
  * A block can only have children blocks of any type in its meta's allow list
  * property.
@@ -51,6 +51,7 @@ class Abstract:
     friend class Stream::Block;
     Model::Meta::Block* _meta;
     QList<Abstract*> _children;
+    quint32 _id {0};
 
 
     /*!
@@ -171,6 +172,18 @@ class Abstract:
 
 
     /*!
+     * Generates valid identification values for this block and its descendants
+     * which have the invalid 0 identification.
+     * 
+     * This must be called before getting the identification of this block or
+     * its descendants.
+     */
+    public:
+    void genMissingIds(
+    );
+
+
+    /*!
      * Returns this block's child block at the given index. The given index must
      * be valid.
      *
@@ -180,6 +193,16 @@ class Abstract:
     public:
     Block::Abstract* get(
         int index
+    ) const;
+
+
+    /*!
+     * Returns this block's identification property.
+     * 
+     * This block must have a valid identification.
+     */
+    public:
+    quint32 id(
     ) const;
 
 
@@ -272,10 +295,10 @@ class Abstract:
      * Getter method.
      *
      * @return
-     * The special root scope.
+     * The special root id.
      */
     public:
-    static const QString& rootScope(
+    static quint32 rootId(
     );
 
 
@@ -301,17 +324,6 @@ class Abstract:
     virtual void setState(
         const QHash<QString,QVariant>& state
     ) = 0;
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * This instance's scope property.
-     */
-    public:
-    virtual QString scope(
-    ) const = 0;
 
 
     /*!

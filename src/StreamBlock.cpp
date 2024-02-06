@@ -21,18 +21,13 @@ QStringList Block::deprecatedFiles(
     {
         throw FileError(tr("Directory %1 does not exist.").arg(path));
     }
-    QSet<QString> filenames {block.scope()+EXT};
+    QSet<QString> filenames {idToBase64(block.id())+EXT};
     for (auto descendant: block.descendants())
     {
-        static const QRegularExpression nonPrintable(
-            "[\t\r\n\a\e\f]|("+::Block::Abstract::rootScope()+")"
-        );
-        auto scope = descendant->scope();
-        G_ASSERT(!scope.contains(nonPrintable));
-        filenames.insert(scope+EXT);
+        filenames.insert(idToBase64(descendant->id())+EXT);
     }
     QStringList ret;
-    for (const auto& filename: dir.entryList({"*.srb"},QDir::Files))
+    for (const auto& filename: dir.entryList({EXT},QDir::Files))
     {
         if (!filenames.contains(filename))
         {
@@ -57,7 +52,13 @@ QStringList Block::deprecatedFiles(
     {
         throw FileError(tr("Directory %1 is not readable.").arg(path));
     }
-    return read(language,version,dir.absoluteFilePath(::Block::Abstract::rootScope()+EXT),parent);
+    return read(
+        language
+        ,version
+        ,dir
+        ,::Block::Abstract::rootId()
+        ,parent
+    );
 }
 
 
@@ -185,12 +186,12 @@ void Block::removeFiles(
 
 
 void Block::toDir(
-    const ::Block::Abstract& block
+    ::Block::Abstract& block
     ,const QString& path
 )
 {
     using FileError = Exception::System::File;
-    using LogicalError = Exception::Block::Logical;
+    G_ASSERT(!qobject_cast<::Block::Abstract*>(block.parent()));
     QDir dir(path);
     if (!dir.exists())
     {
@@ -199,19 +200,13 @@ void Block::toDir(
             throw FileError(tr("Failed creating directory %1.").arg(path));
         }
     }
-    QHash<QString,const ::Block::Abstract*> blocks {{block.scope(),&block}};
+    block.genMissingIds();
+    QHash<QString,const ::Block::Abstract*> blocks {{idToBase64(block.id()),&block}};
     for (auto descendant: block.descendants())
     {
-        static const QRegularExpression nonPrintable(
-            "[\t\r\n\a\e\f]|("+::Block::Abstract::rootScope()+")"
-        );
-        auto scope = descendant->scope();
-        G_ASSERT(!scope.contains(nonPrintable));
-        if (blocks.contains(scope))
-        {
-            throw LogicalError(tr("Conflicting scope of %1 with two or more blocks.").arg(scope));
-        }
-        blocks.insert(scope,descendant);
+        auto filename = idToBase64(descendant->id());
+        G_ASSERT(!blocks.contains(filename));
+        blocks.insert(filename,descendant);
     }
     for (auto i = blocks.begin();i != blocks.end();i++)
     {
@@ -244,16 +239,38 @@ void Block::toXml(
 }
 
 
+quint32 Block::base64ToId(
+    const QString& value
+)
+{
+    auto data = QByteArray::fromBase64(value.toUtf8().replace("!","/"));
+    G_ASSERT(data.size() == sizeof(quint32));
+    return *reinterpret_cast<quint32*>(data.data());
+}
+
+
+QString Block::idToBase64(
+    quint32 id
+)
+{
+    auto ret = QByteArray(reinterpret_cast<char*>(&id),sizeof(quint32));
+    ret = ret.toBase64(QByteArray::Base64Encoding|QByteArray::OmitTrailingEquals);
+    return ret.replace("/","!");
+}
+
+
 ::Block::Abstract* Block::read(
     Language::Abstract* language
     ,int version
-    ,const QString& path
+    ,const QDir& dir
+    ,quint32 id
     ,QObject* parent
 )
 {
     using FileError = Exception::System::File;
     using ReadError = Exception::Block::Read;
     G_ASSERT(language);
+    auto path = dir.absoluteFilePath(idToBase64(id)+EXT);
     QFileInfo info(path);
     if (!info.isFile())
     {
@@ -280,10 +297,10 @@ void Block::toXml(
         throw ReadError(tr("Unknown block %1").arg(blockName));
     }
     std::unique_ptr<::Block::Abstract> block(language->create(i));
+    block->_id = id;
     QMap<QString,QVariant> map;
     int lineNumber = 1;
     QString line = in.readLine();
-    auto dir = info.dir();
     while (!line.isNull())
     {
         if (line.front() == ':')
@@ -316,8 +333,7 @@ void Block::toXml(
     }
     while (!line.isNull())
     {
-        QString path = dir.absoluteFilePath(line+EXT);
-        auto child = read(language,version,path,block.get());
+        auto child = read(language,version,dir,base64ToId(line),block.get());
         child->setParent(nullptr);
         block->append(child);
         line = in.readLine();
@@ -361,12 +377,7 @@ void Block::write(
     out << "+children\n";
     for (auto child: block._children)
     {
-        static const QRegularExpression nonPrintable(
-            "[\t\r\n\a\e\f]|("+::Block::Abstract::rootScope()+")"
-        );
-        auto scope = child->scope();
-        G_ASSERT(!scope.contains(nonPrintable));
-        out << child->scope() << "\n";
+        out << idToBase64(child->id()) << "\n";
     }
     if (file.error() != QFileDevice::NoError)
     {

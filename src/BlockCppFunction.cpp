@@ -864,16 +864,6 @@ void Function::setType(
 }
 
 
-QString Function::scopeName(
-) const
-{
-    QStringList ret;
-    appendSignature(ret);
-    appendRightSignatureFlags(ret);
-    return ret.join("");
-}
-
-
 const QStringList& Function::typeStrings(
 ) const
 {

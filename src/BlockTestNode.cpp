@@ -135,32 +135,6 @@ QMap<QString,QVariant> Node::saveToMap(
 }
 
 
-QString Node::scope(
-) const
-{
-    auto scope = _name;
-    scope.replace("\n","");
-    QStringList names {scope};
-    auto block = qobject_cast<Node*>(parent());
-    if (!block)
-    {
-        return rootScope();
-    }
-    while (block)
-    {
-        auto next = qobject_cast<Node*>(block->parent());
-        if (next)
-        {
-            scope = block->name();
-            scope.replace("\n","");
-            names.prepend(scope);
-        }
-        block = next;
-    }
-    return names.join(":");
-}
-
-
 void Node::setIcon(
     const QIcon& icon
 )
