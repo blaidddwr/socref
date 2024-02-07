@@ -74,6 +74,7 @@ bool Insert::insert(
     connect(b,&Block::Abstract::displayTextChanged,p,[p,b](){ p->onBlockDisplayTextChanged(b); });
     _block = nullptr;
     project().endInsertRows();
+    project().setModified(true);
     return true;
 }
 
@@ -92,6 +93,7 @@ bool Insert::remove(
     disconnect(_block,&Block::Abstract::displayTextChanged,&project(),nullptr);
     _block->setParent(this);
     project().endRemoveRows();
+    project().setModified(true);
     return true;
 }
 

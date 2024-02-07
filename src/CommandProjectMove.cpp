@@ -69,6 +69,7 @@ bool Move::move(
     project().beginMoveRows(parent,from,from,parent,qtTo);
     pb->move(from,to);
     project().endMoveRows();
+    project().setModified(true);
     return true;
 }
 }

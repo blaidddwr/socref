@@ -202,7 +202,7 @@ class Block:
 
 
     /*!
-     * Encodes the given block identification to a base 64 encoded value.
+     * Encodes the given block identification to a base 64 value.
      *
      * @param id
      *        The block identification.

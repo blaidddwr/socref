@@ -48,6 +48,12 @@ class Main:
     );
 
 
+    public:
+    virtual void closeEvent(
+        QCloseEvent* event
+    ) override final;
+
+
     /*!
      * Called when this widget's about action is triggered.
      */
@@ -110,15 +116,6 @@ class Main:
 
 
     /*!
-     * Called when this instance's project model's destroyed signal is emitted.
-     */
-    private slots:
-    void onProjectModelDestroyed(
-        QObject* object
-    );
-
-
-    /*!
      * Called when this instance's project model's modified changed signal is
      * emitted.
      */
@@ -156,7 +153,7 @@ class Main:
      * Called when this widget's save action is triggered.
      */
     private slots:
-    void save(
+    bool save(
     );
 
 
@@ -164,7 +161,7 @@ class Main:
      * Called when this widget's "save as" action is triggered.
      */
     private slots:
-    void saveAs(
+    bool saveAs(
     );
 
 
@@ -341,6 +338,20 @@ class Main:
      */
     private:
     QMenu* newMenu(
+    );
+
+
+    /*!
+     * Determines if it is OK to close this window's project model.
+     * 
+     * If this window's project model has unsaved changes then the user is asked
+     * what to do about it. The user's options are save, discard, or cancel.
+     *
+     * @return
+     * True if it is OK to close or false otherwise.
+     */
+    private:
+    bool okToClose(
     );
 
 

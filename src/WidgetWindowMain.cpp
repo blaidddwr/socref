@@ -32,6 +32,22 @@ Main::Main(
 }
 
 
+void Main::closeEvent(
+    QCloseEvent* event
+)
+{
+    if (okToClose())
+    {
+        deleteLater();
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
+}
+
+
 void Main::about(
 )
 {
@@ -49,13 +65,48 @@ void Main::build(
 void Main::close(
 )
 {
-    //TODO
+    if (
+        _projectModel
+        && okToClose()
+    )
+    {
+        _projectModel->deleteLater();
+        setProjectModel(nullptr);
+    }
 }
 
 
 void Main::exportProject(
 )
 {
+    if (_projectModel)
+    {
+        auto path = QFileDialog::getSaveFileName(
+            this
+            ,tr("Export Socrates' Reference Project")
+            ,QString()
+            ,"Socrates' Reference Project File (*.srp)"
+        );
+        if (!path.isNull())
+        {
+            try
+            {
+                Stream::Project::toXml(*_projectModel,path);
+            }
+            catch (Exception::Project::Write& e)
+            {
+                QMessageBox::warning(this,tr("Write Project Error"),e.message());
+            }
+            catch (Exception::Block::Write& e)
+            {
+                QMessageBox::warning(this,tr("Write Block Error"),e.message());
+            }
+            catch (Exception::System::File& e)
+            {
+                QMessageBox::warning(this,tr("File System Error"),e.message());
+            }
+        }
+    }
 }
 
 
@@ -120,19 +171,6 @@ void Main::newProject(
 }
 
 
-void Main::onProjectModelDestroyed(
-    QObject* object
-)
-{
-    if (_projectModel == object)
-    {
-        _projectModel = nullptr;
-        updateTitle();
-        updateActions();
-    }
-}
-
-
 void Main::onProjectModelModifiedChanged(
     bool value
 )
@@ -188,39 +226,71 @@ void Main::properties(
 }
 
 
-void Main::save(
+bool Main::save(
 )
 {
-    //TODO
+    if (
+        !_projectModel
+        || _projectModel->directoryPath().isNull()
+    )
+    {
+        return false;
+    }
+    try
+    {
+        Stream::Project::toDir(*_projectModel);
+    }
+    catch (Exception::Project::Write& e)
+    {
+        QMessageBox::warning(this,tr("Write Project Error"),e.message());
+        return false;
+    }
+    catch (Exception::Block::Write& e)
+    {
+        QMessageBox::warning(this,tr("Write Block Error"),e.message());
+        return false;
+    }
+    catch (Exception::System::File& e)
+    {
+        QMessageBox::warning(this,tr("File System Error"),e.message());
+        return false;
+    }
+    return true;
 }
 
 
-void Main::saveAs(
+bool Main::saveAs(
 )
 {
-    if (_projectModel)
+    if (!_projectModel)
     {
-        auto path = QFileDialog::getExistingDirectory(this,"Save Project to Directory");
-        if (!path.isNull())
-        {
-            try
-            {
-                Stream::Project::toDir(*_projectModel,path);
-            }
-            catch (Exception::Project::Write& e)
-            {
-                QMessageBox::warning(this,tr("Write Project Error"),e.message());
-            }
-            catch (Exception::Block::Write& e)
-            {
-                QMessageBox::warning(this,tr("Write Block Error"),e.message());
-            }
-            catch (Exception::System::File& e)
-            {
-                QMessageBox::warning(this,tr("File System Error"),e.message());
-            }
-        }
+        return false;
     }
+    auto path = QFileDialog::getExistingDirectory(this,"Save Project to Directory");
+    if (path.isNull())
+    {
+        return false;
+    }
+    try
+    {
+        Stream::Project::toDir(*_projectModel,path);
+    }
+    catch (Exception::Project::Write& e)
+    {
+        QMessageBox::warning(this,tr("Write Project Error"),e.message());
+        return false;
+    }
+    catch (Exception::Block::Write& e)
+    {
+        QMessageBox::warning(this,tr("Write Block Error"),e.message());
+        return false;
+    }
+    catch (Exception::System::File& e)
+    {
+        QMessageBox::warning(this,tr("File System Error"),e.message());
+        return false;
+    }
+    return true;
 }
 
 
@@ -487,6 +557,44 @@ QMenu* Main::newMenu(
 }
 
 
+bool Main::okToClose(
+)
+{
+    if (
+        !_projectModel
+        || !_projectModel->modified()
+    )
+    {
+        return true;
+    }
+    auto answer = QMessageBox::question(
+        this
+        ,tr("Unsaved Project Changes")
+        ,tr(
+            "This window's project has unsaved changes. Closing the project will cause all unsaved"
+            " changes to be lost!"
+        )
+        ,QMessageBox::Save|QMessageBox::Cancel|QMessageBox::Discard
+    );
+    switch (answer)
+    {
+    case QMessageBox::Save:
+        if (_projectModel->directoryPath().isNull())
+        {
+            return saveAs();
+        }
+        else
+        {
+            return save();
+        }
+    case QMessageBox::Cancel:
+        return false;
+    default:
+        return true;
+    }
+}
+
+
 QAction* Main::openAction(
 )
 {
@@ -578,7 +686,6 @@ void Main::setProjectModel(
 {
     if (_projectModel)
     {
-        disconnect(_projectModel,&QObject::destroyed,this,&Main::onProjectModelDestroyed);
         disconnect(
             _projectModel
             ,&Model::Project::modifiedChanged
@@ -591,7 +698,6 @@ void Main::setProjectModel(
     if (_projectModel)
     {
         _projectModel->setParent(this);
-        connect(_projectModel,&QObject::destroyed,this,&Main::onProjectModelDestroyed);
         connect(
             _projectModel
             ,&Model::Project::modifiedChanged

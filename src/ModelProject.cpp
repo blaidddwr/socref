@@ -236,6 +236,7 @@ bool Project::finishSet(
         new Command::Project::Set(_previousState,block(index)->state(),_setIndex,this)
     );
     emit dataChanged(index,index,{Qt::DisplayRole});
+    setModified(true);
     _setIndex = QPersistentModelIndex();
     _previousState.clear();
     return true;

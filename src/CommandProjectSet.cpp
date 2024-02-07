@@ -36,6 +36,7 @@ bool Set::redo(
     auto index = convertListToIndex(_location);
     project().block(index)->setState(_nextState);
     emit project().dataChanged(index,index,{Qt::DisplayRole});
+    project().setModified(true);
     return true;
 }
 
@@ -46,6 +47,7 @@ bool Set::undo(
     auto index = convertListToIndex(_location);
     project().block(index)->setState(_previousState);
     emit project().dataChanged(index,index,{Qt::DisplayRole});
+    project().setModified(true);
     return true;
 }
 }
