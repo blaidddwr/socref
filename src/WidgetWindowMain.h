@@ -35,6 +35,7 @@ class Main:
     QMenu* _fileMenu {nullptr};
     QMenu* _helpMenu {nullptr};
     QMenu* _newMenu {nullptr};
+    QMenu* _selectionMenu {nullptr};
     QToolBar* _codeToolBar {nullptr};
     QToolBar* _editToolBar {nullptr};
     QToolBar* _fileToolBar {nullptr};
@@ -418,6 +419,17 @@ class Main:
      */
     private:
     QAction* saveAsAction(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's selection menu.
+     */
+    private:
+    QMenu* selectionMenu(
     );
 
 

@@ -19,7 +19,7 @@ class Project:
     Model::Project* _model {nullptr};
     QAction* _copyAction {nullptr};
     QAction* _cutAction {nullptr};
-    QAction* _clearAction {nullptr};
+    QAction* _deselectAction {nullptr};
     QAction* _moveDownAction {nullptr};
     QAction* _moveUpAction {nullptr};
     QAction* _pasteAction {nullptr};
@@ -54,17 +54,6 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's clear action.
-     */
-    public:
-    QAction* clearAction(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
      * This widget's copy action.
      */
     public:
@@ -80,6 +69,17 @@ class Project:
      */
     public:
     QAction* cutAction(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's deselect action.
+     */
+    public:
+    QAction* deselectAction(
     );
 
 
@@ -175,10 +175,10 @@ class Project:
 
 
     /*!
-     * Called when this widget's clear action is triggered.
+     * Called when this widget's deselect action is triggered.
      */
     private slots:
-    void clear(
+    void deselect(
     );
 
 

@@ -19,12 +19,13 @@ Main::Main(
 {
     auto menu = menuBar();
     menu->addMenu(fileMenu());
-    menu->addMenu(codeMenu());
     menu->addMenu(editMenu());
+    menu->addMenu(selectionMenu());
+    menu->addMenu(codeMenu());
     menu->addMenu(helpMenu());
     addToolBar(fileToolBar());
-    addToolBar(codeToolBar());
     addToolBar(editToolBar());
+    addToolBar(codeToolBar());
     setCentralWidget(projectWidget());
     statusBar();
     updateTitle();
@@ -383,8 +384,6 @@ QMenu* Main::editMenu(
         _editMenu->addSeparator();
         _editMenu->addAction(projectWidget()->moveUpAction());
         _editMenu->addAction(projectWidget()->moveDownAction());
-        _editMenu->addSeparator();
-        _editMenu->addAction(projectWidget()->clearAction());
     }
     return _editMenu;
 }
@@ -403,7 +402,6 @@ QToolBar* Main::editToolBar(
         _editToolBar->addAction(projectWidget()->pasteAction());
         _editToolBar->addAction(projectWidget()->moveUpAction());
         _editToolBar->addAction(projectWidget()->moveDownAction());
-        _editToolBar->addAction(projectWidget()->clearAction());
     }
     return _editToolBar;
 }
@@ -677,6 +675,18 @@ QAction* Main::saveAsAction(
         connect(_saveAsAction,&QAction::triggered,this,&Main::saveAs);
     }
     return _saveAsAction;
+}
+
+
+QMenu* Main::selectionMenu(
+)
+{
+    if (!_selectionMenu)
+    {
+        _selectionMenu = new QMenu(tr("Selection"),this);
+        _selectionMenu->addAction(projectWidget()->deselectAction());
+    }
+    return _selectionMenu;
 }
 
 

@@ -30,19 +30,6 @@ QMenu* Project::addMenu(
 }
 
 
-QAction* Project::clearAction(
-)
-{
-    if (!_clearAction)
-    {
-        _clearAction = new QAction(QIcon::fromTheme("edit-clear"),tr("Clear"),this);
-        _clearAction->setStatusTip(tr("Clear all selected blocks."));
-        connect(_clearAction,&QAction::triggered,this,&Project::clear);
-    }
-    return _clearAction;
-}
-
-
 QAction* Project::copyAction(
 )
 {
@@ -68,6 +55,20 @@ QAction* Project::cutAction(
         connect(_cutAction,&QAction::triggered,this,&Project::cut);
     }
     return _cutAction;
+}
+
+
+QAction* Project::deselectAction(
+)
+{
+    if (!_deselectAction)
+    {
+        _deselectAction = new QAction(QIcon::fromTheme("edit-select-none"),tr("Deselect"),this);
+        _deselectAction->setStatusTip(tr("Clear all selected blocks."));
+        _deselectAction->setShortcut(QKeySequence::Deselect);
+        connect(_deselectAction,&QAction::triggered,this,&Project::deselect);
+    }
+    return _deselectAction;
 }
 
 
@@ -201,12 +202,12 @@ void Project::add(
 }
 
 
-void Project::clear(
+void Project::deselect(
 )
 {
     if (_model)
     {
-        treeView()->setCurrentIndex(QModelIndex());
+        treeView()->selectionModel()->setCurrentIndex(QModelIndex(),QItemSelectionModel::Clear);
     }
 }
 
@@ -411,6 +412,7 @@ QTreeView* Project::treeView(
     {
         _treeView = new QTreeView(this);
         _treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        _treeView->setFont(QFont());
     }
     return _treeView;
 }
