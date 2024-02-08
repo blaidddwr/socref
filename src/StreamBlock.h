@@ -28,25 +28,6 @@ class Block:
 
 
     /*!
-     * Returns a list of deprecated block files not used by the given block and
-     * its descendants in the multi block file directory at the given path.
-     * 
-     * A file system exception is thrown if any error is encountered.
-     *
-     * @param block
-     *        The block.
-     *
-     * @param path
-     *        The path.
-     */
-    public:
-    static QStringList deprecatedFiles(
-        const ::Block::Abstract& block
-        ,const QString& path
-    );
-
-
-    /*!
      * Reads in a root block and all its descendants from a multi block file
      * directory at the given path using the given language and format version.
      * The root block's parent is set to the given parent.
@@ -115,13 +96,34 @@ class Block:
 
 
     /*!
-     * Removes deprecated block files not used by the given block and its
+     * Returns a list of orphaned block files not used by the given block and
+     * its descendants in the multi block file directory at the given path.
+     * 
+     * A file system or logical block exception is thrown if any error is
+     * encountered.
+     *
+     * @param block
+     *        The block.
+     *
+     * @param path
+     *        The path.
+     */
+    public:
+    static QStringList orphanFiles(
+        const ::Block::Abstract& block
+        ,const QString& path
+    );
+
+
+    /*!
+     * Removes orphaned block files not used by the given block and its
      * descendants in the multi block file directory at the given path.
      * 
      * If the git flag is true then the git command is used for removing
      * deprecated block files, else the standard system remove command is used.
      * 
-     * A file or run system exception is thrown if any error is encountered.
+     * A file system, run system, or logical block exception is thrown if any
+     * error is encountered.
      *
      * @param block
      *        The block.
@@ -133,7 +135,7 @@ class Block:
      *        The git flag.
      */
     public:
-    static void removeFiles(
+    static void removeOrphanFiles(
         const ::Block::Abstract& block
         ,const QString& path
         ,bool git = false
@@ -146,8 +148,8 @@ class Block:
      * 
      * The given block must be a root block of its project.
      * 
-     * A write block or file system exception is thrown if any error is
-     * encountered.
+     * A write block, logical block, or file system exception is thrown if any
+     * error is encountered.
      *
      * @param block
      *        The block.
@@ -187,39 +189,52 @@ class Block:
 
 
     /*!
-     * Decodes the given base 64 value into a block identification.
+     * Inserts the given block's file path and all its descendant's file paths
+     * to the given path registry.
+     * 
+     * All paths have the given path added to them as their root path.
+     * 
+     * A logical block exception is thrown if any error is encountered.
      *
-     * @param value
-     *        The base 64 value.
+     * @param registry
+     *        The path registry.
      *
-     * @return
-     * The block identification.
+     * @param block
+     *        The block.
+     *
+     * @param path
+     *        The path.
      */
     private:
-    static quint32 base64ToId(
-        const QString& value
+    static void insertBlockPaths(
+        QSet<QString>& registry
+        ,const ::Block::Abstract& block
+        ,const QString& path
     );
 
 
     /*!
-     * Encodes the given block identification to a base 64 value.
+     * Inserts all paths of found block file paths into the given path list in
+     * the given directory path. The given directory path is recursively
+     * searched for all children block directories.
      *
-     * @param id
-     *        The block identification.
+     * @param paths
+     *        The path list.
      *
-     * @return
-     * The base 64 value.
+     * @param path
+     *        The directory path.
      */
     private:
-    static QString idToBase64(
-        quint32 id
+    static void insertPaths(
+        QStringList& paths
+        ,const QString& path
     );
 
 
     /*!
      * Creates and returns a new block and all its children located at the given
-     * directory with the given block identification, language, format version,
-     * and parent. The given language must be valid.
+     * directory with the given block filename, language, format version, and
+     * parent. The given language must be valid.
      * 
      * The new block's children are expected to reside in the same directory as
      * the new block's file's directory.
@@ -236,8 +251,8 @@ class Block:
      * @param dir
      *        The directory.
      *
-     * @param id
-     *        The block identification.
+     * @param filename
+     *        The block filename.
      *
      * @param parent
      *        The parent.
@@ -247,27 +262,27 @@ class Block:
         Language::Abstract* language
         ,int version
         ,const QDir& dir
-        ,quint32 id
+        ,const QString& filename
         ,QObject* parent = nullptr
     );
 
 
     /*!
-     * Writes the block file from the given block to the given path.
+     * Writes the block file from the given block to the given directory.
      * 
-     * A file system or write block exception is thrown if any error is
-     * encountered.
+     * A file system, logical block, or write block exception is thrown if any
+     * error is encountered.
      *
      * @param block
      *        The block.
      *
-     * @param path
-     *        The path.
+     * @param dir
+     *        The directory.
      */
     private:
     static void write(
         const ::Block::Abstract& block
-        ,const QString& path
+        ,const QDir& dir
     );
 };
 }

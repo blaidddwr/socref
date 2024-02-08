@@ -24,14 +24,8 @@ namespace Block {
  * it an argument of the function or a function being a child of a class making
  * it a method of the class.
  * 
- * Its properties are meta, display text, display icon, and identification.
- * Meta, display text, and display icon are self-explanatory.
- * 
- * The identification is unique among all other blocks that share a common root
- * block making up a project. Whenever a root block and its descendants are
- * saved to a multi file directory the "generate missing ids" method must be
- * called to generate new ids for any new blocks in the project. The root block
- * of a project has a special identification.
+ * Its properties are meta, display text, and display icon. The meta, display
+ * text, and display icon are self-explanatory.
  * 
  * A block can only have children blocks of any type in its meta's allow list
  * property.
@@ -43,6 +37,10 @@ namespace Block {
  * are used for file system IO, the mapped values must be saved as strings and
  * be version aware for backwards save file compatibility. There is no such
  * limitation for the state and set state methods.
+ * 
+ * All blocks supply a filename used when saving/loading blocks in the multi
+ * file directory system. A block's filename must be unique among all other
+ * sibling blocks. The root block must supply the special root filename.
  */
 class Abstract:
     public QObject
@@ -51,7 +49,6 @@ class Abstract:
     friend class Stream::Block;
     Model::Meta::Block* _meta;
     QList<Abstract*> _children;
-    quint32 _id {0};
 
 
     /*!
@@ -172,15 +169,14 @@ class Abstract:
 
 
     /*!
-     * Generates valid identification values for this block and its descendants
-     * which have the invalid 0 identification.
-     * 
-     * This must be called before getting the identification of this block or
-     * its descendants.
+     * Getter method.
+     *
+     * @return
+     * This block's filename.
      */
     public:
-    void genMissingIds(
-    );
+    virtual QString filename(
+    ) const = 0;
 
 
     /*!
@@ -193,16 +189,6 @@ class Abstract:
     public:
     Block::Abstract* get(
         int index
-    ) const;
-
-
-    /*!
-     * Returns this block's identification property.
-     * 
-     * This block must have a valid identification.
-     */
-    public:
-    quint32 id(
     ) const;
 
 
@@ -295,10 +281,10 @@ class Abstract:
      * Getter method.
      *
      * @return
-     * The special root id.
+     * The special root filename.
      */
     public:
-    static quint32 rootId(
+    static const QString& rootFilename(
     );
 
 

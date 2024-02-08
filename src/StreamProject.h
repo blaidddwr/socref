@@ -20,23 +20,6 @@ class Project:
 
 
     /*!
-     * Returns a list of deprecated block files not used by the given project in
-     * its multi block file directory. The given project must have a valid
-     * directory path.
-     * 
-     * A logical project or file system exception is thrown if any error is
-     * encountered.
-     *
-     * @param project
-     *        The project.
-     */
-    public:
-    static QStringList deprecatedFiles(
-        const Model::Project& project
-    );
-
-
-    /*!
      * Reads in a project from a multi block file directory at the given path.
      * The project model's parent is set to the given parent.
      * 
@@ -80,7 +63,24 @@ class Project:
 
 
     /*!
-     * Removes deprecated block files not used by the given project in its multi
+     * Returns a list of orphaned block files not used by the given project in
+     * its multi block file directory. The given project must have a valid
+     * directory path.
+     * 
+     * A logical project or file system exception is thrown if any error is
+     * encountered.
+     *
+     * @param project
+     *        The project.
+     */
+    public:
+    static QStringList orphanFiles(
+        const Model::Project& project
+    );
+
+
+    /*!
+     * Removes orphaned block files not used by the given project in its multi
      * block file directory. The given project must have a valid directory path.
      * 
      * If the git flag is true then the git command is used for removing
@@ -96,7 +96,7 @@ class Project:
      *        The git flag.
      */
     public:
-    static void removeFiles(
+    static void removeOrphanFiles(
         const Model::Project& project
         ,bool git = false
     );

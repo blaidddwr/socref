@@ -216,6 +216,11 @@ class Function:
     ) const override final;
 
 
+    public:
+    virtual QString filename(
+    ) const override final;
+
+
     /*!
      * Getter method.
      *

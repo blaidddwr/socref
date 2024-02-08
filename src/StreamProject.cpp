@@ -12,21 +12,6 @@ namespace Stream {
 Project* Project::_instance {nullptr};
 
 
-QStringList Project::deprecatedFiles(
-    const Model::Project& project
-)
-{
-    using LogicalError = Exception::Project::Logical;
-    if (project._directoryPath.isNull())
-    {
-        throw LogicalError(
-            tr("Cannot generate deprecated files from new project without directory path.")
-        );
-    }
-    return Block::deprecatedFiles(*project._root,project._directoryPath);
-}
-
-
 Model::Project* Project::fromDir(
     const QString& path
     ,QObject* parent
@@ -165,7 +150,22 @@ Model::Project* Project::fromXml(
 }
 
 
-void Project::removeFiles(
+QStringList Project::orphanFiles(
+    const Model::Project& project
+)
+{
+    using LogicalError = Exception::Project::Logical;
+    if (project._directoryPath.isNull())
+    {
+        throw LogicalError(
+            tr("Cannot generate deprecated files from new project without directory path.")
+        );
+    }
+    return Block::orphanFiles(*project._root,project._directoryPath);
+}
+
+
+void Project::removeOrphanFiles(
     const Model::Project& project
     ,bool git
 )
@@ -177,7 +177,7 @@ void Project::removeFiles(
             tr("Cannot remove deprecated files from new project without directory path.")
         );
     }
-    Block::removeFiles(*project._root,project._directoryPath,git);
+    Block::removeOrphanFiles(*project._root,project._directoryPath,git);
 }
 
 

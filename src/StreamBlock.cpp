@@ -10,34 +10,6 @@ namespace Stream {
 Block* Block::_instance {nullptr};
 
 
-QStringList Block::deprecatedFiles(
-    const ::Block::Abstract& block
-    ,const QString& path
-)
-{
-    using FileError = Exception::System::File;
-    QDir dir(path);
-    if (!dir.exists())
-    {
-        throw FileError(tr("Directory %1 does not exist.").arg(path));
-    }
-    QSet<QString> filenames {idToBase64(block.id())+EXT};
-    for (auto descendant: block.descendants())
-    {
-        filenames.insert(idToBase64(descendant->id())+EXT);
-    }
-    QStringList ret;
-    for (const auto& filename: dir.entryList({EXT},QDir::Files))
-    {
-        if (!filenames.contains(filename))
-        {
-            ret.append(filename);
-        }
-    }
-    return ret;
-}
-
-
 ::Block::Abstract* Block::fromDir(
     Language::Abstract* language
     ,int version
@@ -48,6 +20,10 @@ QStringList Block::deprecatedFiles(
     using FileError = Exception::System::File;
     G_ASSERT(language);
     QDir dir(path);
+    if (!dir.exists())
+    {
+        throw FileError(tr("No such directory %1.").arg(path));
+    }
     if (!dir.isReadable())
     {
         throw FileError(tr("Directory %1 is not readable.").arg(path));
@@ -56,7 +32,7 @@ QStringList Block::deprecatedFiles(
         language
         ,version
         ,dir
-        ,::Block::Abstract::rootId()
+        ,::Block::Abstract::rootFilename()
         ,parent
     );
 }
@@ -152,7 +128,38 @@ QStringList Block::deprecatedFiles(
 }
 
 
-void Block::removeFiles(
+QStringList Block::orphanFiles(
+    const ::Block::Abstract& block
+    ,const QString& path
+)
+{
+    using FileError = Exception::System::File;
+    QDir dir(path);
+    if (!dir.exists())
+    {
+        throw FileError(tr("Directory %1 does not exist.").arg(path));
+    }
+    if (!dir.isReadable())
+    {
+        throw FileError(tr("Directory %1 is not readable.").arg(path));
+    }
+    QSet<QString> registry;
+    insertBlockPaths(registry,block,path);
+    QStringList paths;
+    insertPaths(paths,path);
+    QStringList ret;
+    for (const auto& rpath: paths)
+    {
+        if (!registry.contains(rpath))
+        {
+            ret.append(rpath);
+        }
+    }
+    return ret;
+}
+
+
+void Block::removeOrphanFiles(
     const ::Block::Abstract& block
     ,const QString& path
     ,bool git
@@ -161,13 +168,13 @@ void Block::removeFiles(
     using FileError = Exception::System::File;
     using RunError = Exception::System::Run;
     QDir dir(path);
-    for (const auto& filename: deprecatedFiles(block,path))
+    for (const auto& fpath: orphanFiles(block,path))
     {
         if (git)
         {
             QProcess process;
             process.setWorkingDirectory(dir.absolutePath());
-            process.start("git",{"rm",filename});
+            process.start("git",{"rm",fpath});
             process.waitForFinished();
             if (process.exitCode())
             {
@@ -176,9 +183,9 @@ void Block::removeFiles(
         }
         else
         {
-            if (!dir.remove(filename))
+            if (!dir.remove(dir.absoluteFilePath(fpath)))
             {
-                throw FileError(tr("Failed removing %1 in %2.").arg(filename,path));
+                throw FileError(tr("Failed removing %1 in %2.").arg(fpath,path));
             }
         }
     }
@@ -200,18 +207,11 @@ void Block::toDir(
             throw FileError(tr("Failed creating directory %1.").arg(path));
         }
     }
-    block.genMissingIds();
-    QHash<QString,const ::Block::Abstract*> blocks {{idToBase64(block.id()),&block}};
-    for (auto descendant: block.descendants())
+    if (!dir.isReadable())
     {
-        auto filename = idToBase64(descendant->id());
-        G_ASSERT(!blocks.contains(filename));
-        blocks.insert(filename,descendant);
+        throw FileError(tr("Cannot read directory %1.").arg(path));
     }
-    for (auto i = blocks.begin();i != blocks.end();i++)
-    {
-        write(*i.value(),dir.absoluteFilePath(i.key()+EXT));
-    }
+    write(block,dir);
 }
 
 
@@ -239,23 +239,45 @@ void Block::toXml(
 }
 
 
-quint32 Block::base64ToId(
-    const QString& value
+void Block::insertBlockPaths(
+    QSet<QString>& registry
+    ,const ::Block::Abstract& block
+    ,const QString& path
 )
 {
-    auto data = QByteArray::fromBase64(value.toUtf8().replace("!","/"));
-    G_ASSERT(data.size() == sizeof(quint32));
-    return *reinterpret_cast<quint32*>(data.data());
+    using LogicalError = Exception::Block::Logical;
+    auto fpath = path+"/"+block.filename()+EXT;
+    if (registry.contains(fpath))
+    {
+        throw LogicalError(tr("Multiple children blocks with the same file path %1.").arg(fpath));
+    }
+    registry.insert(fpath);
+    if (block.size() > 0)
+    {
+        for (auto child: block._children)
+        {
+           insertBlockPaths(registry,*child,path+"/"+block.filename());
+        }
+    }
 }
 
 
-QString Block::idToBase64(
-    quint32 id
+void Block::insertPaths(
+    QStringList& paths
+    ,const QString& path
 )
 {
-    auto ret = QByteArray(reinterpret_cast<char*>(&id),sizeof(quint32));
-    ret = ret.toBase64(QByteArray::Base64Encoding|QByteArray::OmitTrailingEquals);
-    return ret.replace("/","!");
+    QDir dir(path);
+    if (dir.isReadable())
+    {
+        for (const auto& filename: dir.entryList({EXT},QDir::Files))
+        {
+           auto cpath = path+"/"+filename;
+           paths.append(cpath);
+           cpath.chop(strlen(EXT));
+           insertPaths(paths,cpath);
+        }
+    }
 }
 
 
@@ -263,14 +285,14 @@ QString Block::idToBase64(
     Language::Abstract* language
     ,int version
     ,const QDir& dir
-    ,quint32 id
+    ,const QString& filename
     ,QObject* parent
 )
 {
     using FileError = Exception::System::File;
     using ReadError = Exception::Block::Read;
     G_ASSERT(language);
-    auto path = dir.absoluteFilePath(idToBase64(id)+EXT);
+    auto path = dir.absoluteFilePath(filename+EXT);
     QFileInfo info(path);
     if (!info.isFile())
     {
@@ -297,7 +319,6 @@ QString Block::idToBase64(
         throw ReadError(tr("Unknown block %1").arg(blockName));
     }
     std::unique_ptr<::Block::Abstract> block(language->create(i));
-    block->_id = id;
     QMap<QString,QVariant> map;
     int lineNumber = 1;
     QString line = in.readLine();
@@ -331,12 +352,25 @@ QString Block::idToBase64(
         line = in.readLine();
         lineNumber++;
     }
-    while (!line.isNull())
+    if (!line.isNull())
     {
-        auto child = read(language,version,dir,base64ToId(line),block.get());
-        child->setParent(nullptr);
-        block->append(child);
-        line = in.readLine();
+        auto cpath = dir.absoluteFilePath(filename);
+        QDir cdir(cpath);
+        if (!cdir.exists())
+        {
+            throw FileError(tr("No such directory %1.").arg(cpath));
+        }
+        if (!cdir.isReadable())
+        {
+            throw FileError(tr("Cannot read directory %1.").arg(cpath));
+        }
+        while (!line.isNull())
+        {
+            auto child = read(language,version,cdir,line,block.get());
+            child->setParent(nullptr);
+            block->append(child);
+            line = in.readLine();
+        }
     }
     block->setParent(parent);
     try
@@ -354,11 +388,13 @@ QString Block::idToBase64(
 
 void Block::write(
     const ::Block::Abstract& block
-    ,const QString& path
+    ,const QDir& dir
 )
 {
     using FileError = Exception::System::File;
+    using LogicalError = Exception::Block::Logical;
     using WriteError = Exception::Block::Write;
+    auto path = dir.absoluteFilePath(block.filename()+EXT);
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly|QIODevice::Truncate))
     {
@@ -374,10 +410,35 @@ void Block::write(
         data.replace("\n","\\n");
         out << ":"+i.key() << "\n" << data << "\n";
     }
-    out << "+children\n";
-    for (auto child: block._children)
+    if (block.size() > 0)
     {
-        out << idToBase64(child->id()) << "\n";
+        auto cpath = dir.absoluteFilePath(block.filename());
+        QDir cdir(cpath);
+        if (!cdir.exists())
+        {
+            if (!cdir.mkpath("."))
+            {
+                throw FileError(tr("Failed creating directory %1.").arg(cpath));
+            }
+        }
+        if (!cdir.isReadable())
+        {
+            throw FileError(tr("Cannot read directory %1.").arg(cpath));
+        }
+        QSet<QString> registry;
+        out << "+children\n";
+        for (auto child: block._children)
+        {
+            auto filename = child->filename();
+            if (registry.contains(filename))
+            {
+                throw LogicalError(
+                    tr("Multiple children blocks with the same filename %1.").arg(filename)
+                );
+            }
+            write(*child,cdir);
+            out << filename << "\n";
+        }
     }
     if (file.error() != QFileDevice::NoError)
     {

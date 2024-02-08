@@ -84,6 +84,16 @@ QString Function::displayText(
 }
 
 
+QString Function::filename(
+) const
+{
+    QStringList ret;
+    appendSignature(ret);
+    appendRightSignatureFlags(ret);
+    return ret.join("");
+}
+
+
 QStringList Function::flagStrings(
 ) const
 {

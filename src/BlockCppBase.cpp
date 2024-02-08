@@ -18,6 +18,13 @@ const QString& Base::description(
 }
 
 
+QString Base::filename(
+) const
+{
+    return qobject_cast<Abstract*>(parent())? _name : "ROOT";
+}
+
+
 const QString& Base::name(
 ) const
 {

@@ -59,43 +59,6 @@ QList<Block::Abstract*> Abstract::descendants(
 }
 
 
-void Abstract::genMissingIds(
-)
-{
-    G_ASSERT(!qobject_cast<Abstract*>(parent()));
-    _id = rootId();
-    auto blocks = descendants();
-    QSet<quint32> registry;
-    registry.insert(_id);
-    QList<Abstract*> missing;
-    for (auto block: blocks)
-    {
-        if (block->_id != 0)
-        {
-            G_ASSERT(!registry.contains(block->_id));
-            registry.insert(block->_id);
-        }
-        else
-        {
-            missing.append(block);
-        }
-    }
-    std::random_device rd;
-    std::mt19937 mt(rd());
-    std::uniform_int_distribution<quint32> dist(0,std::numeric_limits<quint32>::max());
-    for (auto block: missing)
-    {
-        int newId = dist(mt);
-        while (registry.contains(newId))
-        {
-            newId = dist(mt);
-        }
-        registry.insert(newId);
-        block->_id = newId;
-    }
-}
-
-
 Block::Abstract* Abstract::get(
     int index
 ) const
@@ -103,14 +66,6 @@ Block::Abstract* Abstract::get(
     G_ASSERT(index >= 0);
     G_ASSERT(index < _children.size());
     return _children.at(index);
-}
-
-
-quint32 Abstract::id(
-) const
-{
-    G_ASSERT(_id != 0);
-    return _id;
 }
 
 
@@ -162,10 +117,10 @@ void Abstract::move(
 }
 
 
-quint32 Abstract::rootId(
+const QString& Abstract::rootFilename(
 )
 {
-    static const quint32 ret = 1;
+    static const QString ret = "ROOT";
     return ret;
 }
 

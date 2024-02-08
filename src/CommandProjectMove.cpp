@@ -13,6 +13,7 @@ Move::Move(
     ,Model::Project* parent
 ):
     Abstract(parent)
+    ,_parent(convertIndexToList(parentIndex))
     ,_from(from)
     ,_to(to)
 {
@@ -57,7 +58,7 @@ bool Move::move(
     if (
         from >= pb->size()
         || to >= pb->size()
-        )
+    )
     {
         return false;
     }

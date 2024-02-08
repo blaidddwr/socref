@@ -48,6 +48,13 @@ QString Node::displayText(
 }
 
 
+QString Node::filename(
+) const
+{
+    return _name;
+}
+
+
 int Node::lastAddIndex(
 ) const
 {

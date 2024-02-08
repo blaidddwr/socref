@@ -62,6 +62,11 @@ class Base:
     ) const;
 
 
+    public:
+    virtual QString filename(
+    ) const override;
+
+
     /*!
      * Getter method.
      *

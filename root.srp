@@ -19,13 +19,13 @@ See the abstract block class for a detailed description of blocks.</__p_descript
 
 A block represents an atomic element of a programming language such as a variable, function, or class. Blocks can contain any number of children and have only one parent. The only block that does not have a parent is the root block of a project. One and only one special block type must be assigned as the root block type for each implemented language. Blocks form tree relationships such as a variable block being the child of a function making it an argument of the function or a function being a child of a class making it a method of the class.
 
-Its properties are meta, display text, display icon, and identification. Meta, display text, and display icon are self-explanatory.
-
-The identification is unique among all other blocks that share a common root block making up a project. Whenever a root block and its descendants are saved to a multi file directory the &quot;generate missing ids&quot; method must be called to generate new ids for any new blocks in the project. The root block of a project has a special identification.
+Its properties are meta, display text, and display icon. The meta, display text, and display icon are self-explanatory.
 
 A block can only have children blocks of any type in its meta's allow list property.
 
-A block's data, or state, can be loaded, saved, retrieved, or set. The load and save methods, &quot;load from map&quot; and &quot;save to map&quot;, are used for loading and saving a block's data to the file system. The state and &quot;set state&quot; methods are used to save or set a block's state. Because the load and save methods are used for file system IO, the mapped values must be saved as strings and be version aware for backwards save file compatibility. There is no such limitation for the state and set state methods.</__p_description>
+A block's data, or state, can be loaded, saved, retrieved, or set. The load and save methods, &quot;load from map&quot; and &quot;save to map&quot;, are used for loading and saving a block's data to the file system. The state and &quot;set state&quot; methods are used to save or set a block's state. Because the load and save methods are used for file system IO, the mapped values must be saved as strings and be version aware for backwards save file compatibility. There is no such limitation for the state and set state methods.
+
+All blocks supply a filename used when saving/loading blocks in the multi file directory system. A block's filename must be unique among all other sibling blocks. The root block must supply the special root filename.</__p_description>
                 <__p_name>Abstract</__p_name>
                 <__p_parents>public QObject</__p_parents>
                 <Function>
@@ -223,23 +223,22 @@ A block's data, or state, can be loaded, saved, retrieved, or set. The load and 
                     <__p_virtual>1</__p_virtual>
                 </Function>
                 <Function>
-                    <__p_abstract>0</__p_abstract>
+                    <__p_abstract>1</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Generates valid identification values for this block and its descendants which have the invalid 0 identification.
-
-This must be called before getting the identification of this block or its descendants.</__p_description>
+                    <__p_description>Getter method.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>genMissingIds</__p_name>
+                    <__p_name>filename</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
+                    <__p_returnDescription>This block's filename.</__p_returnDescription>
+                    <__p_returnType>QString</__p_returnType>
                     <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
+                    <__p_virtual>1</__p_virtual>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -262,25 +261,6 @@ This must be called before getting the identification of this block or its desce
                         <__p_name>index</__p_name>
                         <__p_type>int</__p_type>
                     </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Returns this block's identification property.
-
-This block must have a valid identification.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>id</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>quint32</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -417,11 +397,11 @@ A read block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>rootId</__p_name>
+                    <__p_name>rootFilename</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>The special root id.</__p_returnDescription>
-                    <__p_returnType>quint32</__p_returnType>
+                    <__p_returnDescription>The special root filename.</__p_returnDescription>
+                    <__p_returnType>const QString&amp;</__p_returnType>
                     <__p_static>1</__p_static>
                     <__p_virtual>0</__p_virtual>
                 </Function>
@@ -771,6 +751,22 @@ Its properties are name, description, and scope name. Name and description are s
                         <__p_returnType>const QString&amp;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>filename</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QString</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -1971,6 +1967,22 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_final>1</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>displayText</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QString</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>filename</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
                         <__p_returnType>QString</__p_returnType>
@@ -5590,6 +5602,22 @@ The display icon property can be set with an appropriate setter method so it can
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>filename</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QString</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
                         <__p_description>Getter method.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
@@ -8509,35 +8537,6 @@ When saving block files, their filenames are generated by taking the base 64 enc
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Returns a list of deprecated block files not used by the given block and its descendants in the multi block file directory at the given path.
-
-A file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>deprecatedFiles</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>QStringList</__p_returnType>
-                    <__p_static>1</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The block.</__p_description>
-                        <__p_name>block</__p_name>
-                        <__p_type>const ::Block::Abstract&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
                     <__p_description>Reads in a root block and all its descendants from a multi block file directory at the given path using the given language and format version. The root block's parent is set to the given parent.
 
 The given language and format version must be valid.
@@ -8624,15 +8623,44 @@ A read block or file system exception is thrown if any error is encountered.</__
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Removes deprecated block files not used by the given block and its descendants in the multi block file directory at the given path.
+                    <__p_description>Returns a list of orphaned block files not used by the given block and its descendants in the multi block file directory at the given path.
 
-If the git flag is true then the git command is used for removing deprecated block files, else the standard system remove command is used.
-
-A file or run system exception is thrown if any error is encountered.</__p_description>
+A file system or logical block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>removeFiles</__p_name>
+                    <__p_name>orphanFiles</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>QStringList</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Removes orphaned block files not used by the given block and its descendants in the multi block file directory at the given path.
+
+If the git flag is true then the git command is used for removing deprecated block files, else the standard system remove command is used.
+
+A file system, run system, or logical block exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>removeOrphanFiles</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
@@ -8665,7 +8693,7 @@ A file or run system exception is thrown if any error is encountered.</__p_descr
 
 The given block must be a root block of its project.
 
-A write block or file system exception is thrown if any error is encountered.</__p_description>
+A write block, logical block, or file system exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -8737,20 +8765,33 @@ A write block exception is thrown if any error is encountered.</__p_description>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Decodes the given base 64 value into a block identification.</__p_description>
+                    <__p_description>Inserts the given block's file path and all its descendant's file paths to the given path registry.
+
+All paths have the given path added to them as their root path.
+
+A logical block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>base64ToId</__p_name>
+                    <__p_name>insertBlockPaths</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>The block identification.</__p_returnDescription>
-                    <__p_returnType>quint32</__p_returnType>
+                    <__p_returnType>void</__p_returnType>
                     <__p_static>1</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
-                        <__p_description>The base 64 value.</__p_description>
-                        <__p_name>value</__p_name>
+                        <__p_description>The path registry.</__p_description>
+                        <__p_name>registry</__p_name>
+                        <__p_type>QSet&lt;QString&gt;&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
                         <__p_type>const QString&amp;</__p_type>
                     </Variable>
                 </Function>
@@ -8760,21 +8801,25 @@ A write block exception is thrown if any error is encountered.</__p_description>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Encodes the given block identification to a base 64 value.</__p_description>
+                    <__p_description>Inserts all paths of found block file paths into the given path list in the given directory path. The given directory path is recursively searched for all children block directories.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>idToBase64</__p_name>
+                    <__p_name>insertPaths</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>The base 64 value.</__p_returnDescription>
-                    <__p_returnType>QString</__p_returnType>
+                    <__p_returnType>void</__p_returnType>
                     <__p_static>1</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
-                        <__p_description>The block identification.</__p_description>
-                        <__p_name>id</__p_name>
-                        <__p_type>quint32</__p_type>
+                        <__p_description>The path list.</__p_description>
+                        <__p_name>paths</__p_name>
+                        <__p_type>QStringList&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The directory path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -8783,7 +8828,7 @@ A write block exception is thrown if any error is encountered.</__p_description>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Creates and returns a new block and all its children located at the given directory with the given block identification, language, format version, and parent. The given language must be valid.
+                    <__p_description>Creates and returns a new block and all its children located at the given directory with the given block filename, language, format version, and parent. The given language must be valid.
 
 The new block's children are expected to reside in the same directory as the new block's file's directory.
 
@@ -8813,9 +8858,9 @@ A read block or file system exception is thrown if any error is encountered.</__
                         <__p_type>const QDir&amp;</__p_type>
                     </Variable>
                     <Variable>
-                        <__p_description>The block identification.</__p_description>
-                        <__p_name>id</__p_name>
-                        <__p_type>quint32</__p_type>
+                        <__p_description>The block filename.</__p_description>
+                        <__p_name>filename</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
                     </Variable>
                     <Variable>
                         <__p_assignment>nullptr</__p_assignment>
@@ -8830,9 +8875,9 @@ A read block or file system exception is thrown if any error is encountered.</__
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes the block file from the given block to the given path.
+                    <__p_description>Writes the block file from the given block to the given directory.
 
-A file system or write block exception is thrown if any error is encountered.</__p_description>
+A file system, logical block, or write block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -8848,9 +8893,9 @@ A file system or write block exception is thrown if any error is encountered.</_
                         <__p_type>const ::Block::Abstract&amp;</__p_type>
                     </Variable>
                     <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
+                        <__p_description>The directory.</__p_description>
+                        <__p_name>dir</__p_name>
+                        <__p_type>const QDir&amp;</__p_type>
                     </Variable>
                 </Function>
             </Class>
@@ -8858,30 +8903,6 @@ A file system or write block exception is thrown if any error is encountered.</_
                 <__p_description>This is a stream class. It is a singleton class. It handles all input and output for project model class instances.</__p_description>
                 <__p_name>Project</__p_name>
                 <__p_parents>public QObject</__p_parents>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Returns a list of deprecated block files not used by the given project in its multi block file directory. The given project must have a valid directory path.
-
-A logical project or file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>deprecatedFiles</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>QStringList</__p_returnType>
-                    <__p_static>1</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The project.</__p_description>
-                        <__p_name>project</__p_name>
-                        <__p_type>const Model::Project&amp;</__p_type>
-                    </Variable>
-                </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
@@ -8949,7 +8970,31 @@ A read project, read block, or file system exception is thrown if any error is e
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Removes deprecated block files not used by the given project in its multi block file directory. The given project must have a valid directory path.
+                    <__p_description>Returns a list of orphaned block files not used by the given project in its multi block file directory. The given project must have a valid directory path.
+
+A logical project or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>orphanFiles</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>QStringList</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The project.</__p_description>
+                        <__p_name>project</__p_name>
+                        <__p_type>const Model::Project&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Removes orphaned block files not used by the given project in its multi block file directory. The given project must have a valid directory path.
 
 If the git flag is true then the git command is used for removing deprecated block files, else the standard system remove command is used.
 
@@ -8957,7 +9002,7 @@ A logical project, file system, or run system exception is thrown if any error i
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>removeFiles</__p_name>
+                    <__p_name>removeOrphanFiles</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
