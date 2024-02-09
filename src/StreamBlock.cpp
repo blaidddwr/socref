@@ -160,32 +160,45 @@ QStringList Block::orphanFiles(
 
 
 void Block::removeOrphanFiles(
-    const ::Block::Abstract& block
+    const QStringList& filePaths
+    ,const ::Block::Abstract& block
     ,const QString& path
     ,bool git
 )
 {
     using FileError = Exception::System::File;
+    using LogicalError = Exception::Block::Logical;
     using RunError = Exception::System::Run;
-    QDir dir(path);
-    for (const auto& fpath: orphanFiles(block,path))
+    QSet<QString> registry;
+    insertBlockPaths(registry,block,path);
+    for (const auto& path: filePaths)
     {
+        if (registry.contains(path))
+        {
+            throw LogicalError(
+                tr("Given path %1 is protected(NOT orpahned) block file.").arg(path)
+            );
+        }
+        QFileInfo info(path);
+        auto dir = info.dir();
         if (git)
         {
             QProcess process;
-            process.setWorkingDirectory(dir.absolutePath());
-            process.start("git",{"rm",fpath});
+            process.setWorkingDirectory(dir.path());
+            process.start("git",{"rm",info.fileName()});
             process.waitForFinished();
             if (process.exitCode())
             {
-                throw RunError(tr("Failed running git command: %1").arg(process.readAll()));
+                throw RunError(
+                    tr("Failed running git command: %1").arg(process.readAllStandardError())
+                );
             }
         }
         else
         {
-            if (!dir.remove(dir.absoluteFilePath(fpath)))
+            if (!dir.remove(info.fileName()))
             {
-                throw FileError(tr("Failed removing %1 in %2.").arg(fpath,path));
+                throw FileError(tr("Failed removing %1.").arg(path));
             }
         }
     }
@@ -270,7 +283,7 @@ void Block::insertPaths(
     QDir dir(path);
     if (dir.isReadable())
     {
-        for (const auto& filename: dir.entryList({EXT},QDir::Files))
+        for (const auto& filename: dir.entryList({QString("*")+EXT},QDir::Files))
         {
            auto cpath = path+"/"+filename;
            paths.append(cpath);

@@ -26,6 +26,7 @@ class Main:
     QAction* _exportAction {nullptr};
     QAction* _makeAction {nullptr};
     QAction* _openAction {nullptr};
+    QAction* _orphanFilesAction {nullptr};
     QAction* _parseAction {nullptr};
     QAction* _propertiesAction {nullptr};
     QAction* _saveAction {nullptr};
@@ -131,6 +132,14 @@ class Main:
      */
     private slots:
     void open(
+    );
+
+
+    /*!
+     * Called when this widget's orphan files action is triggered.
+     */
+    private slots:
+    void orphanFiles(
     );
 
 
@@ -364,6 +373,17 @@ class Main:
      */
     private:
     QAction* openAction(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's "orphan files" action.
+     */
+    private:
+    QAction* orphanFilesAction(
     );
 
 

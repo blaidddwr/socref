@@ -6,6 +6,7 @@
 #include "ModelMetaLanguage.h"
 #include "ModelProject.h"
 #include "StreamProject.h"
+#include "WidgetDialogOrphanFiles.h"
 #include "WidgetProject.h"
 namespace Widget {
 namespace Window {
@@ -209,6 +210,18 @@ void Main::open(
         {
             QMessageBox::warning(this,tr("File System Error"),e.message());
         }
+    }
+}
+
+
+void Main::orphanFiles(
+)
+{
+    if (_projectModel)
+    {
+        Dialog::OrphanFiles dialog(_projectModel);
+        dialog.setWindowTitle(tr("Socrates' Reference - Orphaned Block Files"));
+        dialog.exec();
     }
 }
 
@@ -451,6 +464,7 @@ QMenu* Main::fileMenu(
         _fileMenu->addAction(importAction());
         _fileMenu->addAction(exportAction());
         _fileMenu->addSeparator();
+        _fileMenu->addAction(orphanFilesAction());
         _fileMenu->addAction(propertiesAction());
         _fileMenu->addSeparator();
         _fileMenu->addAction(exitAction());
@@ -607,6 +621,21 @@ QAction* Main::openAction(
 }
 
 
+QAction* Main::orphanFilesAction(
+)
+{
+    if (!_orphanFilesAction)
+    {
+        _orphanFilesAction = new QAction(tr("Orphan Files"),this);
+        _orphanFilesAction->setStatusTip(
+            tr("Open an interface for handling this window's project's orphaned block files.")
+        );
+        connect(_orphanFilesAction,&QAction::triggered,this,&Main::orphanFiles);
+    }
+    return _orphanFilesAction;
+}
+
+
 QAction* Main::parseAction(
 )
 {
@@ -731,6 +760,10 @@ void Main::updateActions(
     saveAsAction()->setDisabled(!_projectModel);
     closeAction()->setDisabled(!_projectModel);
     exportAction()->setDisabled(!_projectModel);
+    orphanFilesAction()->setDisabled(
+        !_projectModel
+        || _projectModel->directoryPath().isNull()
+    );
     propertiesAction()->setDisabled(!_projectModel);
     parseAction()->setDisabled(!_projectModel);
     buildAction()->setDisabled(!_projectModel);

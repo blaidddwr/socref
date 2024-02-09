@@ -339,17 +339,6 @@ void Project::undo(
 }
 
 
-QWidget* Project::blankBlockWidget(
-)
-{
-    if (!_blankBlockWidget)
-    {
-        _blankBlockWidget = new QWidget(this);
-    }
-    return _blankBlockWidget;
-}
-
-
 void Project::move(
     int delta
 )
@@ -387,7 +376,7 @@ void Project::setBlockWidget(
 )
 {
     G_ASSERT(widget);
-    splitter()->replaceWidget(1,widget);
+    delete splitter()->replaceWidget(1,widget);
 }
 
 
@@ -396,10 +385,10 @@ QSplitter* Project::splitter(
 {
     if (!_splitter)
     {
-        _splitter = new QSplitter(this);
+        _splitter = new QSplitter;
         _splitter->setChildrenCollapsible(false);
         _splitter->addWidget(treeView());
-        _splitter->addWidget(blankBlockWidget());
+        _splitter->addWidget(new QWidget);
     }
     return _splitter;
 }
@@ -410,7 +399,7 @@ QTreeView* Project::treeView(
 {
     if (!_treeView)
     {
-        _treeView = new QTreeView(this);
+        _treeView = new QTreeView;
         _treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
         _treeView->setFont(QFont());
     }

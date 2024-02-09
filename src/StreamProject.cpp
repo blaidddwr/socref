@@ -166,7 +166,8 @@ QStringList Project::orphanFiles(
 
 
 void Project::removeOrphanFiles(
-    const Model::Project& project
+    const QStringList& filePaths
+    ,const Model::Project& project
     ,bool git
 )
 {
@@ -177,7 +178,7 @@ void Project::removeOrphanFiles(
             tr("Cannot remove deprecated files from new project without directory path.")
         );
     }
-    Block::removeOrphanFiles(*project._root,project._directoryPath,git);
+    Block::removeOrphanFiles(filePaths,*project._root,project._directoryPath,git);
 }
 
 

@@ -116,8 +116,10 @@ class Block:
 
 
     /*!
-     * Removes orphaned block files not used by the given block and its
-     * descendants in the multi block file directory at the given path.
+     * Removes orphaned block files at the given file paths.
+     * 
+     * All given file paths are verified to be an orphaned block file for the
+     * given block at the given directory path.
      * 
      * If the git flag is true then the git command is used for removing
      * deprecated block files, else the standard system remove command is used.
@@ -125,18 +127,22 @@ class Block:
      * A file system, run system, or logical block exception is thrown if any
      * error is encountered.
      *
+     * @param filePaths
+     *        The file paths.
+     *
      * @param block
      *        The block.
      *
      * @param path
-     *        The path.
+     *        The directory path.
      *
      * @param git
      *        The git flag.
      */
     public:
     static void removeOrphanFiles(
-        const ::Block::Abstract& block
+        const QStringList& filePaths
+        ,const ::Block::Abstract& block
         ,const QString& path
         ,bool git = false
     );

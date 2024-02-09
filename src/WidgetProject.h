@@ -29,7 +29,6 @@ class Project:
     QTreeView* _treeView {nullptr};
     QMenu* _addMenu {nullptr};
     QSplitter* _splitter {nullptr};
-    QWidget* _blankBlockWidget {nullptr};
     int _addActionBlockIndex {-1};
 
 
@@ -272,16 +271,6 @@ class Project:
      */
     private slots:
     void undo(
-    );
-
-
-    /*!
-     * Returns this widget's blank block widget. This is used to fill the block
-     * widget view with a blank widget when no valid index is selected in this
-     * widget's tree view.
-     */
-    private:
-    QWidget* blankBlockWidget(
     );
 
 

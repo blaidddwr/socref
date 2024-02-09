@@ -80,14 +80,19 @@ class Project:
 
 
     /*!
-     * Removes orphaned block files not used by the given project in its multi
-     * block file directory. The given project must have a valid directory path.
+     * Removes orphaned block files at the given file paths.
+     * 
+     * All given file paths are verified to be an orphaned block file for the
+     * given project.
      * 
      * If the git flag is true then the git command is used for removing
      * deprecated block files, else the standard system remove command is used.
      * 
-     * A logical project, file system, or run system exception is thrown if any
-     * error is encountered.
+     * A logical project, logical block, file system, or run system exception is
+     * thrown if any error is encountered.
+     *
+     * @param filePaths
+     *        The file paths.
      *
      * @param project
      *        The project.
@@ -97,7 +102,8 @@ class Project:
      */
     public:
     static void removeOrphanFiles(
-        const Model::Project& project
+        const QStringList& filePaths
+        ,const Model::Project& project
         ,bool git = false
     );
 
