@@ -27,14 +27,16 @@ Widget::Block::Abstract* Class::createWidget(
 QString Class::displayText(
 ) const
 {
+    auto ret = Base::displayText();
+    if (!_parents.isEmpty())
+    {
+        ret += " : "+_parents.join(", ");
+    }
     if (!_templates.isEmpty())
     {
-        return Base::displayText()+" -> template<"+_templates.join(",")+">";
+        ret += "-> template<"+_templates.join(",")+">";
     }
-    else
-    {
-        return Base::displayText();
-    }
+    return ret;
 }
 
 
@@ -94,6 +96,7 @@ void Class::setParents(
     {
         _parents = value;
         emit parentsChanged(value);
+        emit displayTextChanged(displayText());
     }
 }
 

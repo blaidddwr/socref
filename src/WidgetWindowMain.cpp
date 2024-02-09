@@ -389,6 +389,7 @@ QMenu* Main::editMenu(
         _editMenu->addAction(projectWidget()->redoAction());
         _editMenu->addSeparator();
         _editMenu->addMenu(projectWidget()->addMenu());
+        _editMenu->addMenu(projectWidget()->addGlobalMenu());
         _editMenu->addAction(projectWidget()->removeAction());
         _editMenu->addSeparator();
         _editMenu->addAction(projectWidget()->cutAction());

@@ -19,6 +19,17 @@ Project::Project(
 }
 
 
+QMenu* Project::addGlobalMenu(
+)
+{
+    if (!_addGlobalMenu)
+    {
+        _addGlobalMenu = new QMenu(tr("Add to Global"),this);
+    }
+    return _addGlobalMenu;
+}
+
+
 QMenu* Project::addMenu(
 )
 {
@@ -168,6 +179,7 @@ void Project::setModel(
             ,&Project::onSelectionChanged
         );
     }
+    updateAddGlobalActions();
     updateActions(QModelIndex());
 }
 
@@ -193,6 +205,22 @@ void Project::add(
     if (_model)
     {
         auto parent = treeView()->currentIndex();
+        _model->insert(index,0,parent);
+        if (!parent.isValid())
+        {
+            treeView()->setCurrentIndex(parent);
+        }
+    }
+}
+
+
+void Project::addGlobal(
+    int index
+)
+{
+    if (_model)
+    {
+        auto parent = QModelIndex();
         _model->insert(index,0,parent);
         if (!parent.isValid())
         {
@@ -443,14 +471,20 @@ void Project::updateAddActions(
 )
 {
     int blockIndex = -1;
-    if (_model)
+    if (
+        _model
+        && index.isValid()
+    )
     {
         blockIndex = _model->blockIndex(index);
     }
     if (_addActionBlockIndex != blockIndex)
     {
         addMenu()->clear();
-        if (_model)
+        if (
+            _model
+            && blockIndex != -1
+        )
         {
             auto language = _model->language();
             const auto& allowed = language->blockMeta(blockIndex)->allowList();
@@ -469,6 +503,40 @@ void Project::updateAddActions(
             }
         }
         _addActionBlockIndex = blockIndex;
+    }
+    addMenu()->setDisabled(addMenu()->isEmpty());
+}
+
+
+void Project::updateAddGlobalActions(
+)
+{
+    int blockIndex = -1;
+    if (_model)
+    {
+        blockIndex = _model->blockIndex(QModelIndex());
+    }
+    addGlobalMenu()->clear();
+    if (
+        _model
+        && blockIndex != -1
+    )
+    {
+        auto language = _model->language();
+        const auto& allowed = language->blockMeta(blockIndex)->allowList();
+        for (int i = 0;i < language->size();i++)
+        {
+            if (allowed.contains(i))
+            {
+                auto meta = language->blockMeta(i);
+                auto action = new QAction(meta->displayIcon(),meta->label(),addGlobalMenu());
+                action->setStatusTip(
+                    tr("Add %1 block into the global(root) block.").arg(meta->label())
+                );
+                connect(action,&QAction::triggered,this,[this,i](){ addGlobal(i); });
+                addGlobalMenu()->addAction(action);
+            }
+        }
     }
     addMenu()->setDisabled(addMenu()->isEmpty());
 }

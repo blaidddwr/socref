@@ -27,6 +27,7 @@ class Project:
     QAction* _removeAction {nullptr};
     QAction* _undoAction {nullptr};
     QTreeView* _treeView {nullptr};
+    QMenu* _addGlobalMenu {nullptr};
     QMenu* _addMenu {nullptr};
     QSplitter* _splitter {nullptr};
     int _addActionBlockIndex {-1};
@@ -35,6 +36,17 @@ class Project:
     public:
     Project(
         QWidget* parent = nullptr
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's "add to global" menu.
+     */
+    public:
+    QMenu* addGlobalMenu(
     );
 
 
@@ -169,6 +181,19 @@ class Project:
      */
     private slots:
     void add(
+        int index
+    );
+
+
+    /*!
+     * Called when this widget's "add to global" action is triggered with the
+     * given block index.
+     *
+     * @param index
+     *        The block index.
+     */
+    private slots:
+    void addGlobal(
         int index
     );
 
@@ -354,6 +379,15 @@ class Project:
     private:
     void updateAddActions(
         const QModelIndex& index
+    );
+
+
+    /*!
+     * Updates this widget's "add to global" actions, removing the list of
+     * previous add actions and generating new add actions.
+     */
+    private:
+    void updateAddGlobalActions(
     );
 };
 }
