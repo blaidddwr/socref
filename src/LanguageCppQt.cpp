@@ -165,6 +165,17 @@ Block::Abstract* CppQt::create(
 }
 
 
+Block::Abstract* CppQt::createRoot(
+    QObject* parent
+) const
+{
+    auto ret = new Namespace(blockMeta(NamespaceIndex),parent);
+    ret->setName(QString());
+    ret->setDescription(QString());
+    return ret;
+}
+
+
 int CppQt::rootIndex(
 ) const
 {

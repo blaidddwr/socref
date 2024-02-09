@@ -6947,6 +6947,29 @@ Its properties are meta and root index. Meta is self-explanatory. Root index is 
                     </Variable>
                 </Function>
                 <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates and returns a new root block of this language with the given parent.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createRoot</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
                     <__p_const>1</__p_const>
@@ -7131,6 +7154,28 @@ Its properties are meta and root index. Meta is self-explanatory. Root index is 
                     <__p_explicit>0</__p_explicit>
                     <__p_final>1</__p_final>
                     <__p_invokable>0</__p_invokable>
+                    <__p_name>createRoot</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>1</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>1</__p_final>
+                    <__p_invokable>0</__p_invokable>
                     <__p_name>rootIndex</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
@@ -7202,6 +7247,28 @@ Its properties are meta and root index. Meta is self-explanatory. Root index is 
                     <__p_explicit>0</__p_explicit>
                     <__p_final>1</__p_final>
                     <__p_invokable>0</__p_invokable>
+                    <__p_name>createRoot</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>1</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>1</__p_final>
+                    <__p_invokable>0</__p_invokable>
                     <__p_name>rootIndex</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
@@ -7260,6 +7327,28 @@ Its properties are meta and root index. Meta is self-explanatory. Root index is 
                     </Variable>
                     <Variable>
                         <__p_assignment>nullptr</__p_assignment>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>1</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createRoot</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>1</__p_override>
+                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
                         <__p_name>parent</__p_name>
                         <__p_type>QObject*</__p_type>
                     </Variable>

@@ -75,6 +75,19 @@ class Abstract:
 
 
     /*!
+     * Creates and returns a new root block of this language with the given
+     * parent.
+     *
+     * @param parent
+     *        The parent.
+     */
+    public:
+    virtual Block::Abstract* createRoot(
+        QObject* parent = nullptr
+    ) const = 0;
+
+
+    /*!
      * Returns this language's block index with the given meta name. If there is
      * no such block with the given meta name then -1 is returned.
      *

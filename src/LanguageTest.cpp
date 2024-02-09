@@ -38,6 +38,16 @@ Block::Abstract* Test::create(
 }
 
 
+Block::Abstract* Test::createRoot(
+    QObject* parent
+) const
+{
+    auto ret = new Node(blockMeta(NodeIndex),parent);
+    ret->setName(QString());
+    return ret;
+}
+
+
 int Test::rootIndex(
 ) const
 {

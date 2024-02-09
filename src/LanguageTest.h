@@ -30,6 +30,12 @@ class Test:
 
 
     public:
+    virtual Block::Abstract* createRoot(
+        QObject* parent = nullptr
+    ) const override final;
+
+
+    public:
     virtual int rootIndex(
     ) const override final;
 };

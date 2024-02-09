@@ -24,8 +24,9 @@ Project::Project(
 {
     G_ASSERT(_language);
     connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
-    _root = _language->create(_language->rootIndex(),this);
+    _root = _language->createRoot(this);
     G_ASSERT(_root);
+    G_ASSERT(_root->meta()->index() == _language->rootIndex());
 }
 
 
