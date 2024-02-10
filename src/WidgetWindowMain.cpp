@@ -304,6 +304,7 @@ bool Main::saveAs(
         QMessageBox::warning(this,tr("File System Error"),e.message());
         return false;
     }
+    updateActions();
     return true;
 }
 
@@ -627,7 +628,7 @@ QAction* Main::orphanFilesAction(
 {
     if (!_orphanFilesAction)
     {
-        _orphanFilesAction = new QAction(tr("Orphan Files"),this);
+        _orphanFilesAction = new QAction(tr("Orphaned Files"),this);
         _orphanFilesAction->setStatusTip(
             tr("Open an interface for handling this window's project's orphaned block files.")
         );
@@ -777,7 +778,7 @@ void Main::updateTitle(
 {
     if (_projectModel)
     {
-        auto title = tr("%1[*] (%2) - Socrates' Reference");
+        static const auto title = tr("%1[*] (%2) - Socrates' Reference");
         setWindowTitle(
             title.arg(_projectModel->name(),_projectModel->language()->meta()->label())
         );

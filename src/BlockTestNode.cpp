@@ -48,10 +48,10 @@ QString Node::displayText(
 }
 
 
-QString Node::filename(
+QString Node::fileName(
 ) const
 {
-    return _name;
+    return qobject_cast<Abstract*>(parent())? _name : "ROOT";
 }
 
 

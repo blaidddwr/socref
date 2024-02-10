@@ -32,7 +32,7 @@ Block* Block::_instance {nullptr};
         language
         ,version
         ,dir
-        ,::Block::Abstract::rootFilename()
+        ,::Block::Abstract::rootFileName()
         ,parent
     );
 }
@@ -259,7 +259,7 @@ void Block::insertBlockPaths(
 )
 {
     using LogicalError = Exception::Block::Logical;
-    auto fpath = path+"/"+block.filename()+EXT;
+    auto fpath = path+"/"+block.fileName()+EXT;
     if (registry.contains(fpath))
     {
         throw LogicalError(tr("Multiple children blocks with the same file path %1.").arg(fpath));
@@ -269,7 +269,7 @@ void Block::insertBlockPaths(
     {
         for (auto child: block._children)
         {
-           insertBlockPaths(registry,*child,path+"/"+block.filename());
+           insertBlockPaths(registry,*child,path+"/"+block.fileName());
         }
     }
 }
@@ -283,9 +283,9 @@ void Block::insertPaths(
     QDir dir(path);
     if (dir.isReadable())
     {
-        for (const auto& filename: dir.entryList({QString("*")+EXT},QDir::Files))
+        for (const auto& fileName: dir.entryList({QString("*")+EXT},QDir::Files))
         {
-           auto cpath = path+"/"+filename;
+           auto cpath = path+"/"+fileName;
            paths.append(cpath);
            cpath.chop(strlen(EXT));
            insertPaths(paths,cpath);
@@ -298,14 +298,14 @@ void Block::insertPaths(
     Language::Abstract* language
     ,int version
     ,const QDir& dir
-    ,const QString& filename
+    ,const QString& fileName
     ,QObject* parent
 )
 {
     using FileError = Exception::System::File;
     using ReadError = Exception::Block::Read;
     G_ASSERT(language);
-    auto path = dir.absoluteFilePath(filename+EXT);
+    auto path = dir.absoluteFilePath(fileName+EXT);
     QFileInfo info(path);
     if (!info.isFile())
     {
@@ -367,7 +367,7 @@ void Block::insertPaths(
     }
     if (!line.isNull())
     {
-        auto cpath = dir.absoluteFilePath(filename);
+        auto cpath = dir.absoluteFilePath(fileName);
         QDir cdir(cpath);
         if (!cdir.exists())
         {
@@ -407,7 +407,7 @@ void Block::write(
     using FileError = Exception::System::File;
     using LogicalError = Exception::Block::Logical;
     using WriteError = Exception::Block::Write;
-    auto path = dir.absoluteFilePath(block.filename()+EXT);
+    auto path = dir.absoluteFilePath(block.fileName()+EXT);
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly|QIODevice::Truncate))
     {
@@ -425,7 +425,7 @@ void Block::write(
     }
     if (block.size() > 0)
     {
-        auto cpath = dir.absoluteFilePath(block.filename());
+        auto cpath = dir.absoluteFilePath(block.fileName());
         QDir cdir(cpath);
         if (!cdir.exists())
         {
@@ -442,15 +442,15 @@ void Block::write(
         out << "+children\n";
         for (auto child: block._children)
         {
-            auto filename = child->filename();
-            if (registry.contains(filename))
+            auto fileName = child->fileName();
+            if (registry.contains(fileName))
             {
                 throw LogicalError(
-                    tr("Multiple children blocks with the same filename %1.").arg(filename)
+                    tr("Multiple children blocks with the same file name %1.").arg(fileName)
                 );
             }
             write(*child,cdir);
-            out << filename << "\n";
+            out << fileName << "\n";
         }
     }
     if (file.error() != QFileDevice::NoError)

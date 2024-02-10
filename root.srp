@@ -25,7 +25,7 @@ A block can only have children blocks of any type in its meta's allow list prope
 
 A block's data, or state, can be loaded, saved, retrieved, or set. The load and save methods, &quot;load from map&quot; and &quot;save to map&quot;, are used for loading and saving a block's data to the file system. The state and &quot;set state&quot; methods are used to save or set a block's state. Because the load and save methods are used for file system IO, the mapped values must be saved as strings and be version aware for backwards save file compatibility. There is no such limitation for the state and set state methods.
 
-All blocks supply a filename used when saving/loading blocks in the multi file directory system. A block's filename must be unique among all other sibling blocks. The root block must supply the special root filename.</__p_description>
+All blocks supply a file name used when saving/loading blocks in the multi file directory system. A block's file name must be unique among all other sibling blocks. The root block must supply the special root file name.</__p_description>
                 <__p_name>Abstract</__p_name>
                 <__p_parents>public QObject</__p_parents>
                 <Function>
@@ -232,10 +232,10 @@ All blocks supply a filename used when saving/loading blocks in the multi file d
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>filename</__p_name>
+                    <__p_name>fileName</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This block's filename.</__p_returnDescription>
+                    <__p_returnDescription>This block's file name.</__p_returnDescription>
                     <__p_returnType>QString</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
@@ -397,10 +397,10 @@ A read block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>rootFilename</__p_name>
+                    <__p_name>rootFileName</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>The special root filename.</__p_returnDescription>
+                    <__p_returnDescription>The special root file name.</__p_returnDescription>
                     <__p_returnType>const QString&amp;</__p_returnType>
                     <__p_static>1</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -761,7 +761,7 @@ Its properties are name, description, and scope name. Name and description are s
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>filename</__p_name>
+                        <__p_name>fileName</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
                         <__p_returnType>QString</__p_returnType>
@@ -1982,7 +1982,7 @@ A words list is generated in order to correctly build the definition of a functi
                         <__p_explicit>0</__p_explicit>
                         <__p_final>1</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>filename</__p_name>
+                        <__p_name>fileName</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
                         <__p_returnType>QString</__p_returnType>
@@ -5605,7 +5605,7 @@ The display icon property can be set with an appropriate setter method so it can
                         <__p_explicit>0</__p_explicit>
                         <__p_final>1</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>filename</__p_name>
+                        <__p_name>fileName</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
                         <__p_returnType>QString</__p_returnType>
@@ -8615,9 +8615,7 @@ The given command must be valid.</__p_description>
 Stream classes write class instance data to output devices and read class instance data from input devices.</__p_description>
             <__p_name>Stream</__p_name>
             <Class>
-                <__p_description>This is a stream class. It is a singleton class. It handles all input and output for abstract block class instances.
-
-When saving block files, their filenames are generated by taking the base 64 encoding of their identification. The base 64 specification used has one unique difference to the standard. The forward slash character is replaced with the exclamation mark character.</__p_description>
+                <__p_description>This is a stream class. It is a singleton class. It handles all input and output for abstract block class instances.</__p_description>
                 <__p_name>Block</__p_name>
                 <__p_parents>public QObject</__p_parents>
                 <Function>
@@ -8924,7 +8922,7 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Creates and returns a new block and all its children located at the given directory with the given block filename, language, format version, and parent. The given language must be valid.
+                    <__p_description>Creates and returns a new block and all its children located at the given directory with the given block file name, language, format version, and parent. The given language must be valid.
 
 The new block's children are expected to reside in the same directory as the new block's file's directory.
 
@@ -8954,8 +8952,8 @@ A read block or file system exception is thrown if any error is encountered.</__
                         <__p_type>const QDir&amp;</__p_type>
                     </Variable>
                     <Variable>
-                        <__p_description>The block filename.</__p_description>
-                        <__p_name>filename</__p_name>
+                        <__p_description>The block file name.</__p_description>
+                        <__p_name>fileName</__p_name>
                         <__p_type>const QString&amp;</__p_type>
                     </Variable>
                     <Variable>

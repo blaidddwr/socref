@@ -117,7 +117,7 @@ void Abstract::move(
 }
 
 
-const QString& Abstract::rootFilename(
+const QString& Abstract::rootFileName(
 )
 {
     static const QString ret = "ROOT";

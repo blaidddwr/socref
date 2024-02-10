@@ -38,9 +38,9 @@ namespace Block {
  * be version aware for backwards save file compatibility. There is no such
  * limitation for the state and set state methods.
  * 
- * All blocks supply a filename used when saving/loading blocks in the multi
- * file directory system. A block's filename must be unique among all other
- * sibling blocks. The root block must supply the special root filename.
+ * All blocks supply a file name used when saving/loading blocks in the multi
+ * file directory system. A block's file name must be unique among all other
+ * sibling blocks. The root block must supply the special root file name.
  */
 class Abstract:
     public QObject
@@ -172,10 +172,10 @@ class Abstract:
      * Getter method.
      *
      * @return
-     * This block's filename.
+     * This block's file name.
      */
     public:
-    virtual QString filename(
+    virtual QString fileName(
     ) const = 0;
 
 
@@ -281,10 +281,10 @@ class Abstract:
      * Getter method.
      *
      * @return
-     * The special root filename.
+     * The special root file name.
      */
     public:
-    static const QString& rootFilename(
+    static const QString& rootFileName(
     );
 
 

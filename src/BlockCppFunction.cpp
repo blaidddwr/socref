@@ -84,13 +84,13 @@ QString Function::displayText(
 }
 
 
-QString Function::filename(
+QString Function::fileName(
 ) const
 {
     QStringList ret;
     appendSignature(ret);
     appendRightSignatureFlags(ret);
-    return ret.join("");
+    return ret.join("").replace(":","|").replace("*","#").replace("<","[").replace(">","]");
 }
 
 

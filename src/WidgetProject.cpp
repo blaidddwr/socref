@@ -15,6 +15,7 @@ Project::Project(
     auto layout = new QVBoxLayout;
     layout->addWidget(splitter());
     setLayout(layout);
+    updateAddGlobalActions();
     updateActions(QModelIndex());
 }
 
@@ -450,6 +451,7 @@ void Project::updateActions(
         undoAction()->setDisabled(!_model->canUndo());
         moveDownAction()->setDisabled(!_model->canMove(index.parent(),index.row(),index.row()+1));
         moveUpAction()->setDisabled(!_model->canMove(index.parent(),index.row(),index.row()-1));
+        deselectAction()->setDisabled(!treeView()->selectionModel()->hasSelection());
     }
     else
     {
@@ -461,6 +463,7 @@ void Project::updateActions(
         redoAction()->setDisabled(true);
         removeAction()->setDisabled(true);
         undoAction()->setDisabled(true);
+        deselectAction()->setDisabled(true);
     }
     updateAddActions(index);
 }
@@ -511,19 +514,11 @@ void Project::updateAddActions(
 void Project::updateAddGlobalActions(
 )
 {
-    int blockIndex = -1;
+    addGlobalMenu()->clear();
     if (_model)
     {
-        blockIndex = _model->blockIndex(QModelIndex());
-    }
-    addGlobalMenu()->clear();
-    if (
-        _model
-        && blockIndex != -1
-    )
-    {
         auto language = _model->language();
-        const auto& allowed = language->blockMeta(blockIndex)->allowList();
+        const auto& allowed = language->blockMeta(_model->blockIndex(QModelIndex()))->allowList();
         for (int i = 0;i < language->size();i++)
         {
             if (allowed.contains(i))
@@ -538,6 +533,6 @@ void Project::updateAddGlobalActions(
             }
         }
     }
-    addMenu()->setDisabled(addMenu()->isEmpty());
+    addGlobalMenu()->setDisabled(addGlobalMenu()->isEmpty());
 }
 }

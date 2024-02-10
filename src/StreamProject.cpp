@@ -202,7 +202,7 @@ void Project::toDir(
 )
 {
     saveDir(project,path);
-    project.setDirectoryPath(QFileInfo(path).absolutePath());
+    project.setDirectoryPath(QFileInfo(path).absoluteFilePath());
     project.setModified(false);
 }
 

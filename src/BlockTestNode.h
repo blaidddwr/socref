@@ -72,7 +72,7 @@ class Node:
 
 
     public:
-    virtual QString filename(
+    virtual QString fileName(
     ) const override final;
 
 
