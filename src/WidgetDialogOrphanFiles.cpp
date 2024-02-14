@@ -1,6 +1,7 @@
 #include "WidgetDialogOrphanFiles.h"
 #include <QtWidgets>
 #include "Exceptions.h"
+#include "ModelProject.h"
 #include "StreamProject.h"
 namespace Widget {
 namespace Dialog {
@@ -15,6 +16,7 @@ OrphanFiles::OrphanFiles(
     ,_projectModel(projectModel)
 {
     G_ASSERT(_projectModel);
+    connect(_projectModel,&QObject::destroyed,this,&OrphanFiles::onProjectModelDestroyed);
     auto layout = new QVBoxLayout;
     layout->addWidget(listView());
     layout->addLayout(buttonsLayout());
@@ -27,6 +29,17 @@ void OrphanFiles::gitRemoveAll(
 )
 {
     remove(true);
+}
+
+
+void OrphanFiles::onProjectModelDestroyed(
+    QObject* object
+)
+{
+    if (_projectModel == object)
+    {
+        _projectModel = nullptr;
+    }
 }
 
 
@@ -123,6 +136,7 @@ void OrphanFiles::remove(
     bool git
 )
 {
+    G_ASSERT(_projectModel);
     auto paths = _model->stringList();
     if (!paths.isEmpty())
     {

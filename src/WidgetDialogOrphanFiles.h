@@ -33,7 +33,8 @@ class OrphanFiles:
      * Constructs this new widget with the given project model, parent, and
      * flags.
      * 
-     * The given project model must be valid.
+     * The given project model must be valid and cannot be destroyed during the
+     * lifetime of this widget.
      *
      * @param projectModel
      *        The project model.
@@ -57,6 +58,15 @@ class OrphanFiles:
      */
     private slots:
     void gitRemoveAll(
+    );
+
+
+    /*!
+     * Called when this widget's project model's destroyed signal is emitted.
+     */
+    private slots:
+    void onProjectModelDestroyed(
+        QObject* object
     );
 
 

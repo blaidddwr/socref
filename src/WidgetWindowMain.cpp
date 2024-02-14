@@ -7,6 +7,7 @@
 #include "ModelProject.h"
 #include "StreamProject.h"
 #include "WidgetDialogOrphanFiles.h"
+#include "WidgetDialogProject.h"
 #include "WidgetProject.h"
 namespace Widget {
 namespace Window {
@@ -181,6 +182,13 @@ void Main::onProjectModelModifiedChanged(
 }
 
 
+void Main::onProjectModelNameChanged(
+)
+{
+    updateTitle();
+}
+
+
 void Main::open(
 )
 {
@@ -236,7 +244,12 @@ void Main::parse(
 void Main::properties(
 )
 {
-    //TODO
+    if (_projectModel)
+    {
+        Dialog::Project dialog(_projectModel);
+        dialog.setWindowTitle(tr("Socrates' Reference - Project Properties"));
+        dialog.exec();
+    }
 }
 
 
@@ -729,6 +742,12 @@ void Main::setProjectModel(
     {
         disconnect(
             _projectModel
+            ,&Model::Project::nameChanged
+            ,this
+            ,&Main::onProjectModelNameChanged
+        );
+        disconnect(
+            _projectModel
             ,&Model::Project::modifiedChanged
             ,this
             ,&Main::onProjectModelModifiedChanged
@@ -739,6 +758,7 @@ void Main::setProjectModel(
     if (_projectModel)
     {
         _projectModel->setParent(this);
+        connect(_projectModel,&Model::Project::nameChanged,this,&Main::onProjectModelNameChanged);
         connect(
             _projectModel
             ,&Model::Project::modifiedChanged

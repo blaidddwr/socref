@@ -90,7 +90,7 @@ QString Function::fileName(
     QStringList ret;
     appendSignature(ret);
     appendRightSignatureFlags(ret);
-    return ret.join("").replace(":","|").replace("*","#").replace("<","[").replace(">","]");
+    return ret.join("").replace(":",";").replace("*","#").replace("<","[").replace(">","]");
 }
 
 

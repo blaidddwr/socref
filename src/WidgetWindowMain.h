@@ -128,6 +128,15 @@ class Main:
 
 
     /*!
+     * Called when this instance's project model's name changed signal is
+     * emitted.
+     */
+    private slots:
+    void onProjectModelNameChanged(
+    );
+
+
+    /*!
      * Called when this widget's open action is triggered.
      */
     private slots:

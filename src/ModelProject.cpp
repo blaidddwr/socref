@@ -474,6 +474,7 @@ void Project::setName(
     {
         _name = value;
         emit nameChanged(value);
+        setModified(true);
     }
 }
 
@@ -486,6 +487,7 @@ void Project::setRelativeParsePath(
     {
         _relativeParsePath = value;
         emit relativeParsePathChanged(value);
+        setModified(true);
     }
 }
 

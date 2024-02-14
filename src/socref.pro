@@ -50,6 +50,7 @@ SOURCES +=  Global.cpp \
             TestModelProject.cpp \
             WidgetBlockAbstract.cpp \
             WidgetDialogOrphanFiles.cpp \
+            WidgetDialogProject.cpp \
             WidgetProject.cpp \
             WidgetWindowMain.cpp
 
@@ -125,6 +126,7 @@ HEADERS +=  Global.h \
             WidgetBlockAbstract.h \
             WidgetDialog.h \
             WidgetDialogOrphanFiles.h \
+            WidgetDialogProject.h \
             WidgetProject.h \
             WidgetWindow.h \
             WidgetWindowMain.h

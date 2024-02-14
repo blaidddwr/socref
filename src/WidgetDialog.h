@@ -9,6 +9,7 @@ namespace Widget {
 namespace Dialog
 {
     class OrphanFiles;
+    class Project;
 }
 }
 
