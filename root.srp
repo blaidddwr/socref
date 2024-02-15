@@ -12485,7 +12485,11 @@ This must be called after the initialize function is called.</__p_description>
 See the abstract block widget class for a detailed description of block widgets.</__p_description>
                 <__p_name>Block</__p_name>
                 <Class>
-                    <__p_description>This is an abstract widget class. It extends the Qt object class. It exposes a block implementation to the user.</__p_description>
+                    <__p_description>This is an abstract widget class. It provides an editable view of a block contained in a project model.
+
+Its single property is modified. The modified flag is true if a block widget has modified edit widgets whose data has not been applied to its block or false otherwise.
+
+In order to correctly modify its block through the block's project model, a block widget is provided the model and index of its block. When applying a block widget's data to its block, its model and index must be valid.</__p_description>
                     <__p_name>Abstract</__p_name>
                     <__p_parents>public QWidget</__p_parents>
                     <Function>
@@ -12494,7 +12498,9 @@ See the abstract block widget class for a detailed description of block widgets.
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Constructs this new widget with the given block implementation and parent. The given block implementation must be valid and cannot be destroyed during the life of this widget instance.</__p_description>
+                        <__p_description>Constructs this new widget with the given block and parent.
+
+The given block must be valid and cannot be destroyed during the life of this widget instance.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -12505,9 +12511,9 @@ See the abstract block widget class for a detailed description of block widgets.
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                         <Variable>
-                            <__p_description>The block implementation.</__p_description>
+                            <__p_description>The block.</__p_description>
                             <__p_name>block</__p_name>
-                            <__p_type>::Block::Abstract*</__p_type>
+                            <__p_type>const ::Block::Abstract*</__p_type>
                         </Variable>
                         <Variable>
                             <__p_assignment>nullptr</__p_assignment>
@@ -12515,6 +12521,47 @@ See the abstract block widget class for a detailed description of block widgets.
                             <__p_name>parent</__p_name>
                             <__p_type>QWidget*</__p_type>
                         </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Signals</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Signals this widget's modified property has changed to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>modifiedChanged</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>bool</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>1</__p_abstract>
+                        <__p_access>Public Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Called to Apply any modifications from this widget to its block.
+
+This widget must have a valid model, index, and block.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>apply</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -12526,47 +12573,179 @@ See the abstract block widget class for a detailed description of block widgets.
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>block</__p_name>
+                        <__p_name>modified</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's block.</__p_returnDescription>
-                        <__p_returnType>::Block::Abstract*</__p_returnType>
+                        <__p_returnDescription>This widget's modified property.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
                     <Function>
-                        <__p_abstract>1</__p_abstract>
+                        <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Applies any modifications in this widget made by the user to its block implementation.</__p_description>
+                        <__p_description>Sets this widget's index to the given index.
+
+The given index must point to this widget's block in its project model.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>applyModifications</__p_name>
+                        <__p_name>setIndex</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The index.</__p_description>
+                            <__p_name>index</__p_name>
+                            <__p_type>const QPersistentModelIndex&amp;</__p_type>
+                        </Variable>
                     </Function>
                     <Function>
-                        <__p_abstract>1</__p_abstract>
+                        <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
+                        <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Returns true if this widget has modifications not applied to its block implementation or false otherwise.</__p_description>
+                        <__p_description>Sets this widget's model to the given model.
+
+The given model must be the project model which contains this widget's block.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>hasModifications</__p_name>
+                        <__p_name>setModel</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnType>bool</__p_returnType>
+                        <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The model.</__p_description>
+                            <__p_name>model</__p_name>
+                            <__p_type>Model::Project*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this widget's modified property to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setModified</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>bool</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Called to set this widget's modified property to true.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>touch</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Calls this widget's model's abort set method, signaling no modifications were applied to this widget's block.
+
+This can only be called after calling this widget's begin set method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>abortSet</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Calls this widget's model's begin set method, signaling modifications are about to be applied to this widget's block.
+
+This must be called before this widget can safely apply its modifications to its block. This widget's block must be able to be Qt object cast to the given type T. This widget must have a valid model, index, and block.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>beginSet</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This widget's block Qt object cast as type T.</__p_returnDescription>
+                        <__p_returnType>T*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_template>template&lt;class T&gt;</__p_template>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Returns this widget's block, Qt object cast to the given type T.
+
+This widget's block must be able to be cast to the given type T.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>block</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>const T*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_template>template&lt;class T&gt;</__p_template>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Calls this widget's model's abort set method, signaling modifications were successfully applied to this widget's block.
+
+This can only be called after calling this widget's begin set method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>finishSet</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -12579,6 +12758,27 @@ See the abstract block widget class for a detailed description of block widgets.
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>onBlockDestroyed</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>object</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Called when this widget's model's destroyed signal is emitted.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>onModelDestroyed</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>

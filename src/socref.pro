@@ -124,6 +124,7 @@ HEADERS +=  Global.h \
             Widget.h \
             WidgetBlock.h \
             WidgetBlockAbstract.h \
+            WidgetBlockAbstract.t.h \
             WidgetDialog.h \
             WidgetDialogOrphanFiles.h \
             WidgetDialogProject.h \
