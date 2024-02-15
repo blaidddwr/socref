@@ -28,7 +28,7 @@ void Project::apply(
 {
     G_ASSERT(_model);
     _model->setName(nameEdit()->text());
-    _model->setRelativeParsePath(codePathLine()->text());
+    _model->setRelativeCodePath(codePathLine()->text());
 }
 
 
@@ -127,7 +127,7 @@ QLineEdit* Project::codePathLine(
         G_ASSERT(_model);
         _codePathLine = new QLineEdit;
         _codePathLine->setReadOnly(true);
-        _codePathLine->setText(_model->relativeParsePath());
+        _codePathLine->setText(_model->relativeCodePath());
     }
     return _codePathLine;
 }

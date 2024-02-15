@@ -90,7 +90,7 @@ QAction* Project::moveDownAction(
     if (!_moveDownAction)
     {
         _moveDownAction = new QAction(QIcon::fromTheme("go-down"),tr("Move Down"),this);
-        _moveDownAction->setStatusTip(tr("Move the currently selected block down by one."));
+        _moveDownAction->setStatusTip(tr("Move the current block down by one."));
         _moveDownAction->setShortcut(Qt::CTRL|Qt::Key_Down);
         connect(_moveDownAction,&QAction::triggered,this,&Project::moveDown);
     }
@@ -104,7 +104,7 @@ QAction* Project::moveUpAction(
     if (!_moveUpAction)
     {
         _moveUpAction = new QAction(QIcon::fromTheme("go-up"),tr("Move Up"),this);
-        _moveUpAction->setStatusTip(tr("Move the currently selected block up by one."));
+        _moveUpAction->setStatusTip(tr("Move the current block up by one."));
         _moveUpAction->setShortcut(Qt::CTRL|Qt::Key_Up);
         connect(_moveUpAction,&QAction::triggered,this,&Project::moveUp);
     }
@@ -118,7 +118,7 @@ QAction* Project::pasteAction(
     if (!_pasteAction)
     {
         _pasteAction = new QAction(QIcon::fromTheme("edit-paste"),tr("Paste"),this);
-        _pasteAction->setStatusTip(tr("Paste copied blocks into the currently selected block."));
+        _pasteAction->setStatusTip(tr("Paste copied blocks into the current block."));
         _pasteAction->setShortcut(QKeySequence::Paste);
         connect(_pasteAction,&QAction::triggered,this,&Project::paste);
     }
@@ -236,7 +236,8 @@ void Project::deselect(
 {
     if (_model)
     {
-        treeView()->selectionModel()->setCurrentIndex(QModelIndex(),QItemSelectionModel::Clear);
+        auto tv = treeView();
+        tv->selectionModel()->setCurrentIndex(tv->currentIndex(),QItemSelectionModel::Clear);
     }
 }
 
@@ -498,7 +499,7 @@ void Project::updateAddActions(
                     auto meta = language->blockMeta(i);
                     auto action = new QAction(meta->displayIcon(),meta->label(),addMenu());
                     action->setStatusTip(
-                        tr("Add %1 block into the currently selected block.").arg(meta->label())
+                        tr("Add new %1 block into the current block.").arg(meta->label())
                     );
                     connect(action,&QAction::triggered,this,[this,i](){ add(i); });
                     addMenu()->addAction(action);
@@ -526,7 +527,7 @@ void Project::updateAddGlobalActions(
                 auto meta = language->blockMeta(i);
                 auto action = new QAction(meta->displayIcon(),meta->label(),addGlobalMenu());
                 action->setStatusTip(
-                    tr("Add %1 block into the global(root) block.").arg(meta->label())
+                    tr("Add new %1 block into the global(root) block.").arg(meta->label())
                 );
                 connect(action,&QAction::triggered,this,[this,i](){ addGlobal(i); });
                 addGlobalMenu()->addAction(action);

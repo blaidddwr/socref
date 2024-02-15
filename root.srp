@@ -7626,7 +7626,7 @@ Its properties are name and label. The name is the machine name and the label is
             <Class>
                 <__p_description>This is a model class. It represents a Socrates' Reference project.
 
-Its properties are language, name, directory path, relative parse path, and modified. The language and name are self-explanatory. The directory path is where a project's files are located. The parse path is the path, relative to the location of a project's directory path, where a project's source code is contained The modified flag is self-explanatory.</__p_description>
+Its properties are language, name, directory path, relative code path, and modified. The language and name are self-explanatory. The directory path is where a project's files are located. The relative code path is the path, relative to the location of a project's directory path, where a project's source code is contained. The modified flag is self-explanatory.</__p_description>
                 <__p_name>Project</__p_name>
                 <__p_parents>public QAbstractItemModel</__p_parents>
                 <Function>
@@ -7701,11 +7701,11 @@ Its properties are language, name, directory path, relative parse path, and modi
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Signals this instance's relative parse path property has changed to the given value.</__p_description>
+                    <__p_description>Signals this instance's relative code path property has changed to the given value.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>relativeParsePathChanged</__p_name>
+                    <__p_name>relativeCodePathChanged</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
@@ -7775,11 +7775,11 @@ The begin set method must be called before this method.</__p_description>
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Returns this project's absolute parse path, derived its directory path and relative parse path.</__p_description>
+                    <__p_description>Returns this project's absolute code path, derived from its directory path and relative code path.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>absoluteParsePath</__p_name>
+                    <__p_name>absoluteCodePath</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>QString</__p_returnType>
@@ -8311,10 +8311,10 @@ The given from and to rows must produce a valid move operation in this model.</_
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>relativeParsePath</__p_name>
+                    <__p_name>relativeCodePath</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This instance's relative parse path property.</__p_returnDescription>
+                    <__p_returnDescription>This instance's relative code path property.</__p_returnDescription>
                     <__p_returnType>const QString&amp;</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -8391,11 +8391,11 @@ The given from and to rows must produce a valid move operation in this model.</_
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Sets this instance's relative parse path property to the given value.</__p_description>
+                    <__p_description>Sets this instance's relative code path property to the given value.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>setRelativeParsePath</__p_name>
+                    <__p_name>setRelativeCodePath</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>

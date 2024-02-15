@@ -45,10 +45,10 @@ bool Project::abortSet(
 }
 
 
-QString Project::absoluteParsePath(
+QString Project::absoluteCodePath(
 ) const
 {
-    return QDir(_directoryPath).absoluteFilePath(_relativeParsePath);
+    return QDir(_directoryPath).absoluteFilePath(_relativeCodePath);
 }
 
 
@@ -415,10 +415,10 @@ bool Project::redo(
 }
 
 
-const QString& Project::relativeParsePath(
+const QString& Project::relativeCodePath(
 ) const
 {
-    return _relativeParsePath;
+    return _relativeCodePath;
 }
 
 
@@ -479,14 +479,14 @@ void Project::setName(
 }
 
 
-void Project::setRelativeParsePath(
+void Project::setRelativeCodePath(
     const QString& value
 )
 {
-    if (_relativeParsePath != value)
+    if (_relativeCodePath != value)
     {
-        _relativeParsePath = value;
-        emit relativeParsePathChanged(value);
+        _relativeCodePath = value;
+        emit relativeCodePathChanged(value);
         setModified(true);
     }
 }

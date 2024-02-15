@@ -109,11 +109,11 @@ Model::Project* Project::fromXml(
                     ret->_name = xml.readElementText();
                 }
                 else if (
-                    name == "parse_path"
-                    || name == "relativeParsePath"
+                    (version == Socref_Legacy && name == "parse_path")
+                    || name == "relativeCodePath"
                 )
                 {
-                    ret->_relativeParsePath = xml.readElementText();
+                    ret->_relativeCodePath = xml.readElementText();
                 }
                 else if (!ret->_root)
                 {
@@ -228,7 +228,7 @@ void Project::toXml(
         xml.writeAttribute("version",QString::number(Socref_Current));
         xml.writeTextElement("name",project._name);
         xml.writeTextElement("language",project._language->meta()->name());
-        xml.writeTextElement("relativeParsePath",project._relativeParsePath);
+        xml.writeTextElement("relativeCodePath",project._relativeCodePath);
         Block::toXml(*project._root,xml);
         xml.writeEndElement();
         xml.writeEndDocument();
@@ -309,9 +309,9 @@ int Project::read(
                 {
                     project._name = xml.readElementText();
                 }
-                else if (name == "relativeParsePath")
+                else if (name == "relativeCodePath")
                 {
-                    project._relativeParsePath = xml.readElementText();
+                    project._relativeCodePath = xml.readElementText();
                 }
             }
         }
@@ -380,7 +380,7 @@ void Project::write(
     xml.writeAttribute("version",QString::number(Socref_Current));
     xml.writeTextElement("name",project._name);
     xml.writeTextElement("language",project._language->meta()->name());
-    xml.writeTextElement("relativeParsePath",project._relativeParsePath);
+    xml.writeTextElement("relativeCodePath",project._relativeCodePath);
     xml.writeEndElement();
     xml.writeEndDocument();
     if (file.error() != QFileDevice::NoError)

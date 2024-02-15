@@ -14,11 +14,11 @@ namespace Model {
 /*!
  * This is a model class. It represents a Socrates' Reference project.
  * 
- * Its properties are language, name, directory path, relative parse path, and
+ * Its properties are language, name, directory path, relative code path, and
  * modified. The language and name are self-explanatory. The directory path is
- * where a project's files are located. The parse path is the path, relative to
- * the location of a project's directory path, where a project's source code is
- * contained The modified flag is self-explanatory.
+ * where a project's files are located. The relative code path is the path,
+ * relative to the location of a project's directory path, where a project's
+ * source code is contained. The modified flag is self-explanatory.
  */
 class Project:
     public QAbstractItemModel
@@ -38,7 +38,7 @@ class Project:
     QPersistentModelIndex _setIndex;
     QString _directoryPath;
     QString _name;
-    QString _relativeParsePath;
+    QString _relativeCodePath;
     bool mutable _modified {true};
     static QList<Block::Abstract*> _copied;
 
@@ -81,14 +81,14 @@ class Project:
 
 
     /*!
-     * Signals this instance's relative parse path property has changed to the
+     * Signals this instance's relative code path property has changed to the
      * given value.
      *
      * @param value
      *        The value.
      */
     signals:
-    void relativeParsePathChanged(
+    void relativeCodePathChanged(
         const QString& value
     );
 
@@ -128,11 +128,11 @@ class Project:
 
 
     /*!
-     * Returns this project's absolute parse path, derived its directory path
-     * and relative parse path.
+     * Returns this project's absolute code path, derived from its directory
+     * path and relative code path.
      */
     public:
-    QString absoluteParsePath(
+    QString absoluteCodePath(
     ) const;
 
 
@@ -443,10 +443,10 @@ class Project:
      * Getter method.
      *
      * @return
-     * This instance's relative parse path property.
+     * This instance's relative code path property.
      */
     public:
-    const QString& relativeParsePath(
+    const QString& relativeCodePath(
     ) const;
 
 
@@ -484,13 +484,13 @@ class Project:
 
 
     /*!
-     * Sets this instance's relative parse path property to the given value.
+     * Sets this instance's relative code path property to the given value.
      *
      * @param value
      *        The value.
      */
     public:
-    void setRelativeParsePath(
+    void setRelativeCodePath(
         const QString& value
     );
 
