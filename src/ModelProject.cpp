@@ -143,6 +143,15 @@ int Project::columnCount(
 }
 
 
+const Block::Abstract* Project::constBlock(
+    const QModelIndex& index
+) const
+{
+    G_ASSERT(index.isValid());
+    return block(index);
+}
+
+
 int Project::copy(
     const QModelIndexList& indexes
 ) const

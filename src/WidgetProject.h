@@ -2,6 +2,10 @@
 #define WIDGET_PROJECT_H
 #include <QWidget>
 #include "Model.h"
+class QGroupBox;
+class QPushButton;
+class QHBoxLayout;
+class QScrollArea;
 class QSplitter;
 class QTreeView;
 namespace Widget {
@@ -26,10 +30,15 @@ class Project:
     QAction* _redoAction {nullptr};
     QAction* _removeAction {nullptr};
     QAction* _undoAction {nullptr};
-    QTreeView* _treeView {nullptr};
+    QGroupBox* _blockGroupBox {nullptr};
+    QHBoxLayout* _blockButtonsLayout {nullptr};
     QMenu* _addGlobalMenu {nullptr};
     QMenu* _addMenu {nullptr};
+    QPushButton* _blockApplyButton {nullptr};
+    QScrollArea* _blockScrollArea{nullptr};
     QSplitter* _splitter {nullptr};
+    QTreeView* _treeView {nullptr};
+    QWidget* _blockView {nullptr};
     int _addActionBlockIndex {-1};
 
 
@@ -300,6 +309,61 @@ class Project:
 
 
     /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's block apply button.
+     */
+    private:
+    QPushButton* blockApplyButton(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's block buttons layout.
+     */
+    private:
+    QHBoxLayout* blockButtonsLayout(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's block group box.
+     */
+    private:
+    QGroupBox* blockGroupBox(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's block scroll area.
+     */
+    private:
+    QScrollArea* blockScrollArea(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's block view.
+     */
+    private:
+    QWidget* blockView(
+    );
+
+
+    /*!
      * Moves this widget's project model's block at this widget's current index
      * by the given delta within its parent block.
      * 
@@ -317,6 +381,10 @@ class Project:
 
     /*!
      * Set this widget's block widget to the given widget.
+     * 
+     * The given widget must be valid.
+     * 
+     * This widget takes ownership of the given widget.
      *
      * @param widget
      *        The widget.

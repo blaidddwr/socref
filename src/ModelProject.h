@@ -238,6 +238,24 @@ class Project:
 
 
     /*!
+     * Returns the block contained in this model at the given index.
+     * 
+     * The given index must be valid.
+     * 
+     * A constant pointer is returned because the block cannot be modified or
+     * deleted. Doing either action will corrupt this project model and
+     * potentially crash the application.
+     *
+     * @param index
+     *        The index.
+     */
+    public:
+    const Block::Abstract* constBlock(
+        const QModelIndex& index
+    ) const;
+
+
+    /*!
      * Copies the blocks in this model at the given indexes.
      *
      * @param indexes

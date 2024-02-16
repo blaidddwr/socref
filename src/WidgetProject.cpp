@@ -1,9 +1,11 @@
 #include "WidgetProject.h"
 #include <QtWidgets>
+#include "BlockAbstract.h"
 #include "Exceptions.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaBlock.h"
 #include "ModelProject.h"
+#include "WidgetBlockAbstract.h"
 namespace Widget {
 
 
@@ -294,6 +296,15 @@ void Project::onCurrentIndexChanged(
 {
     Q_UNUSED(previous);
     updateActions(current);
+    if (current.isValid())
+    {
+        G_ASSERT(_model);
+        setBlockWidget(_model->constBlock(current)->createWidget());
+    }
+    else
+    {
+        setBlockWidget(new QWidget);
+    }
 }
 
 
@@ -369,6 +380,74 @@ void Project::undo(
 }
 
 
+QPushButton* Project::blockApplyButton(
+)
+{
+    if (!_blockApplyButton)
+    {
+        _blockApplyButton = new QPushButton(tr("Apply"));
+        _blockApplyButton->setEnabled(false);
+    }
+    return _blockApplyButton;
+}
+
+
+QHBoxLayout* Project::blockButtonsLayout(
+)
+{
+    if (!_blockButtonsLayout)
+    {
+        _blockButtonsLayout = new QHBoxLayout;
+        _blockButtonsLayout->addWidget(blockApplyButton());
+        _blockButtonsLayout->addStretch();
+    }
+    return _blockButtonsLayout;
+}
+
+
+QGroupBox* Project::blockGroupBox(
+)
+{
+    if (!_blockGroupBox)
+    {
+        _blockGroupBox = new QGroupBox;
+        auto layout = new QVBoxLayout;
+        layout->setContentsMargins(0,0,0,0);
+        layout->addWidget(blockScrollArea());
+        _blockGroupBox->setLayout(layout);
+    }
+    return _blockGroupBox;
+}
+
+
+QScrollArea* Project::blockScrollArea(
+)
+{
+    if (!_blockScrollArea)
+    {
+        _blockScrollArea = new QScrollArea;
+        _blockScrollArea->setWidget(new QWidget);
+    }
+    return _blockScrollArea;
+}
+
+
+QWidget* Project::blockView(
+)
+{
+    if (!_blockView)
+    {
+        _blockView = new QWidget;
+        auto layout = new QVBoxLayout;
+        layout->setContentsMargins(2,0,0,0);
+        layout->addWidget(blockGroupBox());
+        layout->addLayout(blockButtonsLayout());
+        _blockView->setLayout(layout);
+    }
+    return _blockView;
+}
+
+
 void Project::move(
     int delta
 )
@@ -406,7 +485,14 @@ void Project::setBlockWidget(
 )
 {
     G_ASSERT(widget);
-    delete splitter()->replaceWidget(1,widget);
+    blockScrollArea()->setWidget(widget);
+    if (auto block = qobject_cast<Block::Abstract*>(widget))
+    {
+        auto button = blockApplyButton();
+        connect(button,&QPushButton::clicked,block,&Block::Abstract::apply);
+        connect(block,&Block::Abstract::modifiedChanged,button,&QWidget::setEnabled);
+        button->setEnabled(block->modified());
+    }
 }
 
 
@@ -418,7 +504,7 @@ QSplitter* Project::splitter(
         _splitter = new QSplitter;
         _splitter->setChildrenCollapsible(false);
         _splitter->addWidget(treeView());
-        _splitter->addWidget(new QWidget);
+        _splitter->addWidget(blockView());
     }
     return _splitter;
 }
@@ -444,15 +530,15 @@ void Project::updateActions(
     if (_model)
     {
         auto selectionModel = treeView()->selectionModel();
-        copyAction()->setDisabled(!selectionModel->hasSelection());
-        cutAction()->setDisabled(!selectionModel->hasSelection());
-        pasteAction()->setDisabled(!_model->canPaste(index));
-        redoAction()->setDisabled(!_model->canRedo());
-        removeAction()->setDisabled(!index.isValid());
-        undoAction()->setDisabled(!_model->canUndo());
-        moveDownAction()->setDisabled(!_model->canMove(index.parent(),index.row(),index.row()+1));
-        moveUpAction()->setDisabled(!_model->canMove(index.parent(),index.row(),index.row()-1));
-        deselectAction()->setDisabled(!treeView()->selectionModel()->hasSelection());
+        copyAction()->setEnabled(selectionModel->hasSelection());
+        cutAction()->setEnabled(selectionModel->hasSelection());
+        pasteAction()->setEnabled(_model->canPaste(index));
+        redoAction()->setEnabled(_model->canRedo());
+        removeAction()->setEnabled(index.isValid());
+        undoAction()->setEnabled(_model->canUndo());
+        moveDownAction()->setEnabled(_model->canMove(index.parent(),index.row(),index.row()+1));
+        moveUpAction()->setEnabled(_model->canMove(index.parent(),index.row(),index.row()-1));
+        deselectAction()->setEnabled(treeView()->selectionModel()->hasSelection());
     }
     else
     {
