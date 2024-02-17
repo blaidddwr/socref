@@ -5,12 +5,13 @@ namespace Block {
 
 
 /*!
- * Contains all C++ block widgets.
+ * This contains all C++ block widgets.
  */
 namespace Cpp
 {
     class Base;
     class Enumeration;
+    class Namespace;
     class Property;
 }
 }

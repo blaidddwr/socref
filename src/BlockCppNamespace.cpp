@@ -1,5 +1,6 @@
 #include "BlockCppNamespace.h"
 #include <QtGui>
+#include "WidgetBlockCppNamespace.h"
 namespace Block {
 namespace Cpp {
 
@@ -16,7 +17,7 @@ Namespace::Namespace(
 Widget::Block::Abstract* Namespace::createWidget(
 ) const
 {
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::Namespace(this);
 }
 
 

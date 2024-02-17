@@ -1,11 +1,11 @@
-#include "WidgetBlockCppProperty.h"
+#include "WidgetBlockCppNamespace.h"
 #include <QtWidgets>
 namespace Widget {
 namespace Block {
 namespace Cpp {
 
 
-Property::Property(
+Namespace::Namespace(
     const ::Block::Abstract* block
     ,QWidget* parent
 ):

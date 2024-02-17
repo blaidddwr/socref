@@ -12761,7 +12761,7 @@ This can only be called after calling this widget's begin set method.</__p_descr
                     </Function>
                 </Class>
                 <Namespace>
-                    <__p_description>Contains all C++ block widgets.</__p_description>
+                    <__p_description>This contains all C++ block widgets.</__p_description>
                     <__p_name>Cpp</__p_name>
                     <Class>
                         <__p_description>This is a block widget. It provides an editable view of base C++ blocks.
@@ -12871,8 +12871,8 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                         </Function>
                     </Class>
                     <Class>
-                        <__p_description>This is a block widget. It provides an editable view of a property C++ block.</__p_description>
-                        <__p_name>Property</__p_name>
+                        <__p_description>This is a block widget. It provides an editable view of a namespace C++ block.</__p_description>
+                        <__p_name>Namespace</__p_name>
                         <__p_parents>public Widget::Block::Cpp::Base</__p_parents>
                         <Function>
                             <__p_abstract>0</__p_abstract>
@@ -12899,17 +12899,17 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                                 <__p_type>QWidget*</__p_type>
                             </Variable>
                         </Function>
+                    </Class>
+                    <Class>
+                        <__p_description>This is a block widget. It provides an editable view of a property C++ block.</__p_description>
+                        <__p_name>Property</__p_name>
+                        <__p_parents>public Widget::Block::Cpp::Base</__p_parents>
                         <Function>
                             <__p_abstract>0</__p_abstract>
-                            <__p_access>Protected</__p_access>
+                            <__p_access>Public</__p_access>
                             <__p_const>0</__p_const>
                             <__p_default>0</__p_default>
                             <__p_deleted>0</__p_deleted>
-                            <__p_description>Constructs this new widget with the given block, layout, and parent.
-
-The given block and parent are passed to the parent constructor.
-
-The given layout is set as this widget's layout. If it is null then this widget will have no set layout.</__p_description>
                             <__p_explicit>0</__p_explicit>
                             <__p_final>0</__p_final>
                             <__p_invokable>0</__p_invokable>
@@ -12920,18 +12920,11 @@ The given layout is set as this widget's layout. If it is null then this widget 
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
                             <Variable>
-                                <__p_description>The block.</__p_description>
                                 <__p_name>block</__p_name>
                                 <__p_type>const ::Block::Abstract*</__p_type>
                             </Variable>
                             <Variable>
-                                <__p_description>The layout.</__p_description>
-                                <__p_name>layout</__p_name>
-                                <__p_type>QFormLayout*</__p_type>
-                            </Variable>
-                            <Variable>
                                 <__p_assignment>nullptr</__p_assignment>
-                                <__p_description>The parent.</__p_description>
                                 <__p_name>parent</__p_name>
                                 <__p_type>QWidget*</__p_type>
                             </Variable>
