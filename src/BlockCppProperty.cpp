@@ -2,6 +2,7 @@
 #include <QtGui>
 #include "BlockCppFunction.h"
 #include "Exceptions.h"
+#include "WidgetBlockCppProperty.h"
 namespace Block {
 namespace Cpp {
 
@@ -31,7 +32,7 @@ Property::~Property(
 Widget::Block::Abstract* Property::createWidget(
 ) const
 {
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::Property(this);
 }
 
 
