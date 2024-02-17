@@ -4,7 +4,7 @@ namespace Test {
 
 
 /*!
- * This contains all language unit test classes.
+ * This contains all language unit tests.
  */
 namespace Language
 {

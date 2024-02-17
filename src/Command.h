@@ -3,7 +3,7 @@
 
 
 /*!
- * This contains all command namespaces.
+ * This contains all commands.
  */
 namespace Command
 {

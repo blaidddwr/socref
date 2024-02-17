@@ -5,7 +5,7 @@ class QIcon;
 
 
 /*!
- * This contains all unit test namespaces and functions.
+ * This contains all unit tests.
  */
 namespace Test
 {

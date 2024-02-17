@@ -3,7 +3,7 @@
 
 
 /*!
- * This contains all block classes and namespaces.
+ * This contains all blocks.
  * 
  * See the abstract block class for a detailed description of blocks.
  */

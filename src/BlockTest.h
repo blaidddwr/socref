@@ -4,7 +4,7 @@ namespace Block {
 
 
 /*!
- * This contains all test block enumerations and classes.
+ * This contains all test blocks.
  */
 namespace Test
 {

@@ -70,7 +70,6 @@ class Variable:
 
     public:
     virtual Widget::Block::Abstract* createWidget(
-        QObject* parent = nullptr
     ) const override final;
 
 

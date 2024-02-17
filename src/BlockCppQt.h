@@ -5,7 +5,7 @@ namespace Block {
 
 
 /*!
- * This contains all C++/Qt block enumerations and classes.
+ * This contains all C++/Qt blocks.
  */
 namespace CppQt
 {

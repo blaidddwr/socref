@@ -3,7 +3,7 @@
 
 
 /*!
- * This contains all language classes.
+ * This contains all languages.
  * 
  * See the abstract language class for a detailed description of languages.
  */

@@ -49,6 +49,8 @@ SOURCES +=  Global.cpp \
             TestLanguageCppQt.cpp \
             TestModelProject.cpp \
             WidgetBlockAbstract.cpp \
+            WidgetBlockCppBase.cpp \
+            WidgetBlockCppEnumeration.cpp \
             WidgetDialogOrphanFiles.cpp \
             WidgetDialogProject.cpp \
             WidgetProject.cpp \
@@ -125,6 +127,9 @@ HEADERS +=  Global.h \
             WidgetBlock.h \
             WidgetBlockAbstract.h \
             WidgetBlockAbstract.t.h \
+            WidgetBlockCpp.h \
+            WidgetBlockCppBase.h \
+            WidgetBlockCppEnumeration.h \
             WidgetDialog.h \
             WidgetDialogOrphanFiles.h \
             WidgetDialogProject.h \

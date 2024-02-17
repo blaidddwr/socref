@@ -35,10 +35,8 @@ const QString& Variable::assignment(
 
 
 Widget::Block::Abstract* Variable::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
     return nullptr;//TODO
 }
 

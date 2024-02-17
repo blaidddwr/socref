@@ -5,7 +5,7 @@ namespace Block {
 
 
 /*!
- * This contains all C++/Qt block unit test classes.
+ * This contains all C++/Qt block unit tests.
  */
 namespace CppQt
 {

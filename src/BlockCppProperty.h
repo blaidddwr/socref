@@ -38,7 +38,6 @@ class Property:
 
     public:
     virtual Widget::Block::Abstract* createWidget(
-        QObject* parent = nullptr
     ) const override;
 
 

@@ -19,10 +19,8 @@ int Node::addCount(
 
 
 Widget::Block::Abstract* Node::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
     return nullptr;//TODO
 }
 

@@ -29,10 +29,8 @@ Property::~Property(
 
 
 Widget::Block::Abstract* Property::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
     return nullptr;//TODO
 }
 

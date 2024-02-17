@@ -4,7 +4,7 @@ namespace Widget {
 
 
 /*!
- * This contains all Qt window classes.
+ * This contains all Qt window widgets.
  */
 namespace Window
 {

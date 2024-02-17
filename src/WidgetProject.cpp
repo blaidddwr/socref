@@ -426,6 +426,7 @@ QScrollArea* Project::blockScrollArea(
     if (!_blockScrollArea)
     {
         _blockScrollArea = new QScrollArea;
+        _blockScrollArea->setWidgetResizable(true);
         _blockScrollArea->setWidget(new QWidget);
     }
     return _blockScrollArea;

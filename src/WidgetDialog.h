@@ -4,7 +4,7 @@ namespace Widget {
 
 
 /*!
- * This contains all Qt dialog classes.
+ * This contains all Qt dialog widgets.
  */
 namespace Dialog
 {

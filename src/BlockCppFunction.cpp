@@ -61,10 +61,8 @@ QString Function::assignmentString(
 
 
 Widget::Block::Abstract* Function::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
     return nullptr;//TODO
 }
 

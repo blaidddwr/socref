@@ -4,7 +4,7 @@ namespace Block {
 
 
 /*!
- * This contains all C++ block enumerations and classes.
+ * This contains all C++ blocks.
  */
 namespace Cpp
 {

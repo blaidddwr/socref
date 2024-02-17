@@ -4,7 +4,7 @@ namespace Command {
 
 
 /*!
- * This contains all project command classes.
+ * This contains all project commands.
  * 
  * See the abstract project command class for a detailed description of project
  * commands.

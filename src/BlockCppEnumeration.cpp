@@ -1,5 +1,6 @@
 #include "BlockCppEnumeration.h"
 #include <QtGui>
+#include "WidgetBlockCppEnumeration.h"
 namespace Block {
 namespace Cpp {
 
@@ -14,12 +15,9 @@ Enumeration::Enumeration(
 
 
 Widget::Block::Abstract* Enumeration::createWidget(
-    QObject* parent
 ) const
 {
-    //TODO
-    Q_UNUSED(parent);
-    return nullptr;
+    return new Widget::Block::Cpp::Enumeration(this);
 }
 
 

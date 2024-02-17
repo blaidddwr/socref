@@ -15,12 +15,9 @@ Class::Class(
 
 
 Widget::Block::Abstract* Class::createWidget(
-    QObject* parent
 ) const
 {
-    //TODO
-    Q_UNUSED(parent);
-    return nullptr;
+    return nullptr;//TODO
 }
 
 

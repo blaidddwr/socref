@@ -14,10 +14,8 @@ Union::Union(
 
 
 Widget::Block::Abstract* Union::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
     return nullptr;//TODO
 }
 

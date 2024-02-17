@@ -14,10 +14,8 @@ ExceptionItem::ExceptionItem(
 
 
 Widget::Block::Abstract* ExceptionItem::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
     return nullptr;//TODO
 }
 

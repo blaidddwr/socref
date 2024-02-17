@@ -14,10 +14,8 @@ Namespace::Namespace(
 
 
 Widget::Block::Abstract* Namespace::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
     return nullptr;//TODO
 }
 

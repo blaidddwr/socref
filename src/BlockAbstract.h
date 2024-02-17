@@ -124,14 +124,10 @@ class Abstract:
 
 
     /*!
-     * Creates and returns a block widget for this block with the given parent.
-     *
-     * @param parent
-     *        The parent.
+     * Creates and returns a block widget for this block.
      */
     public:
     virtual Widget::Block::Abstract* createWidget(
-        QObject* parent = nullptr
     ) const = 0;
 
 
