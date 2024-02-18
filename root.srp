@@ -12841,6 +12841,106 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                         </Function>
                     </Class>
                     <Class>
+                        <__p_description>This is a block widget class. It provides an editable view of a class C++ block.</__p_description>
+                        <__p_name>Class</__p_name>
+                        <__p_parents>public Base</__p_parents>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Public</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>^</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                            <Variable>
+                                <__p_name>block</__p_name>
+                                <__p_type>const ::Block::Abstract*</__p_type>
+                            </Variable>
+                            <Variable>
+                                <__p_assignment>nullptr</__p_assignment>
+                                <__p_name>parent</__p_name>
+                                <__p_type>QWidget*</__p_type>
+                            </Variable>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Public Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>1</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>apply</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>1</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>1</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>formLayout</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnDescription>This widget's form layout.</__p_returnDescription>
+                            <__p_returnType>QFormLayout*</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>parentList</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnDescription>This widget's parent list.</__p_returnDescription>
+                            <__p_returnType>StringList*</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>templateList</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnDescription>This widget's template list.</__p_returnDescription>
+                            <__p_returnType>StringList*</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                    </Class>
+                    <Class>
                         <__p_description>This is a block widget. It provides an editable view of an enumeration C++ block.</__p_description>
                         <__p_name>Enumeration</__p_name>
                         <__p_parents>public Widget::Block::Cpp::Base</__p_parents>
@@ -14200,6 +14300,294 @@ The given index is this instance's list view's item selection model's current in
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+            </Class>
+            <Class>
+                <__p_description>This is a widget class. It provides an editable view of a Qt string list.
+
+It uses a Qt string list model attached to its parent Qt list view class.</__p_description>
+                <__p_name>StringList</__p_name>
+                <__p_parents>public QListView</__p_parents>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QWidget*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Signals</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Signals this widget's model's string list has changed.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>stringListChanged</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>model</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This widget's model.</__p_returnDescription>
+                    <__p_returnType>QStringListModel*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private Slots</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called when this widget's add action is triggered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>add</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private Slots</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called when this widget's move down action is triggered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>moveDown</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private Slots</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called when this widget's move up action is triggered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>moveUp</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private Slots</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called when this widget's remove action is triggered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>remove</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private Slots</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Called to update this widget's actions' enabled/disabled state.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>updateActions</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>addAction</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This widget's add action.</__p_returnDescription>
+                    <__p_returnType>QAction*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Determines if the given index can be moved down.
+
+The given index must have been created by this widget's model.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>canMoveDown</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if it can be moved or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>const QModelIndex&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Determines if the given index can be moved up.
+
+The given index must have been created by this widget's model.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>canMoveUp</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if it can be moved or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>const QModelIndex&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>contextMenu</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This widget's context menu.</__p_returnDescription>
+                    <__p_returnType>QMenu*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>moveDownAction</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This widget's move down action.</__p_returnDescription>
+                    <__p_returnType>QAction*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>moveUpAction</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This widget's move up action.</__p_returnDescription>
+                    <__p_returnType>QAction*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>removeAction</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This widget's remove action.</__p_returnDescription>
+                    <__p_returnType>QAction*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                 </Function>

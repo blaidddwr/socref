@@ -8,6 +8,7 @@
 namespace Widget
 {
     class Project;
+    class StringList;
 }
 
 

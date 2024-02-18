@@ -50,12 +50,14 @@ SOURCES +=  Global.cpp \
             TestModelProject.cpp \
             WidgetBlockAbstract.cpp \
             WidgetBlockCppBase.cpp \
+            WidgetBlockCppClass.cpp \
             WidgetBlockCppEnumeration.cpp \
             WidgetBlockCppNamespace.cpp \
             WidgetBlockCppProperty.cpp \
             WidgetDialogOrphanFiles.cpp \
             WidgetDialogProject.cpp \
             WidgetProject.cpp \
+            WidgetStringList.cpp \
             WidgetWindowMain.cpp
 
 HEADERS +=  Global.h \
@@ -131,6 +133,7 @@ HEADERS +=  Global.h \
             WidgetBlockAbstract.t.h \
             WidgetBlockCpp.h \
             WidgetBlockCppBase.h \
+            WidgetBlockCppClass.h \
             WidgetBlockCppEnumeration.h \
             WidgetBlockCppNamespace.h \
             WidgetBlockCppProperty.h \
@@ -138,6 +141,7 @@ HEADERS +=  Global.h \
             WidgetDialogOrphanFiles.h \
             WidgetDialogProject.h \
             WidgetProject.h \
+            WidgetStringList.h \
             WidgetWindow.h \
             WidgetWindowMain.h
 

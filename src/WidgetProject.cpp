@@ -299,7 +299,11 @@ void Project::onCurrentIndexChanged(
     if (current.isValid())
     {
         G_ASSERT(_model);
-        setBlockWidget(_model->constBlock(current)->createWidget());
+        auto block = _model->constBlock(current)->createWidget();
+        G_ASSERT(block);
+        block->setModel(_model);
+        block->setIndex(current);
+        setBlockWidget(block);
     }
     else
     {

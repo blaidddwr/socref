@@ -10,6 +10,7 @@ namespace Block {
 namespace Cpp
 {
     class Base;
+    class Class;
     class Enumeration;
     class Namespace;
     class Property;

@@ -1,6 +1,7 @@
 #include "BlockCppClass.h"
 #include <QtGui>
 #include "Global.h"
+#include "WidgetBlockCppClass.h"
 namespace Block {
 namespace Cpp {
 
@@ -17,7 +18,7 @@ Class::Class(
 Widget::Block::Abstract* Class::createWidget(
 ) const
 {
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::Class(this);
 }
 
 

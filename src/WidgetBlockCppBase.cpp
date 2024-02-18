@@ -15,6 +15,7 @@ void Base::apply(
     block->setName(nameEdit()->text());
     block->setDescription(descriptionEdit()->toPlainText());
     finishSet();
+    setModified(false);
 }
 
 
