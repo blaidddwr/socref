@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/cpp/">
+        <file alias="abstract.svg">../data/cpp/abstract.svg</file>
         <file alias="abstract_class.svg">../data/cpp/abstract_class.svg</file>
         <file alias="abstract_property.svg">../data/cpp/abstract_property.svg</file>
         <file alias="abstract_protected_destructor.svg">../data/cpp/abstract_protected_destructor.svg</file>
@@ -7,10 +8,17 @@
         <file alias="abstract_public_destructor.svg">../data/cpp/abstract_public_destructor.svg</file>
         <file alias="abstract_public_function.svg">../data/cpp/abstract_public_function.svg</file>
         <file alias="class.svg">../data/cpp/class.svg</file>
+        <file alias="constructor.svg">../data/cpp/constructor.svg</file>
+        <file alias="default.svg">../data/cpp/default.svg</file>
+        <file alias="deleted.svg">../data/cpp/deleted.svg</file>
+        <file alias="destructor.svg">../data/cpp/destructor.svg</file>
         <file alias="enumeration.svg">../data/cpp/enumeration.svg</file>
         <file alias="exception.svg">../data/cpp/exception.svg</file>
         <file alias="invalid_function.svg">../data/cpp/invalid_function.svg</file>
+        <file alias="method.svg">../data/cpp/method.svg</file>
         <file alias="namespace.svg">../data/cpp/namespace.svg</file>
+        <file alias="none.svg">../data/cpp/none.svg</file>
+        <file alias="operator.svg">../data/cpp/operator.svg</file>
         <file alias="private_constructor.svg">../data/cpp/private_constructor.svg</file>
         <file alias="private_destructor.svg">../data/cpp/private_destructor.svg</file>
         <file alias="private_function.svg">../data/cpp/private_function.svg</file>
@@ -24,6 +32,7 @@
         <file alias="public_destructor.svg">../data/cpp/public_destructor.svg</file>
         <file alias="public_function.svg">../data/cpp/public_function.svg</file>
         <file alias="public_operator.svg">../data/cpp/public_operator.svg</file>
+        <file alias="regular.svg">../data/cpp/regular.svg</file>
         <file alias="static_private_function.svg">../data/cpp/static_private_function.svg</file>
         <file alias="static_protected_function.svg">../data/cpp/static_protected_function.svg</file>
         <file alias="static_public_function.svg">../data/cpp/static_public_function.svg</file>
@@ -43,6 +52,7 @@
         <file alias="protected_slot.svg">../data/cppqt/protected_slot.svg</file>
         <file alias="public_slot.svg">../data/cppqt/public_slot.svg</file>
         <file alias="signal.svg">../data/cppqt/signal.svg</file>
+        <file alias="slot.svg">../data/cppqt/slot.svg</file>
         <file alias="virtual_protected_slot.svg">../data/cppqt/virtual_protected_slot.svg</file>
         <file alias="virtual_public_slot.svg">../data/cppqt/virtual_public_slot.svg</file>
     </qresource>

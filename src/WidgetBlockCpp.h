@@ -12,6 +12,7 @@ namespace Cpp
     class Base;
     class Class;
     class Enumeration;
+    class Function;
     class Namespace;
     class Property;
 }

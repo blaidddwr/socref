@@ -56,6 +56,18 @@ class Function:
     using Base::setName;
 
 
+    public:
+    Function(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
+    );
+
+
+    public:
+    virtual ~Function(
+    ) override;
+
+
     /*!
      * Signals this instance's access property has changed to the given value.
      *
@@ -144,18 +156,6 @@ class Function:
     );
 
 
-    public:
-    Function(
-        Model::Meta::Block* meta
-        ,QObject* parent = nullptr
-    );
-
-
-    public:
-    virtual ~Function(
-    ) override;
-
-
     /*!
      * Getter method.
      *
@@ -164,6 +164,31 @@ class Function:
      */
     public:
     int access(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * A complete list of all valid access enumerations as icons. The order of
+     * the returned icon list must match the order of enumerations.
+     */
+    public:
+    virtual const QList<QIcon>& accessIcons(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * A complete list of all valid access enumerations as human readable
+     * labels. The order of the returned label list must match the order of
+     * enumerations.
+     */
+    public:
+    virtual const QStringList& accessLabels(
     ) const;
 
 
@@ -193,6 +218,31 @@ class Function:
      * Getter method.
      *
      * @return
+     * A complete list of all valid function assignment enumerations as icons.
+     * The order of the returned icon list must match the order of enumerations.
+     */
+    public:
+    virtual const QList<QIcon>& assignmentIcons(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * A complete list of all valid function assignment enumerations as human
+     * readable labels. The order of the returned labels list must match the
+     * order of enumerations.
+     */
+    public:
+    virtual const QStringList& assignmentLabels(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
      * This instance's assignment property as a string.
      */
     public:
@@ -202,7 +252,7 @@ class Function:
 
     public:
     virtual Widget::Block::Abstract* createWidget(
-    ) const override;
+    ) const override final;
 
 
     public:
@@ -218,6 +268,18 @@ class Function:
     public:
     virtual QString fileName(
     ) const override final;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * A complete mapping of all valid function flags to their representation as
+     * a human readable label.
+     */
+    public:
+    virtual const QMap<int,QString>& flagLabelMap(
+    ) const;
 
 
     /*!
@@ -567,6 +629,31 @@ class Function:
      */
     public:
     int type(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * A complete list of all valid function type enumerations as icons. The
+     * order of the returned icon list must match the order of enumerations.
+     */
+    public:
+    virtual const QList<QIcon>& typeIcons(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * A complete list of all valid function type enumerations as human readable
+     * labels. The order of the returned label list must match the order of
+     * enumerations.
+     */
+    public:
+    virtual const QStringList& typeLabels(
     ) const;
 
 

@@ -5,6 +5,7 @@
 #include "Exceptions.h"
 #include "Global.h"
 #include "ModelMetaBlock.h"
+#include "WidgetBlockCppFunction.h"
 namespace Block {
 namespace Cpp {
 
@@ -39,6 +40,30 @@ int Function::access(
 }
 
 
+const QList<QIcon>& Function::accessIcons(
+) const
+{
+    static const QList<QIcon> ret {
+        *iconPublic()
+        ,*iconProtected()
+        ,*iconPrivate()
+    };
+    return ret;
+}
+
+
+const QStringList& Function::accessLabels(
+) const
+{
+    static const QStringList ret {
+        "Public"
+        ,"Protected"
+        ,"Private"
+    };
+    return ret;
+}
+
+
 QString Function::accessString(
 ) const
 {
@@ -53,6 +78,32 @@ int Function::assignment(
 }
 
 
+const QList<QIcon>& Function::assignmentIcons(
+) const
+{
+    static const QList<QIcon> ret = {
+        QIcon(":/cpp/none.svg")
+        ,QIcon(":/cpp/default.svg")
+        ,QIcon(":/cpp/deleted.svg")
+        ,QIcon(":/cpp/abstract.svg")
+    };
+    return ret;
+}
+
+
+const QStringList& Function::assignmentLabels(
+) const
+{
+    static const QStringList ret = {
+        "None"
+        ,"Default"
+        ,"Deleted"
+        ,"Abstract"
+    };
+    return ret;
+}
+
+
 QString Function::assignmentString(
 ) const
 {
@@ -63,7 +114,7 @@ QString Function::assignmentString(
 Widget::Block::Abstract* Function::createWidget(
 ) const
 {
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::Function(this);
 }
 
 
@@ -89,6 +140,22 @@ QString Function::fileName(
     appendSignature(ret);
     appendRightSignatureFlags(ret);
     return ret.join("").replace(":",";").replace("*","#").replace("<","[").replace(">","]");
+}
+
+
+const QMap<int,QString>& Function::flagLabelMap(
+) const
+{
+    static const QMap<int,QString> ret {
+        {NoExceptFunctionFlag,"No Exceptions"}
+        ,{ExplicitFunctionFlag,"Explicit"}
+        ,{StaticFunctionFlag,"Static"}
+        ,{ConstantFunctionFlag,"Constant"}
+        ,{VirtualFunctionFlag,"Virtual"}
+        ,{OverrideFunctionFlag,"Override"}
+        ,{FinalFunctionFlag,"Final"}
+    };
+    return ret;
 }
 
 
@@ -441,6 +508,34 @@ int Function::type(
 ) const
 {
     return _type;
+}
+
+
+const QList<QIcon>& Function::typeIcons(
+) const
+{
+    static const QList<QIcon> ret = {
+        QIcon(":/cpp/regular.svg")
+        ,QIcon(":/cpp/method.svg")
+        ,QIcon(":/cpp/constructor.svg")
+        ,QIcon(":/cpp/destructor.svg")
+        ,QIcon(":/cpp/operator.svg")
+    };
+    return ret;
+}
+
+
+const QStringList& Function::typeLabels(
+) const
+{
+    static const QStringList ret = {
+        "Regular"
+        ,"Method"
+        ,"Constructor"
+        ,"Destructor"
+        ,"Operator"
+    };
+    return ret;
 }
 
 

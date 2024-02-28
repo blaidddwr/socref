@@ -23,7 +23,7 @@ class Function:
 
 
     public:
-    virtual Widget::Block::Abstract* createWidget(
+    virtual const QMap<int,QString>& flagLabelMap(
     ) const override final;
 
 
@@ -58,6 +58,16 @@ class Function:
     public:
     bool isSlot(
     ) const;
+
+
+    public:
+    virtual const QList<QIcon>& typeIcons(
+    ) const override final;
+
+
+    public:
+    virtual const QStringList& typeLabels(
+    ) const override final;
 
 
     protected:

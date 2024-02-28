@@ -7,10 +7,16 @@ namespace Block {
 namespace CppQt {
 
 
-Widget::Block::Abstract* Function::createWidget(
+const QMap<int,QString>& Function::flagLabelMap(
 ) const
 {
-    return nullptr;//TODO
+    static QMap<int,QString>* ret = nullptr;
+    if (!ret)
+    {
+        ret = new QMap<int,QString>(Cpp::Function::flagLabelMap());
+        ret->insert(QtInvokableFunctionFlag,"Qt Invokable");
+    }
+    return *ret;
 }
 
 
@@ -32,6 +38,34 @@ bool Function::isSlot(
 ) const
 {
     return type() == SlotFunctionType;
+}
+
+
+const QList<QIcon>& Function::typeIcons(
+) const
+{
+    static QList<QIcon>* ret = nullptr;
+    if (!ret)
+    {
+        ret = new QList<QIcon>(Cpp::Function::typeIcons());
+        ret->append(*iconSignal());
+        ret->append(QIcon(":/cppqt/slot.svg"));
+    }
+    return *ret;
+}
+
+
+const QStringList& Function::typeLabels(
+) const
+{
+    static QStringList* ret = nullptr;
+    if (!ret)
+    {
+        ret = new QStringList(Cpp::Function::typeLabels());
+        ret->append("Signal");
+        ret->append("Slot");
+    }
+    return *ret;
 }
 
 

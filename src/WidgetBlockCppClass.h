@@ -1,7 +1,7 @@
 #ifndef WIDGET_BLOCK_CPP_CLASS_H
 #define WIDGET_BLOCK_CPP_CLASS_H
-#include "WidgetBlockCppBase.h"
 #include "Widget.h"
+#include "WidgetBlockCppBase.h"
 namespace Widget {
 namespace Block {
 namespace Cpp {
