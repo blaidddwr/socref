@@ -28,6 +28,18 @@ QIcon Enumeration::displayIcon(
 }
 
 
+QString Enumeration::displayText(
+) const
+{
+    auto ret = Base::displayText();
+    if (_class)
+    {
+        ret += " -> class";
+    }
+    return ret;
+}
+
+
 bool Enumeration::isClass(
 ) const
 {
@@ -65,6 +77,7 @@ void Enumeration::setClass(
     {
         _class = value;
         emit classChanged(value);
+        emit displayTextChanged(displayText());
     }
 }
 

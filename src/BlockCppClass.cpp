@@ -32,7 +32,7 @@ QString Class::displayText(
     }
     if (!_templates.isEmpty())
     {
-        ret += "-> template<"+_templates.join(",")+">";
+        ret += " -> template<"+_templates.join(",")+">";
     }
     return ret;
 }

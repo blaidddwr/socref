@@ -19,6 +19,13 @@ class Enumeration:
     bool _class {false};
 
 
+    public:
+    Enumeration(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
+    );
+
+
     /*!
      * Signals this block's class property has changed to the given value.
      *
@@ -32,19 +39,17 @@ class Enumeration:
 
 
     public:
-    Enumeration(
-        Model::Meta::Block* meta
-        ,QObject* parent = nullptr
-    );
-
-
-    public:
     virtual Widget::Block::Abstract* createWidget(
     ) const override final;
 
 
     public:
     virtual QIcon displayIcon(
+    ) const override final;
+
+
+    public:
+    virtual QString displayText(
     ) const override final;
 
 

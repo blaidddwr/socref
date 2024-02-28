@@ -1320,28 +1320,6 @@ Its single property is class. It is self-explanatory.</__p_description>
                     <__p_parents>public Block::Cpp::Base</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
-                        <__p_access>Signals</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Signals this block's class property has changed to the given value.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>classChanged</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>bool</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
@@ -1363,6 +1341,28 @@ Its single property is class. It is self-explanatory.</__p_description>
                             <__p_assignment>nullptr</__p_assignment>
                             <__p_name>parent</__p_name>
                             <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Signals</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Signals this block's class property has changed to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>classChanged</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>bool</__p_type>
                         </Variable>
                     </Function>
                     <Function>
@@ -1394,6 +1394,22 @@ Its single property is class. It is self-explanatory.</__p_description>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
                         <__p_returnType>QIcon</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>displayText</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QString</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                     </Function>
@@ -13126,6 +13142,76 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                                 <__p_name>parent</__p_name>
                                 <__p_type>QWidget*</__p_type>
                             </Variable>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Public Slots</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>1</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>apply</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>1</__p_override>
+                            <__p_returnType>void</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>1</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>classCheckBox</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnDescription>This widget's class check box.</__p_returnDescription>
+                            <__p_returnType>QCheckBox*</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>flagsGroupBox</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnDescription>This widget's flags group box.</__p_returnDescription>
+                            <__p_returnType>QGroupBox*</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
+                        </Function>
+                        <Function>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_access>Private</__p_access>
+                            <__p_const>0</__p_const>
+                            <__p_default>0</__p_default>
+                            <__p_deleted>0</__p_deleted>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_explicit>0</__p_explicit>
+                            <__p_final>0</__p_final>
+                            <__p_invokable>0</__p_invokable>
+                            <__p_name>formLayout</__p_name>
+                            <__p_noexcept>0</__p_noexcept>
+                            <__p_override>0</__p_override>
+                            <__p_returnDescription>This widget's form layout.</__p_returnDescription>
+                            <__p_returnType>QFormLayout*</__p_returnType>
+                            <__p_static>0</__p_static>
+                            <__p_virtual>0</__p_virtual>
                         </Function>
                     </Class>
                     <Class>
