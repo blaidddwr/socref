@@ -52,6 +52,7 @@ SOURCES +=  Global.cpp \
             WidgetBlockCppBase.cpp \
             WidgetBlockCppClass.cpp \
             WidgetBlockCppEnumeration.cpp \
+            WidgetBlockCppExceptionItem.cpp \
             WidgetBlockCppFunction.cpp \
             WidgetBlockCppNamespace.cpp \
             WidgetBlockCppProperty.cpp \
@@ -136,6 +137,7 @@ HEADERS +=  Global.h \
             WidgetBlockCppBase.h \
             WidgetBlockCppClass.h \
             WidgetBlockCppEnumeration.h \
+            WidgetBlockCppExceptionItem.h \
             WidgetBlockCppFunction.h \
             WidgetBlockCppNamespace.h \
             WidgetBlockCppProperty.h \

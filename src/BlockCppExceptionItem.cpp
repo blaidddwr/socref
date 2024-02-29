@@ -1,5 +1,6 @@
 #include "BlockCppExceptionItem.h"
 #include <QtGui>
+#include "WidgetBlockCppExceptionItem.h"
 namespace Block {
 namespace Cpp {
 
@@ -16,7 +17,7 @@ ExceptionItem::ExceptionItem(
 Widget::Block::Abstract* ExceptionItem::createWidget(
 ) const
 {
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::ExceptionItem(this);
 }
 
 
