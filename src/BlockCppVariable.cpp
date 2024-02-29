@@ -2,6 +2,7 @@
 #include <QtGui>
 #include "BlockCppFunction.h"
 #include "Exceptions.h"
+#include "WidgetBlockCppVariable.h"
 namespace Block {
 namespace Cpp {
 
@@ -37,7 +38,7 @@ const QString& Variable::assignment(
 Widget::Block::Abstract* Variable::createWidget(
 ) const
 {
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::Variable(this);
 }
 
 

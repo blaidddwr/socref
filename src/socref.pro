@@ -56,6 +56,7 @@ SOURCES +=  Global.cpp \
             WidgetBlockCppFunction.cpp \
             WidgetBlockCppNamespace.cpp \
             WidgetBlockCppProperty.cpp \
+            WidgetBlockCppVariable.cpp \
             WidgetDialogOrphanFiles.cpp \
             WidgetDialogProject.cpp \
             WidgetProject.cpp \
@@ -141,6 +142,7 @@ HEADERS +=  Global.h \
             WidgetBlockCppFunction.h \
             WidgetBlockCppNamespace.h \
             WidgetBlockCppProperty.h \
+            WidgetBlockCppVariable.h \
             WidgetDialog.h \
             WidgetDialogOrphanFiles.h \
             WidgetDialogProject.h \
