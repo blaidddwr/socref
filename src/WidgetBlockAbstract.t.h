@@ -1,8 +1,8 @@
 #ifndef WIDGET_BLOCK_ABSTRACT_T_H
 #define WIDGET_BLOCK_ABSTRACT_T_H
 #include "WidgetBlockAbstract.h"
-#include "Exceptions.h"
 #include "ModelProject.h"
+#include "gassert.h"
 namespace Widget {
 namespace Block {
 

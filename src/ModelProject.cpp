@@ -5,11 +5,11 @@
 #include "CommandProjectMove.h"
 #include "CommandProjectRemove.h"
 #include "CommandProjectSet.h"
-#include "Exceptions.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaBlock.h"
 #include "BlockAbstract.h"
 #include "FactoryLanguage.h"
+#include "gassert.h"
 #define CONFIG_FILE "project.xml"
 namespace Model {
 QList<Block::Abstract*> Project::_copied {};

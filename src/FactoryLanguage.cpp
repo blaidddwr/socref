@@ -1,10 +1,10 @@
 #include "FactoryLanguage.h"
 #include <QtCore>
-#include "Exceptions.h"
 #include "LanguageCpp.h"
 #include "LanguageCppQt.h"
 #include "LanguageTest.h"
 #include "ModelMetaLanguage.h"
+#include "gassert.h"
 namespace Factory {
 Language* Language::_instance {nullptr};
 

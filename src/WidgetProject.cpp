@@ -1,11 +1,11 @@
 #include "WidgetProject.h"
 #include <QtWidgets>
 #include "BlockAbstract.h"
-#include "Exceptions.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaBlock.h"
 #include "ModelProject.h"
 #include "WidgetBlockAbstract.h"
+#include "gassert.h"
 namespace Widget {
 
 

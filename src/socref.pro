@@ -88,7 +88,17 @@ HEADERS +=  Global.h \
             CommandProjectSet.h \
             Exception.h \
             ExceptionBase.h \
-            Exceptions.h \
+            ExceptionBlock.h \
+            ExceptionBlockLogical.h \
+            ExceptionBlockRead.h \
+            ExceptionBlockWrite.h \
+            ExceptionProject.h \
+            ExceptionProjectLogical.h \
+            ExceptionProjectRead.h \
+            ExceptionProjectWrite.h \
+            ExceptionSystem.h \
+            ExceptionSystemFile.h \
+            ExceptionSystemRun.h \
             Factory.h \
             FactoryLanguage.h \
             Language.h \
@@ -147,6 +157,7 @@ HEADERS +=  Global.h \
             WidgetProject.h \
             WidgetStringList.h \
             WidgetWindow.h \
-            WidgetWindowMain.h
+            WidgetWindowMain.h \
+            gassert.h
 
 RESOURCES += socref.qrc

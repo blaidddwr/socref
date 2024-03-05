@@ -1,9 +1,10 @@
 #include "WidgetBlockCppFunction.h"
 #include <QtWidgets>
 #include "BlockCppFunction.h"
-#include "Exceptions.h"
+#include "ExceptionBlockLogical.h"
 #include "WidgetBlockAbstract.t.h"
 #include "WidgetStringList.h"
+#include "gassert.h"
 namespace Widget {
 namespace Block {
 namespace Cpp {

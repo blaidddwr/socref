@@ -6542,6 +6542,58 @@ Its single property is message. The message provides a detailed description of a
                     <__p_virtual>0</__p_virtual>
                 </Function>
             </Class>
+            <Namespace>
+                <__p_description>This contains all block exceptions.</__p_description>
+                <__p_name>Block</__p_name>
+                <Class>
+                    <__p_description>This is a block exception class. It represents a logical block error.</__p_description>
+                    <__p_name>Logical</__p_name>
+                    <__p_parents>public Base</__p_parents>
+                </Class>
+                <Class>
+                    <__p_description>This is a block exception class. It represents a read block error.</__p_description>
+                    <__p_name>Read</__p_name>
+                    <__p_parents>public Base</__p_parents>
+                </Class>
+                <Class>
+                    <__p_description>This is a block exception class. It represents a write block error.</__p_description>
+                    <__p_name>Write</__p_name>
+                    <__p_parents>public Base</__p_parents>
+                </Class>
+            </Namespace>
+            <Namespace>
+                <__p_description>This contains all project exceptions.</__p_description>
+                <__p_name>Project</__p_name>
+                <Class>
+                    <__p_description>This is a block exception class. It represents a logical project error.</__p_description>
+                    <__p_name>Logical</__p_name>
+                    <__p_parents>public Base</__p_parents>
+                </Class>
+                <Class>
+                    <__p_description>This is a block exception class. It represents a read project error.</__p_description>
+                    <__p_name>Read</__p_name>
+                    <__p_parents>public Base</__p_parents>
+                </Class>
+                <Class>
+                    <__p_description>This is a block exception class. It represents a write project error.</__p_description>
+                    <__p_name>Write</__p_name>
+                    <__p_parents>public Base</__p_parents>
+                </Class>
+            </Namespace>
+            <Namespace>
+                <__p_description>This contains all system exceptions.</__p_description>
+                <__p_name>System</__p_name>
+                <Class>
+                    <__p_description>This is a block exception class. It represents a file system error.</__p_description>
+                    <__p_name>File</__p_name>
+                    <__p_parents>public Base</__p_parents>
+                </Class>
+                <Class>
+                    <__p_description>This is a block exception class. It represents a run system error.</__p_description>
+                    <__p_name>Run</__p_name>
+                    <__p_parents>public Base</__p_parents>
+                </Class>
+            </Namespace>
         </Namespace>
         <Namespace>
             <__p_description>This contains all factories.</__p_description>
@@ -11482,94 +11534,6 @@ A file system or write project exception is thrown if any error is encountered.<
                             <__p_final>0</__p_final>
                             <__p_invokable>0</__p_invokable>
                             <__p_name>isSlot</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>void</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private Slots</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>cleanupTestCase</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>void</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
-                    </Class>
-                    <Class>
-                        <__p_description>This is a Qt unit test class. It tests the property C++/Qt block class.</__p_description>
-                        <__p_name>Property</__p_name>
-                        <__p_parents>public Test::Base</__p_parents>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private Slots</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>initTestCase</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>void</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private Slots</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_description>Tests the notify signal property.</__p_description>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>notifySignal</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>void</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private Slots</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_description>Tests the read method property.</__p_description>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>readMethod</__p_name>
-                            <__p_noexcept>0</__p_noexcept>
-                            <__p_override>0</__p_override>
-                            <__p_returnType>void</__p_returnType>
-                            <__p_static>0</__p_static>
-                            <__p_virtual>0</__p_virtual>
-                        </Function>
-                        <Function>
-                            <__p_abstract>0</__p_abstract>
-                            <__p_access>Private Slots</__p_access>
-                            <__p_const>0</__p_const>
-                            <__p_default>0</__p_default>
-                            <__p_deleted>0</__p_deleted>
-                            <__p_description>Tests the write method property.</__p_description>
-                            <__p_explicit>0</__p_explicit>
-                            <__p_final>0</__p_final>
-                            <__p_invokable>0</__p_invokable>
-                            <__p_name>writeMethod</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
                             <__p_returnType>void</__p_returnType>

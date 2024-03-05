@@ -2,10 +2,12 @@
 #include <QtGui>
 #include "BlockCppProperty.h"
 #include "BlockCppVariable.h"
-#include "Exceptions.h"
+#include "ExceptionBlockLogical.h"
+#include "ExceptionBlockRead.h"
 #include "Global.h"
 #include "ModelMetaBlock.h"
 #include "WidgetBlockCppFunction.h"
+#include "gassert.h"
 namespace Block {
 namespace Cpp {
 

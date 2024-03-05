@@ -1,12 +1,16 @@
 #include "StreamProject.h"
 #include <QtCore>
-#include "Exceptions.h"
+#include "ExceptionProjectLogical.h"
+#include "ExceptionProjectRead.h"
+#include "ExceptionProjectWrite.h"
+#include "ExceptionSystemFile.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaLanguage.h"
 #include "ModelProject.h"
 #include "StreamBlock.h"
+#include "gassert.h"
 #define CONFIG_FILE "project.xml"
 namespace Stream {
 Project* Project::_instance {nullptr};

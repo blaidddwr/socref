@@ -1,6 +1,10 @@
 #include "WidgetWindowMain.h"
 #include <QtWidgets>
-#include "Exceptions.h"
+#include "ExceptionBlockRead.h"
+#include "ExceptionBlockWrite.h"
+#include "ExceptionProjectRead.h"
+#include "ExceptionProjectWrite.h"
+#include "ExceptionSystemFile.h"
 #include "FactoryLanguage.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaLanguage.h"
@@ -9,6 +13,7 @@
 #include "WidgetDialogOrphanFiles.h"
 #include "WidgetDialogProject.h"
 #include "WidgetProject.h"
+#include "gassert.h"
 #define SETTINGS_KEY "widget.window.main"
 namespace Widget {
 namespace Window {

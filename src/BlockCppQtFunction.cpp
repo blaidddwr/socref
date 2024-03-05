@@ -1,7 +1,7 @@
 #include "BlockCppQtFunction.h"
 #include <QtGui>
 #include "BlockCppQt.h"
-#include "Exceptions.h"
+#include "ExceptionBlockLogical.h"
 #include "Global.h"
 namespace Block {
 namespace CppQt {

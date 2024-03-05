@@ -1,6 +1,5 @@
 #include "Test.h"
 #include <QtTest>
-#include "Exceptions.h"
 #include "TestBlockAbstract.h"
 #include "TestBlockCppClass.h"
 #include "TestBlockCppEnumeration.h"
@@ -15,6 +14,7 @@
 #include "TestLanguageCpp.h"
 #include "TestLanguageCppQt.h"
 #include "TestModelProject.h"
+#include "gassert.h"
 namespace Test {
 struct TestObject
 {

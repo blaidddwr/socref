@@ -1,10 +1,15 @@
 #include "StreamBlock.h"
 #include <QtCore>
 #include "BlockAbstract.h"
-#include "Exceptions.h"
+#include "ExceptionBlockLogical.h"
+#include "ExceptionBlockRead.h"
+#include "ExceptionBlockWrite.h"
+#include "ExceptionSystemFile.h"
+#include "ExceptionSystemRun.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaBlock.h"
+#include "gassert.h"
 #define EXT ".srb"
 namespace Stream {
 Block* Block::_instance {nullptr};

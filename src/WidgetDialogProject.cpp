@@ -1,7 +1,7 @@
 #include "WidgetDialogProject.h"
 #include <QtWidgets>
-#include "Exceptions.h"
 #include "ModelProject.h"
+#include "gassert.h"
 #define SETTINGS_KEY "widget.dialog.project"
 namespace Widget {
 namespace Dialog {

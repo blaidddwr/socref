@@ -1,7 +1,7 @@
 #include "CommandProjectSet.h"
 #include "BlockAbstract.h"
-#include "Exceptions.h"
 #include "ModelProject.h"
+#include "gassert.h"
 namespace Command {
 namespace Project {
 

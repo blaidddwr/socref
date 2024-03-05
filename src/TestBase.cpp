@@ -1,8 +1,8 @@
 #include "TestBase.h"
 #include <QtGui>
-#include "Exceptions.h"
 #include "Global.h"
 #include "LanguageAbstract.h"
+#include "gassert.h"
 #define TEST_DIR "socref.unit_test.d"
 #define TEST_PROJ_DIR "testDir"
 #define TEST_XML "test.xml"

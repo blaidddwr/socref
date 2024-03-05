@@ -10,7 +10,6 @@ namespace Block {
 namespace CppQt
 {
     class Function;
-    class Property;
 }
 }
 }

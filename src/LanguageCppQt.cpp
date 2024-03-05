@@ -9,8 +9,8 @@
 #include "BlockCppQtFunction.h"
 #include "BlockCppUnion.h"
 #include "BlockCppVariable.h"
-#include "Exceptions.h"
 #include "ModelMetaBlock.h"
+#include "gassert.h"
 namespace Language {
 using namespace Block::CppQt;
 using Class = Block::Cpp::Class;

@@ -1,7 +1,7 @@
 #include "WidgetBlockAbstract.h"
 #include "BlockAbstract.h"
-#include "Exceptions.h"
 #include "ModelProject.h"
+#include "gassert.h"
 namespace Widget {
 namespace Block {
 

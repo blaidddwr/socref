@@ -1,8 +1,8 @@
 #include "BlockCppVariable.h"
 #include <QtGui>
 #include "BlockCppFunction.h"
-#include "Exceptions.h"
 #include "WidgetBlockCppVariable.h"
+#include "gassert.h"
 namespace Block {
 namespace Cpp {
 

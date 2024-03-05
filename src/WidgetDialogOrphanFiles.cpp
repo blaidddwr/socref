@@ -1,8 +1,12 @@
 #include "WidgetDialogOrphanFiles.h"
 #include <QtWidgets>
-#include "Exceptions.h"
+#include "ExceptionBlockLogical.h"
+#include "ExceptionProjectLogical.h"
+#include "ExceptionSystemFile.h"
+#include "ExceptionSystemRun.h"
 #include "ModelProject.h"
 #include "StreamProject.h"
+#include "gassert.h"
 #define SETTINGS_KEY "widget.dialog.orphanFiles"
 namespace Widget {
 namespace Dialog {

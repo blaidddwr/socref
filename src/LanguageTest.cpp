@@ -1,9 +1,9 @@
 #include "LanguageTest.h"
 #include <QtGui>
-#include "Exceptions.h"
 #include "BlockTest.h"
 #include "BlockTestNode.h"
 #include "ModelMetaBlock.h"
+#include "gassert.h"
 namespace Language {
 using namespace Block::Test;
 
