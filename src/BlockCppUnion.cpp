@@ -1,5 +1,6 @@
 #include "BlockCppUnion.h"
 #include <QtGui>
+#include "WidgetBlockCppUnion.h"
 namespace Block {
 namespace Cpp {
 
@@ -16,7 +17,7 @@ Union::Union(
 Widget::Block::Abstract* Union::createWidget(
 ) const
 {
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::Union(this);
 }
 
 

@@ -16,6 +16,7 @@ namespace Cpp
     class Function;
     class Namespace;
     class Property;
+    class Union;
     class Variable;
 }
 }
