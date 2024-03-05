@@ -430,6 +430,15 @@ class Main:
 
 
     /*!
+     * Restores the geometry and state of this widget using the Qt settings
+     * system.
+     */
+    private:
+    void restoreGS(
+    );
+
+
+    /*!
      * Getter method.
      *
      * @return
@@ -449,6 +458,14 @@ class Main:
     private:
     QAction* saveAsAction(
     );
+
+
+    /*!
+     * Saves the geometry and state of this widget using the Qt settings system.
+     */
+    private:
+    void saveGS(
+    ) const;
 
 
     /*!

@@ -3,6 +3,7 @@
 #include "Exceptions.h"
 #include "ModelProject.h"
 #include "StreamProject.h"
+#define SETTINGS_KEY "widget.dialog.orphanFiles"
 namespace Widget {
 namespace Dialog {
 
@@ -21,7 +22,26 @@ OrphanFiles::OrphanFiles(
     layout->addWidget(listView());
     layout->addLayout(buttonsLayout());
     setLayout(layout);
+    restoreGS();
     refresh();
+}
+
+
+void OrphanFiles::closeEvent(
+    QCloseEvent* event
+)
+{
+    saveGS();
+    event->accept();
+}
+
+
+void OrphanFiles::hideEvent(
+    QHideEvent* event
+)
+{
+    saveGS();
+    event->accept();
 }
 
 
@@ -174,6 +194,22 @@ QPushButton* OrphanFiles::removeAllButton(
         connect(_removeAllButton,&QPushButton::clicked,this,&OrphanFiles::removeAll);
     }
     return _removeAllButton;
+}
+
+
+void OrphanFiles::restoreGS(
+)
+{
+    QSettings settings;
+    restoreGeometry(settings.value(SETTINGS_KEY).toByteArray());
+}
+
+
+void OrphanFiles::saveGS(
+) const
+{
+    QSettings settings;
+    settings.setValue(SETTINGS_KEY,saveGeometry());
 }
 }
 }

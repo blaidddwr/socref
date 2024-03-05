@@ -2,6 +2,7 @@
 #include <QtWidgets>
 #include "Exceptions.h"
 #include "ModelProject.h"
+#define SETTINGS_KEY "widget.dialog.project"
 namespace Widget {
 namespace Dialog {
 
@@ -20,6 +21,25 @@ Project::Project(
     layout->addLayout(formLayout());
     layout->addLayout(buttonsLayout());
     setLayout(layout);
+    restoreGS();
+}
+
+
+void Project::closeEvent(
+    QCloseEvent* event
+)
+{
+    saveGS();
+    event->accept();
+}
+
+
+void Project::hideEvent(
+    QHideEvent* event
+)
+{
+    saveGS();
+    event->accept();
 }
 
 
@@ -169,6 +189,22 @@ QPushButton* Project::okButton(
         connect(_okButton,&QPushButton::clicked,this,&QDialog::accept);
     }
     return _okButton;
+}
+
+
+void Project::restoreGS(
+)
+{
+    QSettings settings;
+    restoreGeometry(settings.value(SETTINGS_KEY).toByteArray());
+}
+
+
+void Project::saveGS(
+) const
+{
+    QSettings settings;
+    settings.setValue(SETTINGS_KEY,saveGeometry());
 }
 }
 }

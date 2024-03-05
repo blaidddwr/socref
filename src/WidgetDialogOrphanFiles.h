@@ -53,6 +53,18 @@ class OrphanFiles:
     );
 
 
+    public:
+    virtual void closeEvent(
+        QCloseEvent* event
+    ) override final;
+
+
+    public:
+    virtual void hideEvent(
+        QHideEvent* event
+    ) override final;
+
+
     /*!
      * Called when this widget's "git remove all" button is clicked.
      */
@@ -177,6 +189,23 @@ class OrphanFiles:
     private:
     QPushButton* removeAllButton(
     );
+
+
+    /*!
+     * Restores the geometry and state of this widget using the Qt settings
+     * system.
+     */
+    private:
+    void restoreGS(
+    );
+
+
+    /*!
+     * Saves the geometry and state of this widget using the Qt settings system.
+     */
+    private:
+    void saveGS(
+    ) const;
 };
 }
 }

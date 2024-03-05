@@ -55,6 +55,18 @@ class Project:
     );
 
 
+    public:
+    virtual void closeEvent(
+        QCloseEvent* event
+    ) override final;
+
+
+    public:
+    virtual void hideEvent(
+        QHideEvent* event
+    ) override final;
+
+
     /*!
      * Called to apply the values in this widget's form to its project model.
      */
@@ -177,6 +189,23 @@ class Project:
     private:
     QPushButton* okButton(
     );
+
+
+    /*!
+     * Restores the geometry and state of this widget using the Qt settings
+     * system.
+     */
+    private:
+    void restoreGS(
+    );
+
+
+    /*!
+     * Saves the geometry and state of this widget using the Qt settings system.
+     */
+    private:
+    void saveGS(
+    ) const;
 };
 }
 }

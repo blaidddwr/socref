@@ -159,6 +159,32 @@ class Project:
 
 
     /*!
+     * Restores this widget's geometry and state using the given data.
+     * 
+     * The given data must be a valid byte array generated from this widget's
+     * save geometry and state method.
+     *
+     * @param data
+     *        The data.
+     */
+    public:
+    void restoreGS(
+        const QByteArray& data
+    );
+
+
+    /*!
+     * Saves this widget's geometry and state.
+     *
+     * @return
+     * The geometry and state data.
+     */
+    public:
+    QByteArray saveGS(
+    );
+
+
+    /*!
      * Sets this widget's project model to the given model.
      *
      * @param model

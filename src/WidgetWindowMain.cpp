@@ -9,6 +9,7 @@
 #include "WidgetDialogOrphanFiles.h"
 #include "WidgetDialogProject.h"
 #include "WidgetProject.h"
+#define SETTINGS_KEY "widget.window.main"
 namespace Widget {
 namespace Window {
 
@@ -32,6 +33,7 @@ Main::Main(
     statusBar();
     updateTitle();
     updateActions();
+    restoreGS();
 }
 
 
@@ -42,6 +44,7 @@ void Main::closeEvent(
     if (okToClose())
     {
         deleteLater();
+        saveGS();
         event->accept();
     }
     else
@@ -694,6 +697,26 @@ QAction* Main::propertiesAction(
 }
 
 
+void Main::restoreGS(
+)
+{
+    QSettings settings;
+    auto data = settings.value(SETTINGS_KEY).toByteArray();
+    QDataStream in(data);
+    auto read = [&in]() -> QByteArray {
+        QByteArray ret;
+        qint32 size;
+        in >> size;
+        ret.resize(size);
+        in.readRawData(ret.data(),size);
+        return ret;
+    };
+    restoreGeometry(read());
+    restoreState(read());
+    projectWidget()->restoreGS(read());
+}
+
+
 QAction* Main::saveAction(
 )
 {
@@ -719,6 +742,25 @@ QAction* Main::saveAsAction(
         connect(_saveAsAction,&QAction::triggered,this,&Main::saveAs);
     }
     return _saveAsAction;
+}
+
+
+void Main::saveGS(
+) const
+{
+    G_ASSERT(_projectWidget);
+    QByteArray data;
+    QDataStream out(&data,QIODevice::WriteOnly);
+    auto write = [&out](const QByteArray& subset) {
+        qint32 size = subset.size();
+        out << size;
+        out.writeRawData(subset.constData(),size);
+    };
+    write(saveGeometry());
+    write(saveState());
+    write(_projectWidget->saveGS());
+    QSettings settings;
+    settings.setValue(SETTINGS_KEY,data);
 }
 
 

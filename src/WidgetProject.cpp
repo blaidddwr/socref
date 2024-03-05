@@ -156,6 +156,41 @@ QAction* Project::removeAction(
 }
 
 
+void Project::restoreGS(
+    const QByteArray& data
+)
+{
+    QDataStream in(data);
+    auto read = [&in]() -> QByteArray {
+        QByteArray ret;
+        qint32 size;
+        in >> size;
+        ret.resize(size);
+        in.readRawData(ret.data(),size);
+        return ret;
+    };
+    splitter()->restoreGeometry(read());
+    splitter()->restoreState(read());
+}
+
+
+QByteArray Project::saveGS(
+)
+{
+    G_ASSERT(_splitter);
+    QByteArray ret;
+    QDataStream out(&ret,QIODevice::WriteOnly);
+    auto write = [&out](const QByteArray& subset) {
+        qint32 size = subset.size();
+        out << size;
+        out.writeRawData(subset.constData(),size);
+    };
+    write(_splitter->saveGeometry());
+    write(_splitter->saveState());
+    return ret;
+}
+
+
 void Project::setModel(
     Model::Project* model
 )
