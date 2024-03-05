@@ -11,7 +11,6 @@ SOURCES +=  Global.cpp \
             BlockCppNamespace.cpp \
             BlockCppProperty.cpp \
             BlockCppQtFunction.cpp \
-            BlockCppQtProperty.cpp \
             BlockCppUnion.cpp \
             BlockCppVariable.cpp \
             BlockTestNode.cpp \
@@ -41,7 +40,6 @@ SOURCES +=  Global.cpp \
             TestBlockCppNamespace.cpp \
             TestBlockCppProperty.cpp \
             TestBlockCppQtFunction.cpp \
-            TestBlockCppQtProperty.cpp \
             TestBlockCppVariable.cpp \
             TestFactoryLanguage.cpp \
             TestLanguageAbstract.cpp \
@@ -77,7 +75,6 @@ HEADERS +=  Global.h \
             BlockCppProperty.h \
             BlockCppQt.h \
             BlockCppQtFunction.h \
-            BlockCppQtProperty.h \
             BlockCppUnion.h \
             BlockCppVariable.h \
             BlockTest.h \
@@ -121,7 +118,6 @@ HEADERS +=  Global.h \
             TestBlockCppProperty.h \
             TestBlockCppQt.h \
             TestBlockCppQtFunction.h \
-            TestBlockCppQtProperty.h \
             TestBlockCppVariable.h \
             TestFactory.h \
             TestFactoryLanguage.h \

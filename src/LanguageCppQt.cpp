@@ -5,8 +5,8 @@
 #include "BlockCppEnumeration.h"
 #include "BlockCppExceptionItem.h"
 #include "BlockCppNamespace.h"
+#include "BlockCppProperty.h"
 #include "BlockCppQtFunction.h"
-#include "BlockCppQtProperty.h"
 #include "BlockCppUnion.h"
 #include "BlockCppVariable.h"
 #include "Exceptions.h"
@@ -17,6 +17,7 @@ using Class = Block::Cpp::Class;
 using Enumeration = Block::Cpp::Enumeration;
 using ExceptionItem = Block::Cpp::ExceptionItem;
 using Namespace = Block::Cpp::Namespace;
+using Property = Block::Cpp::Property;
 using Union = Block::Cpp::Union;
 using Variable = Block::Cpp::Variable;
 
