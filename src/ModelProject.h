@@ -545,7 +545,11 @@ class Project:
 
 
     /*!
-     * Detailed description.
+     * Connects this model's root block's and all its descendant's display icon
+     * and text changed signals to this model's corresponding slots.
+     * 
+     * This does not check if these signals are already connected and must be
+     * called only once after loading a project's blocks.
      */
     private:
     void connectAll(

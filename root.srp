@@ -8415,7 +8415,9 @@ If the given index is invalid then the root block is returned, else if the given
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>Connects this model's root block's and all its descendant's display icon and text changed signals to this model's corresponding slots.
+
+This does not check if these signals are already connected and must be called only once after loading a project's blocks.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -14738,6 +14740,24 @@ The given data must be a valid byte array generated from this widget's save geom
                     <__p_override>0</__p_override>
                     <__p_returnDescription>This widget's block view.</__p_returnDescription>
                     <__p_returnType>QWidget*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>contextMenu</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>This widget's context menu.</__p_returnDescription>
+                    <__p_returnType>QMenu*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                 </Function>

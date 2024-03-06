@@ -34,6 +34,7 @@ class Project:
     QHBoxLayout* _blockButtonsLayout {nullptr};
     QMenu* _addGlobalMenu {nullptr};
     QMenu* _addMenu {nullptr};
+    QMenu* _contextMenu {nullptr};
     QPushButton* _blockApplyButton {nullptr};
     QScrollArea* _blockScrollArea{nullptr};
     QSplitter* _splitter {nullptr};
@@ -386,6 +387,17 @@ class Project:
      */
     private:
     QWidget* blockView(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's context menu.
+     */
+    private:
+    QMenu* contextMenu(
     );
 
 

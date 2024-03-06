@@ -488,6 +488,30 @@ QWidget* Project::blockView(
 }
 
 
+QMenu* Project::contextMenu(
+)
+{
+    if (!_contextMenu)
+    {
+        _contextMenu = new QMenu(this);
+        _contextMenu->addAction(undoAction());
+        _contextMenu->addAction(redoAction());
+        _contextMenu->addSeparator();
+        _contextMenu->addMenu(addMenu());
+        _contextMenu->addMenu(addGlobalMenu());
+        _contextMenu->addAction(removeAction());
+        _contextMenu->addSeparator();
+        _contextMenu->addAction(cutAction());
+        _contextMenu->addAction(copyAction());
+        _contextMenu->addAction(pasteAction());
+        _contextMenu->addSeparator();
+        _contextMenu->addAction(moveUpAction());
+        _contextMenu->addAction(moveDownAction());
+    }
+    return _contextMenu;
+}
+
+
 void Project::move(
     int delta
 )
@@ -558,6 +582,13 @@ QTreeView* Project::treeView(
         _treeView = new QTreeView;
         _treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
         _treeView->setFont(QFont());
+        _treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(
+            _treeView
+            ,&QWidget::customContextMenuRequested
+            ,this
+            ,[this](const QPoint& pos){ contextMenu()->exec(mapToGlobal(pos)); }
+        );
     }
     return _treeView;
 }
