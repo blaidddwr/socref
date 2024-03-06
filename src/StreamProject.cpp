@@ -34,6 +34,7 @@ Model::Project* Project::fromDir(
     }
     auto version = read(dir.absoluteFilePath(CONFIG_FILE),*ret);
     ret->_root = Block::fromDir(ret->_language,version,dir.absolutePath(),ret.get());
+    ret->connectAll();
     ret->_directoryPath = QFileInfo(path).absoluteFilePath();
     ret->_modified = false;
     ret->setParent(parent);
@@ -130,6 +131,7 @@ Model::Project* Project::fromXml(
                         throw ReadError(tr("Language not set before first block element."));
                     }
                     ret->_root = Block::fromXml(ret->_language,version,xml,ret.get());
+                    ret->connectAll();
                 }
             }
         }

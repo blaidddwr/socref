@@ -282,14 +282,14 @@ QModelIndex Project::index(
 {
     G_ASSERT(row >= 0);
     G_ASSERT(column == 0);
-    auto realParent = _root;
+    auto p = _root;
     if (parent.isValid())
     {
-        realParent = reinterpret_cast<Block::Abstract*>(parent.internalPointer());
+        p = reinterpret_cast<Block::Abstract*>(parent.internalPointer());
     }
-    G_ASSERT(realParent);
-    G_ASSERT(row < realParent->size());
-    return createIndex(row,column,realParent->get(row));
+    G_ASSERT(p);
+    G_ASSERT(row < p->size());
+    return createIndex(row,column,p->get(row));
 }
 
 
@@ -356,20 +356,14 @@ QModelIndex Project::parent(
     auto b = reinterpret_cast<Block::Abstract*>(index.internalPointer());
     G_ASSERT(b);
     auto p = qobject_cast<Block::Abstract*>(b->parent());
-    if (!p)
-    {
-        return QModelIndex();
-    }
+    G_ASSERT(p);
     auto gp = qobject_cast<Block::Abstract*>(p->parent());
     if (!gp)
     {
         return QModelIndex();
     }
     auto row = gp->indexOf(p);
-    if (row < 0)
-    {
-        return QModelIndex();
-    }
+    G_ASSERT(row >= 0);
     G_ASSERT(row < gp->size());
     return createIndex(row,0,p);
 }
@@ -537,6 +531,28 @@ Block::Abstract* Project::block(
 }
 
 
+void Project::connectAll(
+)
+{
+    G_ASSERT(_root);
+    for (auto block: _root->descendants())
+    {
+        connect(
+            block
+            ,&Block::Abstract::displayIconChanged
+            ,this
+            ,[this,block](){ onBlockDisplayIconChanged(block); }
+        );
+        connect(
+            block
+            ,&Block::Abstract::displayTextChanged
+            ,this
+            ,[this,block](){ onBlockDisplayTextChanged(block); })
+        ;
+    }
+}
+
+
 void Project::onBlockDisplayIconChanged(
     Block::Abstract* block
 )
@@ -544,7 +560,7 @@ void Project::onBlockDisplayIconChanged(
     G_ASSERT(block);
     if (auto p = qobject_cast<Block::Abstract*>(block->parent()))
     {
-        auto index = createIndex(p->indexOf(block),0,p);
+        auto index = createIndex(p->indexOf(block),0,block);
         emit dataChanged(index,index,{Qt::DecorationRole});
     }
 }
@@ -557,7 +573,7 @@ void Project::onBlockDisplayTextChanged(
     G_ASSERT(block);
     if (auto p = qobject_cast<Block::Abstract*>(block->parent()))
     {
-        auto index = createIndex(p->indexOf(block),0,p);
+        auto index = createIndex(p->indexOf(block),0,block);
         emit dataChanged(index,index,{Qt::DisplayRole});
     }
 }

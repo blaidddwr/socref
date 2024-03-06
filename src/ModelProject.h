@@ -545,6 +545,14 @@ class Project:
 
 
     /*!
+     * Detailed description.
+     */
+    private:
+    void connectAll(
+    );
+
+
+    /*!
      * Called when the given block in this model's display icon changed signal
      * is emitted.
      * 
