@@ -221,7 +221,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's code menu.
+     * This widget's code menu widget.
      */
     private:
     QMenu* codeMenu(
@@ -232,7 +232,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's code tool bar.
+     * This widget's code tool bar widget.
      */
     private:
     QToolBar* codeToolBar(
@@ -243,7 +243,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's edit menu.
+     * This widget's edit menu widget.
      */
     private:
     QMenu* editMenu(
@@ -254,7 +254,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's edit tool bar.
+     * This widget's edit tool bar widget.
      */
     private:
     QToolBar* editToolBar(
@@ -287,7 +287,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's file menu.
+     * This widget's file menu widget.
      */
     private:
     QMenu* fileMenu(
@@ -298,7 +298,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's file tool bar.
+     * This widget's file tool bar widget.
      */
     private:
     QToolBar* fileToolBar(
@@ -320,7 +320,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's help menu.
+     * This widget's help menu widget.
      */
     private:
     QMenu* helpMenu(
@@ -353,7 +353,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's new menu.
+     * This widget's new menu widget.
      */
     private:
     QMenu* newMenu(
@@ -472,7 +472,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's selection menu.
+     * This widget's selection menu widget.
      */
     private:
     QMenu* selectionMenu(

@@ -5864,7 +5864,9 @@ The display icon property can be set with an appropriate setter method so it can
             </Namespace>
         </Namespace>
         <Namespace>
-            <__p_description>This contains all commands.</__p_description>
+            <__p_description>This contains all commands.
+
+Commands are single actions that can be done or undone to a target model class.</__p_description>
             <__p_name>Command</__p_name>
             <Namespace>
                 <__p_description>This contains all project commands.
@@ -12700,10 +12702,10 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                             <__p_explicit>0</__p_explicit>
                             <__p_final>0</__p_final>
                             <__p_invokable>0</__p_invokable>
-                            <__p_name>descriptionEdit</__p_name>
+                            <__p_name>descriptionTextEdit</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's description edit.</__p_returnDescription>
+                            <__p_returnDescription>This widget's description text edit widget.</__p_returnDescription>
                             <__p_returnType>QTextEdit*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -12736,10 +12738,10 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                             <__p_explicit>0</__p_explicit>
                             <__p_final>0</__p_final>
                             <__p_invokable>0</__p_invokable>
-                            <__p_name>nameEdit</__p_name>
+                            <__p_name>nameLineEdit</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's name edit.</__p_returnDescription>
+                            <__p_returnDescription>This widget's name line edit widget.</__p_returnDescription>
                             <__p_returnType>QLineEdit*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -12818,10 +12820,10 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                             <__p_explicit>0</__p_explicit>
                             <__p_final>0</__p_final>
                             <__p_invokable>0</__p_invokable>
-                            <__p_name>parentList</__p_name>
+                            <__p_name>parentStringList</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's parent list.</__p_returnDescription>
+                            <__p_returnDescription>This widget's parent string list widget.</__p_returnDescription>
                             <__p_returnType>StringList*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -12836,10 +12838,10 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                             <__p_explicit>0</__p_explicit>
                             <__p_final>0</__p_final>
                             <__p_invokable>0</__p_invokable>
-                            <__p_name>templateList</__p_name>
+                            <__p_name>templateStringList</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's template list.</__p_returnDescription>
+                            <__p_returnDescription>This widget's template string list widget.</__p_returnDescription>
                             <__p_returnType>StringList*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -12903,7 +12905,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                             <__p_name>classCheckBox</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's class check box.</__p_returnDescription>
+                            <__p_returnDescription>This widget's class check box widget.</__p_returnDescription>
                             <__p_returnType>QCheckBox*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -12921,7 +12923,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                             <__p_name>flagsGroupBox</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's flags group box.</__p_returnDescription>
+                            <__p_returnDescription>This widget's flags group box widget.</__p_returnDescription>
                             <__p_returnType>QGroupBox*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13033,7 +13035,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                             <__p_name>accessComboBox</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's access combo box.</__p_returnDescription>
+                            <__p_returnDescription>This widget's access combo box widget.</__p_returnDescription>
                             <__p_returnType>QComboBox*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13051,7 +13053,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                             <__p_name>assignmentComboBox</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's assignment combo box.</__p_returnDescription>
+                            <__p_returnDescription>This widget's assignment combo box widget.</__p_returnDescription>
                             <__p_returnType>QComboBox*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13096,7 +13098,7 @@ The given label and icon lists must be the same size. The given current index mu
                             <__p_const>0</__p_const>
                             <__p_default>0</__p_default>
                             <__p_deleted>0</__p_deleted>
-                            <__p_description>Returns this widget's flag check box with the given function flag.
+                            <__p_description>Returns this widget's flag check box widget with the given function flag.
 
 The given function flag must be valid.</__p_description>
                             <__p_explicit>0</__p_explicit>
@@ -13127,7 +13129,7 @@ The given function flag must be valid.</__p_description>
                             <__p_name>flagsGroupBox</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's flags group box.</__p_returnDescription>
+                            <__p_returnDescription>This widget's flags group box widget.</__p_returnDescription>
                             <__p_returnType>QGroupBox*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13163,7 +13165,7 @@ The given function flag must be valid.</__p_description>
                             <__p_name>returnDescriptionTextEdit</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's return description text editor.</__p_returnDescription>
+                            <__p_returnDescription>This widget's return description text edit widget.</__p_returnDescription>
                             <__p_returnType>QTextEdit*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13181,7 +13183,7 @@ The given function flag must be valid.</__p_description>
                             <__p_name>returnGroupBox</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's return group box.</__p_returnDescription>
+                            <__p_returnDescription>This widget's return group box widget.</__p_returnDescription>
                             <__p_returnType>QGroupBox*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13199,7 +13201,7 @@ The given function flag must be valid.</__p_description>
                             <__p_name>returnLineEdit</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's return line editor.</__p_returnDescription>
+                            <__p_returnDescription>This widget's return line edit widget.</__p_returnDescription>
                             <__p_returnType>QLineEdit*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13214,10 +13216,10 @@ The given function flag must be valid.</__p_description>
                             <__p_explicit>0</__p_explicit>
                             <__p_final>0</__p_final>
                             <__p_invokable>0</__p_invokable>
-                            <__p_name>templateList</__p_name>
+                            <__p_name>templateStringList</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's template list.</__p_returnDescription>
+                            <__p_returnDescription>This widget's template string list widget.</__p_returnDescription>
                             <__p_returnType>StringList*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13235,7 +13237,7 @@ The given function flag must be valid.</__p_description>
                             <__p_name>typeComboBox</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's type combo box.</__p_returnDescription>
+                            <__p_returnDescription>This widget's type combo box widget.</__p_returnDescription>
                             <__p_returnType>QComboBox*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13389,7 +13391,7 @@ The given function flag must be valid.</__p_description>
                             <__p_name>assignmentLineEdit</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's assignment line edit.</__p_returnDescription>
+                            <__p_returnDescription>This widget's assignment line edit widget.</__p_returnDescription>
                             <__p_returnType>QLineEdit*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13425,7 +13427,7 @@ The given function flag must be valid.</__p_description>
                             <__p_name>typeLineEdit</__p_name>
                             <__p_noexcept>0</__p_noexcept>
                             <__p_override>0</__p_override>
-                            <__p_returnDescription>This widget's type line edit.</__p_returnDescription>
+                            <__p_returnDescription>This widget's type line edit widget.</__p_returnDescription>
                             <__p_returnType>QLineEdit*</__p_returnType>
                             <__p_static>0</__p_static>
                             <__p_virtual>0</__p_virtual>
@@ -13619,7 +13621,7 @@ The given project model must be valid and cannot be destroyed during the lifetim
                         <__p_name>closeButton</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's close button.</__p_returnDescription>
+                        <__p_returnDescription>This widget's close button widget.</__p_returnDescription>
                         <__p_returnType>QPushButton*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -13637,7 +13639,7 @@ The given project model must be valid and cannot be destroyed during the lifetim
                         <__p_name>gitRemoveAllButton</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's &quot;git remove all&quot; button.</__p_returnDescription>
+                        <__p_returnDescription>This widget's git remove all button widget.</__p_returnDescription>
                         <__p_returnType>QPushButton*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -13655,7 +13657,7 @@ The given project model must be valid and cannot be destroyed during the lifetim
                         <__p_name>listView</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's list view.</__p_returnDescription>
+                        <__p_returnDescription>This widget's list view widget.</__p_returnDescription>
                         <__p_returnType>QListView*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -13691,7 +13693,7 @@ The given project model must be valid and cannot be destroyed during the lifetim
                         <__p_name>refreshButton</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's refresh button.</__p_returnDescription>
+                        <__p_returnDescription>This widget's refresh button widget.</__p_returnDescription>
                         <__p_returnType>QPushButton*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -13733,7 +13735,7 @@ The given git flag is passed onto the project stream's &quot;remove orphan files
                         <__p_name>removeAllButton</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's &quot;remove all&quot; button.</__p_returnDescription>
+                        <__p_returnDescription>This widget's remove all button widget.</__p_returnDescription>
                         <__p_returnType>QPushButton*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -13921,7 +13923,7 @@ The given model must be valid and cannot be destroyed during the lifetime of thi
                         <__p_name>applyButton</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's apply button.</__p_returnDescription>
+                        <__p_returnDescription>This widget's apply button widget.</__p_returnDescription>
                         <__p_returnType>QPushButton*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -13957,7 +13959,7 @@ The given model must be valid and cannot be destroyed during the lifetime of thi
                         <__p_name>cancelButton</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's cancel button.</__p_returnDescription>
+                        <__p_returnDescription>This widget's cancel button widget.</__p_returnDescription>
                         <__p_returnType>QPushButton*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -13975,7 +13977,7 @@ The given model must be valid and cannot be destroyed during the lifetime of thi
                         <__p_name>codePathBrowseButton</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's &quot;code path browse&quot; button.</__p_returnDescription>
+                        <__p_returnDescription>This widget's code path browse button widget.</__p_returnDescription>
                         <__p_returnType>QPushButton*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -14008,10 +14010,10 @@ The given model must be valid and cannot be destroyed during the lifetime of thi
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>codePathLine</__p_name>
+                        <__p_name>codePathLineEdit</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's &quot;code path&quot; line.</__p_returnDescription>
+                        <__p_returnDescription>This widget's &quot;code path&quot; line edit widget.</__p_returnDescription>
                         <__p_returnType>QLineEdit*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -14044,10 +14046,10 @@ The given model must be valid and cannot be destroyed during the lifetime of thi
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>nameEdit</__p_name>
+                        <__p_name>nameLineEdit</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's name edit.</__p_returnDescription>
+                        <__p_returnDescription>This widget's name line edit widget.</__p_returnDescription>
                         <__p_returnType>QLineEdit*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -14065,7 +14067,7 @@ The given model must be valid and cannot be destroyed during the lifetime of thi
                         <__p_name>okButton</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's OK button.</__p_returnDescription>
+                        <__p_returnDescription>This widget's OK button widget.</__p_returnDescription>
                         <__p_returnType>QPushButton*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -14162,7 +14164,7 @@ The given model must be valid and cannot be destroyed during the lifetime of thi
                     <__p_name>addMenu</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This widget's add menu.</__p_returnDescription>
+                    <__p_returnDescription>This widget's add menu widget.</__p_returnDescription>
                     <__p_returnType>QMenu*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -14666,7 +14668,7 @@ The given data must be a valid byte array generated from this widget's save geom
                     <__p_name>blockApplyButton</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This widget's block apply button.</__p_returnDescription>
+                    <__p_returnDescription>This widget's block apply button widget.</__p_returnDescription>
                     <__p_returnType>QPushButton*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -14702,7 +14704,7 @@ The given data must be a valid byte array generated from this widget's save geom
                     <__p_name>blockGroupBox</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This widget's block group box.</__p_returnDescription>
+                    <__p_returnDescription>This widget's block group box widget.</__p_returnDescription>
                     <__p_returnType>QGroupBox*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -14720,7 +14722,7 @@ The given data must be a valid byte array generated from this widget's save geom
                     <__p_name>blockScrollArea</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This widget's block scroll area.</__p_returnDescription>
+                    <__p_returnDescription>This widget's block scroll area widget.</__p_returnDescription>
                     <__p_returnType>QScrollArea*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -14738,7 +14740,7 @@ The given data must be a valid byte array generated from this widget's save geom
                     <__p_name>blockView</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This widget's block view.</__p_returnDescription>
+                    <__p_returnDescription>This widget's block view widget.</__p_returnDescription>
                     <__p_returnType>QWidget*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -14756,7 +14758,7 @@ The given data must be a valid byte array generated from this widget's save geom
                     <__p_name>contextMenu</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This widget's context menu.</__p_returnDescription>
+                    <__p_returnDescription>This widget's context menu widget.</__p_returnDescription>
                     <__p_returnType>QMenu*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -14824,7 +14826,7 @@ This widget takes ownership of the given widget.</__p_description>
                     <__p_name>splitter</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This widget's splitter.</__p_returnDescription>
+                    <__p_returnDescription>This widget's splitter widget.</__p_returnDescription>
                     <__p_returnType>QSplitter*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -14842,7 +14844,7 @@ This widget takes ownership of the given widget.</__p_description>
                     <__p_name>treeView</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>This widget's tree view.</__p_returnDescription>
+                    <__p_returnDescription>This widget's tree view widget.</__p_returnDescription>
                     <__p_returnType>QTreeView*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
@@ -15585,7 +15587,7 @@ The given index must have been created by this widget's model.</__p_description>
                         <__p_name>codeMenu</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's code menu.</__p_returnDescription>
+                        <__p_returnDescription>This widget's code menu widget.</__p_returnDescription>
                         <__p_returnType>QMenu*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -15603,7 +15605,7 @@ The given index must have been created by this widget's model.</__p_description>
                         <__p_name>codeToolBar</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's code tool bar.</__p_returnDescription>
+                        <__p_returnDescription>This widget's code tool bar widget.</__p_returnDescription>
                         <__p_returnType>QToolBar*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -15621,7 +15623,7 @@ The given index must have been created by this widget's model.</__p_description>
                         <__p_name>editMenu</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's edit menu.</__p_returnDescription>
+                        <__p_returnDescription>This widget's edit menu widget.</__p_returnDescription>
                         <__p_returnType>QMenu*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -15639,7 +15641,7 @@ The given index must have been created by this widget's model.</__p_description>
                         <__p_name>editToolBar</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's edit tool bar.</__p_returnDescription>
+                        <__p_returnDescription>This widget's edit tool bar widget.</__p_returnDescription>
                         <__p_returnType>QToolBar*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -15693,7 +15695,7 @@ The given index must have been created by this widget's model.</__p_description>
                         <__p_name>fileMenu</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's file menu.</__p_returnDescription>
+                        <__p_returnDescription>This widget's file menu widget.</__p_returnDescription>
                         <__p_returnType>QMenu*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -15711,7 +15713,7 @@ The given index must have been created by this widget's model.</__p_description>
                         <__p_name>fileToolBar</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's file tool bar.</__p_returnDescription>
+                        <__p_returnDescription>This widget's file tool bar widget.</__p_returnDescription>
                         <__p_returnType>QToolBar*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -15747,7 +15749,7 @@ The given index must have been created by this widget's model.</__p_description>
                         <__p_name>helpMenu</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's help menu.</__p_returnDescription>
+                        <__p_returnDescription>This widget's help menu widget.</__p_returnDescription>
                         <__p_returnType>QMenu*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -15801,7 +15803,7 @@ The given index must have been created by this widget's model.</__p_description>
                         <__p_name>newMenu</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's new menu.</__p_returnDescription>
+                        <__p_returnDescription>This widget's new menu widget.</__p_returnDescription>
                         <__p_returnType>QMenu*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -15999,7 +16001,7 @@ If this window's project model has unsaved changes then the user is asked what t
                         <__p_name>selectionMenu</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's selection menu.</__p_returnDescription>
+                        <__p_returnDescription>This widget's selection menu widget.</__p_returnDescription>
                         <__p_returnType>QMenu*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>

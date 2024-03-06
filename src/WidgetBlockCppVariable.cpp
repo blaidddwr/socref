@@ -22,8 +22,8 @@ void Variable::apply(
 )
 {
     auto block = beginSet<Block>();
-    block->setName(nameEdit()->text());
-    block->setDescription(descriptionEdit()->toPlainText());
+    block->setName(nameLineEdit()->text());
+    block->setDescription(descriptionTextEdit()->toPlainText());
     block->setType(typeLineEdit()->text());
     block->setAssignment(assignmentLineEdit()->text());
     finishSet();

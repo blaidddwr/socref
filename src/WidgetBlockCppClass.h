@@ -49,10 +49,10 @@ class Class:
      * Getter method.
      *
      * @return
-     * This widget's parent list.
+     * This widget's parent string list widget.
      */
     private:
-    StringList* parentList(
+    StringList* parentStringList(
     );
 
 
@@ -60,10 +60,10 @@ class Class:
      * Getter method.
      *
      * @return
-     * This widget's template list.
+     * This widget's template string list widget.
      */
     private:
-    StringList* templateList(
+    StringList* templateStringList(
     );
 };
 }

@@ -50,7 +50,7 @@ class Function:
      * Getter method.
      *
      * @return
-     * This widget's access combo box.
+     * This widget's access combo box widget.
      */
     private:
     QComboBox* accessComboBox(
@@ -61,7 +61,7 @@ class Function:
      * Getter method.
      *
      * @return
-     * This widget's assignment combo box.
+     * This widget's assignment combo box widget.
      */
     private:
     QComboBox* assignmentComboBox(
@@ -94,7 +94,7 @@ class Function:
 
 
     /*!
-     * Returns this widget's flag check box with the given function flag.
+     * Returns this widget's flag check box widget with the given function flag.
      * 
      * The given function flag must be valid.
      *
@@ -111,7 +111,7 @@ class Function:
      * Getter method.
      *
      * @return
-     * This widget's flags group box.
+     * This widget's flags group box widget.
      */
     private:
     QGroupBox* flagsGroupBox(
@@ -133,7 +133,7 @@ class Function:
      * Getter method.
      *
      * @return
-     * This widget's return description text editor.
+     * This widget's return description text edit widget.
      */
     private:
     QTextEdit* returnDescriptionTextEdit(
@@ -144,7 +144,7 @@ class Function:
      * Getter method.
      *
      * @return
-     * This widget's return group box.
+     * This widget's return group box widget.
      */
     private:
     QGroupBox* returnGroupBox(
@@ -155,7 +155,7 @@ class Function:
      * Getter method.
      *
      * @return
-     * This widget's return line editor.
+     * This widget's return line edit widget.
      */
     private:
     QLineEdit* returnLineEdit(
@@ -166,10 +166,10 @@ class Function:
      * Getter method.
      *
      * @return
-     * This widget's template list.
+     * This widget's template string list widget.
      */
     private:
-    StringList* templateList(
+    StringList* templateStringList(
     );
 
 
@@ -177,7 +177,7 @@ class Function:
      * Getter method.
      *
      * @return
-     * This widget's type combo box.
+     * This widget's type combo box widget.
      */
     private:
     QComboBox* typeComboBox(

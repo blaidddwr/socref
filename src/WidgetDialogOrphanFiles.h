@@ -113,7 +113,7 @@ class OrphanFiles:
      * Getter method.
      *
      * @return
-     * This widget's close button.
+     * This widget's close button widget.
      */
     private:
     QPushButton* closeButton(
@@ -124,7 +124,7 @@ class OrphanFiles:
      * Getter method.
      *
      * @return
-     * This widget's "git remove all" button.
+     * This widget's git remove all button widget.
      */
     private:
     QPushButton* gitRemoveAllButton(
@@ -135,7 +135,7 @@ class OrphanFiles:
      * Getter method.
      *
      * @return
-     * This widget's list view.
+     * This widget's list view widget.
      */
     private:
     QListView* listView(
@@ -157,7 +157,7 @@ class OrphanFiles:
      * Getter method.
      *
      * @return
-     * This widget's refresh button.
+     * This widget's refresh button widget.
      */
     private:
     QPushButton* refreshButton(
@@ -184,7 +184,7 @@ class OrphanFiles:
      * Getter method.
      *
      * @return
-     * This widget's "remove all" button.
+     * This widget's remove all button widget.
      */
     private:
     QPushButton* removeAllButton(

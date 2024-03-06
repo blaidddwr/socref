@@ -23,10 +23,10 @@ void Class::apply(
 )
 {
     auto block = beginSet<Block>();
-    block->setName(nameEdit()->text());
-    block->setDescription(descriptionEdit()->toPlainText());
-    block->setParents(parentList()->model()->stringList());
-    block->setTemplates(templateList()->model()->stringList());
+    block->setName(nameLineEdit()->text());
+    block->setDescription(descriptionTextEdit()->toPlainText());
+    block->setParents(parentStringList()->model()->stringList());
+    block->setTemplates(templateStringList()->model()->stringList());
     finishSet();
     setModified(false);
 }
@@ -37,15 +37,15 @@ QFormLayout* Class::formLayout(
 {
     if (!_formLayout)
     {
-        Base::formLayout()->addRow(tr("Parents:"),parentList());
-        Base::formLayout()->addRow(tr("Templates:"),templateList());
+        Base::formLayout()->addRow(tr("Parents:"),parentStringList());
+        Base::formLayout()->addRow(tr("Templates:"),templateStringList());
         _formLayout = true;
     }
     return Base::formLayout();
 }
 
 
-StringList* Class::parentList(
+StringList* Class::parentStringList(
 )
 {
     if (!_parentList)
@@ -59,7 +59,7 @@ StringList* Class::parentList(
 }
 
 
-StringList* Class::templateList(
+StringList* Class::templateStringList(
 )
 {
     if (!_templateList)

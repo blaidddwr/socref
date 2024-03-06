@@ -64,7 +64,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's add menu.
+     * This widget's add menu widget.
      */
     public:
     QMenu* addMenu(
@@ -339,7 +339,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's block apply button.
+     * This widget's block apply button widget.
      */
     private:
     QPushButton* blockApplyButton(
@@ -361,7 +361,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's block group box.
+     * This widget's block group box widget.
      */
     private:
     QGroupBox* blockGroupBox(
@@ -372,7 +372,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's block scroll area.
+     * This widget's block scroll area widget.
      */
     private:
     QScrollArea* blockScrollArea(
@@ -383,7 +383,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's block view.
+     * This widget's block view widget.
      */
     private:
     QWidget* blockView(
@@ -394,7 +394,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's context menu.
+     * This widget's context menu widget.
      */
     private:
     QMenu* contextMenu(
@@ -437,7 +437,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's splitter.
+     * This widget's splitter widget.
      */
     private:
     QSplitter* splitter(
@@ -448,7 +448,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's tree view.
+     * This widget's tree view widget.
      */
     private:
     QTreeView* treeView(

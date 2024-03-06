@@ -47,8 +47,8 @@ void Project::apply(
 )
 {
     G_ASSERT(_model);
-    _model->setName(nameEdit()->text());
-    _model->setRelativeCodePath(codePathLine()->text());
+    _model->setName(nameLineEdit()->text());
+    _model->setRelativeCodePath(codePathLineEdit()->text());
 }
 
 
@@ -59,7 +59,7 @@ void Project::codePathBrowse(
     auto path = QFileDialog::getExistingDirectory(this,tr("Select Relative Code Path"));
     if (!path.isNull())
     {
-        codePathLine()->setText(QDir(_model->directoryPath()).relativeFilePath(path));
+        codePathLineEdit()->setText(QDir(_model->directoryPath()).relativeFilePath(path));
     }
 }
 
@@ -132,14 +132,14 @@ QHBoxLayout* Project::codePathLayout(
     if (!_codePathLayout)
     {
         _codePathLayout = new QHBoxLayout;
-        _codePathLayout->addWidget(codePathLine());
+        _codePathLayout->addWidget(codePathLineEdit());
         _codePathLayout->addWidget(codePathBrowseButton());
     }
     return _codePathLayout;
 }
 
 
-QLineEdit* Project::codePathLine(
+QLineEdit* Project::codePathLineEdit(
 )
 {
     if (!_codePathLine)
@@ -159,14 +159,14 @@ QFormLayout* Project::formLayout(
     if (!_formLayout)
     {
         _formLayout = new QFormLayout;
-        _formLayout->addRow(tr("Name:"),nameEdit());
+        _formLayout->addRow(tr("Name:"),nameLineEdit());
         _formLayout->addRow(tr("Relative Code Path:"),codePathLayout());
     }
     return _formLayout;
 }
 
 
-QLineEdit* Project::nameEdit(
+QLineEdit* Project::nameLineEdit(
 )
 {
     if (!_nameEdit)

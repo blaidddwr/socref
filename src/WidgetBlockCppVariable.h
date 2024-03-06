@@ -36,7 +36,7 @@ class Variable:
      * Getter method.
      *
      * @return
-     * This widget's assignment line edit.
+     * This widget's assignment line edit widget.
      */
     private:
     QLineEdit* assignmentLineEdit(
@@ -58,7 +58,7 @@ class Variable:
      * Getter method.
      *
      * @return
-     * This widget's type line edit.
+     * This widget's type line edit widget.
      */
     private:
     QLineEdit* typeLineEdit(

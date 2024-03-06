@@ -12,14 +12,14 @@ void Base::apply(
 )
 {
     auto block = beginSet<Block>();
-    block->setName(nameEdit()->text());
-    block->setDescription(descriptionEdit()->toPlainText());
+    block->setName(nameLineEdit()->text());
+    block->setDescription(descriptionTextEdit()->toPlainText());
     finishSet();
     setModified(false);
 }
 
 
-QTextEdit* Base::descriptionEdit(
+QTextEdit* Base::descriptionTextEdit(
 )
 {
     if (!_descriptionEdit)
@@ -38,14 +38,14 @@ QFormLayout* Base::formLayout(
     if (!_formLayout)
     {
         _formLayout = new QFormLayout;
-        _formLayout->addRow(tr("Name:"),nameEdit());
-        _formLayout->addRow(tr("Description:"),descriptionEdit());
+        _formLayout->addRow(tr("Name:"),nameLineEdit());
+        _formLayout->addRow(tr("Description:"),descriptionTextEdit());
     }
     return _formLayout;
 }
 
 
-QLineEdit* Base::nameEdit(
+QLineEdit* Base::nameLineEdit(
 )
 {
     if (!_nameEdit)

@@ -39,7 +39,7 @@ class Enumeration:
      * Getter method.
      *
      * @return
-     * This widget's class check box.
+     * This widget's class check box widget.
      */
     private:
     QCheckBox* classCheckBox(
@@ -50,7 +50,7 @@ class Enumeration:
      * Getter method.
      *
      * @return
-     * This widget's flags group box.
+     * This widget's flags group box widget.
      */
     private:
     QGroupBox* flagsGroupBox(

@@ -37,14 +37,16 @@ void Function::apply(
             }
         }
         block->set(
-            nameEdit()->text()
+            nameLineEdit()->text()
             ,returnLineEdit()->text()
             ,typeComboBox()->currentIndex()
             ,accessComboBox()->currentIndex()
             ,assignmentComboBox()->currentIndex()
             ,flags
         );
-        block->setDescription(descriptionEdit()->toPlainText());
+        block->setDescription(descriptionTextEdit()->toPlainText());
+        block->setReturnDescription(returnDescriptionTextEdit()->toPlainText());
+        block->setTemplates(templateStringList()->model()->stringList());
     }
     catch (Exception::Block::Logical& e)
     {
@@ -160,7 +162,7 @@ QFormLayout* Function::formLayout(
         Base::formLayout()->addRow(tr("Access:"),accessComboBox());
         Base::formLayout()->addRow(tr("Return:"),returnGroupBox());
         Base::formLayout()->addRow(tr("Flags:"),flagsGroupBox());
-        Base::formLayout()->addRow(tr("Templates:"),templateList());
+        Base::formLayout()->addRow(tr("Templates:"),templateStringList());
         _formLayout = true;
     }
     return Base::formLayout();
@@ -208,7 +210,7 @@ QLineEdit* Function::returnLineEdit(
 }
 
 
-StringList* Function::templateList(
+StringList* Function::templateStringList(
 )
 {
     if (!_templateList)

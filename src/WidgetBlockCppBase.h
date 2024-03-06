@@ -39,10 +39,10 @@ class Base:
      * Getter method.
      *
      * @return
-     * This widget's description edit.
+     * This widget's description text edit widget.
      */
     protected:
-    QTextEdit* descriptionEdit(
+    QTextEdit* descriptionTextEdit(
     );
 
 
@@ -61,10 +61,10 @@ class Base:
      * Getter method.
      *
      * @return
-     * This widget's name edit.
+     * This widget's name line edit widget.
      */
     protected:
-    QLineEdit* nameEdit(
+    QLineEdit* nameLineEdit(
     );
 };
 }

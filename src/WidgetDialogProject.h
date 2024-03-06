@@ -96,7 +96,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's apply button.
+     * This widget's apply button widget.
      */
     private:
     QPushButton* applyButton(
@@ -118,7 +118,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's cancel button.
+     * This widget's cancel button widget.
      */
     private:
     QPushButton* cancelButton(
@@ -129,7 +129,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's "code path browse" button.
+     * This widget's code path browse button widget.
      */
     private:
     QPushButton* codePathBrowseButton(
@@ -151,10 +151,10 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's "code path" line.
+     * This widget's "code path" line edit widget.
      */
     private:
-    QLineEdit* codePathLine(
+    QLineEdit* codePathLineEdit(
     );
 
 
@@ -173,10 +173,10 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's name edit.
+     * This widget's name line edit widget.
      */
     private:
-    QLineEdit* nameEdit(
+    QLineEdit* nameLineEdit(
     );
 
 
@@ -184,7 +184,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's OK button.
+     * This widget's OK button widget.
      */
     private:
     QPushButton* okButton(
