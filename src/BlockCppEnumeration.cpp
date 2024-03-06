@@ -100,7 +100,7 @@ QHash<QString,QVariant> Enumeration::state(
 }
 
 
-Block::Abstract* Enumeration::create(
+Abstract* Enumeration::create(
     QObject* parent
 ) const
 {

@@ -20,14 +20,14 @@ namespace Cpp {
  * the name and description edit widgets added to it.
  */
 class Base:
-    public Widget::Block::Abstract
+    public Abstract
 {
     Q_OBJECT
     QFormLayout* _formLayout {nullptr};
     QLineEdit* _nameEdit {nullptr};
     QTextEdit* _descriptionEdit {nullptr};
     public:
-    using Widget::Block::Abstract::Abstract;
+    using Abstract::Abstract;
 
 
     public slots:

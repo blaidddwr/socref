@@ -28,7 +28,7 @@ QIcon ExceptionItem::displayIcon(
 }
 
 
-Block::Abstract* ExceptionItem::create(
+Abstract* ExceptionItem::create(
     QObject* parent
 ) const
 {

@@ -41,7 +41,7 @@ namespace Cpp {
  * with new property value enumerations.
  */
 class Function:
-    public Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
     QString _displayText;
@@ -823,7 +823,7 @@ class Function:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override;
 

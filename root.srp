@@ -119,7 +119,7 @@ All blocks supply a file name used when saving/loading blocks in the multi file 
                     <Variable>
                         <__p_description>The block.</__p_description>
                         <__p_name>block</__p_name>
-                        <__p_type>Block::Abstract*</__p_type>
+                        <__p_type>Abstract*</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -135,7 +135,7 @@ All blocks supply a file name used when saving/loading blocks in the multi file 
                     <__p_name>copy</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_returnType>Abstract*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
@@ -176,7 +176,7 @@ All blocks supply a file name used when saving/loading blocks in the multi file 
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnDescription>A complete list of all descendant blocks contained in this block.</__p_returnDescription>
-                    <__p_returnType>QList&lt;Block::Abstract*&gt;</__p_returnType>
+                    <__p_returnType>QList&lt;Abstract*&gt;</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                 </Function>
@@ -247,7 +247,7 @@ All blocks supply a file name used when saving/loading blocks in the multi file 
                     <__p_name>get</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_returnType>Abstract*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
@@ -275,7 +275,7 @@ All blocks supply a file name used when saving/loading blocks in the multi file 
                     <Variable>
                         <__p_description>The block.</__p_description>
                         <__p_name>block</__p_name>
-                        <__p_type>const Block::Abstract*</__p_type>
+                        <__p_type>const Abstract*</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -304,7 +304,7 @@ The given index can go beyond the bounds of this block's children list. If it is
                     <Variable>
                         <__p_description>The block.</__p_description>
                         <__p_name>block</__p_name>
-                        <__p_type>Block::Abstract*</__p_type>
+                        <__p_type>Abstract*</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -488,7 +488,7 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                     <__p_name>take</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_returnType>Abstract*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
@@ -532,7 +532,7 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                     <__p_name>create</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnType>Block::Abstract*</__p_returnType>
+                    <__p_returnType>Abstract*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
                     <Variable>
@@ -667,7 +667,7 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
 
 Its properties are name, description, and scope name. Name and description are self-explanatory.</__p_description>
                     <__p_name>Base</__p_name>
-                    <__p_parents>public Block::Abstract</__p_parents>
+                    <__p_parents>public Abstract</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Signals</__p_access>
@@ -961,7 +961,7 @@ Its properties are name, description, and scope name. Name and description are s
 
 Its properties are parents and templates. The parents is a list of a class's parent classes. The templates list is a list of template arguments for a class.</__p_description>
                     <__p_name>Class</__p_name>
-                    <__p_parents>public Block::Cpp::Property</__p_parents>
+                    <__p_parents>public Property</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Signals</__p_access>
@@ -1248,7 +1248,7 @@ Its properties are parents and templates. The parents is a list of a class's par
                         <__p_name>create</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
-                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_returnType>Abstract*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
@@ -1317,7 +1317,7 @@ Its properties are parents and templates. The parents is a list of a class's par
 
 Its single property is class. It is self-explanatory.</__p_description>
                     <__p_name>Enumeration</__p_name>
-                    <__p_parents>public Block::Cpp::Base</__p_parents>
+                    <__p_parents>public Base</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -1541,7 +1541,7 @@ Its single property is class. It is self-explanatory.</__p_description>
                         <__p_name>create</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
-                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_returnType>Abstract*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
@@ -1554,7 +1554,7 @@ Its single property is class. It is self-explanatory.</__p_description>
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ exception that can be thrown from within a function.</__p_description>
                     <__p_name>ExceptionItem</__p_name>
-                    <__p_parents>public Block::Cpp::Base</__p_parents>
+                    <__p_parents>public Base</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -1624,7 +1624,7 @@ Its single property is class. It is self-explanatory.</__p_description>
                         <__p_name>create</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
-                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_returnType>Abstract*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
@@ -1647,7 +1647,7 @@ There are two primary groups of virtual methods used to expand the property valu
 
 A words list is generated in order to correctly build the definition of a function. There are many protected methods called to append to this word list based off the properties. These methods are virtual and can be expanded upon with new property value enumerations.</__p_description>
                     <__p_name>Function</__p_name>
-                    <__p_parents>public Block::Cpp::Base</__p_parents>
+                    <__p_parents>public Base</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -2987,7 +2987,7 @@ A logical block exception is thrown if this instance's properties are not valid.
                         <__p_name>create</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
-                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_returnType>Abstract*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
@@ -4024,7 +4024,7 @@ A read block exception is thrown if any error is encountered.</__p_description>
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ namespace.</__p_description>
                     <__p_name>Namespace</__p_name>
-                    <__p_parents>public Block::Cpp::Base</__p_parents>
+                    <__p_parents>public Base</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4094,7 +4094,7 @@ A read block exception is thrown if any error is encountered.</__p_description>
                         <__p_name>create</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
-                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_returnType>Abstract*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
@@ -4109,7 +4109,7 @@ A read block exception is thrown if any error is encountered.</__p_description>
 
 This also serves as a base class for the class C++ block because it shares all common algorithms pertaining to holding functions and determining if it is abstract, virtual, or regular.</__p_description>
                     <__p_name>Property</__p_name>
-                    <__p_parents>public Block::Cpp::Base</__p_parents>
+                    <__p_parents>public Base</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4306,7 +4306,7 @@ This also serves as a base class for the class C++ block because it shares all c
                         <__p_name>create</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
-                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_returnType>Abstract*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
@@ -4415,7 +4415,7 @@ This also serves as a base class for the class C++ block because it shares all c
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ union.</__p_description>
                     <__p_name>Union</__p_name>
-                    <__p_parents>public Block::Cpp::Base</__p_parents>
+                    <__p_parents>public Base</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4485,7 +4485,7 @@ This also serves as a base class for the class C++ block because it shares all c
                         <__p_name>create</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
-                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_returnType>Abstract*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
@@ -4500,7 +4500,7 @@ This also serves as a base class for the class C++ block because it shares all c
 
 Its properties are type and assignment. Both are self-explanatory.</__p_description>
                     <__p_name>Variable</__p_name>
-                    <__p_parents>public Block::Cpp::Base</__p_parents>
+                    <__p_parents>public Base</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Signals</__p_access>
@@ -4806,7 +4806,7 @@ Its properties are type and assignment. Both are self-explanatory.</__p_descript
                         <__p_name>create</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
-                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_returnType>Abstract*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
@@ -4884,7 +4884,7 @@ Its properties are type and assignment. Both are self-explanatory.</__p_descript
 
 It extends the C++ function with the Qt concepts of signals and slots. It also implements the Qt invokable specifier which allows methods to be called from the Qt meta object system.</__p_description>
                     <__p_name>Function</__p_name>
-                    <__p_parents>public Block::Cpp::Function</__p_parents>
+                    <__p_parents>public Cpp::Function</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -5077,7 +5077,7 @@ It extends the C++ function with the Qt concepts of signals and slots. It also i
                         <__p_name>create</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>1</__p_override>
-                        <__p_returnType>Block::Abstract*</__p_returnType>
+                        <__p_returnType>Abstract*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
@@ -6025,7 +6025,7 @@ Its single property is description. The description provides a user readable des
 
 This class can also act as a base class for other operations that utilize inserting and removing a block, such as a remove operation. A protected constructor and methods are provided to facilitate the use of this class as a base project command parent class.</__p_description>
                     <__p_name>Insert</__p_name>
-                    <__p_parents>public Command::Project::Abstract</__p_parents>
+                    <__p_parents>public Abstract</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -6211,7 +6211,7 @@ The given parent must be valid. The given row must be a valid insertion/removal 
                 <Class>
                     <__p_description>This is a project command class. It represents a move operation. A move operation moves a child block from a given index/row to another given index/row in a project model.</__p_description>
                     <__p_name>Move</__p_name>
-                    <__p_parents>public Command::Project::Abstract</__p_parents>
+                    <__p_parents>public Abstract</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -6331,7 +6331,7 @@ The given from and to rows must make a valid move operation within the given par
                 <Class>
                     <__p_description>This is a project command class. It represents a remove operation. A remove operation removes a given block from a project model.</__p_description>
                     <__p_name>Remove</__p_name>
-                    <__p_parents>public Command::Project::Insert</__p_parents>
+                    <__p_parents>public Insert</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -6402,7 +6402,7 @@ The given parent must be valid. The given row must be a valid removal point for 
                 <Class>
                     <__p_description>This is a project command class. It represents a set operation. A set operation sets the state of a given block in a project model.</__p_description>
                     <__p_name>Set</__p_name>
-                    <__p_parents>public Command::Project::Abstract</__p_parents>
+                    <__p_parents>public Abstract</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -6662,7 +6662,7 @@ Its single property is message. The message provides a detailed description of a
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnDescription>The singleton instance of this class.</__p_returnDescription>
-                    <__p_returnType>Factory::Language*</__p_returnType>
+                    <__p_returnType>Language*</__p_returnType>
                     <__p_static>1</__p_static>
                     <__p_virtual>0</__p_virtual>
                 </Function>
@@ -7302,7 +7302,7 @@ Its properties are meta and root index. Meta is self-explanatory. Root index is 
 
 Its properties are language, index, display icon, and allow list. The language is the meta information a meta block's language implementation. The index is the index used for creating a meta's block from its language. The display icon is self-explanatory. The allow list is a set of block indexes that a meta's block is allowed to have as children blocks.</__p_description>
                     <__p_name>Block</__p_name>
-                    <__p_parents>public Model::Meta::Language</__p_parents>
+                    <__p_parents>public Language</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -7322,7 +7322,7 @@ Its properties are language, index, display icon, and allow list. The language i
                         <Variable>
                             <__p_description>The language.</__p_description>
                             <__p_name>language</__p_name>
-                            <__p_type>Model::Meta::Language*</__p_type>
+                            <__p_type>Language*</__p_type>
                         </Variable>
                         <Variable>
                             <__p_description>The index.</__p_description>
@@ -7440,7 +7440,7 @@ Its properties are language, index, display icon, and allow list. The language i
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnDescription>This model's language property.</__p_returnDescription>
-                        <__p_returnType>Model::Meta::Language*</__p_returnType>
+                        <__p_returnType>Language*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
@@ -12675,7 +12675,7 @@ This can only be called after calling this widget's begin set method.</__p_descr
 
 It is designed to be inherited and used by actual C++ block widget implementations. The GUI can be created by using this class's protected getter methods for individual widget elements. This class's form layout has the name and description edit widgets added to it.</__p_description>
                         <__p_name>Base</__p_name>
-                        <__p_parents>public Widget::Block::Abstract</__p_parents>
+                        <__p_parents>public Abstract</__p_parents>
                         <Function>
                             <__p_abstract>0</__p_abstract>
                             <__p_access>Public Slots</__p_access>
@@ -12850,7 +12850,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                     <Class>
                         <__p_description>This is a block widget. It provides an editable view of an enumeration C++ block.</__p_description>
                         <__p_name>Enumeration</__p_name>
-                        <__p_parents>public Widget::Block::Cpp::Base</__p_parents>
+                        <__p_parents>public Base</__p_parents>
                         <Function>
                             <__p_abstract>0</__p_abstract>
                             <__p_access>Public</__p_access>
@@ -13246,7 +13246,7 @@ The given function flag must be valid.</__p_description>
                     <Class>
                         <__p_description>This is a block widget. It provides an editable view of a namespace C++ block.</__p_description>
                         <__p_name>Namespace</__p_name>
-                        <__p_parents>public Widget::Block::Cpp::Base</__p_parents>
+                        <__p_parents>public Base</__p_parents>
                         <Function>
                             <__p_abstract>0</__p_abstract>
                             <__p_access>Public</__p_access>
@@ -13276,7 +13276,7 @@ The given function flag must be valid.</__p_description>
                     <Class>
                         <__p_description>This is a block widget. It provides an editable view of a property C++ block.</__p_description>
                         <__p_name>Property</__p_name>
-                        <__p_parents>public Widget::Block::Cpp::Base</__p_parents>
+                        <__p_parents>public Base</__p_parents>
                         <Function>
                             <__p_abstract>0</__p_abstract>
                             <__p_access>Public</__p_access>
@@ -15896,7 +15896,7 @@ If this window's project model has unsaved changes then the user is asked what t
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnDescription>This instance's project widget.</__p_returnDescription>
-                        <__p_returnType>Widget::Project*</__p_returnType>
+                        <__p_returnType>Project*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>

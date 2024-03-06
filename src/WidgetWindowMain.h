@@ -414,7 +414,7 @@ class Main:
      * This instance's project widget.
      */
     private:
-    Widget::Project* projectWidget(
+    Project* projectWidget(
     );
 
 

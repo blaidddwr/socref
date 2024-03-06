@@ -28,7 +28,7 @@ QIcon Union::displayIcon(
 }
 
 
-Block::Abstract* Union::create(
+Abstract* Union::create(
     QObject* parent
 ) const
 {

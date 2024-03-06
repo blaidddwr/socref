@@ -813,7 +813,7 @@ void Function::check(
 }
 
 
-Block::Abstract* Function::create(
+Abstract* Function::create(
     QObject* parent
 ) const
 {

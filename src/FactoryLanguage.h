@@ -56,7 +56,7 @@ class Language:
      * The singleton instance of this class.
      */
     public:
-    static Factory::Language* instance(
+    static Language* instance(
     );
 
 

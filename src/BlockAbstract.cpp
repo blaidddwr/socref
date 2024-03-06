@@ -19,7 +19,7 @@ Abstract::Abstract(
 
 
 void Abstract::append(
-    Block::Abstract* block
+    Abstract* block
 )
 {
     G_ASSERT(block);
@@ -33,7 +33,7 @@ void Abstract::append(
 }
 
 
-Block::Abstract* Abstract::copy(
+Abstract* Abstract::copy(
     QObject* parent
 ) const
 {
@@ -47,7 +47,7 @@ Block::Abstract* Abstract::copy(
 }
 
 
-QList<Block::Abstract*> Abstract::descendants(
+QList<Abstract*> Abstract::descendants(
 ) const
 {
     QList<Block::Abstract*> ret = _children;
@@ -59,7 +59,7 @@ QList<Block::Abstract*> Abstract::descendants(
 }
 
 
-Block::Abstract* Abstract::get(
+Abstract* Abstract::get(
     int index
 ) const
 {
@@ -70,7 +70,7 @@ Block::Abstract* Abstract::get(
 
 
 int Abstract::indexOf(
-    const Block::Abstract* block
+    const Abstract* block
 ) const
 {
     return _children.indexOf(block);
@@ -79,7 +79,7 @@ int Abstract::indexOf(
 
 void Abstract::insert(
     int index
-    ,Block::Abstract* block
+    ,Abstract* block
 )
 {
     G_ASSERT(block);
@@ -132,7 +132,7 @@ int Abstract::size(
 }
 
 
-Block::Abstract* Abstract::take(
+Abstract* Abstract::take(
     int index
 )
 {

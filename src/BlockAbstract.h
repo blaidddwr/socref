@@ -106,7 +106,7 @@ class Abstract:
      */
     public:
     void append(
-        Block::Abstract* block
+        Abstract* block
     );
 
 
@@ -118,7 +118,7 @@ class Abstract:
      *        The parent.
      */
     public:
-    Block::Abstract* copy(
+    Abstract* copy(
         QObject* parent = nullptr
     ) const;
 
@@ -138,7 +138,7 @@ class Abstract:
      * A complete list of all descendant blocks contained in this block.
      */
     public:
-    QList<Block::Abstract*> descendants(
+    QList<Abstract*> descendants(
     ) const;
 
 
@@ -183,7 +183,7 @@ class Abstract:
      *        The index.
      */
     public:
-    Block::Abstract* get(
+    Abstract* get(
         int index
     ) const;
 
@@ -198,7 +198,7 @@ class Abstract:
      */
     public:
     int indexOf(
-        const Block::Abstract* block
+        const Abstract* block
     ) const;
 
 
@@ -222,7 +222,7 @@ class Abstract:
     public:
     void insert(
         int index
-        ,Block::Abstract* block
+        ,Abstract* block
     );
 
 
@@ -336,7 +336,7 @@ class Abstract:
      *        The index.
      */
     public:
-    Block::Abstract* take(
+    Abstract* take(
         int index
     );
 
@@ -361,7 +361,7 @@ class Abstract:
      *        The parent.
      */
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const = 0;
 

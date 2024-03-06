@@ -19,7 +19,7 @@ namespace Meta {
  * that a meta's block is allowed to have as children blocks.
  */
 class Block:
-    public Model::Meta::Language
+    public Language
 {
     Q_OBJECT
     Language* _language;
@@ -57,7 +57,7 @@ class Block:
      */
     public:
     Block(
-        Model::Meta::Language* language
+        Language* language
         ,int index
         ,const QString& name
         ,const QString& label
@@ -112,7 +112,7 @@ class Block:
      * This model's language property.
      */
     public:
-    Model::Meta::Language* language(
+    Language* language(
     ) const;
 
 

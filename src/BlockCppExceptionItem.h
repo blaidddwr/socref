@@ -12,7 +12,7 @@ namespace Cpp {
  * from within a function.
  */
 class ExceptionItem:
-    public Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
 
@@ -35,7 +35,7 @@ class ExceptionItem:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override final;
 };

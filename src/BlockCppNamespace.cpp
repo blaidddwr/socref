@@ -28,7 +28,7 @@ QIcon Namespace::displayIcon(
 }
 
 
-Block::Abstract* Namespace::create(
+Abstract* Namespace::create(
     QObject* parent
 ) const
 {

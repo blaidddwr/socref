@@ -12,7 +12,7 @@ namespace Cpp {
  * This is a block widget. It provides an editable view of a property C++ block.
  */
 class Property:
-    public Widget::Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
 

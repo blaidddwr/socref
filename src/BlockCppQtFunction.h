@@ -15,7 +15,7 @@ namespace CppQt {
  * from the Qt meta object system.
  */
 class Function:
-    public Block::Cpp::Function
+    public Cpp::Function
 {
     Q_OBJECT
     public:
@@ -94,7 +94,7 @@ class Function:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override final;
 

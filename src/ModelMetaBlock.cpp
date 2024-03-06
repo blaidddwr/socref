@@ -6,7 +6,7 @@ namespace Meta {
 
 
 Block::Block(
-    Model::Meta::Language* language
+    Language* language
     ,int index
     ,const QString& name
     ,const QString& label
@@ -55,7 +55,7 @@ int Block::index(
 }
 
 
-Model::Meta::Language* Block::language(
+Language* Block::language(
 ) const
 {
     G_ASSERT(_language);

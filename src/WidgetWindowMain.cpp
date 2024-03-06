@@ -678,7 +678,7 @@ QAction* Main::parseAction(
 }
 
 
-Widget::Project* Main::projectWidget(
+Project* Main::projectWidget(
 )
 {
     if (!_projectWidget)

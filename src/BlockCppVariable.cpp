@@ -140,7 +140,7 @@ void Variable::addEvent(
 }
 
 
-Block::Abstract* Variable::create(
+Abstract* Variable::create(
     QObject* parent
 ) const
 {

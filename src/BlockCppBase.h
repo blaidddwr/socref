@@ -15,7 +15,7 @@ namespace Cpp {
  * are self-explanatory.
  */
 class Base:
-    public Block::Abstract
+    public Abstract
 {
     Q_OBJECT
     QString _description {"Detailed description."};

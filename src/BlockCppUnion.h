@@ -11,7 +11,7 @@ namespace Cpp {
  * This is a C++ block class. It represents a C++ union.
  */
 class Union:
-    public Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
 
@@ -34,7 +34,7 @@ class Union:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override final;
 };

@@ -15,7 +15,7 @@ namespace Cpp {
  * block.
  */
 class Enumeration:
-    public Widget::Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
     QCheckBox* _classCheckBox {nullptr};

@@ -13,7 +13,7 @@ namespace Cpp {
  * block.
  */
 class Namespace:
-    public Widget::Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
 

@@ -13,7 +13,7 @@ namespace Cpp {
  * Its single property is class. It is self-explanatory.
  */
 class Enumeration:
-    public Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
     bool _class {false};
@@ -100,7 +100,7 @@ class Enumeration:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override final;
 };

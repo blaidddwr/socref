@@ -134,7 +134,7 @@ void Property::addEvent(
 }
 
 
-Block::Abstract* Property::create(
+Abstract* Property::create(
     QObject* parent
 ) const
 {

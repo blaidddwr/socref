@@ -13,7 +13,7 @@ namespace Project {
  * index/row in a project model.
  */
 class Move:
-    public Command::Project::Abstract
+    public Abstract
 {
     Q_OBJECT
     QList<int> _parent;

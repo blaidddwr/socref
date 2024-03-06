@@ -158,7 +158,7 @@ void Class::updateDisplayIcon(
 }
 
 
-Block::Abstract* Class::create(
+Abstract* Class::create(
     QObject* parent
 ) const
 {

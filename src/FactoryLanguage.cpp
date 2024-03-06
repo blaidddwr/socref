@@ -27,7 +27,7 @@ int Language::indexFromName(
 }
 
 
-Factory::Language* Language::instance(
+Language* Language::instance(
 )
 {
     if (!_instance)

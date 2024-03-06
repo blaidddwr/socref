@@ -14,7 +14,7 @@ namespace Project {
  * operation sets the state of a given block in a project model.
  */
 class Set:
-    public Command::Project::Abstract
+    public Abstract
 {
     Q_OBJECT
     QHash<QString,QVariant> _nextState;
