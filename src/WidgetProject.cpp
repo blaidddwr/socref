@@ -451,7 +451,6 @@ QGroupBox* Project::blockGroupBox(
     {
         _blockGroupBox = new QGroupBox;
         auto layout = new QVBoxLayout;
-        layout->setContentsMargins(0,0,0,0);
         layout->addWidget(blockScrollArea());
         _blockGroupBox->setLayout(layout);
     }
@@ -479,7 +478,6 @@ QWidget* Project::blockView(
     {
         _blockView = new QWidget;
         auto layout = new QVBoxLayout;
-        layout->setContentsMargins(2,0,0,0);
         layout->addWidget(blockGroupBox());
         layout->addLayout(blockButtonsLayout());
         _blockView->setLayout(layout);

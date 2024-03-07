@@ -49,8 +49,9 @@ QGroupBox* Enumeration::flagsGroupBox(
     if (!_flagsGroupBox)
     {
         _flagsGroupBox = new QGroupBox;
-        auto layout = new QGridLayout;
+        auto layout = new QHBoxLayout;
         layout->addWidget(classCheckBox());
+        layout->addStretch();
         _flagsGroupBox->setLayout(layout);
     }
     return _flagsGroupBox;
