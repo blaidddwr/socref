@@ -168,11 +168,9 @@ class Function:
 
 
     /*!
-     * Getter method.
-     *
-     * @return
-     * A complete list of all valid access enumerations as icons. The order of
-     * the returned icon list must match the order of enumerations.
+     * Returns a complete list of all valid access enumerations as icons.
+     * 
+     * The order of the returned icon list matches the order of enumerations.
      */
     public:
     virtual const QList<QIcon>& accessIcons(
@@ -180,12 +178,10 @@ class Function:
 
 
     /*!
-     * Getter method.
-     *
-     * @return
-     * A complete list of all valid access enumerations as human readable
-     * labels. The order of the returned label list must match the order of
-     * enumerations.
+     * Returns a complete list of all valid access enumerations as user readable
+     * labels.
+     * 
+     * The order of the returned label list matches the order of enumerations.
      */
     public:
     virtual const QStringList& accessLabels(
@@ -215,11 +211,10 @@ class Function:
 
 
     /*!
-     * Getter method.
-     *
-     * @return
-     * A complete list of all valid function assignment enumerations as icons.
-     * The order of the returned icon list must match the order of enumerations.
+     * Returns a complete list of all valid function assignment enumerations as
+     * icons.
+     * 
+     * The order of the returned icon list matches the order of enumerations.
      */
     public:
     virtual const QList<QIcon>& assignmentIcons(
@@ -227,12 +222,10 @@ class Function:
 
 
     /*!
-     * Getter method.
-     *
-     * @return
-     * A complete list of all valid function assignment enumerations as human
-     * readable labels. The order of the returned labels list must match the
-     * order of enumerations.
+     * Returns a complete list of all valid function assignment enumerations as
+     * user readable labels.
+     * 
+     * The order of the returned label list matches the order of enumerations.
      */
     public:
     virtual const QStringList& assignmentLabels(
@@ -275,7 +268,7 @@ class Function:
      *
      * @return
      * A complete mapping of all valid function flags to their representation as
-     * a human readable label.
+     * a user readable label.
      */
     public:
     virtual const QMap<int,QString>& flagLabelMap(
@@ -633,11 +626,9 @@ class Function:
 
 
     /*!
-     * Getter method.
-     *
-     * @return
-     * A complete list of all valid function type enumerations as icons. The
-     * order of the returned icon list must match the order of enumerations.
+     * Returns a complete list of all valid function type enumerations as icons.
+     * 
+     * The order of the returned icon list matches the order of enumerations.
      */
     public:
     virtual const QList<QIcon>& typeIcons(
@@ -645,12 +636,10 @@ class Function:
 
 
     /*!
-     * Getter method.
-     *
-     * @return
-     * A complete list of all valid function type enumerations as human readable
-     * labels. The order of the returned label list must match the order of
-     * enumerations.
+     * Returns a complete list of all valid function type enumerations as user
+     * readable labels.
+     * 
+     * The order of the returned label list matches the order of enumerations.
      */
     public:
     virtual const QStringList& typeLabels(
@@ -677,11 +666,9 @@ class Function:
 
 
     /*!
-     * Getter method.
-     *
-     * @return
-     * A complete list of all valid access enumerations as strings. The order of
-     * the returned string list must match the order of enumerations.
+     * Returns a complete list of all valid access enumerations as strings.
+     * 
+     * The order of the returned string list matches the order of enumerations.
      */
     protected:
     virtual const QStringList& accessStrings(
@@ -939,11 +926,11 @@ class Function:
 
 
     /*!
-     * Getter method.
-     *
-     * @return
-     * A complete list of all valid function type enumerations as strings. The
-     * order of the returned string list must match the order of enumerations.
+     * Returns a complete list of all valid function type enumerations as
+     * strings.
+     * 
+     * The order of the returned string list must match the order of
+     * enumerations.
      */
     protected:
     virtual const QStringList& typeStrings(

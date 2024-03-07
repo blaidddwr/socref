@@ -138,7 +138,7 @@ class StringList:
      * Getter method.
      *
      * @return
-     * This widget's context menu.
+     * This widget's context menu widget.
      */
     private:
     QMenu* contextMenu(

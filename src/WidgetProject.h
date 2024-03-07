@@ -53,7 +53,7 @@ class Project:
      * Getter method.
      *
      * @return
-     * This widget's "add to global" menu.
+     * This widget's add to global menu.
      */
     public:
     QMenu* addGlobalMenu(

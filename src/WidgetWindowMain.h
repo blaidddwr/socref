@@ -389,7 +389,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's "orphan files" action.
+     * This widget's orphan files action.
      */
     private:
     QAction* orphanFilesAction(
@@ -453,7 +453,7 @@ class Main:
      * Getter method.
      *
      * @return
-     * This widget's "save as" action.
+     * This widget's save as action.
      */
     private:
     QAction* saveAsAction(
