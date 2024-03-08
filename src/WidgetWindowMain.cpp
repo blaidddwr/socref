@@ -10,6 +10,7 @@
 #include "ModelMetaLanguage.h"
 #include "ModelProject.h"
 #include "StreamProject.h"
+#include "WidgetDialogAbout.h"
 #include "WidgetDialogOrphanFiles.h"
 #include "WidgetDialogProject.h"
 #include "WidgetProject.h"
@@ -36,6 +37,7 @@ Main::Main(
     addToolBar(codeToolBar());
     setCentralWidget(projectWidget());
     statusBar();
+    setWindowIcon(QIcon(":/application.svg"));
     updateTitle();
     updateActions();
     restoreGS();
@@ -62,7 +64,9 @@ void Main::closeEvent(
 void Main::about(
 )
 {
-    //TODO
+    Dialog::About dialog(this);
+    dialog.setWindowTitle(QApplication::applicationName()+tr(" - About"));
+    dialog.exec();
 }
 
 
@@ -94,9 +98,9 @@ void Main::exportProject(
     {
         auto path = QFileDialog::getSaveFileName(
             this
-            ,tr("Export Socrates' Reference Project")
+            ,tr("Export %1 Project").arg(QApplication::applicationName())
             ,QString()
-            ,"Socrates' Reference Project File (*.srp)"
+            ,QApplication::applicationName()+" Project File (*.srp)"
         );
         if (!path.isNull())
         {
@@ -126,9 +130,9 @@ void Main::import(
 {
     auto path = QFileDialog::getOpenFileName(
         this
-        ,tr("Import Socrates' Reference Project")
+        ,tr("Import %1 Project").arg(QApplication::applicationName())
         ,QString()
-        ,"Socrates' Reference Project File (*.srp)"
+        ,QApplication::applicationName()+" Project File (*.srp)"
     );
     if (!path.isNull())
     {
@@ -236,7 +240,7 @@ void Main::orphanFiles(
     if (_projectModel)
     {
         Dialog::OrphanFiles dialog(_projectModel);
-        dialog.setWindowTitle(tr("Socrates' Reference - Orphaned Block Files"));
+        dialog.setWindowTitle(QApplication::applicationName()+tr(" - Orphaned Block Files"));
         dialog.exec();
     }
 }
@@ -255,7 +259,7 @@ void Main::properties(
     if (_projectModel)
     {
         Dialog::Project dialog(_projectModel);
-        dialog.setWindowTitle(tr("Socrates' Reference - Project Properties"));
+        dialog.setWindowTitle(QApplication::applicationName()+tr(" - Project Properties"));
         dialog.exec();
     }
 }
@@ -464,7 +468,8 @@ QAction* Main::exportAction(
     {
         _exportAction = new QAction(tr("Export"),this);
         _exportAction->setStatusTip(
-            tr("Export this window's project to a Socrates' Reference project file.")
+            tr("Export this window's project to a %1 project file.")
+                .arg(QApplication::applicationName())
         );
         connect(_exportAction,&QAction::triggered,this,&Main::exportProject);
     }
@@ -544,7 +549,7 @@ QAction* Main::importAction(
     {
         _importAction = new QAction(tr("Import"),this);
         _importAction->setStatusTip(
-            tr("Import a project from a Socrates' Reference project file.")
+            tr("Import a project from a %1 project file.").arg(QApplication::applicationName())
         );
         connect(_importAction,&QAction::triggered,this,&Main::import);
     }
@@ -850,14 +855,18 @@ void Main::updateTitle(
 {
     if (_projectModel)
     {
-        static const auto title = tr("%1[*] (%2) - Socrates' Reference");
         setWindowTitle(
-            title.arg(_projectModel->name(),_projectModel->language()->meta()->label())
+            tr("%1[*] (%2) - %3")
+                .arg(
+                    _projectModel->name()
+                    ,_projectModel->language()->meta()->label()
+                    ,QApplication::applicationName()
+                )
         );
     }
     else
     {
-        setWindowTitle(tr("Socrates' Reference"));
+        setWindowTitle(QApplication::applicationName());
     }
 }
 }

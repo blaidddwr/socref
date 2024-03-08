@@ -56,6 +56,7 @@ SOURCES +=  Global.cpp \
             WidgetBlockCppProperty.cpp \
             WidgetBlockCppUnion.cpp \
             WidgetBlockCppVariable.cpp \
+            WidgetDialogAbout.cpp \
             WidgetDialogOrphanFiles.cpp \
             WidgetDialogProject.cpp \
             WidgetProject.cpp \
@@ -153,6 +154,7 @@ HEADERS +=  Global.h \
             WidgetBlockCppUnion.h \
             WidgetBlockCppVariable.h \
             WidgetDialog.h \
+            WidgetDialogAbout.h \
             WidgetDialogOrphanFiles.h \
             WidgetDialogProject.h \
             WidgetProject.h \

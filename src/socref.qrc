@@ -1,4 +1,7 @@
 <RCC>
+    <qresource prefix="/">
+        <file alias="application.svg">../data/application.svg</file>
+    </qresource>
     <qresource prefix="/cpp/">
         <file alias="abstract.svg">../data/cpp/abstract.svg</file>
         <file alias="abstract_class.svg">../data/cpp/abstract_class.svg</file>
