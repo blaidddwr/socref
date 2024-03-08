@@ -10,6 +10,7 @@ int main(
 )
 {
     QApplication application(argc,argv);
+    QApplication::setOrganizationName("Galtwe");
     QApplication::setApplicationName("Socrates' Reference");
     QApplication::setApplicationVersion("1.0.0-DEV");
     if (argc >= 2)

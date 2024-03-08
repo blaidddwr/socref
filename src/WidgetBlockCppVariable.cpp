@@ -38,7 +38,7 @@ QLineEdit* Variable::assignmentLineEdit(
     if (!_assignmentLineEdit)
     {
         _assignmentLineEdit = new QLineEdit;
-        _assignmentLineEdit->setText(block<Block>()->type());
+        _assignmentLineEdit->setText(block<Block>()->assignment());
         connect(_assignmentLineEdit,&QLineEdit::textChanged,this,&Variable::touch);
     }
     return _assignmentLineEdit;
@@ -64,7 +64,7 @@ QLineEdit* Variable::typeLineEdit(
     if (!_typeLineEdit)
     {
         _typeLineEdit = new QLineEdit;
-        _typeLineEdit->setText(block<Block>()->assignment());
+        _typeLineEdit->setText(block<Block>()->type());
         connect(_typeLineEdit,&QLineEdit::textChanged,this,&Variable::touch);
     }
     return _typeLineEdit;
