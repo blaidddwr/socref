@@ -352,10 +352,11 @@ void Block::insertPaths(
             QString data = in.readLine();
             if (data.isNull())
             {
-                static const QString msg = tr(
-                    "Failed reading %1: Expected data after line %2, got EOF instead."
+                throw ReadError(
+                    tr("Failed reading %1: Expected data after line %2, got EOF instead.")
+                        .arg(path)
+                        .arg(lineNumber)
                 );
-                throw ReadError(msg.arg(path).arg(lineNumber));
             }
             lineNumber++;
             data.replace("\\\\","\\");
