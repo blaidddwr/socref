@@ -19,7 +19,7 @@ Class::Class(
 }
 
 
-void Class::apply(
+bool Class::apply(
 )
 {
     auto block = beginSet<Block>();
@@ -29,6 +29,7 @@ void Class::apply(
     block->setTemplates(templateStringList()->model()->stringList());
     finishSet();
     setModified(false);
+    return true;
 }
 
 

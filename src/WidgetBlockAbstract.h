@@ -67,9 +67,12 @@ class Abstract:
      * Called to Apply any modifications from this widget to its block.
      * 
      * This widget must have a valid model, index, and block.
+     *
+     * @return
+     * True on success or false otherwise.
      */
     public slots:
-    virtual void apply(
+    virtual bool apply(
     ) = 0;
 
 

@@ -21,7 +21,7 @@ Function::Function(
 }
 
 
-void Function::apply(
+bool Function::apply(
 )
 {
     auto block = beginSet<Block>();
@@ -52,10 +52,11 @@ void Function::apply(
     {
         QMessageBox::warning(this,tr("Logical Block Error"),e.message());
         abortSet();
-        return;
+        return false;
     }
     finishSet();
     setModified(false);
+    return true;
 }
 
 

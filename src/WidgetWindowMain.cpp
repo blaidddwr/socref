@@ -595,10 +595,15 @@ QMenu* Main::newMenu(
 bool Main::okToClose(
 )
 {
-    if (
-        !_projectModel
-        || !_projectModel->modified()
-    )
+    if (!_projectModel)
+    {
+        return true;
+    }
+    if (!projectWidget()->okToClose())
+    {
+        return false;
+    }
+    if (!_projectModel->modified())
     {
         return true;
     }

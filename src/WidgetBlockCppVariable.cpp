@@ -18,7 +18,7 @@ Variable::Variable(
 }
 
 
-void Variable::apply(
+bool Variable::apply(
 )
 {
     auto block = beginSet<Block>();
@@ -28,6 +28,7 @@ void Variable::apply(
     block->setAssignment(assignmentLineEdit()->text());
     finishSet();
     setModified(false);
+    return true;
 }
 
 

@@ -8,7 +8,7 @@ namespace Cpp {
 using Block = ::Block::Cpp::Base;
 
 
-void Base::apply(
+bool Base::apply(
 )
 {
     auto block = beginSet<Block>();
@@ -16,6 +16,7 @@ void Base::apply(
     block->setDescription(descriptionTextEdit()->toPlainText());
     finishSet();
     setModified(false);
+    return true;
 }
 
 

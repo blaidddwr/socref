@@ -42,7 +42,7 @@ class Function:
 
 
     public slots:
-    virtual void apply(
+    virtual bool apply(
     ) override final;
 
 

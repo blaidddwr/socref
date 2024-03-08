@@ -60,6 +60,7 @@ SOURCES +=  Global.cpp \
             WidgetDialogProject.cpp \
             WidgetProject.cpp \
             WidgetStringList.cpp \
+            WidgetTreeView.cpp \
             WidgetWindowMain.cpp
 
 HEADERS +=  Global.h \
@@ -156,6 +157,7 @@ HEADERS +=  Global.h \
             WidgetDialogProject.h \
             WidgetProject.h \
             WidgetStringList.h \
+            WidgetTreeView.h \
             WidgetWindow.h \
             WidgetWindowMain.h \
             gassert.h

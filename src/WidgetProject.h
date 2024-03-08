@@ -2,12 +2,12 @@
 #define WIDGET_PROJECT_H
 #include <QWidget>
 #include "Model.h"
+#include "Widget.h"
 class QGroupBox;
 class QPushButton;
 class QHBoxLayout;
 class QScrollArea;
 class QSplitter;
-class QTreeView;
 namespace Widget {
 
 
@@ -38,8 +38,9 @@ class Project:
     QPushButton* _blockApplyButton {nullptr};
     QScrollArea* _blockScrollArea{nullptr};
     QSplitter* _splitter {nullptr};
-    QTreeView* _treeView {nullptr};
+    TreeView* _treeView {nullptr};
     QWidget* _blockView {nullptr};
+    bool _ignoreCurrentIndexChanged {false};
     int _addActionBlockIndex {-1};
 
 
@@ -123,6 +124,21 @@ class Project:
      */
     public:
     QAction* moveUpAction(
+    );
+
+
+    /*!
+     * Determines if it is OK to close this widget's current block widget.
+     * 
+     * If this widget's current block widget has unsaved modifications then the
+     * user is asked what to do about it. The user's options are save, discard,
+     * or cancel.
+     *
+     * @return
+     * True if it is OK to close or false otherwise.
+     */
+    public:
+    bool okToClose(
     );
 
 
@@ -451,7 +467,7 @@ class Project:
      * This widget's tree view widget.
      */
     private:
-    QTreeView* treeView(
+    TreeView* treeView(
     );
 
 

@@ -28,7 +28,7 @@ class Variable:
 
 
     public slots:
-    virtual void apply(
+    virtual bool apply(
     ) override final;
 
 

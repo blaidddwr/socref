@@ -5,6 +5,7 @@
 #include "ModelMetaBlock.h"
 #include "ModelProject.h"
 #include "WidgetBlockAbstract.h"
+#include "WidgetTreeView.h"
 #include "gassert.h"
 namespace Widget {
 
@@ -93,7 +94,7 @@ QAction* Project::moveDownAction(
     {
         _moveDownAction = new QAction(QIcon::fromTheme("go-down"),tr("Move Down"),this);
         _moveDownAction->setStatusTip(tr("Move the current block down by one."));
-        _moveDownAction->setShortcut(Qt::CTRL|Qt::Key_Down);
+        _moveDownAction->setShortcut(Qt::CTRL|Qt::ALT|Qt::Key_Down);
         connect(_moveDownAction,&QAction::triggered,this,&Project::moveDown);
     }
     return _moveDownAction;
@@ -107,10 +108,41 @@ QAction* Project::moveUpAction(
     {
         _moveUpAction = new QAction(QIcon::fromTheme("go-up"),tr("Move Up"),this);
         _moveUpAction->setStatusTip(tr("Move the current block up by one."));
-        _moveUpAction->setShortcut(Qt::CTRL|Qt::Key_Up);
+        _moveUpAction->setShortcut(Qt::CTRL|Qt::ALT|Qt::Key_Up);
         connect(_moveUpAction,&QAction::triggered,this,&Project::moveUp);
     }
     return _moveUpAction;
+}
+
+
+bool Project::okToClose(
+)
+{
+    if (auto blockWidget = qobject_cast<Block::Abstract*>(blockScrollArea()->widget()))
+    {
+        if (blockWidget->modified())
+        {
+            auto answer = QMessageBox::question(
+                this
+                ,tr("Unsaved Block Changes")
+                ,tr(
+                    "The current block has unsaved modifications. Discarding the block"
+                    " modifications will cause all modifications to be lost!"
+                )
+                ,QMessageBox::Save|QMessageBox::Cancel|QMessageBox::Discard
+            );
+            switch (answer)
+            {
+            case QMessageBox::Save:
+                return blockWidget->apply();
+            case QMessageBox::Cancel:
+                return false;
+            default:
+                return true;
+            }
+        }
+    }
+    return true;
 }
 
 
@@ -216,6 +248,10 @@ void Project::setModel(
             ,this
             ,&Project::onSelectionChanged
         );
+    }
+    else
+    {
+        setBlockWidget(new QWidget);
     }
     updateAddGlobalActions();
     updateActions(QModelIndex());
@@ -330,6 +366,17 @@ void Project::onCurrentIndexChanged(
 )
 {
     Q_UNUSED(previous);
+    if (_ignoreCurrentIndexChanged)
+    {
+        _ignoreCurrentIndexChanged = false;
+        return;
+    }
+    if (!okToClose())
+    {
+        _ignoreCurrentIndexChanged = true;
+        treeView()->setCurrentIndex(previous);
+        return;
+    }
     updateActions(current);
     if (current.isValid())
     {
@@ -354,6 +401,7 @@ void Project::onModelDestroyed(
     if (_model == object)
     {
         _model = nullptr;
+        setBlockWidget(new QWidget);
         updateActions(QModelIndex());
     }
 }
@@ -572,12 +620,12 @@ QSplitter* Project::splitter(
 }
 
 
-QTreeView* Project::treeView(
+TreeView* Project::treeView(
 )
 {
     if (!_treeView)
     {
-        _treeView = new QTreeView;
+        _treeView = new TreeView;
         _treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
         _treeView->setFont(QFont());
         _treeView->setContextMenuPolicy(Qt::CustomContextMenu);

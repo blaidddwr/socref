@@ -18,7 +18,7 @@ Enumeration::Enumeration(
 }
 
 
-void Enumeration::apply(
+bool Enumeration::apply(
 )
 {
     auto block = beginSet<Block>();
@@ -27,6 +27,7 @@ void Enumeration::apply(
     block->setClass(classCheckBox()->isChecked());
     finishSet();
     setModified(false);
+    return true;
 }
 
 
