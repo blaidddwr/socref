@@ -1553,7 +1553,7 @@ Its single property is class. It is self-explanatory.</__p_description>
                 </Class>
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ exception that can be thrown from within a function.</__p_description>
-                    <__p_name>ExceptionItem</__p_name>
+                    <__p_name>Exception</__p_name>
                     <__p_parents>public Base</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -12958,7 +12958,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                     </Class>
                     <Class>
                         <__p_description>This is a block widget. It provides an editable view of an exception item C++ block.</__p_description>
-                        <__p_name>ExceptionItem</__p_name>
+                        <__p_name>Exception</__p_name>
                         <__p_parents>public Base</__p_parents>
                         <Function>
                             <__p_abstract>0</__p_abstract>

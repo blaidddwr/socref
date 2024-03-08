@@ -1,11 +1,11 @@
-#include "WidgetBlockCppExceptionItem.h"
+#include "WidgetBlockCppException.h"
 #include <QtWidgets>
 namespace Widget {
 namespace Block {
 namespace Cpp {
 
 
-ExceptionItem::ExceptionItem(
+Exception::Exception(
     const ::Block::Abstract* block
     ,QWidget* parent
 ):

@@ -1,5 +1,5 @@
-#ifndef BLOCK_CPP_EXCEPTIONITEM_H
-#define BLOCK_CPP_EXCEPTIONITEM_H
+#ifndef BLOCK_CPP_EXCEPTION_H
+#define BLOCK_CPP_EXCEPTION_H
 #include "BlockCppBase.h"
 namespace Block {
 namespace Cpp {
@@ -11,14 +11,14 @@ namespace Cpp {
  * This is a C++ block class. It represents a C++ exception that can be thrown
  * from within a function.
  */
-class ExceptionItem:
+class Exception:
     public Base
 {
     Q_OBJECT
 
 
     public:
-    ExceptionItem(
+    Exception(
         Model::Meta::Block* meta
         ,QObject* parent = nullptr
     );

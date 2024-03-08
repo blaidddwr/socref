@@ -16,7 +16,7 @@ class ExceptionItem:
     public Test::Base
 {
     Q_OBJECT
-    ::Block::Cpp::ExceptionItem* _block {nullptr};
+    ::Block::Cpp::Exception* _block {nullptr};
 
 
     private slots:

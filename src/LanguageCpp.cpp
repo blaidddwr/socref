@@ -3,7 +3,7 @@
 #include "BlockCpp.h"
 #include "BlockCppClass.h"
 #include "BlockCppEnumeration.h"
-#include "BlockCppExceptionItem.h"
+#include "BlockCppException.h"
 #include "BlockCppFunction.h"
 #include "BlockCppNamespace.h"
 #include "BlockCppProperty.h"
@@ -120,7 +120,7 @@ Block::Abstract* Cpp::create(
     {
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == ExceptionIndex);
-        return new ExceptionItem(meta,parent);
+        return new Exception(meta,parent);
     }
     case FunctionIndex:
     {

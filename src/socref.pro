@@ -6,7 +6,7 @@ SOURCES +=  Global.cpp \
             BlockCppBase.cpp \
             BlockCppClass.cpp \
             BlockCppEnumeration.cpp \
-            BlockCppExceptionItem.cpp \
+            BlockCppException.cpp \
             BlockCppFunction.cpp \
             BlockCppNamespace.cpp \
             BlockCppProperty.cpp \
@@ -50,7 +50,7 @@ SOURCES +=  Global.cpp \
             WidgetBlockCppBase.cpp \
             WidgetBlockCppClass.cpp \
             WidgetBlockCppEnumeration.cpp \
-            WidgetBlockCppExceptionItem.cpp \
+            WidgetBlockCppException.cpp \
             WidgetBlockCppFunction.cpp \
             WidgetBlockCppNamespace.cpp \
             WidgetBlockCppProperty.cpp \
@@ -71,7 +71,7 @@ HEADERS +=  Global.h \
             BlockCppBase.h \
             BlockCppClass.h \
             BlockCppEnumeration.h \
-            BlockCppExceptionItem.h \
+            BlockCppException.h \
             BlockCppFunction.h \
             BlockCppNamespace.h \
             BlockCppProperty.h \
@@ -147,7 +147,7 @@ HEADERS +=  Global.h \
             WidgetBlockCppBase.h \
             WidgetBlockCppClass.h \
             WidgetBlockCppEnumeration.h \
-            WidgetBlockCppExceptionItem.h \
+            WidgetBlockCppException.h \
             WidgetBlockCppFunction.h \
             WidgetBlockCppNamespace.h \
             WidgetBlockCppProperty.h \

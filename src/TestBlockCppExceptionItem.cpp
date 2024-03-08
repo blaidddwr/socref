@@ -1,12 +1,12 @@
 #include "TestBlockCppExceptionItem.h"
 #include <QtTest>
-#include "BlockCppExceptionItem.h"
+#include "BlockCppException.h"
 #include "FactoryLanguage.h"
 #include "TestBase.t.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
-using ExceptionBlock = ::Block::Cpp::ExceptionItem;
+using ExceptionBlock = ::Block::Cpp::Exception;
 using namespace ::Block::Cpp;
 
 

@@ -398,7 +398,8 @@ QToolBar* Main::codeToolBar(
 {
     if (!_codeToolBar)
     {
-        _codeToolBar = new QToolBar(tr("Edit"),this);
+        _codeToolBar = new QToolBar(tr("Code"),this);
+        _codeToolBar->setObjectName("code");
         _codeToolBar->addAction(makeAction());
     }
     return _codeToolBar;
@@ -435,6 +436,7 @@ QToolBar* Main::editToolBar(
     if (!_editToolBar)
     {
         _editToolBar = new QToolBar(tr("Edit"),this);
+        _editToolBar->setObjectName("edit");
         _editToolBar->addAction(projectWidget()->undoAction());
         _editToolBar->addAction(projectWidget()->redoAction());
         _editToolBar->addAction(projectWidget()->cutAction());
@@ -507,6 +509,7 @@ QToolBar* Main::fileToolBar(
     if (!_fileToolBar)
     {
         _fileToolBar = new QToolBar(tr("File"),this);
+        _fileToolBar->setObjectName("file");
         _fileToolBar->addAction(openAction());
         _fileToolBar->addAction(saveAction());
         _fileToolBar->addAction(saveAsAction());

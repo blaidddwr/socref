@@ -3,7 +3,7 @@
 #include "BlockCppQt.h"
 #include "BlockCppClass.h"
 #include "BlockCppEnumeration.h"
-#include "BlockCppExceptionItem.h"
+#include "BlockCppException.h"
 #include "BlockCppNamespace.h"
 #include "BlockCppProperty.h"
 #include "BlockCppQtFunction.h"
@@ -15,7 +15,7 @@ namespace Language {
 using namespace Block::CppQt;
 using Class = Block::Cpp::Class;
 using Enumeration = Block::Cpp::Enumeration;
-using ExceptionItem = Block::Cpp::ExceptionItem;
+using Exception = Block::Cpp::Exception;
 using Namespace = Block::Cpp::Namespace;
 using Property = Block::Cpp::Property;
 using Union = Block::Cpp::Union;
@@ -127,7 +127,7 @@ Block::Abstract* CppQt::create(
     {
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == ExceptionIndex);
-        return new ExceptionItem(meta,parent);
+        return new Exception(meta,parent);
     }
     case FunctionIndex:
     {
