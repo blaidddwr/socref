@@ -1,10 +1,12 @@
 #include "BlockCppQtFunction.h"
 #include <QtGui>
+#include "BlockCppProperty.h"
 #include "BlockCppQt.h"
 #include "ExceptionBlockLogical.h"
 #include "Global.h"
 namespace Block {
 namespace CppQt {
+using Property = Cpp::Property;
 
 
 const QMap<int,QString>& Function::flagLabelMap(
@@ -278,6 +280,10 @@ void Function::checkSignal(
 {
     using Error = Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
+    if (!qobject_cast<Property*>(parent()))
+    {
+        throw Error(tr("Signals must be the child of a class or property."));
+    }
     if (name().isEmpty())
     {
         throw Error(tr("Qt signals must have a name."));
@@ -310,6 +316,10 @@ void Function::checkSlot(
 {
     using Error = Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
+    if (!qobject_cast<Property*>(parent()))
+    {
+        throw Error(tr("Slots must be the child of a class or property."));
+    }
     if (name().isEmpty())
     {
         throw Error(tr("Qt slots must have a name."));
@@ -317,10 +327,6 @@ void Function::checkSlot(
     if (!validName.match(name()).hasMatch())
     {
         throw Error(tr("Invalid name '%1' for Qt slot."));
-    }
-    if (returnType() != "void")
-    {
-        throw Error(tr("Qt slots must have a return type of void."));
     }
     if (
         assignment() == Cpp::DefaultFunctionAssignment

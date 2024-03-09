@@ -1,5 +1,6 @@
 #include "BlockCppFunction.h"
 #include <QtGui>
+#include "BlockCppClass.h"
 #include "BlockCppProperty.h"
 #include "BlockCppVariable.h"
 #include "ExceptionBlockLogical.h"
@@ -1152,6 +1153,10 @@ void Function::checkConstructor(
 {
     using Error = ::Exception::Block::Logical;
     static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
+    if (!qobject_cast<Class*>(parent()))
+    {
+        throw Error(tr("Constructors must be the child of a class."));
+    }
     if (!name().isEmpty())
     {
         throw Error(tr("Constructors cannot have a name."));
@@ -1174,6 +1179,10 @@ void Function::checkDestructor(
 ) const
 {
     using Error = ::Exception::Block::Logical;
+    if (!qobject_cast<Class*>(parent()))
+    {
+        throw Error(tr("Destructors must be the child of a class."));
+    }
     if (!name().isEmpty())
     {
         throw Error(tr("Destructors cannot have a name."));
@@ -1194,14 +1203,14 @@ void Function::checkDestructor(
         && !isVirtual()
     )
     {
-        throw Error(tr("Destructors with override/final specifiers must be virtual."));
+        throw Error(tr("Destructors with override/final flags must be virtual."));
     }
     if (
         isFinal()
         && !isOverride()
     )
     {
-        throw Error(tr("Destructors with final specifier must also have override."));
+        throw Error(tr("Destructors with final flag must also have override."));
     }
     if (
         isVirtual()
@@ -1222,6 +1231,10 @@ void Function::checkMethod(
 {
     using Error = ::Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
+    if (!qobject_cast<Property*>(parent()))
+    {
+        throw Error(tr("Methods must be the child of a class or property."));
+    }
     if (name().isEmpty())
     {
         throw Error(tr("Methods must have a name."));
@@ -1253,14 +1266,14 @@ void Function::checkMethod(
         && !isVirtual()
     )
     {
-        throw Error(tr("Methods with override/final specifiers must be virtual."));
+        throw Error(tr("Methods with override/final flags must be virtual."));
     }
     if (
         isFinal()
         && !isOverride()
     )
     {
-        throw Error(tr("Methods with final specifier must also have override."));
+        throw Error(tr("Methods with final flag must also have override."));
     }
     if (
         isVirtual()
@@ -1281,6 +1294,10 @@ void Function::checkOperator(
 {
     using Error = ::Exception::Block::Logical;
     static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
+    if (!qobject_cast<Class*>(parent()))
+    {
+        throw Error(tr("Operators must be the child of a class."));
+    }
     if (name().isEmpty())
     {
         throw Error(tr("Methods must have a name."));
@@ -1315,6 +1332,10 @@ void Function::checkRegular(
 {
     using Error = ::Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
+    if (qobject_cast<Property*>(parent()))
+    {
+        throw Error(tr("Functions cannot be the child of a class or property."));
+    }
     if (name().isEmpty())
     {
         throw Error(tr("Functions must have a name."));
@@ -1335,9 +1356,9 @@ void Function::checkRegular(
     {
         throw Error(tr("Functions cannot have an assignment."));
     }
-    if (flags()&(~ExplicitFunctionFlag))
+    if (flags()&(~NoExceptFunctionFlag))
     {
-        throw Error(tr("Functions cannot have specifiers beside 'No Exceptions'."));
+        throw Error(tr("Functions cannot have flags beside 'No Exceptions'."));
     }
 }
 
