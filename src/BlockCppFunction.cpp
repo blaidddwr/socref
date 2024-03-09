@@ -739,14 +739,18 @@ void Function::appendSignature(
     case DestructorFunctionType:
     {
         auto parentBlock = qobject_cast<Property*>(parent());
-        G_ASSERT(parentBlock);
+        QString name;
+        if (parentBlock)
+        {
+            name = parentBlock->name();
+        }
         if (isDestructor())
         {
-            words.append("~"+parentBlock->name()+"("+arguments(true).join(",")+")");
+            words.append("~"+name+"("+arguments(true).join(",")+")");
         }
         else
         {
-            words.append(parentBlock->name()+"("+arguments(true).join(",")+")");
+            words.append(name+"("+arguments(true).join(",")+")");
         }
         break;
     }
@@ -1153,7 +1157,10 @@ void Function::checkConstructor(
 {
     using Error = ::Exception::Block::Logical;
     static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
-    if (!qobject_cast<Class*>(parent()))
+    if (
+        parent()
+        && !qobject_cast<Class*>(parent())
+    )
     {
         throw Error(tr("Constructors must be the child of a class."));
     }
@@ -1179,7 +1186,10 @@ void Function::checkDestructor(
 ) const
 {
     using Error = ::Exception::Block::Logical;
-    if (!qobject_cast<Class*>(parent()))
+    if (
+        parent()
+        && !qobject_cast<Class*>(parent())
+    )
     {
         throw Error(tr("Destructors must be the child of a class."));
     }
@@ -1231,7 +1241,10 @@ void Function::checkMethod(
 {
     using Error = ::Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
-    if (!qobject_cast<Property*>(parent()))
+    if (
+        parent()
+        && !qobject_cast<Property*>(parent())
+    )
     {
         throw Error(tr("Methods must be the child of a class or property."));
     }
@@ -1294,7 +1307,10 @@ void Function::checkOperator(
 {
     using Error = ::Exception::Block::Logical;
     static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
-    if (!qobject_cast<Class*>(parent()))
+    if (
+        parent()
+        && !qobject_cast<Class*>(parent())
+    )
     {
         throw Error(tr("Operators must be the child of a class."));
     }

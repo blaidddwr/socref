@@ -280,7 +280,10 @@ void Function::checkSignal(
 {
     using Error = Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
-    if (!qobject_cast<Property*>(parent()))
+    if (
+        parent()
+        && !qobject_cast<Property*>(parent())
+    )
     {
         throw Error(tr("Signals must be the child of a class or property."));
     }
@@ -316,7 +319,10 @@ void Function::checkSlot(
 {
     using Error = Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
-    if (!qobject_cast<Property*>(parent()))
+    if (
+        parent()
+        && !qobject_cast<Property*>(parent())
+    )
     {
         throw Error(tr("Slots must be the child of a class or property."));
     }
