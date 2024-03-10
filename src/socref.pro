@@ -13,7 +13,6 @@ SOURCES +=  Global.cpp \
             BlockCppQtFunction.cpp \
             BlockCppUnion.cpp \
             BlockCppVariable.cpp \
-            BlockTestNode.cpp \
             CommandProjectAbstract.cpp \
             CommandProjectInsert.cpp \
             CommandProjectMove.cpp \
@@ -24,7 +23,6 @@ SOURCES +=  Global.cpp \
             LanguageAbstract.cpp \
             LanguageCpp.cpp \
             LanguageCppQt.cpp \
-            LanguageTest.cpp \
             ModelMetaBlock.cpp \
             ModelMetaLanguage.cpp \
             ModelProject.cpp \
@@ -79,8 +77,6 @@ HEADERS +=  Global.h \
             BlockCppQtFunction.h \
             BlockCppUnion.h \
             BlockCppVariable.h \
-            BlockTest.h \
-            BlockTestNode.h \
             Command.h \
             CommandProject.h \
             CommandProjectAbstract.h \
@@ -107,7 +103,6 @@ HEADERS +=  Global.h \
             LanguageAbstract.h \
             LanguageCpp.h \
             LanguageCppQt.h \
-            LanguageTest.h \
             Model.h \
             ModelMeta.h \
             ModelMetaBlock.h \
@@ -131,6 +126,9 @@ HEADERS +=  Global.h \
             TestBlockCppQt.h \
             TestBlockCppQtFunction.h \
             TestBlockCppVariable.h \
+            TestDummy.h \
+            TestDummyBlock.h \
+            TestDummyLanguage.h \
             TestFactory.h \
             TestFactoryLanguage.h \
             TestLanguage.h \

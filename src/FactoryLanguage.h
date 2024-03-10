@@ -19,7 +19,6 @@ class Language:
     Q_OBJECT
     QHash<QString,int> _lookup;
     QList<::Language::Abstract*> _languages;
-    QList<bool> _isHiddenList;
     static Language* _instance;
 
 
@@ -61,22 +60,6 @@ class Language:
 
 
     /*!
-     * Determines if this factory's language with the given index is hidden or
-     * visible. The given index must be valid.
-     *
-     * @param index
-     *        The index.
-     *
-     * @return
-     * True if it is hidden else visible.
-     */
-    public:
-    bool isHidden(
-        int index
-    ) const;
-
-
-    /*!
      * Returns this factory's language's meta at the given index. The given
      * index must be valid.
      *
@@ -106,25 +89,18 @@ class Language:
 
 
     /*!
-     * Appends the given language to this factory's list of languages. The given
-     * language must be valid and its meta name must be unique among all other
-     * language meta names in this factory. This factory takes ownership of the
-     * given language.
+     * Appends the given language to this factory's list of languages.
      * 
-     * The "is hidden" flag is used to determine if the added language should be
-     * visible to the user or not. If the flag is true then it is hidden from
-     * the user else it is visible.
+     * The given language must be valid and its meta name must be unique among
+     * all other language meta names in this factory. This factory takes
+     * ownership of the given language.
      *
      * @param language
      *        The language.
-     *
-     * @param isHidden
-     *        The "is hidden" flag.
      */
     private:
     void appendLanguage(
         ::Language::Abstract* language
-        ,bool isHidden = false
     );
 };
 }

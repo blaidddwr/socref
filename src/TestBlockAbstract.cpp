@@ -1,24 +1,34 @@
 #include "TestBlockAbstract.h"
 #include <QtTest>
-#include "BlockTestNode.h"
+#include "ExceptionBlockLogical.h"
+#include "ExceptionBlockRead.h"
+#include "ExceptionBlockWrite.h"
+#include "ExceptionSystemFile.h"
 #include "Global.h"
-#include "LanguageTest.h"
-#include "ModelMetaLanguage.h"
 #include "StreamBlock.h"
-#include "TestBase.t.h"
+#include "TestDummyLanguage.h"
 namespace Test {
 namespace Block {
-using NodeBlock = ::Block::Test::Node;
-using namespace ::Block::Test;
+using DummyBlock = Dummy::Block;
+using DummyLanguage = Dummy::Language;
 
 
 void Abstract::initTestCase(
 )
 {
-    _meta = new Model::Meta::Language("test","Test",this);
-    initLanguage(new Language::Test(_meta,this));
-    _block = create<NodeBlock>(NodeIndex);
-    QVERIFY(createTestDir());
+    _languageMeta = new Model::Meta::Language(LANGUAGE_NAME,LANGUAGE_LABEL,this);
+    _language = new DummyLanguage(_languageMeta,this);
+    _blockMeta = new Model::Meta::Block(
+        _languageMeta
+        ,BLOCK_INDEX
+        ,BLOCK_NAME
+        ,BLOCK_LABEL
+        ,new QIcon()
+        ,{BLOCK_INDEX}
+        ,this
+    );
+    _block = qobject_cast<DummyBlock*>(_language->create(BLOCK_INDEX,this));
+    QVERIFY(_block);
 }
 
 
@@ -29,21 +39,21 @@ void Abstract::append(
     {
         delete _block->take(0);
     }
-    auto child = create<NodeBlock>(NodeIndex);
+    auto child = new DummyBlock(_blockMeta,this);
     QVERIFY(child);
     _block->append(child);
-    QCOMPARE(qobject_cast<NodeBlock*>(child->parent()),_block);
+    QCOMPARE(qobject_cast<DummyBlock*>(child->parent()),_block);
     QCOMPARE(_block->size(),1);
     QCOMPARE(_block->get(0),child);
-    QCOMPARE(child->addCount(),1);
-    QCOMPARE(child->lastAddIndex(),0);
+    QCOMPARE(child->addCount,1);
+    QCOMPARE(child->lastAddIndex,0);
     _block->take(0);
-    QCOMPARE(child->removeCount(),1);
-    QCOMPARE(child->lastRemoveIndex(),0);
+    QCOMPARE(child->removeCount,1);
+    QCOMPARE(child->lastRemoveIndex,0);
     QCOMPARE(_block->size(),0);
     _block->append(child);
-    QCOMPARE(child->addCount(),2);
-    QCOMPARE(child->lastAddIndex(),0);
+    QCOMPARE(child->addCount,2);
+    QCOMPARE(child->lastAddIndex,0);
     QCOMPARE(_block->size(),1);
     delete child;
     QCOMPARE(_block->size(),0);
@@ -57,9 +67,9 @@ void Abstract::descendants(
     {
         delete _block->take(0);
     }
-    auto child0 = create<NodeBlock>(NodeIndex);
-    auto child1 = create<NodeBlock>(NodeIndex);
-    auto child2 = create<NodeBlock>(NodeIndex);
+    auto child0 = new DummyBlock(_blockMeta,this);
+    auto child1 = new DummyBlock(_blockMeta,this);
+    auto child2 = new DummyBlock(_blockMeta,this);
     _block->append(child0);
     child0->append(child1);
     child1->append(child2);
@@ -71,128 +81,6 @@ void Abstract::descendants(
 }
 
 
-void Abstract::displayIconProperty(
-)
-{
-    QImage img(10,10,QImage::Format_ARGB32);
-    img.fill(Qt::red);
-    QIcon testIcon(QPixmap::fromImage(img));
-    QVERIFY(_block->displayIcon().isNull());
-    QSignalSpy spy(_block,&::Block::Abstract::displayIconChanged);
-    _block->setIcon(testIcon);
-    QCOMPARE(spy.count(),1);
-    auto arguments = spy.takeFirst();
-    QCOMPARE(arguments.size(),1);
-    QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),testIcon));
-    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
-}
-
-
-void Abstract::displayTextProperty(
-)
-{
-    static const QString testName = "Testing123";
-    QSignalSpy spy(_block,&::Block::Abstract::displayTextChanged);
-    _block->setName(testName);
-    QCOMPARE(spy.count(),1);
-    auto arguments = spy.takeFirst();
-    QCOMPARE(arguments.size(),1);
-    QCOMPARE(arguments.at(0),testName);
-    QCOMPARE(_block->displayText(),testName);
-}
-
-
-void Abstract::fromDir(
-)
-{
-    auto root = qobject_cast<Node*>(
-        Stream::Block::fromDir(language(),Socref_1_0,testProjDir(),this)
-    );
-    QVERIFY(root);
-    QCOMPARE(root->name(),"");
-    QCOMPARE(root->size(),1);
-    auto child = qobject_cast<Node*>(root->get(0));
-    QVERIFY(child);
-    QCOMPARE(child->name(),"Node\n0");
-    QCOMPARE(child->size(),1);
-    child = qobject_cast<Node*>(child->get(0));
-    QVERIFY(child);
-    QCOMPARE(child->name(),"Node\n1");
-    QCOMPARE(child->size(),0);
-    delete root;
-}
-
-
-void Abstract::fromXml(
-)
-{
-    QFile file(testXml());
-    QVERIFY(file.open(QIODevice::ReadOnly));
-    QXmlStreamReader xml(&file);
-    while (!xml.atEnd())
-    {
-        xml.readNext();
-        if (
-            xml.isStartElement()
-            && xml.name().toString() == "node"
-        )
-        {
-            auto root = qobject_cast<Node*>(Stream::Block::fromXml(language(),Socref_1_0,xml,this));
-            QVERIFY(root);
-            QCOMPARE(root->name(),"");
-            QCOMPARE(root->size(),1);
-            auto child = qobject_cast<Node*>(root->get(0));
-            QVERIFY(child);
-            QCOMPARE(child->name(),"Node0");
-            QCOMPARE(child->size(),1);
-            child = qobject_cast<Node*>(child->get(0));
-            QVERIFY(child);
-            QCOMPARE(child->name(),"Node1");
-            QCOMPARE(child->size(),0);
-            delete root;
-            return;
-        }
-    }
-    QVERIFY(false);
-}
-
-
-void Abstract::fromXmlLegacy(
-)
-{
-    QFile file(testXmlLegacy());
-    QVERIFY(file.open(QIODevice::ReadOnly));
-    QXmlStreamReader xml(&file);
-    while (!xml.atEnd())
-    {
-        xml.readNext();
-        if (
-            xml.isStartElement()
-            && xml.name().toString().toLower() == "node"
-        )
-        {
-            auto root = qobject_cast<Node*>(
-                Stream::Block::fromXml(language(),Socref_Legacy,xml,this)
-            );
-            QVERIFY(root);
-            QCOMPARE(root->name(),"");
-            QCOMPARE(root->size(),1);
-            auto child = qobject_cast<Node*>(root->get(0));
-            QVERIFY(child);
-            QCOMPARE(child->name(),"Node0");
-            QCOMPARE(child->size(),1);
-            child = qobject_cast<Node*>(child->get(0));
-            QVERIFY(child);
-            QCOMPARE(child->name(),"Node1");
-            QCOMPARE(child->size(),0);
-            delete root;
-            return;
-        }
-    }
-    QVERIFY(false);
-}
-
-
 void Abstract::get(
 )
 {
@@ -200,9 +88,9 @@ void Abstract::get(
     {
         delete _block->take(0);
     }
-    auto child0 = create<NodeBlock>(NodeIndex);
-    auto child1 = create<NodeBlock>(NodeIndex);
-    auto child2 = create<NodeBlock>(NodeIndex);
+    auto child0 = new DummyBlock(_blockMeta,this);
+    auto child1 = new DummyBlock(_blockMeta,this);
+    auto child2 = new DummyBlock(_blockMeta,this);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
@@ -215,6 +103,7 @@ void Abstract::get(
     QCOMPARE(_block->get(1),child2);
     delete child0;
     QCOMPARE(_block->get(0),child2);
+    delete child2;
 }
 
 
@@ -225,9 +114,9 @@ void Abstract::indexOf(
     {
         delete _block->take(0);
     }
-    auto child0 = create<NodeBlock>(NodeIndex);
-    auto child1 = create<NodeBlock>(NodeIndex);
-    auto child2 = create<NodeBlock>(NodeIndex);
+    auto child0 = new DummyBlock(_blockMeta,this);
+    auto child1 = new DummyBlock(_blockMeta,this);
+    auto child2 = new DummyBlock(_blockMeta,this);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
@@ -240,6 +129,7 @@ void Abstract::indexOf(
     QCOMPARE(_block->indexOf(child2),1);
     delete child0;
     QCOMPARE(_block->indexOf(child2),0);
+    delete child2;
 }
 
 
@@ -250,34 +140,38 @@ void Abstract::insert(
     {
         delete _block->take(0);
     }
-    auto child0 = create<NodeBlock>(NodeIndex);
-    auto child1 = create<NodeBlock>(NodeIndex);
-    auto child2 = create<NodeBlock>(NodeIndex);
+    auto child0 = new DummyBlock(_blockMeta,this);
+    auto child1 = new DummyBlock(_blockMeta,this);
+    auto child2 = new DummyBlock(_blockMeta,this);
     _block->insert(0,child1);
     QCOMPARE(_block->get(0),child1);
-    QCOMPARE(qobject_cast<Node*>(child1->parent()),_block);
-    QCOMPARE(child1->addCount(),1);
-    QCOMPARE(child1->lastAddIndex(),0);
+    QCOMPARE(qobject_cast<DummyBlock*>(child1->parent()),_block);
+    QCOMPARE(child1->addCount,1);
+    QCOMPARE(child1->lastAddIndex,0);
     _block->insert(0,child0);
-    QCOMPARE(qobject_cast<Node*>(child0->parent()),_block);
-    QCOMPARE(child0->addCount(),1);
-    QCOMPARE(child0->lastAddIndex(),0);
+    QCOMPARE(qobject_cast<DummyBlock*>(child0->parent()),_block);
+    QCOMPARE(child0->addCount,1);
+    QCOMPARE(child0->lastAddIndex,0);
     QCOMPARE(_block->get(0),child0);
     QCOMPARE(_block->get(1),child1);
     _block->insert(2,child2);
-    QCOMPARE(qobject_cast<Node*>(child2->parent()),_block);
-    QCOMPARE(child2->addCount(),1);
-    QCOMPARE(child2->lastAddIndex(),2);
+    QCOMPARE(qobject_cast<DummyBlock*>(child2->parent()),_block);
+    QCOMPARE(child2->addCount,1);
+    QCOMPARE(child2->lastAddIndex,2);
     QCOMPARE(_block->get(0),child0);
     QCOMPARE(_block->get(1),child1);
     QCOMPARE(_block->get(2),child2);
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
 }
 
 
 void Abstract::metaProperty(
 )
 {
-    QCOMPARE(_block->meta(),language()->blockMeta(NodeIndex));
+    QCOMPARE(_block->meta(),_language->blockMeta(BLOCK_INDEX));
 }
 
 
@@ -288,45 +182,33 @@ void Abstract::move(
     {
         delete _block->take(0);
     }
-    auto child0 = create<NodeBlock>(NodeIndex);
-    auto child1 = create<NodeBlock>(NodeIndex);
-    auto child2 = create<NodeBlock>(NodeIndex);
+    auto child0 = new DummyBlock(_blockMeta,this);
+    auto child1 = new DummyBlock(_blockMeta,this);
+    auto child2 = new DummyBlock(_blockMeta,this);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
     _block->move(0,1);
-    QCOMPARE(child0->moveCount(),1);
-    QCOMPARE(child0->lastMoveFromIndex(),0);
-    QCOMPARE(child0->lastMoveToIndex(),1);
+    QCOMPARE(child0->moveCount,1);
+    QCOMPARE(child0->lastFromMoveIndex,0);
+    QCOMPARE(child0->lastToMoveIndex,1);
     QCOMPARE(_block->get(0),child1);
     QCOMPARE(_block->get(1),child0);
     QCOMPARE(_block->get(2),child2);
     _block->move(2,0);
-    QCOMPARE(child2->moveCount(),1);
-    QCOMPARE(child2->lastMoveFromIndex(),2);
-    QCOMPARE(child2->lastMoveToIndex(),0);
+    QCOMPARE(child2->moveCount,1);
+    QCOMPARE(child2->lastFromMoveIndex,2);
+    QCOMPARE(child2->lastToMoveIndex,0);
     QCOMPARE(_block->get(0),child2);
     QCOMPARE(_block->get(1),child1);
     QCOMPARE(_block->get(2),child0);
     _block->move(2,1);
-    QCOMPARE(child0->moveCount(),2);
-    QCOMPARE(child0->lastMoveFromIndex(),2);
-    QCOMPARE(child0->lastMoveToIndex(),1);
+    QCOMPARE(child0->moveCount,2);
+    QCOMPARE(child0->lastFromMoveIndex,2);
+    QCOMPARE(child0->lastToMoveIndex,1);
     QCOMPARE(_block->get(0),child2);
     QCOMPARE(_block->get(1),child0);
     QCOMPARE(_block->get(2),child1);
-}
-
-
-void Abstract::scopeProperty(
-)
-{
-    static const QString testName = "Testing123";
-    auto child = create<NodeBlock>(NodeIndex);
-    QVERIFY(child);
-    child->setName(testName);
-    _block->append(child);
-    //QCOMPARE(child->scope(),testName);
 }
 
 
@@ -337,7 +219,7 @@ void Abstract::size(
     {
         delete _block->take(0);
     }
-    _block->append(create<::Block::Abstract>(NodeIndex));
+    _block->append(new DummyBlock(_blockMeta));
     QCOMPARE(_block->size(),1);
     delete _block->take(0);
     QCOMPARE(_block->size(),0);
@@ -351,99 +233,189 @@ void Abstract::take(
     {
         delete _block->take(0);
     }
-    auto child0 = create<NodeBlock>(NodeIndex);
-    auto child1 = create<NodeBlock>(NodeIndex);
-    auto child2 = create<NodeBlock>(NodeIndex);
+    auto child0 = new DummyBlock(_blockMeta,this);
+    auto child1 = new DummyBlock(_blockMeta,this);
+    auto child2 = new DummyBlock(_blockMeta,this);
     _block->append(child0);
     _block->append(child1);
     _block->append(child2);
-    auto orphan = qobject_cast<Node*>(_block->take(1));
+    auto orphan = qobject_cast<DummyBlock*>(_block->take(1));
     QCOMPARE(orphan,child1);
-    QCOMPARE(orphan->removeCount(),1);
-    QCOMPARE(orphan->lastRemoveIndex(),1);
+    QCOMPARE(orphan->removeCount,1);
+    QCOMPARE(orphan->lastRemoveIndex,1);
     QCOMPARE(orphan->parent(),nullptr);
     QCOMPARE(_block->size(),2);
     QCOMPARE(_block->get(0),child0);
     QCOMPARE(_block->get(1),child2);
-    orphan = qobject_cast<Node*>(_block->take(0));
+    orphan = qobject_cast<DummyBlock*>(_block->take(0));
     QCOMPARE(orphan,child0);
-    QCOMPARE(orphan->removeCount(),1);
-    QCOMPARE(orphan->lastRemoveIndex(),0);
+    QCOMPARE(orphan->removeCount,1);
+    QCOMPARE(orphan->lastRemoveIndex,0);
     QCOMPARE(orphan->parent(),nullptr);
     QCOMPARE(_block->size(),1);
     QCOMPARE(_block->get(0),child2);
-    orphan = qobject_cast<Node*>(_block->take(0));
+    orphan = qobject_cast<DummyBlock*>(_block->take(0));
     QCOMPARE(orphan,child2);
-    QCOMPARE(orphan->removeCount(),1);
-    QCOMPARE(orphan->lastRemoveIndex(),0);
+    QCOMPARE(orphan->removeCount,1);
+    QCOMPARE(orphan->lastRemoveIndex,0);
     QCOMPARE(orphan->parent(),nullptr);
     QCOMPARE(_block->size(),0);
 }
 
 
-void Abstract::toDir(
+void Abstract::toDirFromDir(
 )
 {
-    QDir dir(testDir());
-    QVERIFY(dir.exists());
     while (_block->size() > 0)
     {
         delete _block->take(0);
     }
-    _block->setName("");
-    auto node0 = create<NodeBlock>(NodeIndex);
-    auto node1 = create<NodeBlock>(NodeIndex);
-    node0->setName("Node\n0");
-    node1->setName("Node\n1");
-    _block->append(node0);
-    node0->append(node1);
-    Stream::Block::toDir(*_block,dir.absoluteFilePath("outputDir"));
-    QVERIFY(
-        areDirsEqual(
-            QDir(testProjDir())
-            ,QDir(dir.absoluteFilePath("outputDir"))
-            ,"*.srb"
-        )
-    );
+    auto dir = QDir::temp();
+    auto path = dir.absoluteFilePath("socref.toDirFromDir.test");
+    auto outRoot = qobject_cast<DummyBlock*>(_block);
+    outRoot->property1 = "Testing Root Property 1";
+    outRoot->property2 = "Testing\n Root Property\n 2";
+    auto out0 = new DummyBlock(_blockMeta,this);
+    auto out1 = new DummyBlock(_blockMeta,this);
+    out0->property1 = "Testing in0 Property 1";
+    out0->property2 = "Testing\n in0 Property\n 2";
+    out1->property1 = "Testing in1 Property 1";
+    out1->property2 = "Testing\n in1 Property\n 2";
+    _block->append(out0);
+    out0->append(out1);
+    try
+    {
+        Stream::Block::toDir(*_block,path);
+    }
+    catch (Exception::Block::Write& e)
+    {
+        qDebug() << tr("Write Block Exception: %1").arg(e.message());
+    }
+    catch (Exception::Block::Logical& e)
+    {
+        qDebug() << tr("Logical Block Exception: %1").arg(e.message());
+    }
+    catch (Exception::System::File& e)
+    {
+        qDebug() << tr("File System Exception: %1").arg(e.message());
+    }
+    DummyBlock* inRoot = nullptr;
+    try
+    {
+        inRoot = qobject_cast<DummyBlock*>(Stream::Block::fromDir(_language,Socref_1_0,path,this));
+    }
+    catch (Exception::Block::Read& e)
+    {
+        qDebug() << tr("Read Block Exception: %1").arg(e.message());
+    }
+    catch (Exception::System::File& e)
+    {
+        qDebug() << tr("File System Exception: %1").arg(e.message());
+    }
+    QVERIFY(inRoot);
+    QCOMPARE(inRoot->property1,outRoot->property1);
+    QCOMPARE(inRoot->property2,outRoot->property2);
+    QCOMPARE(inRoot->size(),1);
+    auto in0 = qobject_cast<DummyBlock*>(inRoot->get(0));
+    QVERIFY(in0);
+    QCOMPARE(in0->property1,out0->property1);
+    QCOMPARE(in0->property2,out0->property2);
+    auto in1 = qobject_cast<DummyBlock*>(in0->get(0));
+    QVERIFY(in1);
+    QCOMPARE(in1->property1,out1->property1);
+    QCOMPARE(in1->property2,out1->property2);
+    delete inRoot;
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
 }
 
 
-void Abstract::toXml(
+void Abstract::toXmlFromXml(
 )
 {
-    QDir dir(testDir());
-    QVERIFY(dir.exists());
     while (_block->size() > 0)
     {
         delete _block->take(0);
     }
-    _block->setName("");
-    auto node0 = create<NodeBlock>(NodeIndex);
-    auto node1 = create<NodeBlock>(NodeIndex);
-    node0->setName("Node0");
-    node1->setName("Node1");
-    _block->append(node0);
-    node0->append(node1);
-    QFile file(dir.absoluteFilePath("output.xml"));
-    QVERIFY(file.open(QIODevice::WriteOnly|QIODevice::Truncate));
-    QXmlStreamWriter xml(&file);
-    xml.setAutoFormatting(true);
-    xml.writeStartDocument();
-    writeStartProjectXml(xml);
-    Stream::Block::toXml(*_block,xml);
-    writeEndProjectXml(xml);
-    xml.writeEndDocument();
-    QVERIFY(file.flush());
-    QVERIFY(areXmlFilesEqual(testXml(),dir.absoluteFilePath("output.xml")));
+    auto dir = QDir::temp();
+    auto path = dir.absoluteFilePath("socref.toXmlFromXml.test.xml");
+    auto outRoot = qobject_cast<DummyBlock*>(_block);
+    outRoot->property1 = "Testing Root Property 1";
+    outRoot->property2 = "Testing\n Root Property\n 2";
+    auto out0 = new DummyBlock(_blockMeta,this);
+    auto out1 = new DummyBlock(_blockMeta,this);
+    out0->property1 = "Testing in0 Property 1";
+    out0->property2 = "Testing\n in0 Property\n 2";
+    out1->property1 = "Testing in1 Property 1";
+    out1->property2 = "Testing\n in1 Property\n 2";
+    _block->append(out0);
+    out0->append(out1);
+    try
+    {
+        QFile file(path);
+        QVERIFY(file.open(QIODevice::WriteOnly|QIODevice::Truncate));
+        QXmlStreamWriter xml(&file);
+        xml.setAutoFormatting(true);
+        xml.writeStartDocument();
+        Stream::Block::toXml(*_block,xml);
+        xml.writeEndDocument();
+    }
+    catch (Exception::Block::Write& e)
+    {
+        qDebug() << tr("Write Block Exception: %1").arg(e.message());
+    }
+    DummyBlock* inRoot = nullptr;
+    try
+    {
+        QFile file(path);
+        QVERIFY(file.open(QIODevice::ReadOnly));
+        QXmlStreamReader xml(&file);
+        while (
+            !xml.atEnd()
+            && !xml.isStartElement()
+        )
+        {
+            xml.readNext();
+        }
+        inRoot = qobject_cast<DummyBlock*>(Stream::Block::fromXml(_language,Socref_1_0,xml,this));
+    }
+    catch (Exception::Block::Read& e)
+    {
+        qDebug() << tr("Read Block Exception: %1").arg(e.message());
+    }
+    catch (Exception::System::File& e)
+    {
+        qDebug() << tr("File System Exception: %1").arg(e.message());
+    }
+    QVERIFY(inRoot);
+    QCOMPARE(inRoot->property1,outRoot->property1);
+    QCOMPARE(inRoot->property2,outRoot->property2);
+    QCOMPARE(inRoot->size(),1);
+    auto in0 = qobject_cast<DummyBlock*>(inRoot->get(0));
+    QVERIFY(in0);
+    QCOMPARE(in0->property1,out0->property1);
+    QCOMPARE(in0->property2,out0->property2);
+    auto in1 = qobject_cast<DummyBlock*>(in0->get(0));
+    QVERIFY(in1);
+    QCOMPARE(in1->property1,out1->property1);
+    QCOMPARE(in1->property2,out1->property2);
+    delete inRoot;
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
 }
 
 
 void Abstract::cleanupTestCase(
 )
 {
-    cleanup();
     delete _block;
-    delete _meta;
+    delete _blockMeta;
+    delete _language;
+    delete _languageMeta;
 }
 }
 }

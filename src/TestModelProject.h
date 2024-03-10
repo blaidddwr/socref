@@ -1,6 +1,6 @@
 #ifndef TEST_MODEL_PROJECT_H
 #define TEST_MODEL_PROJECT_H
-#include "TestBase.h"
+#include <QObject>
 namespace Test {
 namespace Model {
 
@@ -11,36 +11,26 @@ namespace Model {
  * This is a Qt unit test class. It tests the project model class.
  */
 class Project:
-    public Test::Base
+    public QObject
 {
     Q_OBJECT
 
 
+    /*!
+     * Tests the to and from directory methods from the project stream class
+     * using the current format.
+     */
     private slots:
-    void initTestCase(
+    void toDirFromDir(
     );
 
 
     /*!
-     * Tests the "from directory" method from the streaming class using the
+     * Tests the to and from XML methods from the project stream class using the
      * current format.
      */
     private slots:
-    void fromDir(
-    );
-
-
-    /*!
-     * Tests the "from XML" method from the streaming class using the legacy
-     * format.
-     */
-    private slots:
-    void fromXmlLegacy(
-    );
-
-
-    private slots:
-    void cleanupTestCase(
+    void toXmlFromXml(
     );
 };
 }

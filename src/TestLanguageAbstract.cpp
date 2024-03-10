@@ -1,52 +1,35 @@
 #include "TestLanguageAbstract.h"
 #include <QtTest>
-#include "BlockTest.h"
-#include "BlockTestNode.h"
-#include "LanguageTest.h"
-#include "ModelMetaBlock.h"
-#include "ModelMetaLanguage.h"
+#include "TestDummyLanguage.h"
 namespace Test {
 namespace Language {
+using Dummy = Dummy::Language;
 
 
 void Abstract::initTestCase(
 )
 {
-    _meta = new Model::Meta::Language("test","Test",this);
-    _language = new ::Language::Test(_meta,this);
+    _meta = new Model::Meta::Language(LANGUAGE_NAME,LANGUAGE_LABEL,this);
+    _language = new Dummy(_meta,this);
 }
 
 
 void Abstract::blockMeta(
 )
 {
-    using namespace Block::Test;
-    static const QSet<int> allowList {NodeIndex};
-    auto meta = _language->blockMeta(NodeIndex);
-    QCOMPARE(meta->name(),"node");
-    QCOMPARE(meta->label(),"Node");
-    QCOMPARE(meta->index(),NodeIndex);
+    auto meta = _language->blockMeta(BLOCK_INDEX);
+    QCOMPARE(meta->name(),BLOCK_NAME);
+    QCOMPARE(meta->label(),BLOCK_LABEL);
+    QCOMPARE(meta->index(),BLOCK_INDEX);
     QCOMPARE(meta->language(),_meta);
-    QCOMPARE(meta->allowList(),allowList);
-}
-
-
-void Abstract::create(
-)
-{
-    using namespace Block::Test;
-    auto node = qobject_cast<Node*>(_language->create(NodeIndex,this));
-    QVERIFY(node);
-    QCOMPARE(node->meta()->language(),_meta);
-    delete node;
+    QCOMPARE(meta->allowList(),{BLOCK_INDEX});
 }
 
 
 void Abstract::indexFromName(
 )
 {
-    using namespace Block::Test;
-    QCOMPARE(_language->indexFromName("node"),NodeIndex);
+    QCOMPARE(_language->indexFromName(BLOCK_NAME),BLOCK_INDEX);
     QCOMPARE(_language->indexFromName("does_not_exist"),-1);
 }
 
@@ -55,14 +38,6 @@ void Abstract::metaProperty(
 )
 {
     QCOMPARE(_language->meta(),_meta);
-}
-
-
-void Abstract::rootIndexProperty(
-)
-{
-    using namespace Block::Test;
-    QCOMPARE(_language->rootIndex(),NodeIndex);
 }
 
 

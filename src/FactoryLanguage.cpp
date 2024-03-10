@@ -2,7 +2,6 @@
 #include <QtCore>
 #include "LanguageCpp.h"
 #include "LanguageCppQt.h"
-#include "LanguageTest.h"
 #include "ModelMetaLanguage.h"
 #include "gassert.h"
 namespace Factory {
@@ -38,16 +37,6 @@ Language* Language::instance(
 }
 
 
-bool Language::isHidden(
-    int index
-) const
-{
-    G_ASSERT(index >= 0);
-    G_ASSERT(index < _isHiddenList.size());
-    return _isHiddenList.at(index);
-}
-
-
 Model::Meta::Language* Language::meta(
     int index
 ) const
@@ -72,13 +61,11 @@ Language::Language(
     using namespace Language;
     appendLanguage(new Cpp(new Model::Meta::Language("cpp","C++")));
     appendLanguage(new CppQt(new Model::Meta::Language("cppqt","C++/Qt")));
-    appendLanguage(new Test(new Model::Meta::Language("test","Test")),true);
 }
 
 
 void Language::appendLanguage(
     ::Language::Abstract* language
-    ,bool isHidden
 )
 {
     G_ASSERT(language);
@@ -88,6 +75,5 @@ void Language::appendLanguage(
     language->setParent(this);
     _lookup.insert(meta->name(),_languages.size());
     _languages.append(language);
-    _isHiddenList.append(isHidden);
 }
 }

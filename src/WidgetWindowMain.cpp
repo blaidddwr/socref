@@ -586,14 +586,11 @@ QMenu* Main::newMenu(
         auto factory = Factory::Language::instance();
         for (int i = 0;i < factory->size();i++)
         {
-            if (!factory->isHidden(i))
-            {
-                auto label = factory->get(i)->meta()->label();
-                auto action = new QAction(label,this);
-                action->setStatusTip(tr("Create a new %1 project.").arg(label));
-                connect(action,&QAction::triggered,this,[this,i](){ newProject(i); });
-                _newMenu->addAction(action);
-            }
+            auto label = factory->get(i)->meta()->label();
+            auto action = new QAction(label,this);
+            action->setStatusTip(tr("Create a new %1 project.").arg(label));
+            connect(action,&QAction::triggered,this,[this,i](){ newProject(i); });
+            _newMenu->addAction(action);
         }
     }
     return _newMenu;

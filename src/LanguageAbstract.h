@@ -134,10 +134,12 @@ class Abstract:
 
 
     /*!
-     * Appends the given block meta to this language's list of block meta. This
-     * language takes ownership of the given meta. This language's create
-     * interface implementation must match the order generated from calling this
-     * method in regard to block indexes.
+     * Appends the given block meta to this language's list of block meta.
+     * 
+     * This language takes ownership of the given meta.
+     * 
+     * This language's create interface implementation must match the order
+     * generated from calling this method in regard to block indexes.
      * 
      * The given meta must be valid. Its name must be unique among all other
      * block meta in this language. Its name cannot be an empty string. Its name

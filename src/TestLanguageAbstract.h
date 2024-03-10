@@ -17,8 +17,8 @@ class Abstract:
     public QObject
 {
     Q_OBJECT
+    ::Language::Abstract* _language;
     Model::Meta::Language* _meta;
-    ::Language::Test* _language;
 
 
     private slots:
@@ -35,14 +35,6 @@ class Abstract:
 
 
     /*!
-     * Tests the create interface.
-     */
-    private slots:
-    void create(
-    );
-
-
-    /*!
      * Tests the index from name method.
      */
     private slots:
@@ -55,14 +47,6 @@ class Abstract:
      */
     private slots:
     void metaProperty(
-    );
-
-
-    /*!
-     * Test the root index property.
-     */
-    private slots:
-    void rootIndexProperty(
     );
 
 
