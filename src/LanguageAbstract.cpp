@@ -65,6 +65,17 @@ void Abstract::appendBlock(
 }
 
 
+void Abstract::appendBlocks(
+    const QList<Model::Meta::Block*>& metas
+)
+{
+    for (auto meta: metas)
+    {
+        appendBlock(meta);
+    }
+}
+
+
 void Abstract::onMetaDestroyed(
     QObject* object
 )

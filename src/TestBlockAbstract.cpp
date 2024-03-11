@@ -23,7 +23,7 @@ void Abstract::initTestCase(
         ,BLOCK_INDEX
         ,BLOCK_NAME
         ,BLOCK_LABEL
-        ,new QIcon()
+        ,QIcon()
         ,{BLOCK_INDEX}
         ,this
     );

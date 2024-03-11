@@ -155,6 +155,22 @@ class Abstract:
 
 
     /*!
+     * Appends the given block meta list to this language's list of block meta
+     * by calling this language's append block method for each block meta in the
+     * given list.
+     * 
+     * The order of addition is the same as the order in the given list.
+     *
+     * @param metas
+     *        The block meta list.
+     */
+    protected:
+    void appendBlocks(
+        const QList<Model::Meta::Block*>& metas
+    );
+
+
+    /*!
      * Called when this language's meta's destroyed signal is emitted.
      */
     private slots:

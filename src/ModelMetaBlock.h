@@ -1,6 +1,7 @@
 #ifndef MODEL_META_BLOCK_H
 #define MODEL_META_BLOCK_H
 #include <QSet>
+#include <QIcon>
 #include "ModelMetaLanguage.h"
 namespace Model {
 namespace Meta {
@@ -23,16 +24,17 @@ class Block:
 {
     Q_OBJECT
     Language* _language;
-    const QIcon* _displayIcon;
+    QIcon _displayIcon;
     QSet<int> _allowList;
     int _index;
 
 
     /*!
      * Constructs this new model with the given language, index, name, label,
-     * display icon, allow list, and parent. The given language must be valid
-     * and cannot be destroyed during the life of this model. The given display
-     * icon must be valid and this new instance takes ownership of it.
+     * display icon, allow list, and parent.
+     * 
+     * The given language must be valid and cannot be destroyed during the life
+     * of this model.
      *
      * @param language
      *        The language.
@@ -61,15 +63,10 @@ class Block:
         ,int index
         ,const QString& name
         ,const QString& label
-        ,const QIcon* displayIcon
+        ,const QIcon& displayIcon
         ,const QSet<int>& allowList
         ,QObject* parent = nullptr
     );
-
-
-    public:
-    virtual ~Block(
-    ) override;
 
 
     /*!
@@ -90,7 +87,7 @@ class Block:
      * This instance's display icon property.
      */
     public:
-    QIcon displayIcon(
+    const QIcon& displayIcon(
     ) const;
 
 
