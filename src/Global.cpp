@@ -9,24 +9,45 @@ int main(
     ,char** argv
 )
 {
+    Test::extractArguments(argc,argv);
     QApplication application(argc,argv);
     QApplication::setOrganizationName("Galtwe");
     QApplication::setApplicationName("Socrates' Reference");
     QApplication::setApplicationVersion("1.0.0-DEV");
-    if (argc >= 2)
+    QCommandLineParser parser;
+    parser.setApplicationDescription(
+        QApplication::tr(
+            "Socrates' Reference is a graphical software design application with the additional"
+            " capability of generating source code."
+        )
+    );
+    parser.addHelpOption();
+    parser.addVersionOption();
+    QCommandLineOption testListOption(
+        "test-list"
+        ,QApplication::tr("List all available unit tests.")
+        );
+    QCommandLineOption testAllOption("test-all",QApplication::tr("Run all unit test."));
+    QCommandLineOption testOption("test",QApplication::tr("Run <test> unit test."),"test");
+    parser.addOptions({testListOption,testAllOption,testOption});
+    parser.process(application);
+    if (parser.isSet(testListOption))
     {
-        if (!strcmp(argv[1],"--test"))
-        {
-            Test::initialize();
-            return Test::execute(argc,argv);
-        }
-        else if (!strcmp(argv[1],"--test-all"))
-        {
-            Test::initialize();
-            return Test::executeAll(argc,argv);
-        }
+        Test::listTests();
+        return 0;
     }
-    auto window = new Widget::Window::Main;
-    window->show();
-    return application.exec();
+    else if (parser.isSet(testAllOption))
+    {
+        return Test::executeAll();
+    }
+    else if (parser.isSet(testOption))
+    {
+        return Test::execute(parser.value(testOption));
+    }
+    else
+    {
+        auto window = new Widget::Window::Main;
+        window->show();
+        return application.exec();
+    }
 }

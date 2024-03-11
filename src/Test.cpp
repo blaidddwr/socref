@@ -16,11 +16,7 @@
 #include "TestModelProject.h"
 #include "gassert.h"
 namespace Test {
-struct TestObject
-{
-    QString name;
-    QObject* ptr;
-};
+QStringList _g_arguments;
 const QList<TestObject>* _g_tests {nullptr};
 
 
@@ -40,61 +36,43 @@ bool areIconsEqual(
 
 
 int execute(
-    int argc
-    ,char** argv
+    const QString& name
 )
 {
-    G_ASSERT(_g_tests);
-    auto printTestList = [](QTextStream& out) {
-        out << QApplication::translate("main","Available unit tests:\n");
-        for (const auto& test: *_g_tests)
-        {
-            out << test.name << "\n";
-        }
-    };
-    if (argc < 3)
+    G_ASSERT(!_g_arguments.isEmpty());
+    if (name.isEmpty())
     {
-        QTextStream out(stdout);
-        printTestList(out);
+        listTests();
         return 0;
     }
-    QString testName = argv[2];
-    QStringList arguments {argv[0]};
-    for (int i = 3;i < argc;i++)
+    for (const auto& test: testObjects())
     {
-        arguments += argv[i];
-    }
-    for (const auto& test: *_g_tests)
-    {
-        if (test.name == testName)
+        if (test.name == name)
         {
-            return QTest::qExec(test.ptr,arguments);
+            return QTest::qExec(test.ptr,_g_arguments);
         }
     }
     QTextStream out(stdout);
-    auto msg = QApplication::translate("main","%1: Unknown unit test '%2'.\n");
-    msg = msg.arg(QApplication::applicationName(),testName);
-    out << msg;
-    printTestList(out);
+    out << QApplication::translate("main","%1: Unknown unit test '%2'.\n")
+        .arg(QApplication::applicationName(),name);
+    listTests();
     return 1;
 }
 
 
 int executeAll(
-    int argc
-    ,char** argv
 )
 {
-    G_ASSERT(_g_tests);
-    QStringList arguments;
-    for (int i = 2;i < argc;i++)
+    G_ASSERT(!_g_arguments.isEmpty());
+    QStringList arguments {"--test","",":"};
+    for (int i = 1;i < _g_arguments.size();i++)
     {
-        arguments += argv[i];
+        arguments.append(_g_arguments.at(i));
     }
-    for (const auto& test: *_g_tests)
+    for (const auto& test: testObjects())
     {
-        QStringList testArgs {"--test",test.name};
-        auto status = QProcess::execute(argv[0],testArgs+arguments);
+        arguments[1] = test.name;
+        auto status = QProcess::execute(_g_arguments[0],arguments);
         if (status)
         {
             return(status);
@@ -104,25 +82,62 @@ int executeAll(
 }
 
 
-void initialize(
+void extractArguments(
+    int& argc
+    ,char** argv
 )
 {
-    G_ASSERT(!_g_tests);
-    _g_tests = new QList<TestObject> {
-        {"Block",new Block::Abstract}
-        ,{"BlockCppClass",new Block::Cpp::Class}
-        ,{"BlockCppEnumeration",new Block::Cpp::Enumeration}
-        ,{"BlockCppException",new Block::Cpp::ExceptionItem}
-        ,{"BlockCppFunction",new Block::Cpp::Function}
-        ,{"BlockCppNamespace",new Block::Cpp::Namespace}
-        ,{"BlockCppProperty",new Block::Cpp::Property}
-        ,{"BlockCppVariable",new Block::Cpp::Variable}
-        ,{"BlockCppQtFunction",new Block::CppQt::Function}
-        ,{"FactoryLanguage",new Factory::Language}
-        ,{"Language",new Language::Abstract}
-        ,{"LanguageCpp",new Language::Cpp}
-        ,{"LanguageCppQt",new Language::CppQt}
-        ,{"ModelProject",new Model::Project}
-    };
+    int total = argc;
+    for (int i = 1;i < total;i++)
+    {
+        if (!strcmp(argv[i],":"))
+        {
+            argc = i;
+            break;
+        }
+    }
+    _g_arguments.append(argv[0]);
+    for (int i = argc+1;i < total;i++)
+    {
+        _g_arguments.append(argv[i]);
+    }
+}
+
+
+void listTests(
+)
+{
+    QTextStream out(stdout);
+    out << QApplication::translate("main","Available unit tests:\n");
+    for (const auto& test: testObjects())
+    {
+        out << test.name << "\n";
+    }
+}
+
+
+const QList<TestObject>& testObjects(
+)
+{
+    if (!_g_tests)
+    {
+        _g_tests = new QList<TestObject> {
+            {"Block",new Block::Abstract}
+            ,{"BlockCppClass",new Block::Cpp::Class}
+            ,{"BlockCppEnumeration",new Block::Cpp::Enumeration}
+            ,{"BlockCppException",new Block::Cpp::ExceptionItem}
+            ,{"BlockCppFunction",new Block::Cpp::Function}
+            ,{"BlockCppNamespace",new Block::Cpp::Namespace}
+            ,{"BlockCppProperty",new Block::Cpp::Property}
+            ,{"BlockCppVariable",new Block::Cpp::Variable}
+            ,{"BlockCppQtFunction",new Block::CppQt::Function}
+            ,{"FactoryLanguage",new Factory::Language}
+            ,{"Language",new Language::Abstract}
+            ,{"LanguageCpp",new Language::Cpp}
+            ,{"LanguageCppQt",new Language::CppQt}
+            ,{"ModelProject",new Model::Project}
+        };
+    }
+    return *_g_tests;
 }
 }

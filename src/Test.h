@@ -1,11 +1,16 @@
 #ifndef TEST_H
 #define TEST_H
-#include <QtGlobal>
+#include <QString>
 class QIcon;
+struct TestObject
+{
+    QString name;
+    QObject* ptr;
+};
 
 
 /*!
- * This contains all unit tests.
+ * This contains all tests.
  */
 namespace Test
 {
@@ -31,64 +36,78 @@ namespace Test
 
 
     /*!
-     * Executes a Qt unit test class for this application, using the given
-     * argument count and arguments with the Qt unit test system, excluding the
-     * first two.
+     * Executes a Qt unit test class for this application with the given name.
      * 
-     * The first argument is assumed to be "--test". The second argument is the
-     * name of the unit test. If the name of the unit test is not valid or not
-     * given then a help message is printed with all available tests. All other
-     * arguments are passed to the Qt unit test system.
+     * If the given name is not a valid unit test then a help message is printed
+     * with all available tests.
      * 
-     * This must be called after the initialize function is called.
+     * This must be called after the extract arguments function is called.
      *
-     * @param argc
-     *        The argument count.
-     *
-     * @param argv
-     *        The arguments.
+     * @param name
+     *        The name.
      *
      * @return
      * The status of unit test execution.
      */
     int execute(
-        int argc
-        ,char** argv
+        const QString& name
     );
 
 
     /*!
      * Executes all Qt unit test classes by calling this application with the
-     * test option for each possible test. If the returned status of a test
-     * execution is not 0 then this halts test execution and returns the
-     * non-zero status.
+     * test option for each possible test.
      * 
-     * The given argument count and arguments are passed along to each
-     * individual execution of this application, excluding the first test all
-     * option.
+     * If the returned status of a test execution is not 0 then this halts test
+     * execution and returns the non-zero status.
      * 
-     * This must be called after the initialize function is called.
-     *
-     * @param argc
-     *        The argument count.
-     *
-     * @param argv
-     *        The arguments.
+     * This must be called after the extract arguments function is called.
      *
      * @return
      * The status of all executed unit tests.
      */
     int executeAll(
-        int argc
+    );
+
+
+    /*!
+     * Extracts all command line arguments that will be passed onto the Qt unit
+     * test system from the given argument count and values.
+     * 
+     * This is done by looking for an argument with the special value ":". All
+     * arguments after the first argument with the special value is removed from
+     * the given command line arguments and saved for passing onto the Qt unit
+     * testing system when calling execute or execute all. The special value
+     * argument is removed but not passed along.
+     * 
+     * The arguments are removed by decreasing the given argument count.
+     * 
+     * This must be called once and only once before the execute or execute all
+     * functions are called.
+     *
+     * @param argc
+     *        The argument count.
+     *
+     * @param argv
+     *        The argument values.
+     */
+    void extractArguments(
+        int& argc
         ,char** argv
     );
 
 
     /*!
-     * Initializes this namespace's internal array of available tests. This must
-     * be called before the execute or execute all functions are called.
+     * Prints all valid unit test names to standard output.
      */
-    void initialize(
+    void listTests(
+    );
+
+
+    /*!
+     * Returns all valid unit tests for this application.
+     */
+    const QList<TestObject>& testObjects(
     );
 }
 
