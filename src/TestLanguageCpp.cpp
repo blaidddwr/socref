@@ -5,6 +5,7 @@
 #include "LanguageCpp.h"
 #include "ModelMetaBlock.h"
 #include "ModelMetaLanguage.h"
+#include "Test.h"
 namespace Test {
 namespace Language {
 using namespace Block::Cpp;

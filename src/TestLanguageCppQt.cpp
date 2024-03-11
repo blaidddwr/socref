@@ -5,6 +5,7 @@
 #include "LanguageCppQt.h"
 #include "ModelMetaBlock.h"
 #include "ModelMetaLanguage.h"
+#include "Test.h"
 namespace Test {
 namespace Language {
 using namespace Block::CppQt;

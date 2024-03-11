@@ -5,7 +5,8 @@
 #include "BlockCppVariable.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
-#include "TestBase.t.h"
+#include "LanguageAbstract.h"
+#include "Test.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -22,8 +23,9 @@ void Function::initTestCase(
     QVERIFY(factory);
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
-    initLanguage(Factory::Language::instance()->get(langIndex));
-    _block = create<FunctionBlock>(FunctionIndex);
+    _language = Factory::Language::instance()->get(langIndex);
+    _block = qobject_cast<FunctionBlock*>(_language->create(FunctionIndex,this));
+    QVERIFY(_block);
     QCOMPARE(_block->name(),"function");
     QCOMPARE(_block->access(),PublicAccess);
     QCOMPARE(_block->assignment(),NoFunctionAssignment);
@@ -31,7 +33,8 @@ void Function::initTestCase(
     QCOMPARE(_block->flags(),0);
     QCOMPARE(_block->returnType(),"void");
     QCOMPARE(_block->returnDescription(),"");
-    _parent = create<ClassBlock>(ClassIndex);
+    _parent = qobject_cast<ClassBlock*>(_language->create(ClassIndex,this));
+    QVERIFY(_parent);
     _parent->setName("class123");
     QCOMPARE(_parent->name(),"class123");
     _parent->append(_block);
@@ -287,8 +290,10 @@ void Function::displayTextProperty(
     verify("operator++() -> void");
     _block->set("main","int",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
     spy.clear();
-    auto arg1 = create<VariableBlock>(VariableIndex);
-    auto arg2 = create<VariableBlock>(VariableIndex);
+    auto arg1 = qobject_cast<VariableBlock*>(_language->create(VariableIndex,this));
+    auto arg2 = qobject_cast<VariableBlock*>(_language->create(VariableIndex,this));
+    QVERIFY(arg1);
+    QVERIFY(arg2);
     arg1->setType("int");
     arg2->setType("char**");
     _block->append(arg1);
@@ -761,28 +766,6 @@ void Function::state(
     _block->setTemplates(testTemplates);
     auto data = _block->state();
     QCOMPARE(data,testData);
-}
-
-
-void Function::scopeName(
-)
-{
-    _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
-    //QCOMPARE(_block->scope(),"test()");
-    auto arg1 = create<VariableBlock>(VariableIndex);
-    auto arg2 = create<VariableBlock>(VariableIndex);
-    arg1->setType("int");
-    arg2->setType("char**");
-    _block->append(arg1);
-    //QCOMPARE(_block->scope(),"test(int)");
-    _block->append(arg2);
-    //QCOMPARE(_block->scope(),"test(int,char**)");
-    _block->move(1,0);
-    //QCOMPARE(_block->scope(),"test(char**,int)");
-    delete arg1;
-    //QCOMPARE(_block->scope(),"test(char**)");
-    delete arg2;
-    //QCOMPARE(_block->scope(),"test()");
 }
 
 

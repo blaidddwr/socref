@@ -29,7 +29,6 @@ SOURCES +=  Global.cpp \
             StreamBlock.cpp \
             StreamProject.cpp \
             Test.cpp \
-            TestBase.cpp \
             TestBlockAbstract.cpp \
             TestBlockCppClass.cpp \
             TestBlockCppEnumeration.cpp \
@@ -112,8 +111,6 @@ HEADERS +=  Global.h \
             StreamBlock.h \
             StreamProject.h \
             Test.h \
-            TestBase.h \
-            TestBase.t.h \
             TestBlock.h \
             TestBlockAbstract.h \
             TestBlockCpp.h \

@@ -2,7 +2,8 @@
 #include <QtTest>
 #include "BlockCppException.h"
 #include "FactoryLanguage.h"
-#include "TestBase.t.h"
+#include "LanguageAbstract.h"
+#include "Test.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -18,8 +19,9 @@ void ExceptionItem::initTestCase(
     QVERIFY(factory);
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
-    initLanguage(Factory::Language::instance()->get(langIndex));
-    _block = create<ExceptionBlock>(ExceptionIndex);
+    auto language = Factory::Language::instance()->get(langIndex);
+    _block = qobject_cast<ExceptionBlock*>(language->create(ExceptionIndex,this));
+    QVERIFY(_block);
     QCOMPARE(_block->name(),"exception");
 }
 

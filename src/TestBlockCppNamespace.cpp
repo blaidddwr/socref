@@ -3,7 +3,8 @@
 #include "BlockCppNamespace.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
-#include "TestBase.t.h"
+#include "LanguageAbstract.h"
+#include "Test.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -18,8 +19,9 @@ void Namespace::initTestCase(
     QVERIFY(factory);
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
-    initLanguage(Factory::Language::instance()->get(langIndex));
-    _block = create<NamespaceBlock>(NamespaceIndex);
+    _language = Factory::Language::instance()->get(langIndex);
+    _block = qobject_cast<NamespaceBlock*>(_language->create(NamespaceIndex,this));
+    QVERIFY(_block);
     QCOMPARE(_block->name(),"namespace");
     QCOMPARE(_block->description(),"Detailed description.");
 }
@@ -70,7 +72,7 @@ void Namespace::loadFromMap(
         {"name",testName}
         ,{"description",testDescription}
     };
-    auto block = create<NamespaceBlock>(NamespaceIndex);
+    auto block = qobject_cast<NamespaceBlock*>(_language->create(NamespaceIndex,this));
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->name(),testName);
@@ -102,33 +104,13 @@ void Namespace::saveToMap(
         {"name",testName}
         ,{"description",testDescription}
     };
-    auto block = create<NamespaceBlock>(NamespaceIndex);
+    auto block = qobject_cast<NamespaceBlock*>(_language->create(NamespaceIndex,this));
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);
     auto data = block->saveToMap();
     QCOMPARE(data,testData);
     delete block;
-}
-
-
-void Namespace::scopeProperty(
-)
-{
-    static const QStringList testScope {"Test0","Test1"};
-    while (_block->size() > 0)
-    {
-        delete _block->take(0);
-    }
-    auto child0 = create<NamespaceBlock>(NamespaceIndex);
-    auto child1 = create<NamespaceBlock>(NamespaceIndex);
-    child0->setName(testScope.at(0));
-    child1->setName(testScope.at(1));
-    _block->append(child0);
-    child0->append(child1);
-    //QCOMPARE(child1->scope(),testScope.join("::"));
-    //QCOMPARE(child0->scope(),testScope.at(0));
-    //QCOMPARE(_block->scope(),"ROOT");
 }
 
 

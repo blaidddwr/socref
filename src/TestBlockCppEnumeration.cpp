@@ -3,7 +3,8 @@
 #include "BlockCppEnumeration.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
-#include "TestBase.t.h"
+#include "LanguageAbstract.h"
+#include "Test.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -18,8 +19,9 @@ void Enumeration::initTestCase(
     QVERIFY(factory);
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
-    initLanguage(Factory::Language::instance()->get(langIndex));
-    _block = create<EnumerationBlock>(EnumerationIndex);
+    _language = Factory::Language::instance()->get(langIndex);
+    _block = qobject_cast<EnumerationBlock*>(_language->create(EnumerationIndex,this));
+    QVERIFY(_block);
     QCOMPARE(_block->name(),"enumeration");
     QCOMPARE(_block->isClass(),false);
 }
@@ -55,7 +57,8 @@ void Enumeration::loadFromMap(
         ,{"description","description"}
         ,{"class",true}
     };
-    auto block = create<EnumerationBlock>(EnumerationIndex);
+    auto block = qobject_cast<EnumerationBlock*>(_language->create(EnumerationIndex,this));
+    QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->isClass(),true);
     delete block;
@@ -72,7 +75,8 @@ void Enumeration::saveToMap(
         ,{"description",testDescription}
         ,{"class",true}
     };
-    auto block = create<EnumerationBlock>(EnumerationIndex);
+    auto block = qobject_cast<EnumerationBlock*>(_language->create(EnumerationIndex,this));
+    QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);
     block->setClass(true);
