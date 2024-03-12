@@ -38,8 +38,8 @@ void Base::loadFromMap(
 )
 {
     Q_UNUSED(version);
-    setName(map.value("name").toString());
-    setDescription(map.value("description").toString());
+    setName(map.value(nameKey()).toString());
+    setDescription(map.value(descriptionKey()).toString());
 }
 
 
@@ -49,11 +49,11 @@ QMap<QString,QVariant> Base::saveToMap(
     QMap<QString,QVariant> ret;
     if (!_name.isEmpty())
     {
-        ret.insert("name",_name);
+        ret.insert(nameKey(),_name);
     }
     if (!_description.isEmpty())
     {
-        ret.insert("description",_description);
+        ret.insert(descriptionKey(),_description);
     }
     return ret;
 }
@@ -88,8 +88,8 @@ void Base::setState(
     const QHash<QString,QVariant>& state
 )
 {
-    setName(state.value("name").toString());
-    setDescription(state.value("description").toString());
+    setName(state.value(nameKey()).toString());
+    setDescription(state.value(descriptionKey()).toString());
 }
 
 
@@ -97,8 +97,8 @@ QHash<QString,QVariant> Base::state(
 ) const
 {
     return {
-        {"name",_name}
-        ,{"description",_description}
+        {nameKey(),_name}
+        ,{descriptionKey(),_description}
     };
 }
 
@@ -119,6 +119,20 @@ void Base::onNameChanged(
 )
 {
     emit displayTextChanged(value);
+}
+
+
+const char* Base::descriptionKey(
+)
+{
+    return "description";
+}
+
+
+const char* Base::nameKey(
+)
+{
+    return "name";
 }
 }
 }

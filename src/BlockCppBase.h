@@ -157,6 +157,28 @@ class Base:
     virtual void onNameChanged(
         const QString& value
     );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The key used for this block's description property.
+     */
+    protected:
+    static const char* descriptionKey(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The key used for this block's name property.
+     */
+    protected:
+    static const char* nameKey(
+    );
 };
 }
 }

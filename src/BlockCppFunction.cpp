@@ -9,6 +9,13 @@
 #include "ModelMetaBlock.h"
 #include "WidgetBlockCppFunction.h"
 #include "gassert.h"
+#define ACCESS "access"
+#define ASSIGNMENT "assignment"
+#define FLAGS "flags"
+#define RETURN_DESCRIPTION "returnDescription"
+#define RETURN_TYPE "returnType"
+#define TEMPLATES "templates"
+#define TYPE "type"
 namespace Block {
 namespace Cpp {
 
@@ -326,10 +333,10 @@ void Function::loadFromMap(
 )
 {
     Base::loadFromMap(map,version);
-    _returnType = map.value("returnType").toString();
-    _returnDescription = map.value("returnDescription").toString();
-    loadType(map.value("type"),version);
-    loadAccess(map.value("access"),version);
+    _returnType = map.value(RETURN_TYPE).toString();
+    _returnDescription = map.value(RETURN_DESCRIPTION).toString();
+    loadType(map.value(TYPE),version);
+    loadAccess(map.value(ACCESS),version);
     if (version == Socref_Legacy)
     {
         _flags = loadFlagsLegacy(map);
@@ -344,9 +351,9 @@ void Function::loadFromMap(
     }
     else
     {
-        loadFlags(map.value("flags"),version);
-        loadAssignment(map.value("assignment"),version);
-        _templates = map.value("templates").toString().split(';',Qt::SkipEmptyParts);
+        loadFlags(map.value(FLAGS),version);
+        loadAssignment(map.value(ASSIGNMENT),version);
+        _templates = map.value(TEMPLATES).toString().split(';',Qt::SkipEmptyParts);
     }
     updateDisplayIcon();
     updateDisplayText();
@@ -371,23 +378,23 @@ QMap<QString,QVariant> Function::saveToMap(
 ) const
 {
     auto ret = Base::saveToMap();
-    ret.insert("type",typeString());
-    ret.insert("access",accessString());
-    ret.insert("returnType",_returnType);
+    ret.insert(TYPE,typeString());
+    ret.insert(ACCESS,accessString());
+    ret.insert(RETURN_TYPE,_returnType);
     if (!_returnDescription.isEmpty())
     {
-        ret.insert("returnDescription",_returnDescription);
+        ret.insert(RETURN_DESCRIPTION,_returnDescription);
     }
     if (!_templates.isEmpty())
     {
-        ret.insert("templates",_templates.join(';'));
+        ret.insert(TEMPLATES,_templates.join(';'));
     }
     auto flags = flagStrings();
     if (!flags.isEmpty())
     {
-        ret.insert("flags",flags.join(";"));
+        ret.insert(FLAGS,flags.join(";"));
     }
-    ret.insert("assignment",assignmentString());
+    ret.insert(ASSIGNMENT,assignmentString());
     return ret;
 }
 
@@ -458,17 +465,17 @@ void Function::setState(
     const QHash<QString,QVariant>& state
 )
 {
-    setDescription(state.value("description").toString());
+    setDescription(state.value(descriptionKey()).toString());
     set(
-        state.value("name").toString()
-        ,state.value("returnType").toString()
-        ,state.value("type").toInt()
-        ,state.value("access").toInt()
-        ,state.value("assignment").toInt()
-        ,state.value("flags").toInt()
+        state.value(nameKey()).toString()
+        ,state.value(RETURN_TYPE).toString()
+        ,state.value(TYPE).toInt()
+        ,state.value(ACCESS).toInt()
+        ,state.value(ASSIGNMENT).toInt()
+        ,state.value(FLAGS).toInt()
     );
-    setReturnDescription(state.value("returnDescription").toString());
-    setTemplates(state.value("templates").toStringList());
+    setReturnDescription(state.value(RETURN_DESCRIPTION).toString());
+    setTemplates(state.value(TEMPLATES).toStringList());
 }
 
 
@@ -489,13 +496,13 @@ QHash<QString,QVariant> Function::state(
 ) const
 {
     auto ret = Base::state();
-    ret.insert("returnType",_returnType);
-    ret.insert("type",_type);
-    ret.insert("access",_access);
-    ret.insert("assignment",_assignment);
-    ret.insert("flags",_flags);
-    ret.insert("returnDescription",_returnDescription);
-    ret.insert("templates",_templates);
+    ret.insert(RETURN_TYPE,_returnType);
+    ret.insert(TYPE,_type);
+    ret.insert(ACCESS,_access);
+    ret.insert(ASSIGNMENT,_assignment);
+    ret.insert(FLAGS,_flags);
+    ret.insert(RETURN_DESCRIPTION,_returnDescription);
+    ret.insert(TEMPLATES,_templates);
     return ret;
 }
 

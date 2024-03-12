@@ -955,6 +955,42 @@ Its properties are name, description, and scope name. Name and description are s
                             <__p_type>const QString&amp;</__p_type>
                         </Variable>
                     </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>descriptionKey</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The key used for this block's description property.</__p_returnDescription>
+                        <__p_returnType>const char*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>nameKey</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The key used for this block's name property.</__p_returnDescription>
+                        <__p_returnType>const char*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
                 </Class>
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ class.
