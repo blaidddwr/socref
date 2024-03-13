@@ -26,7 +26,7 @@ int main(
     QCommandLineOption testListOption(
         "test-list"
         ,QApplication::tr("List all available unit tests.")
-        );
+    );
     QCommandLineOption testAllOption("test-all",QApplication::tr("Run all unit test."));
     QCommandLineOption testOption("test",QApplication::tr("Run <test> unit test."),"test");
     parser.addOptions({testListOption,testAllOption,testOption});

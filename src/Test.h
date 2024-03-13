@@ -14,6 +14,7 @@ struct TestObject
  */
 namespace Test
 {
+    class UnitModel;
 
 
     /*!

@@ -13,6 +13,7 @@
 #include "WidgetDialogAbout.h"
 #include "WidgetDialogOrphanFiles.h"
 #include "WidgetDialogProject.h"
+#include "WidgetDialogUnitTests.h"
 #include "WidgetProject.h"
 #include "gassert.h"
 #define SETTINGS_KEY "widget.window.main"
@@ -334,6 +335,15 @@ bool Main::saveAs(
 }
 
 
+void Main::unitTest(
+)
+{
+    Dialog::UnitTests dialog(this);
+    dialog.setWindowTitle(QApplication::applicationName()+tr(" - Unit Tests"));
+    dialog.exec();
+}
+
+
 QAction* Main::aboutAction(
 )
 {
@@ -540,6 +550,8 @@ QMenu* Main::helpMenu(
         _helpMenu = new QMenu(tr("Help"),this);
         _helpMenu->addAction(aboutAction());
         _helpMenu->addAction(aboutQtAction());
+        _helpMenu->addSeparator();
+        _helpMenu->addAction(unitTestAction());
     }
     return _helpMenu;
 }
@@ -826,6 +838,19 @@ void Main::setProjectModel(
     updateTitle();
     setWindowModified(_projectModel && _projectModel->modified());
     updateActions();
+}
+
+
+QAction* Main::unitTestAction(
+)
+{
+    if (!_unitTestAction)
+    {
+        _unitTestAction = new QAction(tr("Unit Tests"),this);
+        _unitTestAction->setStatusTip(tr("Run unit tests for this application."));
+        connect(_unitTestAction,&QAction::triggered,this,&Main::unitTest);
+    }
+    return _unitTestAction;
 }
 
 

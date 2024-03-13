@@ -31,6 +31,7 @@ class Main:
     QAction* _propertiesAction {nullptr};
     QAction* _saveAction {nullptr};
     QAction* _saveAsAction {nullptr};
+    QAction* _unitTestAction {nullptr};
     QMenu* _codeMenu {nullptr};
     QMenu* _editMenu {nullptr};
     QMenu* _fileMenu {nullptr};
@@ -181,6 +182,14 @@ class Main:
      */
     private slots:
     bool saveAs(
+    );
+
+
+    /*!
+     * Called when this widget's unit test action is triggered.
+     */
+    private slots:
+    void unitTest(
     );
 
 
@@ -488,6 +497,17 @@ class Main:
     private:
     void setProjectModel(
         Model::Project* model
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's unit test action.
+     */
+    private:
+    QAction* unitTestAction(
     );
 
 

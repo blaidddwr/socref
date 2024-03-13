@@ -23,7 +23,7 @@ void Cpp::initTestCase(
 void Cpp::createClass(
 )
 {
-    static const QSet<int> allowList {FunctionIndex,PropertyIndex,VariableIndex};
+    static const QSet<int> allowList {EnumerationIndex,FunctionIndex,PropertyIndex,VariableIndex};
     static const QIcon testIcon(":/cpp/class.svg");
     auto block = _language->create(ClassIndex,this);
     auto meta = block->meta();

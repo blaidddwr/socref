@@ -43,6 +43,7 @@ SOURCES +=  Global.cpp \
             TestLanguageCpp.cpp \
             TestLanguageCppQt.cpp \
             TestModelProject.cpp \
+            TestUnitModel.cpp \
             WidgetBlockAbstract.cpp \
             WidgetBlockCppBase.cpp \
             WidgetBlockCppClass.cpp \
@@ -56,6 +57,7 @@ SOURCES +=  Global.cpp \
             WidgetDialogAbout.cpp \
             WidgetDialogOrphanFiles.cpp \
             WidgetDialogProject.cpp \
+            WidgetDialogUnitTests.cpp \
             WidgetProject.cpp \
             WidgetStringList.cpp \
             WidgetTreeView.cpp \
@@ -134,6 +136,7 @@ HEADERS +=  Global.h \
             TestLanguageCppQt.h \
             TestModel.h \
             TestModelProject.h \
+            TestUnitModel.h \
             Widget.h \
             WidgetBlock.h \
             WidgetBlockAbstract.h \
@@ -152,6 +155,7 @@ HEADERS +=  Global.h \
             WidgetDialogAbout.h \
             WidgetDialogOrphanFiles.h \
             WidgetDialogProject.h \
+            WidgetDialogUnitTests.h \
             WidgetProject.h \
             WidgetStringList.h \
             WidgetTreeView.h \

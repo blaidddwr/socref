@@ -36,7 +36,7 @@ CppQt::CppQt(
                 ,"class"
                 ,"Class"
                 ,QIcon(":/cpp/class.svg")
-                ,{FunctionIndex,PropertyIndex,VariableIndex}
+                ,{EnumerationIndex,FunctionIndex,PropertyIndex,VariableIndex}
             )
             ,new Model::Meta::Block(
                 meta

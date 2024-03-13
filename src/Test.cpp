@@ -14,9 +14,8 @@
 #include "TestLanguageCpp.h"
 #include "TestLanguageCppQt.h"
 #include "TestModelProject.h"
-#include "gassert.h"
 namespace Test {
-QStringList _g_arguments;
+QStringList _g_qtUnitTestArgs;
 const QList<TestObject>* _g_tests {nullptr};
 
 
@@ -39,7 +38,6 @@ int execute(
     const QString& name
 )
 {
-    G_ASSERT(!_g_arguments.isEmpty());
     if (name.isEmpty())
     {
         listTests();
@@ -49,7 +47,10 @@ int execute(
     {
         if (test.name == name)
         {
-            return QTest::qExec(test.ptr,_g_arguments);
+            return QTest::qExec(
+                test.ptr
+                ,QList({QCoreApplication::arguments().at(0)})+_g_qtUnitTestArgs
+            );
         }
     }
     QTextStream out(stdout);
@@ -63,16 +64,12 @@ int execute(
 int executeAll(
 )
 {
-    G_ASSERT(!_g_arguments.isEmpty());
-    QStringList arguments {"--test","",":"};
-    for (int i = 1;i < _g_arguments.size();i++)
-    {
-        arguments.append(_g_arguments.at(i));
-    }
     for (const auto& test: testObjects())
     {
-        arguments[1] = test.name;
-        auto status = QProcess::execute(_g_arguments[0],arguments);
+        auto status = QProcess::execute(
+            QCoreApplication::arguments().at(0)
+            ,QStringList({"--test",test.name,":"})+_g_qtUnitTestArgs
+        );
         if (status)
         {
             return(status);
@@ -96,10 +93,9 @@ void extractArguments(
             break;
         }
     }
-    _g_arguments.append(argv[0]);
     for (int i = argc+1;i < total;i++)
     {
-        _g_arguments.append(argv[i]);
+        _g_qtUnitTestArgs.append(argv[i]);
     }
 }
 

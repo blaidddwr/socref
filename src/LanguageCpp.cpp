@@ -29,15 +29,15 @@ Cpp::Cpp(
                 ,"class"
                 ,"Class"
                 ,QIcon(":/cpp/class.svg")
-                ,{FunctionIndex,PropertyIndex,VariableIndex}
+                ,{EnumerationIndex,FunctionIndex,PropertyIndex,VariableIndex}
             )
             ,new Model::Meta::Block(
-                    meta
-                    ,EnumerationIndex
-                    ,"enumeration"
-                    ,"Enumeration"
-                    ,QIcon(":/cpp/enumeration.svg")
-                    ,{}
+                meta
+                ,EnumerationIndex
+                ,"enumeration"
+                ,"Enumeration"
+                ,QIcon(":/cpp/enumeration.svg")
+                ,{}
             )
             ,new Model::Meta::Block(
                 meta
