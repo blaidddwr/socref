@@ -107,7 +107,7 @@ void Main::exportProject(
         {
             try
             {
-                Stream::Project::toXml(*_projectModel,path);
+                Stream::Project::instance()->toXml(*_projectModel,path);
             }
             catch (Exception::Project::Write& e)
             {
@@ -139,7 +139,7 @@ void Main::import(
     {
         try
         {
-            auto model = Stream::Project::fromXml(path,this);
+            auto model = Stream::Project::instance()->fromXml(path,this);
             auto window = this;
             if (_projectModel)
             {
@@ -210,7 +210,7 @@ void Main::open(
     {
         try
         {
-            auto model = Stream::Project::fromDir(path,this);
+            auto model = Stream::Project::instance()->fromDir(path,this);
             auto window = this;
             if (_projectModel)
             {
@@ -278,7 +278,7 @@ bool Main::save(
     }
     try
     {
-        Stream::Project::toDir(*_projectModel);
+        Stream::Project::instance()->toDir(*_projectModel);
     }
     catch (Exception::Project::Write& e)
     {
@@ -313,7 +313,7 @@ bool Main::saveAs(
     }
     try
     {
-        Stream::Project::toDir(*_projectModel,path);
+        Stream::Project::instance()->toDir(*_projectModel,path);
     }
     catch (Exception::Project::Write& e)
     {

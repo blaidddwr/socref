@@ -48,12 +48,12 @@ class Block:
      * The root block.
      */
     public:
-    static ::Block::Abstract* fromDir(
+    ::Block::Abstract* fromDir(
         Language::Abstract* language
         ,int version
         ,const QString& path
         ,QObject* parent = nullptr
-    );
+    ) const;
 
 
     /*!
@@ -82,11 +82,22 @@ class Block:
      * The read in block.
      */
     public:
-    static ::Block::Abstract* fromXml(
+    ::Block::Abstract* fromXml(
         Language::Abstract* language
         ,int version
         ,QXmlStreamReader& xml
         ,QObject* parent = nullptr
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The singleton instance of this class.
+     */
+    public:
+    static Block* instance(
     );
 
 
@@ -104,10 +115,10 @@ class Block:
      *        The path.
      */
     public:
-    static QStringList orphanFiles(
+    QStringList orphanFiles(
         const ::Block::Abstract& block
         ,const QString& path
-    );
+    ) const;
 
 
     /*!
@@ -135,12 +146,12 @@ class Block:
      *        The git flag.
      */
     public:
-    static void removeOrphanFiles(
+    void removeOrphanFiles(
         const QStringList& filePaths
         ,const ::Block::Abstract& block
         ,const QString& path
         ,bool git = false
-    );
+    ) const;
 
 
     /*!
@@ -159,10 +170,10 @@ class Block:
      *        The path.
      */
     public:
-    static void toDir(
+    void toDir(
         ::Block::Abstract& block
         ,const QString& path
-    );
+    ) const;
 
 
     /*!
@@ -178,15 +189,16 @@ class Block:
      *        The XML stream writer.
      */
     public:
-    static void toXml(
+    void toXml(
         const ::Block::Abstract& block
         ,QXmlStreamWriter& xml
-    );
+    ) const;
 
 
     private:
     Block(
-    ) = delete;
+        QObject* parent = nullptr
+    );
 
 
     /*!
@@ -207,11 +219,11 @@ class Block:
      *        The path.
      */
     private:
-    static void insertBlockPaths(
+    void insertBlockPaths(
         QSet<QString>& registry
         ,const ::Block::Abstract& block
         ,const QString& path
-    );
+    ) const;
 
 
     /*!
@@ -226,10 +238,10 @@ class Block:
      *        The directory path.
      */
     private:
-    static void insertPaths(
+    void insertPaths(
         QStringList& paths
         ,const QString& path
-    );
+    ) const;
 
 
     /*!
@@ -259,13 +271,13 @@ class Block:
      *        The parent.
      */
     private:
-    static ::Block::Abstract* read(
+    ::Block::Abstract* read(
         Language::Abstract* language
         ,int version
         ,const QDir& dir
         ,const QString& fileName
         ,QObject* parent = nullptr
-    );
+    ) const;
 
 
     /*!
@@ -281,10 +293,10 @@ class Block:
      *        The directory.
      */
     private:
-    static void write(
+    void write(
         const ::Block::Abstract& block
         ,const QDir& dir
-    );
+    ) const;
 };
 }
 

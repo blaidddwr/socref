@@ -36,10 +36,10 @@ class Project:
      * The project model.
      */
     public:
-    static Model::Project* fromDir(
+    Model::Project* fromDir(
         const QString& path
         ,QObject* parent = nullptr
-    );
+    ) const;
 
 
     /*!
@@ -56,9 +56,20 @@ class Project:
      *        The parent.
      */
     public:
-    static Model::Project* fromXml(
+    Model::Project* fromXml(
         const QString& path
         ,QObject* parent = nullptr
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The singleton instance of this class.
+     */
+    public:
+    static Project* instance(
     );
 
 
@@ -74,9 +85,9 @@ class Project:
      *        The project.
      */
     public:
-    static QStringList orphanFiles(
+    QStringList orphanFiles(
         const Model::Project& project
-    );
+    ) const;
 
 
     /*!
@@ -101,11 +112,11 @@ class Project:
      *        The git flag.
      */
     public:
-    static void removeOrphanFiles(
+    void removeOrphanFiles(
         const QStringList& filePaths
         ,const Model::Project& project
         ,bool git = false
-    );
+    ) const;
 
 
     /*!
@@ -120,9 +131,9 @@ class Project:
      *        The project.
      */
     public:
-    static void toDir(
+    void toDir(
         Model::Project& project
-    );
+    ) const;
 
 
     /*!
@@ -140,10 +151,10 @@ class Project:
      *        The path.
      */
     public:
-    static void toDir(
+    void toDir(
         Model::Project& project
         ,const QString& path
-    );
+    ) const;
 
 
     /*!
@@ -159,15 +170,16 @@ class Project:
      *        The path.
      */
     public:
-    static void toXml(
+    void toXml(
         const Model::Project& project
         ,const QString& path
-    );
+    ) const;
 
 
     private:
     Project(
-    ) = delete;
+        QObject* parent = nullptr
+    );
 
 
     /*!
@@ -186,10 +198,10 @@ class Project:
      * The format version.
      */
     private:
-    static int read(
+    int read(
         const QString& path
         ,Model::Project& project
-    );
+    ) const;
 
 
     /*!
@@ -206,10 +218,10 @@ class Project:
      *        The path.
      */
     private:
-    static void saveDir(
+    void saveDir(
         const Model::Project& project
         ,const QString& path
-    );
+    ) const;
 
 
     /*!
@@ -225,10 +237,10 @@ class Project:
      *        The path.
      */
     private:
-    static void write(
+    void write(
         const Model::Project& project
         ,const QString& path
-    );
+    ) const;
 };
 }
 

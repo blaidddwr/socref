@@ -19,7 +19,7 @@ Project* Project::_instance {nullptr};
 Model::Project* Project::fromDir(
     const QString& path
     ,QObject* parent
-)
+) const
 {
     using FileError = Exception::System::File;
     std::unique_ptr<Model::Project> ret(new Model::Project);
@@ -33,7 +33,7 @@ Model::Project* Project::fromDir(
         throw FileError(tr("The directory at %1 is not readable.").arg(path));
     }
     auto version = read(dir.absoluteFilePath(CONFIG_FILE),*ret);
-    ret->_root = Block::fromDir(ret->_language,version,dir.absolutePath(),ret.get());
+    ret->_root = Block::instance()->fromDir(ret->_language,version,dir.absolutePath(),ret.get());
     ret->connectAll();
     ret->_directoryPath = QFileInfo(path).absoluteFilePath();
     ret->_modified = false;
@@ -45,7 +45,7 @@ Model::Project* Project::fromDir(
 Model::Project* Project::fromXml(
     const QString& path
     ,QObject* parent
-)
+) const
 {
     using FileError = Exception::System::File;
     using ReadError = Exception::Project::Read;
@@ -130,7 +130,7 @@ Model::Project* Project::fromXml(
                     {
                         throw ReadError(tr("Language not set before first block element."));
                     }
-                    ret->_root = Block::fromXml(ret->_language,version,xml,ret.get());
+                    ret->_root = Block::instance()->fromXml(ret->_language,version,xml,ret.get());
                     ret->connectAll();
                 }
             }
@@ -156,9 +156,20 @@ Model::Project* Project::fromXml(
 }
 
 
+Project* Project::instance(
+)
+{
+    if (!_instance)
+    {
+        _instance = new Project(QCoreApplication::instance());
+    }
+    return _instance;
+}
+
+
 QStringList Project::orphanFiles(
     const Model::Project& project
-)
+) const
 {
     using LogicalError = Exception::Project::Logical;
     if (project._directoryPath.isNull())
@@ -167,7 +178,7 @@ QStringList Project::orphanFiles(
             tr("Cannot generate deprecated files from new project without directory path.")
         );
     }
-    return Block::orphanFiles(*project._root,project._directoryPath);
+    return Block::instance()->orphanFiles(*project._root,project._directoryPath);
 }
 
 
@@ -175,7 +186,7 @@ void Project::removeOrphanFiles(
     const QStringList& filePaths
     ,const Model::Project& project
     ,bool git
-)
+) const
 {
     using LogicalError = Exception::Project::Logical;
     if (project._directoryPath.isNull())
@@ -184,13 +195,13 @@ void Project::removeOrphanFiles(
             tr("Cannot remove deprecated files from new project without directory path.")
         );
     }
-    Block::removeOrphanFiles(filePaths,*project._root,project._directoryPath,git);
+    Block::instance()->removeOrphanFiles(filePaths,*project._root,project._directoryPath,git);
 }
 
 
 void Project::toDir(
     Model::Project& project
-)
+) const
 {
     using LogicalError = Exception::Project::Logical;
     if (project._directoryPath.isNull())
@@ -205,7 +216,7 @@ void Project::toDir(
 void Project::toDir(
     Model::Project& project
     ,const QString& path
-)
+) const
 {
     saveDir(project,path);
     project.setDirectoryPath(QFileInfo(path).absoluteFilePath());
@@ -216,7 +227,7 @@ void Project::toDir(
 void Project::toXml(
     const Model::Project& project
     ,const QString& path
-)
+) const
 {
     using FileError = Exception::System::File;
     using WriteError = Exception::Project::Write;
@@ -235,7 +246,7 @@ void Project::toXml(
         xml.writeTextElement("name",project._name);
         xml.writeTextElement("language",project._language->meta()->name());
         xml.writeTextElement("relativeCodePath",project._relativeCodePath);
-        Block::toXml(*project._root,xml);
+        Block::instance()->toXml(*project._root,xml);
         xml.writeEndElement();
         xml.writeEndDocument();
         if (file.error() != QFileDevice::NoError)
@@ -250,10 +261,18 @@ void Project::toXml(
 }
 
 
+Project::Project(
+    QObject* parent
+):
+    QObject(parent)
+{
+}
+
+
 int Project::read(
     const QString& path
     ,Model::Project& project
-)
+) const
 {
     using FileError = Exception::System::File;
     using ReadError = Exception::Project::Read;
@@ -347,7 +366,7 @@ int Project::read(
 void Project::saveDir(
     const Model::Project& project
     ,const QString& path
-)
+) const
 {
     using FileError = Exception::System::File;
     QDir dir(path);
@@ -363,14 +382,14 @@ void Project::saveDir(
         throw FileError(tr("The directory at %1 is not readable.").arg(path));
     }
     write(project,dir.absoluteFilePath(CONFIG_FILE));
-    Block::toDir(*project._root,path);
+    Block::instance()->toDir(*project._root,path);
 }
 
 
 void Project::write(
     const Model::Project& project
     ,const QString& path
-)
+) const
 {
     using FileError = Exception::System::File;
     using WriteError = Exception::Project::Write;

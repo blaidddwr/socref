@@ -70,7 +70,7 @@ void OrphanFiles::onProjectModelDestroyed(
 void OrphanFiles::refresh(
 )
 {
-    _model->setStringList(Stream::Project::orphanFiles(*_projectModel));
+    _model->setStringList(Stream::Project::instance()->orphanFiles(*_projectModel));
 }
 
 
@@ -166,7 +166,7 @@ void OrphanFiles::remove(
     {
         try
         {
-            Stream::Project::removeOrphanFiles(paths,*_projectModel,git);
+            Stream::Project::instance()->removeOrphanFiles(paths,*_projectModel,git);
         }
         catch (Exception::Project::Logical& e)
         {

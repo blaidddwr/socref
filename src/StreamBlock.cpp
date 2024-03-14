@@ -20,7 +20,7 @@ Block* Block::_instance {nullptr};
     ,int version
     ,const QString& path
     ,QObject* parent
-)
+) const
 {
     using FileError = Exception::System::File;
     G_ASSERT(language);
@@ -48,7 +48,7 @@ Block* Block::_instance {nullptr};
     ,int version
     ,QXmlStreamReader& xml
     ,QObject* parent
-)
+) const
 {
     using ReadError = Exception::Block::Read;
     G_ASSERT(language);
@@ -133,10 +133,21 @@ Block* Block::_instance {nullptr};
 }
 
 
+Block* Block::instance(
+)
+{
+    if (!_instance)
+    {
+        _instance = new Block(QCoreApplication::instance());
+    }
+    return _instance;
+}
+
+
 QStringList Block::orphanFiles(
     const ::Block::Abstract& block
     ,const QString& path
-)
+) const
 {
     using FileError = Exception::System::File;
     QDir dir(path);
@@ -169,7 +180,7 @@ void Block::removeOrphanFiles(
     ,const ::Block::Abstract& block
     ,const QString& path
     ,bool git
-)
+) const
 {
     using FileError = Exception::System::File;
     using LogicalError = Exception::Block::Logical;
@@ -213,7 +224,7 @@ void Block::removeOrphanFiles(
 void Block::toDir(
     ::Block::Abstract& block
     ,const QString& path
-)
+) const
 {
     using FileError = Exception::System::File;
     G_ASSERT(!qobject_cast<::Block::Abstract*>(block.parent()));
@@ -236,7 +247,7 @@ void Block::toDir(
 void Block::toXml(
     const ::Block::Abstract& block
     ,QXmlStreamWriter& xml
-)
+) const
 {
     using WriteError = Exception::Block::Write;
     xml.writeStartElement(block.meta()->name());
@@ -257,11 +268,19 @@ void Block::toXml(
 }
 
 
+Block::Block(
+    QObject* parent
+):
+    QObject(parent)
+{
+}
+
+
 void Block::insertBlockPaths(
     QSet<QString>& registry
     ,const ::Block::Abstract& block
     ,const QString& path
-)
+) const
 {
     using LogicalError = Exception::Block::Logical;
     auto fpath = path+"/"+block.fileName()+EXT;
@@ -283,7 +302,7 @@ void Block::insertBlockPaths(
 void Block::insertPaths(
     QStringList& paths
     ,const QString& path
-)
+) const
 {
     QDir dir(path);
     if (dir.isReadable())
@@ -305,7 +324,7 @@ void Block::insertPaths(
     ,const QDir& dir
     ,const QString& fileName
     ,QObject* parent
-)
+) const
 {
     using FileError = Exception::System::File;
     using ReadError = Exception::Block::Read;
@@ -408,7 +427,7 @@ void Block::insertPaths(
 void Block::write(
     const ::Block::Abstract& block
     ,const QDir& dir
-)
+) const
 {
     using FileError = Exception::System::File;
     using LogicalError = Exception::Block::Logical;

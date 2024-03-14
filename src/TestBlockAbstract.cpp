@@ -283,9 +283,10 @@ void Abstract::toDirFromDir(
     out1->property2 = "Testing\n in1 Property\n 2";
     _block->append(out0);
     out0->append(out1);
+    auto stream = Stream::Block::instance();
     try
     {
-        Stream::Block::toDir(*_block,path);
+        stream->toDir(*_block,path);
     }
     catch (Exception::Block::Write& e)
     {
@@ -302,7 +303,7 @@ void Abstract::toDirFromDir(
     DummyBlock* inRoot = nullptr;
     try
     {
-        inRoot = qobject_cast<DummyBlock*>(Stream::Block::fromDir(_language,Socref_1_0,path,this));
+        inRoot = qobject_cast<DummyBlock*>(stream->fromDir(_language,Socref_1_0,path,this));
     }
     catch (Exception::Block::Read& e)
     {
@@ -352,6 +353,7 @@ void Abstract::toXmlFromXml(
     out1->property2 = "Testing\n in1 Property\n 2";
     _block->append(out0);
     out0->append(out1);
+    auto stream = Stream::Block::instance();
     try
     {
         QFile file(path);
@@ -359,7 +361,7 @@ void Abstract::toXmlFromXml(
         QXmlStreamWriter xml(&file);
         xml.setAutoFormatting(true);
         xml.writeStartDocument();
-        Stream::Block::toXml(*_block,xml);
+        stream->toXml(*_block,xml);
         xml.writeEndDocument();
     }
     catch (Exception::Block::Write& e)
@@ -379,7 +381,7 @@ void Abstract::toXmlFromXml(
         {
             xml.readNext();
         }
-        inRoot = qobject_cast<DummyBlock*>(Stream::Block::fromXml(_language,Socref_1_0,xml,this));
+        inRoot = qobject_cast<DummyBlock*>(stream->fromXml(_language,Socref_1_0,xml,this));
     }
     catch (Exception::Block::Read& e)
     {

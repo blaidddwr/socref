@@ -21,9 +21,10 @@ void Project::toDirFromDir(
     QCOMPARE(out->modified(),true);
     out->setName("Test Project Name");
     out->setRelativeCodePath("../test/path");
+    auto stream = Stream::Project::instance();
     try
     {
-        Stream::Project::toDir(*out,path);
+        stream->toDir(*out,path);
     }
     catch (Exception::Project::Write& e)
     {
@@ -42,7 +43,7 @@ void Project::toDirFromDir(
     ::Model::Project* in = nullptr;
     try
     {
-        in = Stream::Project::fromDir(path,this);
+        in = stream->fromDir(path,this);
     }
     catch (Exception::Project::Read& e)
     {
@@ -75,9 +76,10 @@ void Project::toXmlFromXml(
     QCOMPARE(out->modified(),true);
     out->setName("Test Project Name");
     out->setRelativeCodePath("../test/path");
+    auto stream = Stream::Project::instance();
     try
     {
-        Stream::Project::toXml(*out,path);
+        stream->toXml(*out,path);
     }
     catch (Exception::Project::Write& e)
     {
@@ -96,7 +98,7 @@ void Project::toXmlFromXml(
     ::Model::Project* in = nullptr;
     try
     {
-        in = Stream::Project::fromXml(path,this);
+        in = stream->fromXml(path,this);
     }
     catch (Exception::Project::Read& e)
     {

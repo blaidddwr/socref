@@ -8022,7 +8022,7 @@ Stream classes write class instance data to output devices and read class instan
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Reads in a root block and all its descendants from a multi block file directory at the given path using the given language and format version. The root block's parent is set to the given parent.
@@ -8038,7 +8038,7 @@ A read block or file system exception is thrown if any error is encountered.</__
                     <__p_override>0</__p_override>
                     <__p_returnDescription>The root block.</__p_returnDescription>
                     <__p_returnType>::Block::Abstract*</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The language.</__p_description>
@@ -8065,7 +8065,7 @@ A read block or file system exception is thrown if any error is encountered.</__
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Reads in a block and all its descendants from a given XML stream reader using the given language and format version. The root block's parent is set to the given parent.
@@ -8081,7 +8081,7 @@ A read block or file system exception is thrown if any error is encountered.</__
                     <__p_override>0</__p_override>
                     <__p_returnDescription>The read in block.</__p_returnDescription>
                     <__p_returnType>::Block::Abstract*</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The language.</__p_description>
@@ -8111,6 +8111,24 @@ A read block or file system exception is thrown if any error is encountered.</__
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>instance</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The singleton instance of this class.</__p_returnDescription>
+                    <__p_returnType>Block*</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
                     <__p_description>Returns a list of orphaned block files not used by the given block and its descendants in the multi block file directory at the given path.
 
 A file system or logical block exception is thrown if any error is encountered.</__p_description>
@@ -8121,7 +8139,7 @@ A file system or logical block exception is thrown if any error is encountered.<
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>QStringList</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The block.</__p_description>
@@ -8137,7 +8155,7 @@ A file system or logical block exception is thrown if any error is encountered.<
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Removes orphaned block files at the given file paths.
@@ -8154,7 +8172,7 @@ A file system, run system, or logical block exception is thrown if any error is 
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The file paths.</__p_description>
@@ -8181,7 +8199,7 @@ A file system, run system, or logical block exception is thrown if any error is 
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Writes out the given block and all its descendants to a multi block file directory at the given path.
@@ -8196,7 +8214,7 @@ A write block, logical block, or file system exception is thrown if any error is
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The block.</__p_description>
@@ -8212,7 +8230,7 @@ A write block, logical block, or file system exception is thrown if any error is
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Writes out the given block and all its descendants to a given XML stream writer.
@@ -8225,7 +8243,7 @@ A write block exception is thrown if any error is encountered.</__p_description>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The block.</__p_description>
@@ -8243,7 +8261,7 @@ A write block exception is thrown if any error is encountered.</__p_description>
                     <__p_access>Private</__p_access>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
-                    <__p_deleted>1</__p_deleted>
+                    <__p_deleted>0</__p_deleted>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -8253,11 +8271,16 @@ A write block exception is thrown if any error is encountered.</__p_description>
                     <__p_returnType>void</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Inserts the given block's file path and all its descendant's file paths to the given path registry.
@@ -8272,7 +8295,7 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The path registry.</__p_description>
@@ -8293,7 +8316,7 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Inserts all paths of found block file paths into the given path list in the given directory path. The given directory path is recursively searched for all children block directories.</__p_description>
@@ -8304,7 +8327,7 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The path list.</__p_description>
@@ -8320,7 +8343,7 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Creates and returns a new block and all its children located at the given directory with the given block file name, language, format version, and parent. The given language must be valid.
@@ -8335,7 +8358,7 @@ A read block or file system exception is thrown if any error is encountered.</__
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>::Block::Abstract*</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The language.</__p_description>
@@ -8367,7 +8390,7 @@ A read block or file system exception is thrown if any error is encountered.</__
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Writes the block file from the given block to the given directory.
@@ -8380,7 +8403,7 @@ A file system, logical block, or write block exception is thrown if any error is
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The block.</__p_description>
@@ -8401,7 +8424,7 @@ A file system, logical block, or write block exception is thrown if any error is
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Reads in a project from a multi block file directory at the given path. The project model's parent is set to the given parent.
@@ -8415,7 +8438,7 @@ A read project, read block, or file system exception is thrown if any error is e
                     <__p_override>0</__p_override>
                     <__p_returnDescription>The project model.</__p_returnDescription>
                     <__p_returnType>Model::Project*</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The path.</__p_description>
@@ -8432,7 +8455,7 @@ A read project, read block, or file system exception is thrown if any error is e
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Reads in a project from a XML file at the given path. The project model's parent is set to the given parent.
@@ -8445,7 +8468,7 @@ A read project, read block, or file system exception is thrown if any error is e
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>Model::Project*</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The path.</__p_description>
@@ -8465,6 +8488,24 @@ A read project, read block, or file system exception is thrown if any error is e
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>instance</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The singleton instance of this class.</__p_returnDescription>
+                    <__p_returnType>Project*</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
                     <__p_description>Returns a list of orphaned block files not used by the given project in its multi block file directory. The given project must have a valid directory path.
 
 A logical project or file system exception is thrown if any error is encountered.</__p_description>
@@ -8475,7 +8516,7 @@ A logical project or file system exception is thrown if any error is encountered
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>QStringList</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The project.</__p_description>
@@ -8486,7 +8527,7 @@ A logical project or file system exception is thrown if any error is encountered
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Removes orphaned block files at the given file paths.
@@ -8503,7 +8544,7 @@ A logical project, logical block, file system, or run system exception is thrown
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The file paths.</__p_description>
@@ -8525,7 +8566,7 @@ A logical project, logical block, file system, or run system exception is thrown
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Writes out the given project to a multi block file directory at the project's directory path. The given project must have a valid directory path.
@@ -8538,7 +8579,7 @@ A write project, logical project, write block, or file system exception is throw
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The project.</__p_description>
@@ -8549,7 +8590,7 @@ A write project, logical project, write block, or file system exception is throw
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Writes out the given project to a multi block file directory at the given path. The given project's directory is set to the given path if no exception occurs.
@@ -8562,7 +8603,7 @@ A write project, write block, or file system exception is thrown if any error is
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The project.</__p_description>
@@ -8578,7 +8619,7 @@ A write project, write block, or file system exception is thrown if any error is
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Writes out the given project to a XML file at the given path.
@@ -8591,7 +8632,7 @@ A write project, write block, or file system exception is thrown if any error is
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The project.</__p_description>
@@ -8609,7 +8650,7 @@ A write project, write block, or file system exception is thrown if any error is
                     <__p_access>Private</__p_access>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
-                    <__p_deleted>1</__p_deleted>
+                    <__p_deleted>0</__p_deleted>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -8619,11 +8660,16 @@ A write project, write block, or file system exception is thrown if any error is
                     <__p_returnType>void</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Reads in the configuration file at the given path to the given project.
@@ -8637,7 +8683,7 @@ A read project or file system exception is thrown if any error is encountered.</
                     <__p_override>0</__p_override>
                     <__p_returnDescription>The format version.</__p_returnDescription>
                     <__p_returnType>int</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The path.</__p_description>
@@ -8653,7 +8699,7 @@ A read project or file system exception is thrown if any error is encountered.</
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Writes out the given project to a multi block file directory at the given path.
@@ -8666,7 +8712,7 @@ A write project, write block, or file system exception is thrown if any error is
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The project.</__p_description>
@@ -8682,7 +8728,7 @@ A write project, write block, or file system exception is thrown if any error is
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
+                    <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_description>Writes out the configuration file of the given project to the given path.
@@ -8695,7 +8741,7 @@ A file system or write project exception is thrown if any error is encountered.<
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The project.</__p_description>
