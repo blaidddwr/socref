@@ -8,6 +8,15 @@ namespace Cpp {
 using Block = ::Block::Cpp::Base;
 
 
+Base::Base(
+    const ::Block::Abstract* block
+    ,QWidget* parent
+):
+    Abstract(block,parent)
+{
+}
+
+
 bool Base::apply(
 )
 {

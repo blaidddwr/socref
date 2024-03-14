@@ -53,7 +53,6 @@ class Function:
     int _assignment {NoFunctionAssignment};
     int _flags {0};
     int _type {RegularFunctionType};
-    using Base::setName;
 
 
     public:
@@ -1412,6 +1411,12 @@ class Function:
     private:
     void setFlags(
         int value
+    );
+
+
+    private:
+    void setName(
+        const QString& value
     );
 
 

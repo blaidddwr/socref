@@ -26,8 +26,13 @@ class Base:
     QFormLayout* _formLayout {nullptr};
     QLineEdit* _nameEdit {nullptr};
     QTextEdit* _descriptionEdit {nullptr};
+
+
     public:
-    using Abstract::Abstract;
+    Base(
+        const ::Block::Abstract* block
+        ,QWidget* parent = nullptr
+    );
 
 
     public slots:

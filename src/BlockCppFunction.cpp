@@ -1733,6 +1733,14 @@ void Function::setFlags(
 }
 
 
+void Function::setName(
+    const QString& value
+)
+{
+    Base::setName(value);
+}
+
+
 void Function::setReturnType(
     const QString& value
 )

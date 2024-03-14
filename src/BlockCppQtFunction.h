@@ -18,8 +18,13 @@ class Function:
     public Cpp::Function
 {
     Q_OBJECT
+
+
     public:
-    using Cpp::Function::Function;
+    Function(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
+    );
 
 
     public:

@@ -9,6 +9,15 @@ namespace CppQt {
 using Property = Cpp::Property;
 
 
+Function::Function(
+    Model::Meta::Block* meta
+    ,QObject* parent
+):
+    Cpp::Function(meta,parent)
+{
+}
+
+
 const QMap<int,QString>& Function::flagLabelMap(
 ) const
 {

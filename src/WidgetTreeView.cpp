@@ -3,6 +3,14 @@
 namespace Widget {
 
 
+TreeView::TreeView(
+    QWidget* parent
+):
+    QTreeView(parent)
+{
+}
+
+
 void TreeView::keyPressEvent(
     QKeyEvent* event
 )

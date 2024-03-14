@@ -18,8 +18,12 @@ class TreeView:
     public QTreeView
 {
     Q_OBJECT
+
+
     public:
-    using QTreeView::QTreeView;
+    TreeView(
+        QWidget* parent = nullptr
+    );
 
 
     protected:
