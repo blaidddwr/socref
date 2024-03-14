@@ -6,7 +6,7 @@
     <Namespace>
         <Enumeration>
             <__p_class>0</__p_class>
-            <__p_description>Enumerates all versions of this application, excluding revisions.</__p_description>
+            <__p_description>This enumerates all versions of this application, excluding revisions.</__p_description>
             <__p_name>Version</__p_name>
         </Enumeration>
         <Namespace>
@@ -639,27 +639,27 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                 <__p_name>Cpp</__p_name>
                 <Enumeration>
                     <__p_class>0</__p_class>
-                    <__p_description>Enumerates all access types for C++ blocks whose parent is a class block. In order to expand this enumeration one must use the user access as the first new enumeration.</__p_description>
+                    <__p_description>This enumerates all access types for C++ blocks whose parent is a class block. In order to expand this enumeration one must use the user access as the first new enumeration.</__p_description>
                     <__p_name>Access</__p_name>
                 </Enumeration>
                 <Enumeration>
                     <__p_class>0</__p_class>
-                    <__p_description>Enumerates all function assignments for C++ function blocks. In order to expand this enumeration one must use the user function assignment as the first new enumeration.</__p_description>
+                    <__p_description>This enumerates all function assignments for C++ function blocks. In order to expand this enumeration one must use the user function assignment as the first new enumeration.</__p_description>
                     <__p_name>FunctionAssignment</__p_name>
                 </Enumeration>
                 <Enumeration>
                     <__p_class>0</__p_class>
-                    <__p_description>Enumerates all function flags for C++ function blocks. Each flag takes one bit of an integer. In order to expand this enumeration one must use unused bits to the left starting with the user function flag bit.</__p_description>
+                    <__p_description>This enumerates all function flags for C++ function blocks. Each flag takes one bit of an integer. In order to expand this enumeration one must use unused bits to the left starting with the user function flag bit.</__p_description>
                     <__p_name>FunctionFlags</__p_name>
                 </Enumeration>
                 <Enumeration>
                     <__p_class>0</__p_class>
-                    <__p_description>Enumerates all function types for C++ function blocks. In order to expand this enumeration one must use the user function type as the first new enumeration.</__p_description>
+                    <__p_description>This enumerates all function types for C++ function blocks. In order to expand this enumeration one must use the user function type as the first new enumeration.</__p_description>
                     <__p_name>FunctionType</__p_name>
                 </Enumeration>
                 <Enumeration>
                     <__p_class>0</__p_class>
-                    <__p_description>Enumerates all C++ block implementations' indexes.</__p_description>
+                    <__p_description>This enumerates all C++ block implementations' indexes.</__p_description>
                     <__p_name>Index</__p_name>
                 </Enumeration>
                 <Class>
@@ -4910,17 +4910,17 @@ Its properties are type and assignment. Both are self-explanatory.</__p_descript
                 <__p_name>CppQt</__p_name>
                 <Enumeration>
                     <__p_class>0</__p_class>
-                    <__p_description>Enumerates additional function flags for Qt methods.</__p_description>
+                    <__p_description>This enumerates additional function flags for Qt methods.</__p_description>
                     <__p_name>FunctionFlags</__p_name>
                 </Enumeration>
                 <Enumeration>
                     <__p_class>0</__p_class>
-                    <__p_description>Enumerates additional function types for Qt methods.</__p_description>
+                    <__p_description>This enumerates additional function types for Qt methods.</__p_description>
                     <__p_name>FunctionType</__p_name>
                 </Enumeration>
                 <Enumeration>
                     <__p_class>0</__p_class>
-                    <__p_description>Enumerates all C++/Qt block implementations' indexes.</__p_description>
+                    <__p_description>This enumerates all C++/Qt block implementations' indexes.</__p_description>
                     <__p_name>Index</__p_name>
                 </Enumeration>
                 <Class>

@@ -20,9 +20,9 @@ namespace Cpp
 
 
     /*!
-     * Enumerates all access types for C++ blocks whose parent is a class block.
-     * In order to expand this enumeration one must use the user access as the
-     * first new enumeration.
+     * This enumerates all access types for C++ blocks whose parent is a class
+     * block. In order to expand this enumeration one must use the user access
+     * as the first new enumeration.
      */
     enum Access
     {
@@ -34,9 +34,9 @@ namespace Cpp
 
 
     /*!
-     * Enumerates all function assignments for C++ function blocks. In order to
-     * expand this enumeration one must use the user function assignment as the
-     * first new enumeration.
+     * This enumerates all function assignments for C++ function blocks. In
+     * order to expand this enumeration one must use the user function
+     * assignment as the first new enumeration.
      */
     enum FunctionAssignment
     {
@@ -49,9 +49,9 @@ namespace Cpp
 
 
     /*!
-     * Enumerates all function flags for C++ function blocks. Each flag takes
-     * one bit of an integer. In order to expand this enumeration one must use
-     * unused bits to the left starting with the user function flag bit.
+     * This enumerates all function flags for C++ function blocks. Each flag
+     * takes one bit of an integer. In order to expand this enumeration one must
+     * use unused bits to the left starting with the user function flag bit.
      */
     enum FunctionFlags
     {
@@ -67,9 +67,9 @@ namespace Cpp
 
 
     /*!
-     * Enumerates all function types for C++ function blocks. In order to expand
-     * this enumeration one must use the user function type as the first new
-     * enumeration.
+     * This enumerates all function types for C++ function blocks. In order to
+     * expand this enumeration one must use the user function type as the first
+     * new enumeration.
      */
     enum FunctionType
     {
@@ -83,7 +83,7 @@ namespace Cpp
 
 
     /*!
-     * Enumerates all C++ block implementations' indexes.
+     * This enumerates all C++ block implementations' indexes.
      */
     enum Index
     {

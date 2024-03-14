@@ -3,7 +3,7 @@
 
 
 /*!
- * Enumerates all versions of this application, excluding revisions.
+ * This enumerates all versions of this application, excluding revisions.
  */
 enum Version
 {
