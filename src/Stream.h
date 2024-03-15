@@ -10,8 +10,10 @@
  */
 namespace Stream
 {
-    class Block;
-    class Project;
+    class BlockDir;
+    class BlockXml;
+    class ProjectDir;
+    class ProjectXml;
 }
 
 

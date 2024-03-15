@@ -29,7 +29,8 @@ class Project:
     friend class Command::Project::Move;
     friend class Command::Project::Remove;
     friend class Command::Project::Set;
-    friend class Stream::Project;
+    friend class Stream::ProjectDir;
+    friend class Stream::ProjectXml;
     Block::Abstract* _root {nullptr};
     Language::Abstract* _language {nullptr};
     QHash<QString,QVariant> _previousState;

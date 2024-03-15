@@ -7,7 +7,8 @@
 #include "ExceptionSystemFile.h"
 #include "FactoryLanguage.h"
 #include "ModelProject.h"
-#include "StreamProject.h"
+#include "StreamProjectDir.h"
+#include "StreamProjectXml.h"
 namespace Test {
 namespace Model {
 
@@ -15,16 +16,16 @@ namespace Model {
 void Project::toDirFromDir(
 )
 {
+    using Stream = Stream::ProjectDir;
     auto dir = QDir::temp();
     auto path = dir.absoluteFilePath("socref.project.test");
     auto out = new ::Model::Project(Factory::Language::instance()->indexFromName("cppqt"),this);
     QCOMPARE(out->modified(),true);
     out->setName("Test Project Name");
     out->setRelativeCodePath("../test/path");
-    auto stream = Stream::Project::instance();
     try
     {
-        stream->toDir(*out,path);
+        Stream(path) << *out;
     }
     catch (Exception::Project::Write& e)
     {
@@ -43,7 +44,7 @@ void Project::toDirFromDir(
     ::Model::Project* in = nullptr;
     try
     {
-        in = stream->fromDir(path,this);
+        in = Stream(path).load(this);
     }
     catch (Exception::Project::Read& e)
     {
@@ -70,16 +71,16 @@ void Project::toDirFromDir(
 void Project::toXmlFromXml(
 )
 {
+    using Stream = Stream::ProjectXml;
     auto dir = QDir::temp();
     auto path = dir.absoluteFilePath("socref.project.test.xml");
     auto out = new ::Model::Project(Factory::Language::instance()->indexFromName("cppqt"),this);
     QCOMPARE(out->modified(),true);
     out->setName("Test Project Name");
     out->setRelativeCodePath("../test/path");
-    auto stream = Stream::Project::instance();
     try
     {
-        stream->toXml(*out,path);
+        Stream(path) << *out;
     }
     catch (Exception::Project::Write& e)
     {
@@ -98,7 +99,7 @@ void Project::toXmlFromXml(
     ::Model::Project* in = nullptr;
     try
     {
-        in = stream->fromXml(path,this);
+        in = Stream(path).load(this);
     }
     catch (Exception::Project::Read& e)
     {

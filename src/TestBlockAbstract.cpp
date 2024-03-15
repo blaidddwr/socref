@@ -5,7 +5,8 @@
 #include "ExceptionBlockWrite.h"
 #include "ExceptionSystemFile.h"
 #include "Global.h"
-#include "StreamBlock.h"
+#include "StreamBlockDir.h"
+#include "StreamBlockXml.h"
 #include "TestDummyLanguage.h"
 namespace Test {
 namespace Block {
@@ -266,6 +267,7 @@ void Abstract::take(
 void Abstract::toDirFromDir(
 )
 {
+    using Stream = Stream::BlockDir;
     while (_block->size() > 0)
     {
         delete _block->take(0);
@@ -283,10 +285,9 @@ void Abstract::toDirFromDir(
     out1->property2 = "Testing\n in1 Property\n 2";
     _block->append(out0);
     out0->append(out1);
-    auto stream = Stream::Block::instance();
     try
     {
-        stream->toDir(*_block,path);
+        Stream(path) << *_block;
     }
     catch (Exception::Block::Write& e)
     {
@@ -303,7 +304,7 @@ void Abstract::toDirFromDir(
     DummyBlock* inRoot = nullptr;
     try
     {
-        inRoot = qobject_cast<DummyBlock*>(stream->fromDir(_language,Socref_1_0,path,this));
+        inRoot = qobject_cast<DummyBlock*>(Stream(path,_language,Socref_Current).load(this));
     }
     catch (Exception::Block::Read& e)
     {
@@ -336,6 +337,7 @@ void Abstract::toDirFromDir(
 void Abstract::toXmlFromXml(
 )
 {
+    using Stream = Stream::BlockXml;
     while (_block->size() > 0)
     {
         delete _block->take(0);
@@ -353,7 +355,6 @@ void Abstract::toXmlFromXml(
     out1->property2 = "Testing\n in1 Property\n 2";
     _block->append(out0);
     out0->append(out1);
-    auto stream = Stream::Block::instance();
     try
     {
         QFile file(path);
@@ -361,7 +362,7 @@ void Abstract::toXmlFromXml(
         QXmlStreamWriter xml(&file);
         xml.setAutoFormatting(true);
         xml.writeStartDocument();
-        stream->toXml(*_block,xml);
+        Stream(xml) << *_block;
         xml.writeEndDocument();
     }
     catch (Exception::Block::Write& e)
@@ -381,7 +382,7 @@ void Abstract::toXmlFromXml(
         {
             xml.readNext();
         }
-        inRoot = qobject_cast<DummyBlock*>(stream->fromXml(_language,Socref_1_0,xml,this));
+        inRoot = qobject_cast<DummyBlock*>(Stream(xml,_language,Socref_Current).load(this));
     }
     catch (Exception::Block::Read& e)
     {

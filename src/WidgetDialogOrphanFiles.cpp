@@ -5,7 +5,7 @@
 #include "ExceptionSystemFile.h"
 #include "ExceptionSystemRun.h"
 #include "ModelProject.h"
-#include "StreamProject.h"
+#include "StreamProjectDir.h"
 #include "gassert.h"
 #define SETTINGS_KEY "widget.dialog.orphanFiles"
 namespace Widget {
@@ -70,7 +70,9 @@ void OrphanFiles::onProjectModelDestroyed(
 void OrphanFiles::refresh(
 )
 {
-    _model->setStringList(Stream::Project::instance()->orphanFiles(*_projectModel));
+    _model->setStringList(
+        Stream::ProjectDir(_projectModel->directoryPath()).orphanFiles(*_projectModel)
+    );
 }
 
 
@@ -166,7 +168,8 @@ void OrphanFiles::remove(
     {
         try
         {
-            Stream::Project::instance()->removeOrphanFiles(paths,*_projectModel,git);
+            Stream::ProjectDir(_projectModel->directoryPath())
+                .removeOrphanFiles(paths,*_projectModel,git);
         }
         catch (Exception::Project::Logical& e)
         {

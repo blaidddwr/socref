@@ -8061,40 +8061,26 @@ The given command must be valid.</__p_description>
 Stream classes write class instance data to output devices and read class instance data from input devices.</__p_description>
             <__p_name>Stream</__p_name>
             <Class>
-                <__p_description>This is a stream class. It is a singleton class. It handles all input and output for abstract block class instances.</__p_description>
-                <__p_name>Block</__p_name>
-                <__p_parents>public QObject</__p_parents>
+                <__p_description>This is a stream class. It handles all input and output of directories for abstract block class instances.
+
+Its properties are path, language, and version. The path is used as the location of the directory where all loading and saving is done. The language and version are used when loading blocks.</__p_description>
+                <__p_name>BlockDir</__p_name>
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
+                    <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Reads in a root block and all its descendants from a multi block file directory at the given path using the given language and format version. The root block's parent is set to the given parent.
-
-The given language and format version must be valid.
-
-A read block or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_description>Constructs this new stream with the given path, language, and version.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>fromDir</__p_name>
+                    <__p_name>^</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>The root block.</__p_returnDescription>
-                    <__p_returnType>::Block::Abstract*</__p_returnType>
+                    <__p_returnType>void</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The language.</__p_description>
-                        <__p_name>language</__p_name>
-                        <__p_type>Language::Abstract*</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The format version.</__p_description>
-                        <__p_name>version</__p_name>
-                        <__p_type>int</__p_type>
-                    </Variable>
                     <Variable>
                         <__p_description>The path.</__p_description>
                         <__p_name>path</__p_name>
@@ -8102,52 +8088,15 @@ A read block or file system exception is thrown if any error is encountered.</__
                     </Variable>
                     <Variable>
                         <__p_assignment>nullptr</__p_assignment>
-                        <__p_description>The parent.</__p_description>
-                        <__p_name>parent</__p_name>
-                        <__p_type>QObject*</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Reads in a block and all its descendants from a given XML stream reader using the given language and format version. The root block's parent is set to the given parent.
-
-The given language and format version must be valid.
-
-A read block or file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>fromXml</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnDescription>The read in block.</__p_returnDescription>
-                    <__p_returnType>::Block::Abstract*</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
                         <__p_description>The language.</__p_description>
                         <__p_name>language</__p_name>
                         <__p_type>Language::Abstract*</__p_type>
                     </Variable>
                     <Variable>
-                        <__p_description>The format version.</__p_description>
+                        <__p_assignment>-1</__p_assignment>
+                        <__p_description>The version.</__p_description>
                         <__p_name>version</__p_name>
                         <__p_type>int</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The XML stream reader.</__p_description>
-                        <__p_name>xml</__p_name>
-                        <__p_type>QXmlStreamReader&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_assignment>nullptr</__p_assignment>
-                        <__p_description>The parent.</__p_description>
-                        <__p_name>parent</__p_name>
-                        <__p_type>QObject*</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -8156,17 +8105,20 @@ A read block or file system exception is thrown if any error is encountered.</__
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Getter method.</__p_description>
+                    <__p_description>A write block, logical block, or file system exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>instance</__p_name>
+                    <__p_name>operator&lt;&lt;</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>The singleton instance of this class.</__p_returnDescription>
-                    <__p_returnType>Block*</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_returnType>BlockDir&amp;</__p_returnType>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>block</__p_name>
+                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -8174,7 +8126,35 @@ A read block or file system exception is thrown if any error is encountered.</__
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Returns a list of orphaned block files not used by the given block and its descendants in the multi block file directory at the given path.
+                    <__p_description>Loads a root block with the given parent and all its descendants.
+
+This stream's language and version must be valid.
+
+A read block or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>load</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The loaded root block.</__p_returnDescription>
+                    <__p_returnType>::Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns a list of orphaned block files not used by the given block and its descendants.
 
 A file system or logical block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
@@ -8191,21 +8171,16 @@ A file system or logical block exception is thrown if any error is encountered.<
                         <__p_name>block</__p_name>
                         <__p_type>const ::Block::Abstract&amp;</__p_type>
                     </Variable>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
+                    <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Removes orphaned block files at the given file paths.
+                    <__p_description>Removes orphaned block files at the given paths.
 
-All given file paths are verified to be an orphaned block file for the given block at the given directory path.
+All given paths are verified to be an orphaned block file for the given block.
 
 If the git flag is true then the git command is used for removing deprecated block files, else the standard system remove command is used.
 
@@ -8220,19 +8195,14 @@ A file system, run system, or logical block exception is thrown if any error is 
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
-                        <__p_description>The file paths.</__p_description>
-                        <__p_name>filePaths</__p_name>
+                        <__p_description>The paths.</__p_description>
+                        <__p_name>paths</__p_name>
                         <__p_type>const QStringList&amp;</__p_type>
                     </Variable>
                     <Variable>
                         <__p_description>The block.</__p_description>
                         <__p_name>block</__p_name>
                         <__p_type>const ::Block::Abstract&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The directory path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
                     </Variable>
                     <Variable>
                         <__p_assignment>false</__p_assignment>
@@ -8243,94 +8213,11 @@ A file system, run system, or logical block exception is thrown if any error is 
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes out the given block and all its descendants to a multi block file directory at the given path.
-
-The given block must be a root block of its project.
-
-A write block, logical block, or file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>toDir</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The block.</__p_description>
-                        <__p_name>block</__p_name>
-                        <__p_type>::Block::Abstract&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes out the given block and all its descendants to a given XML stream writer.
-
-A write block exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>toXml</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The block.</__p_description>
-                        <__p_name>block</__p_name>
-                        <__p_type>const ::Block::Abstract&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The XML stream writer.</__p_description>
-                        <__p_name>xml</__p_name>
-                        <__p_type>QXmlStreamWriter&amp;</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>^</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_assignment>nullptr</__p_assignment>
-                        <__p_name>parent</__p_name>
-                        <__p_type>QObject*</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Inserts the given block's file path and all its descendant's file paths to the given path registry.
-
-All paths have the given path added to them as their root path.
+                    <__p_description>Inserts the given block's file path, located in the given directory, and all its descendant's file paths to this stream's registry.
 
 A logical block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
@@ -8343,19 +8230,14 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
-                        <__p_description>The path registry.</__p_description>
-                        <__p_name>registry</__p_name>
-                        <__p_type>QSet&lt;QString&gt;&amp;</__p_type>
-                    </Variable>
-                    <Variable>
                         <__p_description>The block.</__p_description>
                         <__p_name>block</__p_name>
                         <__p_type>const ::Block::Abstract&amp;</__p_type>
                     </Variable>
                     <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
+                        <__p_description>The directory.</__p_description>
+                        <__p_name>dir</__p_name>
+                        <__p_type>const QDir&amp;</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -8364,7 +8246,7 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Inserts all paths of found block file paths into the given path list in the given directory path. The given directory path is recursively searched for all children block directories.</__p_description>
+                    <__p_description>Inserts all paths of found block files in the given directory into this stream's path list. The given directory is recursively searched for all children block directories.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -8375,14 +8257,9 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
-                        <__p_description>The path list.</__p_description>
-                        <__p_name>paths</__p_name>
-                        <__p_type>QStringList&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The directory path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
+                        <__p_description>The directory.</__p_description>
+                        <__p_name>dir</__p_name>
+                        <__p_type>const QDir&amp;</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -8391,9 +8268,9 @@ A logical block exception is thrown if any error is encountered.</__p_descriptio
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Creates and returns a new block and all its children located at the given directory with the given block file name, language, format version, and parent. The given language must be valid.
+                    <__p_description>Reads a block and all its children located at the given directory with the given file name and parent.
 
-The new block's children are expected to reside in the same directory as the new block's file's directory.
+This stream's language and version must be valid.
 
 A read block or file system exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
@@ -8402,26 +8279,17 @@ A read block or file system exception is thrown if any error is encountered.</__
                     <__p_name>read</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
+                    <__p_returnDescription>The read in block.</__p_returnDescription>
                     <__p_returnType>::Block::Abstract*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The language.</__p_description>
-                        <__p_name>language</__p_name>
-                        <__p_type>Language::Abstract*</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The format version.</__p_description>
-                        <__p_name>version</__p_name>
-                        <__p_type>int</__p_type>
-                    </Variable>
                     <Variable>
                         <__p_description>The directory.</__p_description>
                         <__p_name>dir</__p_name>
                         <__p_type>const QDir&amp;</__p_type>
                     </Variable>
                     <Variable>
-                        <__p_description>The block file name.</__p_description>
+                        <__p_description>The file name.</__p_description>
                         <__p_name>fileName</__p_name>
                         <__p_type>const QString&amp;</__p_type>
                     </Variable>
@@ -8435,10 +8303,12 @@ A read block or file system exception is thrown if any error is encountered.</__
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
-                    <__p_const>1</__p_const>
+                    <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes the block file from the given block to the given directory.
+                    <__p_description>Writes the given block and all its descendants to their respective block files in the given directory.
+
+Descendant block files are located in their respective subdirectories.
 
 A file system, logical block, or write block exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
@@ -8463,68 +8333,30 @@ A file system, logical block, or write block exception is thrown if any error is
                 </Function>
             </Class>
             <Class>
-                <__p_description>This is a stream class. It is a singleton class. It handles all input and output for project model class instances.</__p_description>
-                <__p_name>Project</__p_name>
-                <__p_parents>public QObject</__p_parents>
+                <__p_description>This is a stream class. It handles all input and output of XML for abstract block class instances.
+
+Its properties are XML writer, XML reader, language, and version. The XML reader or writer are used as the reader or writer of the XML, respectively, where all loading and saving is done. The language and version are used when loading blocks.</__p_description>
+                <__p_name>BlockXml</__p_name>
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
+                    <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Reads in a project from a multi block file directory at the given path. The project model's parent is set to the given parent.
-
-A read project, read block, or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_description>Constructs this new stream with the given XML writer.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>fromDir</__p_name>
+                    <__p_name>^</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>The project model.</__p_returnDescription>
-                    <__p_returnType>Model::Project*</__p_returnType>
+                    <__p_returnType>void</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_assignment>nullptr</__p_assignment>
-                        <__p_description>The parent.</__p_description>
-                        <__p_name>parent</__p_name>
-                        <__p_type>QObject*</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Reads in a project from a XML file at the given path. The project model's parent is set to the given parent.
-
-A read project, read block, or file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>fromXml</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>Model::Project*</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_assignment>nullptr</__p_assignment>
-                        <__p_description>The parent.</__p_description>
-                        <__p_name>parent</__p_name>
-                        <__p_type>QObject*</__p_type>
+                        <__p_description>The XML writer.</__p_description>
+                        <__p_name>xml</__p_name>
+                        <__p_type>QXmlStreamWriter&amp;</__p_type>
                     </Variable>
                 </Function>
                 <Function>
@@ -8533,17 +8365,54 @@ A read project, read block, or file system exception is thrown if any error is e
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Getter method.</__p_description>
+                    <__p_description>Constructs this new stream with the given XML reader, language, and version.
+
+The given language and version must be valid.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>instance</__p_name>
+                    <__p_name>^</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>The singleton instance of this class.</__p_returnDescription>
-                    <__p_returnType>Project*</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The XML reader.</__p_description>
+                        <__p_name>xml</__p_name>
+                        <__p_type>QXmlStreamReader&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The language.</__p_description>
+                        <__p_name>language</__p_name>
+                        <__p_type>Language::Abstract*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The version.</__p_description>
+                        <__p_name>version</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>A write block exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>operator&lt;&lt;</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>BlockXml&amp;</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>block</__p_name>
+                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -8551,7 +8420,142 @@ A read project, read block, or file system exception is thrown if any error is e
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Returns a list of orphaned block files not used by the given project in its multi block file directory. The given project must have a valid directory path.
+                    <__p_description>Loads a block with the given parent and all its descendants.
+
+This stream must have been constructed with an XML reader, language, and version.
+
+A read block or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>load</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The loaded block.</__p_returnDescription>
+                    <__p_returnType>::Block::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Writes out the given block and all its descendants to a given XML stream writer.
+
+A write block exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>write</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>const ::Block::Abstract&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The XML stream writer.</__p_description>
+                        <__p_name>xml</__p_name>
+                        <__p_type>QXmlStreamWriter&amp;</__p_type>
+                    </Variable>
+                </Function>
+            </Class>
+            <Class>
+                <__p_description>This is a stream class. It handles all input and output of directories for project model class instances.
+
+Its single property is path. The path is used as the location of the directory where all loading and saving is done.</__p_description>
+                <__p_name>ProjectDir</__p_name>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Constructs this new stream with the given path.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The path.</__p_description>
+                        <__p_name>path</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>A write project, logical project, write block, or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>operator&lt;&lt;</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>ProjectDir&amp;</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The project.</__p_description>
+                        <__p_name>project</__p_name>
+                        <__p_type>Model::Project&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Loads a project with the given parent.
+
+A read project, read block, or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>load</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The loaded project.</__p_returnDescription>
+                    <__p_returnType>Model::Project*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Returns a list of orphaned block file paths not used by the given project in its directory.
+
+The returned file paths are relative to the given project's directory path.
 
 A logical project or file system exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
@@ -8575,9 +8579,9 @@ A logical project or file system exception is thrown if any error is encountered
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Removes orphaned block files at the given file paths.
+                    <__p_description>Removes orphaned block files at the given paths.
 
-All given file paths are verified to be an orphaned block file for the given project.
+The given paths are relative to the given project's directory path. All given paths are verified to be an orphaned block file for the given project.
 
 If the git flag is true then the git command is used for removing deprecated block files, else the standard system remove command is used.
 
@@ -8592,8 +8596,8 @@ A logical project, logical block, file system, or run system exception is thrown
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
-                        <__p_description>The file paths.</__p_description>
-                        <__p_name>filePaths</__p_name>
+                        <__p_description>The paths.</__p_description>
+                        <__p_name>paths</__p_name>
                         <__p_type>const QStringList&amp;</__p_type>
                     </Variable>
                     <Variable>
@@ -8610,114 +8614,11 @@ A logical project, logical block, file system, or run system exception is thrown
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes out the given project to a multi block file directory at the project's directory path. The given project must have a valid directory path.
-
-A write project, logical project, write block, or file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>toDir</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The project.</__p_description>
-                        <__p_name>project</__p_name>
-                        <__p_type>Model::Project&amp;</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes out the given project to a multi block file directory at the given path. The given project's directory is set to the given path if no exception occurs.
-
-A write project, write block, or file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>toDir</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The project.</__p_description>
-                        <__p_name>project</__p_name>
-                        <__p_type>Model::Project&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes out the given project to a XML file at the given path.
-
-A write project, write block, or file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>toXml</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The project.</__p_description>
-                        <__p_name>project</__p_name>
-                        <__p_type>const Model::Project&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>^</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_assignment>nullptr</__p_assignment>
-                        <__p_name>parent</__p_name>
-                        <__p_type>QObject*</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
                     <__p_access>Private</__p_access>
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Reads in the configuration file at the given path to the given project.
+                    <__p_description>Reads in the configuration file to the given project.
 
 A read project or file system exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
@@ -8726,15 +8627,10 @@ A read project or file system exception is thrown if any error is encountered.</
                     <__p_name>read</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>The format version.</__p_returnDescription>
+                    <__p_returnDescription>The version.</__p_returnDescription>
                     <__p_returnType>int</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
                     <Variable>
                         <__p_description>The project.</__p_description>
                         <__p_name>project</__p_name>
@@ -8747,36 +8643,7 @@ A read project or file system exception is thrown if any error is encountered.</
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes out the given project to a multi block file directory at the given path.
-
-A write project, write block, or file system exception is thrown if any error is encountered.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>saveDir</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The project.</__p_description>
-                        <__p_name>project</__p_name>
-                        <__p_type>const Model::Project&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The path.</__p_description>
-                        <__p_name>path</__p_name>
-                        <__p_type>const QString&amp;</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Private</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Writes out the configuration file of the given project to the given path.
+                    <__p_description>Writes out the configuration file of the given project.
 
 A file system or write project exception is thrown if any error is encountered.</__p_description>
                     <__p_explicit>0</__p_explicit>
@@ -8793,10 +8660,81 @@ A file system or write project exception is thrown if any error is encountered.<
                         <__p_name>project</__p_name>
                         <__p_type>const Model::Project&amp;</__p_type>
                     </Variable>
+                </Function>
+            </Class>
+            <Class>
+                <__p_description>This is a stream class. It handles all input and output of XML for project model class instances.
+
+Its single property is path. The path is used as the location of the XML file where all loading and saving is done.</__p_description>
+                <__p_name>ProjectXml</__p_name>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Constructs this new stream with the given path.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The path.</__p_description>
                         <__p_name>path</__p_name>
                         <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>A write project, write block, or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>operator&lt;&lt;</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>ProjectXml&amp;</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The project.</__p_description>
+                        <__p_name>project</__p_name>
+                        <__p_type>const Model::Project&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Loads a project with the given parent.
+
+A read project, read block, or file system exception is thrown if any error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>load</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The loaded project.</__p_returnDescription>
+                    <__p_returnType>Model::Project*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
                     </Variable>
                 </Function>
             </Class>

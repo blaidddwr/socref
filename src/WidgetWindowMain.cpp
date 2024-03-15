@@ -9,7 +9,8 @@
 #include "LanguageAbstract.h"
 #include "ModelMetaLanguage.h"
 #include "ModelProject.h"
-#include "StreamProject.h"
+#include "StreamProjectDir.h"
+#include "StreamProjectXml.h"
 #include "WidgetDialogAbout.h"
 #include "WidgetDialogOrphanFiles.h"
 #include "WidgetDialogProject.h"
@@ -107,7 +108,7 @@ void Main::exportProject(
         {
             try
             {
-                Stream::Project::instance()->toXml(*_projectModel,path);
+                Stream::ProjectXml(path) << *_projectModel;
             }
             catch (Exception::Project::Write& e)
             {
@@ -139,7 +140,7 @@ void Main::import(
     {
         try
         {
-            auto model = Stream::Project::instance()->fromXml(path,this);
+            auto model = Stream::ProjectXml(path).load(this);
             auto window = this;
             if (_projectModel)
             {
@@ -210,7 +211,7 @@ void Main::open(
     {
         try
         {
-            auto model = Stream::Project::instance()->fromDir(path,this);
+            auto model = Stream::ProjectDir(path).load(this);
             auto window = this;
             if (_projectModel)
             {
@@ -278,7 +279,7 @@ bool Main::save(
     }
     try
     {
-        Stream::Project::instance()->toDir(*_projectModel);
+        Stream::ProjectDir(_projectModel->directoryPath()) << *_projectModel;
     }
     catch (Exception::Project::Write& e)
     {
@@ -313,7 +314,7 @@ bool Main::saveAs(
     }
     try
     {
-        Stream::Project::instance()->toDir(*_projectModel,path);
+        Stream::ProjectDir(path) << *_projectModel;
     }
     catch (Exception::Project::Write& e)
     {

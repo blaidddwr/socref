@@ -62,18 +62,25 @@
        id="path4135"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
-    <text
-       xml:space="preserve"
-       style="font-size:204.908px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-dasharray:none;stroke-opacity:1"
-       x="-596.97699"
-       y="850.97003"
-       id="text1"
-       transform="matrix(0.73954545,-0.73954545,0.67609097,0.67609097,0,0)"><tspan
-         sodipodi:role="line"
-         id="tspan1"
-         x="-596.97699"
-         y="850.97003"
-         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-dasharray:none;stroke-opacity:1">+</tspan></text>
+    <g
+       id="g3"
+       transform="matrix(0.50803319,-0.50803319,0.50803319,0.50803319,-404.61281,521.41845)">
+      <rect
+         style="fill:#000000;stroke:#000000;stroke-width:8.86237"
+         id="rect1"
+         width="155.59488"
+         height="34.051029"
+         x="49.346638"
+         y="903.91687" />
+      <rect
+         style="fill:#000000;stroke:#000000;stroke-width:8.86237"
+         id="rect1-6"
+         width="155.59488"
+         height="34.051029"
+         x="843.06189"
+         y="-143.93513"
+         transform="rotate(90)" />
+    </g>
   </g>
   <g
      inkscape:groupmode="layer"

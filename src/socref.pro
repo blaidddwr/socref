@@ -26,8 +26,10 @@ SOURCES +=  Global.cpp \
             ModelMetaBlock.cpp \
             ModelMetaLanguage.cpp \
             ModelProject.cpp \
-            StreamBlock.cpp \
-            StreamProject.cpp \
+            StreamBlockDir.cpp \
+            StreamBlockXml.cpp \
+            StreamProjectDir.cpp \
+            StreamProjectXml.cpp \
             Test.cpp \
             TestBlockAbstract.cpp \
             TestBlockCppClass.cpp \
@@ -110,8 +112,10 @@ HEADERS +=  Global.h \
             ModelMetaLanguage.h \
             ModelProject.h \
             Stream.h \
-            StreamBlock.h \
-            StreamProject.h \
+            StreamBlockDir.h \
+            StreamBlockXml.h \
+            StreamProjectDir.h \
+            StreamProjectXml.h \
             Test.h \
             TestBlock.h \
             TestBlockAbstract.h \

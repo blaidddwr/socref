@@ -46,7 +46,8 @@ class Abstract:
     public QObject
 {
     Q_OBJECT
-    friend class Stream::Block;
+    friend class Stream::BlockDir;
+    friend class Stream::BlockXml;
     Model::Meta::Block* _meta;
     QList<Abstract*> _children;
 
