@@ -1,6 +1,8 @@
 QT += core gui widgets testlib
 CONFIG += c++17
 
+LIBS += -lhunspell
+
 SOURCES +=  Global.cpp \
             BlockAbstract.cpp \
             BlockCppBase.cpp \
@@ -18,6 +20,7 @@ SOURCES +=  Global.cpp \
             CommandProjectMove.cpp \
             CommandProjectRemove.cpp \
             CommandProjectSet.cpp \
+            ControllerSpellingHighlighter.cpp \
             ExceptionBase.cpp \
             FactoryLanguage.cpp \
             LanguageAbstract.cpp \
@@ -87,6 +90,8 @@ HEADERS +=  Global.h \
             CommandProjectMove.h \
             CommandProjectRemove.h \
             CommandProjectSet.h \
+            Controller.h \
+            ControllerSpellingHighlighter.h \
             Exception.h \
             ExceptionBase.h \
             ExceptionBlock.h \

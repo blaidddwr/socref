@@ -1,6 +1,7 @@
 #include "WidgetBlockCppFunction.h"
 #include <QtWidgets>
 #include "BlockCppFunction.h"
+#include "ControllerSpellingHighlighter.h"
 #include "ExceptionBlockLogical.h"
 #include "WidgetBlockAbstract.t.h"
 #include "WidgetStringList.h"
@@ -176,6 +177,7 @@ QTextEdit* Function::returnDescriptionTextEdit(
     if (!_returnDescriptionTextEdit)
     {
         _returnDescriptionTextEdit = new QTextEdit;
+        new Controller::SpellingHighlighter(_returnDescriptionTextEdit->document());
         _returnDescriptionTextEdit->setText(block<Block>()->returnDescription());
         connect(_returnDescriptionTextEdit,&QTextEdit::textChanged,this,&Function::touch);
     }
