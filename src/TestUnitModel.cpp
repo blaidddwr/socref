@@ -12,7 +12,7 @@ UnitModel::UnitModel(
 {
     for (const auto& test: Test::testObjects())
     {
-        _tests.append({test.name,UnitTest::Result::Idle,"",""});
+        _tests.append({test.name,UnitTest::Result::None,"",""});
     }
 }
 
@@ -59,8 +59,8 @@ QVariant UnitModel::data(
             {
             case Result::Failed:
                 return tr("FAILED");
-            case Result::Idle:
-                return tr("IDLE");
+            case Result::None:
+                return tr("NONE");
             case Result::Passed:
                 return tr("PASS");
             case Result::Running:
@@ -75,16 +75,18 @@ QVariant UnitModel::data(
             return font;
         }
         case Qt::ForegroundRole:
+            return QColor(Qt::black);
+        case Qt::BackgroundRole:
             switch (_tests.at(index.row()).result)
             {
             case Result::Failed:
-                return QColor(Qt::red);
-            case Result::Idle:
-                return QColor(Qt::yellow);
+                return QColor(255,100,100);
+            case Result::None:
+                return QColor(255,255,100);
             case Result::Passed:
-                return QColor(Qt::green);
+                return QColor(100,255,100);
             case Result::Running:
-                return QColor(Qt::blue);
+                return QColor(100,100,255);
             default:
                 return QVariant();
             }
@@ -190,7 +192,7 @@ void UnitModel::run(
             test->output = process->readAllStandardOutput();
             test->error = process->readAllStandardError();
             test->result = exitCode ? Result::Failed : Result::Passed;
-            emit dataChanged(ni,ni,{Qt::DisplayRole,Qt::ForegroundRole});
+            emit dataChanged(ni,ni,{Qt::DisplayRole,Qt::BackgroundRole});
             delete process;
         }
     );

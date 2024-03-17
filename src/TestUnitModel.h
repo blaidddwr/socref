@@ -21,7 +21,7 @@ class UnitModel:
         enum class Result
         {
             Failed
-            ,Idle
+            ,None
             ,Passed
             ,Running
         };
