@@ -1,6 +1,7 @@
 #include "ControllerSpellingHighlighter.h"
 #include <QtCore>
 #include <hunspell/hunspell.hxx>
+#include "SettingsSpelling.h"
 namespace Controller {
 
 
@@ -9,6 +10,13 @@ SpellingHighlighter::SpellingHighlighter(
 ):
     QSyntaxHighlighter(parent)
 {
+    using Settings = Settings::Spelling;
+    connect(
+        Settings::instance()
+        ,&Settings::dictionaryChanged
+        ,this
+        ,&SpellingHighlighter::rehighlight
+    );
 }
 
 
@@ -17,20 +25,25 @@ void SpellingHighlighter::highlightBlock(
 )
 {
     static const QRegularExpression regExp("\\w+");
-    static const char* affPath = "/usr/share/hunspell/en_US.aff";
-    static const char* dicPath = "/usr/share/hunspell/en_US.dic";
     QTextCharFormat format;
     format.setFontUnderline(true);
     format.setUnderlineColor(Qt::red);
     format.setUnderlineStyle(QTextCharFormat::WaveUnderline);
-    Hunspell hunspell(affPath,dicPath);
-    auto i = regExp.globalMatch(text);
-    while (i.hasNext())
+    auto settings = Settings::Spelling::instance();
+    if (settings->hasDictionary())
     {
-        auto match = i.next();
-        if (!hunspell.spell(match.captured().toStdString()))
+        Hunspell hunspell(
+            settings->absoluteAffPath().toLocal8Bit().data()
+            ,settings->absoluteDicPath().toLocal8Bit().data()
+        );
+        auto i = regExp.globalMatch(text);
+        while (i.hasNext())
         {
-            setFormat(match.capturedStart(),match.capturedLength(),format);
+            auto match = i.next();
+            if (!hunspell.spell(match.captured().toLocal8Bit().toStdString()))
+            {
+                setFormat(match.capturedStart(),match.capturedLength(),format);
+            }
         }
     }
 }

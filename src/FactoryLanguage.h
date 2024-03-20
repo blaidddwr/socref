@@ -10,8 +10,8 @@ namespace Factory {
 
 
 /*!
- * This is a factory class. It is a singleton class. It creates abstract
- * language implementations.
+ * This is a singleton factory class. It creates abstract language
+ * implementations.
  */
 class Language:
     public QObject

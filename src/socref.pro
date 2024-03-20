@@ -29,6 +29,7 @@ SOURCES +=  Global.cpp \
             ModelMetaBlock.cpp \
             ModelMetaLanguage.cpp \
             ModelProject.cpp \
+            SettingsSpelling.cpp \
             StreamBlockDir.cpp \
             StreamBlockXml.cpp \
             StreamProjectDir.cpp \
@@ -116,6 +117,8 @@ HEADERS +=  Global.h \
             ModelMetaBlock.h \
             ModelMetaLanguage.h \
             ModelProject.h \
+            Settings.h \
+            SettingsSpelling.h \
             Stream.h \
             StreamBlockDir.h \
             StreamBlockXml.h \
