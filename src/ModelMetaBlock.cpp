@@ -1,5 +1,5 @@
 #include "ModelMetaBlock.h"
-#include <QtGui>
+#include <QtCore>
 #include "gassert.h"
 namespace Model {
 namespace Meta {
@@ -14,10 +14,9 @@ Block::Block(
     ,const QSet<int>& allowList
     ,QObject* parent
 ):
-    Language(name,label,parent)
+    Language(name,label,displayIcon,parent)
     ,_language(language)
-    ,_displayIcon(displayIcon)
-    ,_allowList(allowList)
+    ,_allowList(new QSet<int>(allowList))
     ,_index(index)
 {
     G_ASSERT(language);
@@ -25,17 +24,17 @@ Block::Block(
 }
 
 
-const QSet<int>& Block::allowList(
-) const
+Block::~Block(
+)
 {
-    return _allowList;
+    delete _allowList;
 }
 
 
-const QIcon& Block::displayIcon(
+const QSet<int>& Block::allowList(
 ) const
 {
-    return _displayIcon;
+    return *_allowList;
 }
 
 

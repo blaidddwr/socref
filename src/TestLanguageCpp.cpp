@@ -14,7 +14,7 @@ using namespace Block::Cpp;
 void Cpp::initTestCase(
 )
 {
-    _meta = new Model::Meta::Language("cpp","C++",this);
+    _meta = new Model::Meta::Language("cpp","C++",QIcon(),this);
     _language = new ::Language::Cpp(_meta,this);
     QCOMPARE(_language->meta(),_meta);
 }

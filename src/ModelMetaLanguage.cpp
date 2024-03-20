@@ -1,4 +1,5 @@
 #include "ModelMetaLanguage.h"
+#include <QtGui>
 namespace Model {
 namespace Meta {
 
@@ -6,12 +7,28 @@ namespace Meta {
 Language::Language(
     const QString& name
     ,const QString& label
+    ,const QIcon& displayIcon
     ,QObject* parent
 ):
     QObject(parent)
+    ,_displayIcon(new QIcon(displayIcon))
     ,_label(label)
     ,_name(name)
 {
+}
+
+
+Language::~Language(
+)
+{
+    delete _displayIcon;
+}
+
+
+const QIcon& Language::displayIcon(
+) const
+{
+    return *_displayIcon;
 }
 
 

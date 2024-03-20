@@ -11,25 +11,35 @@ namespace Meta {
  * This is a meta model class. It represents the meta information for a language
  * implementation.
  * 
- * Its properties are name and label. The name is the machine name and the label
- * is the user visible name.
+ * This class's properties are name, label, and display icon.
+ * 
+ * The name property is the machine name.
+ * 
+ * The label property is the user visible name.
+ * 
+ * The display icon property is the user visible icon.
  */
 class Language:
     public QObject
 {
     Q_OBJECT
+    const QIcon* _displayIcon;
     const QString _label;
     const QString _name;
 
 
     /*!
-     * Constructs this new model with the given name, label, and parent.
+     * Constructs this new meta model with the given name, label, display icon,
+     * and parent.
      *
      * @param name
      *        The name.
      *
      * @param label
      *        The label.
+     *
+     * @param displayIcon
+     *        The display icon.
      *
      * @param parent
      *        The parent.
@@ -38,15 +48,32 @@ class Language:
     Language(
         const QString& name
         ,const QString& label
+        ,const QIcon& displayIcon
         ,QObject* parent = nullptr
     );
+
+
+    public:
+    virtual ~Language(
+    ) override;
 
 
     /*!
      * Getter method.
      *
      * @return
-     * This model's label property.
+     * This meta model's display icon property.
+     */
+    public:
+    const QIcon& displayIcon(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This meta model's label property.
      */
     public:
     const QString& label(
@@ -57,7 +84,7 @@ class Language:
      * Getter method.
      *
      * @return
-     * This model's name property.
+     * This meta model's name property.
      */
     public:
     const QString& name(

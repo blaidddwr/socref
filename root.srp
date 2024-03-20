@@ -6844,7 +6844,13 @@ The order of addition is the same as the order in the given list.</__p_descripti
                 <Class>
                     <__p_description>This is a meta model class. It represents the meta information for a block implementation.
 
-Its properties are language, index, display icon, and allow list. The language is the meta information a meta block's language implementation. The index is the index used for creating a meta's block from its language. The display icon is self-explanatory. The allow list is a set of block indexes that a meta's block is allowed to have as children blocks.</__p_description>
+This class's property are language, index, and allow list.
+
+The language property is the meta information a meta block's language implementation.
+
+The index property is the index used for creating a meta's block from its language.
+
+The allow list property is a set of block indexes that a meta's block is allowed to have as children blocks.</__p_description>
                     <__p_name>Block</__p_name>
                     <__p_parents>public Language</__p_parents>
                     <Function>
@@ -6905,6 +6911,21 @@ The given language must be valid and cannot be destroyed during the life of this
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>~^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -6917,24 +6938,6 @@ The given language must be valid and cannot be destroyed during the life of this
                         <__p_override>0</__p_override>
                         <__p_returnDescription>This block's allow list property.</__p_returnDescription>
                         <__p_returnType>const QSet&lt;int&gt;&amp;</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>displayIcon</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>This instance's display icon property.</__p_returnDescription>
-                        <__p_returnType>const QIcon&amp;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
@@ -6999,7 +7002,13 @@ The given language must be valid and cannot be destroyed during the life of this
                 <Class>
                     <__p_description>This is a meta model class. It represents the meta information for a language implementation.
 
-Its properties are name and label. The name is the machine name and the label is the user visible name.</__p_description>
+This class's properties are name, label, and display icon.
+
+The name property is the machine name.
+
+The label property is the user visible name.
+
+The display icon property is the user visible icon.</__p_description>
                     <__p_name>Language</__p_name>
                     <__p_parents>public QObject</__p_parents>
                     <Function>
@@ -7008,7 +7017,7 @@ Its properties are name and label. The name is the machine name and the label is
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Constructs this new model with the given name, label, and parent.</__p_description>
+                        <__p_description>Constructs this new meta model with the given name, label, display icon, and parent.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -7029,11 +7038,49 @@ Its properties are name and label. The name is the machine name and the label is
                             <__p_type>const QString&amp;</__p_type>
                         </Variable>
                         <Variable>
+                            <__p_description>The display icon.</__p_description>
+                            <__p_name>displayIcon</__p_name>
+                            <__p_type>const QIcon&amp;</__p_type>
+                        </Variable>
+                        <Variable>
                             <__p_assignment>nullptr</__p_assignment>
                             <__p_description>The parent.</__p_description>
                             <__p_name>parent</__p_name>
                             <__p_type>QObject*</__p_type>
                         </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>~^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>displayIcon</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This meta model's display icon property.</__p_returnDescription>
+                        <__p_returnType>const QIcon&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -7048,7 +7095,7 @@ Its properties are name and label. The name is the machine name and the label is
                         <__p_name>label</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This model's label property.</__p_returnDescription>
+                        <__p_returnDescription>This meta model's label property.</__p_returnDescription>
                         <__p_returnType>const QString&amp;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -7066,7 +7113,7 @@ Its properties are name and label. The name is the machine name and the label is
                         <__p_name>name</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>This model's name property.</__p_returnDescription>
+                        <__p_returnDescription>This meta model's name property.</__p_returnDescription>
                         <__p_returnType>const QString&amp;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>

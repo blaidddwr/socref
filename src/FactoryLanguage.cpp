@@ -1,5 +1,5 @@
 #include "FactoryLanguage.h"
-#include <QtCore>
+#include <QtGui>
 #include "LanguageCpp.h"
 #include "LanguageCppQt.h"
 #include "ModelMetaLanguage.h"
@@ -59,8 +59,8 @@ Language::Language(
     QObject(QCoreApplication::instance())
 {
     using namespace Language;
-    appendLanguage(new Cpp(new Model::Meta::Language("cpp","C++")));
-    appendLanguage(new CppQt(new Model::Meta::Language("cppqt","C++/Qt")));
+    appendLanguage(new Cpp(new Model::Meta::Language("cpp","C++",QIcon(":/cpp.svg"))));
+    appendLanguage(new CppQt(new Model::Meta::Language("cppqt","C++/Qt",QIcon(":/cppqt.svg"))));
 }
 
 

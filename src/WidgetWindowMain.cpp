@@ -599,8 +599,10 @@ QMenu* Main::newMenu(
         auto factory = Factory::Language::instance();
         for (int i = 0;i < factory->size();i++)
         {
-            auto label = factory->get(i)->meta()->label();
-            auto action = new QAction(label,this);
+            auto meta = factory->get(i)->meta();
+            auto label = meta->label();
+            auto icon = meta->displayIcon();
+            auto action = new QAction(icon,label,this);
             action->setStatusTip(tr("Create a new %1 project.").arg(label));
             connect(action,&QAction::triggered,this,[this,i](){ newProject(i); });
             _newMenu->addAction(action);

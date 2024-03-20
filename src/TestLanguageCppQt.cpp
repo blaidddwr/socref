@@ -14,7 +14,7 @@ using namespace Block::CppQt;
 void CppQt::initTestCase(
 )
 {
-    _meta = new Model::Meta::Language("cppqt","C++/Qt",this);
+    _meta = new Model::Meta::Language("cppqt","C++/Qt",QIcon(),this);
     _language = new ::Language::CppQt(_meta,this);
     QCOMPARE(_language->meta(),_meta);
 }

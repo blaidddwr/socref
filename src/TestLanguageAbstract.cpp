@@ -9,7 +9,7 @@ using Dummy = Dummy::Language;
 void Abstract::initTestCase(
 )
 {
-    _meta = new Model::Meta::Language(LANGUAGE_NAME,LANGUAGE_LABEL,this);
+    _meta = new Model::Meta::Language(LANGUAGE_NAME,LANGUAGE_LABEL,QIcon(),this);
     _language = new Dummy(_meta,this);
 }
 

@@ -1,7 +1,5 @@
 #ifndef MODEL_META_BLOCK_H
 #define MODEL_META_BLOCK_H
-#include <QSet>
-#include <QIcon>
 #include "ModelMetaLanguage.h"
 namespace Model {
 namespace Meta {
@@ -13,19 +11,23 @@ namespace Meta {
  * This is a meta model class. It represents the meta information for a block
  * implementation.
  * 
- * Its properties are language, index, display icon, and allow list. The
- * language is the meta information a meta block's language implementation. The
- * index is the index used for creating a meta's block from its language. The
- * display icon is self-explanatory. The allow list is a set of block indexes
- * that a meta's block is allowed to have as children blocks.
+ * This class's property are language, index, and allow list.
+ * 
+ * The language property is the meta information a meta block's language
+ * implementation.
+ * 
+ * The index property is the index used for creating a meta's block from its
+ * language.
+ * 
+ * The allow list property is a set of block indexes that a meta's block is
+ * allowed to have as children blocks.
  */
 class Block:
     public Language
 {
     Q_OBJECT
     Language* _language;
-    QIcon _displayIcon;
-    QSet<int> _allowList;
+    QSet<int>* _allowList;
     int _index;
 
 
@@ -69,6 +71,11 @@ class Block:
     );
 
 
+    public:
+    virtual ~Block(
+    ) override;
+
+
     /*!
      * Getter method.
      *
@@ -77,17 +84,6 @@ class Block:
      */
     public:
     const QSet<int>& allowList(
-    ) const;
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * This instance's display icon property.
-     */
-    public:
-    const QIcon& displayIcon(
     ) const;
 
 

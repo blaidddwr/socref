@@ -4,6 +4,7 @@
 #include "LanguageCpp.h"
 #include "LanguageCppQt.h"
 #include "ModelMetaLanguage.h"
+#include "Test.h"
 namespace Test {
 namespace Factory {
 
@@ -31,12 +32,16 @@ void Language::get(
 void Language::meta(
 )
 {
+    static const QIcon testCppIcon(":/cpp/icon.svg");
+    static const QIcon testCppQtIcon(":/cppqt/icon.svg");
     auto meta = _factory->meta(_cppIndex);
     QCOMPARE(meta->name(),"cpp");
     QCOMPARE(meta->label(),"C++");
+    QVERIFY(areIconsEqual(meta->displayIcon(),testCppIcon));
     meta = _factory->meta(_cppQtIndex);
     QCOMPARE(meta->name(),"cppqt");
     QCOMPARE(meta->label(),"C++/Qt");
+    QVERIFY(areIconsEqual(meta->displayIcon(),testCppQtIcon));
 }
 
 

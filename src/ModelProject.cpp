@@ -262,10 +262,17 @@ QVariant Project::headerData(
     if (
         section == 0
         && orientation == Qt::Horizontal
-        && role == Qt::DisplayRole
     )
     {
-        return _language->meta()->label();
+        switch (role)
+        {
+        case Qt::DisplayRole:
+            return _language->meta()->label();
+        case Qt::DecorationRole:
+            return _language->meta()->displayIcon();
+        default:
+            return QVariant();
+        }
     }
     else
     {

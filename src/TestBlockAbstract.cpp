@@ -17,7 +17,7 @@ using DummyLanguage = Dummy::Language;
 void Abstract::initTestCase(
 )
 {
-    _languageMeta = new Model::Meta::Language(LANGUAGE_NAME,LANGUAGE_LABEL,this);
+    _languageMeta = new Model::Meta::Language(LANGUAGE_NAME,LANGUAGE_LABEL,QIcon(),this);
     _language = new DummyLanguage(_languageMeta,this);
     _blockMeta = new Model::Meta::Block(
         _languageMeta
