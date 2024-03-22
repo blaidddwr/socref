@@ -32,8 +32,8 @@ void Language::get(
 void Language::meta(
 )
 {
-    static const QIcon testCppIcon(":/cpp/icon.svg");
-    static const QIcon testCppQtIcon(":/cppqt/icon.svg");
+    static const QIcon testCppIcon(":/cpp.svg");
+    static const QIcon testCppQtIcon(":/cppqt.svg");
     auto meta = _factory->meta(_cppIndex);
     QCOMPARE(meta->name(),"cpp");
     QCOMPARE(meta->label(),"C++");
