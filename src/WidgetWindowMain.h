@@ -31,6 +31,7 @@ class Main:
     QAction* _propertiesAction {nullptr};
     QAction* _saveAction {nullptr};
     QAction* _saveAsAction {nullptr};
+    QAction* _spellingSettingsAction {nullptr};
     QAction* _unitTestAction {nullptr};
     QMenu* _codeMenu {nullptr};
     QMenu* _editMenu {nullptr};
@@ -38,6 +39,7 @@ class Main:
     QMenu* _helpMenu {nullptr};
     QMenu* _newMenu {nullptr};
     QMenu* _selectionMenu {nullptr};
+    QMenu* _settingsMenu {nullptr};
     QToolBar* _codeToolBar {nullptr};
     QToolBar* _editToolBar {nullptr};
     QToolBar* _fileToolBar {nullptr};
@@ -182,6 +184,14 @@ class Main:
      */
     private slots:
     bool saveAs(
+    );
+
+
+    /*!
+     * Called when this widget's spelling settings action is triggered.
+     */
+    private slots:
+    void spellingSettings(
     );
 
 
@@ -497,6 +507,28 @@ class Main:
     private:
     void setProjectModel(
         Model::Project* model
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's settings menu widget.
+     */
+    private:
+    QMenu* settingsMenu(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This widget's spelling settings action.
+     */
+    private:
+    QAction* spellingSettingsAction(
     );
 
 

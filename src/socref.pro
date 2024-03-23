@@ -63,6 +63,7 @@ SOURCES +=  Global.cpp \
             WidgetDialogAbout.cpp \
             WidgetDialogOrphanFiles.cpp \
             WidgetDialogProject.cpp \
+            WidgetDialogSpellingSettings.cpp \
             WidgetDialogUnitTests.cpp \
             WidgetProject.cpp \
             WidgetStringList.cpp \
@@ -167,6 +168,7 @@ HEADERS +=  Global.h \
             WidgetDialogAbout.h \
             WidgetDialogOrphanFiles.h \
             WidgetDialogProject.h \
+            WidgetDialogSpellingSettings.h \
             WidgetDialogUnitTests.h \
             WidgetProject.h \
             WidgetStringList.h \

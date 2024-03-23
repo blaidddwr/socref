@@ -14,6 +14,7 @@
 #include "WidgetDialogAbout.h"
 #include "WidgetDialogOrphanFiles.h"
 #include "WidgetDialogProject.h"
+#include "WidgetDialogSpellingSettings.h"
 #include "WidgetDialogUnitTests.h"
 #include "WidgetProject.h"
 #include "gassert.h"
@@ -33,6 +34,7 @@ Main::Main(
     menu->addMenu(editMenu());
     menu->addMenu(selectionMenu());
     menu->addMenu(codeMenu());
+    menu->addMenu(settingsMenu());
     menu->addMenu(helpMenu());
     addToolBar(fileToolBar());
     addToolBar(editToolBar());
@@ -333,6 +335,15 @@ bool Main::saveAs(
     }
     updateActions();
     return true;
+}
+
+
+void Main::spellingSettings(
+)
+{
+    Dialog::SpellingSettings dialog(this);
+    dialog.setWindowTitle(QApplication::applicationName()+tr(" - Spelling Settings"));
+    dialog.exec();
 }
 
 
@@ -841,6 +852,31 @@ void Main::setProjectModel(
     updateTitle();
     setWindowModified(_projectModel && _projectModel->modified());
     updateActions();
+}
+
+
+QMenu* Main::settingsMenu(
+)
+{
+    if (!_settingsMenu)
+    {
+        _settingsMenu = new QMenu(tr("Settings"),this);
+        _settingsMenu->addAction(spellingSettingsAction());
+    }
+    return _settingsMenu;
+}
+
+
+QAction* Main::spellingSettingsAction(
+)
+{
+    if (!_spellingSettingsAction)
+    {
+        _spellingSettingsAction = new QAction(tr("Spelling"),this);
+        _spellingSettingsAction->setStatusTip(tr("Configure Hunspell spelling settings."));
+        connect(_spellingSettingsAction,&QAction::triggered,this,&Main::spellingSettings);
+    }
+    return _spellingSettingsAction;
 }
 
 
