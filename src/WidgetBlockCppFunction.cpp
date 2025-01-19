@@ -119,7 +119,7 @@ QCheckBox* Function::flagCheckBox(
         {
             auto checkBox = new QCheckBox(i.value());
             checkBox->setChecked(b->flags()&i.key());
-            connect(checkBox,&QCheckBox::stateChanged,this,&Function::touch);
+            connect(checkBox,&QCheckBox::checkStateChanged,this,&Function::touch);
             _flagCheckBoxes.insert(i.key(),checkBox);
         }
     }

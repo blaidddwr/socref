@@ -38,7 +38,7 @@ QCheckBox* Enumeration::classCheckBox(
     {
         _classCheckBox = new QCheckBox(tr("Class"));
         _classCheckBox->setChecked(block<Block>()->isClass());
-        connect(_classCheckBox,&QCheckBox::stateChanged,this,&Enumeration::touch);
+        connect(_classCheckBox,&QCheckBox::checkStateChanged,this,&Enumeration::touch);
     }
     return _classCheckBox;
 }

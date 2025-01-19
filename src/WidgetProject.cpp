@@ -450,6 +450,7 @@ void Project::remove(
     )
     {
         _model->remove(selectionModel->selectedIndexes());
+        updateActions(treeView()->currentIndex());
     }
 }
 
