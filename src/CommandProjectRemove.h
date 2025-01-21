@@ -12,7 +12,7 @@ namespace Project {
  * operation removes a given block from a project model.
  */
 class Remove:
-    public Command::Project::Insert
+    public Insert
 {
     Q_OBJECT
 

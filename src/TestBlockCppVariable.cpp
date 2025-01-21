@@ -3,6 +3,8 @@
 #include "BlockCppVariable.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
+#include "LanguageAbstract.h"
+#include "Test.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -18,8 +20,9 @@ void Variable::initTestCase(
     QVERIFY(factory);
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
-    initLanguage(Factory::Language::instance()->get(langIndex));
-    _block = create<VariableBlock>(VariableIndex);
+    _language = Factory::Language::instance()->get(langIndex);
+    _block = qobject_cast<VariableBlock*>(_language->create(VariableIndex,this));
+    QVERIFY(_block);
     QCOMPARE(_block->name(),"variable");
     QCOMPARE(_block->type(),"int");
     QCOMPARE(_block->assignment(),"");
@@ -60,7 +63,8 @@ void Variable::loadFromMap(
         ,{"type",testType}
         ,{"assignment",testAssignment}
     };
-    auto block = create<VariableBlock>(VariableIndex);
+    auto block = qobject_cast<VariableBlock*>(_language->create(VariableIndex,this));
+    QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->type(),testType);
     QCOMPARE(block->assignment(),testAssignment);
@@ -81,7 +85,8 @@ void Variable::saveToMap(
         ,{"type",testType}
         ,{"assignment",testAssignment}
     };
-    auto block = create<VariableBlock>(VariableIndex);
+    auto block = qobject_cast<VariableBlock*>(_language->create(VariableIndex,this));
+    QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);
     block->setType(testType);

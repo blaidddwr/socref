@@ -5,6 +5,7 @@
 #include "LanguageCppQt.h"
 #include "ModelMetaBlock.h"
 #include "ModelMetaLanguage.h"
+#include "Test.h"
 namespace Test {
 namespace Language {
 using namespace Block::CppQt;
@@ -13,7 +14,7 @@ using namespace Block::CppQt;
 void CppQt::initTestCase(
 )
 {
-    _meta = new Model::Meta::Language("cppqt","C++/Qt",this);
+    _meta = new Model::Meta::Language("cppqt","C++/Qt",QIcon(),this);
     _language = new ::Language::CppQt(_meta,this);
     QCOMPARE(_language->meta(),_meta);
 }
@@ -22,7 +23,7 @@ void CppQt::initTestCase(
 void CppQt::createClass(
 )
 {
-    static const QSet<int> allowList {FunctionIndex,PropertyIndex,VariableIndex};
+    static const QSet<int> allowList {EnumerationIndex,FunctionIndex,PropertyIndex,VariableIndex};
     static const QIcon testIcon(":/cpp/class.svg");
     auto block = _language->create(ClassIndex,this);
     auto meta = block->meta();

@@ -1,66 +1,125 @@
 #include "TestModelProject.h"
 #include <QtTest>
-#include "ExceptionBase.h"
+#include "ExceptionBlockRead.h"
+#include "ExceptionBlockWrite.h"
+#include "ExceptionProjectRead.h"
+#include "ExceptionProjectWrite.h"
+#include "ExceptionSystemFile.h"
 #include "FactoryLanguage.h"
 #include "ModelProject.h"
-#include "StreamProject.h"
+#include "StreamProjectDir.h"
+#include "StreamProjectXml.h"
 namespace Test {
 namespace Model {
 
 
-void Project::initTestCase(
+void Project::toDirFromDir(
 )
 {
-    QVERIFY(createTestDir());
-}
-
-
-void Project::fromDir(
-)
-{
+    using Stream = Stream::ProjectDir;
+    auto dir = QDir::temp();
+    auto path = dir.absoluteFilePath("socref.project.test");
+    auto out = new ::Model::Project(Factory::Language::instance()->indexFromName("cppqt"),this);
+    QCOMPARE(out->modified(),true);
+    out->setName("Test Project Name");
+    out->setRelativeCodePath("../test/path");
     try
     {
-        auto factory = Factory::Language::instance();
-        int index = factory->indexFromName("test");
-        auto project = Stream::Project::fromDir(testProjDir(),this);
-        QCOMPARE(project->name(),"Testing123");
-        QCOMPARE(project->language(),factory->get(index));
-        QCOMPARE(project->relativeParsePath(),"../testing");
-        delete project;
+        Stream(path) << *out;
     }
-    catch (Exception::Base& e)
+    catch (Exception::Project::Write& e)
     {
-        qDebug() << e.message();
-        QVERIFY(false);
+        qDebug() << tr("Write Project Exception: %1").arg(e.message());
     }
-}
-
-
-void Project::fromXmlLegacy(
-)
-{
+    catch (Exception::Block::Write& e)
+    {
+        qDebug() << tr("Write Block Exception: %1").arg(e.message());
+    }
+    catch (Exception::System::File& e)
+    {
+        qDebug() << tr("File System Exception: %1").arg(e.message());
+    }
+    QCOMPARE(out->modified(),false);
+    QCOMPARE(out->directoryPath(),path);
+    ::Model::Project* in = nullptr;
     try
     {
-        auto factory = Factory::Language::instance();
-        int index = factory->indexFromName("test");
-        auto project = Stream::Project::fromXml(testXmlLegacy(),this);
-        QCOMPARE(project->name(),"Testing123");
-        QCOMPARE(project->language(),factory->get(index));
-        QCOMPARE(project->relativeParsePath(),"../testing");
-        delete project;
+        in = Stream(path).load(this);
     }
-    catch (Exception::Base& e)
+    catch (Exception::Project::Read& e)
     {
-        qDebug() << e.message();
-        QVERIFY(false);
+        qDebug() << tr("Read Project Exception: %1").arg(e.message());
     }
+    catch (Exception::Block::Read& e)
+    {
+        qDebug() << tr("Read Block Exception: %1").arg(e.message());
+    }
+    catch (Exception::System::File& e)
+    {
+        qDebug() << tr("File System Exception: %1").arg(e.message());
+    }
+    QVERIFY(in);
+    QCOMPARE(in->name(),out->name());
+    QCOMPARE(in->relativeCodePath(),out->relativeCodePath());
+    QCOMPARE(in->directoryPath(),out->directoryPath());
+    QCOMPARE(in->modified(),false);
+    delete out;
+    delete in;
 }
 
 
-void Project::cleanupTestCase(
+void Project::toXmlFromXml(
 )
 {
-    cleanup();
+    using Stream = Stream::ProjectXml;
+    auto dir = QDir::temp();
+    auto path = dir.absoluteFilePath("socref.project.test.xml");
+    auto out = new ::Model::Project(Factory::Language::instance()->indexFromName("cppqt"),this);
+    QCOMPARE(out->modified(),true);
+    out->setName("Test Project Name");
+    out->setRelativeCodePath("../test/path");
+    try
+    {
+        Stream(path) << *out;
+    }
+    catch (Exception::Project::Write& e)
+    {
+        qDebug() << tr("Write Project Exception: %1").arg(e.message());
+    }
+    catch (Exception::Block::Write& e)
+    {
+        qDebug() << tr("Write Block Exception: %1").arg(e.message());
+    }
+    catch (Exception::System::File& e)
+    {
+        qDebug() << tr("File System Exception: %1").arg(e.message());
+    }
+    QCOMPARE(out->modified(),true);
+    QCOMPARE(out->directoryPath(),"");
+    ::Model::Project* in = nullptr;
+    try
+    {
+        in = Stream(path).load(this);
+    }
+    catch (Exception::Project::Read& e)
+    {
+        qDebug() << tr("Read Project Exception: %1").arg(e.message());
+    }
+    catch (Exception::Block::Read& e)
+    {
+        qDebug() << tr("Read Block Exception: %1").arg(e.message());
+    }
+    catch (Exception::System::File& e)
+    {
+        qDebug() << tr("File System Exception: %1").arg(e.message());
+    }
+    QVERIFY(in);
+    QCOMPARE(in->name(),out->name());
+    QCOMPARE(in->relativeCodePath(),out->relativeCodePath());
+    QCOMPARE(in->directoryPath(),out->directoryPath());
+    QCOMPARE(in->modified(),false);
+    delete out;
+    delete in;
 }
 }
 }

@@ -1,6 +1,5 @@
 #ifndef MODEL_META_BLOCK_H
 #define MODEL_META_BLOCK_H
-#include <QSet>
 #include "ModelMetaLanguage.h"
 namespace Model {
 namespace Meta {
@@ -12,27 +11,32 @@ namespace Meta {
  * This is a meta model class. It represents the meta information for a block
  * implementation.
  * 
- * Its properties are language, index, display icon, and allow list. The
- * language is the meta information a meta block's language implementation. The
- * index is the index used for creating a meta's block from its language. The
- * display icon is self-explanatory. The allow list is a set of block indexes
- * that a meta's block is allowed to have as children blocks.
+ * This class's property are language, index, and allow list.
+ * 
+ * The language property is the meta information a meta block's language
+ * implementation.
+ * 
+ * The index property is the index used for creating a meta's block from its
+ * language.
+ * 
+ * The allow list property is a set of block indexes that a meta's block is
+ * allowed to have as children blocks.
  */
 class Block:
-    public Model::Meta::Language
+    public Language
 {
     Q_OBJECT
     Language* _language;
-    const QIcon* _displayIcon;
-    QSet<int> _allowList;
+    QSet<int>* _allowList;
     int _index;
 
 
     /*!
      * Constructs this new model with the given language, index, name, label,
-     * display icon, allow list, and parent. The given language must be valid
-     * and cannot be destroyed during the life of this model. The given display
-     * icon must be valid and this new instance takes ownership of it.
+     * display icon, allow list, and parent.
+     * 
+     * The given language must be valid and cannot be destroyed during the life
+     * of this model.
      *
      * @param language
      *        The language.
@@ -57,11 +61,11 @@ class Block:
      */
     public:
     Block(
-        Model::Meta::Language* language
+        Language* language
         ,int index
         ,const QString& name
         ,const QString& label
-        ,const QIcon* displayIcon
+        ,const QIcon& displayIcon
         ,const QSet<int>& allowList
         ,QObject* parent = nullptr
     );
@@ -87,17 +91,6 @@ class Block:
      * Getter method.
      *
      * @return
-     * This instance's display icon property.
-     */
-    public:
-    QIcon displayIcon(
-    ) const;
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
      * This block's index property.
      */
     public:
@@ -112,7 +105,7 @@ class Block:
      * This model's language property.
      */
     public:
-    Model::Meta::Language* language(
+    Language* language(
     ) const;
 
 

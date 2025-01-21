@@ -1,6 +1,9 @@
 #include "BlockCppClass.h"
 #include <QtGui>
 #include "Global.h"
+#include "WidgetBlockCppClass.h"
+#define PARENTS "parents"
+#define TEMPLATES "templates"
 namespace Block {
 namespace Cpp {
 
@@ -15,26 +18,25 @@ Class::Class(
 
 
 Widget::Block::Abstract* Class::createWidget(
-    QObject* parent
 ) const
 {
-    //TODO
-    Q_UNUSED(parent);
-    return nullptr;
+    return new Widget::Block::Cpp::Class(this);
 }
 
 
 QString Class::displayText(
 ) const
 {
+    auto ret = Base::displayText();
+    if (!_parents.isEmpty())
+    {
+        ret += " : "+_parents.join(", ");
+    }
     if (!_templates.isEmpty())
     {
-        return Base::displayText()+" -> template<"+_templates.join(",")+">";
+        ret += " -> template<"+_templates.join(",")+">";
     }
-    else
-    {
-        return Base::displayText();
-    }
+    return ret;
 }
 
 
@@ -46,10 +48,10 @@ void Class::loadFromMap(
     Base::loadFromMap(map,version);
     if (version == Socref_Legacy)
     {
-        _parents = map.value("parents").toString().split('\n',Qt::SkipEmptyParts);
+        _parents = map.value(PARENTS).toString().split('\n',Qt::SkipEmptyParts);
         auto str = map.value("template").toString();
         str = str.replace("template","").replace("<","").replace(">","");
-        _templates = str.split(',');
+        _templates = str.split(',',Qt::SkipEmptyParts);
         for (auto& t: _templates)
         {
             t = t.trimmed();
@@ -57,8 +59,8 @@ void Class::loadFromMap(
     }
     else
     {
-        _parents = map.value("parents").toString().split(';');
-        _templates = map.value("templates").toString().split(';');
+        _parents = map.value(PARENTS).toString().split(';',Qt::SkipEmptyParts);
+        _templates = map.value(TEMPLATES).toString().split(';',Qt::SkipEmptyParts);
     }
 }
 
@@ -76,11 +78,11 @@ QMap<QString,QVariant> Class::saveToMap(
     auto ret = Base::saveToMap();
     if (!_parents.isEmpty())
     {
-        ret.insert("parents",_parents.join(';'));
+        ret.insert(PARENTS,_parents.join(';'));
     }
     if (!_templates.isEmpty())
     {
-        ret.insert("templates",_templates.join(';'));
+        ret.insert(TEMPLATES,_templates.join(';'));
     }
     return ret;
 }
@@ -94,6 +96,7 @@ void Class::setParents(
     {
         _parents = value;
         emit parentsChanged(value);
+        emit displayTextChanged(displayText());
     }
 }
 
@@ -103,8 +106,8 @@ void Class::setState(
 )
 {
     Base::setState(state);
-    setParents(state.value("parents").toStringList());
-    setTemplates(state.value("templates").toStringList());
+    setParents(state.value(PARENTS).toStringList());
+    setTemplates(state.value(TEMPLATES).toStringList());
 }
 
 
@@ -125,8 +128,8 @@ QHash<QString,QVariant> Class::state(
 ) const
 {
     auto ret = Base::state();
-    ret.insert("parents",_parents);
-    ret.insert("templates",_templates);
+    ret.insert(PARENTS,_parents);
+    ret.insert(TEMPLATES,_templates);
     return ret;
 }
 
@@ -157,7 +160,7 @@ void Class::updateDisplayIcon(
 }
 
 
-Block::Abstract* Class::create(
+Abstract* Class::create(
     QObject* parent
 ) const
 {

@@ -18,7 +18,7 @@ namespace Cpp {
  * is abstract, virtual, or regular.
  */
 class Property:
-    public Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
     const QIcon* _icon {nullptr};
@@ -38,7 +38,6 @@ class Property:
 
     public:
     virtual Widget::Block::Abstract* createWidget(
-        QObject* parent = nullptr
     ) const override;
 
 
@@ -110,7 +109,7 @@ class Property:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override;
 

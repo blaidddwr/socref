@@ -1,7 +1,8 @@
 #include "BlockCppProperty.h"
 #include <QtGui>
 #include "BlockCppFunction.h"
-#include "Exceptions.h"
+#include "WidgetBlockCppProperty.h"
+#include "gassert.h"
 namespace Block {
 namespace Cpp {
 
@@ -29,11 +30,9 @@ Property::~Property(
 
 
 Widget::Block::Abstract* Property::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::Property(this);
 }
 
 
@@ -135,7 +134,7 @@ void Property::addEvent(
 }
 
 
-Block::Abstract* Property::create(
+Abstract* Property::create(
     QObject* parent
 ) const
 {

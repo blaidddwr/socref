@@ -24,14 +24,8 @@ namespace Block {
  * it an argument of the function or a function being a child of a class making
  * it a method of the class.
  * 
- * Its properties are meta, display text, display icon, and scope. Meta, display
+ * Its properties are meta, display text, and display icon. The meta, display
  * text, and display icon are self-explanatory.
- * 
- * The scope is an identifier that must be unique among all other blocks that
- * share a common root block making up a project. The scope cannot contain non
- * printable characters such as new lines. The root block of a project must have
- * a scope value equal to the value returned by the "root scope" static getter
- * method.
  * 
  * A block can only have children blocks of any type in its meta's allow list
  * property.
@@ -43,12 +37,17 @@ namespace Block {
  * are used for file system IO, the mapped values must be saved as strings and
  * be version aware for backwards save file compatibility. There is no such
  * limitation for the state and set state methods.
+ * 
+ * All blocks supply a file name used when saving/loading blocks in the multi
+ * file directory system. A block's file name must be unique among all other
+ * sibling blocks. The root block must supply the special root file name.
  */
 class Abstract:
     public QObject
 {
     Q_OBJECT
-    friend class Stream::Block;
+    friend class Stream::BlockDir;
+    friend class Stream::BlockXml;
     Model::Meta::Block* _meta;
     QList<Abstract*> _children;
 
@@ -108,7 +107,7 @@ class Abstract:
      */
     public:
     void append(
-        Block::Abstract* block
+        Abstract* block
     );
 
 
@@ -120,20 +119,16 @@ class Abstract:
      *        The parent.
      */
     public:
-    Block::Abstract* copy(
+    Abstract* copy(
         QObject* parent = nullptr
     ) const;
 
 
     /*!
-     * Creates and returns a block widget for this block with the given parent.
-     *
-     * @param parent
-     *        The parent.
+     * Creates and returns a block widget for this block.
      */
     public:
     virtual Widget::Block::Abstract* createWidget(
-        QObject* parent = nullptr
     ) const = 0;
 
 
@@ -144,7 +139,7 @@ class Abstract:
      * A complete list of all descendant blocks contained in this block.
      */
     public:
-    QList<Block::Abstract*> descendants(
+    QList<Abstract*> descendants(
     ) const;
 
 
@@ -171,6 +166,17 @@ class Abstract:
 
 
     /*!
+     * Getter method.
+     *
+     * @return
+     * This block's file name.
+     */
+    public:
+    virtual QString fileName(
+    ) const = 0;
+
+
+    /*!
      * Returns this block's child block at the given index. The given index must
      * be valid.
      *
@@ -178,7 +184,7 @@ class Abstract:
      *        The index.
      */
     public:
-    Block::Abstract* get(
+    Abstract* get(
         int index
     ) const;
 
@@ -193,7 +199,7 @@ class Abstract:
      */
     public:
     int indexOf(
-        const Block::Abstract* block
+        const Abstract* block
     ) const;
 
 
@@ -217,7 +223,7 @@ class Abstract:
     public:
     void insert(
         int index
-        ,Block::Abstract* block
+        ,Abstract* block
     );
 
 
@@ -272,10 +278,10 @@ class Abstract:
      * Getter method.
      *
      * @return
-     * The special root scope.
+     * The special root file name.
      */
     public:
-    static const QString& rootScope(
+    static const QString& rootFileName(
     );
 
 
@@ -307,17 +313,6 @@ class Abstract:
      * Getter method.
      *
      * @return
-     * This instance's scope property.
-     */
-    public:
-    virtual QString scope(
-    ) const = 0;
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
      * This block's total number of children blocks.
      */
     public:
@@ -342,7 +337,7 @@ class Abstract:
      *        The index.
      */
     public:
-    Block::Abstract* take(
+    Abstract* take(
         int index
     );
 
@@ -367,7 +362,7 @@ class Abstract:
      *        The parent.
      */
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const = 0;
 

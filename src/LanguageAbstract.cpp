@@ -1,7 +1,7 @@
 #include "LanguageAbstract.h"
-#include "Exceptions.h"
 #include "ModelMetaBlock.h"
 #include "ModelMetaLanguage.h"
+#include "gassert.h"
 namespace Language {
 
 
@@ -62,6 +62,17 @@ void Abstract::appendBlock(
     meta->setParent(this);
     _lookup.insert(name,_blocks.size());
     _blocks.append(meta);
+}
+
+
+void Abstract::appendBlocks(
+    const QList<Model::Meta::Block*>& metas
+)
+{
+    for (auto meta: metas)
+    {
+        appendBlock(meta);
+    }
 }
 
 

@@ -5,16 +5,15 @@ namespace Block {
 
 
 /*!
- * This contains all C++/Qt block enumerations and classes.
+ * This contains all C++/Qt blocks.
  */
 namespace CppQt
 {
     class Function;
-    class Property;
 
 
     /*!
-     * Enumerates additional function flags for Qt methods.
+     * This enumerates additional function flags for Qt methods.
      */
     enum FunctionFlags
     {
@@ -23,7 +22,7 @@ namespace CppQt
 
 
     /*!
-     * Enumerates additional function types for Qt methods.
+     * This enumerates additional function types for Qt methods.
      */
     enum FunctionType
     {
@@ -33,7 +32,7 @@ namespace CppQt
 
 
     /*!
-     * Enumerates all C++/Qt block implementations' indexes.
+     * This enumerates all C++/Qt block implementations' indexes.
      */
     enum Index
     {

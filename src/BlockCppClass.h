@@ -15,7 +15,7 @@ namespace Cpp {
  * class.
  */
 class Class:
-    public Block::Cpp::Property
+    public Property
 {
     Q_OBJECT
     QStringList _parents;
@@ -55,7 +55,6 @@ class Class:
 
     public:
     virtual Widget::Block::Abstract* createWidget(
-        QObject* parent = nullptr
     ) const override final;
 
 
@@ -142,7 +141,7 @@ class Class:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override final;
 

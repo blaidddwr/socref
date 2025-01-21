@@ -1,0 +1,74 @@
+#include "WidgetBlockCppEnumeration.h"
+#include <QtWidgets>
+#include "BlockCppEnumeration.h"
+#include "WidgetBlockAbstract.t.h"
+namespace Widget {
+namespace Block {
+namespace Cpp {
+using Block = ::Block::Cpp::Enumeration;
+
+
+Enumeration::Enumeration(
+    const ::Block::Abstract* block
+    ,QWidget* parent
+):
+    Base(block,parent)
+{
+    setLayout(formLayout());
+}
+
+
+bool Enumeration::apply(
+)
+{
+    auto block = beginSet<Block>();
+    block->setName(nameLineEdit()->text());
+    block->setDescription(descriptionTextEdit()->toPlainText());
+    block->setClass(classCheckBox()->isChecked());
+    finishSet();
+    setModified(false);
+    return true;
+}
+
+
+QCheckBox* Enumeration::classCheckBox(
+)
+{
+    if (!_classCheckBox)
+    {
+        _classCheckBox = new QCheckBox(tr("Class"));
+        _classCheckBox->setChecked(block<Block>()->isClass());
+        connect(_classCheckBox,&QCheckBox::checkStateChanged,this,&Enumeration::touch);
+    }
+    return _classCheckBox;
+}
+
+
+QGroupBox* Enumeration::flagsGroupBox(
+)
+{
+    if (!_flagsGroupBox)
+    {
+        _flagsGroupBox = new QGroupBox;
+        auto layout = new QHBoxLayout;
+        layout->addWidget(classCheckBox());
+        layout->addStretch();
+        _flagsGroupBox->setLayout(layout);
+    }
+    return _flagsGroupBox;
+}
+
+
+QFormLayout* Enumeration::formLayout(
+)
+{
+    if (!_formLayout)
+    {
+        Base::formLayout()->addRow(tr("Flags:"),flagsGroupBox());
+        _formLayout = true;
+    }
+    return Base::formLayout();
+}
+}
+}
+}

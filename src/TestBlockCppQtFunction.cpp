@@ -4,7 +4,8 @@
 #include "BlockCppQt.h"
 #include "BlockCppQtFunction.h"
 #include "FactoryLanguage.h"
-#include "TestBase.t.h"
+#include "LanguageAbstract.h"
+#include "Test.h"
 namespace Test {
 namespace Block {
 namespace CppQt {
@@ -22,9 +23,11 @@ void Function::initTestCase(
     QVERIFY(factory);
     auto langIndex = factory->indexFromName("cppqt");
     QVERIFY(langIndex >= 0);
-    initLanguage(Factory::Language::instance()->get(langIndex));
-    _block = create<FunctionBlock>(FunctionIndex);
-    _parent = create<ClassBlock>(ClassIndex);
+    auto language = Factory::Language::instance()->get(langIndex);
+    _block = qobject_cast<FunctionBlock*>(language->create(FunctionIndex,this));
+    _parent = qobject_cast<ClassBlock*>(language->create(ClassIndex,this));
+    QVERIFY(_block);
+    QVERIFY(_parent);
     _parent->setName("class123");
     QCOMPARE(_parent->name(),"class123");
     _parent->append(_block);

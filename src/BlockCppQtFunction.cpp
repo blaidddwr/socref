@@ -1,17 +1,33 @@
 #include "BlockCppQtFunction.h"
 #include <QtGui>
+#include "BlockCppProperty.h"
 #include "BlockCppQt.h"
-#include "Exceptions.h"
+#include "ExceptionBlockLogical.h"
+#include "Global.h"
 namespace Block {
 namespace CppQt {
+using Property = Cpp::Property;
 
 
-Widget::Block::Abstract* Function::createWidget(
-    QObject* parent
+Function::Function(
+    Model::Meta::Block* meta
+    ,QObject* parent
+):
+    Cpp::Function(meta,parent)
+{
+}
+
+
+const QMap<int,QString>& Function::flagLabelMap(
 ) const
 {
-    Q_UNUSED(parent);
-    return nullptr;//TODO
+    static QMap<int,QString>* ret = nullptr;
+    if (!ret)
+    {
+        ret = new QMap<int,QString>(Cpp::Function::flagLabelMap());
+        ret->insert(QtInvokableFunctionFlag,"Qt Invokable");
+    }
+    return *ret;
 }
 
 
@@ -33,6 +49,34 @@ bool Function::isSlot(
 ) const
 {
     return type() == SlotFunctionType;
+}
+
+
+const QList<QIcon>& Function::typeIcons(
+) const
+{
+    static QList<QIcon>* ret = nullptr;
+    if (!ret)
+    {
+        ret = new QList<QIcon>(Cpp::Function::typeIcons());
+        ret->append(*iconSignal());
+        ret->append(QIcon(":/cppqt/slot.svg"));
+    }
+    return *ret;
+}
+
+
+const QStringList& Function::typeLabels(
+) const
+{
+    static QStringList* ret = nullptr;
+    if (!ret)
+    {
+        ret = new QStringList(Cpp::Function::typeLabels());
+        ret->append("Signal");
+        ret->append("Slot");
+    }
+    return *ret;
 }
 
 
@@ -105,7 +149,7 @@ void Function::check(
 }
 
 
-Block::Abstract* Function::create(
+Abstract* Function::create(
     QObject* parent
 ) const
 {
@@ -123,6 +167,34 @@ const QMap<int,QString>& Function::flagStringMap(
         ret->insert(QtInvokableFunctionFlag,"qtinvokable");
     }
     return *ret;
+}
+
+
+void Function::loadAccess(
+    const QVariant& value
+    ,int version
+)
+{
+    static const QHash<QString,QString> legacyAccessLookup {
+        {"Signals","public"}
+        ,{"Public Slots","public"}
+        ,{"Protected Slots","protected"}
+        ,{"Private Slots","private"}
+    };
+    static const QHash<QString,int> legacyTypeLookup {
+        {"Signals",SignalFunctionType}
+        ,{"Public Slots",SlotFunctionType}
+        ,{"Protected Slots",SlotFunctionType}
+        ,{"Private Slots",SlotFunctionType}
+    };
+    if (version != Socref_Legacy)
+    {
+        Cpp::Function::loadAccess(value,version);
+        return;
+    }
+    auto access = value.toString();
+    Cpp::Function::loadAccess(legacyAccessLookup.value(access,access),version);
+    setType(legacyTypeLookup.value(access,type()));
 }
 
 
@@ -217,6 +289,13 @@ void Function::checkSignal(
 {
     using Error = Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
+    if (
+        parent()
+        && !qobject_cast<Property*>(parent())
+    )
+    {
+        throw Error(tr("Signals must be the child of a class or property."));
+    }
     if (name().isEmpty())
     {
         throw Error(tr("Qt signals must have a name."));
@@ -249,6 +328,13 @@ void Function::checkSlot(
 {
     using Error = Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
+    if (
+        parent()
+        && !qobject_cast<Property*>(parent())
+    )
+    {
+        throw Error(tr("Slots must be the child of a class or property."));
+    }
     if (name().isEmpty())
     {
         throw Error(tr("Qt slots must have a name."));
@@ -256,10 +342,6 @@ void Function::checkSlot(
     if (!validName.match(name()).hasMatch())
     {
         throw Error(tr("Invalid name '%1' for Qt slot."));
-    }
-    if (returnType() != "void")
-    {
-        throw Error(tr("Qt slots must have a return type of void."));
     }
     if (
         assignment() == Cpp::DefaultFunctionAssignment

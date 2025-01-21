@@ -3,7 +3,7 @@
 
 
 /*!
- * This contains all exception classes and namespaces.
+ * This contains all exceptions.
  * 
  * All specific exceptions inherit the base exception class.
  */

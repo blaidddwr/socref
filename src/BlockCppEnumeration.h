@@ -13,10 +13,17 @@ namespace Cpp {
  * Its single property is class. It is self-explanatory.
  */
 class Enumeration:
-    public Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
     bool _class {false};
+
+
+    public:
+    Enumeration(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
+    );
 
 
     /*!
@@ -32,20 +39,17 @@ class Enumeration:
 
 
     public:
-    Enumeration(
-        Model::Meta::Block* meta
-        ,QObject* parent = nullptr
-    );
-
-
-    public:
     virtual Widget::Block::Abstract* createWidget(
-        QObject* parent = nullptr
     ) const override final;
 
 
     public:
     virtual QIcon displayIcon(
+    ) const override final;
+
+
+    public:
+    virtual QString displayText(
     ) const override final;
 
 
@@ -96,7 +100,7 @@ class Enumeration:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override final;
 };

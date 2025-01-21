@@ -1,7 +1,7 @@
 #include "CommandProjectSet.h"
 #include "BlockAbstract.h"
-#include "Exceptions.h"
 #include "ModelProject.h"
+#include "gassert.h"
 namespace Command {
 namespace Project {
 
@@ -19,8 +19,7 @@ Set::Set(
 {
     G_ASSERT(index.isValid());
     G_ASSERT(project().block(index));
-    auto blockScope = project().block(index)->scope();
-    _description = tr("Set state of block %1.").arg(blockScope);
+    _description = tr("Set state of block.");
 }
 
 
@@ -34,7 +33,10 @@ QString Set::description(
 bool Set::redo(
 )
 {
-    project().block(convertListToIndex(_location))->setState(_nextState);
+    auto index = convertListToIndex(_location);
+    project().block(index)->setState(_nextState);
+    emit project().dataChanged(index,index,{Qt::DisplayRole});
+    project().setModified(true);
     return true;
 }
 
@@ -42,7 +44,10 @@ bool Set::redo(
 bool Set::undo(
 )
 {
-    project().block(convertListToIndex(_location))->setState(_previousState);
+    auto index = convertListToIndex(_location);
+    project().block(index)->setState(_previousState);
+    emit project().dataChanged(index,index,{Qt::DisplayRole});
+    project().setModified(true);
     return true;
 }
 }

@@ -5,11 +5,11 @@
 #include "CommandProjectMove.h"
 #include "CommandProjectRemove.h"
 #include "CommandProjectSet.h"
-#include "Exceptions.h"
 #include "LanguageAbstract.h"
 #include "ModelMetaBlock.h"
 #include "BlockAbstract.h"
 #include "FactoryLanguage.h"
+#include "gassert.h"
 #define CONFIG_FILE "project.xml"
 namespace Model {
 QList<Block::Abstract*> Project::_copied {};
@@ -24,8 +24,9 @@ Project::Project(
 {
     G_ASSERT(_language);
     connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
-    _root = _language->create(_language->rootIndex(),this);
+    _root = _language->createRoot(this);
     G_ASSERT(_root);
+    G_ASSERT(_root->meta()->index() == _language->rootIndex());
 }
 
 
@@ -44,10 +45,61 @@ bool Project::abortSet(
 }
 
 
-QString Project::absoluteParsePath(
+QString Project::absoluteCodePath(
 ) const
 {
-    return QDir(_directoryPath).absoluteFilePath(_relativeParsePath);
+    return QDir(_directoryPath).absoluteFilePath(_relativeCodePath);
+}
+
+
+Block::Abstract* Project::beginSet(
+    const QModelIndex& index
+)
+{
+    if (
+        index.model() != this
+        || !index.isValid()
+        || _setIndex.isValid()
+    )
+    {
+        return nullptr;
+    }
+    _setIndex = index;
+    auto ret = block(index);
+    _previousState = ret->state();
+    return ret;
+}
+
+
+int Project::blockIndex(
+    const QModelIndex& index
+) const
+{
+    return block(index)->meta()->index();
+}
+
+
+bool Project::canMove(
+    const QModelIndex& parent
+    ,int from
+    ,int to
+) const
+{
+    if (
+        (parent.isValid() && parent.model() != this)
+        || from == to
+        || from < 0
+        || from >= rowCount(parent)
+        || to < 0
+        || to >= rowCount(parent)
+    )
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
 }
 
 
@@ -88,6 +140,15 @@ int Project::columnCount(
 {
     Q_UNUSED(parent);
     return 1;
+}
+
+
+const Block::Abstract* Project::constBlock(
+    const QModelIndex& index
+) const
+{
+    G_ASSERT(index.isValid());
+    return block(index);
 }
 
 
@@ -133,16 +194,10 @@ int Project::cut(
         )
         {
             std::unique_ptr<Block::Abstract> copy(block(index)->copy());
-            auto command = new Command::Project::Remove(index.row(),index.parent(),this);
-            if (command->redo())
+            if (pushCommand(new Command::Project::Remove(index.row(),index.parent(),this)))
             {
                 _copied.append(copy.release());
-                _undoStack.push_front(command);
                 ret++;
-            }
-            else
-            {
-                delete command;
             }
         }
     }
@@ -186,12 +241,43 @@ bool Project::finishSet(
     {
         return false;
     }
+    QModelIndex index = _setIndex;
     _undoStack.push_back(
-        new Command::Project::Set(_previousState,block(_setIndex)->state(),_setIndex,this)
+        new Command::Project::Set(_previousState,block(index)->state(),_setIndex,this)
     );
+    emit dataChanged(index,index,{Qt::DisplayRole});
+    setModified(true);
     _setIndex = QPersistentModelIndex();
     _previousState.clear();
     return true;
+}
+
+
+QVariant Project::headerData(
+    int section
+    ,Qt::Orientation orientation
+    ,int role
+) const
+{
+    if (
+        section == 0
+        && orientation == Qt::Horizontal
+    )
+    {
+        switch (role)
+        {
+        case Qt::DisplayRole:
+            return _language->meta()->label();
+        case Qt::DecorationRole:
+            return _language->meta()->displayIcon();
+        default:
+            return QVariant();
+        }
+    }
+    else
+    {
+        return QVariant();
+    }
 }
 
 
@@ -203,14 +289,14 @@ QModelIndex Project::index(
 {
     G_ASSERT(row >= 0);
     G_ASSERT(column == 0);
-    auto realParent = _root;
+    auto p = _root;
     if (parent.isValid())
     {
-        realParent = reinterpret_cast<Block::Abstract*>(parent.internalPointer());
+        p = reinterpret_cast<Block::Abstract*>(parent.internalPointer());
     }
-    G_ASSERT(realParent);
-    G_ASSERT(row < realParent->size());
-    return createIndex(row,column,realParent->get(row));
+    G_ASSERT(p);
+    G_ASSERT(row < p->size());
+    return createIndex(row,column,p->get(row));
 }
 
 
@@ -229,17 +315,7 @@ bool Project::insert(
     {
         return false;
     }
-    auto command = new Command::Project::Insert(_language->create(blockIndex),row,parent,this);
-    if (command->redo())
-    {
-        _undoStack.push_front(command);
-        return true;
-    }
-    else
-    {
-        delete command;
-        return false;
-    }
+    return pushCommand(new Command::Project::Insert(_language->create(blockIndex),row,parent,this));
 }
 
 
@@ -251,33 +327,24 @@ Language::Abstract* Project::language(
 }
 
 
+bool Project::modified(
+) const
+{
+    return _modified;
+}
+
+
 bool Project::move(
     const QModelIndex& parent
     ,int from
     ,int to
 )
 {
-    if (
-        from == to
-        || from < 0
-        || from >= rowCount(parent)
-        || to < 0
-        || to >= rowCount(parent)
-    )
+    if (!canMove(parent,from,to))
     {
         return false;
     }
-    auto command = new Command::Project::Move(from,to,parent,this);
-    if (command->redo())
-    {
-        _undoStack.push_back(command);
-        return true;
-    }
-    else
-    {
-        delete command;
-        return false;
-    }
+    return pushCommand(new Command::Project::Move(from,to,parent,this));
 }
 
 
@@ -296,20 +363,14 @@ QModelIndex Project::parent(
     auto b = reinterpret_cast<Block::Abstract*>(index.internalPointer());
     G_ASSERT(b);
     auto p = qobject_cast<Block::Abstract*>(b->parent());
-    if (!p)
-    {
-        return QModelIndex();
-    }
+    G_ASSERT(p);
     auto gp = qobject_cast<Block::Abstract*>(p->parent());
     if (!gp)
     {
         return QModelIndex();
     }
     auto row = gp->indexOf(p);
-    if (row < 0)
-    {
-        return QModelIndex();
-    }
+    G_ASSERT(row >= 0);
     G_ASSERT(row < gp->size());
     return createIndex(row,0,p);
 }
@@ -334,15 +395,9 @@ int Project::paste(
         std::unique_ptr<Block::Abstract> copy(b->copy());
         if (block(parent)->meta()->allowList().contains(copy->meta()->index()))
         {
-            auto command = new Command::Project::Insert(copy.release(),row,parent,this);
-            if (command->redo())
+            if (pushCommand(new Command::Project::Insert(copy.release(),row,parent,this)))
             {
-                _undoStack.push_back(command);
                 ret++;
-            }
-            else
-            {
-                delete command;
             }
         }
     }
@@ -357,10 +412,10 @@ bool Project::redo(
     {
         return false;
     }
-    if (_redoStack.front()->redo())
+    if (_redoStack.back()->redo())
     {
-        _undoStack.push_front(_redoStack.front());
-        _redoStack.pop_front();
+        _undoStack.push_back(_redoStack.back());
+        _redoStack.pop_back();
         return true;
     }
     else
@@ -370,10 +425,10 @@ bool Project::redo(
 }
 
 
-const QString& Project::relativeParsePath(
+const QString& Project::relativeCodePath(
 ) const
 {
-    return _relativeParsePath;
+    return _relativeCodePath;
 }
 
 
@@ -394,15 +449,9 @@ int Project::remove(
             && index.model() == this
         )
         {
-            auto command = new Command::Project::Remove(index.row(),index.parent(),this);
-            if (command->redo())
+            if (pushCommand(new Command::Project::Remove(index.row(),index.parent(),this)))
             {
-                _undoStack.push_front(command);
                 ret++;
-            }
-            else
-            {
-                delete command;
             }
         }
     }
@@ -435,38 +484,21 @@ void Project::setName(
     {
         _name = value;
         emit nameChanged(value);
+        setModified(true);
     }
 }
 
 
-void Project::setRelativeParsePath(
+void Project::setRelativeCodePath(
     const QString& value
 )
 {
-    if (_relativeParsePath != value)
+    if (_relativeCodePath != value)
     {
-        _relativeParsePath = value;
-        emit relativeParsePathChanged(value);
+        _relativeCodePath = value;
+        emit relativeCodePathChanged(value);
+        setModified(true);
     }
-}
-
-
-Block::Abstract* Project::startSet(
-    const QModelIndex& index
-)
-{
-    if (
-        index.model() != this
-        || !index.isValid()
-        || _setIndex.isValid()
-    )
-    {
-        return nullptr;
-    }
-    _setIndex = index;
-    auto ret = block(index);
-    _previousState = ret->state();
-    return ret;
 }
 
 
@@ -477,10 +509,10 @@ bool Project::undo(
     {
         return false;
     }
-    if (_undoStack.front()->undo())
+    if (_undoStack.back()->undo())
     {
-        _redoStack.push_front(_undoStack.front());
-        _undoStack.pop_front();
+        _redoStack.push_back(_undoStack.back());
+        _undoStack.pop_back();
         return true;
     }
     else
@@ -506,6 +538,54 @@ Block::Abstract* Project::block(
 }
 
 
+void Project::connectAll(
+)
+{
+    G_ASSERT(_root);
+    for (auto block: _root->descendants())
+    {
+        connect(
+            block
+            ,&Block::Abstract::displayIconChanged
+            ,this
+            ,[this,block](){ onBlockDisplayIconChanged(block); }
+        );
+        connect(
+            block
+            ,&Block::Abstract::displayTextChanged
+            ,this
+            ,[this,block](){ onBlockDisplayTextChanged(block); })
+        ;
+    }
+}
+
+
+void Project::onBlockDisplayIconChanged(
+    Block::Abstract* block
+)
+{
+    G_ASSERT(block);
+    if (auto p = qobject_cast<Block::Abstract*>(block->parent()))
+    {
+        auto index = createIndex(p->indexOf(block),0,block);
+        emit dataChanged(index,index,{Qt::DecorationRole});
+    }
+}
+
+
+void Project::onBlockDisplayTextChanged(
+    Block::Abstract* block
+)
+{
+    G_ASSERT(block);
+    if (auto p = qobject_cast<Block::Abstract*>(block->parent()))
+    {
+        auto index = createIndex(p->indexOf(block),0,block);
+        emit dataChanged(index,index,{Qt::DisplayRole});
+    }
+}
+
+
 void Project::onLanguageDestroyed(
     QObject* object
 )
@@ -513,6 +593,24 @@ void Project::onLanguageDestroyed(
     if (_language == object)
     {
         _language = nullptr;
+    }
+}
+
+
+bool Project::pushCommand(
+    Command::Project::Abstract* command
+)
+{
+    G_ASSERT(command);
+    if (command->redo())
+    {
+        _undoStack.push_back(command);
+        return true;
+    }
+    else
+    {
+        delete command;
+        return false;
     }
 }
 
@@ -525,6 +623,18 @@ void Project::setDirectoryPath(
     {
         _directoryPath = value;
         emit directoryPathChanged(value);
+    }
+}
+
+
+void Project::setModified(
+    bool value
+)
+{
+    if (_modified != value)
+    {
+        _modified = value;
+        emit modifiedChanged(value);
     }
 }
 }

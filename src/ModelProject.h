@@ -14,11 +14,11 @@ namespace Model {
 /*!
  * This is a model class. It represents a Socrates' Reference project.
  * 
- * Its properties are language, name, directory path, and relative parse path.
- * The language and name are self-explanatory. The directory path is where a
- * project's files are located. The parse path is the path, relative to the
- * location of a project's directory path, where a project's source code is
- * contained.
+ * Its properties are language, name, directory path, relative code path, and
+ * modified. The language and name are self-explanatory. The directory path is
+ * where a project's files are located. The relative code path is the path,
+ * relative to the location of a project's directory path, where a project's
+ * source code is contained. The modified flag is self-explanatory.
  */
 class Project:
     public QAbstractItemModel
@@ -29,7 +29,8 @@ class Project:
     friend class Command::Project::Move;
     friend class Command::Project::Remove;
     friend class Command::Project::Set;
-    friend class Stream::Project;
+    friend class Stream::ProjectDir;
+    friend class Stream::ProjectXml;
     Block::Abstract* _root {nullptr};
     Language::Abstract* _language {nullptr};
     QHash<QString,QVariant> _previousState;
@@ -38,7 +39,8 @@ class Project:
     QPersistentModelIndex _setIndex;
     QString _directoryPath;
     QString _name;
-    QString _relativeParsePath;
+    QString _relativeCodePath;
+    bool mutable _modified {true};
     static QList<Block::Abstract*> _copied;
 
 
@@ -56,6 +58,18 @@ class Project:
 
 
     /*!
+     * Signals this model's modified property has changed to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    signals:
+    void modifiedChanged(
+        bool value
+    );
+
+
+    /*!
      * Signals this model's name property has changed to the given value.
      *
      * @param value
@@ -68,14 +82,14 @@ class Project:
 
 
     /*!
-     * Signals this instance's relative parse path property has changed to the
+     * Signals this instance's relative code path property has changed to the
      * given value.
      *
      * @param value
      *        The value.
      */
     signals:
-    void relativeParsePathChanged(
+    void relativeCodePathChanged(
         const QString& value
     );
 
@@ -104,7 +118,7 @@ class Project:
      * Informs this model the block given in the last start set call failed in
      * changing its state, therefore not making any state change to the block.
      * 
-     * The start set method must be called before this method.
+     * The begin set method must be called before this method.
      *
      * @return
      * True on success or false otherwise.
@@ -115,11 +129,69 @@ class Project:
 
 
     /*!
-     * Returns this project's absolute parse path, derived its directory path
-     * and relative parse path.
+     * Returns this project's absolute code path, derived from its directory
+     * path and relative code path.
      */
     public:
-    QString absoluteParsePath(
+    QString absoluteCodePath(
+    ) const;
+
+
+    /*!
+     * Informs this model that the block at the given index is about to have its
+     * state changed.
+     * 
+     * This must be called before the finish or abort set methods. Once this
+     * method is called it cannot be called again until the finish or abort set
+     * method is called to finish the set operation. The given index must be
+     * valid.
+     *
+     * @param index
+     *        The index.
+     *
+     * @return
+     * The block this is about to be set on success or null otherwise.
+     */
+    public:
+    Block::Abstract* beginSet(
+        const QModelIndex& index
+    );
+
+
+    /*!
+     * Returns the block index of this model's block at the given Qt model
+     * index.
+     *
+     * @param index
+     *        The Qt model index.
+     */
+    public:
+    int blockIndex(
+        const QModelIndex& index
+    ) const;
+
+
+    /*!
+     * Determines if this model's block in the given parent index can be moved
+     * from the given from index to the given to index.
+     *
+     * @param parent
+     *        The parent index.
+     *
+     * @param from
+     *        The from row.
+     *
+     * @param to
+     *        The to row.
+     *
+     * @return
+     * True if it can be moved or false otherwise.
+     */
+    public:
+    bool canMove(
+        const QModelIndex& parent
+        ,int from
+        ,int to
     ) const;
 
 
@@ -164,6 +236,24 @@ class Project:
     virtual int columnCount(
         const QModelIndex& parent = QModelIndex()
     ) const override final;
+
+
+    /*!
+     * Returns the block contained in this model at the given index.
+     * 
+     * The given index must be valid.
+     * 
+     * A constant pointer is returned because the block cannot be modified or
+     * deleted. Doing either action will corrupt this project model and
+     * potentially crash the application.
+     *
+     * @param index
+     *        The index.
+     */
+    public:
+    const Block::Abstract* constBlock(
+        const QModelIndex& index
+    ) const;
 
 
     /*!
@@ -218,7 +308,7 @@ class Project:
      * Informs this model the block given in the last start set call has
      * successfully had its state changed.
      * 
-     * The start set method must be called before this method.
+     * The finish set method must be called before this method.
      *
      * @return
      * True on success or false otherwise.
@@ -226,6 +316,14 @@ class Project:
     public:
     bool finishSet(
     );
+
+
+    public:
+    virtual QVariant headerData(
+        int section
+        ,Qt::Orientation orientation
+        ,int role
+    ) const override final;
 
 
     public:
@@ -270,6 +368,17 @@ class Project:
      */
     public:
     Language::Abstract* language(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This model's modified property.
+     */
+    public:
+    bool modified(
     ) const;
 
 
@@ -353,10 +462,10 @@ class Project:
      * Getter method.
      *
      * @return
-     * This instance's relative parse path property.
+     * This instance's relative code path property.
      */
     public:
-    const QString& relativeParsePath(
+    const QString& relativeCodePath(
     ) const;
 
 
@@ -394,35 +503,14 @@ class Project:
 
 
     /*!
-     * Sets this instance's relative parse path property to the given value.
+     * Sets this instance's relative code path property to the given value.
      *
      * @param value
      *        The value.
      */
     public:
-    void setRelativeParsePath(
+    void setRelativeCodePath(
         const QString& value
-    );
-
-
-    /*!
-     * Informs this model that the block at the given index is about to have its
-     * state changed.
-     * 
-     * This must be called before the finish or abort set methods. Once this
-     * method is called it cannot be called again until the finish or abort set
-     * method is called to finish the set operation. The given index must be
-     * valid.
-     *
-     * @param index
-     *        The index.
-     *
-     * @return
-     * The block this is about to be set on success or null otherwise.
-     */
-    public:
-    Block::Abstract* startSet(
-        const QModelIndex& index
     );
 
 
@@ -458,11 +546,76 @@ class Project:
 
 
     /*!
+     * Connects this model's root block's and all its descendant's display icon
+     * and text changed signals to this model's corresponding slots.
+     * 
+     * This does not check if these signals are already connected and must be
+     * called only once after loading a project's blocks.
+     */
+    private:
+    void connectAll(
+    );
+
+
+    /*!
+     * Called when the given block in this model's display icon changed signal
+     * is emitted.
+     * 
+     * The given block must be valid.
+     *
+     * @param block
+     *        The block.
+     */
+    private slots:
+    void onBlockDisplayIconChanged(
+        Block::Abstract* block
+    );
+
+
+    /*!
+     * Called when the given block in this model's display text changed signal
+     * is emitted.
+     * 
+     * The given block must be valid.
+     *
+     * @param block
+     *        The block.
+     */
+    private slots:
+    void onBlockDisplayTextChanged(
+        Block::Abstract* block
+    );
+
+
+    /*!
      * Called when this project's language's destroyed signal is emitted.
      */
     private slots:
     void onLanguageDestroyed(
         QObject* object
+    );
+
+
+    /*!
+     * Pushes the given command onto this model's undo stack and calls its redo
+     * interface beforehand.
+     * 
+     * This does not take ownership of the given command.
+     * 
+     * If the called redo interface returns false then this does not push the
+     * given command onto this model's undo stack and deletes the given command.
+     * 
+     * The given command must be valid.
+     *
+     * @param command
+     *        The command.
+     *
+     * @return
+     * True if the command was pushed or false otherwise.
+     */
+    private:
+    bool pushCommand(
+        Command::Project::Abstract* command
     );
 
 
@@ -475,6 +628,18 @@ class Project:
     private:
     void setDirectoryPath(
         const QString& value
+    );
+
+
+    /*!
+     * Sets this model's modified property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
+    private:
+    void setModified(
+        bool value
     );
 };
 }

@@ -3,7 +3,7 @@
 
 
 /*!
- * This contains all factory classes.
+ * This contains all factories.
  */
 namespace Factory
 {

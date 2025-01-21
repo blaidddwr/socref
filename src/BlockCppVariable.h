@@ -13,7 +13,7 @@ namespace Cpp {
  * Its properties are type and assignment. Both are self-explanatory.
  */
 class Variable:
-    public Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
     QString _assignment;
@@ -70,7 +70,6 @@ class Variable:
 
     public:
     virtual Widget::Block::Abstract* createWidget(
-        QObject* parent = nullptr
     ) const override final;
 
 
@@ -144,7 +143,7 @@ class Variable:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override final;
 

@@ -1,7 +1,7 @@
 #include "CommandProjectInsert.h"
 #include "BlockAbstract.h"
-#include "Exceptions.h"
 #include "ModelProject.h"
+#include "gassert.h"
 namespace Command {
 namespace Project {
 
@@ -19,10 +19,7 @@ Insert::Insert(
     G_ASSERT(_row >= 0);
     G_ASSERT(_row <= project().rowCount(parentIndex));
     _block->setParent(this);
-    auto blockScope = _block->scope();
-    auto parentScope = project().block(parentIndex)->scope();
-    _description = tr("Inserting block %1 into block %2 at row %3.");
-    _description = _description.arg(blockScope,parentScope);
+    _description = tr("Inserting block at row %3.").arg(row);
 }
 
 
@@ -71,8 +68,13 @@ bool Insert::insert(
     auto parent = convertListToIndex(_parent);
     project().beginInsertRows(parent,_row,_row);
     project().block(parent)->insert(_row,_block);
+    auto p = &project();
+    auto b = _block;
+    connect(b,&Block::Abstract::displayIconChanged,p,[p,b](){ p->onBlockDisplayIconChanged(b); });
+    connect(b,&Block::Abstract::displayTextChanged,p,[p,b](){ p->onBlockDisplayTextChanged(b); });
     _block = nullptr;
     project().endInsertRows();
+    project().setModified(true);
     return true;
 }
 
@@ -87,8 +89,11 @@ bool Insert::remove(
     auto parent = convertListToIndex(_parent);
     project().beginRemoveRows(parent,_row,_row);
     _block = project().block(parent)->take(_row);
+    disconnect(_block,&Block::Abstract::displayIconChanged,&project(),nullptr);
+    disconnect(_block,&Block::Abstract::displayTextChanged,&project(),nullptr);
     _block->setParent(this);
     project().endRemoveRows();
+    project().setModified(true);
     return true;
 }
 

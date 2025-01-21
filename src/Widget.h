@@ -3,10 +3,13 @@
 
 
 /*!
- * This contains all widget namespaces.
+ * This contains all widgets.
  */
 namespace Widget
 {
+    class Project;
+    class StringList;
+    class TreeView;
 }
 
 

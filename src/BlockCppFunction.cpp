@@ -1,10 +1,21 @@
 #include "BlockCppFunction.h"
 #include <QtGui>
+#include "BlockCppClass.h"
 #include "BlockCppProperty.h"
 #include "BlockCppVariable.h"
-#include "Exceptions.h"
+#include "ExceptionBlockLogical.h"
+#include "ExceptionBlockRead.h"
 #include "Global.h"
 #include "ModelMetaBlock.h"
+#include "WidgetBlockCppFunction.h"
+#include "gassert.h"
+#define ACCESS "access"
+#define ASSIGNMENT "assignment"
+#define FLAGS "flags"
+#define RETURN_DESCRIPTION "returnDescription"
+#define RETURN_TYPE "returnType"
+#define TEMPLATES "templates"
+#define TYPE "type"
 namespace Block {
 namespace Cpp {
 
@@ -39,6 +50,30 @@ int Function::access(
 }
 
 
+const QList<QIcon>& Function::accessIcons(
+) const
+{
+    static const QList<QIcon> ret {
+        *iconPublic()
+        ,*iconProtected()
+        ,*iconPrivate()
+    };
+    return ret;
+}
+
+
+const QStringList& Function::accessLabels(
+) const
+{
+    static const QStringList ret {
+        "Public"
+        ,"Protected"
+        ,"Private"
+    };
+    return ret;
+}
+
+
 QString Function::accessString(
 ) const
 {
@@ -53,6 +88,32 @@ int Function::assignment(
 }
 
 
+const QList<QIcon>& Function::assignmentIcons(
+) const
+{
+    static const QList<QIcon> ret = {
+        QIcon(":/cpp/none.svg")
+        ,QIcon(":/cpp/default.svg")
+        ,QIcon(":/cpp/deleted.svg")
+        ,QIcon(":/cpp/abstract.svg")
+    };
+    return ret;
+}
+
+
+const QStringList& Function::assignmentLabels(
+) const
+{
+    static const QStringList ret = {
+        "None"
+        ,"Default"
+        ,"Deleted"
+        ,"Abstract"
+    };
+    return ret;
+}
+
+
 QString Function::assignmentString(
 ) const
 {
@@ -61,11 +122,9 @@ QString Function::assignmentString(
 
 
 Widget::Block::Abstract* Function::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::Function(this);
 }
 
 
@@ -81,6 +140,32 @@ QString Function::displayText(
 ) const
 {
     return _displayText;
+}
+
+
+QString Function::fileName(
+) const
+{
+    QStringList ret;
+    appendSignature(ret);
+    appendRightSignatureFlags(ret);
+    return ret.join("").replace(":",";").replace("*","#").replace("<","[").replace(">","]");
+}
+
+
+const QMap<int,QString>& Function::flagLabelMap(
+) const
+{
+    static const QMap<int,QString> ret {
+        {NoExceptFunctionFlag,"No Exceptions"}
+        ,{ExplicitFunctionFlag,"Explicit"}
+        ,{StaticFunctionFlag,"Static"}
+        ,{ConstantFunctionFlag,"Constant"}
+        ,{VirtualFunctionFlag,"Virtual"}
+        ,{OverrideFunctionFlag,"Override"}
+        ,{FinalFunctionFlag,"Final"}
+    };
+    return ret;
 }
 
 
@@ -248,17 +333,17 @@ void Function::loadFromMap(
 )
 {
     Base::loadFromMap(map,version);
-    _returnType = map.value("returnType").toString();
-    _returnDescription = map.value("returnDescription").toString();
-    loadType(map.value("type"),version);
-    loadAccess(map.value("access"),version);
+    _returnType = map.value(RETURN_TYPE).toString();
+    _returnDescription = map.value(RETURN_DESCRIPTION).toString();
+    loadType(map.value(TYPE),version);
+    loadAccess(map.value(ACCESS),version);
     if (version == Socref_Legacy)
     {
         _flags = loadFlagsLegacy(map);
         _assignment = loadAssignmentLegacy(map);
         auto str = map.value("template").toString();
         str = str.replace("template","").replace("<","").replace(">","");
-        _templates = str.split(',');
+        _templates = str.split(',',Qt::SkipEmptyParts);
         for (auto& t: _templates)
         {
             t = t.trimmed();
@@ -266,9 +351,9 @@ void Function::loadFromMap(
     }
     else
     {
-        loadFlags(map.value("flags"),version);
-        loadAssignment(map.value("assignment"),version);
-        _templates = map.value("templates").toString().split(';');
+        loadFlags(map.value(FLAGS),version);
+        loadAssignment(map.value(ASSIGNMENT),version);
+        _templates = map.value(TEMPLATES).toString().split(';',Qt::SkipEmptyParts);
     }
     updateDisplayIcon();
     updateDisplayText();
@@ -293,23 +378,23 @@ QMap<QString,QVariant> Function::saveToMap(
 ) const
 {
     auto ret = Base::saveToMap();
-    ret.insert("type",typeString());
-    ret.insert("access",accessString());
-    ret.insert("returnType",_returnType);
+    ret.insert(TYPE,typeString());
+    ret.insert(ACCESS,accessString());
+    ret.insert(RETURN_TYPE,_returnType);
     if (!_returnDescription.isEmpty())
     {
-        ret.insert("returnDescription",_returnDescription);
+        ret.insert(RETURN_DESCRIPTION,_returnDescription);
     }
     if (!_templates.isEmpty())
     {
-        ret.insert("templates",_templates.join(';'));
+        ret.insert(TEMPLATES,_templates.join(';'));
     }
     auto flags = flagStrings();
     if (!flags.isEmpty())
     {
-        ret.insert("flags",flags.join(";"));
+        ret.insert(FLAGS,flags.join(";"));
     }
-    ret.insert("assignment",assignmentString());
+    ret.insert(ASSIGNMENT,assignmentString());
     return ret;
 }
 
@@ -350,7 +435,7 @@ void Function::set(
             updateDisplayIcon();
             updateDisplayText();
         }
-        catch (Exception::Block::Logical& e)
+        catch (::Exception::Block::Logical& e)
         {
             setName(oldName);
             setReturnType(oldReturnType);
@@ -380,17 +465,17 @@ void Function::setState(
     const QHash<QString,QVariant>& state
 )
 {
-    setDescription(state.value("description").toString());
+    setDescription(state.value(descriptionKey()).toString());
     set(
-        state.value("name").toString()
-        ,state.value("returnType").toString()
-        ,state.value("type").toInt()
-        ,state.value("access").toInt()
-        ,state.value("assignment").toInt()
-        ,state.value("flags").toInt()
+        state.value(nameKey()).toString()
+        ,state.value(RETURN_TYPE).toString()
+        ,state.value(TYPE).toInt()
+        ,state.value(ACCESS).toInt()
+        ,state.value(ASSIGNMENT).toInt()
+        ,state.value(FLAGS).toInt()
     );
-    setReturnDescription(state.value("returnDescription").toString());
-    setTemplates(state.value("templates").toStringList());
+    setReturnDescription(state.value(RETURN_DESCRIPTION).toString());
+    setTemplates(state.value(TEMPLATES).toStringList());
 }
 
 
@@ -411,13 +496,13 @@ QHash<QString,QVariant> Function::state(
 ) const
 {
     auto ret = Base::state();
-    ret.insert("returnType",_returnType);
-    ret.insert("type",_type);
-    ret.insert("access",_access);
-    ret.insert("assignment",_assignment);
-    ret.insert("flags",_flags);
-    ret.insert("returnDescription",_returnDescription);
-    ret.insert("templates",_templates);
+    ret.insert(RETURN_TYPE,_returnType);
+    ret.insert(TYPE,_type);
+    ret.insert(ACCESS,_access);
+    ret.insert(ASSIGNMENT,_assignment);
+    ret.insert(FLAGS,_flags);
+    ret.insert(RETURN_DESCRIPTION,_returnDescription);
+    ret.insert(TEMPLATES,_templates);
     return ret;
 }
 
@@ -433,6 +518,34 @@ int Function::type(
 ) const
 {
     return _type;
+}
+
+
+const QList<QIcon>& Function::typeIcons(
+) const
+{
+    static const QList<QIcon> ret = {
+        QIcon(":/cpp/regular.svg")
+        ,QIcon(":/cpp/method.svg")
+        ,QIcon(":/cpp/constructor.svg")
+        ,QIcon(":/cpp/destructor.svg")
+        ,QIcon(":/cpp/operator.svg")
+    };
+    return ret;
+}
+
+
+const QStringList& Function::typeLabels(
+) const
+{
+    static const QStringList ret = {
+        "Regular"
+        ,"Method"
+        ,"Constructor"
+        ,"Destructor"
+        ,"Operator"
+    };
+    return ret;
 }
 
 
@@ -633,14 +746,18 @@ void Function::appendSignature(
     case DestructorFunctionType:
     {
         auto parentBlock = qobject_cast<Property*>(parent());
-        G_ASSERT(parentBlock);
+        QString name;
+        if (parentBlock)
+        {
+            name = parentBlock->name();
+        }
         if (isDestructor())
         {
-            words.append("~"+parentBlock->name()+"("+arguments(true).join(",")+")");
+            words.append("~"+name+"("+arguments(true).join(",")+")");
         }
         else
         {
-            words.append(parentBlock->name()+"("+arguments(true).join(",")+")");
+            words.append(name+"("+arguments(true).join(",")+")");
         }
         break;
     }
@@ -670,7 +787,7 @@ const QStringList& Function::assignmentStrings(
 void Function::check(
 ) const
 {
-    using Error = Exception::Block::Logical;
+    using Error = ::Exception::Block::Logical;
     if (!isTypeValid())
     {
         throw Error(tr("Unknown function type encountered!"));
@@ -708,7 +825,7 @@ void Function::check(
 }
 
 
-Block::Abstract* Function::create(
+Abstract* Function::create(
     QObject* parent
 ) const
 {
@@ -729,6 +846,24 @@ const QMap<int,QString>& Function::flagStringMap(
         ,{FinalFunctionFlag,"final"}
     };
     return ret;
+}
+
+
+void Function::loadAccess(
+    const QVariant& value
+    ,int version
+)
+{
+    auto accessString = value.toString();
+    if (version == Socref_Legacy)
+    {
+        accessString = accessString.toLower();
+    }
+    _access = accessStrings().indexOf(accessString);
+    if (_access == -1)
+    {
+        throw ::Exception::Block::Read(tr("Unknown C++ access %1.").arg(accessString));
+    }
 }
 
 
@@ -834,13 +969,15 @@ void Function::setDisplayIcon(
 }
 
 
-QString Function::scopeName(
-) const
+void Function::setType(
+    int value
+)
 {
-    QStringList ret;
-    appendSignature(ret);
-    appendRightSignatureFlags(ret);
-    return ret.join("");
+    if (_type != value)
+    {
+        _type = value;
+        emit typeChanged(value);
+    }
 }
 
 
@@ -1025,8 +1162,15 @@ bool Function::areFlagsValid(
 void Function::checkConstructor(
 ) const
 {
-    using Error = Exception::Block::Logical;
+    using Error = ::Exception::Block::Logical;
     static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
+    if (
+        parent()
+        && !qobject_cast<Class*>(parent())
+    )
+    {
+        throw Error(tr("Constructors must be the child of a class."));
+    }
     if (!name().isEmpty())
     {
         throw Error(tr("Constructors cannot have a name."));
@@ -1048,7 +1192,14 @@ void Function::checkConstructor(
 void Function::checkDestructor(
 ) const
 {
-    using Error = Exception::Block::Logical;
+    using Error = ::Exception::Block::Logical;
+    if (
+        parent()
+        && !qobject_cast<Class*>(parent())
+    )
+    {
+        throw Error(tr("Destructors must be the child of a class."));
+    }
     if (!name().isEmpty())
     {
         throw Error(tr("Destructors cannot have a name."));
@@ -1069,14 +1220,14 @@ void Function::checkDestructor(
         && !isVirtual()
     )
     {
-        throw Error(tr("Destructors with override/final specifiers must be virtual."));
+        throw Error(tr("Destructors with override/final flags must be virtual."));
     }
     if (
         isFinal()
         && !isOverride()
     )
     {
-        throw Error(tr("Destructors with final specifier must also have override."));
+        throw Error(tr("Destructors with final flag must also have override."));
     }
     if (
         isVirtual()
@@ -1095,8 +1246,15 @@ void Function::checkDestructor(
 void Function::checkMethod(
 ) const
 {
-    using Error = Exception::Block::Logical;
+    using Error = ::Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
+    if (
+        parent()
+        && !qobject_cast<Property*>(parent())
+    )
+    {
+        throw Error(tr("Methods must be the child of a class or property."));
+    }
     if (name().isEmpty())
     {
         throw Error(tr("Methods must have a name."));
@@ -1128,14 +1286,14 @@ void Function::checkMethod(
         && !isVirtual()
     )
     {
-        throw Error(tr("Methods with override/final specifiers must be virtual."));
+        throw Error(tr("Methods with override/final flags must be virtual."));
     }
     if (
         isFinal()
         && !isOverride()
     )
     {
-        throw Error(tr("Methods with final specifier must also have override."));
+        throw Error(tr("Methods with final flag must also have override."));
     }
     if (
         isVirtual()
@@ -1154,8 +1312,15 @@ void Function::checkMethod(
 void Function::checkOperator(
 ) const
 {
-    using Error = Exception::Block::Logical;
+    using Error = ::Exception::Block::Logical;
     static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
+    if (
+        parent()
+        && !qobject_cast<Class*>(parent())
+    )
+    {
+        throw Error(tr("Operators must be the child of a class."));
+    }
     if (name().isEmpty())
     {
         throw Error(tr("Methods must have a name."));
@@ -1188,8 +1353,12 @@ void Function::checkOperator(
 void Function::checkRegular(
 ) const
 {
-    using Error = Exception::Block::Logical;
+    using Error = ::Exception::Block::Logical;
     static const QRegularExpression validName("^[a-zA-Z_]+[a-zA-Z_0-9]*$");
+    if (qobject_cast<Property*>(parent()))
+    {
+        throw Error(tr("Functions cannot be the child of a class or property."));
+    }
     if (name().isEmpty())
     {
         throw Error(tr("Functions must have a name."));
@@ -1210,9 +1379,9 @@ void Function::checkRegular(
     {
         throw Error(tr("Functions cannot have an assignment."));
     }
-    if (flags()&(~ExplicitFunctionFlag))
+    if (flags()&(~NoExceptFunctionFlag))
     {
-        throw Error(tr("Functions cannot have specifiers beside 'No Exceptions'."));
+        throw Error(tr("Functions cannot have flags beside 'No Exceptions'."));
     }
 }
 
@@ -1430,24 +1599,6 @@ bool Function::isTypeValid(
 }
 
 
-void Function::loadAccess(
-    const QVariant& value
-    ,int version
-)
-{
-    auto accessString = value.toString();
-    if (version == Socref_Legacy)
-    {
-        accessString = accessString.toLower();
-    }
-    _access = accessStrings().indexOf(accessString);
-    if (_access == -1)
-    {
-        throw Exception::Block::Read(tr("Unknown C++ access %1.").arg(accessString));
-    }
-}
-
-
 void Function::loadAssignment(
     const QVariant& value
     ,int version
@@ -1458,7 +1609,7 @@ void Function::loadAssignment(
     _assignment = assignmentStrings().indexOf(assignmentString);
     if (_assignment == -1)
     {
-        throw Exception::Block::Read(
+        throw ::Exception::Block::Read(
             tr("Unknown C++ function assignment %1").arg(assignmentString)
         );
     }
@@ -1472,12 +1623,12 @@ void Function::loadFlags(
 {
     Q_UNUSED(version);
     _flags = 0;
-    for (const auto& flagString: value.toString().split(";"))
+    for (const auto& flagString: value.toString().split(";",Qt::SkipEmptyParts))
     {
         auto flag = reverseFlagLookup().value(flagString,-1);
         if (flag == -1)
         {
-            throw Exception::Block::Read(tr("Unkonwn function flag %1.").arg(flagString));
+            throw ::Exception::Block::Read(tr("Unkonwn function flag %1.").arg(flagString));
         }
         _flags |= flag;
     }
@@ -1508,6 +1659,10 @@ void Function::loadType(
             setName(name().mid(8));
             _type = OperatorFunctionType;
         }
+        else if (qobject_cast<Property*>(parent()))
+        {
+            _type = MethodFunctionType;
+        }
         else
         {
             _type = RegularFunctionType;
@@ -1519,7 +1674,7 @@ void Function::loadType(
         _type = typeStrings().indexOf(typeString);
         if (_type == -1)
         {
-            throw Exception::Block::Read(tr("Unknown C++ function type %1.").arg(typeString));
+            throw ::Exception::Block::Read(tr("Unknown C++ function type %1.").arg(typeString));
         }
     }
 }
@@ -1578,6 +1733,14 @@ void Function::setFlags(
 }
 
 
+void Function::setName(
+    const QString& value
+)
+{
+    Base::setName(value);
+}
+
+
 void Function::setReturnType(
     const QString& value
 )
@@ -1586,18 +1749,6 @@ void Function::setReturnType(
     {
         _returnType = value;
         emit returnTypeChanged(value);
-    }
-}
-
-
-void Function::setType(
-    int value
-)
-{
-    if (_type != value)
-    {
-        _type = value;
-        emit typeChanged(value);
     }
 }
 }

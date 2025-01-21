@@ -1,38 +1,40 @@
 QT += core gui widgets testlib
 CONFIG += c++17
 
+LIBS += -lhunspell
+
 SOURCES +=  Global.cpp \
             BlockAbstract.cpp \
             BlockCppBase.cpp \
             BlockCppClass.cpp \
             BlockCppEnumeration.cpp \
-            BlockCppExceptionItem.cpp \
+            BlockCppException.cpp \
             BlockCppFunction.cpp \
             BlockCppNamespace.cpp \
             BlockCppProperty.cpp \
             BlockCppQtFunction.cpp \
-            BlockCppQtProperty.cpp \
             BlockCppUnion.cpp \
             BlockCppVariable.cpp \
-            BlockTestNode.cpp \
             CommandProjectAbstract.cpp \
             CommandProjectInsert.cpp \
             CommandProjectMove.cpp \
             CommandProjectRemove.cpp \
             CommandProjectSet.cpp \
+            ControllerSpellingHighlighter.cpp \
             ExceptionBase.cpp \
             FactoryLanguage.cpp \
             LanguageAbstract.cpp \
             LanguageCpp.cpp \
             LanguageCppQt.cpp \
-            LanguageTest.cpp \
             ModelMetaBlock.cpp \
             ModelMetaLanguage.cpp \
             ModelProject.cpp \
-            StreamBlock.cpp \
-            StreamProject.cpp \
+            SettingsSpelling.cpp \
+            StreamBlockDir.cpp \
+            StreamBlockXml.cpp \
+            StreamProjectDir.cpp \
+            StreamProjectXml.cpp \
             Test.cpp \
-            TestBase.cpp \
             TestBlockAbstract.cpp \
             TestBlockCppClass.cpp \
             TestBlockCppEnumeration.cpp \
@@ -41,14 +43,32 @@ SOURCES +=  Global.cpp \
             TestBlockCppNamespace.cpp \
             TestBlockCppProperty.cpp \
             TestBlockCppQtFunction.cpp \
-            TestBlockCppQtProperty.cpp \
             TestBlockCppVariable.cpp \
             TestFactoryLanguage.cpp \
             TestLanguageAbstract.cpp \
             TestLanguageCpp.cpp \
             TestLanguageCppQt.cpp \
             TestModelProject.cpp \
-            WidgetBlockAbstract.cpp
+            TestUnitModel.cpp \
+            WidgetBlockAbstract.cpp \
+            WidgetBlockCppBase.cpp \
+            WidgetBlockCppClass.cpp \
+            WidgetBlockCppEnumeration.cpp \
+            WidgetBlockCppException.cpp \
+            WidgetBlockCppFunction.cpp \
+            WidgetBlockCppNamespace.cpp \
+            WidgetBlockCppProperty.cpp \
+            WidgetBlockCppUnion.cpp \
+            WidgetBlockCppVariable.cpp \
+            WidgetDialogAbout.cpp \
+            WidgetDialogOrphanFiles.cpp \
+            WidgetDialogProject.cpp \
+            WidgetDialogSpellingSettings.cpp \
+            WidgetDialogUnitTests.cpp \
+            WidgetProject.cpp \
+            WidgetStringList.cpp \
+            WidgetTreeView.cpp \
+            WidgetWindowMain.cpp
 
 HEADERS +=  Global.h \
             Block.h \
@@ -57,17 +77,14 @@ HEADERS +=  Global.h \
             BlockCppBase.h \
             BlockCppClass.h \
             BlockCppEnumeration.h \
-            BlockCppExceptionItem.h \
+            BlockCppException.h \
             BlockCppFunction.h \
             BlockCppNamespace.h \
             BlockCppProperty.h \
             BlockCppQt.h \
             BlockCppQtFunction.h \
-            BlockCppQtProperty.h \
             BlockCppUnion.h \
             BlockCppVariable.h \
-            BlockTest.h \
-            BlockTestNode.h \
             Command.h \
             CommandProject.h \
             CommandProjectAbstract.h \
@@ -75,27 +92,40 @@ HEADERS +=  Global.h \
             CommandProjectMove.h \
             CommandProjectRemove.h \
             CommandProjectSet.h \
+            Controller.h \
+            ControllerSpellingHighlighter.h \
             Exception.h \
             ExceptionBase.h \
-            Exceptions.h \
+            ExceptionBlock.h \
+            ExceptionBlockLogical.h \
+            ExceptionBlockRead.h \
+            ExceptionBlockWrite.h \
+            ExceptionProject.h \
+            ExceptionProjectLogical.h \
+            ExceptionProjectRead.h \
+            ExceptionProjectWrite.h \
+            ExceptionSystem.h \
+            ExceptionSystemFile.h \
+            ExceptionSystemRun.h \
             Factory.h \
             FactoryLanguage.h \
             Language.h \
             LanguageAbstract.h \
             LanguageCpp.h \
             LanguageCppQt.h \
-            LanguageTest.h \
             Model.h \
             ModelMeta.h \
             ModelMetaBlock.h \
             ModelMetaLanguage.h \
             ModelProject.h \
+            Settings.h \
+            SettingsSpelling.h \
             Stream.h \
-            StreamBlock.h \
-            StreamProject.h \
+            StreamBlockDir.h \
+            StreamBlockXml.h \
+            StreamProjectDir.h \
+            StreamProjectXml.h \
             Test.h \
-            TestBase.h \
-            TestBase.t.h \
             TestBlock.h \
             TestBlockAbstract.h \
             TestBlockCpp.h \
@@ -107,8 +137,10 @@ HEADERS +=  Global.h \
             TestBlockCppProperty.h \
             TestBlockCppQt.h \
             TestBlockCppQtFunction.h \
-            TestBlockCppQtProperty.h \
             TestBlockCppVariable.h \
+            TestDummy.h \
+            TestDummyBlock.h \
+            TestDummyLanguage.h \
             TestFactory.h \
             TestFactoryLanguage.h \
             TestLanguage.h \
@@ -117,8 +149,32 @@ HEADERS +=  Global.h \
             TestLanguageCppQt.h \
             TestModel.h \
             TestModelProject.h \
+            TestUnitModel.h \
             Widget.h \
             WidgetBlock.h \
-            WidgetBlockAbstract.h
+            WidgetBlockAbstract.h \
+            WidgetBlockAbstract.t.h \
+            WidgetBlockCpp.h \
+            WidgetBlockCppBase.h \
+            WidgetBlockCppClass.h \
+            WidgetBlockCppEnumeration.h \
+            WidgetBlockCppException.h \
+            WidgetBlockCppFunction.h \
+            WidgetBlockCppNamespace.h \
+            WidgetBlockCppProperty.h \
+            WidgetBlockCppUnion.h \
+            WidgetBlockCppVariable.h \
+            WidgetDialog.h \
+            WidgetDialogAbout.h \
+            WidgetDialogOrphanFiles.h \
+            WidgetDialogProject.h \
+            WidgetDialogSpellingSettings.h \
+            WidgetDialogUnitTests.h \
+            WidgetProject.h \
+            WidgetStringList.h \
+            WidgetTreeView.h \
+            WidgetWindow.h \
+            WidgetWindowMain.h \
+            gassert.h
 
 RESOURCES += socref.qrc

@@ -1,7 +1,7 @@
 #ifndef TEST_BLOCK_CPPQT_FUNCTION_H
 #define TEST_BLOCK_CPPQT_FUNCTION_H
+#include <QObject>
 #include "BlockCppQt.h"
-#include "TestBase.h"
 namespace Test {
 namespace Block {
 namespace CppQt {
@@ -13,7 +13,7 @@ namespace CppQt {
  * This is a Qt unit test class. It tests the function C++/Qt block class.
  */
 class Function:
-    public Test::Base
+    public QObject
 {
     Q_OBJECT
     ::Block::Cpp::Class* _parent {nullptr};

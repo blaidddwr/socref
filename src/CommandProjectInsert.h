@@ -18,7 +18,7 @@ namespace Project {
  * base project command parent class.
  */
 class Insert:
-    public Command::Project::Abstract
+    public Abstract
 {
     Q_OBJECT
     Block::Abstract* _block {nullptr};

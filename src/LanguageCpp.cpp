@@ -3,14 +3,14 @@
 #include "BlockCpp.h"
 #include "BlockCppClass.h"
 #include "BlockCppEnumeration.h"
-#include "BlockCppExceptionItem.h"
+#include "BlockCppException.h"
 #include "BlockCppFunction.h"
 #include "BlockCppNamespace.h"
 #include "BlockCppProperty.h"
 #include "BlockCppUnion.h"
 #include "BlockCppVariable.h"
-#include "Exceptions.h"
 #include "ModelMetaBlock.h"
+#include "gassert.h"
 namespace Language {
 using namespace Block::Cpp;
 
@@ -21,78 +21,73 @@ Cpp::Cpp(
 ):
     Abstract(meta,parent)
 {
-    appendBlock(
-        new Model::Meta::Block(
-            meta
-            ,ClassIndex
-            ,"class"
-            ,"Class"
-            ,new QIcon(":/cpp/class.svg")
-            ,{FunctionIndex,PropertyIndex,VariableIndex}
-        )
-    );
-    appendBlock(
-        new Model::Meta::Block(
-            meta
-            ,EnumerationIndex
-            ,"enumeration"
-            ,"Enumeration"
-            ,new QIcon(":/cpp/enumeration.svg")
-            ,{}
-        )
-    );
-    appendBlock(
-        new Model::Meta::Block(
-            meta
-            ,ExceptionIndex
-            ,"exception"
-            ,"Exception"
-            ,new QIcon(":/cpp/exception.svg")
-            ,{}
-        )
-    );
-    appendBlock(
-        new Model::Meta::Block(
-            meta
-            ,FunctionIndex
-            ,"function"
-            ,"Function"
-            ,new QIcon(":/cpp/public_function.svg")
-            ,{ExceptionIndex,VariableIndex}
-        )
-    );
-    appendBlock(
-        new Model::Meta::Block(
-            meta
-            ,NamespaceIndex
-            ,"namespace"
-            ,"Namespace"
-            ,new QIcon(":/cpp/namespace.svg")
-            ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex,UnionIndex}
-        )
-    );
-    appendBlock(
-        new Model::Meta::Block(
-            meta
-            ,PropertyIndex
-            ,"property"
-            ,"Property"
-            ,new QIcon(":/cpp/property.svg")
-            ,{FunctionIndex,VariableIndex}
-        )
-    );
-    appendBlock(
-        new Model::Meta::Block(meta,UnionIndex,"union","Union",new QIcon(":/cpp/union.svg"),{})
-    );
-    appendBlock(
-        new Model::Meta::Block(
-            meta
-            ,VariableIndex
-            ,"variable"
-            ,"Variable"
-            ,new QIcon(":/cpp/variable.svg")
-            ,{}
-        )
+    appendBlocks(
+        {
+            new Model::Meta::Block(
+                meta
+                ,ClassIndex
+                ,"class"
+                ,"Class"
+                ,QIcon(":/cpp/class.svg")
+                ,{EnumerationIndex,FunctionIndex,PropertyIndex,VariableIndex}
+            )
+            ,new Model::Meta::Block(
+                meta
+                ,EnumerationIndex
+                ,"enumeration"
+                ,"Enumeration"
+                ,QIcon(":/cpp/enumeration.svg")
+                ,{}
+            )
+            ,new Model::Meta::Block(
+                meta
+                ,ExceptionIndex
+                ,"exception"
+                ,"Exception"
+                ,QIcon(":/cpp/exception.svg")
+                ,{}
+            )
+            ,new Model::Meta::Block(
+                meta
+                ,FunctionIndex
+                ,"function"
+                ,"Function"
+                ,QIcon(":/cpp/public_function.svg")
+                ,{ExceptionIndex,VariableIndex}
+            )
+            ,new Model::Meta::Block(
+                meta
+                ,NamespaceIndex
+                ,"namespace"
+                ,"Namespace"
+                ,QIcon(":/cpp/namespace.svg")
+                ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex,UnionIndex}
+            )
+            ,new Model::Meta::Block(
+                meta
+                ,PropertyIndex
+                ,"property"
+                ,"Property"
+                ,QIcon(":/cpp/property.svg")
+                ,{FunctionIndex,VariableIndex}
+            )
+            ,new Model::Meta::Block(
+                meta
+                 ,UnionIndex
+                 ,"union"
+                 ,"Union"
+                 ,QIcon(":/cpp/union.svg")
+                 ,{}
+             )
+            ,new Model::Meta::Block(
+                meta
+                ,VariableIndex
+                ,"variable"
+                ,"Variable"
+                ,QIcon(":/cpp/variable.svg")
+                ,{}
+            )
+        }
     );
 }
 
@@ -120,7 +115,7 @@ Block::Abstract* Cpp::create(
     {
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == ExceptionIndex);
-        return new ExceptionItem(meta,parent);
+        return new Exception(meta,parent);
     }
     case FunctionIndex:
     {
@@ -156,6 +151,17 @@ Block::Abstract* Cpp::create(
         G_ASSERT(false);
         return nullptr;
     }
+}
+
+
+Block::Abstract* Cpp::createRoot(
+    QObject* parent
+) const
+{
+    auto ret = new Namespace(blockMeta(NamespaceIndex),parent);
+    ret->setName(QString());
+    ret->setDescription(QString());
+    return ret;
 }
 
 

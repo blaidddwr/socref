@@ -5,7 +5,7 @@ namespace Block {
 
 
 /*!
- * This contains all C++ block unit test classes.
+ * This contains all C++ block unit tests.
  */
 namespace Cpp
 {

@@ -1,7 +1,8 @@
 #ifndef TEST_BLOCK_CPP_FUNCTION_H
 #define TEST_BLOCK_CPP_FUNCTION_H
+#include <QObject>
 #include "BlockCpp.h"
-#include "TestBase.h"
+#include "Language.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -13,11 +14,12 @@ namespace Cpp {
  * This is a Qt unit test class. It tests the function C++ block class.
  */
 class Function:
-    public Test::Base
+    public QObject
 {
     Q_OBJECT
     ::Block::Cpp::Class* _parent;
     ::Block::Cpp::Function* _block;
+    Language::Abstract* _language {nullptr};
 
 
     private slots:
@@ -254,14 +256,6 @@ class Function:
      */
     private slots:
     void state(
-    );
-
-
-    /*!
-     * Tests the scope name interface implementation.
-     */
-    private slots:
-    void scopeName(
     );
 
 

@@ -18,7 +18,6 @@ class Language:
     ::Factory::Language* _factory;
     int _cppIndex;
     int _cppQtIndex;
-    int _testIndex;
 
 
     private slots:
@@ -31,14 +30,6 @@ class Language:
      */
     private slots:
     void get(
-    );
-
-
-    /*!
-     * Tests the "is hidden" method.
-     */
-    private slots:
-    void isHidden(
     );
 
 

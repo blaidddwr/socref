@@ -41,7 +41,7 @@ namespace Cpp {
  * with new property value enumerations.
  */
 class Function:
-    public Block::Cpp::Base
+    public Base
 {
     Q_OBJECT
     QString _displayText;
@@ -53,7 +53,18 @@ class Function:
     int _assignment {NoFunctionAssignment};
     int _flags {0};
     int _type {RegularFunctionType};
-    using Base::setName;
+
+
+    public:
+    Function(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
+    );
+
+
+    public:
+    virtual ~Function(
+    ) override;
 
 
     /*!
@@ -144,18 +155,6 @@ class Function:
     );
 
 
-    public:
-    Function(
-        Model::Meta::Block* meta
-        ,QObject* parent = nullptr
-    );
-
-
-    public:
-    virtual ~Function(
-    ) override;
-
-
     /*!
      * Getter method.
      *
@@ -164,6 +163,27 @@ class Function:
      */
     public:
     int access(
+    ) const;
+
+
+    /*!
+     * Returns a complete list of all valid access enumerations as icons.
+     * 
+     * The order of the returned icon list matches the order of enumerations.
+     */
+    public:
+    virtual const QList<QIcon>& accessIcons(
+    ) const;
+
+
+    /*!
+     * Returns a complete list of all valid access enumerations as user readable
+     * labels.
+     * 
+     * The order of the returned label list matches the order of enumerations.
+     */
+    public:
+    virtual const QStringList& accessLabels(
     ) const;
 
 
@@ -190,6 +210,28 @@ class Function:
 
 
     /*!
+     * Returns a complete list of all valid function assignment enumerations as
+     * icons.
+     * 
+     * The order of the returned icon list matches the order of enumerations.
+     */
+    public:
+    virtual const QList<QIcon>& assignmentIcons(
+    ) const;
+
+
+    /*!
+     * Returns a complete list of all valid function assignment enumerations as
+     * user readable labels.
+     * 
+     * The order of the returned label list matches the order of enumerations.
+     */
+    public:
+    virtual const QStringList& assignmentLabels(
+    ) const;
+
+
+    /*!
      * Getter method.
      *
      * @return
@@ -202,8 +244,7 @@ class Function:
 
     public:
     virtual Widget::Block::Abstract* createWidget(
-        QObject* parent = nullptr
-    ) const override;
+    ) const override final;
 
 
     public:
@@ -214,6 +255,23 @@ class Function:
     public:
     virtual QString displayText(
     ) const override final;
+
+
+    public:
+    virtual QString fileName(
+    ) const override final;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * A complete mapping of all valid function flags to their representation as
+     * a user readable label.
+     */
+    public:
+    virtual const QMap<int,QString>& flagLabelMap(
+    ) const;
 
 
     /*!
@@ -567,6 +625,27 @@ class Function:
 
 
     /*!
+     * Returns a complete list of all valid function type enumerations as icons.
+     * 
+     * The order of the returned icon list matches the order of enumerations.
+     */
+    public:
+    virtual const QList<QIcon>& typeIcons(
+    ) const;
+
+
+    /*!
+     * Returns a complete list of all valid function type enumerations as user
+     * readable labels.
+     * 
+     * The order of the returned label list matches the order of enumerations.
+     */
+    public:
+    virtual const QStringList& typeLabels(
+    ) const;
+
+
+    /*!
      * Getter method.
      *
      * @return
@@ -586,11 +665,9 @@ class Function:
 
 
     /*!
-     * Getter method.
-     *
-     * @return
-     * A complete list of all valid access enumerations as strings. The order of
-     * the returned string list must match the order of enumerations.
+     * Returns a complete list of all valid access enumerations as strings.
+     * 
+     * The order of the returned string list matches the order of enumerations.
      */
     protected:
     virtual const QStringList& accessStrings(
@@ -732,7 +809,7 @@ class Function:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override;
 
@@ -747,6 +824,25 @@ class Function:
     protected:
     virtual const QMap<int,QString>& flagStringMap(
     ) const;
+
+
+    /*!
+     * Loads this instance's access property from the given value using the
+     * given format version.
+     * 
+     * A read block exception is thrown if any error is encountered.
+     *
+     * @param value
+     *        The value.
+     *
+     * @param version
+     *        The format version.
+     */
+    protected:
+    virtual void loadAccess(
+        const QVariant& value
+        ,int version
+    );
 
 
     /*!
@@ -816,17 +912,24 @@ class Function:
     );
 
 
+    /*!
+     * Sets this instance's type property to the given value.
+     *
+     * @param value
+     *        The value.
+     */
     protected:
-    virtual QString scopeName(
-    ) const override final;
+    void setType(
+        int value
+    );
 
 
     /*!
-     * Getter method.
-     *
-     * @return
-     * A complete list of all valid function type enumerations as strings. The
-     * order of the returned string list must match the order of enumerations.
+     * Returns a complete list of all valid function type enumerations as
+     * strings.
+     * 
+     * The order of the returned string list must match the order of
+     * enumerations.
      */
     protected:
     virtual const QStringList& typeStrings(
@@ -1210,25 +1313,6 @@ class Function:
 
 
     /*!
-     * Loads this instance's access property from the given value using the
-     * given format version.
-     * 
-     * A read block exception is thrown if any error is encountered.
-     *
-     * @param value
-     *        The value.
-     *
-     * @param version
-     *        The format version.
-     */
-    private:
-    void loadAccess(
-        const QVariant& value
-        ,int version
-    );
-
-
-    /*!
      * Loads this instance's assignment property from the given value using the
      * given format version. This cannot load data from the legacy format.
      * 
@@ -1330,6 +1414,12 @@ class Function:
     );
 
 
+    private:
+    void setName(
+        const QString& value
+    );
+
+
     /*!
      * Sets this instance's return type property to the given value.
      *
@@ -1339,18 +1429,6 @@ class Function:
     private:
     void setReturnType(
         const QString& value
-    );
-
-
-    /*!
-     * Sets this instance's type property to the given value.
-     *
-     * @param value
-     *        The value.
-     */
-    private:
-    void setType(
-        int value
     );
 };
 }

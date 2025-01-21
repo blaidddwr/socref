@@ -1,5 +1,7 @@
 #include "BlockCppEnumeration.h"
 #include <QtGui>
+#include "WidgetBlockCppEnumeration.h"
+#define CLASS "class"
 namespace Block {
 namespace Cpp {
 
@@ -14,12 +16,9 @@ Enumeration::Enumeration(
 
 
 Widget::Block::Abstract* Enumeration::createWidget(
-    QObject* parent
 ) const
 {
-    //TODO
-    Q_UNUSED(parent);
-    return nullptr;
+    return new Widget::Block::Cpp::Enumeration(this);
 }
 
 
@@ -27,6 +26,18 @@ QIcon Enumeration::displayIcon(
 ) const
 {
     return QIcon(":/cpp/enumeration.svg");
+}
+
+
+QString Enumeration::displayText(
+) const
+{
+    auto ret = Base::displayText();
+    if (_class)
+    {
+        ret += " -> class";
+    }
+    return ret;
 }
 
 
@@ -43,7 +54,7 @@ void Enumeration::loadFromMap(
 )
 {
     Base::loadFromMap(map,version);
-    _class = map.value("class").toBool();
+    _class = map.value(CLASS).toBool();
 }
 
 
@@ -53,7 +64,7 @@ QMap<QString,QVariant> Enumeration::saveToMap(
     auto ret = Base::saveToMap();
     if (_class)
     {
-        ret.insert("class",true);
+        ret.insert(CLASS,true);
     }
     return ret;
 }
@@ -67,6 +78,7 @@ void Enumeration::setClass(
     {
         _class = value;
         emit classChanged(value);
+        emit displayTextChanged(displayText());
     }
 }
 
@@ -76,7 +88,7 @@ void Enumeration::setState(
 )
 {
     Base::setState(state);
-    setClass(state.value("class").toBool());
+    setClass(state.value(CLASS).toBool());
 }
 
 
@@ -84,12 +96,12 @@ QHash<QString,QVariant> Enumeration::state(
 ) const
 {
     auto ret = Base::state();
-    ret.insert("class",_class);
+    ret.insert(CLASS,_class);
     return ret;
 }
 
 
-Block::Abstract* Enumeration::create(
+Abstract* Enumeration::create(
     QObject* parent
 ) const
 {

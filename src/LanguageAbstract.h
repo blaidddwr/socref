@@ -75,6 +75,19 @@ class Abstract:
 
 
     /*!
+     * Creates and returns a new root block of this language with the given
+     * parent.
+     *
+     * @param parent
+     *        The parent.
+     */
+    public:
+    virtual Block::Abstract* createRoot(
+        QObject* parent = nullptr
+    ) const = 0;
+
+
+    /*!
      * Returns this language's block index with the given meta name. If there is
      * no such block with the given meta name then -1 is returned.
      *
@@ -121,10 +134,12 @@ class Abstract:
 
 
     /*!
-     * Appends the given block meta to this language's list of block meta. This
-     * language takes ownership of the given meta. This language's create
-     * interface implementation must match the order generated from calling this
-     * method in regard to block indexes.
+     * Appends the given block meta to this language's list of block meta.
+     * 
+     * This language takes ownership of the given meta.
+     * 
+     * This language's create interface implementation must match the order
+     * generated from calling this method in regard to block indexes.
      * 
      * The given meta must be valid. Its name must be unique among all other
      * block meta in this language. Its name cannot be an empty string. Its name
@@ -136,6 +151,22 @@ class Abstract:
     protected:
     void appendBlock(
         Model::Meta::Block* meta
+    );
+
+
+    /*!
+     * Appends the given block meta list to this language's list of block meta
+     * by calling this language's append block method for each block meta in the
+     * given list.
+     * 
+     * The order of addition is the same as the order in the given list.
+     *
+     * @param metas
+     *        The block meta list.
+     */
+    protected:
+    void appendBlocks(
+        const QList<Model::Meta::Block*>& metas
     );
 
 

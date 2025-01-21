@@ -1,7 +1,8 @@
 #ifndef TEST_BLOCK_CPP_PROPERTY_H
 #define TEST_BLOCK_CPP_PROPERTY_H
+#include <QObject>
 #include "BlockCpp.h"
-#include "TestBase.h"
+#include "Language.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -13,10 +14,11 @@ namespace Cpp {
  * This is a Qt unit test class. It tests the property C++ block class.
  */
 class Property:
-    public Test::Base
+    public QObject
 {
     Q_OBJECT
     ::Block::Cpp::Property* _block {nullptr};
+    Language::Abstract* _language {nullptr};
 
 
     private slots:

@@ -4,7 +4,8 @@
 #include "BlockCppFunction.h"
 #include "FactoryLanguage.h"
 #include "Global.h"
-#include "TestBase.t.h"
+#include "LanguageAbstract.h"
+#include "Test.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -20,8 +21,9 @@ void Class::initTestCase(
     QVERIFY(factory);
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
-    initLanguage(Factory::Language::instance()->get(langIndex));
-    _block = create<ClassBlock>(ClassIndex);
+    _language = Factory::Language::instance()->get(langIndex);
+    _block = qobject_cast<ClassBlock*>(_language->create(ClassIndex,this));
+    QVERIFY(_block);
     QCOMPARE(_block->name(),"class");
     QVERIFY(_block->parents().isEmpty());
     QVERIFY(_block->templates().isEmpty());
@@ -50,7 +52,8 @@ void Class::displayIconProperty(
         QVERIFY(areIconsEqual(_block->displayIcon(),icon));
         spy.clear();
     };
-    auto function = create<Function>(FunctionIndex);
+    auto function = qobject_cast<Function*>(_language->create(FunctionIndex,this));
+    QVERIFY(function);
     _block->append(function);
     QCOMPARE(spy.count(),1);
     QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
@@ -75,8 +78,10 @@ void Class::displayIconProperty(
     verify(testIconVirtual);
     delete function;
     verify(testIcon);
-    function = create<Function>(FunctionIndex);
-    auto property = create<Property>(PropertyIndex);
+    function = qobject_cast<Function*>(_language->create(FunctionIndex,this));
+    QVERIFY(function);
+    auto property = qobject_cast<Property*>(_language->create(PropertyIndex,this));
+    QVERIFY(property);
     _block->append(property);
     QCOMPARE(spy.count(),1);
     QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
@@ -135,7 +140,7 @@ void Class::loadFromMap(
         ,{"parents",testParents.join(';')}
         ,{"templates",testTemplates.join(';')}
     };
-    auto block = create<ClassBlock>(ClassIndex);
+    auto block = qobject_cast<ClassBlock*>(_language->create(ClassIndex));
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->parents(),testParents);
@@ -156,7 +161,7 @@ void Class::loadFromMapLegacy(
         ,{"parents",testParents.join("\n\n")}
         ,{"template",testTemplateString}
     };
-    auto block = create<ClassBlock>(ClassIndex);
+    auto block = qobject_cast<ClassBlock*>(_language->create(ClassIndex,this));
     QVERIFY(block);
     block->loadFromMap(testData,Socref_Legacy);
     QCOMPARE(block->parents(),testParents);
@@ -192,7 +197,7 @@ void Class::saveToMap(
         ,{"parents",testParents.join(';')}
         ,{"templates",testTemplates.join(';')}
     };
-    auto block = create<ClassBlock>(ClassIndex);
+    auto block = qobject_cast<ClassBlock*>(_language->create(ClassIndex,this));
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);

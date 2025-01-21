@@ -1,5 +1,6 @@
 #include "BlockCppUnion.h"
 #include <QtGui>
+#include "WidgetBlockCppUnion.h"
 namespace Block {
 namespace Cpp {
 
@@ -14,11 +15,9 @@ Union::Union(
 
 
 Widget::Block::Abstract* Union::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::Union(this);
 }
 
 
@@ -29,7 +28,7 @@ QIcon Union::displayIcon(
 }
 
 
-Block::Abstract* Union::create(
+Abstract* Union::create(
     QObject* parent
 ) const
 {

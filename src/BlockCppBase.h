@@ -13,14 +13,9 @@ namespace Cpp {
  * 
  * Its properties are name, description, and scope name. Name and description
  * are self-explanatory.
- * 
- * The scope name is used to construct a C++ block's scope. Each scope name of a
- * block and it's parents are combined with "::" as their separator. If a scope
- * name is a null string then it is ignored and not combined with the other
- * scope names. The root namespace block's name scope must be null.
  */
 class Base:
-    public Block::Abstract
+    public Abstract
 {
     Q_OBJECT
     QString _description {"Detailed description."};
@@ -67,6 +62,11 @@ class Base:
     ) const;
 
 
+    public:
+    virtual QString fileName(
+    ) const override;
+
+
     /*!
      * Getter method.
      *
@@ -87,11 +87,6 @@ class Base:
 
     public:
     virtual QMap<QString,QVariant> saveToMap(
-    ) const override;
-
-
-    public:
-    virtual QString scope(
     ) const override;
 
 
@@ -168,11 +163,22 @@ class Base:
      * Getter method.
      *
      * @return
-     * This instance's scope name property.
+     * The key used for this block's description property.
      */
     protected:
-    virtual QString scopeName(
-    ) const;
+    static const char* descriptionKey(
+    );
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * The key used for this block's name property.
+     */
+    protected:
+    static const char* nameKey(
+    );
 };
 }
 }

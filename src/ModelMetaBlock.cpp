@@ -1,27 +1,25 @@
 #include "ModelMetaBlock.h"
-#include <QtGui>
-#include "Exceptions.h"
+#include <QtCore>
+#include "gassert.h"
 namespace Model {
 namespace Meta {
 
 
 Block::Block(
-    Model::Meta::Language* language
+    Language* language
     ,int index
     ,const QString& name
     ,const QString& label
-    ,const QIcon* displayIcon
+    ,const QIcon& displayIcon
     ,const QSet<int>& allowList
     ,QObject* parent
 ):
-    Language(name,label,parent)
+    Language(name,label,displayIcon,parent)
     ,_language(language)
-    ,_displayIcon(displayIcon)
-    ,_allowList(allowList)
+    ,_allowList(new QSet<int>(allowList))
     ,_index(index)
 {
     G_ASSERT(language);
-    G_ASSERT(displayIcon);
     connect(language,&QObject::destroyed,this,&Block::onLanguageDestroyed);
 }
 
@@ -29,22 +27,14 @@ Block::Block(
 Block::~Block(
 )
 {
-    delete _displayIcon;
+    delete _allowList;
 }
 
 
 const QSet<int>& Block::allowList(
 ) const
 {
-    return _allowList;
-}
-
-
-QIcon Block::displayIcon(
-) const
-{
-    G_ASSERT(_displayIcon);
-    return *_displayIcon;
+    return *_allowList;
 }
 
 
@@ -55,7 +45,7 @@ int Block::index(
 }
 
 
-Model::Meta::Language* Block::language(
+Language* Block::language(
 ) const
 {
     G_ASSERT(_language);

@@ -4,7 +4,7 @@ namespace Test {
 
 
 /*!
- * This contains all factory unit test classes.
+ * This contains all factory unit tests.
  */
 namespace Factory
 {

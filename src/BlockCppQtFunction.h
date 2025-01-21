@@ -15,16 +15,20 @@ namespace CppQt {
  * from the Qt meta object system.
  */
 class Function:
-    public Block::Cpp::Function
+    public Cpp::Function
 {
     Q_OBJECT
-    public:
-    using Cpp::Function::Function;
 
 
     public:
-    virtual Widget::Block::Abstract* createWidget(
-        QObject* parent = nullptr
+    Function(
+        Model::Meta::Block* meta
+        ,QObject* parent = nullptr
+    );
+
+
+    public:
+    virtual const QMap<int,QString>& flagLabelMap(
     ) const override final;
 
 
@@ -61,6 +65,16 @@ class Function:
     ) const;
 
 
+    public:
+    virtual const QList<QIcon>& typeIcons(
+    ) const override final;
+
+
+    public:
+    virtual const QStringList& typeLabels(
+    ) const override final;
+
+
     protected:
     virtual void appendLeftFlags(
         QStringList& words
@@ -85,7 +99,7 @@ class Function:
 
 
     protected:
-    virtual Block::Abstract* create(
+    virtual Abstract* create(
         QObject* parent = nullptr
     ) const override final;
 
@@ -93,6 +107,13 @@ class Function:
     protected:
     virtual const QMap<int,QString>& flagStringMap(
     ) const override final;
+
+
+    protected:
+    virtual void loadAccess(
+        const QVariant& value
+        ,int version
+    ) override final;
 
 
     protected:

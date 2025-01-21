@@ -4,7 +4,7 @@ namespace Widget {
 
 
 /*!
- * This contains all block widget classes.
+ * This contains all block widgets.
  * 
  * See the abstract block widget class for a detailed description of block
  * widgets.

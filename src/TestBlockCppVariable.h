@@ -1,7 +1,8 @@
 #ifndef TEST_BLOCK_CPP_VARIABLE_H
 #define TEST_BLOCK_CPP_VARIABLE_H
+#include <QObject>
 #include "BlockCpp.h"
-#include "TestBase.h"
+#include "Language.h"
 namespace Test {
 namespace Block {
 namespace Cpp {
@@ -13,10 +14,11 @@ namespace Cpp {
  * This is a Qt unit test class. It tests the variable C++ block class.
  */
 class Variable:
-    public Test::Base
+    public QObject
 {
     Q_OBJECT
     ::Block::Cpp::Variable* _block {nullptr};
+    Language::Abstract* _language {nullptr};
 
 
     private slots:

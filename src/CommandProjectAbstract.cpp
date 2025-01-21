@@ -1,6 +1,6 @@
 #include "CommandProjectAbstract.h"
-#include "Exceptions.h"
 #include "ModelProject.h"
+#include "gassert.h"
 namespace Command {
 namespace Project {
 
@@ -43,7 +43,7 @@ QModelIndex Abstract::convertListToIndex(
 )
 {
     QModelIndex ret;
-    for (int i = list.size()-1;i >= 0;i++)
+    for (int i = list.size()-1;i >= 0;i--)
     {
         ret = project().index(list.at(i),0,ret);
     }

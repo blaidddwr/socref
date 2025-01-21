@@ -1,7 +1,10 @@
 #include "BlockCppVariable.h"
 #include <QtGui>
 #include "BlockCppFunction.h"
-#include "Exceptions.h"
+#include "WidgetBlockCppVariable.h"
+#include "gassert.h"
+#define ASSIGNMENT "assignment"
+#define TYPE "type"
 namespace Block {
 namespace Cpp {
 
@@ -35,11 +38,9 @@ const QString& Variable::assignment(
 
 
 Widget::Block::Abstract* Variable::createWidget(
-    QObject* parent
 ) const
 {
-    Q_UNUSED(parent);
-    return nullptr;//TODO
+    return new Widget::Block::Cpp::Variable(this);
 }
 
 
@@ -56,8 +57,8 @@ void Variable::loadFromMap(
 )
 {
     Base::loadFromMap(map,version);
-    _type = map.value("type").toString();
-    _assignment = map.value("assignment").toString();
+    _type = map.value(TYPE).toString();
+    _assignment = map.value(ASSIGNMENT).toString();
 }
 
 
@@ -65,10 +66,10 @@ QMap<QString,QVariant> Variable::saveToMap(
 ) const
 {
     auto ret = Base::saveToMap();
-    ret.insert("type",_type);
+    ret.insert(TYPE,_type);
     if (!_assignment.isEmpty())
     {
-        ret.insert("assignment",_assignment);
+        ret.insert(ASSIGNMENT,_assignment);
     }
     return ret;
 }
@@ -91,8 +92,8 @@ void Variable::setState(
 )
 {
     Base::setState(state);
-    setType(state.value("type").toString());
-    setAssignment(state.value("assignment").toString());
+    setType(state.value(TYPE).toString());
+    setAssignment(state.value(ASSIGNMENT).toString());
 }
 
 
@@ -116,8 +117,8 @@ QHash<QString,QVariant> Variable::state(
 ) const
 {
     auto ret = Base::state();
-    ret.insert("type",_type);
-    ret.insert("assignment",_assignment);
+    ret.insert(TYPE,_type);
+    ret.insert(ASSIGNMENT,_assignment);
     return ret;
 }
 
@@ -141,7 +142,7 @@ void Variable::addEvent(
 }
 
 
-Block::Abstract* Variable::create(
+Abstract* Variable::create(
     QObject* parent
 ) const
 {
