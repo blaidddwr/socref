@@ -6086,10 +6086,10 @@ The given parent must be valid. The given index must be valid and resolve to a v
             <__p_description>This contains all controllers.</__p_description>
             <__p_name>Controller</__p_name>
             <Namespace>
-                <__p_description>This contains all router controllers.</__p_description>
-                <__p_name>Router</__p_name>
+                <__p_description>This contains all route controllers.</__p_description>
+                <__p_name>Route</__p_name>
                 <Class>
-                    <__p_description>This is an abstract class. It is a router for a language. A router provides routes to all source code files for a given project's root block.</__p_description>
+                    <__p_description>This is an abstract class. It is a route controller for a language implementation. A router provides routes to all source code files for a given project's root block.</__p_description>
                     <__p_name>Abstract</__p_name>
                     <__p_parents>public QObject</__p_parents>
                     <Function>

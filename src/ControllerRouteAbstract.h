@@ -1,16 +1,17 @@
-#ifndef CONTROLLER_ROUTER_ABSTRACT_H
-#define CONTROLLER_ROUTER_ABSTRACT_H
+#ifndef CONTROLLER_ROUTE_ABSTRACT_H
+#define CONTROLLER_ROUTE_ABSTRACT_H
 #include <QObject>
 #include "Block.h"
 namespace Controller {
-namespace Router {
+namespace Route {
 
 
 
 
 /*!
- * This is an abstract class. It is a router for a language. A router provides
- * routes to all source code files for a given project's root block.
+ * This is an abstract class. It is a route controller for a language
+ * implementation. A router provides routes to all source code files for a given
+ * project's root block.
  */
 class Abstract:
     public QObject

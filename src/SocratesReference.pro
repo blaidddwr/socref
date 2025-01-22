@@ -93,8 +93,8 @@ HEADERS +=  Global.h \
             CommandProjectRemove.h \
             CommandProjectSet.h \
             Controller.h \
-            ControllerRouter.h \
-            ControllerRouterAbstract.h \
+            ControllerRoute.h \
+            ControllerRouteAbstract.h \
             ControllerSpellingHighlighter.h \
             Exception.h \
             ExceptionBase.h \
