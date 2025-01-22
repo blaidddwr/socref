@@ -93,8 +93,7 @@ The __type__ must be one of the following:
 
 * __build__: Changes that affect the build system or external dependencies.
 * __docs__: Changes in the documentation.
-* __feature__: A code change that adds a new public feature.
-* __intern__: A code change that adds a new private feature.
+* __feature__: A code change that adds a new feature.
 * __fix__: A code change that fixes a bug.
 * __perf__: Changes that improve performance.
 * __refactor__: A code change that neither fixes nor adds a feature.
@@ -107,16 +106,13 @@ A plus sign is added to the end of the type if it is a __BUILD FIX__. A __BUILD 
 
 Additional types can be added in the future as required by this project.
 
-### Public Versus Private Feature
+### Deprecated Types
 
-For a code change to be __public__ it must satisfy the following conditions:
+The following types have been deprecated:
 
-* It is not foundational to other code.
-* It independently effects the user experience.
+* __intern__: A code change that adds a new private feature.
 
-If all conditions are not satisfied then it is a __private__ feature.
-
-A base class is a __private__ feature because it is foundational. A GUI class whose presentation is dependent on other classes is a __private__ feature. A model class whose data is dependent on other abstract classes is a __private__ feature. An abstract class implementation that independently effects the user experience is a __public__ feature.
+The __intern__ type attempted to differentiate adding new features as public or private. This did not make sense since adding any new feature is inherently public. This type in old commits can be treated as a __feature__ type.
 
 ### Examples
 
@@ -127,7 +123,7 @@ feature: Added blah feature.
 
 feature(Model::Foo): Added lala method to implement blah feature.
 
-intern!(Model::Bar): Added code in the moo method to use the new blah
+feature!(Model::Bar): Added code in the moo method to use the new blah
 feature in the foo model class. This breaks how the moo method behaves
 and must be accounted for wherever it is used. The moo method is not a
 public API method so it is not a public breaking change and the header
