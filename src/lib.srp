@@ -2,7 +2,7 @@
 <srp_project>
     <language>C++/Qt</language>
     <name>Socrates' Reference</name>
-    <parse_path>src</parse_path>
+    <parse_path>lib</parse_path>
     <Namespace>
         <Enumeration>
             <__p_class>0</__p_class>
@@ -16645,29 +16645,5 @@ If this window's project model has unsaved changes then the user is asked what t
                 </Class>
             </Namespace>
         </Namespace>
-        <Function>
-            <__p_abstract>0</__p_abstract>
-            <__p_access>Public</__p_access>
-            <__p_const>0</__p_const>
-            <__p_default>0</__p_default>
-            <__p_deleted>0</__p_deleted>
-            <__p_explicit>0</__p_explicit>
-            <__p_final>0</__p_final>
-            <__p_invokable>0</__p_invokable>
-            <__p_name>main</__p_name>
-            <__p_noexcept>0</__p_noexcept>
-            <__p_override>0</__p_override>
-            <__p_returnType>int</__p_returnType>
-            <__p_static>0</__p_static>
-            <__p_virtual>0</__p_virtual>
-            <Variable>
-                <__p_name>argc</__p_name>
-                <__p_type>int</__p_type>
-            </Variable>
-            <Variable>
-                <__p_name>argv</__p_name>
-                <__p_type>char**</__p_type>
-            </Variable>
-        </Function>
     </Namespace>
 </srp_project>
