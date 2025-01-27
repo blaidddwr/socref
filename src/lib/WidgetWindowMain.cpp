@@ -15,7 +15,6 @@
 #include "WidgetDialogOrphanFiles.h"
 #include "WidgetDialogProject.h"
 #include "WidgetDialogSpellingSettings.h"
-#include "WidgetDialogUnitTests.h"
 #include "WidgetProject.h"
 #include "gassert.h"
 #define SETTINGS_KEY "widget.window.main"
@@ -347,15 +346,6 @@ void Main::spellingSettings(
 }
 
 
-void Main::unitTest(
-)
-{
-    Dialog::UnitTests dialog(this);
-    dialog.setWindowTitle(QApplication::applicationName()+tr(" - Unit Tests"));
-    dialog.exec();
-}
-
-
 QAction* Main::aboutAction(
 )
 {
@@ -562,8 +552,6 @@ QMenu* Main::helpMenu(
         _helpMenu = new QMenu(tr("Help"),this);
         _helpMenu->addAction(aboutAction());
         _helpMenu->addAction(aboutQtAction());
-        _helpMenu->addSeparator();
-        _helpMenu->addAction(unitTestAction());
     }
     return _helpMenu;
 }
@@ -877,19 +865,6 @@ QAction* Main::spellingSettingsAction(
         connect(_spellingSettingsAction,&QAction::triggered,this,&Main::spellingSettings);
     }
     return _spellingSettingsAction;
-}
-
-
-QAction* Main::unitTestAction(
-)
-{
-    if (!_unitTestAction)
-    {
-        _unitTestAction = new QAction(tr("Unit Tests"),this);
-        _unitTestAction->setStatusTip(tr("Run unit tests for this application."));
-        connect(_unitTestAction,&QAction::triggered,this,&Main::unitTest);
-    }
-    return _unitTestAction;
 }
 
 

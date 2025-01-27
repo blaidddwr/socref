@@ -1,0 +1,266 @@
+#include <QtTest>
+#include "BlockCppClass.h"
+#include "BlockCppFunction.h"
+#include "FactoryLanguage.h"
+#include "Global.h"
+#include "LanguageAbstract.h"
+#include "../utility.h"
+using ClassBlock = Block::Cpp::Class;
+using namespace Block::Cpp;
+
+class TestClassCppBlock: public QObject
+{
+    Q_OBJECT
+    Block::Cpp::Class* _block;
+    Language::Abstract* _language {nullptr};
+private slots:
+    void initTestCase();
+    void displayIconProperty();
+    void displayTextProperty();
+    void loadFromMap();
+    void loadFromMapLegacy();
+    void parentsProperty();
+    void saveToMap();
+    void setState();
+    void state();
+    void templatesProperty();
+    void cleanupTestCase();
+};
+
+void TestClassCppBlock::initTestCase()
+{
+    Q_INIT_RESOURCE(resources);
+    static const QIcon testIcon(":/cpp/class.svg");
+    auto factory = Factory::Language::instance();
+    QVERIFY(factory);
+    auto langIndex = factory->indexFromName("cpp");
+    QVERIFY(langIndex >= 0);
+    _language = Factory::Language::instance()->get(langIndex);
+    _block = qobject_cast<ClassBlock*>(_language->create(ClassIndex,this));
+    QVERIFY(_block);
+    QCOMPARE(_block->name(),"class");
+    QVERIFY(_block->parents().isEmpty());
+    QVERIFY(_block->templates().isEmpty());
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+}
+
+void TestClassCppBlock::displayIconProperty()
+{
+    static const QIcon testIcon(":/cpp/class.svg");
+    static const QIcon testIconAbstract(":/cpp/abstract_class.svg");
+    static const QIcon testIconVirtual(":/cpp/virtual_class.svg");
+    while (_block->size() > 0)
+    {
+        delete _block->take(0);
+    }
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    QSignalSpy spy(_block,&ClassBlock::displayIconChanged);
+    auto verify = [&spy,this](const QIcon& icon)
+    {
+        QCOMPARE(spy.count(),1);
+        auto arguments = spy.takeLast();
+        QCOMPARE(arguments.size(),1);
+        QVERIFY(areIconsEqual(arguments.at(0).value<QIcon>(),icon));
+        QVERIFY(areIconsEqual(_block->displayIcon(),icon));
+        spy.clear();
+    };
+    auto function = qobject_cast<Function*>(_language->create(FunctionIndex,this));
+    QVERIFY(function);
+    _block->append(function);
+    QCOMPARE(spy.count(),1);
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    spy.clear();
+    function->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag
+    );
+    verify(testIconAbstract);
+    function->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag
+    );
+    verify(testIconVirtual);
+    delete function;
+    verify(testIcon);
+    function = qobject_cast<Function*>(_language->create(FunctionIndex,this));
+    QVERIFY(function);
+    auto property = qobject_cast<Property*>(_language->create(PropertyIndex,this));
+    QVERIFY(property);
+    _block->append(property);
+    QCOMPARE(spy.count(),1);
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    spy.clear();
+    property->append(function);
+    QCOMPARE(spy.count(),1);
+    QVERIFY(areIconsEqual(_block->displayIcon(),testIcon));
+    spy.clear();
+    function->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,AbstractFunctionAssignment
+        ,VirtualFunctionFlag
+    );
+    verify(testIconAbstract);
+    function->set(
+        "test"
+        ,"void"
+        ,MethodFunctionType
+        ,PublicAccess
+        ,NoFunctionAssignment
+        ,VirtualFunctionFlag
+    );
+    verify(testIconVirtual);
+    delete property;
+    verify(testIcon);
+}
+
+void TestClassCppBlock::displayTextProperty()
+{
+    _block->setName("class123");
+    _block->setTemplates({});
+    QCOMPARE(_block->displayText(),"class123");
+    QSignalSpy spy(_block,&ClassBlock::displayTextChanged);
+    _block->setTemplates({"class A","class B"});
+    QCOMPARE(spy.count(),1);
+    auto arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(),1);
+    QCOMPARE(arguments.at(0),"class123 -> template<class A,class B>");
+    QCOMPARE(_block->displayText(),"class123 -> template<class A,class B>");
+}
+
+void TestClassCppBlock::loadFromMap()
+{
+    static const QStringList testParents {"parent1","parent2"};
+    static const QStringList testTemplates {"class A","class B"};
+    static const QMap<QString,QVariant> testData {
+        {"name","name"}
+        ,{"description","description"}
+        ,{"parents",testParents.join(';')}
+        ,{"templates",testTemplates.join(';')}
+    };
+    auto block = qobject_cast<ClassBlock*>(_language->create(ClassIndex));
+    QVERIFY(block);
+    block->loadFromMap(testData,Socref_1_0);
+    QCOMPARE(block->parents(),testParents);
+    QCOMPARE(block->templates(),testTemplates);
+    delete block;
+}
+
+void TestClassCppBlock::loadFromMapLegacy()
+{
+    static const QStringList testParents {"parent1","parent2"};
+    static const QString testTemplateString = "template <  class A   ,  class B>";
+    static const QStringList testTemplates {"class A","class B"};
+    static const QMap<QString,QVariant> testData {
+        {"name","name"}
+        ,{"description","description"}
+        ,{"parents",testParents.join("\n\n")}
+        ,{"template",testTemplateString}
+    };
+    auto block = qobject_cast<ClassBlock*>(_language->create(ClassIndex,this));
+    QVERIFY(block);
+    block->loadFromMap(testData,Socref_Legacy);
+    QCOMPARE(block->parents(),testParents);
+    QCOMPARE(block->templates(),testTemplates);
+    delete block;
+}
+
+void TestClassCppBlock::parentsProperty()
+{
+    static const QStringList testParents  = {"parent1","parent2"};
+    QSignalSpy spy(_block,&ClassBlock::parentsChanged);
+    _block->setParents(testParents);
+    QCOMPARE(spy.count(),1);
+    auto arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(),1);
+    QCOMPARE(arguments.at(0),testParents);
+    QCOMPARE(_block->parents(),testParents);
+}
+
+void TestClassCppBlock::saveToMap()
+{
+    static const QString testName = "name";
+    static const QString testDescription = "description";
+    static const QStringList testParents {"parent1","parent2"};
+    static const QStringList testTemplates {"class A","class B>"};
+    static const QMap<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"parents",testParents.join(';')}
+        ,{"templates",testTemplates.join(';')}
+    };
+    auto block = qobject_cast<ClassBlock*>(_language->create(ClassIndex,this));
+    QVERIFY(block);
+    block->setName(testName);
+    block->setDescription(testDescription);
+    block->setParents(testParents);
+    block->setTemplates(testTemplates);
+    auto data = block->saveToMap();
+    QCOMPARE(data,testData);
+    delete block;
+}
+
+void TestClassCppBlock::setState()
+{
+    static const QStringList testParents {"parent1","parent2"};
+    static const QStringList testTemplates {"class A","class B"};
+    static const QHash<QString,QVariant> testData {
+        {"name","name"}
+        ,{"description","description"}
+        ,{"parents",testParents}
+        ,{"templates",testTemplates}
+    };
+    _block->setState(testData);
+    QCOMPARE(_block->parents(),testParents);
+    QCOMPARE(_block->templates(),testTemplates);
+}
+
+void TestClassCppBlock::state()
+{
+    static const QString testName = "name";
+    static const QString testDescription = "description";
+    static const QStringList testParents {"parent1","parent2"};
+    static const QStringList testTemplates {"class A","class B"};
+    static const QHash<QString,QVariant> testData {
+        {"name",testName}
+        ,{"description",testDescription}
+        ,{"parents",testParents}
+        ,{"templates",testTemplates}
+    };
+    _block->setName(testName);
+    _block->setDescription(testDescription);
+    _block->setParents(testParents);
+    _block->setTemplates(testTemplates);
+    auto data = _block->state();
+    QCOMPARE(data,testData);
+}
+
+void TestClassCppBlock::templatesProperty()
+{
+    static const QStringList testTemplates {"class A","class B>"};
+    QSignalSpy spy(_block,&ClassBlock::templatesChanged);
+    _block->setTemplates(testTemplates);
+    QCOMPARE(spy.count(),1);
+    auto arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(),1);
+    QCOMPARE(arguments.at(0),testTemplates);
+    QCOMPARE(_block->templates(),testTemplates);
+}
+
+void TestClassCppBlock::cleanupTestCase()
+{
+    delete _block;
+}
+
+QTEST_MAIN(TestClassCppBlock)
+#include "test.moc"

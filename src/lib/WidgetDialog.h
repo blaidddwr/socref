@@ -12,7 +12,6 @@ namespace Dialog
     class OrphanFiles;
     class Project;
     class SpellingSettings;
-    class UnitTests;
 }
 }
 

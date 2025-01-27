@@ -1,6 +1,6 @@
 TEMPLATE = lib
 QT += core gui widgets testlib
-CONFIG += staticlib c++17
+CONFIG += c++17 staticlib
 LIBS += -lhunspell
 SOURCES += \
     BlockAbstract.cpp \
@@ -33,22 +33,6 @@ SOURCES += \
     StreamBlockXml.cpp \
     StreamProjectDir.cpp \
     StreamProjectXml.cpp \
-    Test.cpp \
-    TestBlockAbstract.cpp \
-    TestBlockCppClass.cpp \
-    TestBlockCppEnumeration.cpp \
-    TestBlockCppExceptionItem.cpp \
-    TestBlockCppFunction.cpp \
-    TestBlockCppNamespace.cpp \
-    TestBlockCppProperty.cpp \
-    TestBlockCppQtFunction.cpp \
-    TestBlockCppVariable.cpp \
-    TestFactoryLanguage.cpp \
-    TestLanguageAbstract.cpp \
-    TestLanguageCpp.cpp \
-    TestLanguageCppQt.cpp \
-    TestModelProject.cpp \
-    TestUnitModel.cpp \
     WidgetBlockAbstract.cpp \
     WidgetBlockCppBase.cpp \
     WidgetBlockCppClass.cpp \
@@ -63,7 +47,6 @@ SOURCES += \
     WidgetDialogOrphanFiles.cpp \
     WidgetDialogProject.cpp \
     WidgetDialogSpellingSettings.cpp \
-    WidgetDialogUnitTests.cpp \
     WidgetProject.cpp \
     WidgetStringList.cpp \
     WidgetTreeView.cpp \
@@ -126,31 +109,6 @@ HEADERS += \
     StreamBlockXml.h \
     StreamProjectDir.h \
     StreamProjectXml.h \
-    Test.h \
-    TestBlock.h \
-    TestBlockAbstract.h \
-    TestBlockCpp.h \
-    TestBlockCppClass.h \
-    TestBlockCppEnumeration.h \
-    TestBlockCppExceptionItem.h \
-    TestBlockCppFunction.h \
-    TestBlockCppNamespace.h \
-    TestBlockCppProperty.h \
-    TestBlockCppQt.h \
-    TestBlockCppQtFunction.h \
-    TestBlockCppVariable.h \
-    TestDummy.h \
-    TestDummyBlock.h \
-    TestDummyLanguage.h \
-    TestFactory.h \
-    TestFactoryLanguage.h \
-    TestLanguage.h \
-    TestLanguageAbstract.h \
-    TestLanguageCpp.h \
-    TestLanguageCppQt.h \
-    TestModel.h \
-    TestModelProject.h \
-    TestUnitModel.h \
     Widget.h \
     WidgetBlock.h \
     WidgetBlockAbstract.h \
@@ -170,7 +128,6 @@ HEADERS += \
     WidgetDialogOrphanFiles.h \
     WidgetDialogProject.h \
     WidgetDialogSpellingSettings.h \
-    WidgetDialogUnitTests.h \
     WidgetProject.h \
     WidgetStringList.h \
     WidgetTreeView.h \

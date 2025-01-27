@@ -2,6 +2,8 @@ TEMPLATE = subdirs
 
 SUBDIRS = \
     app \
-    lib
+    lib \
+    tests
 
 app.depends = lib
+tests.depends = lib

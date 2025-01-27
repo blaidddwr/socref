@@ -32,7 +32,6 @@ class Main:
     QAction* _saveAction {nullptr};
     QAction* _saveAsAction {nullptr};
     QAction* _spellingSettingsAction {nullptr};
-    QAction* _unitTestAction {nullptr};
     QMenu* _codeMenu {nullptr};
     QMenu* _editMenu {nullptr};
     QMenu* _fileMenu {nullptr};
@@ -192,14 +191,6 @@ class Main:
      */
     private slots:
     void spellingSettings(
-    );
-
-
-    /*!
-     * Called when this widget's unit test action is triggered.
-     */
-    private slots:
-    void unitTest(
     );
 
 
@@ -529,17 +520,6 @@ class Main:
      */
     private:
     QAction* spellingSettingsAction(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * This widget's unit test action.
-     */
-    private:
-    QAction* unitTestAction(
     );
 
 
