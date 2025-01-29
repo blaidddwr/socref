@@ -32,7 +32,7 @@ void TestEnumerationCppBlock::initTestCase()
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
     _language = Factory::Language::instance()->get(langIndex);
-    _block = qobject_cast<EnumerationBlock*>(_language->create(EnumerationIndex,this));
+    _block = qobject_cast<EnumerationBlock*>(_language->createBlock(EnumerationIndex,this));
     QVERIFY(_block);
     QCOMPARE(_block->name(),"enumeration");
     QCOMPARE(_block->isClass(),false);
@@ -63,7 +63,7 @@ void TestEnumerationCppBlock::loadFromMap()
         ,{"description","description"}
         ,{"class",true}
     };
-    auto block = qobject_cast<EnumerationBlock*>(_language->create(EnumerationIndex,this));
+    auto block = qobject_cast<EnumerationBlock*>(_language->createBlock(EnumerationIndex,this));
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->isClass(),true);
@@ -79,7 +79,7 @@ void TestEnumerationCppBlock::saveToMap()
         ,{"description",testDescription}
         ,{"class",true}
     };
-    auto block = qobject_cast<EnumerationBlock*>(_language->create(EnumerationIndex,this));
+    auto block = qobject_cast<EnumerationBlock*>(_language->createBlock(EnumerationIndex,this));
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);

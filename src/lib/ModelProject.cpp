@@ -24,7 +24,7 @@ Project::Project(
 {
     G_ASSERT(_language);
     connect(_language,&QObject::destroyed,this,&Project::onLanguageDestroyed);
-    _root = _language->createRoot(this);
+    _root = _language->createRootBlock(this);
     G_ASSERT(_root);
     G_ASSERT(_root->meta()->index() == _language->rootIndex());
 }
@@ -315,7 +315,9 @@ bool Project::insert(
     {
         return false;
     }
-    return pushCommand(new Command::Project::Insert(_language->create(blockIndex),row,parent,this));
+    return pushCommand(
+        new Command::Project::Insert(_language->createBlock(blockIndex),row,parent,this)
+    );
 }
 
 

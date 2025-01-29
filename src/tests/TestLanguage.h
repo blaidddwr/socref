@@ -22,7 +22,7 @@ public:
             )
         );
     }
-    virtual Block::Abstract* create(int index, QObject* parent = nullptr) const override final
+    virtual Block::Abstract* createBlock(int index, QObject* parent = nullptr) const override final
     {
         if (index != BLOCK_INDEX)
         {
@@ -30,7 +30,15 @@ public:
         }
         return new TestBlock(blockMeta(BLOCK_INDEX),parent);
     }
-    virtual Block::Abstract* createRoot(QObject* parent = nullptr) const override final
+    virtual Controller::Parse::Abstract* createParse(
+        int index
+        ,QObject *parent) const override final
+    {
+        Q_UNUSED(index);
+        Q_UNUSED(parent);
+        return nullptr;
+    }
+    virtual Block::Abstract* createRootBlock(QObject* parent = nullptr) const override final
     {
         Q_UNUSED(parent);
         return nullptr;
@@ -38,6 +46,10 @@ public:
     virtual int rootIndex() const override final
     {
         return BLOCK_INDEX;
+    }
+    virtual Controller::Route::Abstract* router() const override final
+    {
+        return nullptr;
     }
 };
 

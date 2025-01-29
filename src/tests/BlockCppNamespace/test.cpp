@@ -34,7 +34,7 @@ void TestNamespaceCppBlock::initTestCase()
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
     _language = Factory::Language::instance()->get(langIndex);
-    _block = qobject_cast<NamespaceBlock*>(_language->create(NamespaceIndex,this));
+    _block = qobject_cast<NamespaceBlock*>(_language->createBlock(NamespaceIndex,this));
     QVERIFY(_block);
     QCOMPARE(_block->name(),"namespace");
     QCOMPARE(_block->description(),"Detailed description.");
@@ -78,7 +78,7 @@ void TestNamespaceCppBlock::loadFromMap()
         {"name",testName}
         ,{"description",testDescription}
     };
-    auto block = qobject_cast<NamespaceBlock*>(_language->create(NamespaceIndex,this));
+    auto block = qobject_cast<NamespaceBlock*>(_language->createBlock(NamespaceIndex,this));
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->name(),testName);
@@ -106,7 +106,7 @@ void TestNamespaceCppBlock::saveToMap()
         {"name",testName}
         ,{"description",testDescription}
     };
-    auto block = qobject_cast<NamespaceBlock*>(_language->create(NamespaceIndex,this));
+    auto block = qobject_cast<NamespaceBlock*>(_language->createBlock(NamespaceIndex,this));
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);

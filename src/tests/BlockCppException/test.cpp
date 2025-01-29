@@ -26,7 +26,7 @@ void TestExceptionCppBlock::initTestCase()
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
     auto language = Factory::Language::instance()->get(langIndex);
-    _block = qobject_cast<ExceptionBlock*>(language->create(ExceptionIndex,this));
+    _block = qobject_cast<ExceptionBlock*>(language->createBlock(ExceptionIndex,this));
     QVERIFY(_block);
     QCOMPARE(_block->name(),"exception");
 }

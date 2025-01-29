@@ -99,7 +99,7 @@ CppQt::CppQt(
 }
 
 
-Block::Abstract* CppQt::create(
+Block::Abstract* CppQt::createBlock(
     int index
     ,QObject* parent
 ) const
@@ -161,7 +161,18 @@ Block::Abstract* CppQt::create(
 }
 
 
-Block::Abstract* CppQt::createRoot(
+Controller::Parse::Abstract* CppQt::createParse(
+    int index
+    ,QObject* parent
+) const
+{
+    Q_UNUSED(index);
+    Q_UNUSED(parent);
+    return nullptr;
+}
+
+
+Block::Abstract* CppQt::createRootBlock(
     QObject* parent
 ) const
 {
@@ -176,5 +187,12 @@ int CppQt::rootIndex(
 ) const
 {
     return NamespaceIndex;
+}
+
+
+Controller::Route::Abstract* CppQt::router(
+) const
+{
+    return nullptr;
 }
 }

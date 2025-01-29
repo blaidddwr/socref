@@ -35,8 +35,8 @@ void TestFunctionCppQtBlock::initTestCase()
     auto langIndex = factory->indexFromName("cppqt");
     QVERIFY(langIndex >= 0);
     auto language = Factory::Language::instance()->get(langIndex);
-    _block = qobject_cast<FunctionBlock*>(language->create(FunctionIndex,this));
-    _parent = qobject_cast<ClassBlock*>(language->create(ClassIndex,this));
+    _block = qobject_cast<FunctionBlock*>(language->createBlock(FunctionIndex,this));
+    _parent = qobject_cast<ClassBlock*>(language->createBlock(ClassIndex,this));
     QVERIFY(_block);
     QVERIFY(_parent);
     _parent->setName("class123");

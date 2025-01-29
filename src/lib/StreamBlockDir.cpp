@@ -205,7 +205,7 @@ void BlockDir::insertPaths(
     {
         throw ReadError(QApp::tr("Unknown block %1").arg(blockName));
     }
-    std::unique_ptr<::Block::Abstract> block(_language->create(i));
+    std::unique_ptr<::Block::Abstract> block(_language->createBlock(i));
     QMap<QString,QVariant> map;
     int lineNumber = 1;
     QString line = in.readLine();

@@ -5,6 +5,9 @@ namespace Controller {
 
 /*!
  * This contains all route controllers.
+ * 
+ * See the abstract route controller class for a detailed description of
+ * routers.
  */
 namespace Route
 {

@@ -3,6 +3,8 @@
 #include <QObject>
 #include <QHash>
 #include "Block.h"
+#include "ControllerParse.h"
+#include "ControllerRoute.h"
 #include "ModelMeta.h"
 namespace Language {
 
@@ -16,6 +18,8 @@ namespace Language {
  * 
  * Its properties are meta and root index. Meta is self-explanatory. Root index
  * is a language's root block's index.
+ * 
+ * router: This property provides a language's route controller for parsing.
  */
 class Abstract:
     public QObject
@@ -68,7 +72,26 @@ class Abstract:
      *        The parent.
      */
     public:
-    virtual Block::Abstract* create(
+    virtual Block::Abstract* createBlock(
+        int index
+        ,QObject* parent = nullptr
+    ) const = 0;
+
+
+    /*!
+     * Creates a new parse controller.
+     *
+     * @param index
+     *        The new parse controller's index.
+     *
+     * @param parent
+     *        The new parse controller's parent.
+     *
+     * @return
+     * The new parse controller.
+     */
+    public:
+    virtual Controller::Parse::Abstract* createParse(
         int index
         ,QObject* parent = nullptr
     ) const = 0;
@@ -82,7 +105,7 @@ class Abstract:
      *        The parent.
      */
     public:
-    virtual Block::Abstract* createRoot(
+    virtual Block::Abstract* createRootBlock(
         QObject* parent = nullptr
     ) const = 0;
 
@@ -119,6 +142,14 @@ class Abstract:
      */
     public:
     virtual int rootIndex(
+    ) const = 0;
+
+
+    /*!
+     * Getter method.
+     */
+    public:
+    virtual Controller::Route::Abstract* router(
     ) const = 0;
 
 

@@ -68,7 +68,7 @@ BlockXml& BlockXml::operator<<(
         throw ReadError(QApp::tr("Unknown block %1.").arg(blockName));
     }
     QMap<QString,QVariant> map;
-    std::unique_ptr<::Block::Abstract> block(_language->create(i));
+    std::unique_ptr<::Block::Abstract> block(_language->createBlock(i));
     while (!xml.atEnd())
     {
         xml.readNext();

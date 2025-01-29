@@ -30,7 +30,7 @@ void TestPropertyCppBlock::initTestCase()
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
     _language = Factory::Language::instance()->get(langIndex);
-    _block = qobject_cast<PropertyBlock*>(_language->create(PropertyIndex,this));
+    _block = qobject_cast<PropertyBlock*>(_language->createBlock(PropertyIndex,this));
     QVERIFY(_block);
     QCOMPARE(_block->name(),"property");
 }
@@ -55,7 +55,7 @@ void TestPropertyCppBlock::displayIconProperty()
         QVERIFY(areIconsEqual(_block->displayIcon(),icon));
         spy.clear();
     };
-    auto function = qobject_cast<Function*>(_language->create(FunctionIndex,this));
+    auto function = qobject_cast<Function*>(_language->createBlock(FunctionIndex,this));
     QVERIFY(function);
     _block->append(function);
     QCOMPARE(spy.count(),1);
@@ -90,7 +90,7 @@ void TestPropertyCppBlock::isAbstract()
         delete _block->take(0);
     }
     QVERIFY(!_block->isAbstract());
-    auto function = qobject_cast<Function*>(_language->create(FunctionIndex,this));
+    auto function = qobject_cast<Function*>(_language->createBlock(FunctionIndex,this));
     QVERIFY(function);
     _block->append(function);
     QVERIFY(!_block->isAbstract());
@@ -114,7 +114,7 @@ void TestPropertyCppBlock::isVirtual()
         delete _block->take(0);
     }
     QVERIFY(!_block->isVirtual());
-    auto function = qobject_cast<Function*>(_language->create(FunctionIndex,this));
+    auto function = qobject_cast<Function*>(_language->createBlock(FunctionIndex,this));
     QVERIFY(function);
     _block->append(function);
     QVERIFY(!_block->isVirtual());

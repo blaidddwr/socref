@@ -18,6 +18,12 @@ class Abstract:
 {
 
 
+    public:
+    Abstract(
+        QObject* parent = nullptr
+    );
+
+
     /*!
      * Returns all source code routes for the project with the given root block.
      *

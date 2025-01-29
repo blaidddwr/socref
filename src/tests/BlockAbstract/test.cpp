@@ -45,7 +45,7 @@ void TestAbstractBlock::initTestCase()
         ,{BLOCK_INDEX}
         ,this
     );
-    _block = qobject_cast<TestBlock*>(_language->create(BLOCK_INDEX,this));
+    _block = qobject_cast<TestBlock*>(_language->createBlock(BLOCK_INDEX,this));
     QVERIFY(_block);
 }
 

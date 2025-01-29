@@ -6086,12 +6086,156 @@ The given parent must be valid. The given index must be valid and resolve to a v
             <__p_description>This contains all controllers.</__p_description>
             <__p_name>Controller</__p_name>
             <Namespace>
-                <__p_description>This contains all route controllers.</__p_description>
+                <__p_description>This contains all parse controllers.
+
+See the abstract parse controller class for a detailed description of parses.</__p_description>
+                <__p_name>Parse</__p_name>
+                <Class>
+                    <__p_description>This is an abstract class. It parses a source code file for code lines. These code lines in turn are used by builders to rebuild the source code with the implementation code intact.
+
+A parse can have children parses. Children parses look for their own code blocks within the source code, taking precedence over their parent parse. The first line is except and always given to the parent parse.
+
+children: This property holds the list of a parse's children.
+
+childrenIndexes: This property holds the list of a parse's children parse indexes. It is used to create a parse's children parses.
+
+languageIndex: This property holds a parser's language index. It is used to create a parse's children parses.</__p_description>
+                    <__p_name>Abstract</__p_name>
+                    <__p_parents>public QObject</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Constructs a new parser.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_description>The new parser's parent.</__p_description>
+                            <__p_name>parent</__p_name>
+                            <__p_type>Abstract*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>children</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>const QList&lt;Abstract*&gt;&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>1</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>childrenIndexes</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>const QList&lt;int&gt;&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>1</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>languageIndex</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>1</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Parses a single line of code.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>parse</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True if the line of code was parsed or false otherwise. If the line of code was not parsed it is in turn parsed by the parent parser. If there is no parent parser then the source code finishes parsing.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_description>The lines of source code.</__p_description>
+                            <__p_name>lines</__p_name>
+                            <__p_type>const QStringList&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The specific line to be parsed.</__p_description>
+                            <__p_name>where</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                </Class>
+            </Namespace>
+            <Namespace>
+                <__p_description>This contains all route controllers.
+
+See the abstract route controller class for a detailed description of routers.</__p_description>
                 <__p_name>Route</__p_name>
                 <Class>
                     <__p_description>This is an abstract class. It is a route controller for a language implementation. A router provides routes to all source code files for a given project's root block.</__p_description>
                     <__p_name>Abstract</__p_name>
                     <__p_parents>public QObject</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
                     <Function>
                         <__p_abstract>1</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -6426,7 +6570,9 @@ See the abstract language class for a detailed description of languages.</__p_de
             <Class>
                 <__p_description>This is an abstract class. It is a language implementation and block factory for its implemented language. A language in this application is synonymous with a programming language, such as C++ or Python for example.
 
-Its properties are meta and root index. Meta is self-explanatory. Root index is a language's root block's index.</__p_description>
+Its properties are meta and root index. Meta is self-explanatory. Root index is a language's root block's index.
+
+router: This property provides a language's route controller for parsing.</__p_description>
                 <__p_name>Abstract</__p_name>
                 <__p_parents>public QObject</__p_parents>
                 <Function>
@@ -6489,7 +6635,7 @@ Its properties are meta and root index. Meta is self-explanatory. Root index is 
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>create</__p_name>
+                    <__p_name>createBlock</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>Block::Abstract*</__p_returnType>
@@ -6513,11 +6659,40 @@ Its properties are meta and root index. Meta is self-explanatory. Root index is 
                     <__p_const>1</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
+                    <__p_description>Creates a new parse controller.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createParse</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>The new parse controller.</__p_returnDescription>
+                    <__p_returnType>Controller::Parse::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_description>The new parse controller's index.</__p_description>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>The new parse controller's parent.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
                     <__p_description>Creates and returns a new root block of this language with the given parent.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>createRoot</__p_name>
+                    <__p_name>createRootBlock</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnType>Block::Abstract*</__p_returnType>
@@ -6585,6 +6760,23 @@ Its properties are meta and root index. Meta is self-explanatory. Root index is 
                     <__p_override>0</__p_override>
                     <__p_returnDescription>This language's root index property.</__p_returnDescription>
                     <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>1</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter method.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>router</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>Controller::Route::Abstract*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
                 </Function>
@@ -6718,7 +6910,7 @@ The order of addition is the same as the order in the given list.</__p_descripti
                     <__p_explicit>0</__p_explicit>
                     <__p_final>1</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>create</__p_name>
+                    <__p_name>createBlock</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
                     <__p_returnType>Block::Abstract*</__p_returnType>
@@ -6743,7 +6935,32 @@ The order of addition is the same as the order in the given list.</__p_descripti
                     <__p_explicit>0</__p_explicit>
                     <__p_final>1</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>createRoot</__p_name>
+                    <__p_name>createParse</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>1</__p_override>
+                    <__p_returnType>Controller::Parse::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>1</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createRootBlock</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
                     <__p_returnType>Block::Abstract*</__p_returnType>
@@ -6769,6 +6986,22 @@ The order of addition is the same as the order in the given list.</__p_descripti
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
                     <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>1</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>router</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>1</__p_override>
+                    <__p_returnType>Controller::Route::Abstract*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
                 </Function>
@@ -6811,7 +7044,7 @@ The order of addition is the same as the order in the given list.</__p_descripti
                     <__p_explicit>0</__p_explicit>
                     <__p_final>1</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>create</__p_name>
+                    <__p_name>createBlock</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
                     <__p_returnType>Block::Abstract*</__p_returnType>
@@ -6836,7 +7069,32 @@ The order of addition is the same as the order in the given list.</__p_descripti
                     <__p_explicit>0</__p_explicit>
                     <__p_final>1</__p_final>
                     <__p_invokable>0</__p_invokable>
-                    <__p_name>createRoot</__p_name>
+                    <__p_name>createParse</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>1</__p_override>
+                    <__p_returnType>Controller::Parse::Abstract*</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_name>index</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>1</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>createRootBlock</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
                     <__p_returnType>Block::Abstract*</__p_returnType>
@@ -6862,6 +7120,22 @@ The order of addition is the same as the order in the given list.</__p_descripti
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
                     <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>1</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>router</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>1</__p_override>
+                    <__p_returnType>Controller::Route::Abstract*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
                 </Function>

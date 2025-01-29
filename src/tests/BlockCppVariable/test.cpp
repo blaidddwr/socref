@@ -35,7 +35,7 @@ void TestVariableCppBlock::initTestCase()
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
     _language = Factory::Language::instance()->get(langIndex);
-    _block = qobject_cast<VariableBlock*>(_language->create(VariableIndex,this));
+    _block = qobject_cast<VariableBlock*>(_language->createBlock(VariableIndex,this));
     QVERIFY(_block);
     QCOMPARE(_block->name(),"variable");
     QCOMPARE(_block->type(),"int");
@@ -71,7 +71,7 @@ void TestVariableCppBlock::loadFromMap()
         ,{"type",testType}
         ,{"assignment",testAssignment}
     };
-    auto block = qobject_cast<VariableBlock*>(_language->create(VariableIndex,this));
+    auto block = qobject_cast<VariableBlock*>(_language->createBlock(VariableIndex,this));
     QVERIFY(block);
     block->loadFromMap(testData,Socref_1_0);
     QCOMPARE(block->type(),testType);
@@ -91,7 +91,7 @@ void TestVariableCppBlock::saveToMap()
         ,{"type",testType}
         ,{"assignment",testAssignment}
     };
-    auto block = qobject_cast<VariableBlock*>(_language->create(VariableIndex,this));
+    auto block = qobject_cast<VariableBlock*>(_language->createBlock(VariableIndex,this));
     QVERIFY(block);
     block->setName(testName);
     block->setDescription(testDescription);

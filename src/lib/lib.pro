@@ -19,6 +19,8 @@ SOURCES += \
     CommandProjectMove.cpp \
     CommandProjectRemove.cpp \
     CommandProjectSet.cpp \
+    ControllerParseAbstract.cpp \
+    ControllerRouteAbstract.cpp \
     ControllerSpellingHighlighter.cpp \
     ExceptionBase.cpp \
     FactoryLanguage.cpp \
@@ -74,6 +76,8 @@ HEADERS += \
     CommandProjectRemove.h \
     CommandProjectSet.h \
     Controller.h \
+    ControllerParse.h \
+    ControllerParseAbstract.h \
     ControllerRoute.h \
     ControllerRouteAbstract.h \
     ControllerSpellingHighlighter.h \

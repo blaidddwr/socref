@@ -23,20 +23,32 @@ class Cpp:
 
 
     public:
-    virtual Block::Abstract* create(
+    virtual Block::Abstract* createBlock(
         int index
         ,QObject* parent = nullptr
     ) const override final;
 
 
     public:
-    virtual Block::Abstract* createRoot(
+    virtual Controller::Parse::Abstract* createParse(
+        int index
+        ,QObject* parent = nullptr
+    ) const override final;
+
+
+    public:
+    virtual Block::Abstract* createRootBlock(
         QObject* parent = nullptr
     ) const override final;
 
 
     public:
     virtual int rootIndex(
+    ) const override final;
+
+
+    public:
+    virtual Controller::Route::Abstract* router(
     ) const override final;
 };
 }

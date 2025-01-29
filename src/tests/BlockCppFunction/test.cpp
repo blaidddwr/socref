@@ -62,7 +62,7 @@ void TestFunctionCppBlock::initTestCase()
     auto langIndex = factory->indexFromName("cpp");
     QVERIFY(langIndex >= 0);
     _language = Factory::Language::instance()->get(langIndex);
-    _block = qobject_cast<FunctionBlock*>(_language->create(FunctionIndex,this));
+    _block = qobject_cast<FunctionBlock*>(_language->createBlock(FunctionIndex,this));
     QVERIFY(_block);
     QCOMPARE(_block->name(),"function");
     QCOMPARE(_block->access(),PublicAccess);
@@ -71,7 +71,7 @@ void TestFunctionCppBlock::initTestCase()
     QCOMPARE(_block->flags(),0);
     QCOMPARE(_block->returnType(),"void");
     QCOMPARE(_block->returnDescription(),"");
-    _parent = qobject_cast<ClassBlock*>(_language->create(ClassIndex,this));
+    _parent = qobject_cast<ClassBlock*>(_language->createBlock(ClassIndex,this));
     QVERIFY(_parent);
     _parent->setName("class123");
     QCOMPARE(_parent->name(),"class123");
@@ -320,8 +320,8 @@ void TestFunctionCppBlock::displayTextProperty()
     verify("operator++() -> void");
     _block->set("main","int",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
     spy.clear();
-    auto arg1 = qobject_cast<VariableBlock*>(_language->create(VariableIndex,this));
-    auto arg2 = qobject_cast<VariableBlock*>(_language->create(VariableIndex,this));
+    auto arg1 = qobject_cast<VariableBlock*>(_language->createBlock(VariableIndex,this));
+    auto arg2 = qobject_cast<VariableBlock*>(_language->createBlock(VariableIndex,this));
     QVERIFY(arg1);
     QVERIFY(arg2);
     arg1->setType("int");
