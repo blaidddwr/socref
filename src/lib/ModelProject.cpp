@@ -109,7 +109,7 @@ int Project::canPaste(
 {
     int ret = 0;
     auto pb = block(parent);
-    for (auto block: _copied)
+    for (auto block: std::as_const(_copied))
     {
         if (pb->meta()->allowList().contains(block->meta()->index()))
         {
@@ -131,6 +131,18 @@ bool Project::canUndo(
 ) const
 {
     return !_undoStack.isEmpty();
+}
+
+
+void Project::clearAllCode(
+)
+{
+    _root->code().clear();
+    const auto d = _root->descendants();
+    for (auto block: d)
+    {
+        block->code().clear();
+    }
 }
 
 
@@ -392,7 +404,7 @@ int Project::paste(
         return 0;
     }
     int ret = 0;
-    for (auto b: _copied)
+    for (auto b: std::as_const(_copied))
     {
         std::unique_ptr<Block::Abstract> copy(b->copy());
         if (block(parent)->meta()->allowList().contains(copy->meta()->index()))
@@ -544,7 +556,8 @@ void Project::connectAll(
 )
 {
     G_ASSERT(_root);
-    for (auto block: _root->descendants())
+    const auto d = _root->descendants();
+    for (auto block: d)
     {
         connect(
             block

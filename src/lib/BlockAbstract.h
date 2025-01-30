@@ -1,5 +1,6 @@
 #ifndef BLOCK_ABSTRACT_H
 #define BLOCK_ABSTRACT_H
+#include <QMap>
 #include <QObject>
 #include "ModelMeta.h"
 #include "Stream.h"
@@ -27,6 +28,11 @@ namespace Block {
  * Its properties are meta, display text, and display icon. The meta, display
  * text, and display icon are self-explanatory.
  * 
+ * code: This property is a dictionary lookup table and holds all code lines
+ * parsed from its corresponding source code. This property is volatile and not
+ * saved or loaded. It is meant to be used during the process of parsing and
+ * then rebuilding the source code a block represents.
+ * 
  * A block can only have children blocks of any type in its meta's allow list
  * property.
  * 
@@ -50,6 +56,7 @@ class Abstract:
     friend class Stream::BlockXml;
     Model::Meta::Block* _meta;
     QList<Abstract*> _children;
+    QMap<QString,QStringList> _code;
 
 
     /*!
@@ -108,6 +115,15 @@ class Abstract:
     public:
     void append(
         Abstract* block
+    );
+
+
+    /*!
+     * Getter method. This is not a constant method because it allows
+     * modification of this block's code property.
+     */
+    public:
+    QMap<QString,QStringList>& code(
     );
 
 

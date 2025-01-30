@@ -232,6 +232,14 @@ class Project:
     ) const;
 
 
+    /*!
+     * Clears the code property of all blocks contained in this project.
+     */
+    public:
+    void clearAllCode(
+    );
+
+
     public:
     virtual int columnCount(
         const QModelIndex& parent = QModelIndex()

@@ -32,6 +32,13 @@ void Abstract::append(
 }
 
 
+QMap<QString,QStringList>& Abstract::code(
+)
+{
+    return _code;
+}
+
+
 Abstract* Abstract::copy(
     QObject* parent
 ) const
