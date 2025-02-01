@@ -13,23 +13,47 @@ namespace Parse {
  * implementation code intact.
  * 
  * A parse can have children parses. Children parses look for their own code
- * blocks within the source code, taking precedence over their parent parse. The
- * first line is except and always given to the parent parse.
+ * blocks within the source code. A parse implementation is responsible for
+ * adding its children parses at the correct time.
+ * 
+ * Parsing is done line by line, and a parse is treated like a state machine
+ * with its parse interface being called per line of source code. A status is
+ * returned instructing the code controller how to proceed. When the children
+ * parses of a parse is given a change to parse a line of code, the first child
+ * that successfully parses one or more lines is used and all other children are
+ * ignored for that pass until the children parses are called to parse a line of
+ * code again.
  * 
  * children: This property holds the list of a parse's children.
  * 
- * childrenIndexes: This property holds the list of a parse's children parse
- * indexes. It is used to create a parse's children parses.
- * 
- * languageIndex: This property holds a parser's language index. It is used to
- * create a parse's children parses.
+ * version: This property holds the source code version a parse is parsing.
  */
 class Abstract:
     public QObject
 {
     Q_OBJECT
     QList<Abstract*> _children;
-    bool _createdChildren {false};
+    int _version {-1};
+
+
+    /*!
+     * This enumerates the status of this parse after parsing a given line.
+     * 
+     * Ok - This parse parsed the given line and its children will be skipped.
+     * 
+     * Children - This parse did not parse the given line and its children will
+     * be given a chance to parse it.
+     * 
+     * Done - This parse is done parsing the source code, returning control to
+     * its parent or ending parsing of the file if there is no parent parse.
+     */
+    public:
+    enum class Status
+    {
+        Ok
+        ,Children
+        ,Done
+    };
 
 
     /*!
@@ -53,22 +77,6 @@ class Abstract:
 
 
     /*!
-     * Getter method.
-     */
-    public:
-    virtual const QList<int>& childrenIndexes(
-    ) const = 0;
-
-
-    /*!
-     * Getter method.
-     */
-    public:
-    virtual int languageIndex(
-    ) const = 0;
-
-
-    /*!
      * Parses a single line of code.
      *
      * @param lines
@@ -78,15 +86,43 @@ class Abstract:
      *        The specific line to be parsed.
      *
      * @return
-     * True if the line of code was parsed or false otherwise. If the line of
-     * code was not parsed it is in turn parsed by the parent parser. If there
-     * is no parent parser then the source code finishes parsing.
+     * The status of this parse after parsing the given line of code.
      */
     public:
-    virtual bool parse(
+    virtual Status parse(
         const QStringList& lines
         ,int where
     ) = 0;
+
+
+    /*!
+     * Setter method.
+     */
+    public:
+    void setVersion(
+        int value
+    );
+
+
+    /*!
+     * Getter method.
+     */
+    public:
+    int version(
+    ) const;
+
+
+    /*!
+     * Adds a new child to this parse.
+     *
+     * @param child
+     *        The child parse added to this parse. This parser takes ownership
+     *        of the given child.
+     */
+    protected:
+    void addChild(
+        Abstract* child
+    );
 };
 }
 }

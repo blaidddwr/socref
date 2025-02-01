@@ -2,6 +2,7 @@
 #define CONTROLLER_ROUTE_ABSTRACT_H
 #include <QObject>
 #include "Block.h"
+#include "ControllerParse.h"
 namespace Controller {
 namespace Route {
 
@@ -34,11 +35,11 @@ class Abstract:
      * @return
      * All source code routes. The keys are the relative file path to the source
      * code, where each path is relative to the given root block's project's
-     * source path. The values are the parse indexes used to parse the
-     * corresponding source code.
+     * source path. The values are the parses used to parse the corresponding
+     * source code.
      */
     public:
-    virtual QHash<QString,int> routes(
+    virtual QHash<QString,Parse::Abstract*> routes(
         const Block::Abstract* root
     ) = 0;
 };

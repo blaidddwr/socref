@@ -51,6 +51,7 @@ namespace Block {
 class Abstract:
     public QObject
 {
+    /* header */
     Q_OBJECT
     friend class Stream::BlockDir;
     friend class Stream::BlockXml;

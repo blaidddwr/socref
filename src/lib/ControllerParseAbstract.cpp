@@ -16,16 +16,33 @@ Abstract::Abstract(
 const QList<Abstract*>& Abstract::children(
 )
 {
-    if (!_createdChildren)
-    {
-        auto language = Factory::Language::instance()->get(languageIndex());
-        for (auto i: childrenIndexes())
-        {
-            _children.append(language->createParse(i,this));
-        }
-        _createdChildren = true;
-    }
     return _children;
+}
+
+
+void Abstract::setVersion(
+    int value
+)
+{
+    _version = value;
+}
+
+
+int Abstract::version(
+) const
+{
+    Q_ASSERT(_version != -1);
+    return _version;
+}
+
+
+void Abstract::addChild(
+    Abstract* child
+)
+{
+    Q_ASSERT(child);
+    child->setParent(this);
+    _children.append(child);
 }
 }
 }

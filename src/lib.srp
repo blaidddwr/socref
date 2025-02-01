@@ -6112,15 +6112,26 @@ See the abstract parse controller class for a detailed description of parses.</_
                 <Class>
                     <__p_description>This is an abstract class. It parses a source code file for code lines. These code lines in turn are used by builders to rebuild the source code with the implementation code intact.
 
-A parse can have children parses. Children parses look for their own code blocks within the source code, taking precedence over their parent parse. The first line is except and always given to the parent parse.
+A parse can have children parses. Children parses look for their own code blocks within the source code. A parse implementation is responsible for adding its children parses at the correct time.
+
+Parsing is done line by line, and a parse is treated like a state machine with its parse interface being called per line of source code. A status is returned instructing the code controller how to proceed. When the children parses of a parse is given a change to parse a line of code, the first child that successfully parses one or more lines is used and all other children are ignored for that pass until the children parses are called to parse a line of code again.
 
 children: This property holds the list of a parse's children.
 
-childrenIndexes: This property holds the list of a parse's children parse indexes. It is used to create a parse's children parses.
-
-languageIndex: This property holds a parser's language index. It is used to create a parse's children parses.</__p_description>
+version: This property holds the source code version a parse is parsing.</__p_description>
                     <__p_name>Abstract</__p_name>
                     <__p_parents>public QObject</__p_parents>
+                    <Enumeration>
+                        <__p_class>1</__p_class>
+                        <__p_description>This enumerates the status of this parse after parsing a given line.
+
+Ok - This parse parsed the given line and its children will be skipped.
+
+Children - This parse did not parse the given line and its children will be given a chance to parse it.
+
+Done - This parse is done parsing the source code, returning control to its parent or ending parsing of the file if there is no parent parse.</__p_description>
+                        <__p_name>Status</__p_name>
+                    </Enumeration>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -6164,40 +6175,6 @@ languageIndex: This property holds a parser's language index. It is used to crea
                     <Function>
                         <__p_abstract>1</__p_abstract>
                         <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>childrenIndexes</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>const QList&lt;int&gt;&amp;</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>1</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>languageIndex</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>int</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>1</__p_abstract>
-                        <__p_access>Public</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -6208,8 +6185,8 @@ languageIndex: This property holds a parser's language index. It is used to crea
                         <__p_name>parse</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>True if the line of code was parsed or false otherwise. If the line of code was not parsed it is in turn parsed by the parent parser. If there is no parent parser then the source code finishes parsing.</__p_returnDescription>
-                        <__p_returnType>bool</__p_returnType>
+                        <__p_returnDescription>The status of this parse after parsing the given line of code.</__p_returnDescription>
+                        <__p_returnType>Status</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
@@ -6221,6 +6198,66 @@ languageIndex: This property holds a parser's language index. It is used to crea
                             <__p_description>The specific line to be parsed.</__p_description>
                             <__p_name>where</__p_name>
                             <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Setter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setVersion</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>value</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>version</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Adds a new child to this parse.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>addChild</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The child parse added to this parse. This parser takes ownership of the given child.</__p_description>
+                            <__p_name>child</__p_name>
+                            <__p_type>Abstract*</__p_type>
                         </Variable>
                     </Function>
                 </Class>
@@ -6268,8 +6305,8 @@ See the abstract route controller class for a detailed description of routers.</
                         <__p_name>routes</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>All source code routes. The keys are the relative file path to the source code, where each path is relative to the given root block's project's source path. The values are the parse indexes used to parse the corresponding source code.</__p_returnDescription>
-                        <__p_returnType>QHash&lt;QString,int&gt;</__p_returnType>
+                        <__p_returnDescription>All source code routes. The keys are the relative file path to the source code, where each path is relative to the given root block's project's source path. The values are the parses used to parse the corresponding source code.</__p_returnDescription>
+                        <__p_returnType>QHash&lt;QString,Parse::Abstract*&gt;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>1</__p_virtual>
                         <Variable>
