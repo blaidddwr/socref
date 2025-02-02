@@ -100,7 +100,7 @@ The __type__ must be one of the following:
 * __style__: Changes that do not affect the meaning of the code (white space, formatting, etc).
 * __test__: Adding new unit tests or correcting existing ones.
 
-An exclamation is added to the end of the type if it is a __BREAKING CHANGE__. A __BREAKING CHANGE__ is only required in the header if the change breaks the existing public __API__. If a change breaks the internal __API__ it is only required in body paragraphs.
+An exclamation is added to the end of the type if it is a __BREAKING CHANGE__. A __BREAKING CHANGE__ is a change in any public interface which breaks existing code that uses it elsewhere.
 
 A plus sign is added to the end of the type if it is a __BUILD FIX__. A __BUILD FIX__ is a change which fixes a broken build.
 
@@ -125,9 +125,7 @@ feature(Model::Foo): Added lala method to implement blah feature.
 
 feature!(Model::Bar): Added code in the moo method to use the new blah
 feature in the foo model class. This breaks how the moo method behaves
-and must be accounted for wherever it is used. The moo method is not a
-public API method so it is not a public breaking change and the header
-does not have an exclamation.
+and must be accounted for wherever it is used.
 
 fix(Model::Bar): Fixed bug in the lala method. This bug was made visible
 from the new blah feature. Fixed it by staring at my screen very hard
