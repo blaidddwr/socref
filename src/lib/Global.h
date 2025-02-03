@@ -7,8 +7,8 @@
  */
 enum Version
 {
-    Socref_Legacy
-    ,Socref_1_0
+    Socref_Legacy = 0
+    ,Socref_1_0 = 1
     ,Socref_Current = Socref_1_0
 };
 
