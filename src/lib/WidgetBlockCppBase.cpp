@@ -1,7 +1,7 @@
 #include "WidgetBlockCppBase.h"
 #include <QtWidgets>
 #include "BlockCppBase.h"
-#include "ControllerSpellingHighlighter.h"
+#include "ControllerSpellingHighlight.h"
 #include "WidgetBlockAbstract.t.h"
 namespace Widget {
 namespace Block {
@@ -36,7 +36,7 @@ QTextEdit* Base::descriptionTextEdit(
     if (!_descriptionEdit)
     {
         _descriptionEdit = new QTextEdit;
-        new Controller::SpellingHighlighter(_descriptionEdit->document());
+        new Controller::SpellingHighlight(_descriptionEdit->document());
         _descriptionEdit->setText(block<Block>()->description());
         connect(_descriptionEdit,&QTextEdit::textChanged,this,&Base::touch);
     }

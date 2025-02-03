@@ -7,7 +7,7 @@
  */
 namespace Controller
 {
-    class SpellingHighlighter;
+    class SpellingHighlight;
 
 
     /*!

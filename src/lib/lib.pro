@@ -22,7 +22,7 @@ SOURCES += \
     CommandProjectSet.cpp \
     ControllerParseAbstract.cpp \
     ControllerRouteAbstract.cpp \
-    ControllerSpellingHighlighter.cpp \
+    ControllerSpellingHighlight.cpp \
     ExceptionBase.cpp \
     FactoryLanguage.cpp \
     LanguageAbstract.cpp \
@@ -83,7 +83,7 @@ HEADERS += \
     ControllerParseAbstract.h \
     ControllerRoute.h \
     ControllerRouteAbstract.h \
-    ControllerSpellingHighlighter.h \
+    ControllerSpellingHighlight.h \
     Exception.h \
     ExceptionBase.h \
     ExceptionBlock.h \

@@ -1,11 +1,11 @@
-#include "ControllerSpellingHighlighter.h"
+#include "ControllerSpellingHighlight.h"
 #include <QtCore>
 #include <hunspell/hunspell.hxx>
 #include "SettingsSpelling.h"
 namespace Controller {
 
 
-SpellingHighlighter::SpellingHighlighter(
+SpellingHighlight::SpellingHighlight(
     QTextDocument* parent
 ):
     QSyntaxHighlighter(parent)
@@ -15,12 +15,12 @@ SpellingHighlighter::SpellingHighlighter(
         Settings::instance()
         ,&Settings::dictionaryChanged
         ,this
-        ,&SpellingHighlighter::rehighlight
+        ,&SpellingHighlight::rehighlight
     );
 }
 
 
-void SpellingHighlighter::highlightBlock(
+void SpellingHighlight::highlightBlock(
     const QString& text
 )
 {

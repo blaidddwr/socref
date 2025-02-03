@@ -1,5 +1,5 @@
-#ifndef CONTROLLER_SPELLINGHIGHLIGHTER_H
-#define CONTROLLER_SPELLINGHIGHLIGHTER_H
+#ifndef CONTROLLER_SPELLINGHIGHLIGHT_H
+#define CONTROLLER_SPELLINGHIGHLIGHT_H
 #include <QSyntaxHighlighter>
 namespace Controller {
 
@@ -10,14 +10,14 @@ namespace Controller {
  * This is a controller class. It controls the highlighting of words in a Qt
  * text document by underlining any misspelled words.
  */
-class SpellingHighlighter:
+class SpellingHighlight:
     public QSyntaxHighlighter
 {
     Q_OBJECT
 
 
     public:
-    SpellingHighlighter(
+    SpellingHighlight(
         QTextDocument* parent
     );
 

@@ -6544,7 +6544,7 @@ See the abstract route controller class for a detailed description of routers.</
             </Namespace>
             <Class>
                 <__p_description>This is a controller class. It controls the highlighting of words in a Qt text document by underlining any misspelled words.</__p_description>
-                <__p_name>SpellingHighlighter</__p_name>
+                <__p_name>SpellingHighlight</__p_name>
                 <__p_parents>public QSyntaxHighlighter</__p_parents>
                 <Function>
                     <__p_abstract>0</__p_abstract>
