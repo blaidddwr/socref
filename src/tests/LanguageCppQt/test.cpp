@@ -16,6 +16,7 @@ private slots:
     void initTestCase();
     void createClass();
     void createEnumeration();
+    void createEnumerationValue();
     void createException();
     void createFunction();
     void createNamespace();
@@ -50,13 +51,27 @@ void TestCppQtLanguage::createClass()
 
 void TestCppQtLanguage::createEnumeration()
 {
-    static const QSet<int> allowList {};
+    static const QSet<int> allowList {EnumerationValueIndex};
     static const QIcon testIcon(":/cpp/enumeration.svg");
     auto block = _language->createBlock(EnumerationIndex,this);
     auto meta = block->meta();
     QCOMPARE(meta->index(),EnumerationIndex);
     QCOMPARE(meta->name(),"enumeration");
     QCOMPARE(meta->label(),"Enumeration");
+    QVERIFY(areIconsEqual(meta->displayIcon(),testIcon));
+    QCOMPARE(meta->allowList(),allowList);
+    QCOMPARE(meta->language(),_meta);
+}
+
+void TestCppQtLanguage::createEnumerationValue()
+{
+    static const QSet<int> allowList {};
+    static const QIcon testIcon(":/cpp/enumeration_value.svg");
+    auto block = _language->createBlock(EnumerationValueIndex,this);
+    auto meta = block->meta();
+    QCOMPARE(meta->index(),EnumerationValueIndex);
+    QCOMPARE(meta->name(),"enumerationvalue");
+    QCOMPARE(meta->label(),"Enumeration Value");
     QVERIFY(areIconsEqual(meta->displayIcon(),testIcon));
     QCOMPARE(meta->allowList(),allowList);
     QCOMPARE(meta->language(),_meta);

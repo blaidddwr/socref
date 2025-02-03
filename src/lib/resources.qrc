@@ -18,6 +18,7 @@
         <file alias="deleted.svg">../../data/cpp/deleted.svg</file>
         <file alias="destructor.svg">../../data/cpp/destructor.svg</file>
         <file alias="enumeration.svg">../../data/cpp/enumeration.svg</file>
+        <file alias="enumeration_value.svg">../../data/cpp/enumeration_value.svg</file>
         <file alias="exception.svg">../../data/cpp/exception.svg</file>
         <file alias="invalid_function.svg">../../data/cpp/invalid_function.svg</file>
         <file alias="method.svg">../../data/cpp/method.svg</file>

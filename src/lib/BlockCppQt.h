@@ -38,6 +38,7 @@ namespace CppQt
     {
         ClassIndex
         ,EnumerationIndex
+        ,EnumerationValueIndex
         ,ExceptionIndex
         ,FunctionIndex
         ,NamespaceIndex

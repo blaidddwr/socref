@@ -3,6 +3,7 @@
 #include "BlockCpp.h"
 #include "BlockCppClass.h"
 #include "BlockCppEnumeration.h"
+#include "BlockCppEnumerationValue.h"
 #include "BlockCppException.h"
 #include "BlockCppFunction.h"
 #include "BlockCppNamespace.h"
@@ -37,8 +38,16 @@ Cpp::Cpp(
                 ,"enumeration"
                 ,"Enumeration"
                 ,QIcon(":/cpp/enumeration.svg")
-                ,{}
+                ,{EnumerationValueIndex}
             )
+            ,new Model::Meta::Block(
+                 meta
+                 ,EnumerationValueIndex
+                 ,"enumerationvalue"
+                 ,"Enumeration Value"
+                 ,QIcon(":/cpp/enumeration_value.svg")
+                 ,{}
+             )
             ,new Model::Meta::Block(
                 meta
                 ,ExceptionIndex
@@ -110,6 +119,12 @@ Block::Abstract* Cpp::createBlock(
         auto meta = blockMeta(index);
         G_ASSERT(meta->index() == EnumerationIndex);
         return new Enumeration(meta,parent);
+    }
+    case EnumerationValueIndex:
+    {
+        auto meta = blockMeta(index);
+        G_ASSERT(meta->index() == EnumerationValueIndex);
+        return new EnumerationValue(meta,parent);
     }
     case ExceptionIndex:
     {
