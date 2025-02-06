@@ -50,7 +50,7 @@ QAction* Project::copyAction(
 {
     if (!_copyAction)
     {
-        _copyAction = new QAction(QIcon::fromTheme("edit-copy"),tr("Copy"),this);
+        _copyAction = new QAction(QIcon::fromTheme(QIcon::ThemeIcon::EditCopy),tr("Copy"),this);
         _copyAction->setStatusTip(tr("Copy the selected block or blocks."));
         _copyAction->setShortcut(QKeySequence::Copy);
         connect(_copyAction,&QAction::triggered,this,&Project::copy);
@@ -64,7 +64,7 @@ QAction* Project::cutAction(
 {
     if (!_cutAction)
     {
-        _cutAction = new QAction(QIcon::fromTheme("edit-cut"),tr("Cut"),this);
+        _cutAction = new QAction(QIcon::fromTheme(QIcon::ThemeIcon::EditCut),tr("Cut"),this);
         _cutAction->setStatusTip(tr("Cut the selected block or blocks."));
         _cutAction->setShortcut(QKeySequence::Cut);
         connect(_cutAction,&QAction::triggered,this,&Project::cut);
@@ -78,8 +78,8 @@ QAction* Project::deselectAction(
 {
     if (!_deselectAction)
     {
-        _deselectAction = new QAction(QIcon::fromTheme("edit-select-none"),tr("Deselect"),this);
-        _deselectAction->setStatusTip(tr("Clear all selected blocks."));
+        _deselectAction = new QAction(tr("Deselect"),this);
+        _deselectAction->setStatusTip(tr("Clear current and all selected blocks."));
         _deselectAction->setShortcut(QKeySequence::Deselect);
         connect(_deselectAction,&QAction::triggered,this,&Project::deselect);
     }
@@ -92,7 +92,11 @@ QAction* Project::moveDownAction(
 {
     if (!_moveDownAction)
     {
-        _moveDownAction = new QAction(QIcon::fromTheme("go-down"),tr("Move Down"),this);
+        _moveDownAction = new QAction(
+            QIcon::fromTheme(QIcon::ThemeIcon::GoDown)
+            ,tr("Move Down")
+            ,this
+            );
         _moveDownAction->setStatusTip(tr("Move the current block down by one."));
         _moveDownAction->setShortcut(Qt::CTRL|Qt::ALT|Qt::Key_Down);
         connect(_moveDownAction,&QAction::triggered,this,&Project::moveDown);
@@ -106,7 +110,11 @@ QAction* Project::moveUpAction(
 {
     if (!_moveUpAction)
     {
-        _moveUpAction = new QAction(QIcon::fromTheme("go-up"),tr("Move Up"),this);
+        _moveUpAction = new QAction(
+            QIcon::fromTheme(QIcon::ThemeIcon::GoUp)
+            ,tr("Move Up")
+            ,this
+            );
         _moveUpAction->setStatusTip(tr("Move the current block up by one."));
         _moveUpAction->setShortcut(Qt::CTRL|Qt::ALT|Qt::Key_Up);
         connect(_moveUpAction,&QAction::triggered,this,&Project::moveUp);
@@ -151,7 +159,7 @@ QAction* Project::pasteAction(
 {
     if (!_pasteAction)
     {
-        _pasteAction = new QAction(QIcon::fromTheme("edit-paste"),tr("Paste"),this);
+        _pasteAction = new QAction(QIcon::fromTheme(QIcon::ThemeIcon::EditPaste),tr("Paste"),this);
         _pasteAction->setStatusTip(tr("Paste copied blocks into the current block."));
         _pasteAction->setShortcut(QKeySequence::Paste);
         connect(_pasteAction,&QAction::triggered,this,&Project::paste);
@@ -165,7 +173,7 @@ QAction* Project::redoAction(
 {
     if (!_redoAction)
     {
-        _redoAction = new QAction(QIcon::fromTheme("edit-redo"),tr("Redo"),this);
+        _redoAction = new QAction(QIcon::fromTheme(QIcon::ThemeIcon::EditRedo),tr("Redo"),this);
         _redoAction->setStatusTip(tr("Redo the previously undone command."));
         _redoAction->setShortcut(QKeySequence::Redo);
         connect(_redoAction,&QAction::triggered,this,&Project::redo);
@@ -179,7 +187,11 @@ QAction* Project::removeAction(
 {
     if (!_removeAction)
     {
-        _removeAction = new QAction(QIcon::fromTheme("list-remove"),tr("Remove"),this);
+        _removeAction = new QAction(
+            QIcon::fromTheme(QIcon::ThemeIcon::EditClear)
+            ,tr("Remove")
+            ,this
+            );
         _removeAction->setStatusTip(tr("Remove the selected block or blocks."));
         _removeAction->setShortcut(QKeySequence::Delete);
         connect(_removeAction,&QAction::triggered,this,&Project::remove);
@@ -263,7 +275,7 @@ QAction* Project::undoAction(
 {
     if (!_undoAction)
     {
-        _undoAction = new QAction(QIcon::fromTheme("edit-undo"),tr("Undo"),this);
+        _undoAction = new QAction(QIcon::fromTheme(QIcon::ThemeIcon::EditUndo),tr("Undo"),this);
         _undoAction->setStatusTip(tr("Undo the previously done command."));
         _undoAction->setShortcut(QKeySequence::Undo);
         connect(_undoAction,&QAction::triggered,this,&Project::undo);
@@ -340,8 +352,9 @@ void Project::deselect(
 {
     if (_model)
     {
-        auto tv = treeView();
-        tv->selectionModel()->setCurrentIndex(tv->currentIndex(),QItemSelectionModel::Clear);
+        auto selectionModel = treeView()->selectionModel();
+        selectionModel->clearSelection();
+        selectionModel->clearCurrentIndex();
     }
 }
 
@@ -681,7 +694,10 @@ void Project::updateActions(
         undoAction()->setEnabled(_model->canUndo());
         moveDownAction()->setEnabled(_model->canMove(index.parent(),index.row(),index.row()+1));
         moveUpAction()->setEnabled(_model->canMove(index.parent(),index.row(),index.row()-1));
-        deselectAction()->setEnabled(treeView()->selectionModel()->hasSelection());
+        deselectAction()->setEnabled(
+            selectionModel->hasSelection()
+            || selectionModel->currentIndex().isValid()
+            );
     }
     else
     {
@@ -730,7 +746,15 @@ void Project::updateAddActions(
                     action->setStatusTip(
                         tr("Add new %1 block into the current block.").arg(meta->label())
                         );
-                    connect(action,&QAction::triggered,this,[this,i](){ add(i); });
+                    connect(
+                        action
+                        ,&QAction::triggered
+                        ,this
+                        ,[this,i] ()
+                        {
+                            add(i);
+                        }
+                        );
                     addMenu()->addAction(action);
                 }
             }
@@ -758,7 +782,15 @@ void Project::updateAddGlobalActions(
                 action->setStatusTip(
                     tr("Add new %1 block into the global(root) block.").arg(meta->label())
                     );
-                connect(action,&QAction::triggered,this,[this,i](){ addGlobal(i); });
+                connect(
+                    action
+                    ,&QAction::triggered
+                    ,this
+                    ,[this,i] ()
+                    {
+                        addGlobal(i);
+                    }
+                    );
                 addGlobalMenu()->addAction(action);
             }
         }

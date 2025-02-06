@@ -351,7 +351,7 @@ QAction* Main::aboutAction(
 {
     if (!_aboutAction)
     {
-        _aboutAction = new QAction(QIcon::fromTheme("help-about"),tr("About"),this);
+        _aboutAction = new QAction(QIcon::fromTheme(QIcon::ThemeIcon::HelpAbout),tr("About"),this);
         _aboutAction->setStatusTip(tr("Get more information about this application."));
         connect(_aboutAction,&QAction::triggered,this,&Main::about);
     }
@@ -364,7 +364,11 @@ QAction* Main::aboutQtAction(
 {
     if (!_aboutQtAction)
     {
-        _aboutQtAction = new QAction(QIcon::fromTheme("help-about"),tr("About Qt"),this);
+        _aboutQtAction = new QAction(
+            QIcon::fromTheme(QIcon::ThemeIcon::HelpAbout)
+            ,tr("About Qt")
+            ,this
+            );
         _aboutQtAction->setStatusTip(tr("Get more information about the Qt framework."));
         connect(_aboutQtAction,&QAction::triggered,this,[this](){ QMessageBox::aboutQt(this); });
     }
@@ -377,7 +381,11 @@ QAction* Main::buildAction(
 {
     if (!_buildAction)
     {
-        _buildAction = new QAction(tr("Build"),this);
+        _buildAction = new QAction(
+            QIcon::fromTheme(QIcon::ThemeIcon::FolderNew)
+            ,tr("Build")
+            ,this
+            );
         _buildAction->setStatusTip(
             tr(
                 "Build the source code of this window's project, using the remembered"
@@ -413,6 +421,8 @@ QToolBar* Main::codeToolBar(
         _codeToolBar = new QToolBar(tr("Code"),this);
         _codeToolBar->setObjectName("code");
         _codeToolBar->addAction(makeAction());
+        _codeToolBar->addAction(buildAction());
+        _codeToolBar->addAction(parseAction());
     }
     return _codeToolBar;
 }
@@ -466,7 +476,11 @@ QAction* Main::exitAction(
 {
     if (!_exitAction)
     {
-        _exitAction = new QAction(QIcon::fromTheme("application-exit"),tr("Exit"),this);
+        _exitAction = new QAction(
+            QIcon::fromTheme(QIcon::ThemeIcon::ApplicationExit)
+            ,tr("Exit")
+            ,this
+            );
         _exitAction->setStatusTip(tr("Exit this window, closing it and any open project."));
         _exitAction->setShortcut(QKeySequence::Quit);
         connect(_exitAction,&QAction::triggered,this,&QWidget::close);
@@ -535,7 +549,7 @@ QAction* Main::closeAction(
 {
     if (!_closeAction)
     {
-        _closeAction = new QAction(QIcon::fromTheme("document-close"),tr("Close"),this);
+        _closeAction = new QAction(tr("Close"),this);
         _closeAction->setStatusTip(tr("Close this window's current project."));
         _closeAction->setShortcut(QKeySequence::Close);
         connect(_closeAction,&QAction::triggered,this,&Main::close);
@@ -577,7 +591,11 @@ QAction* Main::makeAction(
 {
     if (!_makeAction)
     {
-        _makeAction = new QAction(tr("Make"),this);
+        _makeAction = new QAction(
+            QIcon::fromTheme(QIcon::ThemeIcon::FolderVisiting)
+            ,tr("Make")
+            ,this
+            );
         _makeAction->setStatusTip(
             tr("Parse and then build the source code of this window's project.")
         );
@@ -594,7 +612,7 @@ QMenu* Main::newMenu(
     if (!_newMenu)
     {
         _newMenu = new QMenu(tr("New"),this);
-        _newMenu->setIcon(QIcon::fromTheme("document-new"));
+        _newMenu->setIcon(QIcon::fromTheme(QIcon::ThemeIcon::DocumentNew));
         auto factory = Factory::Language::instance();
         for (int i = 0;i < factory->size();i++)
         {
@@ -659,7 +677,7 @@ QAction* Main::openAction(
 {
     if (!_openAction)
     {
-        _openAction = new QAction(QIcon::fromTheme("document-open"),tr("Open"),this);
+        _openAction = new QAction(QIcon::fromTheme(QIcon::ThemeIcon::DocumentOpen),tr("Open"),this);
         _openAction->setStatusTip(tr("Open a project from a project directory."));
         _openAction->setShortcut(QKeySequence::Open);
         connect(_openAction,&QAction::triggered,this,&Main::open);
@@ -688,7 +706,7 @@ QAction* Main::parseAction(
 {
     if (!_parseAction)
     {
-        _parseAction = new QAction(tr("Parse"),this);
+        _parseAction = new QAction(QIcon::fromTheme(QIcon::ThemeIcon::FolderOpen),tr("Parse"),this);
         _parseAction->setStatusTip(
             tr(
                 "Parse the source code of this window's project, remembering the implementation"
@@ -751,7 +769,7 @@ QAction* Main::saveAction(
 {
     if (!_saveAction)
     {
-        _saveAction = new QAction(QIcon::fromTheme("document-save"),tr("Save"),this);
+        _saveAction = new QAction(QIcon::fromTheme(QIcon::ThemeIcon::DocumentSave),tr("Save"),this);
         _saveAction->setStatusTip(tr("Save this window's project."));
         _saveAction->setShortcut(QKeySequence::Save);
         connect(_saveAction,&QAction::triggered,this,&Main::save);
@@ -765,7 +783,11 @@ QAction* Main::saveAsAction(
 {
     if (!_saveAsAction)
     {
-        _saveAsAction = new QAction(QIcon::fromTheme("document-save-as"),tr("Save As"),this);
+        _saveAsAction = new QAction(
+            QIcon::fromTheme(QIcon::ThemeIcon::DocumentSaveAs)
+            ,tr("Save As")
+            ,this
+            );
         _saveAsAction->setStatusTip(tr("Save this window's project to a new directory path."));
         _saveAsAction->setShortcut(QKeySequence::SaveAs);
         connect(_saveAsAction,&QAction::triggered,this,&Main::saveAs);
@@ -860,7 +882,11 @@ QAction* Main::spellingSettingsAction(
 {
     if (!_spellingSettingsAction)
     {
-        _spellingSettingsAction = new QAction(tr("Spelling"),this);
+        _spellingSettingsAction = new QAction(
+            QIcon::fromTheme(QIcon::ThemeIcon::ToolsCheckSpelling)
+            ,tr("Spelling")
+            ,this
+            );
         _spellingSettingsAction->setStatusTip(tr("Configure Hunspell spelling settings."));
         connect(_spellingSettingsAction,&QAction::triggered,this,&Main::spellingSettings);
     }
