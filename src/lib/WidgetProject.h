@@ -3,6 +3,7 @@
 #include <QWidget>
 #include "Model.h"
 #include "Widget.h"
+#include "WidgetBlock.h"
 class QGroupBox;
 class QPushButton;
 class QHBoxLayout;
@@ -36,6 +37,7 @@ class Project:
     QMenu* _addMenu {nullptr};
     QMenu* _contextMenu {nullptr};
     QPushButton* _blockApplyButton {nullptr};
+    QPushButton* _blockCodeButton {nullptr};
     QScrollArea* _blockScrollArea{nullptr};
     QSplitter* _splitter {nullptr};
     TreeView* _treeView {nullptr};
@@ -251,14 +253,6 @@ class Project:
 
 
     /*!
-     * Called when this widget's deselect action is triggered.
-     */
-    private slots:
-    void deselect(
-    );
-
-
-    /*!
      * Called when this widget's copy action is triggered.
      */
     private slots:
@@ -271,6 +265,14 @@ class Project:
      */
     private slots:
     void cut(
+    );
+
+
+    /*!
+     * Called when this widget's deselect action is triggered.
+     */
+    private slots:
+    void deselect(
     );
 
 
@@ -370,6 +372,17 @@ class Project:
      */
     private:
     QHBoxLayout* blockButtonsLayout(
+    );
+
+
+    /*!
+     * Provides a child widget for this widget.
+     *
+     * @return
+     * The block close button widget.
+     */
+    private:
+    QPushButton* blockCodeButton(
     );
 
 

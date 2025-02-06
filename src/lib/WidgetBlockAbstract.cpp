@@ -1,7 +1,7 @@
 #include "WidgetBlockAbstract.h"
 #include "BlockAbstract.h"
 #include "ModelProject.h"
-#include "gassert.h"
+#include "WidgetDialogCode.h"
 namespace Widget {
 namespace Block {
 
@@ -13,13 +13,30 @@ Abstract::Abstract(
     QWidget(parent)
     ,_block(block)
 {
-    G_ASSERT(_block);
+    Q_ASSERT(_block);
     connect(
         const_cast<::Block::Abstract*>(_block)
         ,&QObject::destroyed
         ,this
         ,&Abstract::onBlockDestroyed
-    );
+        );
+    connect(
+        const_cast<::Block::Abstract*>(_block)
+        ,&::Block::Abstract::codeChanged
+        ,this
+        ,&Abstract::onBlockCodeChanged
+        );
+}
+
+
+void Abstract::showCode(
+)
+{
+    Q_ASSERT(_block);
+    if (!_block->code().isEmpty())
+    {
+        Dialog::Code(_block,this).exec();
+    }
 }
 
 
@@ -34,8 +51,8 @@ void Abstract::setIndex(
     const QPersistentModelIndex& index
 )
 {
-    G_ASSERT(index.isValid());
-    G_ASSERT(index.internalPointer() == _block);
+    Q_ASSERT(index.isValid());
+    Q_ASSERT(index.internalPointer() == _block);
     if (_index != index)
     {
         _index = index;
@@ -81,11 +98,11 @@ void Abstract::touch(
 void Abstract::abortSet(
 )
 {
-    G_ASSERT(_model);
-    G_ASSERT(_index.isValid());
-    G_ASSERT(_index.model() == _model);
-    G_ASSERT(_block);
-    G_ASSERT(_index.internalPointer() == _block);
+    Q_ASSERT(_model);
+    Q_ASSERT(_index.isValid());
+    Q_ASSERT(_index.model() == _model);
+    Q_ASSERT(_block);
+    Q_ASSERT(_index.internalPointer() == _block);
     _model->abortSet();
 }
 
@@ -93,12 +110,20 @@ void Abstract::abortSet(
 void Abstract::finishSet(
 )
 {
-    G_ASSERT(_model);
-    G_ASSERT(_index.isValid());
-    G_ASSERT(_index.model() == _model);
-    G_ASSERT(_block);
-    G_ASSERT(_index.internalPointer() == _block);
+    Q_ASSERT(_model);
+    Q_ASSERT(_index.isValid());
+    Q_ASSERT(_index.model() == _model);
+    Q_ASSERT(_block);
+    Q_ASSERT(_index.internalPointer() == _block);
     _model->finishSet();
+}
+
+
+void Abstract::onBlockCodeChanged(
+    const QMap<QString,QStringList>& value
+)
+{
+    emit codeChanged(value);
 }
 
 

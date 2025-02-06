@@ -134,18 +134,6 @@ bool Project::canUndo(
 }
 
 
-void Project::clearAllCode(
-)
-{
-    _root->code().clear();
-    const auto d = _root->descendants();
-    for (auto block: d)
-    {
-        block->code().clear();
-    }
-}
-
-
 int Project::columnCount(
     const QModelIndex& parent
 ) const

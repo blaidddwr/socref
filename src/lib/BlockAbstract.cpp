@@ -39,6 +39,13 @@ QMap<QString,QStringList>& Abstract::code(
 }
 
 
+const QMap<QString,QStringList>& Abstract::code(
+) const
+{
+    return _code;
+}
+
+
 Abstract* Abstract::copy(
     QObject* parent
 ) const
@@ -149,6 +156,13 @@ Abstract* Abstract::take(
     ret->removeEvent(index);
     ret->setParent(nullptr);
     return ret;
+}
+
+
+void Abstract::touchCode(
+)
+{
+    emit codeChanged(_code);
 }
 
 

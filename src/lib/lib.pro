@@ -48,6 +48,7 @@ SOURCES += \
     WidgetBlockCppUnion.cpp \
     WidgetBlockCppVariable.cpp \
     WidgetDialogAbout.cpp \
+    WidgetDialogCode.cpp \
     WidgetDialogOrphanFiles.cpp \
     WidgetDialogProject.cpp \
     WidgetDialogSpellingSettings.cpp \
@@ -133,6 +134,7 @@ HEADERS += \
     WidgetBlockCppVariable.h \
     WidgetDialog.h \
     WidgetDialogAbout.h \
+    WidgetDialogCode.h \
     WidgetDialogOrphanFiles.h \
     WidgetDialogProject.h \
     WidgetDialogSpellingSettings.h \

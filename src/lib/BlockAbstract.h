@@ -51,7 +51,6 @@ namespace Block {
 class Abstract:
     public QObject
 {
-    /* header */
     Q_OBJECT
     friend class Stream::BlockDir;
     friend class Stream::BlockXml;
@@ -75,6 +74,15 @@ class Abstract:
     Abstract(
         Model::Meta::Block* meta
         ,QObject* parent = nullptr
+    );
+
+
+    /*!
+     * Notify method.
+     */
+    signals:
+    void codeChanged(
+        const QMap<QString,QStringList>& value
     );
 
 
@@ -120,12 +128,22 @@ class Abstract:
 
 
     /*!
-     * Getter method. This is not a constant method because it allows
-     * modification of this block's code property.
+     * Getter method.
+     * 
+     * If any changes are made to the code property then the touch code method
+     * must be called after all changes are made.
      */
     public:
     QMap<QString,QStringList>& code(
     );
+
+
+    /*!
+     * Getter method.
+     */
+    public:
+    const QMap<QString,QStringList>& code(
+    ) const;
 
 
     /*!
@@ -356,6 +374,16 @@ class Abstract:
     public:
     Abstract* take(
         int index
+    );
+
+
+    /*!
+     * Touches the code property, causing the code changed signal to be emitted.
+     * This must be called after any and all changes are made to the code
+     * property.
+     */
+    public:
+    void touchCode(
     );
 
 

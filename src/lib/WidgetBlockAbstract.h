@@ -52,6 +52,15 @@ class Abstract:
 
 
     /*!
+     * Signals this instance's block's code changed signal was emitted.
+     */
+    signals:
+    void codeChanged(
+        const QMap<QString,QStringList>& value
+    );
+
+
+    /*!
      * Signals this widget's modified property has changed to the given value.
      *
      * @param value
@@ -60,6 +69,16 @@ class Abstract:
     signals:
     void modifiedChanged(
         bool value
+    );
+
+
+    /*!
+     * Called to open a code dialog widget which shows the code of this
+     * instance's block. If the block has no code to show then this slot does
+     * nothing.
+     */
+    public slots:
+    void showCode(
     );
 
 
@@ -181,6 +200,15 @@ class Abstract:
      */
     protected:
     void finishSet(
+    );
+
+
+    /*!
+     * Called when this instance's model's code changed signal is emitted.
+     */
+    private slots:
+    void onBlockCodeChanged(
+        const QMap<QString,QStringList>& value
     );
 
 

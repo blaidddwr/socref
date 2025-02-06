@@ -128,9 +128,9 @@ bool Project::okToClose(
                 ,tr(
                     "The current block has unsaved modifications. Discarding the block"
                     " modifications will cause all modifications to be lost!"
-                )
+                    )
                 ,QMessageBox::Save|QMessageBox::Cancel|QMessageBox::Discard
-            );
+                );
             switch (answer)
             {
             case QMessageBox::Save:
@@ -241,13 +241,13 @@ void Project::setModel(
             ,&QItemSelectionModel::currentChanged
             ,this
             ,&Project::onCurrentIndexChanged
-        );
+            );
         connect(
             treeView()->selectionModel()
             ,&QItemSelectionModel::selectionChanged
             ,this
             ,&Project::onSelectionChanged
-        );
+            );
     }
     else
     {
@@ -304,17 +304,6 @@ void Project::addGlobal(
 }
 
 
-void Project::deselect(
-)
-{
-    if (_model)
-    {
-        auto tv = treeView();
-        tv->selectionModel()->setCurrentIndex(tv->currentIndex(),QItemSelectionModel::Clear);
-    }
-}
-
-
 void Project::copy(
 )
 {
@@ -322,7 +311,7 @@ void Project::copy(
     if (
         _model
         && selectionModel->hasSelection()
-    )
+        )
     {
         _model->copy(selectionModel->selectedIndexes());
     }
@@ -342,6 +331,17 @@ void Project::cut(
         {
             updateActions(treeView()->currentIndex());
         }
+    }
+}
+
+
+void Project::deselect(
+)
+{
+    if (_model)
+    {
+        auto tv = treeView();
+        tv->selectionModel()->setCurrentIndex(tv->currentIndex(),QItemSelectionModel::Clear);
     }
 }
 
@@ -447,7 +447,7 @@ void Project::remove(
     if (
         _model
         && selectionModel->hasSelection()
-    )
+        )
     {
         _model->remove(selectionModel->selectedIndexes());
         updateActions(treeView()->currentIndex());
@@ -487,9 +487,22 @@ QHBoxLayout* Project::blockButtonsLayout(
     {
         _blockButtonsLayout = new QHBoxLayout;
         _blockButtonsLayout->addWidget(blockApplyButton());
+        _blockButtonsLayout->addWidget(blockCodeButton());
         _blockButtonsLayout->addStretch();
     }
     return _blockButtonsLayout;
+}
+
+
+QPushButton* Project::blockCodeButton(
+)
+{
+    if (!_blockCodeButton)
+    {
+        _blockCodeButton = new QPushButton(tr("Code"));
+        _blockCodeButton->setEnabled(false);
+    }
+    return _blockCodeButton;
 }
 
 
@@ -576,7 +589,7 @@ void Project::move(
                 treeView()->selectionModel()->setCurrentIndex(
                     newIndex
                     ,QItemSelectionModel::SelectCurrent
-                );
+                    );
                 if (newIndex == treeView()->currentIndex())
                 {
                     updateActions(newIndex);
@@ -599,10 +612,22 @@ void Project::setBlockWidget(
     blockScrollArea()->setWidget(widget);
     if (auto block = qobject_cast<Block::Abstract*>(widget))
     {
-        auto button = blockApplyButton();
-        connect(button,&QPushButton::clicked,block,&Block::Abstract::apply);
-        connect(block,&Block::Abstract::modifiedChanged,button,&QWidget::setEnabled);
-        button->setEnabled(block->modified());
+        auto applyButton = blockApplyButton();
+        connect(applyButton,&QPushButton::clicked,block,&Block::Abstract::apply);
+        connect(block,&Block::Abstract::modifiedChanged,applyButton,&QWidget::setEnabled);
+        applyButton->setEnabled(block->modified());
+        auto codeButton = blockCodeButton();
+        connect(codeButton,&QPushButton::clicked,block,&Block::Abstract::showCode);
+        connect(
+            block
+            ,&Block::Abstract::codeChanged
+            ,applyButton
+            ,[this](const QMap<QString,QStringList>& value)
+            {
+                blockCodeButton()->setEnabled(!value.isEmpty());
+            }
+            );
+        applyButton->setEnabled(block->modified());
     }
 }
 
@@ -635,7 +660,7 @@ TreeView* Project::treeView(
             ,&QWidget::customContextMenuRequested
             ,this
             ,[this](const QPoint& pos){ contextMenu()->exec(mapToGlobal(pos)); }
-        );
+            );
     }
     return _treeView;
 }
@@ -682,7 +707,7 @@ void Project::updateAddActions(
     if (
         _model
         && index.isValid()
-    )
+        )
     {
         blockIndex = _model->blockIndex(index);
     }
@@ -692,7 +717,7 @@ void Project::updateAddActions(
         if (
             _model
             && blockIndex != -1
-        )
+            )
         {
             auto language = _model->language();
             const auto& allowed = language->blockMeta(blockIndex)->allowList();
@@ -704,7 +729,7 @@ void Project::updateAddActions(
                     auto action = new QAction(meta->displayIcon(),meta->label(),addMenu());
                     action->setStatusTip(
                         tr("Add new %1 block into the current block.").arg(meta->label())
-                    );
+                        );
                     connect(action,&QAction::triggered,this,[this,i](){ add(i); });
                     addMenu()->addAction(action);
                 }
@@ -732,7 +757,7 @@ void Project::updateAddGlobalActions(
                 auto action = new QAction(meta->displayIcon(),meta->label(),addGlobalMenu());
                 action->setStatusTip(
                     tr("Add new %1 block into the global(root) block.").arg(meta->label())
-                );
+                    );
                 connect(action,&QAction::triggered,this,[this,i](){ addGlobal(i); });
                 addGlobalMenu()->addAction(action);
             }
