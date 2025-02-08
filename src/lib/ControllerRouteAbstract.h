@@ -3,6 +3,7 @@
 #include <QObject>
 #include "Block.h"
 #include "ControllerParse.h"
+#include "ShapeRoute.h"
 namespace Controller {
 namespace Route {
 
@@ -11,7 +12,7 @@ namespace Route {
 
 /*!
  * This is an abstract class. It is a route controller for a language
- * implementation. A router provides routes to all source code files for a given
+ * implementation. A router provides routes to all source code files for a
  * project's root block.
  */
 class Abstract:
@@ -26,20 +27,17 @@ class Abstract:
 
 
     /*!
-     * Returns all source code routes for the project with the given root block.
+     * Generates all routes for a given root block.
      *
      * @param root
-     *        The root block. It must be valid and have the same language
-     *        implementation as this router.
+     *        The root block.This must be valid, have the same language
+     *        implementation as this router, and the root block of a project.
      *
      * @return
-     * All source code routes. The keys are the relative file path to the source
-     * code, where each path is relative to the given root block's project's
-     * source path. The values are the parses used to parse the corresponding
-     * source code.
+     * All routes for a given root block.
      */
     public:
-    virtual QHash<QString,Parse::Abstract*> routes(
+    virtual QList<Shape::Route> routes(
         const Block::Abstract* root
     ) = 0;
 };

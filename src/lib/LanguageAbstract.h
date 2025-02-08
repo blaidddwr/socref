@@ -91,7 +91,7 @@ class Abstract:
      * The new parse controller.
      */
     public:
-    virtual Controller::Parse::Abstract* createParse(
+    virtual Controller::Parse::Abstract* createParser(
         int index
         ,QObject* parent = nullptr
     ) const = 0;

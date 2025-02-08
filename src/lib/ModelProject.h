@@ -3,6 +3,7 @@
 #include <QAbstractItemModel>
 #include "Block.h"
 #include "CommandProject.h"
+#include "Controller.h"
 #include "Language.h"
 #include "Stream.h"
 class QXmlStreamReader;
@@ -29,6 +30,7 @@ class Project:
     friend class Command::Project::Move;
     friend class Command::Project::Remove;
     friend class Command::Project::Set;
+    friend class Controller::Code;
     friend class Stream::ProjectDir;
     friend class Stream::ProjectXml;
     Block::Abstract* _root {nullptr};

@@ -30,7 +30,7 @@ public:
         }
         return new TestBlock(blockMeta(BLOCK_INDEX),parent);
     }
-    virtual Controller::Parse::Abstract* createParse(
+    virtual Controller::Parse::Abstract* createParser(
         int index
         ,QObject *parent) const override final
     {

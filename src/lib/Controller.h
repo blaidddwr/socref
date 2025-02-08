@@ -7,16 +7,26 @@
  */
 namespace Controller
 {
+    class Code;
     class SpellingHighlight;
+
+
+    /*!
+     * This enumerates the legacy version used by all language implementations.
+     */
+    enum CodeVersion
+    {
+        Code_Legacy = 0
+    };
 
 
     /*!
      * This enumerates all versions for C++ source code parsing and building.
      */
-    enum CppVersion
+    enum CppCodeVersion
     {
-        Cpp_Legacy = 0
-        ,Cpp_1 = 1
+        Cpp_Code_Legacy = Code_Legacy
+        ,Cpp_Code_1 = 1
     };
 }
 

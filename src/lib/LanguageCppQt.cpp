@@ -177,7 +177,7 @@ Block::Abstract* CppQt::createBlock(
 }
 
 
-Controller::Parse::Abstract* CppQt::createParse(
+Controller::Parse::Abstract* CppQt::createParser(
     int index
     ,QObject* parent
 ) const

@@ -623,7 +623,7 @@ void Project::setBlockWidget(
 {
     G_ASSERT(widget);
     blockScrollArea()->setWidget(widget);
-    if (auto block = qobject_cast<Block::Abstract*>(widget))
+    if (auto block = qobject_cast<Widget::Block::Abstract*>(widget))
     {
         auto applyButton = blockApplyButton();
         connect(applyButton,&QPushButton::clicked,block,&Block::Abstract::apply);

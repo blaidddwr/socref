@@ -20,6 +20,7 @@ SOURCES += \
     CommandProjectMove.cpp \
     CommandProjectRemove.cpp \
     CommandProjectSet.cpp \
+    ControllerCode.cpp \
     ControllerParseAbstract.cpp \
     ControllerRouteAbstract.cpp \
     ControllerSpellingHighlight.cpp \
@@ -80,8 +81,10 @@ HEADERS += \
     CommandProjectRemove.h \
     CommandProjectSet.h \
     Controller.h \
+    ControllerCode.h \
     ControllerParse.h \
     ControllerParseAbstract.h \
+    ControllerParseAbstract.t.h \
     ControllerRoute.h \
     ControllerRouteAbstract.h \
     ControllerSpellingHighlight.h \
@@ -112,6 +115,8 @@ HEADERS += \
     ModelProject.h \
     Settings.h \
     SettingsSpelling.h \
+    Shape.h \
+    ShapeRoute.h \
     Stream.h \
     StreamBlockDir.h \
     StreamBlockXml.h \

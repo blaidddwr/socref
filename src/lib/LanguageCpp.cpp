@@ -169,7 +169,7 @@ Block::Abstract* Cpp::createBlock(
 }
 
 
-Controller::Parse::Abstract* Cpp::createParse(
+Controller::Parse::Abstract* Cpp::createParser(
     int index
     ,QObject* parent
 ) const

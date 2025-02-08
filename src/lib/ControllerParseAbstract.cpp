@@ -20,6 +20,14 @@ const QList<Abstract*>& Abstract::children(
 }
 
 
+void Abstract::setBlock(
+    Block::Abstract* object
+)
+{
+    _block = object;
+}
+
+
 void Abstract::setVersion(
     int value
 )

@@ -1,5 +1,6 @@
 #include "WidgetWindowMain.h"
 #include <QtWidgets>
+#include "ControllerCode.h"
 #include "ExceptionBlockRead.h"
 #include "ExceptionBlockWrite.h"
 #include "ExceptionProjectRead.h"
@@ -252,7 +253,23 @@ void Main::orphanFiles(
 void Main::parse(
 )
 {
-    //TODO
+    Controller::Code code(_projectModel);
+    QProgressDialog dialog(tr("Parsing source code..."),tr("Abort Parsing"),0,code.size(),this);
+    dialog.setWindowModality(Qt::ApplicationModal);
+    for (int i = 0;i < code.size();i++)
+    {
+        if (!code.parse(i))
+        {
+            QMessageBox::warning(this,tr("Parsing Error"),code.error());
+            break;
+        }
+        dialog.setValue(i);
+        if (dialog.wasCanceled())
+        {
+            break;
+        }
+    }
+    dialog.setValue(code.size());
 }
 
 
