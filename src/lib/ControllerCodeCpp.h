@@ -6,7 +6,7 @@ namespace Code {
 
 
 /*!
- * Detailed description.
+ * This contains all C++ code controllers.
  */
 namespace Cpp
 {

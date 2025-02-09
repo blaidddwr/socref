@@ -6382,8 +6382,15 @@ The given parent must be valid. The given index must be valid and resolve to a v
             <__p_description>This contains all controllers.</__p_description>
             <__p_name>Controller</__p_name>
             <Namespace>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>This contains all code controllers.
+
+Code controllers handle everything related to parsing and building source code files to and from a project.</__p_description>
                 <__p_name>Code</__p_name>
+                <Enumeration>
+                    <__p_class>0</__p_class>
+                    <__p_description>This enumerates the legacy code version used by all language implementations for parsing and building.</__p_description>
+                    <__p_name>Version</__p_name>
+                </Enumeration>
                 <Class>
                     <__p_description>This is an abstract class. It parses a source code file for code lines. These code lines in turn are used by builders to rebuild the source code with the implementation code intact.
 
@@ -6630,13 +6637,8 @@ The given type T must be the specific block implementation of the block property
                         </Variable>
                     </Function>
                 </Class>
-                <Enumeration>
-                    <__p_class>0</__p_class>
-                    <__p_description>This enumerates the legacy code version used by all language implementations for parsing and building.</__p_description>
-                    <__p_name>Version</__p_name>
-                </Enumeration>
                 <Namespace>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This contains all C++ code controllers.</__p_description>
                     <__p_name>Cpp</__p_name>
                     <Enumeration>
                         <__p_class>0</__p_class>

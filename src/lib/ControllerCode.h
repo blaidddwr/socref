@@ -4,7 +4,10 @@ namespace Controller {
 
 
 /*!
- * Detailed description.
+ * This contains all code controllers.
+ * 
+ * Code controllers handle everything related to parsing and building source
+ * code files to and from a project.
  */
 namespace Code
 {

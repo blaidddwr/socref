@@ -291,11 +291,12 @@ void Project::add(
     if (_model)
     {
         auto parent = treeView()->currentIndex();
+        Q_ASSERT(parent.isValid());
         _model->insert(index,0,parent);
-        if (!parent.isValid())
-        {
-            treeView()->setCurrentIndex(parent);
-        }
+        treeView()->selectionModel()->setCurrentIndex(
+            _model->index(0,0,parent)
+            ,QItemSelectionModel::ClearAndSelect
+            );
     }
 }
 
@@ -308,10 +309,10 @@ void Project::addGlobal(
     {
         auto parent = QModelIndex();
         _model->insert(index,0,parent);
-        if (!parent.isValid())
-        {
-            treeView()->setCurrentIndex(parent);
-        }
+        treeView()->selectionModel()->setCurrentIndex(
+            _model->index(0,0,parent)
+            ,QItemSelectionModel::ClearAndSelect
+            );
     }
 }
 
