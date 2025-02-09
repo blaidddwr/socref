@@ -10,6 +10,7 @@ namespace Code {
  */
 namespace Cpp
 {
+    class HeadParser;
 
 
     /*!
@@ -17,8 +18,9 @@ namespace Cpp
      */
     enum Version
     {
-        Code_Legacy = Code::Code_Legacy
-        ,Code_1 = 1
+        Cpp_Legacy = Code_Legacy
+        ,Cpp_1 = 1
+        ,Cpp_Current = Cpp_1
     };
 }
 }

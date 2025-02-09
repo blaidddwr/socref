@@ -22,6 +22,7 @@ SOURCES += \
     CommandProjectSet.cpp \
     ControllerCodeAbstractParser.cpp \
     ControllerCodeAbstractRouter.cpp \
+    ControllerCodeCppHeadParser.cpp \
     ControllerCodeMake.cpp \
     ControllerSpellingHighlight.cpp \
     ExceptionBase.cpp \
@@ -83,9 +84,9 @@ HEADERS += \
     Controller.h \
     ControllerCode.h \
     ControllerCodeAbstractParser.h \
-    ControllerCodeAbstractParser.t.h \
     ControllerCodeAbstractRouter.h \
     ControllerCodeCpp.h \
+    ControllerCodeCppHeadParser.h \
     ControllerCodeMake.h \
     ControllerSpellingHighlight.h \
     Exception.h \

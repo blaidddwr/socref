@@ -14,7 +14,7 @@ namespace Code {
  * This is a controller class. It controls the parsing and building of all
  * source code files for an entire project. Each source code file is treated as
  * a route, with each route having information contained by the route shape
- * class.TODO
+ * class.
  * 
  * project: This property holds the project of a code controller. This must be
  * initialized to a valid project and the project cannot be destroyed or
@@ -39,7 +39,7 @@ class Make:
      * Constructor.
      *
      * @param project
-     *        The initial object of this instance's project property.
+     *        The initial object of the project property.
      */
     public:
     Make(

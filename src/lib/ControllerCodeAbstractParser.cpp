@@ -5,8 +5,12 @@ namespace Code {
 
 AbstractParser::AbstractParser(
     AbstractParser* parent
+    ,Block::Abstract* block
+    ,int version
 ):
     QObject(parent)
+    ,_block(block)
+    ,_version(version)
 {
 }
 
@@ -49,6 +53,14 @@ void AbstractParser::addChild(
     Q_ASSERT(child);
     child->setParent(this);
     _children.append(child);
+}
+
+
+Block::Abstract* AbstractParser::block(
+) const
+{
+    Q_ASSERT(_block);
+    return _block;
 }
 }
 }

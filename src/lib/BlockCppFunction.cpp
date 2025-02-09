@@ -745,12 +745,9 @@ void Function::appendSignature(
     case ConstructorFunctionType:
     case DestructorFunctionType:
     {
-        auto parentBlock = qobject_cast<Property*>(parent());
-        QString name;
-        if (parentBlock)
-        {
-            name = parentBlock->name();
-        }
+        auto parentBlock = qobject_cast<Class*>(parent());
+        Q_ASSERT(parentBlock);
+        QString name = parentBlock->name();
         if (isDestructor())
         {
             words.append("~"+name+"("+arguments(true).join(",")+")");
@@ -1623,7 +1620,8 @@ void Function::loadFlags(
 {
     Q_UNUSED(version);
     _flags = 0;
-    for (const auto& flagString: value.toString().split(";",Qt::SkipEmptyParts))
+    const auto flagStrings = value.toString().split(";",Qt::SkipEmptyParts);
+    for (const auto& flagString: flagStrings)
     {
         auto flag = reverseFlagLookup().value(flagString,-1);
         if (flag == -1)

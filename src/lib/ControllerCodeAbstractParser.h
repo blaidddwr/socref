@@ -37,9 +37,9 @@ class AbstractParser:
     public QObject
 {
     Q_OBJECT
-    Block::Abstract* _block {nullptr};
+    Block::Abstract* _block;
     QList<AbstractParser*> _children;
-    int _version {-1};
+    int _version;
 
 
     /*!
@@ -74,10 +74,18 @@ class AbstractParser:
      *        The new parser's parent. If this is a root parser created by the
      *        language's create parser interface then this must be null, else it
      *        must be a valid parser.
+     *
+     * @param block
+     *        The initial object of the block property.
+     *
+     * @param version
+     *        The initial value of the version property.
      */
     public:
     AbstractParser(
         AbstractParser* parent = nullptr
+        ,Block::Abstract* block = nullptr
+        ,int version = -1
     );
 
 
@@ -110,6 +118,9 @@ class AbstractParser:
 
     /*!
      * Setter for block property.
+     * 
+     * If this method is overridden then the overridden method must call this
+     * method in order to properly set the property.
      */
     public:
     virtual void setBlock(
@@ -119,6 +130,9 @@ class AbstractParser:
 
     /*!
      * Setter for version property.
+     * 
+     * If this method is overridden then the overridden method must call this
+     * method in order to properly set the property.
      */
     public:
     virtual void setVersion(
@@ -135,7 +149,7 @@ class AbstractParser:
 
 
     /*!
-     * Adds a new child to its parser.
+     * Adds a new child parser to this method's parser.
      *
      * @param child
      *        The child parser added. This method's parser takes ownership of
@@ -149,12 +163,9 @@ class AbstractParser:
 
     /*!
      * Getter for block property.
-     * 
-     * The given type T must be the specific block implementation of the block
-     * property's object.
      */
     protected:
-    template<class T> T* block(
+    Block::Abstract* block(
     ) const;
 };
 }
