@@ -1,11 +1,10 @@
-#ifndef CONTROLLER_ROUTE_ABSTRACT_H
-#define CONTROLLER_ROUTE_ABSTRACT_H
+#ifndef CONTROLLER_CODE_ABSTRACTROUTER_H
+#define CONTROLLER_CODE_ABSTRACTROUTER_H
 #include <QObject>
 #include "Block.h"
-#include "ControllerParse.h"
 #include "ShapeRoute.h"
 namespace Controller {
-namespace Route {
+namespace Code {
 
 
 
@@ -15,13 +14,14 @@ namespace Route {
  * implementation. A router provides routes to all source code files for a
  * project's root block.
  */
-class Abstract:
+class AbstractRouter:
     public QObject
 {
+    Q_OBJECT
 
 
     public:
-    Abstract(
+    AbstractRouter(
         QObject* parent = nullptr
     );
 

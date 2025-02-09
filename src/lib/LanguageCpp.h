@@ -30,7 +30,7 @@ class Cpp:
 
 
     public:
-    virtual Controller::Parse::Abstract* createParser(
+    virtual Controller::Code::AbstractParser* createParser(
         int index
         ,QObject* parent = nullptr
     ) const override final;
@@ -48,7 +48,7 @@ class Cpp:
 
 
     public:
-    virtual Controller::Route::Abstract* router(
+    virtual Controller::Code::AbstractRouter* router(
     ) const override final;
 };
 }

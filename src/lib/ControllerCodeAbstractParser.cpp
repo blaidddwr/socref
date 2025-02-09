@@ -1,26 +1,24 @@
-#include "ControllerParseAbstract.h"
-#include "FactoryLanguage.h"
-#include "LanguageAbstract.h"
+#include "ControllerCodeAbstractParser.h"
 namespace Controller {
-namespace Parse {
+namespace Code {
 
 
-Abstract::Abstract(
-    Abstract* parent
+AbstractParser::AbstractParser(
+    AbstractParser* parent
 ):
     QObject(parent)
 {
 }
 
 
-const QList<Abstract*>& Abstract::children(
+const QList<AbstractParser*>& AbstractParser::children(
 )
 {
     return _children;
 }
 
 
-void Abstract::setBlock(
+void AbstractParser::setBlock(
     Block::Abstract* object
 )
 {
@@ -28,7 +26,7 @@ void Abstract::setBlock(
 }
 
 
-void Abstract::setVersion(
+void AbstractParser::setVersion(
     int value
 )
 {
@@ -36,7 +34,7 @@ void Abstract::setVersion(
 }
 
 
-int Abstract::version(
+int AbstractParser::version(
 ) const
 {
     Q_ASSERT(_version != -1);
@@ -44,8 +42,8 @@ int Abstract::version(
 }
 
 
-void Abstract::addChild(
-    Abstract* child
+void AbstractParser::addChild(
+    AbstractParser* child
 )
 {
     Q_ASSERT(child);

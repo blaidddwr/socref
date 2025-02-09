@@ -1,9 +1,9 @@
-#ifndef CONTROLLER_PARSE_ABSTRACT_H
-#define CONTROLLER_PARSE_ABSTRACT_H
+#ifndef CONTROLLER_CODE_ABSTRACTPARSER_H
+#define CONTROLLER_CODE_ABSTRACTPARSER_H
 #include <QObject>
 #include "Block.h"
 namespace Controller {
-namespace Parse {
+namespace Code {
 
 
 
@@ -33,12 +33,12 @@ namespace Parse {
  * version: This property holds the version of source code a parser is parsing.
  * This must be a valid version number before parsing can begin.
  */
-class Abstract:
+class AbstractParser:
     public QObject
 {
     Q_OBJECT
     Block::Abstract* _block {nullptr};
-    QList<Abstract*> _children;
+    QList<AbstractParser*> _children;
     int _version {-1};
 
 
@@ -76,8 +76,8 @@ class Abstract:
      *        must be a valid parser.
      */
     public:
-    Abstract(
-        Abstract* parent = nullptr
+    AbstractParser(
+        AbstractParser* parent = nullptr
     );
 
 
@@ -85,7 +85,7 @@ class Abstract:
      * Getter for children property.
      */
     public:
-    const QList<Abstract*>& children(
+    const QList<AbstractParser*>& children(
     );
 
 
@@ -143,7 +143,7 @@ class Abstract:
      */
     protected:
     void addChild(
-        Abstract* child
+        AbstractParser* child
     );
 
 

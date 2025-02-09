@@ -177,7 +177,7 @@ Block::Abstract* CppQt::createBlock(
 }
 
 
-Controller::Parse::Abstract* CppQt::createParser(
+Controller::Code::AbstractParser* CppQt::createParser(
     int index
     ,QObject* parent
 ) const
@@ -206,7 +206,7 @@ int CppQt::rootIndex(
 }
 
 
-Controller::Route::Abstract* CppQt::router(
+Controller::Code::AbstractRouter* CppQt::router(
 ) const
 {
     return nullptr;

@@ -6381,21 +6381,9 @@ The given parent must be valid. The given index must be valid and resolve to a v
         <Namespace>
             <__p_description>This contains all controllers.</__p_description>
             <__p_name>Controller</__p_name>
-            <Enumeration>
-                <__p_class>0</__p_class>
-                <__p_description>This enumerates the legacy version used by all language implementations.</__p_description>
-                <__p_name>CodeVersion</__p_name>
-            </Enumeration>
-            <Enumeration>
-                <__p_class>0</__p_class>
-                <__p_description>This enumerates all versions for C++ source code parsing and building.</__p_description>
-                <__p_name>CppCodeVersion</__p_name>
-            </Enumeration>
             <Namespace>
-                <__p_description>This contains all parse controllers.
-
-See the abstract parse controller class for a detailed description of parses.</__p_description>
-                <__p_name>Parse</__p_name>
+                <__p_description>Detailed description.</__p_description>
+                <__p_name>Code</__p_name>
                 <Class>
                     <__p_description>This is an abstract class. It parses a source code file for code lines. These code lines in turn are used by builders to rebuild the source code with the implementation code intact.
 
@@ -6408,7 +6396,7 @@ block: This property holds the block associated with the source code a parser is
 children: This property holds the list of a parser's children.
 
 version: This property holds the version of source code a parser is parsing. This must be a valid version number before parsing can begin.</__p_description>
-                    <__p_name>Abstract</__p_name>
+                    <__p_name>AbstractParser</__p_name>
                     <__p_parents>public QObject</__p_parents>
                     <Enumeration>
                         <__p_class>1</__p_class>
@@ -6443,7 +6431,7 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                             <__p_assignment>nullptr</__p_assignment>
                             <__p_description>The new parser's parent. If this is a root parser created by the language's create parser interface then this must be null, else it must be a valid parser.</__p_description>
                             <__p_name>parent</__p_name>
-                            <__p_type>Abstract*</__p_type>
+                            <__p_type>AbstractParser*</__p_type>
                         </Variable>
                     </Function>
                     <Function>
@@ -6459,7 +6447,7 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                         <__p_name>children</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnType>const QList&lt;Abstract*&gt;&amp;</__p_returnType>
+                        <__p_returnType>const QList&lt;AbstractParser*&gt;&amp;</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
@@ -6569,7 +6557,7 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                         <Variable>
                             <__p_description>The child parser added. This method's parser takes ownership of the given child.</__p_description>
                             <__p_name>child</__p_name>
-                            <__p_type>Abstract*</__p_type>
+                            <__p_type>AbstractParser*</__p_type>
                         </Variable>
                     </Function>
                     <Function>
@@ -6593,15 +6581,9 @@ The given type T must be the specific block implementation of the block property
                         <__p_virtual>0</__p_virtual>
                     </Function>
                 </Class>
-            </Namespace>
-            <Namespace>
-                <__p_description>This contains all route controllers.
-
-See the abstract route controller class for a detailed description of routers.</__p_description>
-                <__p_name>Route</__p_name>
                 <Class>
                     <__p_description>This is an abstract class. It is a route controller for a language implementation. A router provides routes to all source code files for a project's root block.</__p_description>
-                    <__p_name>Abstract</__p_name>
+                    <__p_name>AbstractRouter</__p_name>
                     <__p_parents>public QObject</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -6648,216 +6630,230 @@ See the abstract route controller class for a detailed description of routers.</
                         </Variable>
                     </Function>
                 </Class>
-            </Namespace>
-            <Class>
-                <__p_description>This is a controller class. It controls the parsing and building of all source code files for an entire project. Each source code file is treated as a route, with each route having information contained by the route shape class.
+                <Enumeration>
+                    <__p_class>0</__p_class>
+                    <__p_description>This enumerates the legacy code version used by all language implementations for parsing and building.</__p_description>
+                    <__p_name>Version</__p_name>
+                </Enumeration>
+                <Namespace>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_name>Cpp</__p_name>
+                    <Enumeration>
+                        <__p_class>0</__p_class>
+                        <__p_description>This enumerates all versions for C++ source code parsing and building.</__p_description>
+                        <__p_name>Version</__p_name>
+                    </Enumeration>
+                </Namespace>
+                <Class>
+                    <__p_description>This is a controller class. It controls the parsing and building of all source code files for an entire project. Each source code file is treated as a route, with each route having information contained by the route shape class.TODO
 
 project: This property holds the project of a code controller. This must be initialized to a valid project and the project cannot be destroyed or modified during the lifetime of a code controller.
 
 error: This property holds a human readable description of the last error that occurred while parsing or building.
 
 size: This property holds the total number of routes contained in a code controller for parsing and building.</__p_description>
-                <__p_name>Code</__p_name>
-                <__p_parents>public QObject</__p_parents>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Constructor.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>^</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The initial object of this instance's project property.</__p_description>
-                        <__p_name>project</__p_name>
-                        <__p_type>Model::Project*</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_assignment>nullptr</__p_assignment>
-                        <__p_name>parent</__p_name>
-                        <__p_type>QObject*</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Clears all code lines in all blocks of this method's code controller's project.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>clear</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Getter for error property.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>error</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>const QString&amp;</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Parses a source code file.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>parse</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
-                    <__p_returnType>bool</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The route index of the source code file this will parse. This must be a valid index.</__p_description>
-                        <__p_name>index</__p_name>
-                        <__p_type>int</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Getter for size property.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>size</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>int</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Private Slots</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Called when the project property's destroyed signal is emitted.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>onProjectDestroyed</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_name>object</__p_name>
-                        <__p_type>QObject*</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Private Slots</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Called when the project property's modified changed signal is emitted.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>onProjectModified</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_name>value</__p_name>
-                        <__p_type>bool</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Recursively clears the code lines a given block and all of its descendant blocks.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>clear</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>void</__p_returnType>
-                    <__p_static>1</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The block.</__p_description>
-                        <__p_name>block</__p_name>
-                        <__p_type>Block::Abstract*</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Private</__p_access>
-                    <__p_const>0</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Recursively parses the given lines of code with the given parser. This handles all delegate to children returns by a parser by recursively calling itself again with the child parser as the given parser.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>parse</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnDescription>The next line of code that requires parsing after this method is finished.</__p_returnDescription>
-                    <__p_returnType>int</__p_returnType>
-                    <__p_static>1</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                    <Variable>
-                        <__p_description>The parser. This must be a valid parser.</__p_description>
-                        <__p_name>parser</__p_name>
-                        <__p_type>Controller::Parse::Abstract*</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The lines of code.</__p_description>
-                        <__p_name>lines</__p_name>
-                        <__p_type>const QStringList&amp;</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The next line of code that requires parsing.</__p_description>
-                        <__p_name>where</__p_name>
-                        <__p_type>int</__p_type>
-                    </Variable>
-                </Function>
-            </Class>
+                    <__p_name>Make</__p_name>
+                    <__p_parents>public QObject</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Constructor.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The initial object of this instance's project property.</__p_description>
+                            <__p_name>project</__p_name>
+                            <__p_type>Model::Project*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Clears all code lines in all blocks of this method's code controller's project.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>clear</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter for error property.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>error</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>const QString&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Parses a source code file.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>parse</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The route index of the source code file this will parse. This must be a valid index.</__p_description>
+                            <__p_name>index</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter for size property.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>size</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Called when the project property's destroyed signal is emitted.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>onProjectDestroyed</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>object</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Called when the project property's modified changed signal is emitted.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>onProjectModified</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>value</__p_name>
+                            <__p_type>bool</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Recursively clears the code lines a given block and all of its descendant blocks.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>clear</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The block.</__p_description>
+                            <__p_name>block</__p_name>
+                            <__p_type>Block::Abstract*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Recursively parses the given lines of code with the given parser. This handles all delegate to children returns by a parser by recursively calling itself again with the child parser as the given parser.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>parse</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The next line of code that requires parsing after this method is finished.</__p_returnDescription>
+                        <__p_returnType>int</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The parser. This must be a valid parser.</__p_description>
+                            <__p_name>parser</__p_name>
+                            <__p_type>Controller::Code::AbstractParser*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The lines of code.</__p_description>
+                            <__p_name>lines</__p_name>
+                            <__p_type>const QStringList&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The next line of code that requires parsing.</__p_description>
+                            <__p_name>where</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                </Class>
+            </Namespace>
             <Class>
                 <__p_description>This is a controller class. It controls the highlighting of words in a Qt text document by underlining any misspelled words.</__p_description>
                 <__p_name>SpellingHighlight</__p_name>
@@ -7264,7 +7260,7 @@ router: This property provides a language's route controller for parsing.</__p_d
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
                     <__p_returnDescription>The new parse controller.</__p_returnDescription>
-                    <__p_returnType>Controller::Parse::Abstract*</__p_returnType>
+                    <__p_returnType>Controller::Code::AbstractParser*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
                     <Variable>
@@ -7373,7 +7369,7 @@ router: This property provides a language's route controller for parsing.</__p_d
                     <__p_name>router</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnType>Controller::Route::Abstract*</__p_returnType>
+                    <__p_returnType>Controller::Code::AbstractRouter*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
                 </Function>
@@ -7535,7 +7531,7 @@ The order of addition is the same as the order in the given list.</__p_descripti
                     <__p_name>createParser</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
-                    <__p_returnType>Controller::Parse::Abstract*</__p_returnType>
+                    <__p_returnType>Controller::Code::AbstractParser*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
                     <Variable>
@@ -7598,7 +7594,7 @@ The order of addition is the same as the order in the given list.</__p_descripti
                     <__p_name>router</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
-                    <__p_returnType>Controller::Route::Abstract*</__p_returnType>
+                    <__p_returnType>Controller::Code::AbstractRouter*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
                 </Function>
@@ -7669,7 +7665,7 @@ The order of addition is the same as the order in the given list.</__p_descripti
                     <__p_name>createParser</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
-                    <__p_returnType>Controller::Parse::Abstract*</__p_returnType>
+                    <__p_returnType>Controller::Code::AbstractParser*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
                     <Variable>
@@ -7732,7 +7728,7 @@ The order of addition is the same as the order in the given list.</__p_descripti
                     <__p_name>router</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>1</__p_override>
-                    <__p_returnType>Controller::Route::Abstract*</__p_returnType>
+                    <__p_returnType>Controller::Code::AbstractRouter*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
                 </Function>

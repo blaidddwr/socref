@@ -1,15 +1,16 @@
-#include "ControllerCode.h"
+#include "ControllerCodeMake.h"
 #include <QtCore>
 #include "BlockAbstract.h"
 #include "Controller.h"
-#include "ControllerParseAbstract.h"
-#include "ControllerRouteAbstract.h"
+#include "ControllerCodeAbstractParser.h"
+#include "ControllerCodeAbstractRouter.h"
 #include "LanguageAbstract.h"
 #include "ModelProject.h"
 namespace Controller {
+namespace Code {
 
 
-Code::Code(
+Make::Make(
     Model::Project* project
     ,QObject* parent
 ):
@@ -17,7 +18,7 @@ Code::Code(
     ,_project(project)
 {
     Q_ASSERT(project);
-    connect(project,&QObject::destroyed,this,&Code::onProjectDestroyed);
+    connect(project,&QObject::destroyed,this,&Make::onProjectDestroyed);
     if (_project->_root)
     {
         auto language = project->language();
@@ -29,21 +30,21 @@ Code::Code(
 }
 
 
-void Code::clear(
+void Make::clear(
 )
 {
     clear(_project->_root);
 }
 
 
-const QString& Code::error(
+const QString& Make::error(
 ) const
 {
     return _error;
 }
 
 
-bool Code::parse(
+bool Make::parse(
     int index
 )
 {
@@ -68,7 +69,9 @@ bool Code::parse(
     auto lines = data.split("\n",Qt::KeepEmptyParts);
     auto language = _project->language();
     Q_ASSERT(language);
-    std::unique_ptr<Controller::Parse::Abstract> parser(language->createParser(route.parseIndex));
+    std::unique_ptr<Controller::Code::AbstractParser> parser(
+        language->createParser(route.parseIndex)
+        );
     Q_ASSERT(parser);
     parser->setBlock(route.block);
     if (!lines.isEmpty())
@@ -85,14 +88,14 @@ bool Code::parse(
 }
 
 
-int Code::size(
+int Make::size(
 ) const
 {
     return _routes.size();
 }
 
 
-void Code::onProjectDestroyed(
+void Make::onProjectDestroyed(
     QObject* object
 )
 {
@@ -104,7 +107,7 @@ void Code::onProjectDestroyed(
 }
 
 
-void Code::onProjectModified(
+void Make::onProjectModified(
     bool value
 )
 {
@@ -116,7 +119,7 @@ void Code::onProjectModified(
 }
 
 
-void Code::clear(
+void Make::clear(
     Block::Abstract* block
 )
 {
@@ -132,13 +135,13 @@ void Code::clear(
 }
 
 
-int Code::parse(
-    Controller::Parse::Abstract* parser
+int Make::parse(
+    Controller::Code::AbstractParser* parser
     ,const QStringList& lines
     ,int where
 )
 {
-    using Status = Controller::Parse::Abstract::Status;
+    using Status = Controller::Code::AbstractParser::Status;
     Q_ASSERT(parser);
     while (where < lines.size())
     {
@@ -168,5 +171,6 @@ int Code::parse(
         }
     }
     return where;
+}
 }
 }

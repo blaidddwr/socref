@@ -30,7 +30,7 @@ public:
         }
         return new TestBlock(blockMeta(BLOCK_INDEX),parent);
     }
-    virtual Controller::Parse::Abstract* createParser(
+    virtual Controller::Code::AbstractParser* createParser(
         int index
         ,QObject *parent) const override final
     {
@@ -47,7 +47,7 @@ public:
     {
         return BLOCK_INDEX;
     }
-    virtual Controller::Route::Abstract* router() const override final
+    virtual Controller::Code::AbstractRouter* router() const override final
     {
         return nullptr;
     }

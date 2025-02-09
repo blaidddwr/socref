@@ -3,8 +3,7 @@
 #include <QObject>
 #include <QHash>
 #include "Block.h"
-#include "ControllerParse.h"
-#include "ControllerRoute.h"
+#include "ControllerCode.h"
 #include "ModelMeta.h"
 namespace Language {
 
@@ -91,7 +90,7 @@ class Abstract:
      * The new parse controller.
      */
     public:
-    virtual Controller::Parse::Abstract* createParser(
+    virtual Controller::Code::AbstractParser* createParser(
         int index
         ,QObject* parent = nullptr
     ) const = 0;
@@ -149,7 +148,7 @@ class Abstract:
      * Getter method.
      */
     public:
-    virtual Controller::Route::Abstract* router(
+    virtual Controller::Code::AbstractRouter* router(
     ) const = 0;
 
 

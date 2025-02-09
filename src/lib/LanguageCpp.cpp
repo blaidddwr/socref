@@ -169,7 +169,7 @@ Block::Abstract* Cpp::createBlock(
 }
 
 
-Controller::Parse::Abstract* Cpp::createParser(
+Controller::Code::AbstractParser* Cpp::createParser(
     int index
     ,QObject* parent
 ) const
@@ -198,7 +198,7 @@ int Cpp::rootIndex(
 }
 
 
-Controller::Route::Abstract* Cpp::router(
+Controller::Code::AbstractRouter* Cpp::router(
 ) const
 {
     return nullptr;

@@ -20,9 +20,9 @@ SOURCES += \
     CommandProjectMove.cpp \
     CommandProjectRemove.cpp \
     CommandProjectSet.cpp \
-    ControllerCode.cpp \
-    ControllerParseAbstract.cpp \
-    ControllerRouteAbstract.cpp \
+    ControllerCodeAbstractParser.cpp \
+    ControllerCodeAbstractRouter.cpp \
+    ControllerCodeMake.cpp \
     ControllerSpellingHighlight.cpp \
     ExceptionBase.cpp \
     FactoryLanguage.cpp \
@@ -82,11 +82,11 @@ HEADERS += \
     CommandProjectSet.h \
     Controller.h \
     ControllerCode.h \
-    ControllerParse.h \
-    ControllerParseAbstract.h \
-    ControllerParseAbstract.t.h \
-    ControllerRoute.h \
-    ControllerRouteAbstract.h \
+    ControllerCodeAbstractParser.h \
+    ControllerCodeAbstractParser.t.h \
+    ControllerCodeAbstractRouter.h \
+    ControllerCodeCpp.h \
+    ControllerCodeMake.h \
     ControllerSpellingHighlight.h \
     Exception.h \
     ExceptionBase.h \
