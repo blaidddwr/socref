@@ -16,28 +16,9 @@ class HeadParser:
     public AbstractParser
 {
     Q_OBJECT
-    QStringList _head;
-
-
-    /*!
-     * This enumerates all possible states of of a head parser.
-     * 
-     * Body - the parser is reading the body of its header file where its
-     * children parsers can find their respective code blocks.
-     * 
-     * Guard - the parser is reading the very beginning of its header file where
-     * the header guard lines are located.
-     * 
-     * Header - The parser is reading the header lines of its header file.
-     */
-    public:
-    enum class State
-    {
-        Body
-        ,Guard
-        ,Header
-    };
-    State _state {State::Guard};
+    QStringList _header;
+    QStringList _preProcess;
+    int _state {0};
 
 
     public:

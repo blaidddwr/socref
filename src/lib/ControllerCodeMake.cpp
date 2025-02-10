@@ -48,7 +48,7 @@ bool Make::parse(
     int index
 )
 {
-    const static QRegularExpression versionRe("^\\/\\*@\\sversion\\s([0-9]+)\\s@\\*\\/$");
+    const static QRegularExpression versionRe("^\\/\\*@ version ([0-9]+) @\\*\\/$");
     Q_ASSERT(index >= 0);
     Q_ASSERT(index < size());
     const auto& route = _routes.at(index);
@@ -156,11 +156,12 @@ int Make::parse(
                     break;
                 }
             }
+            where++;
             break;
         case Status::DoneWithRead:
             return where+1;
         case Status::DoneWithoutRead:
-            return where;;
+            return where;
         case Status::Read:
             where++;
             break;

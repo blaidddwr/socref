@@ -14,6 +14,9 @@ class Namespace:
     public Base
 {
     Q_OBJECT
+    public:
+    static const char* PREPROCESS_IN_HEADER_CODE_KEY;
+    static const char* HEADER_IN_HEADER_CODE_KEY;
 
 
     public:

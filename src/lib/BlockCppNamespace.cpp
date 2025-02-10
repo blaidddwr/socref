@@ -3,6 +3,8 @@
 #include "WidgetBlockCppNamespace.h"
 namespace Block {
 namespace Cpp {
+const char* Namespace::PREPROCESS_IN_HEADER_CODE_KEY = "preProcessInHeaderFile";
+const char* Namespace::HEADER_IN_HEADER_CODE_KEY = "headerInHeaderFile";
 
 
 Namespace::Namespace(

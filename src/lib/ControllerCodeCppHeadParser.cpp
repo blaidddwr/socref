@@ -2,6 +2,7 @@
 #include <QtCore>
 #include "BlockAbstract.h"
 #include "BlockCpp.h"
+#include "BlockCppNamespace.h"
 #include "ControllerCodeCpp.h"
 #include "ModelMetaBlock.h"
 namespace Controller {
@@ -64,35 +65,60 @@ Status HeadParser::parseLegacy(
     ,int where
 )
 {
-    const static QRegularExpression guardRe("^#define\\s[A-Z_]+_H$");
-    const static QRegularExpression namespaceRe("^namespace\\s[a-zA-Z_]\\w*\\s{$");//}TODO:bug
+    enum State
+    {
+        Body
+        ,Header
+        ,Namespaces
+        ,PreProcess
+        ,Guard
+    };
+    const static QRegularExpression guardRe("^#define [A-Z_]+_H$");
+    const static QRegularExpression namespaceRe("^namespace [a-zA-Z_]\\w* {$");//}TODO:bug
     const auto& line = lines.at(where);
     switch (_state)
     {
-    case State::Body:
+    case Body:
         return Status::DelegateToChildren;
-    case State::Header:
-        if (
-            line.isEmpty()
-            || namespaceRe.match(line).hasMatch()
-            )
+    case Header:
+        if (line.isEmpty())
         {
-            block()->code().insert("headFile",_head);
-            //addChild(new NamespaceParser(this,block(),version())); TODO
-            //addChild(new ClassParser(this,block(),version())); TODO
-            //addChild(new UnionParser(this,block(),version())); TODO
-            _state = State::Body;
-            return Status::DelegateToChildren;
+            block()->code().insert(Namespace::HEADER_IN_HEADER_CODE_KEY,_header);
+            //TODO: add class child IF AND ONLY IF this parser's block is a class
+            _state = Body;
+            return Status::Read;
         }
         else
         {
-            _head.append(line);
+            _header.append(line);
             return Status::Read;
         }
-    case State::Guard:
+    case Namespaces:
+        if (!namespaceRe.match(line).hasMatch())
+        {
+            if (!line.isEmpty())
+            {
+                _header.append(line);
+            }
+            _state = Header;
+        }
+        return Status::Read;
+    case PreProcess:
+        if (namespaceRe.match(line).hasMatch())
+        {
+            block()->code().insert(Namespace::PREPROCESS_IN_HEADER_CODE_KEY,_preProcess);
+            _state = Namespaces;
+            return Status::Read;
+        }
+        else
+        {
+            _preProcess.append(line);
+            return Status::Read;
+        }
+    case Guard:
         if (guardRe.match(line).hasMatch())
         {
-            _state = State::Header;
+            _state = PreProcess;
         }
         return Status::Read;
     default:
@@ -107,38 +133,10 @@ Status HeadParser::parseVersion1(
     ,int where
 )
 {
-    const static QString headerBegin("/*@ header @*/");
-    const static QString end("/*@ end @*/");
-    const auto& line = lines.at(where);
-    switch (_state)
-    {
-    case State::Body:
-        return Status::DelegateToChildren;
-    case State::Header:
-        if (line == end)
-        {
-            block()->code().insert("headFile",_head);
-            //addChild(new NamespaceParser(this,block(),version())); TODO
-            //addChild(new ClassParser(this,block(),version())); TODO
-            //addChild(new UnionParser(this,block(),version())); TODO
-            _state = State::Body;
-            return Status::Read;
-        }
-        else
-        {
-            _head.append(line);
-            return Status::Read;
-        }
-    case State::Guard:
-        if (line == headerBegin)
-        {
-            _state = State::Header;
-        }
-        return Status::Read;
-    default:
-        Q_ASSERT(false);
-        std::exit(-1);
-    }
+    Q_UNUSED(lines);
+    Q_UNUSED(where);
+    //TODO
+    return Status::DoneWithoutRead;
 }
 }
 }
