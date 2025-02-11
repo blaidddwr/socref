@@ -2,8 +2,8 @@ TEMPLATE = subdirs
 
 SUBDIRS = \
     app \
-    lib \
-    tests
+    corelib \
+    cpplib \
+    cppqtlib
 
-app.depends = lib
-tests.depends = lib
+app.depends = cpplib cppqtlib corelib
