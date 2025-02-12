@@ -17,6 +17,7 @@ private slots:
     void initTestCase();
     void accessProperty();
     void assignmentProperty();
+    void copy();
     void displayIconProperty();
     void displayTextProperty();
     void flagsProperty();
@@ -103,6 +104,16 @@ void TestCppBlockFunction::assignmentProperty()
     QCOMPARE(arguments.size(),1);
     QCOMPARE(arguments.at(0).toInt(),AbstractFunctionAssignment);
     QCOMPARE(_block->assignment(),AbstractFunctionAssignment);
+}
+
+void TestCppBlockFunction::copy()
+{
+    _block->set("","",ConstructorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    std::unique_ptr<AbstractBlock> blockCopy(_block->copy());
+    QCOMPARE(blockCopy->displayText(),tr("!DETACHED!")+"()");
+    _block->set("","",DestructorFunctionType,PublicAccess,NoFunctionAssignment,0);
+    blockCopy.reset(_block->copy());
+    QCOMPARE(blockCopy->displayText(),"~"+tr("!DETACHED!")+"()");
 }
 
 void TestCppBlockFunction::displayIconProperty()

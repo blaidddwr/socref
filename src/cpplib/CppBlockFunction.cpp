@@ -744,8 +744,15 @@ void Function::appendSignature(
     case DestructorFunctionType:
     {
         auto parentBlock = qobject_cast<Class*>(parent());
-        Q_ASSERT(parentBlock);
-        QString name = parentBlock->name();
+        QString name;
+        if (parentBlock)
+        {
+            name = parentBlock->name();
+        }
+        else
+        {
+            name = tr("!DETACHED!");
+        }
         if (isDestructor())
         {
             words.append("~"+name+"("+arguments(true).join(",")+")");
