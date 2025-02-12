@@ -7,11 +7,13 @@ namespace Shape {
 
 class Route
 {
+    /*@ header @*/
 public:
     QString path;
     AbstractBlock* block;
     int parseIndex;
     int builderIndex;
+    /*@ end @*/
 };
 
 }

@@ -1,15 +1,15 @@
 #ifndef TEST_DUMMY_LANGUAGE_H
 #define TEST_DUMMY_LANGUAGE_H
-#include "LanguageAbstract.h"
+#include "AbstractLanguage.h"
 #include "ModelMetaBlock.h"
 #include "TestBlock.h"
 
-class TestLanguage: public Language::Abstract
+class TestLanguage: public AbstractLanguage
 {
     Q_OBJECT
 public:
     TestLanguage(Model::Meta::Language* meta, QObject* parent = nullptr):
-        Abstract(meta,parent)
+        AbstractLanguage(meta,parent)
     {
         appendBlock(
             new Model::Meta::Block(
@@ -19,10 +19,10 @@ public:
                 ,BLOCK_LABEL
                 ,QIcon()
                 ,{BLOCK_INDEX}
-            )
-        );
+                )
+            );
     }
-    virtual Block::Abstract* createBlock(int index, QObject* parent = nullptr) const override final
+    virtual AbstractBlock* createBlock(int index, QObject* parent = nullptr) const override final
     {
         if (index != BLOCK_INDEX)
         {
@@ -30,24 +30,24 @@ public:
         }
         return new TestBlock(blockMeta(BLOCK_INDEX),parent);
     }
-    virtual Controller::Code::AbstractParser* createParser(
+    virtual AbstractParser* createParser(
         int index
-        ,QObject *parent) const override final
+        ,QObject *parent
+        ) const override final
     {
         Q_UNUSED(index);
         Q_UNUSED(parent);
         return nullptr;
     }
-    virtual Block::Abstract* createRootBlock(QObject* parent = nullptr) const override final
+    virtual AbstractBlock* createRootBlock(QObject* parent = nullptr) const override final
     {
-        Q_UNUSED(parent);
-        return nullptr;
+        return new TestBlock(blockMeta(BLOCK_INDEX),parent);
     }
     virtual int rootIndex() const override final
     {
         return BLOCK_INDEX;
     }
-    virtual Controller::Code::AbstractRouter* router() const override final
+    virtual AbstractRouter* router() const override final
     {
         return nullptr;
     }

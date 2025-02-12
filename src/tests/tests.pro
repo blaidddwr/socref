@@ -1,16 +1,16 @@
 TEMPLATE = subdirs
 SUBDIRS = \
-    BlockAbstract \
-    BlockCppClass \
-    BlockCppEnumeration \
-    BlockCppException \
-    BlockCppFunction \
-    BlockCppNamespace \
-    BlockCppProperty \
-    BlockCppQtFunction \
-    BlockCppVariable \
+    AbstractBlock \
+    AbstractLanguage \
+    CppBlockClass \
+    CppBlockEnumeration \
+    CppBlockException \
+    CppBlockFunction \
+    CppBlockNamespace \
+    CppBlockProperty \
+    CppBlockVariable \
+    CppLanguage \
+    CppQtBlockFunction \
+    CppQtLanguage \
     FactoryLanguage \
-    LanguageAbstract \
-    LanguageCpp \
-    LanguageCppQt \
     ModelProject

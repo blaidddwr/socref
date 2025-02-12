@@ -1,15 +1,12 @@
 #include <QtTest>
-#include "ExceptionBlockRead.h"
-#include "ExceptionBlockWrite.h"
-#include "ExceptionProjectRead.h"
-#include "ExceptionProjectWrite.h"
-#include "ExceptionSystemFile.h"
+#include "Exception.h"
 #include "FactoryLanguage.h"
 #include "ModelProject.h"
 #include "StreamProjectDir.h"
 #include "StreamProjectXml.h"
+#include "../TestLanguage.h"
 
-class TestProjectModel: public QObject
+class TestModelProject: public QObject
 {
     Q_OBJECT
 private slots:
@@ -18,17 +15,20 @@ private slots:
     void toXmlFromXml();
 };
 
-void TestProjectModel::initTestCase()
+void TestModelProject::initTestCase()
 {
-    Q_INIT_RESOURCE(resources);
+    Q_INIT_RESOURCE(core);
+    Factory::Language::instance()->appendLanguage(
+        new TestLanguage(new Model::Meta::Language(LANGUAGE_NAME,LANGUAGE_LABEL,QIcon()))
+        );
 }
 
-void TestProjectModel::toDirFromDir()
+void TestModelProject::toDirFromDir()
 {
     using Stream = Stream::ProjectDir;
     auto dir = QDir::temp();
     auto path = dir.absoluteFilePath("socref.project.test");
-    auto out = new ::Model::Project(Factory::Language::instance()->indexFromName("cppqt"),this);
+    auto out = new Model::Project(Factory::Language::instance()->indexFromName(LANGUAGE_NAME),this);
     QCOMPARE(out->modified(),true);
     out->setName("Test Project Name");
     out->setRelativeCodePath("../test/path");
@@ -36,15 +36,15 @@ void TestProjectModel::toDirFromDir()
     {
         Stream(path) << *out;
     }
-    catch (Exception::Project::Write& e)
+    catch (Exception::WriteProject& e)
     {
         qDebug() << tr("Write Project Exception: %1").arg(e.message());
     }
-    catch (Exception::Block::Write& e)
+    catch (Exception::WriteBlock& e)
     {
         qDebug() << tr("Write Block Exception: %1").arg(e.message());
     }
-    catch (Exception::System::File& e)
+    catch (Exception::FileSystem& e)
     {
         qDebug() << tr("File System Exception: %1").arg(e.message());
     }
@@ -55,15 +55,15 @@ void TestProjectModel::toDirFromDir()
     {
         in = Stream(path).load(this);
     }
-    catch (Exception::Project::Read& e)
+    catch (Exception::ReadProject& e)
     {
         qDebug() << tr("Read Project Exception: %1").arg(e.message());
     }
-    catch (Exception::Block::Read& e)
+    catch (Exception::ReadBlock& e)
     {
         qDebug() << tr("Read Block Exception: %1").arg(e.message());
     }
-    catch (Exception::System::File& e)
+    catch (Exception::FileSystem& e)
     {
         qDebug() << tr("File System Exception: %1").arg(e.message());
     }
@@ -76,12 +76,12 @@ void TestProjectModel::toDirFromDir()
     delete in;
 }
 
-void TestProjectModel::toXmlFromXml()
+void TestModelProject::toXmlFromXml()
 {
     using Stream = Stream::ProjectXml;
     auto dir = QDir::temp();
     auto path = dir.absoluteFilePath("socref.project.test.xml");
-    auto out = new ::Model::Project(Factory::Language::instance()->indexFromName("cppqt"),this);
+    auto out = new Model::Project(Factory::Language::instance()->indexFromName(LANGUAGE_NAME),this);
     QCOMPARE(out->modified(),true);
     out->setName("Test Project Name");
     out->setRelativeCodePath("../test/path");
@@ -89,15 +89,15 @@ void TestProjectModel::toXmlFromXml()
     {
         Stream(path) << *out;
     }
-    catch (Exception::Project::Write& e)
+    catch (Exception::WriteProject& e)
     {
         qDebug() << tr("Write Project Exception: %1").arg(e.message());
     }
-    catch (Exception::Block::Write& e)
+    catch (Exception::WriteBlock& e)
     {
         qDebug() << tr("Write Block Exception: %1").arg(e.message());
     }
-    catch (Exception::System::File& e)
+    catch (Exception::FileSystem& e)
     {
         qDebug() << tr("File System Exception: %1").arg(e.message());
     }
@@ -108,15 +108,15 @@ void TestProjectModel::toXmlFromXml()
     {
         in = Stream(path).load(this);
     }
-    catch (Exception::Project::Read& e)
+    catch (Exception::ReadProject& e)
     {
         qDebug() << tr("Read Project Exception: %1").arg(e.message());
     }
-    catch (Exception::Block::Read& e)
+    catch (Exception::ReadBlock& e)
     {
         qDebug() << tr("Read Block Exception: %1").arg(e.message());
     }
-    catch (Exception::System::File& e)
+    catch (Exception::FileSystem& e)
     {
         qDebug() << tr("File System Exception: %1").arg(e.message());
     }
@@ -129,5 +129,5 @@ void TestProjectModel::toXmlFromXml()
     delete in;
 }
 
-QTEST_MAIN(TestProjectModel)
+QTEST_MAIN(TestModelProject)
 #include "test.moc"

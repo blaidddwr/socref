@@ -1,7 +1,6 @@
 TEMPLATE = lib
-QT += core gui widgets testlib
+QT += core gui widgets
 CONFIG += c++17 staticlib
-LIBS += -lhunspell
 SOURCES += \
     AbstractBlock.cpp \
     AbstractBlockWidget.cpp \
@@ -80,4 +79,5 @@ HEADERS += \
     WidgetWindow.h \
     WidgetWindowMain.h
 RESOURCES += core.qrc
+DESTDIR = $$OUT_PWD/../libs
 TARGET = core

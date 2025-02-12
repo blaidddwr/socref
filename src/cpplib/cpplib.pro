@@ -1,8 +1,7 @@
 TEMPLATE = lib
-QT += core gui widgets testlib
+QT += core gui widgets
 CONFIG += c++17 staticlib
 INCLUDEPATH += ../corelib
-LIBS += -lhunspell
 SOURCES += \
     CppBlockBase.cpp \
     CppBlockClass.cpp \
@@ -54,4 +53,5 @@ HEADERS += \
     CppParse.h \
     CppParseHeadParser.h
 RESOURCES += cpp.qrc
+DESTDIR = $$OUT_PWD/../libs
 TARGET = cpp

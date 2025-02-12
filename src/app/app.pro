@@ -1,15 +1,11 @@
 TEMPLATE = app
-QT += core gui widgets testlib
+QT += core gui widgets
 CONFIG += c++17
-INCLUDEPATH += ../cppqtlib ../cpplib ../corelib
-LIBS += \
-    -lhunspell \
-    -L$$OUT_PWD/../cpplib -lcpp \
-    -L$$OUT_PWD/../cppqtlib -lcppqt \
-    -L$$OUT_PWD/../corelib -lcore
+INCLUDEPATH += ../corelib ../cpplib ../cppqtlib
+LIBS += -L$$OUT_PWD/../libs -lcppqt -lcpp -lcore -lhunspell
 PRE_TARGETDEPS += \
-    $$OUT_PWD/../cpplib/libcpp.a \
-    $$OUT_PWD/../cppqtlib/libcppqt.a \
-    $$OUT_PWD/../corelib/libcore.a
+    $$OUT_PWD/../libs/libcore.a \
+    $$OUT_PWD/../libs/libcpp.a \
+    $$OUT_PWD/../libs/libcppqt.a
 SOURCES += main.cpp
 TARGET = socref

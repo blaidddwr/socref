@@ -1,7 +1,7 @@
 #ifndef TESTBLOCK_H
 #define TESTBLOCK_H
 #include <QtGui>
-#include "BlockAbstract.h"
+#include "AbstractBlock.h"
 #define BLOCK_INDEX 0
 #define BLOCK_NAME "testBlock"
 #define BLOCK_LABEL "Test Block"
@@ -10,7 +10,7 @@
 #define PROPERTY1 "property1"
 #define PROPERTY2 "property2"
 
-class TestBlock: public ::Block::Abstract
+class TestBlock: public AbstractBlock
 {
     Q_OBJECT
 public:
@@ -23,8 +23,8 @@ public:
     int removeCount {0};
     QString property1;
     QString property2;
-    using Abstract::Abstract;
-    virtual Widget::Block::Abstract* createWidget() const override final
+    using AbstractBlock::AbstractBlock;
+    virtual AbstractBlockWidget* createWidget() const override final
     {
         return nullptr;
     }
@@ -63,7 +63,7 @@ public:
         addCount++;
         lastAddIndex = index;
     }
-    virtual Abstract* create(QObject* parent = nullptr) const override final
+    virtual AbstractBlock* create(QObject* parent = nullptr) const override final
     {
         return new TestBlock(meta(),parent);
     }

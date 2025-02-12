@@ -1,8 +1,7 @@
 TEMPLATE = lib
-QT += core gui widgets testlib
+QT += core gui widgets
 CONFIG += c++17 staticlib
 INCLUDEPATH += ../corelib ../cpplib
-LIBS += -lhunspell
 SOURCES += \
     CppQtBlockFunction.cpp \
     CppQtLanguage.cpp
@@ -12,4 +11,5 @@ HEADERS += \
     CppQtBlockFunction.h \
     CppQtLanguage.h
 RESOURCES += cppqt.qrc
+DESTDIR = $$OUT_PWD/../libs
 TARGET = cppqt

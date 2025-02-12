@@ -4,6 +4,8 @@ SUBDIRS = \
     app \
     corelib \
     cpplib \
-    cppqtlib
+    cppqtlib \
+    tests
 
-app.depends = cpplib cppqtlib corelib
+app.depends = cppqtlib cpplib corelib
+tests.depends = cppqtlib cpplib corelib
