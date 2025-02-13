@@ -2248,11 +2248,9 @@ The given parent must be valid. The given index must be valid and resolve to a v
             <Class>
                 <__p_description>This is a controller class. It controls the parsing and building of all source code files for an entire project. Each source code file is treated as a route, with each route having information contained by the route shape class.
 
-project: This property holds the project of a code controller. This must be initialized to a valid project and the project cannot be destroyed or modified during the lifetime of a code controller.
+@property project This property holds the project of a code controller. This must be initialized to a valid project and the project cannot be destroyed or modified during the lifetime of a code controller.
 
-error: This property holds a human readable description of the last error that occurred while parsing or building.
-
-size: This property holds the total number of routes contained in a code controller for parsing and building.</__p_description>
+@property size This property holds the total number of routes contained in a code controller for parsing and building.</__p_description>
                 <__p_name>Code</__p_name>
                 <__p_parents>public QObject</__p_parents>
                 <Function>
@@ -2302,35 +2300,19 @@ size: This property holds the total number of routes contained in a code control
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_description>Getter for error property.</__p_description>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>0</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>error</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>0</__p_override>
-                    <__p_returnType>const QString&amp;</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>0</__p_virtual>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Parses a source code file.</__p_description>
+                    <__p_description>Parses a source code file.
+
+@exception Exception::FileSystem Thrown when a file system error occurs.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
                     <__p_name>parse</__p_name>
                     <__p_noexcept>0</__p_noexcept>
                     <__p_override>0</__p_override>
-                    <__p_returnDescription>True on success or false otherwise.</__p_returnDescription>
-                    <__p_returnType>bool</__p_returnType>
+                    <__p_returnType>void</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>

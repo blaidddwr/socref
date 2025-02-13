@@ -15,15 +15,12 @@ namespace Controller {
  * a route, with each route having information contained by the route shape
  * class.
  * 
- * project: This property holds the project of a code controller. This must be
- * initialized to a valid project and the project cannot be destroyed or
+ * @property project This property holds the project of a code controller. This
+ * must be initialized to a valid project and the project cannot be destroyed or
  * modified during the lifetime of a code controller.
  * 
- * error: This property holds a human readable description of the last error
- * that occurred while parsing or building.
- * 
- * size: This property holds the total number of routes contained in a code
- * controller for parsing and building.
+ * @property size This property holds the total number of routes contained in a
+ * code controller for parsing and building.
  */
 class Code:
     public QObject
@@ -57,25 +54,16 @@ class Code:
 
 
     /*!
-     * Getter for error property.
-     */
-    public:
-    const QString& error(
-    ) const;
-
-
-    /*!
      * Parses a source code file.
+     * 
+     * @exception Exception::FileSystem Thrown when a file system error occurs.
      *
      * @param index
      *        The route index of the source code file this will parse. This must
      *        be a valid index.
-     *
-     * @return
-     * True on success or false otherwise.
      */
     public:
-    bool parse(
+    void parse(
         int index
     );
 

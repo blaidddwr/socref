@@ -249,22 +249,25 @@ void Main::parse(
 )
 {
     Controller::Code code(_projectModel);
-    QProgressDialog dialog(tr("Parsing source code..."),tr("Abort Parsing"),0,code.size(),this);
-    dialog.setWindowModality(Qt::ApplicationModal);
-    for (int i = 0;i < code.size();i++)
+    try
     {
-        if (!code.parse(i))
+        QProgressDialog dialog(tr("Parsing source code..."),tr("Abort Parsing"),0,code.size(),this);
+        dialog.setWindowModality(Qt::ApplicationModal);
+        for (int i = 0;i < code.size();i++)
         {
-            QMessageBox::warning(this,tr("Parsing Error"),code.error());
-            break;
+            code.parse(i);
+            dialog.setValue(i);
+            if (dialog.wasCanceled())
+            {
+                break;
+            }
         }
-        dialog.setValue(i);
-        if (dialog.wasCanceled())
-        {
-            break;
-        }
+        dialog.setValue(code.size());
     }
-    dialog.setValue(code.size());
+    catch (Exception::FileSystem& e)
+    {
+        QMessageBox::warning(this,tr("File System Error"),e.message());
+    }
 }
 
 

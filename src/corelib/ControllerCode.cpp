@@ -4,6 +4,7 @@
 #include "AbstractParser.h"
 #include "AbstractLanguage.h"
 #include "AbstractRouter.h"
+#include "Exception.h"
 #include "Global.h"
 #include "ModelProject.h"
 namespace Controller {
@@ -36,17 +37,11 @@ void Code::clear(
 }
 
 
-const QString& Code::error(
-) const
-{
-    return _error;
-}
-
-
-bool Code::parse(
+void Code::parse(
     int index
 )
 {
+    using FileSystem = Exception::FileSystem;
     const static QRegularExpression versionRe("^\\/\\*@ version ([0-9]+) @\\*\\/$");
     Q_ASSERT(index >= 0);
     Q_ASSERT(index < size());
@@ -55,13 +50,14 @@ bool Code::parse(
     auto fpath = path.absoluteFilePath(route.path);
     if (!QFileInfo::exists(fpath))
     {
-        return true;
+        return;
     }
     QFile file(fpath);
     if (!file.open(QIODevice::ReadOnly))
     {
-        _error = tr("Failed opening file %1: %2.").arg(fpath,file.errorString());
-        return false;
+        throw FileSystem(
+            tr("Failed opening source code file %1: %2.").arg(fpath,file.errorString())
+            );
     }
     QTextStream stream(&file);
     auto data = stream.readAll();
@@ -81,7 +77,6 @@ bool Code::parse(
         parser->setVersion(version);
         parse(parser.get(),lines,1);
     }
-    return true;
 }
 
 
