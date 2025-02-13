@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCK_FUNCTION_H
 #define CPP_BLOCK_FUNCTION_H
-#include "CppBlock.h"
+#include "Cpp.h"
 #include "CppBlockBase.h"
 namespace Cpp {
 namespace Block {

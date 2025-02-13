@@ -1,13 +1,14 @@
 #include "CppQtBlockFunction.h"
 #include <QtGui>
 #include "CppBlockProperty.h"
-#include "CppQtBlock.h"
+#include "CppQt.h"
 #include "Exception.h"
 #include "Global.h"
 namespace CppQt {
 namespace Block {
-using namespace Cpp::Block;
+using namespace Cpp;
 using CppFunction = Cpp::Block::Function;
+using Property = Cpp::Block::Property;
 
 
 Function::Function(

@@ -1,5 +1,6 @@
 #include "CppBlockFunction.h"
 #include <QtGui>
+#include "CppBlock.h"
 #include "CppBlockClass.h"
 #include "CppBlockProperty.h"
 #include "CppBlockVariable.h"

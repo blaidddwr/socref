@@ -5,6 +5,7 @@
 #include "CppLanguage.h"
 #include "../utility.h"
 using namespace Cpp::Block;
+using namespace Cpp;
 
 class TestCppBlockProperty: public QObject
 {

@@ -1,6 +1,5 @@
 #ifndef CPPQT_BLOCK_H
 #define CPPQT_BLOCK_H
-#include "CppBlock.h"
 namespace CppQt {
 
 
@@ -10,25 +9,6 @@ namespace CppQt {
 namespace Block
 {
     class Function;
-
-
-    /*!
-     * This enumerates additional function flags for Qt methods.
-     */
-    enum FunctionFlags
-    {
-        QtInvokableFunctionFlag = Cpp::Block::UserFunctionFlag
-    };
-
-
-    /*!
-     * This enumerates additional function types for Qt methods.
-     */
-    enum FunctionType
-    {
-        SignalFunctionType = Cpp::Block::UserFunctionType
-        ,SlotFunctionType
-    };
 
 
     /*!

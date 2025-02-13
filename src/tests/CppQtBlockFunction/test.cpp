@@ -1,20 +1,23 @@
 #include <QtTest>
+#include "CppBlock.h"
+#include "CppQt.h"
 #include "CppQtBlock.h"
 #include "CppBlockClass.h"
 #include "CppQtBlock.h"
 #include "CppQtBlockFunction.h"
 #include "CppQtLanguage.h"
 #include "../utility.h"
-using namespace Cpp::Block;
 using namespace CppQt::Block;
-using CppQtFunction = CppQt::Block::Function;
+using namespace CppQt;
+using namespace Cpp;
+using Class = Cpp::Block::Class;
 
 class TestCppQtBlockFunction: public QObject
 {
     Q_OBJECT
     Class* _parent;
     CppQt::Language* _language;
-    CppQtFunction* _block;
+    Function* _block;
 private slots:
     void initTestCase();
     void displayIconProperty();
@@ -32,7 +35,7 @@ void TestCppQtBlockFunction::initTestCase()
     Q_INIT_RESOURCE(cppqt);
     _language = new CppQt::Language;
     _language->setParent(this);
-    _block = qobject_cast<CppQtFunction*>(_language->createBlock(CppQt::Block::FunctionIndex,this));
+    _block = qobject_cast<Function*>(_language->createBlock(FunctionIndex,this));
     _parent = qobject_cast<Class*>(_language->createBlock(Cpp::Block::ClassIndex,this));
     QVERIFY(_block);
     QVERIFY(_parent);
@@ -53,7 +56,7 @@ void TestCppQtBlockFunction::displayIconProperty()
     static const QIcon testIconVirtualSlotProtected(":/cppqt/virtual_protected_slot.svg");
     static const QIcon testIconVirtualSlotPublic(":/cppqt/virtual_public_slot.svg");
     _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
-    QSignalSpy spy(_block,&CppQtFunction::displayIconChanged);
+    QSignalSpy spy(_block,&Function::displayIconChanged);
     auto verify = [&spy,this](const QIcon& icon) -> bool
     {
         if (spy.count() != 1) return false;
@@ -113,7 +116,7 @@ void TestCppQtBlockFunction::displayIconProperty()
 void TestCppQtBlockFunction::displayTextProperty()
 {
     _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
-    QSignalSpy spy(_block,&CppQtFunction::displayTextChanged);
+    QSignalSpy spy(_block,&Function::displayTextChanged);
     auto verify = [&spy,this](const QString& displayText)
     {
         QCOMPARE(spy.count(),1);

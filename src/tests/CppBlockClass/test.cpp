@@ -1,9 +1,11 @@
 #include <QtTest>
+#include "CppBlock.h"
 #include "CppBlockClass.h"
 #include "CppBlockFunction.h"
 #include "CppLanguage.h"
 #include "../utility.h"
 using namespace Cpp::Block;
+using namespace Cpp;
 
 class TestCppBlockClass: public QObject
 {
