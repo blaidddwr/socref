@@ -7,4 +7,5 @@ PRE_TARGETDEPS += $$OUT_PWD/../../libs/libcore.a
 SOURCES += test.cpp
 HEADERS += \
     ../TestBlock.h \
-    ../TestLanguage.h
+    ../TestLanguage.h \
+    ../TestRouter.h

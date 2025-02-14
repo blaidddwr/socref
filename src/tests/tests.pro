@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 SUBDIRS = \
     AbstractBlock \
     AbstractLanguage \
+    ControllerCode \
     CppBlockClass \
     CppBlockEnumeration \
     CppBlockException \

@@ -1,15 +1,18 @@
-#ifndef TEST_DUMMY_LANGUAGE_H
-#define TEST_DUMMY_LANGUAGE_H
+#ifndef TESTLANGUAGE_H
+#define TESTLANGUAGE_H
 #include "AbstractLanguage.h"
 #include "ModelMetaBlock.h"
 #include "TestBlock.h"
+#include "TestRouter.h"
 
 class TestLanguage: public AbstractLanguage
 {
     Q_OBJECT
+    TestRouter* _router;
 public:
     TestLanguage(Model::Meta::Language* meta, QObject* parent = nullptr):
         AbstractLanguage(meta,parent)
+        ,_router(new TestRouter(this))
     {
         appendBlock(
             new Model::Meta::Block(
@@ -47,7 +50,7 @@ public:
     }
     virtual AbstractRouter* router() const override final
     {
-        return nullptr;
+        return _router;
     }
 };
 

@@ -1,5 +1,4 @@
 #include <QtTest>
-#include "ModelMeta.h"
 #include "../TestLanguage.h"
 
 class TestAbstractLanguage: public QObject
