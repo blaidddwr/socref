@@ -32,6 +32,14 @@ public:
  *
  * This is a shape class. It holds all information for a single source code file
  * route used by the parsing and building system.
+ *
+ * @property path The path to the source code file, relative to the project's code path.
+ *
+ * @property block The block associated with the source code file.
+ *
+ * @property parseIndex The parser index used for parsing the source code file.
+ *
+ * @property builderIndex The builder index used for building the source code file.
  */
 
 #endif

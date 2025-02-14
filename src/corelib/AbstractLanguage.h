@@ -80,16 +80,12 @@ class AbstractLanguage:
      * @param index
      *        The new parse controller's index.
      *
-     * @param parent
-     *        The new parse controller's parent.
-     *
      * @return
      * The new parse controller.
      */
     public:
     virtual AbstractParser* createParser(
         int index
-        ,QObject* parent = nullptr
     ) const = 0;
 
 

@@ -9,6 +9,15 @@ namespace Cpp {
 namespace Parse
 {
     class HeadParser;
+
+
+    /*!
+     * This enumerates all C++ parser indexes.
+     */
+    enum Index
+    {
+        HeadParserIndex
+    };
 }
 }
 

@@ -165,16 +165,15 @@ class AbstractBlockWidget:
 
 
     /*!
-     * Calls this widget's model's begin set method, signaling modifications are
-     * about to be applied to this widget's block.
+     * Calls this instance's model's begin set method, signaling modifications
+     * are about to be applied to this instance's block.
      * 
-     * This must be called before this widget can safely apply its modifications
-     * to its block. This widget's block must be able to be Qt object cast to
-     * the given type T. This widget must have a valid model, index, and
-     * block.TODO
+     * This must be called before this instance can safely apply its
+     * modifications to its block. This instance must have a valid model, index,
+     * and block.
      *
      * @return
-     * This widget's block Qt object cast as type T.
+     * This instance's block property object.
      */
     protected:
     AbstractBlock* beginSet(
@@ -182,9 +181,7 @@ class AbstractBlockWidget:
 
 
     /*!
-     * Returns this widget's block, Qt object cast to the given type T.
-     * 
-     * This widget's block must be able to be cast to the given type T.TODO
+     * Getter for the block property.
      */
     protected:
     const AbstractBlock* block(

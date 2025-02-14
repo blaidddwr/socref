@@ -24,7 +24,8 @@ SOURCES += \
     CppBlockWidgetUnionEdit.cpp \
     CppBlockWidgetVariableEdit.cpp \
     CppLanguage.cpp \
-    CppParseHeadParser.cpp
+    CppParseHeadParser.cpp \
+    CppRouter.cpp
 HEADERS += \
     Cpp.h \
     CppBlock.h \
@@ -51,7 +52,8 @@ HEADERS += \
     CppBlockWidgetVariableEdit.h \
     CppLanguage.h \
     CppParse.h \
-    CppParseHeadParser.h
+    CppParseHeadParser.h \
+    CppRouter.h
 RESOURCES += cpp.qrc
 DESTDIR = $$OUT_PWD/../libs
 TARGET = cpp

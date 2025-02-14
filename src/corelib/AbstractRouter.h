@@ -26,6 +26,9 @@ class AbstractRouter:
 
     /*!
      * Generates all routes for a given root block.
+     * 
+     * @exception Exception::LogicalRoute Thrown when a logical route error is
+     * encountered.
      *
      * @param root
      *        The root block.This must be valid, have the same language
@@ -36,7 +39,7 @@ class AbstractRouter:
      */
     public:
     virtual QList<Shape::Route> routes(
-        const AbstractBlock* root
+        AbstractBlock* root
     ) = 0;
 };
 

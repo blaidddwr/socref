@@ -30,7 +30,6 @@ class Language:
     public:
     virtual AbstractParser* createParser(
         int index
-        ,QObject* parent = nullptr
     ) const override final;
 
 

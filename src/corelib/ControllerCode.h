@@ -33,6 +33,9 @@ class Code:
 
     /*!
      * Constructor.
+     * 
+     * @exception Exception::LogicalRoute Thrown when there is a logical routing
+     * error.
      *
      * @param project
      *        The initial object of the project property.

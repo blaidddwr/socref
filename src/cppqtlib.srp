@@ -20,7 +20,7 @@ See the abstract block class for a detailed description of blocks.</__p_descript
                 <__p_name>FunctionType</__p_name>
             </Enumeration>
             <Namespace>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>This contains all C++/Qt blocks.</__p_description>
                 <__p_name>Block</__p_name>
                 <Enumeration>
                     <__p_class>0</__p_class>
@@ -598,11 +598,6 @@ A logical block exception is thrown if this instance's properties are not valid.
                     <Variable>
                         <__p_name>index</__p_name>
                         <__p_type>int</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_assignment>nullptr</__p_assignment>
-                        <__p_name>parent</__p_name>
-                        <__p_type>QObject*</__p_type>
                     </Variable>
                 </Function>
                 <Function>

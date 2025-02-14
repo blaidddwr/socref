@@ -9,6 +9,7 @@
 namespace Cpp
 {
     class Language;
+    class Router;
 
 
     /*!

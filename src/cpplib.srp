@@ -5400,6 +5400,11 @@ The given function flag must be valid.</__p_description>
             <Namespace>
                 <__p_description>This contains all C++ parsers.</__p_description>
                 <__p_name>Parse</__p_name>
+                <Enumeration>
+                    <__p_class>0</__p_class>
+                    <__p_description>This enumerates all C++ parser indexes.</__p_description>
+                    <__p_name>Index</__p_name>
+                </Enumeration>
                 <Class>
                     <__p_description>This is a C++ parse code controller. It is a root parser responsible for parsing a C++ header file.</__p_description>
                     <__p_name>HeadParser</__p_name>
@@ -5605,11 +5610,6 @@ The given function flag must be valid.</__p_description>
                         <__p_name>index</__p_name>
                         <__p_type>int</__p_type>
                     </Variable>
-                    <Variable>
-                        <__p_assignment>nullptr</__p_assignment>
-                        <__p_name>parent</__p_name>
-                        <__p_type>QObject*</__p_type>
-                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -5664,6 +5664,173 @@ The given function flag must be valid.</__p_description>
                     <__p_returnType>AbstractRouter*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
+                </Function>
+            </Class>
+            <Class>
+                <__p_description>This is the C++ router.</__p_description>
+                <__p_name>Router</__p_name>
+                <__p_parents>public AbstractRouter</__p_parents>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>1</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>routes</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>1</__p_override>
+                    <__p_returnType>QList&lt;Shape::Route&gt;</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_name>root</__p_name>
+                        <__p_type>AbstractBlock*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Recursively adds routes to this method's instance.
+
+@exception Exception::LogicalRoute Thrown when a logical route error is encountered.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>addRoutes</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The block whose routes and all its descendant block's routes are added.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>AbstractBlock*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The given block's scope, used to generate its own scope. This is used to generate the header and source code file names.</__p_description>
+                        <__p_name>scope</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Evaluates a block.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>hasHeader</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if the evaluated block has a header file or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The evaluated block. This must be a valid block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>Namespace*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Evaluates a block.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>hasSource</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if the evaluated block has a source file or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The evaluated block. This must be a valid block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>Class*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Evaluates a block.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>hasSource</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if the evaluated block has a source file or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The evaluated block. This must be a valid block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>Function*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Evaluates a block.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>hasSource</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnDescription>True if the evaluated function block's parent block has a source file or false otherwise.</__p_returnDescription>
+                    <__p_returnType>bool</__p_returnType>
+                    <__p_static>1</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>The evaluated block. This must be a valid block.</__p_description>
+                        <__p_name>block</__p_name>
+                        <__p_type>Namespace*</__p_type>
+                    </Variable>
                 </Function>
             </Class>
         </Namespace>

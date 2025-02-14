@@ -1,6 +1,7 @@
 #ifndef CPP_LANGUAGE_H
 #define CPP_LANGUAGE_H
 #include "AbstractLanguage.h"
+#include "Cpp.h"
 namespace Cpp {
 
 
@@ -13,6 +14,7 @@ class Language:
     public AbstractLanguage
 {
     Q_OBJECT
+    Router* _router;
 
 
     public:
@@ -30,7 +32,6 @@ class Language:
     public:
     virtual AbstractParser* createParser(
         int index
-        ,QObject* parent = nullptr
     ) const override final;
 
 

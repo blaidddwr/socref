@@ -1,6 +1,5 @@
 #include "CppQtLanguage.h"
 #include <QtGui>
-#include "CppQtBlock.h"
 #include "CppBlockClass.h"
 #include "CppBlockEnumeration.h"
 #include "CppBlockEnumerationValue.h"
@@ -9,10 +8,14 @@
 #include "CppBlockProperty.h"
 #include "CppBlockUnion.h"
 #include "CppBlockVariable.h"
+#include "CppParse.h"
+#include "CppParseHeadParser.h"
+#include "CppQtBlock.h"
 #include "CppQtBlockFunction.h"
 #include "ModelMetaBlock.h"
 namespace CppQt {
 using namespace CppQt::Block;
+using namespace Cpp::Parse;
 using Class = Cpp::Block::Class;
 using Enumeration = Cpp::Block::Enumeration;
 using EnumerationValue = Cpp::Block::EnumerationValue;
@@ -168,20 +171,22 @@ AbstractBlock* Language::createBlock(
         return new Variable(meta,parent);
     }
     default:
-        Q_ASSERT(false);
-        return nullptr;
+        throw std::logic_error("unknown block index");
     }
 }
 
 
 AbstractParser* Language::createParser(
     int index
-    ,QObject* parent
 ) const
 {
-    Q_UNUSED(index);
-    Q_UNUSED(parent);
-    return nullptr;
+    switch (index)
+    {
+    case HeadParserIndex:
+        return new HeadParser;
+    default:
+        throw std::logic_error("unknown parser index.");
+    }
 }
 
 

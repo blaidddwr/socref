@@ -248,9 +248,9 @@ void Main::orphanFiles(
 void Main::parse(
 )
 {
-    Controller::Code code(_projectModel);
     try
     {
+        Controller::Code code(_projectModel);
         QProgressDialog dialog(tr("Parsing source code..."),tr("Abort Parsing"),0,code.size(),this);
         dialog.setWindowModality(Qt::ApplicationModal);
         for (int i = 0;i < code.size();i++)
@@ -267,6 +267,10 @@ void Main::parse(
     catch (Exception::FileSystem& e)
     {
         QMessageBox::warning(this,tr("File System Error"),e.message());
+    }
+    catch (Exception::LogicalRoute& e)
+    {
+        QMessageBox::warning(this,tr("Logical Route Error"),e.message());
     }
 }
 

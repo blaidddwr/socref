@@ -10,14 +10,19 @@
 #include "CppBlockProperty.h"
 #include "CppBlockUnion.h"
 #include "CppBlockVariable.h"
+#include "CppParse.h"
+#include "CppParseHeadParser.h"
+#include "CppRouter.h"
 #include "ModelMetaBlock.h"
 namespace Cpp {
 using namespace Block;
+using namespace Parse;
 
 
 Language::Language(
 ):
     AbstractLanguage(new Model::Meta::Language("cpp","C++",QIcon(":/cpp.svg")))
+    ,_router(new Router(this))
 {
     appendBlocks(
         {
@@ -160,20 +165,22 @@ AbstractBlock* Language::createBlock(
         return new Variable(meta,parent);
     }
     default:
-        Q_ASSERT(false);
-        return nullptr;
+        throw std::logic_error("unknown block index");
     }
 }
 
 
 AbstractParser* Language::createParser(
     int index
-    ,QObject* parent
 ) const
 {
-    Q_UNUSED(index);
-    Q_UNUSED(parent);
-    return nullptr;
+    switch (index)
+    {
+    case HeadParserIndex:
+        return new HeadParser;
+    default:
+        throw std::logic_error("unknown parser index");
+    }
 }
 
 
@@ -198,6 +205,6 @@ int Language::rootIndex(
 AbstractRouter* Language::router(
 ) const
 {
-    return nullptr;
+    return _router;
 }
 }

@@ -18,6 +18,7 @@ private:
 class FileSystem: public Base { using Base::Base; };
 class LogicalBlock: public Base { using Base::Base; };
 class LogicalProject: public Base { using Base::Base; };
+class LogicalRoute: public Base { using Base::Base; };
 class ReadBlock: public Base { using Base::Base; };
 class ReadProject: public Base { using Base::Base; };
 class RunSystem: public Base { using Base::Base; };
