@@ -4,7 +4,7 @@ namespace CppQt {
 
 
 /*!
- * Detailed description.
+ * This contains all C++/Qt blocks.
  */
 namespace Block
 {
