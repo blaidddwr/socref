@@ -158,9 +158,7 @@ int Code::parse(
             where++;
             break;
         default:
-            Q_ASSERT(false);
-            std::exit(-1);
-            break;
+            throw std::logic_error("unknown parser status");
         }
     }
     return where;

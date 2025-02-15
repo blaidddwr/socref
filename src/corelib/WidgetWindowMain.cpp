@@ -272,6 +272,10 @@ void Main::parse(
     {
         QMessageBox::warning(this,tr("Logical Route Error"),e.message());
     }
+    catch (Exception::LogicalParse& e)
+    {
+        QMessageBox::warning(this,tr("Logical Parse Error"),e.message());
+    }
 }
 
 

@@ -4,6 +4,7 @@
 #include "Cpp.h"
 #include "CppBlock.h"
 #include "CppBlockNamespace.h"
+#include "Exception.h"
 #include "ModelMetaBlock.h"
 namespace Cpp {
 namespace Parse {
@@ -24,6 +25,7 @@ Status HeadParser::parse(
     ,int where
 )
 {
+    using LogicalParse = ::Exception::LogicalParse;
     switch (version())
     {
     case Cpp_Legacy:
@@ -31,8 +33,7 @@ Status HeadParser::parse(
     case Cpp_1:
         return Status::DoneWithoutRead;
     default:
-        Q_ASSERT(false);
-        std::exit(-1);
+        throw LogicalParse(tr("Unknown source code version %1.").arg(version()));
     }
 }
 
@@ -121,8 +122,7 @@ Status HeadParser::parseLegacy(
         }
         return Status::Read;
     default:
-        Q_ASSERT(false);
-        std::exit(-1);
+        throw std::logic_error("unknown state");
     }
 }
 

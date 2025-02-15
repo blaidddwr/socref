@@ -17,6 +17,7 @@ private:
 /*@ footer @*/
 class FileSystem: public Base { using Base::Base; };
 class LogicalBlock: public Base { using Base::Base; };
+class LogicalParse: public Base { using Base::Base; };
 class LogicalProject: public Base { using Base::Base; };
 class LogicalRoute: public Base { using Base::Base; };
 class ReadBlock: public Base { using Base::Base; };

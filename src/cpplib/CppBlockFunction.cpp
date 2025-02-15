@@ -768,8 +768,7 @@ void Function::appendSignature(
         words.append("operator"+name()+"("+arguments(true).join(",")+")");
         break;
     default:
-        Q_ASSERT(false);
-        break;
+        throw std::logic_error("unknown function type");
     }
 }
 

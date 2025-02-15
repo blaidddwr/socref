@@ -59,7 +59,11 @@ class Code:
     /*!
      * Parses a source code file.
      * 
-     * @exception Exception::FileSystem Thrown when a file system error occurs.
+     * @exception Exception::FileSystem Thrown when a file system error is
+     * encountered.
+     * 
+     * @exception Exception::LogicalParse Thrown when a logical parse error is
+     * encountered.
      *
      * @param index
      *        The route index of the source code file this will parse. This must
