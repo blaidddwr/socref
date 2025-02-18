@@ -30,11 +30,11 @@ public:
     }
     virtual QIcon displayIcon() const override final
     {
-        return QIcon();
+        return QIcon(":/application.svg");
     }
     virtual QString displayText() const override final
     {
-        return QString();
+        return property1;
     }
     virtual QString fileName() const override final
     {
@@ -52,11 +52,15 @@ public:
     }
     virtual void setState(const QHash<QString,QVariant>& state) override final
     {
-        Q_UNUSED(state);
+        property1 = state.value("property1").toString();
+        property2 = state.value("property2").toString();
     }
     virtual QHash<QString,QVariant> state() const override final
     {
-        return {};
+        QHash<QString,QVariant> ret;
+        ret.insert("property1",property1);
+        ret.insert("property2",property2);
+        return ret;
     }
     virtual void addEvent(int index) override final
     {
