@@ -5,6 +5,7 @@ SUBDIRS = \
     ControllerCode \
     CppBlockClass \
     CppBlockEnumeration \
+    CppBlockEnumerationValue \
     CppBlockException \
     CppBlockFunction \
     CppBlockNamespace \
