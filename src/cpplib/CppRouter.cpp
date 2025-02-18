@@ -36,20 +36,13 @@ void Router::addRoutes(
 )
 {
     using LogicalRoute = ::Exception::LogicalRoute;
-    auto getNameScope = [](Base* block) -> QString
-    {
-        QString ret = block->name();
-        Q_ASSERT(!ret.isEmpty());
-        ret[0] = ret[0].toUpper();
-        return ret;
-    };
     switch (block->meta()->index())
     {
     case ClassIndex:
     {
         auto cb = qobject_cast<Class*>(block);
         Q_ASSERT(cb);
-        auto newScope = scope+getNameScope(cb);
+        auto newScope = scope+cb->name();
         if (_scopes.contains(newScope))
         {
             throw LogicalRoute(
@@ -69,7 +62,8 @@ void Router::addRoutes(
     {
         auto nb = qobject_cast<Namespace*>(block);
         Q_ASSERT(nb);
-        auto newScope = scope+getNameScope(nb);
+        auto newScope = scope+nb->name();
+        QString rootName = qobject_cast<AbstractBlock*>(nb->parent()) ? "" : "Global";
         if (_scopes.contains(newScope))
         {
             throw LogicalRoute(
@@ -80,11 +74,11 @@ void Router::addRoutes(
         _scopes.insert(newScope);
         if (hasHeader(nb))
         {
-            _routes.append({newScope+".h",block,HeadParserIndex,-1});//TODO
+            _routes.append({newScope+rootName+".h",block,HeadParserIndex,-1});//TODO
         }
         if (hasSource(nb))
         {
-            _routes.append({newScope+".cpp",block,-1,-1});//TODO
+            _routes.append({newScope+rootName+".cpp",block,-1,-1});//TODO
         }
         for (int i = 0;i < block->size();i++)
         {
@@ -117,58 +111,18 @@ bool Router::hasHeader(
 
 
 bool Router::hasSource(
-    Class* block
+    AbstractBlock* block
 )
 {
     Q_ASSERT(block);
     for (int i = 0;i < block->size();i++)
     {
-        auto child = block->get(i);
-        switch (child->meta()->index())
+        if (auto fb = qobject_cast<Function*>(block->get(i)))
         {
-        case FunctionIndex:
-            if (hasSource(qobject_cast<Function*>(child)))
+            if (fb->templates().isEmpty())
             {
                 return true;
             }
-            break;
-        }
-    }
-    return false;
-}
-
-
-bool Router::hasSource(
-    Function* block
-)
-{
-    Q_ASSERT(block);
-    return block->templates().isEmpty();
-}
-
-
-bool Router::hasSource(
-    Namespace* block
-)
-{
-    Q_ASSERT(block);
-    for (int i = 0;i < block->size();i++)
-    {
-        auto child = block->get(i);
-        switch (child->meta()->index())
-        {
-        case ClassIndex:
-            if (hasSource(qobject_cast<Class*>(child)))
-            {
-                return true;
-            }
-            break;
-        case FunctionIndex:
-            if (hasSource(qobject_cast<Function*>(child)))
-            {
-                return true;
-            }
-            break;
         }
     }
     return false;

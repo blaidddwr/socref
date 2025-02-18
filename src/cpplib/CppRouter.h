@@ -81,38 +81,7 @@ class Router:
      */
     private:
     static bool hasSource(
-        Class* block
-    );
-
-
-    /*!
-     * Evaluates a block.
-     *
-     * @param block
-     *        The evaluated block. This must be a valid block.
-     *
-     * @return
-     * True if the evaluated block has a source file or false otherwise.
-     */
-    private:
-    static bool hasSource(
-        Function* block
-    );
-
-
-    /*!
-     * Evaluates a block.
-     *
-     * @param block
-     *        The evaluated block. This must be a valid block.
-     *
-     * @return
-     * True if the evaluated function block's parent block has a source file or
-     * false otherwise.
-     */
-    private:
-    static bool hasSource(
-        Namespace* block
+        AbstractBlock* block
     );
 };
 }

@@ -14,5 +14,6 @@ SUBDIRS = \
     CppLanguage \
     CppQtBlockFunction \
     CppQtLanguage \
+    CppRouter \
     FactoryLanguage \
     ModelProject
