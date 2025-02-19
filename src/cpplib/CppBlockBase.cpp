@@ -21,7 +21,7 @@ const QString& Base::description(
 QString Base::fileName(
 ) const
 {
-    return qobject_cast<AbstractBlock*>(parent())? _name : "ROOT";
+    return qobject_cast<AbstractBlock*>(parent())? _name : rootFileName();
 }
 
 

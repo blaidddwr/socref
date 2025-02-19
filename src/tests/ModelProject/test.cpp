@@ -205,7 +205,10 @@ void TestModelProject::data()
     QVERIFY(index.isValid());
     QCOMPARE(_project->data(index,Qt::DisplayRole),"");
     QSignalSpy spy(_project,&Model::Project::dataChanged);
-    QVERIFY(setBlockProperties(0,"test",""));
+    auto block = qobject_cast<TestBlock*>(_project->beginSet(index));
+    QVERIFY(block);
+    block->property1 = "test";
+    QVERIFY(_project->finishSet());
     QCOMPARE(spy.count(),1);
     auto arguments = spy.takeFirst();
     QCOMPARE(arguments.size(),3);
@@ -216,6 +219,16 @@ void TestModelProject::data()
     auto data = _project->data(index,Qt::DecorationRole);
     QVERIFY(data.canConvert<QIcon>());
     QVERIFY(areIconsEqual(data.value<QIcon>(),testIcon));
+    spy.clear();
+    block->property1 = "test2";
+    block->touchDisplayText();
+    QCOMPARE(spy.count(),1);
+    arguments = spy.takeFirst();
+    QCOMPARE(arguments.size(),3);
+    QCOMPARE(arguments.at(0),index);
+    QCOMPARE(arguments.at(1),index);
+    QCOMPARE(arguments.at(2).value<QList<int>>(),QList<int>({Qt::DisplayRole}));
+    QCOMPARE(_project->data(index,Qt::DisplayRole),"test2");
 }
 
 void TestModelProject::directoryPath()

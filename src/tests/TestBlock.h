@@ -82,6 +82,10 @@ public:
         removeCount++;
         lastRemoveIndex = index;
     }
+    void touchDisplayText()
+    {
+        emit displayTextChanged(property1);
+    }
 };
 
 #endif

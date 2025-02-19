@@ -67,22 +67,23 @@ bool Insert::insert(
     auto parent = convertListToIndex(_parent);
     project().beginInsertRows(parent,_row,_row);
     project().block(parent)->insert(_row,_block);
+    auto block = _block;
     connect(
         _block
         ,&AbstractBlock::displayIconChanged
         ,&project()
-        ,[this] ()
+        ,[this,block] ()
         {
-            project().onBlockDisplayIconChanged(_block);
+            project().onBlockDisplayIconChanged(block);
         }
         );
     connect(
         _block
         ,&AbstractBlock::displayTextChanged
         ,&project()
-        ,[this] ()
+        ,[this,block] ()
         {
-            project().onBlockDisplayTextChanged(_block);
+            project().onBlockDisplayTextChanged(block);
         }
         );
     _block = nullptr;
