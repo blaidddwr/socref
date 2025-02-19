@@ -15,7 +15,6 @@ class HeadParser:
     public AbstractParser
 {
     Q_OBJECT
-    QStringList _header;
     QStringList _preProcess;
     int _state {0};
 

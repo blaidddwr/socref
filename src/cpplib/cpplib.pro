@@ -3,6 +3,7 @@ QT += core gui widgets
 CONFIG += c++17 staticlib
 INCLUDEPATH += ../corelib
 SOURCES += \
+    Cpp.cpp \
     CppBlockBase.cpp \
     CppBlockClass.cpp \
     CppBlockEnumeration.cpp \

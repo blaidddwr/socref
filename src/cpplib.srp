@@ -14,6 +14,11 @@
             </Enumeration>
             <Enumeration>
                 <__p_class>0</__p_class>
+                <__p_description>This enumerates all possible code keys. See the code key function for further details.</__p_description>
+                <__p_name>CodeKey</__p_name>
+            </Enumeration>
+            <Enumeration>
+                <__p_class>0</__p_class>
                 <__p_description>This enumerates all function assignments for C++ function blocks. In order to expand this enumeration one must use the user function assignment as the first new enumeration.</__p_description>
                 <__p_name>FunctionAssignment</__p_name>
             </Enumeration>
@@ -5787,6 +5792,29 @@ The given function flag must be valid.</__p_description>
                     </Variable>
                 </Function>
             </Class>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Public</__p_access>
+                <__p_const>0</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Getter for code keys. Code keys are used for storing and retrieving code lines to and from their respective C++ blocks used by parsers and builders, respectively.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>codeKey</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnDescription>The code key.</__p_returnDescription>
+                <__p_returnType>const QString&amp;</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
+                <Variable>
+                    <__p_description>The index of the code key returned. This must be a valid code key index.</__p_description>
+                    <__p_name>index</__p_name>
+                    <__p_type>int</__p_type>
+                </Variable>
+            </Function>
         </Namespace>
     </Namespace>
 </srp_project>

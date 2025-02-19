@@ -68,8 +68,7 @@ Status HeadParser::parseLegacy(
     enum State
     {
         Body
-        ,Header
-        ,Namespaces
+        ,Namespace
         ,PreProcess
         ,Guard
     };
@@ -80,34 +79,25 @@ Status HeadParser::parseLegacy(
     {
     case Body:
         return Status::DelegateToChildren;
-    case Header:
-        if (line.isEmpty())
+    case Namespace:
+        if (!namespaceRe.match(line).hasMatch())
         {
-            block()->code().insert(Namespace::HEADER_IN_HEADER_CODE_KEY,_header);
             //TODO: add class child IF AND ONLY IF this parser's block is a class
             _state = Body;
-            return Status::Read;
+            return Status::DelegateToChildren;
         }
         else
         {
-            _header.append(line);
             return Status::Read;
         }
-    case Namespaces:
-        if (!namespaceRe.match(line).hasMatch())
-        {
-            if (!line.isEmpty())
-            {
-                _header.append(line);
-            }
-            _state = Header;
-        }
-        return Status::Read;
     case PreProcess:
-        if (namespaceRe.match(line).hasMatch())
+        if (
+            line.isEmpty()
+            || namespaceRe.match(line).hasMatch()
+            )
         {
-            block()->code().insert(Namespace::PREPROCESS_IN_HEADER_CODE_KEY,_preProcess);
-            _state = Namespaces;
+            block()->code().insert(codeKey(PreProcessHeadCodeKey),_preProcess);
+            _state = Namespace;
             return Status::Read;
         }
         else

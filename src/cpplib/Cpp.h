@@ -1,6 +1,7 @@
 #ifndef CPP_H
 #define CPP_H
 #include "Global.h"
+class QString;
 
 
 /*!
@@ -23,6 +24,16 @@ namespace Cpp
         ,ProtectedAccess
         ,PrivateAccess
         ,UserAccess
+    };
+
+
+    /*!
+     * This enumerates all possible code keys. See the code key function for
+     * further details.
+     */
+    enum CodeKey
+    {
+        PreProcessHeadCodeKey
     };
 
 
@@ -84,6 +95,23 @@ namespace Cpp
         ,Cpp_1 = 1
         ,Cpp_Current = Cpp_1
     };
+
+
+    /*!
+     * Getter for code keys. Code keys are used for storing and retrieving code
+     * lines to and from their respective C++ blocks used by parsers and
+     * builders, respectively.
+     *
+     * @param index
+     *        The index of the code key returned. This must be a valid code key
+     *        index.
+     *
+     * @return
+     * The code key.
+     */
+    const QString& codeKey(
+        int index
+    );
 }
 
 
