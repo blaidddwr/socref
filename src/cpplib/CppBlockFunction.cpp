@@ -17,6 +17,31 @@
 #define TYPE "type"
 namespace Cpp {
 namespace Block {
+bool Function::_iconsInitialized {false};
+const QIcon* Function::_abstractProtectedDestructorIcon {nullptr};
+const QIcon* Function::_abstractProtectedFunctionIcon {nullptr};
+const QIcon* Function::_abstractPublicDestructorIcon {nullptr};
+const QIcon* Function::_abstractPublicFunctionIcon {nullptr};
+const QIcon* Function::_invalidFunctionIcon {nullptr};
+const QIcon* Function::_privateConstructorIcon {nullptr};
+const QIcon* Function::_privateDestructorIcon {nullptr};
+const QIcon* Function::_privateFunctionIcon {nullptr};
+const QIcon* Function::_privateOperatorIcon {nullptr};
+const QIcon* Function::_protectedConstructorIcon {nullptr};
+const QIcon* Function::_protectedDestructorIcon {nullptr};
+const QIcon* Function::_protectedFunctionIcon {nullptr};
+const QIcon* Function::_protectedOperatorIcon {nullptr};
+const QIcon* Function::_publicConstructorIcon {nullptr};
+const QIcon* Function::_publicDestructorIcon {nullptr};
+const QIcon* Function::_publicFunctionIcon {nullptr};
+const QIcon* Function::_publicOperatorIcon {nullptr};
+const QIcon* Function::_staticPrivateFunctionIcon {nullptr};
+const QIcon* Function::_staticProtectedFunctionIcon {nullptr};
+const QIcon* Function::_staticPublicFunctionIcon {nullptr};
+const QIcon* Function::_virtualProtectedDestructorIcon {nullptr};
+const QIcon* Function::_virtualProtectedFunctionIcon {nullptr};
+const QIcon* Function::_virtualPublicDestructorIcon {nullptr};
+const QIcon* Function::_virtualPublicFunctionIcon {nullptr};
 
 
 Function::Function(
@@ -25,8 +50,9 @@ Function::Function(
 ):
     Base("function",meta,parent)
     ,_displayText("function() -> void")
-    ,_icon(iconPublic())
+    ,_icon(_publicFunctionIcon)
 {
+    Q_ASSERT(_iconsInitialized);
 }
 
 
@@ -53,9 +79,9 @@ const QList<QIcon>& Function::accessIcons(
 ) const
 {
     static const QList<QIcon> ret {
-        *iconPublic()
-        ,*iconProtected()
-            ,*iconPrivate()
+        *_publicFunctionIcon
+        ,*_protectedFunctionIcon
+        ,*_privateFunctionIcon
     };
     return ret;
 }
@@ -92,7 +118,7 @@ const QList<QIcon>& Function::assignmentIcons(
 {
     static const QList<QIcon> ret = {
         QIcon(":/cpp/none.svg")
-    ,QIcon(":/cpp/default.svg")
+        ,QIcon(":/cpp/default.svg")
         ,QIcon(":/cpp/deleted.svg")
         ,QIcon(":/cpp/abstract.svg")
     };
@@ -190,6 +216,40 @@ int Function::flags(
 ) const
 {
     return _flags;
+}
+
+
+void Function::initializeIcons(
+)
+{
+    if (!_iconsInitialized)
+    {
+        _abstractProtectedDestructorIcon = new QIcon(":/cpp/abstract_protected_destructor.svg");
+        _abstractProtectedFunctionIcon = new QIcon(":/cpp/abstract_protected_function.svg");
+        _abstractPublicDestructorIcon = new QIcon(":/cpp/abstract_public_destructor.svg");
+        _abstractPublicFunctionIcon = new QIcon(":/cpp/abstract_public_function.svg");
+        _invalidFunctionIcon = new QIcon(":/cpp/invalid_function.svg");
+        _privateConstructorIcon = new QIcon(":/cpp/private_constructor.svg");
+        _privateDestructorIcon = new QIcon(":/cpp/private_destructor.svg");
+        _privateFunctionIcon = new QIcon(":/cpp/private_function.svg");
+        _privateOperatorIcon = new QIcon(":/cpp/private_operator.svg");
+        _protectedConstructorIcon = new QIcon(":/cpp/protected_constructor.svg");
+        _protectedDestructorIcon = new QIcon(":/cpp/protected_destructor.svg");
+        _protectedFunctionIcon = new QIcon(":/cpp/protected_function.svg");
+        _protectedOperatorIcon = new QIcon(":/cpp/protected_operator.svg");
+        _publicConstructorIcon = new QIcon(":/cpp/public_constructor.svg");
+        _publicDestructorIcon = new QIcon(":/cpp/public_destructor.svg");
+        _publicFunctionIcon = new QIcon(":/cpp/public_function.svg");
+        _publicOperatorIcon = new QIcon(":/cpp/public_operator.svg");
+        _staticPrivateFunctionIcon = new QIcon(":/cpp/static_private_function.svg");
+        _staticProtectedFunctionIcon = new QIcon(":/cpp/static_protected_function.svg");
+        _staticPublicFunctionIcon = new QIcon(":/cpp/static_public_function.svg");
+        _virtualProtectedDestructorIcon = new QIcon(":/cpp/virtual_protected_destructor.svg");
+        _virtualProtectedFunctionIcon = new QIcon(":/cpp/virtual_protected_function.svg");
+        _virtualPublicDestructorIcon = new QIcon(":/cpp/virtual_public_destructor.svg");
+        _virtualPublicFunctionIcon = new QIcon(":/cpp/virtual_public_function.svg");
+        _iconsInitialized = true;
+    }
 }
 
 
@@ -525,7 +585,7 @@ const QList<QIcon>& Function::typeIcons(
 {
     static const QList<QIcon> ret = {
         QIcon(":/cpp/regular.svg")
-    ,QIcon(":/cpp/method.svg")
+        ,QIcon(":/cpp/method.svg")
         ,QIcon(":/cpp/constructor.svg")
         ,QIcon(":/cpp/destructor.svg")
         ,QIcon(":/cpp/operator.svg")
@@ -1006,13 +1066,13 @@ void Function::updateDisplayIcon(
         switch(_access)
         {
         case PublicAccess:
-            setDisplayIcon(iconPublic());
+            setDisplayIcon(_publicFunctionIcon);
             return;
         case ProtectedAccess:
-            setDisplayIcon(iconProtected());
+            setDisplayIcon(_protectedFunctionIcon);
             return;
         case PrivateAccess:
-            setDisplayIcon(iconPrivate());
+            setDisplayIcon(_privateFunctionIcon);
             return;
         }
         break;
@@ -1022,10 +1082,10 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconAbstractPublic());
+                setDisplayIcon(_abstractPublicFunctionIcon);
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconAbstractProtected());
+                setDisplayIcon(_abstractProtectedFunctionIcon);
                 return;
             }
         }
@@ -1034,10 +1094,10 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconVirtualPublic());
+                setDisplayIcon(_virtualPublicFunctionIcon);
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconVirtualProtected());
+                setDisplayIcon(_virtualProtectedFunctionIcon);
                 return;
             }
         }
@@ -1046,13 +1106,13 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconStaticPublic());
+                setDisplayIcon(_staticPublicFunctionIcon);
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconStaticProtected());
+                setDisplayIcon(_staticProtectedFunctionIcon);
                 return;
             case PrivateAccess:
-                setDisplayIcon(iconStaticPrivate());
+                setDisplayIcon(_staticPrivateFunctionIcon);
                 return;
             }
         }
@@ -1061,13 +1121,13 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconPublic());
+                setDisplayIcon(_publicFunctionIcon);
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconProtected());
+                setDisplayIcon(_protectedFunctionIcon);
                 return;
             case PrivateAccess:
-                setDisplayIcon(iconPrivate());
+                setDisplayIcon(_privateFunctionIcon);
                 return;
             }
         }
@@ -1076,13 +1136,13 @@ void Function::updateDisplayIcon(
         switch(_access)
         {
         case PublicAccess:
-            setDisplayIcon(iconOperatorPublic());
+            setDisplayIcon(_publicOperatorIcon);
             return;
         case ProtectedAccess:
-            setDisplayIcon(iconOperatorProtected());
+            setDisplayIcon(_protectedOperatorIcon);
             return;
         case PrivateAccess:
-            setDisplayIcon(iconOperatorPrivate());
+            setDisplayIcon(_privateOperatorIcon);
             return;
         }
         break;
@@ -1090,13 +1150,13 @@ void Function::updateDisplayIcon(
         switch(_access)
         {
         case PublicAccess:
-            setDisplayIcon(iconConstructorPublic());
+            setDisplayIcon(_publicConstructorIcon);
             return;
         case ProtectedAccess:
-            setDisplayIcon(iconConstructorProtected());
+            setDisplayIcon(_protectedConstructorIcon);
             return;
         case PrivateAccess:
-            setDisplayIcon(iconConstructorPrivate());
+            setDisplayIcon(_privateConstructorIcon);
             return;
         }
         break;
@@ -1106,10 +1166,10 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconAbstractDestructorPublic());
+                setDisplayIcon(_abstractPublicDestructorIcon);
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconAbstractDestructorProtected());
+                setDisplayIcon(_abstractProtectedDestructorIcon);
                 return;
             }
         }
@@ -1118,10 +1178,10 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconVirtualDestructorPublic());
+                setDisplayIcon(_virtualPublicDestructorIcon);
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconVirtualDestructorProtected());
+                setDisplayIcon(_virtualProtectedDestructorIcon);
                 return;
             }
         }
@@ -1130,19 +1190,19 @@ void Function::updateDisplayIcon(
             switch(_access)
             {
             case PublicAccess:
-                setDisplayIcon(iconDestructorPublic());
+                setDisplayIcon(_publicDestructorIcon);
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconDestructorProtected());
+                setDisplayIcon(_protectedDestructorIcon);
                 return;
             case PrivateAccess:
-                setDisplayIcon(iconDestructorPrivate());
+                setDisplayIcon(_privateDestructorIcon);
                 return;
             }
         }
         break;
     }
-    setDisplayIcon(iconInvalid());
+    setDisplayIcon(_invalidFunctionIcon);
 }
 
 
@@ -1385,198 +1445,6 @@ void Function::checkRegular(
     {
         throw LogicalBlock(tr("Functions cannot have flags beside 'No Exceptions'."));
     }
-}
-
-
-const QIcon* Function::iconAbstractDestructorProtected(
-)
-{
-    static const QIcon ret(":/cpp/abstract_protected_destructor.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconAbstractDestructorPublic(
-)
-{
-    static const QIcon ret(":/cpp/abstract_public_destructor.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconAbstractProtected(
-)
-{
-    static const QIcon ret(":/cpp/abstract_protected_function.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconAbstractPublic(
-)
-{
-    static const QIcon ret(":/cpp/abstract_public_function.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconConstructorPrivate(
-)
-{
-    static const QIcon ret(":/cpp/private_constructor.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconConstructorProtected(
-)
-{
-    static const QIcon ret(":/cpp/protected_constructor.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconConstructorPublic(
-)
-{
-    static const QIcon ret(":/cpp/public_constructor.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconDestructorPrivate(
-)
-{
-    static const QIcon ret(":/cpp/private_destructor.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconDestructorProtected(
-)
-{
-    static const QIcon ret(":/cpp/protected_destructor.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconDestructorPublic(
-)
-{
-    static const QIcon ret(":/cpp/public_destructor.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconInvalid(
-)
-{
-    static const QIcon ret(":/cpp/invalid_function.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconOperatorPrivate(
-)
-{
-    static const QIcon ret(":/cpp/private_operator.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconOperatorProtected(
-)
-{
-    static const QIcon ret(":/cpp/protected_operator.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconOperatorPublic(
-)
-{
-    static const QIcon ret(":/cpp/public_operator.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconPrivate(
-)
-{
-    static const QIcon ret(":/cpp/private_function.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconProtected(
-)
-{
-    static const QIcon ret(":/cpp/protected_function.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconPublic(
-)
-{
-    static const QIcon ret(":/cpp/public_function.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconStaticPrivate(
-)
-{
-    static const QIcon ret(":/cpp/static_private_function.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconStaticProtected(
-)
-{
-    static const QIcon ret(":/cpp/static_protected_function.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconStaticPublic(
-)
-{
-    static const QIcon ret(":/cpp/static_public_function.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconVirtualDestructorProtected(
-)
-{
-    static const QIcon ret(":/cpp/virtual_protected_destructor.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconVirtualDestructorPublic(
-)
-{
-    static const QIcon ret(":/cpp/virtual_public_destructor.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconVirtualProtected(
-)
-{
-    static const QIcon ret(":/cpp/virtual_protected_function.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconVirtualPublic(
-)
-{
-    static const QIcon ret(":/cpp/virtual_public_function.svg");
-    return &ret;
 }
 
 

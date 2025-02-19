@@ -18,6 +18,15 @@ class Function:
     public Cpp::Block::Function
 {
     Q_OBJECT
+    static bool _iconsInitialized;
+    static const QIcon* _abstractProtectedSlotIcon;
+    static const QIcon* _abstractPublicSlotIcon;
+    static const QIcon* _privateSlotIcon;
+    static const QIcon* _protectedSlotIcon;
+    static const QIcon* _publicSlotIcon;
+    static const QIcon* _signalIcon;
+    static const QIcon* _virtualProtectedSlotIcon;
+    static const QIcon* _virtualPublicSlotIcon;
 
 
     public:
@@ -30,6 +39,15 @@ class Function:
     public:
     virtual const QMap<int,QString>& flagLabelMap(
     ) const override final;
+
+
+    /*!
+     * Initializes the icons used for the display icon property. This must be
+     * called before creating any object of this class.
+     */
+    public:
+    static void initializeIcons(
+    );
 
 
     /*!
@@ -153,94 +171,6 @@ class Function:
     private:
     void checkSlot(
     ) const;
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The abstract protected slot icon.
-     */
-    private:
-    static const QIcon* iconAbstractSlotProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The abstract public slot icon.
-     */
-    private:
-    static const QIcon* iconAbstractSlotPublic(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The signal icon.
-     */
-    private:
-    static const QIcon* iconSignal(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The private slot icon.
-     */
-    private:
-    static const QIcon* iconSlotPrivate(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The protected slot icon.
-     */
-    private:
-    static const QIcon* iconSlotProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The public slot icon.
-     */
-    private:
-    static const QIcon* iconSlotPublic(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The virtual protected slot icon.
-     */
-    private:
-    static const QIcon* iconVirtualSlotProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The virtual public slot icon.
-     */
-    private:
-    static const QIcon* iconVirtualSlotPublic(
-    );
 };
 }
 }

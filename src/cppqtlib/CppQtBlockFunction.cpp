@@ -9,6 +9,15 @@ namespace Block {
 using namespace Cpp;
 using CppFunction = Cpp::Block::Function;
 using Property = Cpp::Block::Property;
+bool Function::_iconsInitialized {false};
+const QIcon* Function::_abstractProtectedSlotIcon {nullptr};
+const QIcon* Function::_abstractPublicSlotIcon {nullptr};
+const QIcon* Function::_privateSlotIcon {nullptr};
+const QIcon* Function::_protectedSlotIcon {nullptr};
+const QIcon* Function::_publicSlotIcon {nullptr};
+const QIcon* Function::_signalIcon {nullptr};
+const QIcon* Function::_virtualProtectedSlotIcon {nullptr};
+const QIcon* Function::_virtualPublicSlotIcon {nullptr};
 
 
 Function::Function(
@@ -17,6 +26,7 @@ Function::Function(
 ):
     CppFunction(meta,parent)
 {
+    Q_ASSERT(_iconsInitialized);
 }
 
 
@@ -30,6 +40,25 @@ const QMap<int,QString>& Function::flagLabelMap(
         ret->insert(QtInvokableFunctionFlag,"Qt Invokable");
     }
     return *ret;
+}
+
+
+void Function::initializeIcons(
+)
+{
+    if (!_iconsInitialized)
+    {
+        CppFunction::initializeIcons();
+        _abstractProtectedSlotIcon = new QIcon(":/cppqt/abstract_protected_slot.svg");
+        _abstractPublicSlotIcon = new QIcon(":/cppqt/abstract_public_slot.svg");
+        _privateSlotIcon = new QIcon(":/cppqt/private_slot.svg");
+        _protectedSlotIcon = new QIcon(":/cppqt/protected_slot.svg");
+        _publicSlotIcon = new QIcon(":/cppqt/public_slot.svg");
+        _signalIcon = new QIcon(":/cppqt/signal.svg");
+        _virtualProtectedSlotIcon = new QIcon(":/cppqt/virtual_protected_slot.svg");
+        _virtualPublicSlotIcon = new QIcon(":/cppqt/virtual_public_slot.svg");
+        _iconsInitialized = true;
+    }
 }
 
 
@@ -61,7 +90,7 @@ const QList<QIcon>& Function::typeIcons(
     if (!ret)
     {
         ret = new QList<QIcon>(CppFunction::typeIcons());
-        ret->append(*iconSignal());
+        ret->append(*_signalIcon);
         ret->append(QIcon(":/cppqt/slot.svg"));
     }
     return *ret;
@@ -237,7 +266,7 @@ void Function::updateDisplayIcon(
     switch (type())
     {
     case SignalFunctionType:
-        setDisplayIcon(iconSignal());
+        setDisplayIcon(_signalIcon);
         return;
     case SlotFunctionType:
         if (isAbstract())
@@ -245,10 +274,10 @@ void Function::updateDisplayIcon(
             switch (access())
             {
             case PublicAccess:
-                setDisplayIcon(iconAbstractSlotPublic());
+                setDisplayIcon(_abstractPublicSlotIcon);
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconAbstractSlotProtected());
+                setDisplayIcon(_abstractProtectedSlotIcon);
                 return;
             }
         }
@@ -257,10 +286,10 @@ void Function::updateDisplayIcon(
             switch (access())
             {
             case PublicAccess:
-                setDisplayIcon(iconVirtualSlotPublic());
+                setDisplayIcon(_virtualPublicSlotIcon);
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconVirtualSlotProtected());
+                setDisplayIcon(_virtualProtectedSlotIcon);
                 return;
             }
         }
@@ -269,13 +298,13 @@ void Function::updateDisplayIcon(
             switch (access())
             {
             case PublicAccess:
-                setDisplayIcon(iconSlotPublic());
+                setDisplayIcon(_publicSlotIcon);
                 return;
             case ProtectedAccess:
-                setDisplayIcon(iconSlotProtected());
+                setDisplayIcon(_protectedSlotIcon);
                 return;
             case PrivateAccess:
-                setDisplayIcon(iconSlotPrivate());
+                setDisplayIcon(_privateSlotIcon);
                 return;
             }
         }
@@ -384,70 +413,6 @@ void Function::checkSlot(
     {
         throw LogicalBlock(tr("Qt slots cannot be explicit."));
     }
-}
-
-
-const QIcon* Function::iconAbstractSlotProtected(
-)
-{
-    static const QIcon ret(":/cppqt/abstract_protected_slot.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconAbstractSlotPublic(
-)
-{
-    static const QIcon ret(":/cppqt/abstract_public_slot.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconSignal(
-)
-{
-    static const QIcon ret(":/cppqt/signal.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconSlotPrivate(
-)
-{
-    static const QIcon ret(":/cppqt/private_slot.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconSlotProtected(
-)
-{
-    static const QIcon ret(":/cppqt/protected_slot.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconSlotPublic(
-)
-{
-    static const QIcon ret(":/cppqt/public_slot.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconVirtualSlotProtected(
-)
-{
-    static const QIcon ret(":/cppqt/virtual_protected_slot.svg");
-    return &ret;
-}
-
-
-const QIcon* Function::iconVirtualSlotPublic(
-)
-{
-    static const QIcon ret(":/cppqt/virtual_public_slot.svg");
-    return &ret;
 }
 }
 }

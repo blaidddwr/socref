@@ -53,6 +53,31 @@ class Function:
     int _assignment {NoFunctionAssignment};
     int _flags {0};
     int _type {RegularFunctionType};
+    static bool _iconsInitialized;
+    static const QIcon* _abstractProtectedDestructorIcon;
+    static const QIcon* _abstractProtectedFunctionIcon;
+    static const QIcon* _abstractPublicDestructorIcon;
+    static const QIcon* _abstractPublicFunctionIcon;
+    static const QIcon* _invalidFunctionIcon;
+    static const QIcon* _privateConstructorIcon;
+    static const QIcon* _privateDestructorIcon;
+    static const QIcon* _privateFunctionIcon;
+    static const QIcon* _privateOperatorIcon;
+    static const QIcon* _protectedConstructorIcon;
+    static const QIcon* _protectedDestructorIcon;
+    static const QIcon* _protectedFunctionIcon;
+    static const QIcon* _protectedOperatorIcon;
+    static const QIcon* _publicConstructorIcon;
+    static const QIcon* _publicDestructorIcon;
+    static const QIcon* _publicFunctionIcon;
+    static const QIcon* _publicOperatorIcon;
+    static const QIcon* _staticPrivateFunctionIcon;
+    static const QIcon* _staticProtectedFunctionIcon;
+    static const QIcon* _staticPublicFunctionIcon;
+    static const QIcon* _virtualProtectedDestructorIcon;
+    static const QIcon* _virtualProtectedFunctionIcon;
+    static const QIcon* _virtualPublicDestructorIcon;
+    static const QIcon* _virtualPublicFunctionIcon;
 
 
     public:
@@ -295,6 +320,15 @@ class Function:
     public:
     int flags(
     ) const;
+
+
+    /*!
+     * Initializes the icons used for the display icon property. This must be
+     * called before creating any object of this class.
+     */
+    public:
+    static void initializeIcons(
+    );
 
 
     /*!
@@ -1013,270 +1047,6 @@ class Function:
     private:
     void checkRegular(
     ) const;
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The abstract protected destructor icon.
-     */
-    private:
-    static const QIcon* iconAbstractDestructorProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The abstract public destructor icon.
-     */
-    private:
-    static const QIcon* iconAbstractDestructorPublic(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The abstract protected function icon.
-     */
-    private:
-    static const QIcon* iconAbstractProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The abstract public function icon.
-     */
-    private:
-    static const QIcon* iconAbstractPublic(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The private constructor icon.
-     */
-    private:
-    static const QIcon* iconConstructorPrivate(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The protected constructor icon.
-     */
-    private:
-    static const QIcon* iconConstructorProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The public constructor icon.
-     */
-    private:
-    static const QIcon* iconConstructorPublic(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The private destructor icon.
-     */
-    private:
-    static const QIcon* iconDestructorPrivate(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The protected destructor icon.
-     */
-    private:
-    static const QIcon* iconDestructorProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The public destructor icon.
-     */
-    private:
-    static const QIcon* iconDestructorPublic(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The invalid function icon.
-     */
-    private:
-    static const QIcon* iconInvalid(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The private operator icon.
-     */
-    private:
-    static const QIcon* iconOperatorPrivate(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The protected operator icon.
-     */
-    private:
-    static const QIcon* iconOperatorProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The public operator icon.
-     */
-    private:
-    static const QIcon* iconOperatorPublic(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The private function icon.
-     */
-    private:
-    static const QIcon* iconPrivate(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The protected function icon.
-     */
-    private:
-    static const QIcon* iconProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The public function icon.
-     */
-    private:
-    static const QIcon* iconPublic(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The static private function icon.
-     */
-    private:
-    static const QIcon* iconStaticPrivate(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The static protected function icon.
-     */
-    private:
-    static const QIcon* iconStaticProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The static public function icon.
-     */
-    private:
-    static const QIcon* iconStaticPublic(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The virtual protected destructor icon.
-     */
-    private:
-    static const QIcon* iconVirtualDestructorProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The virtual public destructor icon.
-     */
-    private:
-    static const QIcon* iconVirtualDestructorPublic(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The virtual protected function icon.
-     */
-    private:
-    static const QIcon* iconVirtualProtected(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The virtual public function icon.
-     */
-    private:
-    static const QIcon* iconVirtualPublic(
-    );
 
 
     /*!

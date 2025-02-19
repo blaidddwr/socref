@@ -4,6 +4,10 @@
 #include "CppBlockWidgetPropertyEdit.h"
 namespace Cpp {
 namespace Block {
+bool Property::_iconsInitialized {false};
+const QIcon* Property::_abstractIcon {nullptr};
+const QIcon* Property::_regularIcon {nullptr};
+const QIcon* Property::_virtualIcon {nullptr};
 
 
 Property::Property(
@@ -11,8 +15,9 @@ Property::Property(
     ,QObject* parent
 ):
     Base("property",meta,parent)
-    ,_icon(icon())
+    ,_icon(_regularIcon)
 {
+    Q_ASSERT(_iconsInitialized);
 }
 
 
@@ -40,6 +45,19 @@ QIcon Property::displayIcon(
 {
     Q_ASSERT(_icon);
     return *_icon;
+}
+
+
+void Property::initializeIcons(
+)
+{
+    if (!_iconsInitialized)
+    {
+        _abstractIcon = new QIcon(":/cpp/abstract_property.svg");
+        _regularIcon = new QIcon(":/cpp/property.svg");
+        _virtualIcon = new QIcon(":/cpp/virtual_property.svg");
+        _iconsInitialized = true;
+    }
 }
 
 
@@ -90,16 +108,16 @@ void Property::updateDisplayIcon(
 {
     if (isAbstract())
     {
-        setDisplayIcon(iconAbstract());
+        setDisplayIcon(_abstractIcon);
 
     }
     else if (isVirtual())
     {
-        setDisplayIcon(iconVirtual());
+        setDisplayIcon(_virtualIcon);
     }
     else
     {
-        setDisplayIcon(icon());
+        setDisplayIcon(_regularIcon);
     }
     if (auto p = qobject_cast<Property*>(parent()))
     {
@@ -160,30 +178,6 @@ void Property::setDisplayIcon(
     Q_ASSERT(pointer);
     _icon = pointer;
     emit displayIconChanged(*_icon);
-}
-
-
-const QIcon* Property::icon(
-)
-{
-    static const QIcon ret(":/cpp/property.svg");
-    return &ret;
-}
-
-
-const QIcon* Property::iconAbstract(
-)
-{
-    static const QIcon ret(":/cpp/abstract_property.svg");
-    return &ret;
-}
-
-
-const QIcon* Property::iconVirtual(
-)
-{
-    static const QIcon ret(":/cpp/virtual_property.svg");
-    return &ret;
 }
 }
 }

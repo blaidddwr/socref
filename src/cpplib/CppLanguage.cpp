@@ -24,6 +24,9 @@ Language::Language(
     AbstractLanguage(new Model::Meta::Language("cpp","C++",QIcon(":/cpp.svg")))
     ,_router(new Router(this))
 {
+    Class::initializeIcons();
+    Function::initializeIcons();
+    Property::initializeIcons();
     appendBlocks(
         {
             new Model::Meta::Block(

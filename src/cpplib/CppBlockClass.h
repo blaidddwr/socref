@@ -20,6 +20,10 @@ class Class:
     Q_OBJECT
     QStringList _parents;
     QStringList _templates;
+    static bool _iconsInitialized;
+    static const QIcon* _abstractIcon;
+    static const QIcon* _regularIcon;
+    static const QIcon* _virtualIcon;
 
 
     /*!
@@ -61,6 +65,15 @@ class Class:
     public:
     virtual QString displayText(
     ) const override final;
+
+
+    /*!
+     * Initializes the icons used for the display icon property. This must be
+     * called before creating any object of this class.
+     */
+    public:
+    static void initializeIcons(
+    );
 
 
     public:
@@ -144,39 +157,6 @@ class Class:
     virtual AbstractBlock* create(
         QObject* parent = nullptr
     ) const override final;
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The class icon.
-     */
-    private:
-    static const QIcon* icon(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The abstract class icon.
-     */
-    private:
-    static const QIcon* iconAbstract(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The virtual class icon.
-     */
-    private:
-    static const QIcon* iconVirtual(
-    );
 };
 }
 }

@@ -30,6 +30,9 @@ Language::Language(
 ):
     AbstractLanguage(new Model::Meta::Language("cppqt","C++/Qt",QIcon(":/cppqt.svg")))
 {
+    Class::initializeIcons();
+    Function::initializeIcons();
+    Property::initializeIcons();
     appendBlocks(
         {
             new Model::Meta::Block(

@@ -6,14 +6,19 @@
 #define TEMPLATES "templates"
 namespace Cpp {
 namespace Block {
+bool Class::_iconsInitialized {false};
+const QIcon* Class::_abstractIcon {nullptr};
+const QIcon* Class::_regularIcon {nullptr};
+const QIcon* Class::_virtualIcon {nullptr};
 
 
 Class::Class(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Property("class",icon(),meta,parent)
+    Property("class",_regularIcon,meta,parent)
 {
+    Q_ASSERT(_iconsInitialized);
 }
 
 
@@ -37,6 +42,19 @@ QString Class::displayText(
         ret += " -> template<"+_templates.join(",")+">";
     }
     return ret;
+}
+
+
+void Class::initializeIcons(
+)
+{
+    if (!_iconsInitialized)
+    {
+        _abstractIcon = new QIcon(":/cpp/abstract_class.svg");
+        _regularIcon = new QIcon(":/cpp/class.svg");
+        _virtualIcon = new QIcon(":/cpp/virtual_class.svg");
+        _iconsInitialized = true;
+    }
 }
 
 
@@ -146,16 +164,16 @@ void Class::updateDisplayIcon(
 {
     if (isAbstract())
     {
-        setDisplayIcon(iconAbstract());
+        setDisplayIcon(_abstractIcon);
 
     }
     else if (isVirtual())
     {
-        setDisplayIcon(iconVirtual());
+        setDisplayIcon(_virtualIcon);
     }
     else
     {
-        setDisplayIcon(icon());
+        setDisplayIcon(_regularIcon);
     }
 }
 
@@ -165,30 +183,6 @@ AbstractBlock* Class::create(
 ) const
 {
     return new Class(meta(),parent);
-}
-
-
-const QIcon* Class::icon(
-)
-{
-    static const QIcon ret(":/cpp/class.svg");
-    return &ret;
-}
-
-
-const QIcon* Class::iconAbstract(
-)
-{
-    static const QIcon ret(":/cpp/abstract_class.svg");
-    return &ret;
-}
-
-
-const QIcon* Class::iconVirtual(
-)
-{
-    static const QIcon ret(":/cpp/virtual_class.svg");
-    return &ret;
 }
 }
 }

@@ -22,6 +22,10 @@ class Property:
 {
     Q_OBJECT
     const QIcon* _icon {nullptr};
+    static bool _iconsInitialized;
+    static const QIcon* _abstractIcon;
+    static const QIcon* _regularIcon;
+    static const QIcon* _virtualIcon;
 
 
     public:
@@ -44,6 +48,15 @@ class Property:
     public:
     virtual QIcon displayIcon(
     ) const override final;
+
+
+    /*!
+     * Initializes the icons used for the display icon property. This must be
+     * called before creating any object of this class.
+     */
+    public:
+    static void initializeIcons(
+    );
 
 
     /*!
@@ -130,39 +143,6 @@ class Property:
     protected:
     void setDisplayIcon(
         const QIcon* pointer
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The property icon.
-     */
-    private:
-    static const QIcon* icon(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The abstract property icon.
-     */
-    private:
-    static const QIcon* iconAbstract(
-    );
-
-
-    /*!
-     * Getter method.
-     *
-     * @return
-     * The virtual property icon.
-     */
-    private:
-    static const QIcon* iconVirtual(
     );
 };
 }
