@@ -115,7 +115,15 @@ class AbstractParser:
 
 
     /*!
-     * Setter for block property.
+     * Resets this parser object, allowing it to parse new source code lines.
+     */
+    public:
+    virtual void reset(
+    ) = 0;
+
+
+    /*!
+     * Setter for the block property.
      * 
      * If this method is overridden then the overridden method must call this
      * method in order to properly set the property.
@@ -127,7 +135,7 @@ class AbstractParser:
 
 
     /*!
-     * Setter for version property.
+     * Setter for the version property.
      * 
      * If this method is overridden then the overridden method must call this
      * method in order to properly set the property.
@@ -139,7 +147,7 @@ class AbstractParser:
 
 
     /*!
-     * Getter for version property.
+     * Getter for the version property.
      */
     public:
     int version(
@@ -147,10 +155,10 @@ class AbstractParser:
 
 
     /*!
-     * Adds a new child parser to this method's parser.
+     * Adds a parser object to this parser object as its child.
      *
      * @param child
-     *        The child parser added. This method's parser takes ownership of
+     *        The parser object added. This method's parser takes ownership of
      *        the given child.
      */
     protected:
@@ -160,7 +168,7 @@ class AbstractParser:
 
 
     /*!
-     * Getter for block property.
+     * Getter for the block property.
      */
     protected:
     AbstractBlock* block(

@@ -1453,12 +1453,29 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                 </Variable>
             </Function>
             <Function>
+                <__p_abstract>1</__p_abstract>
+                <__p_access>Public</__p_access>
+                <__p_const>0</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Resets this parser object, allowing it to parse new source code lines.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>reset</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnType>void</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>1</__p_virtual>
+            </Function>
+            <Function>
                 <__p_abstract>0</__p_abstract>
                 <__p_access>Public</__p_access>
                 <__p_const>0</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Setter for block property.
+                <__p_description>Setter for the block property.
 
 If this method is overridden then the overridden method must call this method in order to properly set the property.</__p_description>
                 <__p_explicit>0</__p_explicit>
@@ -1481,7 +1498,7 @@ If this method is overridden then the overridden method must call this method in
                 <__p_const>0</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Setter for version property.
+                <__p_description>Setter for the version property.
 
 If this method is overridden then the overridden method must call this method in order to properly set the property.</__p_description>
                 <__p_explicit>0</__p_explicit>
@@ -1504,7 +1521,7 @@ If this method is overridden then the overridden method must call this method in
                 <__p_const>1</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Getter for version property.</__p_description>
+                <__p_description>Getter for the version property.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
@@ -1521,7 +1538,7 @@ If this method is overridden then the overridden method must call this method in
                 <__p_const>0</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Adds a new child parser to this method's parser.</__p_description>
+                <__p_description>Adds a parser object to this parser object as its child.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
@@ -1532,7 +1549,7 @@ If this method is overridden then the overridden method must call this method in
                 <__p_static>0</__p_static>
                 <__p_virtual>0</__p_virtual>
                 <Variable>
-                    <__p_description>The child parser added. This method's parser takes ownership of the given child.</__p_description>
+                    <__p_description>The parser object added. This method's parser takes ownership of the given child.</__p_description>
                     <__p_name>child</__p_name>
                     <__p_type>AbstractParser*</__p_type>
                 </Variable>
@@ -1543,7 +1560,7 @@ If this method is overridden then the overridden method must call this method in
                 <__p_const>1</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Getter for block property.</__p_description>
+                <__p_description>Getter for the block property.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>

@@ -16,7 +16,20 @@ class HeadParser:
 {
     Q_OBJECT
     QStringList _preProcess;
-    int _state {0};
+
+
+    /*!
+     * Detailed description.
+     */
+    public:
+    enum class State
+    {
+        Body
+        ,Guard
+        ,Namespace
+        ,PreProcess
+    };
+    State _state {State::Guard};
 
 
     public:
@@ -29,6 +42,11 @@ class HeadParser:
     virtual Status parse(
         const QStringList& lines
         ,int where
+    ) override final;
+
+
+    public:
+    virtual void reset(
     ) override final;
 
 

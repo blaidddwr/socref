@@ -38,6 +38,14 @@ Status HeadParser::parse(
 }
 
 
+void HeadParser::reset(
+)
+{
+    _preProcess.clear();
+    _state = State::Guard;
+}
+
+
 void HeadParser::setBlock(
     AbstractBlock* object
 )
@@ -65,39 +73,38 @@ Status HeadParser::parseLegacy(
     ,int where
 )
 {
-    enum State
-    {
-        Body
-        ,Namespace
-        ,PreProcess
-        ,Guard
-    };
     const static QRegularExpression guardRe("^#define [A-Z_]+_H$");
     const static QRegularExpression namespaceRe("^namespace [a-zA-Z_]\\w* {$");//}TODO:bug
     const auto& line = lines.at(where);
     switch (_state)
     {
-    case Body:
+    case State::Body:
         return Status::DelegateToChildren;
-    case Namespace:
+    case State::Guard:
+        if (guardRe.match(line).hasMatch())
+        {
+            _state = State::PreProcess;
+        }
+        return Status::Read;
+    case State::Namespace:
         if (!namespaceRe.match(line).hasMatch())
         {
             //TODO: add class child IF AND ONLY IF this parser's block is a class
-            _state = Body;
+            _state = State::Body;
             return Status::DelegateToChildren;
         }
         else
         {
             return Status::Read;
         }
-    case PreProcess:
+    case State::PreProcess:
         if (
             line.isEmpty()
             || namespaceRe.match(line).hasMatch()
             )
         {
             block()->code().insert(codeKey(PreProcessHeadCodeKey),_preProcess);
-            _state = Namespace;
+            _state = State::Namespace;
             return Status::Read;
         }
         else
@@ -105,12 +112,6 @@ Status HeadParser::parseLegacy(
             _preProcess.append(line);
             return Status::Read;
         }
-    case Guard:
-        if (guardRe.match(line).hasMatch())
-        {
-            _state = PreProcess;
-        }
-        return Status::Read;
     default:
         throw std::logic_error("unknown state");
     }
