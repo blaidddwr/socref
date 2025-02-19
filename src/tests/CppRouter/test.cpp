@@ -61,11 +61,11 @@ void TestCppRouter::routes1()
     QCOMPARE(routes.at(0).path,"Global.h");
     QCOMPARE(routes.at(0).block,root.get());
     QCOMPARE(routes.at(0).parseIndex,HeadParserIndex);
-    QCOMPARE(routes.at(0).builderIndex,-1);//TODO
+    QCOMPARE(routes.at(0).buildIndex,-1);//TODO
     QCOMPARE(routes.at(1).path,"Test.h");
     QCOMPARE(routes.at(1).block,cb);
     QCOMPARE(routes.at(1).parseIndex,HeadParserIndex);
-    QCOMPARE(routes.at(1).builderIndex,-1);//TODO
+    QCOMPARE(routes.at(1).buildIndex,-1);//TODO
 }
 
 void TestCppRouter::routes2()
@@ -90,15 +90,15 @@ void TestCppRouter::routes2()
     QCOMPARE(routes.at(0).path,"TestClass.cpp");
     QCOMPARE(routes.at(0).block,cb);
     QCOMPARE(routes.at(0).parseIndex,-1);//TODO
-    QCOMPARE(routes.at(0).builderIndex,-1);//TODO
+    QCOMPARE(routes.at(0).buildIndex,-1);//TODO
     QCOMPARE(routes.at(1).path,"TestClass.h");
     QCOMPARE(routes.at(1).block,cb);
     QCOMPARE(routes.at(1).parseIndex,HeadParserIndex);
-    QCOMPARE(routes.at(1).builderIndex,-1);//TODO
+    QCOMPARE(routes.at(1).buildIndex,-1);//TODO
     QCOMPARE(routes.at(2).path,"TestNamespace.h");
     QCOMPARE(routes.at(2).block,nb);
     QCOMPARE(routes.at(2).parseIndex,HeadParserIndex);
-    QCOMPARE(routes.at(2).builderIndex,-1);//TODO
+    QCOMPARE(routes.at(2).buildIndex,-1);//TODO
 }
 
 void TestCppRouter::routes3()
@@ -124,19 +124,19 @@ void TestCppRouter::routes3()
     QCOMPARE(routes.at(0).path,"Global.cpp");
     QCOMPARE(routes.at(0).block,root.get());
     QCOMPARE(routes.at(0).parseIndex,-1);//TODO
-    QCOMPARE(routes.at(0).builderIndex,-1);//TODO
+    QCOMPARE(routes.at(0).buildIndex,-1);//TODO
     QCOMPARE(routes.at(1).path,"Global.h");
     QCOMPARE(routes.at(1).block,root.get());
     QCOMPARE(routes.at(1).parseIndex,HeadParserIndex);
-    QCOMPARE(routes.at(1).builderIndex,-1);//TODO
+    QCOMPARE(routes.at(1).buildIndex,-1);//TODO
     QCOMPARE(routes.at(2).path,"Test.cpp");
     QCOMPARE(routes.at(2).block,nb2);
     QCOMPARE(routes.at(2).parseIndex,-1);//TODO
-    QCOMPARE(routes.at(2).builderIndex,-1);//TODO
+    QCOMPARE(routes.at(2).buildIndex,-1);//TODO
     QCOMPARE(routes.at(3).path,"Test.h");
     QCOMPARE(routes.at(3).block,nb2);
     QCOMPARE(routes.at(3).parseIndex,HeadParserIndex);
-    QCOMPARE(routes.at(3).builderIndex,-1);//TODO
+    QCOMPARE(routes.at(3).buildIndex,-1);//TODO
 }
 
 void TestCppRouter::cleanupTestCase()
