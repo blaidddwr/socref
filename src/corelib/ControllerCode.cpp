@@ -69,13 +69,18 @@ void Code::parse(
     parser->setBlock(route.block);
     if (!lines.isEmpty())
     {
+        int where = 0;
         int version = CODE_LEGACY;
         auto match = versionRe.match(lines.first());
-        bool ok;
-        version = match.captured(1).toInt(&ok);
-        Q_ASSERT(ok);
+        if (match.hasMatch())
+        {
+            bool ok;
+            version = match.captured(1).toInt(&ok);
+            Q_ASSERT(ok);
+            where++;
+        }
         parser->setVersion(version);
-        parse(parser.get(),lines,1);
+        parse(parser.get(),lines,where);
     }
 }
 
