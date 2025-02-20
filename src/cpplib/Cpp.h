@@ -34,6 +34,8 @@ namespace Cpp
     enum CodeKey
     {
         PreProcessHeadCodeKey
+        ,PreProcessSourceCodeKey
+        ,HeaderSourceCodeKey
     };
 
 

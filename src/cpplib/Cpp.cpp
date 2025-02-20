@@ -10,6 +10,8 @@ const QString& codeKey(
     static const QStringList keys
     {
         "preProcessHead"
+        ,"preProcessSource"
+        ,"headerSource"
     };
     Q_ASSERT(index >= 0);
     Q_ASSERT(index < keys.size());

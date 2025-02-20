@@ -54,7 +54,7 @@ void Router::addRoutes(
         _routes.append({newScope+".h",block,HeadParserIndex,-1});//TODO
         if (hasSource(cb))
         {
-            _routes.append({newScope+".cpp",block,-1,-1});//TODO
+            _routes.append({newScope+".cpp",block,SourceParserIndex,-1});//TODO
         }
         break;
     }
@@ -78,7 +78,7 @@ void Router::addRoutes(
         }
         if (hasSource(nb))
         {
-            _routes.append({newScope+rootName+".cpp",block,-1,-1});//TODO
+            _routes.append({newScope+rootName+".cpp",block,SourceParserIndex,-1});//TODO
         }
         for (int i = 0;i < block->size();i++)
         {

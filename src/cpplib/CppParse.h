@@ -8,7 +8,9 @@ namespace Cpp {
  */
 namespace Parse
 {
+    class BaseParser;
     class HeadParser;
+    class SourceParser;
 
 
     /*!
@@ -17,6 +19,7 @@ namespace Parse
     enum Index
     {
         HeadParserIndex
+        ,SourceParserIndex
     };
 }
 }

@@ -10,6 +10,7 @@
 #include "CppBlockVariable.h"
 #include "CppParse.h"
 #include "CppParseHeadParser.h"
+#include "CppParseSourceParser.h"
 #include "CppQtBlock.h"
 #include "CppQtBlockFunction.h"
 #include "ModelMetaBlock.h"
@@ -187,6 +188,8 @@ AbstractParser* Language::createParser(
     {
     case HeadParserIndex:
         return new HeadParser;
+    case SourceParserIndex:
+        return new SourceParser;
     default:
         throw std::logic_error("unknown parser index.");
     }
