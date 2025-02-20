@@ -1,6 +1,5 @@
 #include "CppParseHeadParser.h"
 #include <QtCore>
-#include "AbstractBlock.h"
 #include "Cpp.h"
 #include "CppBlock.h"
 #include "CppBlockNamespace.h"
@@ -15,7 +14,7 @@ using Status = AbstractParser::Status;
 HeadParser::HeadParser(
     AbstractParser* parent
 ):
-    AbstractParser(parent)
+    BaseParser(parent)
 {
 }
 
@@ -79,7 +78,7 @@ Status HeadParser::parseLegacy(
     switch (_state)
     {
     case State::Body:
-        return Status::DelegateToChildren;
+        return line.isEmpty() ? Status::Read : Status::DelegateToChildren;
     case State::Guard:
         if (guardRe.match(line).hasMatch())
         {
@@ -87,11 +86,12 @@ Status HeadParser::parseLegacy(
         }
         return Status::Read;
     case State::Namespace:
-        if (!namespaceRe.match(line).hasMatch())
+        if (line.isEmpty())
         {
-            //TODO: add class child IF AND ONLY IF this parser's block is a class
+            //TODO: add class parser child
+            //TODO: add union parser child IF this parser's block is a namespace
             _state = State::Body;
-            return Status::DelegateToChildren;
+            return Status::Read;
         }
         else
         {
@@ -103,8 +103,8 @@ Status HeadParser::parseLegacy(
             || namespaceRe.match(line).hasMatch()
             )
         {
-            block()->code().insert(codeKey(PreProcessHeadCodeKey),_preProcess);
-            _state = State::Namespace;
+            insertCode(PreProcessHeadCodeKey,_preProcess);
+            _state = line.isEmpty() ? State::Body : State::Namespace;
             return Status::Read;
         }
         else

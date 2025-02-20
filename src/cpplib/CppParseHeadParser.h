@@ -1,6 +1,6 @@
 #ifndef CPP_PARSE_HEADPARSER_H
 #define CPP_PARSE_HEADPARSER_H
-#include "AbstractParser.h"
+#include "CppParseBaseParser.h"
 namespace Cpp {
 namespace Parse {
 
@@ -8,18 +8,17 @@ namespace Parse {
 
 
 /*!
- * This is a C++ parse code controller. It is a root parser responsible for
- * parsing a C++ header file.
+ * This parses the source code of a C++ header file.
  */
 class HeadParser:
-    public AbstractParser
+    public BaseParser
 {
     Q_OBJECT
     QStringList _preProcess;
 
 
     /*!
-     * Detailed description.
+     * This enumerates all possible states.
      */
     public:
     enum class State
@@ -29,6 +28,7 @@ class HeadParser:
         ,Namespace
         ,PreProcess
     };
+    private:
     State _state {State::Guard};
 
 

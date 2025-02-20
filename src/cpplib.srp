@@ -4987,12 +4987,12 @@ The given function flag must be valid.</__p_description>
                     </Function>
                 </Class>
                 <Class>
-                    <__p_description>This is a C++ parse code controller. It is a root parser responsible for parsing a C++ header file.</__p_description>
+                    <__p_description>This parses the source code of a C++ header file.</__p_description>
                     <__p_name>HeadParser</__p_name>
-                    <__p_parents>public AbstractParser</__p_parents>
+                    <__p_parents>public BaseParser</__p_parents>
                     <Enumeration>
                         <__p_class>1</__p_class>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>This enumerates all possible states.</__p_description>
                         <__p_name>State</__p_name>
                     </Enumeration>
                     <Function>
