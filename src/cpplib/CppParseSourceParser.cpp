@@ -82,7 +82,10 @@ Status SourceParser::parseLegacy(
     case State::Header:
         if (line.isEmpty())
         {
-            insertCode(HeaderSourceCodeKey,_header);
+            if (!_header.isEmpty())
+            {
+                insertCode(HeaderSourceCodeKey,_header);
+            }
             //TODO: add function parser child
             _state = State::Body;
             return Status::Read;
@@ -119,7 +122,10 @@ Status SourceParser::parseLegacy(
             || namespaceRe.match(line).hasMatch()
             )
         {
-            insertCode(PreProcessSourceCodeKey,_preProcess);
+            if (!_preProcess.isEmpty())
+            {
+                insertCode(PreProcessSourceCodeKey,_preProcess);
+            }
             _state = State::Namespace;
             return Status::Read;
         }

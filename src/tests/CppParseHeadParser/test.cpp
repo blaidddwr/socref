@@ -16,6 +16,8 @@ private slots:
     void initTestCase();
     void parseLegacy1();
     void parseLegacy2();
+    void parseLegacy3();
+    void parseLegacy4();
     void cleanupTestCase();
 };
 
@@ -30,6 +32,57 @@ void TestCppParseHeadParser::initTestCase()
 }
 
 void TestCppParseHeadParser::parseLegacy1()
+{
+    using Status = AbstractParser::Status;
+    static const QStringList lines
+        {
+            "#ifndef TEST_H"
+            ,"#define TEST_H"
+            ,""
+            ,"#endif"
+            ,""
+        };
+    std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
+    _parser->setVersion(Cpp_Legacy);
+    _parser->setBlock(root.get());
+    int where = 0;
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(root->code().size(),0);
+}
+
+void TestCppParseHeadParser::parseLegacy2()
+{
+    using Status = AbstractParser::Status;
+    static const QStringList lines
+        {
+            "#ifndef TEST_H"
+            ,"#define TEST_H"
+            ,"namespace Dummy {"
+            ,""
+            ,"}"
+            ,"#endif"
+            ,""
+        };
+    std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
+    _parser->setVersion(Cpp_Legacy);
+    _parser->setBlock(root.get());
+    _parser->reset();
+    int where = 0;
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
+    QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(root->code().size(),0);
+}
+
+void TestCppParseHeadParser::parseLegacy3()
 {
     using Status = AbstractParser::Status;
     static const QStringList lines
@@ -52,6 +105,7 @@ void TestCppParseHeadParser::parseLegacy1()
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     _parser->setVersion(Cpp_Legacy);
     _parser->setBlock(root.get());
+    _parser->reset();
     int where = 0;
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
@@ -66,7 +120,7 @@ void TestCppParseHeadParser::parseLegacy1()
     QCOMPARE(root->code().value(codeKey(PreProcessHeadCodeKey)),testPreProcess);
 }
 
-void TestCppParseHeadParser::parseLegacy2()
+void TestCppParseHeadParser::parseLegacy4()
 {
     using Status = AbstractParser::Status;
     static const QStringList lines

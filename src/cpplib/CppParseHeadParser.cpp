@@ -103,7 +103,10 @@ Status HeadParser::parseLegacy(
             || namespaceRe.match(line).hasMatch()
             )
         {
-            insertCode(PreProcessHeadCodeKey,_preProcess);
+            if (!_preProcess.isEmpty())
+            {
+                insertCode(PreProcessHeadCodeKey,_preProcess);
+            }
             _state = line.isEmpty() ? State::Body : State::Namespace;
             return Status::Read;
         }

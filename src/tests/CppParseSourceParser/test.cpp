@@ -16,6 +16,8 @@ private slots:
     void initTestCase();
     void parseLegacy1();
     void parseLegacy2();
+    void parseLegacy3();
+    void parseLegacy4();
     void cleanupTestCase();
 };
 
@@ -30,6 +32,49 @@ void TestCppParseSourceParser::initTestCase()
 }
 
 void TestCppParseSourceParser::parseLegacy1()
+{
+    using Status = AbstractParser::Status;
+    static const QStringList lines
+        {
+            "#include \"test.h\""
+            ,""
+            ,""
+        };
+    std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
+    _parser->setVersion(Cpp_Legacy);
+    _parser->setBlock(root.get());
+    int where = 0;
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(root->code().size(),0);
+}
+
+void TestCppParseSourceParser::parseLegacy2()
+{
+    using Status = AbstractParser::Status;
+    static const QStringList lines
+        {
+            "#include \"test.h\""
+            ,"namespace Dummy {"
+            ,""
+            ,"}"
+            ,""
+        };
+    std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
+    _parser->setVersion(Cpp_Legacy);
+    _parser->setBlock(root.get());
+    _parser->reset();
+    int where = 0;
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
+    QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(root->code().size(),0);
+}
+
+void TestCppParseSourceParser::parseLegacy3()
 {
     using Status = AbstractParser::Status;
     static const QStringList lines
@@ -50,6 +95,7 @@ void TestCppParseSourceParser::parseLegacy1()
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     _parser->setVersion(Cpp_Legacy);
     _parser->setBlock(root.get());
+    _parser->reset();
     int where = 0;
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
@@ -62,7 +108,7 @@ void TestCppParseSourceParser::parseLegacy1()
     QCOMPARE(root->code().value(codeKey(PreProcessSourceCodeKey)),testPreProcess);
 }
 
-void TestCppParseSourceParser::parseLegacy2()
+void TestCppParseSourceParser::parseLegacy4()
 {
     using Status = AbstractParser::Status;
     static const QStringList lines
@@ -71,7 +117,7 @@ void TestCppParseSourceParser::parseLegacy2()
             ,"#include <one>"
             ,"#include \"two.h\""
             ,"#define THREE 0"
-            ,"namespace test {"
+            ,"namespace Dummy {"
             ,"using header1;"
             ,"using ok = header2:ok;"
             ,""
