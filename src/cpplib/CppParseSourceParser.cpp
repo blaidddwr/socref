@@ -74,6 +74,10 @@ Status SourceParser::parseLegacy(
 )
 {
     const static QRegularExpression namespaceRe("^namespace [a-zA-Z_]\\w* {$");//}TODO:bug
+    if (where == EOL)
+    {
+        return _state == State::Body ? Status::DoneWithRead : Status::DoneWithoutRead;
+    }
     auto line = lines.at(where);
     switch (_state)
     {

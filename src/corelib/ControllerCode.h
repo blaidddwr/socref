@@ -27,7 +27,8 @@ class Code:
 {
     Q_OBJECT
     Model::Project* _project;
-    QString _error;
+    QString _path;
+    QStringList _lines;
     QList<Shape::Route> _routes;
 
 
@@ -115,15 +116,12 @@ class Code:
 
 
     /*!
-     * Recursively parses the given lines of code with the given parser. This
-     * handles all delegate to children returns by a parser by recursively
-     * calling itself again with the child parser as the given parser.
+     * Recursively parses this object's lines of code with the given parser.
+     * This handles all "delegate to children" returns by recursively calling
+     * itself again using the child parsers.
      *
      * @param parser
      *        The parser. This must be a valid parser.
-     *
-     * @param lines
-     *        The lines of code.
      *
      * @param where
      *        The next line of code that requires parsing.
@@ -133,9 +131,8 @@ class Code:
      * finished.
      */
     private:
-    static int parse(
+    int parse(
         AbstractParser* parser
-        ,const QStringList& lines
         ,int where
     );
 };

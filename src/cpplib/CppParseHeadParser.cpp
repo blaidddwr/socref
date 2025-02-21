@@ -74,6 +74,10 @@ Status HeadParser::parseLegacy(
 {
     const static QRegularExpression guardRe("^#define [A-Z_]+_H$");
     const static QRegularExpression namespaceRe("^namespace [a-zA-Z_]\\w* {$");//}TODO:bug
+    if (where == EOL)
+    {
+        return _state == State::Body ? Status::DoneWithRead : Status::DoneWithoutRead;
+    }
     const auto& line = lines.at(where);
     switch (_state)
     {

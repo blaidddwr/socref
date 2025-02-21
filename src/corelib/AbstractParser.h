@@ -7,9 +7,9 @@
 
 
 /*!
- * This is an abstract class. It parses a source code file for code lines. These
- * code lines in turn are used by builders to rebuild the source code with the
- * implementation code intact.
+ * This parses a source code file for code lines. These code lines in turn are
+ * used by builders to rebuild the source code with the implementation code
+ * intact.
  * 
  * A parser can have children parsers. Children parsers look for their own code
  * blocks within the source code. A parser implementation is responsible for
@@ -23,13 +23,23 @@
  * children are ignored for that pass until the children parsers are called to
  * parse a line of code again.
  * 
- * block: This property holds the block associated with the source code a parser
- * is parsing. This must be a valid block before parsing can begin.
+ * When parsing reaches the end of the source code lines, a special end of lines
+ * value is passed as the line to be parsed. The parser must return a status of
+ * "done with read" to indicate it was ready for the end of the source code to
+ * be reached, otherwise a logical parse error will be thrown. All parent
+ * parsers are also given the same end of lines value and must return the "done
+ * with read" status to indicate they all expect the source code to end.
  * 
- * children: This property holds the list of a parser's children.
+ * @property EOL A special integer value indicating the end of lines has been
+ * reached while parsing a source code file's lines.
  * 
- * version: This property holds the version of source code a parser is parsing.
- * This must be a valid version number before parsing can begin.
+ * @property block The block object associated with the source code a parser is
+ * parsing. This must be a valid block before parsing can begin.
+ * 
+ * @property children The list of a parser's children.
+ * 
+ * @property version The version of source code a parser is parsing. This must
+ * be a valid version number before parsing can begin.
  */
 class AbstractParser:
     public QObject
@@ -38,6 +48,8 @@ class AbstractParser:
     AbstractBlock* _block;
     QList<AbstractParser*> _children;
     int _version;
+    public:
+    static constexpr int EOL = -1;
 
 
     /*!
@@ -97,12 +109,15 @@ class AbstractParser:
 
     /*!
      * Parses a single line of code.
+     * 
+     * @exception Exception::LogicalParse Thrown when a logical parse error is
+     * encountered.
      *
      * @param lines
      *        The lines of source code.
      *
      * @param where
-     *        The specific line to be parsed.
+     *        The specific line to be parsed or EOL.
      *
      * @return
      * The status of the parser after parsing the given line of code.

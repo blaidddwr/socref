@@ -1346,17 +1346,21 @@ The order of addition is the same as the order in the given list.</__p_descripti
             </Function>
         </Class>
         <Class>
-            <__p_description>This is an abstract class. It parses a source code file for code lines. These code lines in turn are used by builders to rebuild the source code with the implementation code intact.
+            <__p_description>This parses a source code file for code lines. These code lines in turn are used by builders to rebuild the source code with the implementation code intact.
 
 A parser can have children parsers. Children parsers look for their own code blocks within the source code. A parser implementation is responsible for adding its children parsers at the correct time.
 
 Parsing is done line by line, and a parser is treated like a state machine with its parse interface being called per line of source code. A status is returned instructing the code controller how to proceed. When the children parsers of a parser are given a change to parse a line of code, the first child that successfully parses one or more lines is used and all other children are ignored for that pass until the children parsers are called to parse a line of code again.
 
-block: This property holds the block associated with the source code a parser is parsing. This must be a valid block before parsing can begin.
+When parsing reaches the end of the source code lines, a special end of lines value is passed as the line to be parsed. The parser must return a status of &quot;done with read&quot; to indicate it was ready for the end of the source code to be reached, otherwise a logical parse error will be thrown. All parent parsers are also given the same end of lines value and must return the &quot;done with read&quot; status to indicate they all expect the source code to end.
 
-children: This property holds the list of a parser's children.
+@property EOL A special integer value indicating the end of lines has been reached while parsing a source code file's lines.
 
-version: This property holds the version of source code a parser is parsing. This must be a valid version number before parsing can begin.</__p_description>
+@property block The block object associated with the source code a parser is parsing. This must be a valid block before parsing can begin.
+
+@property children The list of a parser's children.
+
+@property version The version of source code a parser is parsing. This must be a valid version number before parsing can begin.</__p_description>
             <__p_name>AbstractParser</__p_name>
             <__p_parents>public QObject</__p_parents>
             <Enumeration>
@@ -1430,7 +1434,9 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                 <__p_const>0</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Parses a single line of code.</__p_description>
+                <__p_description>Parses a single line of code.
+
+@exception Exception::LogicalParse Thrown when a logical parse error is encountered.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
@@ -1447,7 +1453,7 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                     <__p_type>const QStringList&amp;</__p_type>
                 </Variable>
                 <Variable>
-                    <__p_description>The specific line to be parsed.</__p_description>
+                    <__p_description>The specific line to be parsed or EOL.</__p_description>
                     <__p_name>where</__p_name>
                     <__p_type>int</__p_type>
                 </Variable>
@@ -2423,7 +2429,7 @@ The given parent must be valid. The given index must be valid and resolve to a v
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Recursively parses the given lines of code with the given parser. This handles all delegate to children returns by a parser by recursively calling itself again with the child parser as the given parser.</__p_description>
+                    <__p_description>Recursively parses this object's lines of code with the given parser. This handles all &quot;delegate to children&quot; returns by recursively calling itself again using the child parsers.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -2432,17 +2438,12 @@ The given parent must be valid. The given index must be valid and resolve to a v
                     <__p_override>0</__p_override>
                     <__p_returnDescription>The next line of code that requires parsing after this method is finished.</__p_returnDescription>
                     <__p_returnType>int</__p_returnType>
-                    <__p_static>1</__p_static>
+                    <__p_static>0</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The parser. This must be a valid parser.</__p_description>
                         <__p_name>parser</__p_name>
                         <__p_type>AbstractParser*</__p_type>
-                    </Variable>
-                    <Variable>
-                        <__p_description>The lines of code.</__p_description>
-                        <__p_name>lines</__p_name>
-                        <__p_type>const QStringList&amp;</__p_type>
                     </Variable>
                     <Variable>
                         <__p_description>The next line of code that requires parsing.</__p_description>

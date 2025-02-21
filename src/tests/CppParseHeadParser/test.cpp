@@ -51,6 +51,7 @@ void TestCppParseHeadParser::parseLegacy1()
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
     QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
@@ -79,6 +80,7 @@ void TestCppParseHeadParser::parseLegacy2()
     QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
     QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
@@ -115,6 +117,7 @@ void TestCppParseHeadParser::parseLegacy3()
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
     QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),1);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessHeadCodeKey)),testPreProcess);
@@ -157,6 +160,7 @@ void TestCppParseHeadParser::parseLegacy4()
     QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
     QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),1);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessHeadCodeKey)),testPreProcess);

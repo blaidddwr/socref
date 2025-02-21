@@ -47,6 +47,7 @@ void TestCppParseSourceParser::parseLegacy1()
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
@@ -71,6 +72,7 @@ void TestCppParseSourceParser::parseLegacy2()
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
     QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
@@ -103,6 +105,7 @@ void TestCppParseSourceParser::parseLegacy3()
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),1);
     QVERIFY(root->code().contains(codeKey(PreProcessSourceCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessSourceCodeKey)),testPreProcess);
@@ -150,6 +153,7 @@ void TestCppParseSourceParser::parseLegacy4()
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
     QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
     QCOMPARE(_parser->parse(lines,where++),Status::Read);
+    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),2);
     QVERIFY(root->code().contains(codeKey(PreProcessSourceCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessSourceCodeKey)),testPreProcess);
