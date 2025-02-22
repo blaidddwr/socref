@@ -14,7 +14,7 @@ using Status = AbstractParser::Status;
 HeadParser::HeadParser(
     AbstractParser* parent
 ):
-    BaseParser(parent)
+    AbstractParser(parent)
 {
 }
 
@@ -117,10 +117,7 @@ Status HeadParser::parseLegacy(
             || namespaceRe.match(line).hasMatch()
             )
         {
-            if (!_preProcess.isEmpty())
-            {
-                insertCode(PreProcessHeadCodeKey,_preProcess);
-            }
+            insertCode(codeKey(PreProcessHeadCodeKey),_preProcess);
             _state = line.isEmpty() ? State::Body : State::Namespace;
         }
         else
@@ -179,10 +176,7 @@ Status HeadParser::parseVersion1(
             line == endLine
             || endScopeRe.match(line).hasMatch())
         {
-            if (!_footer.isEmpty())
-            {
-                insertCode(FooterHeadCodeKey,_footer);
-            }
+            insertCode(codeKey(FooterHeadCodeKey),_footer);
             _state = State::End;
         }
         else
@@ -200,10 +194,7 @@ Status HeadParser::parseVersion1(
         if (line.isEmpty())
         {
             addChildren();
-            if (!_header.isEmpty())
-            {
-                insertCode(HeaderHeadCodeKey,_header);
-            }
+            insertCode(codeKey(HeaderHeadCodeKey),_header);
             _state = State::Body;
         }
         else
@@ -244,10 +235,7 @@ Status HeadParser::parseVersion1(
         }
         if (finished)
         {
-            if (!_preProcess.isEmpty())
-            {
-                insertCode(PreProcessHeadCodeKey,_preProcess);
-            }
+            insertCode(codeKey(PreProcessHeadCodeKey),_preProcess);
         }
         else
         {

@@ -8,7 +8,6 @@ namespace Cpp {
  */
 namespace Parse
 {
-    class BaseParser;
     class HeadParser;
     class SourceParser;
 

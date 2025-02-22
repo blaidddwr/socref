@@ -1579,6 +1579,35 @@ If this method is overridden then the overriding method must call this method in
                 <__p_static>0</__p_static>
                 <__p_virtual>0</__p_virtual>
             </Function>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Protected</__p_access>
+                <__p_const>0</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Inserts code lines into this object's block object's code property. This object's block property must have a valid object.
+
+@exception Exception::LogicalParse Thrown when a logical parse error is encountered.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>insertCode</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnType>void</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
+                <Variable>
+                    <__p_description>The code map key.</__p_description>
+                    <__p_name>key</__p_name>
+                    <__p_type>const QString&amp;</__p_type>
+                </Variable>
+                <Variable>
+                    <__p_description>The inserted code lines. If this is empty then this method does nothing.</__p_description>
+                    <__p_name>lines</__p_name>
+                    <__p_type>const QStringList&amp;</__p_type>
+                </Variable>
+            </Function>
         </Class>
         <Class>
             <__p_description>This is an abstract class. It is a route controller for a language implementation. A router provides routes to all source code files for a project's root block.</__p_description>
@@ -2431,7 +2460,7 @@ The given parent must be valid. The given index must be valid and resolve to a v
                     <__p_const>0</__p_const>
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
-                    <__p_description>Recursively parses this object's lines of code with the given parser. This handles all &quot;delegate to children&quot; returns by recursively calling itself again using the child parsers.</__p_description>
+                    <__p_description>Recursively parses the given lines of code with the given parser. This method handles all &quot;delegate to children&quot; returns by recursively calling itself again using the child parsers.</__p_description>
                     <__p_explicit>0</__p_explicit>
                     <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
@@ -2440,12 +2469,17 @@ The given parent must be valid. The given index must be valid and resolve to a v
                     <__p_override>0</__p_override>
                     <__p_returnDescription>The next line of code that requires parsing after this method is finished.</__p_returnDescription>
                     <__p_returnType>int</__p_returnType>
-                    <__p_static>0</__p_static>
+                    <__p_static>1</__p_static>
                     <__p_virtual>0</__p_virtual>
                     <Variable>
                         <__p_description>The parser. This must be a valid parser.</__p_description>
                         <__p_name>parser</__p_name>
                         <__p_type>AbstractParser*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_description>The parsed lines of code.</__p_description>
+                        <__p_name>lines</__p_name>
+                        <__p_type>const QStringList&amp;</__p_type>
                     </Variable>
                     <Variable>
                         <__p_description>The next line of code that requires parsing.</__p_description>

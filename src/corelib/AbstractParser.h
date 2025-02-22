@@ -194,6 +194,27 @@ class AbstractParser:
     protected:
     AbstractBlock* block(
     ) const;
+
+
+    /*!
+     * Inserts code lines into this object's block object's code property. This
+     * object's block property must have a valid object.
+     * 
+     * @exception Exception::LogicalParse Thrown when a logical parse error is
+     * encountered.
+     *
+     * @param key
+     *        The code map key.
+     *
+     * @param lines
+     *        The inserted code lines. If this is empty then this method does
+     *        nothing.
+     */
+    protected:
+    void insertCode(
+        const QString& key
+        ,const QStringList& lines
+    );
 };
 
 

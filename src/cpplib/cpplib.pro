@@ -25,7 +25,6 @@ SOURCES += \
     CppBlockWidgetUnionEdit.cpp \
     CppBlockWidgetVariableEdit.cpp \
     CppLanguage.cpp \
-    CppParseBaseParser.cpp \
     CppParseHeadParser.cpp \
     CppParseSourceParser.cpp \
     CppRouter.cpp
@@ -55,7 +54,6 @@ HEADERS += \
     CppBlockWidgetVariableEdit.h \
     CppLanguage.h \
     CppParse.h \
-    CppParseBaseParser.h \
     CppParseHeadParser.h \
     CppParseSourceParser.h \
     CppRouter.h

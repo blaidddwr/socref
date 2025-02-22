@@ -42,35 +42,36 @@ void Code::parse(
 )
 {
     using FileSystem = Exception::FileSystem;
+    using LogicalParse = Exception::LogicalParse;
     const static QRegularExpression versionRe("^\\/\\*@ version ([0-9]+) @\\*\\/$");
     Q_ASSERT(index >= 0);
     Q_ASSERT(index < size());
     const auto& route = _routes.at(index);
-    _path = QDir(_project->absoluteCodePath()).absoluteFilePath(route.path);
-    if (!QFileInfo::exists(_path))
+    auto path = QDir(_project->absoluteCodePath()).absoluteFilePath(route.path);
+    if (!QFileInfo::exists(path))
     {
         return;
     }
-    QFile file(_path);
+    QFile file(path);
     if (!file.open(QIODevice::ReadOnly))
     {
         throw FileSystem(
-            tr("Failed opening source code file %1: %2.").arg(_path,file.errorString())
+            tr("Failed opening source code file %1: %2.").arg(path,file.errorString())
             );
     }
     QTextStream stream(&file);
     auto data = stream.readAll();
-    _lines = data.split("\n",Qt::KeepEmptyParts);
+    auto lines = data.split("\n",Qt::KeepEmptyParts);
     auto language = _project->language();
     Q_ASSERT(language);
     std::unique_ptr<AbstractParser> parser(language->createParser(route.parseIndex));
     Q_ASSERT(parser);
     parser->setBlock(route.block);
-    if (!_lines.isEmpty())
+    if (!lines.isEmpty())
     {
         int where = 0;
         int version = CODE_LEGACY;
-        auto match = versionRe.match(_lines.first());
+        auto match = versionRe.match(lines.first());
         if (match.hasMatch())
         {
             bool ok;
@@ -79,7 +80,14 @@ void Code::parse(
             where++;
         }
         parser->setVersion(version);
-        parse(parser.get(),where);
+        try
+        {
+            parse(parser.get(),lines,where);
+        }
+        catch (LogicalParse& e)
+        {
+            throw LogicalParse(tr("While parsing %1: %2").arg(path,e.message()));
+        }
     }
 }
 
@@ -133,20 +141,21 @@ void Code::clear(
 
 int Code::parse(
     AbstractParser* parser
+    ,const QStringList& lines
     ,int where
 )
 {
     using LogicalParse = Exception::LogicalParse;
     using Status = AbstractParser::Status;
     Q_ASSERT(parser);
-    while (where < _lines.size())
+    while (where < lines.size())
     {
-        switch (parser->parse(_lines,where))
+        switch (parser->parse(lines,where))
         {
         case Status::DelegateToChildren:
             for (auto child: parser->children())
             {
-                int nw = parse(child,where);
+                int nw = parse(child,lines,where);
                 if (nw != where)
                 {
                     break;
@@ -165,11 +174,9 @@ int Code::parse(
             throw std::logic_error("unknown parser status");
         }
     }
-    if (parser->parse(_lines,AbstractParser::EOL) != Status::DoneWithRead)
+    if (parser->parse(lines,AbstractParser::EOL) != Status::DoneWithRead)
     {
-        throw LogicalParse(
-            tr("Parser unexpectedly reached end of source code file %1.").arg(_path)
-            );
+        throw LogicalParse(tr("Unexpectedly reached end of source code."));
     }
     return where;
 }

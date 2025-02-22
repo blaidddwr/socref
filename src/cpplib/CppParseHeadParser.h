@@ -1,6 +1,6 @@
 #ifndef CPP_PARSE_HEADPARSER_H
 #define CPP_PARSE_HEADPARSER_H
-#include "CppParseBaseParser.h"
+#include "AbstractParser.h"
 namespace Cpp {
 namespace Parse {
 
@@ -11,7 +11,7 @@ namespace Parse {
  * This parses the source code of a C++ header file.
  */
 class HeadParser:
-    public BaseParser
+    public AbstractParser
 {
     Q_OBJECT
     bool _childrenAdded {false};

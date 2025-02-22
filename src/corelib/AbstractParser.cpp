@@ -1,4 +1,6 @@
 #include "AbstractParser.h"
+#include "AbstractBlock.h"
+#include "Exception.h"
 
 
 AbstractParser::AbstractParser(
@@ -69,4 +71,23 @@ AbstractBlock* AbstractParser::block(
 {
     Q_ASSERT(_block);
     return _block;
+}
+
+
+void AbstractParser::insertCode(
+    const QString& key
+    ,const QStringList& lines
+)
+{
+    using LogicalParse = Exception::LogicalParse;
+    Q_ASSERT(block());
+    if (!lines.isEmpty())
+    {
+        auto& code = block()->code();
+        if (code.contains(key))
+        {
+            throw LogicalParse(tr("Code key collision in block %1.").arg(block()->displayText()));
+        }
+        code.insert(key,lines);
+    }
 }

@@ -1,6 +1,6 @@
 #ifndef CPP_PARSE_SOURCEPARSER_H
 #define CPP_PARSE_SOURCEPARSER_H
-#include "CppParseBaseParser.h"
+#include "AbstractParser.h"
 namespace Cpp {
 namespace Parse {
 
@@ -11,7 +11,7 @@ namespace Parse {
  * This parses the source code of a C++ source file.
  */
 class SourceParser:
-    public BaseParser
+    public AbstractParser
 {
     Q_OBJECT
     QStringList _header;
@@ -65,22 +65,11 @@ class SourceParser:
 
 
     /*!
-     * Parses a legacy header file. See the parse interface for more
-     * documentation.
+     * Parses a legacy or version 1 header file. See the parse interface for
+     * more documentation.
      */
     private:
     Status parseLegacy(
-        const QStringList& lines
-        ,int where
-    );
-
-
-    /*!
-     * Parses a version 1 header file. See the parse interface for more
-     * documentation.
-     */
-    private:
-    Status parseVersion1(
         const QStringList& lines
         ,int where
     );

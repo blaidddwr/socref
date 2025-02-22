@@ -14,7 +14,7 @@ using Status = AbstractParser::Status;
 SourceParser::SourceParser(
     AbstractParser* parent
 ):
-    BaseParser(parent)
+    AbstractParser(parent)
 {
 }
 
@@ -28,9 +28,8 @@ Status SourceParser::parse(
     switch (version())
     {
     case Cpp_Legacy:
-        return parseLegacy(lines,where);
     case Cpp_1:
-        return Status::DoneWithoutRead;
+        return parseLegacy(lines,where);
     default:
         throw LogicalParse(tr("Unknown source code version %1.").arg(version()));
     }
@@ -43,6 +42,7 @@ void SourceParser::reset(
     _header.clear();
     _preProcess.clear();
     _state = State::Include;
+    AbstractParser::reset();
 }
 
 
@@ -86,10 +86,7 @@ Status SourceParser::parseLegacy(
     case State::Header:
         if (line.isEmpty())
         {
-            if (!_header.isEmpty())
-            {
-                insertCode(HeaderSourceCodeKey,_header);
-            }
+            insertCode(codeKey(HeaderSourceCodeKey),_header);
             //TODO: add function parser child
             _state = State::Body;
             return Status::Read;
@@ -126,10 +123,7 @@ Status SourceParser::parseLegacy(
             || namespaceRe.match(line).hasMatch()
             )
         {
-            if (!_preProcess.isEmpty())
-            {
-                insertCode(PreProcessSourceCodeKey,_preProcess);
-            }
+            insertCode(codeKey(PreProcessSourceCodeKey),_preProcess);
             _state = State::Namespace;
             return Status::Read;
         }
@@ -141,18 +135,6 @@ Status SourceParser::parseLegacy(
     default:
         throw std::logic_error("unknown state");
     }
-}
-
-
-Status SourceParser::parseVersion1(
-    const QStringList& lines
-    ,int where
-)
-{
-    Q_UNUSED(lines);
-    Q_UNUSED(where);
-    //TODO
-    return Status::DoneWithoutRead;
 }
 }
 }
