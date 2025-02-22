@@ -27,6 +27,8 @@ class WriteBlock: public Base { using Base::Base; };
 class WriteProject: public Base { using Base::Base; };
 }
 
+/*@ EOS @*/
+
 /*!
  * @namespace Exception
  * This contains all exceptions.

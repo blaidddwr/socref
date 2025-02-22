@@ -1417,7 +1417,7 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                 <__p_const>0</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Getter for children property.</__p_description>
+                <__p_description>Getter for the children property.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
@@ -1459,12 +1459,14 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                 </Variable>
             </Function>
             <Function>
-                <__p_abstract>1</__p_abstract>
+                <__p_abstract>0</__p_abstract>
                 <__p_access>Public</__p_access>
                 <__p_const>0</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Resets this parser object, allowing it to parse new source code lines.</__p_description>
+                <__p_description>Resets this parser object and all its descendant parsers, allowing it to parse new source code lines.
+
+If this method is overridden then the overriding method must called this method in order to correctly call the reset interface on all descendant parsers.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
@@ -1483,7 +1485,7 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                 <__p_deleted>0</__p_deleted>
                 <__p_description>Setter for the block property.
 
-If this method is overridden then the overridden method must call this method in order to properly set the property.</__p_description>
+If this method is overridden then the overriding method must call this method in order to properly set the property.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
@@ -1506,7 +1508,7 @@ If this method is overridden then the overridden method must call this method in
                 <__p_deleted>0</__p_deleted>
                 <__p_description>Setter for the version property.
 
-If this method is overridden then the overridden method must call this method in order to properly set the property.</__p_description>
+If this method is overridden then the overriding method must call this method in order to properly set the property.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
@@ -1544,7 +1546,7 @@ If this method is overridden then the overridden method must call this method in
                 <__p_const>0</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Adds a parser object to this parser object as its child.</__p_description>
+                <__p_description>Adds a parser object to this parser object as its child, taking ownership of it.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>

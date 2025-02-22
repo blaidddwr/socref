@@ -20,6 +20,16 @@ const QList<AbstractParser*>& AbstractParser::children(
 }
 
 
+void AbstractParser::reset(
+)
+{
+    for (auto child: std::as_const(_children))
+    {
+        child->reset();
+    }
+}
+
+
 void AbstractParser::setBlock(
     AbstractBlock* object
 )

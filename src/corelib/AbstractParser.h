@@ -100,7 +100,7 @@ class AbstractParser:
 
 
     /*!
-     * Getter for children property.
+     * Getter for the children property.
      */
     public:
     const QList<AbstractParser*>& children(
@@ -130,17 +130,22 @@ class AbstractParser:
 
 
     /*!
-     * Resets this parser object, allowing it to parse new source code lines.
+     * Resets this parser object and all its descendant parsers, allowing it to
+     * parse new source code lines.
+     * 
+     * If this method is overridden then the overriding method must called this
+     * method in order to correctly call the reset interface on all descendant
+     * parsers.
      */
     public:
     virtual void reset(
-    ) = 0;
+    );
 
 
     /*!
      * Setter for the block property.
      * 
-     * If this method is overridden then the overridden method must call this
+     * If this method is overridden then the overriding method must call this
      * method in order to properly set the property.
      */
     public:
@@ -152,7 +157,7 @@ class AbstractParser:
     /*!
      * Setter for the version property.
      * 
-     * If this method is overridden then the overridden method must call this
+     * If this method is overridden then the overriding method must call this
      * method in order to properly set the property.
      */
     public:
@@ -170,7 +175,8 @@ class AbstractParser:
 
 
     /*!
-     * Adds a parser object to this parser object as its child.
+     * Adds a parser object to this parser object as its child, taking ownership
+     * of it.
      *
      * @param child
      *        The parser object added. This method's parser takes ownership of

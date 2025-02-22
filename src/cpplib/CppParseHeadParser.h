@@ -14,6 +14,9 @@ class HeadParser:
     public BaseParser
 {
     Q_OBJECT
+    bool _childrenAdded {false};
+    QStringList _footer;
+    QStringList _header;
     QStringList _preProcess;
 
 
@@ -24,7 +27,10 @@ class HeadParser:
     enum class State
     {
         Body
+        ,End
+        ,Footer
         ,Guard
+        ,Header
         ,Namespace
         ,PreProcess
     };
@@ -60,6 +66,15 @@ class HeadParser:
     virtual void setVersion(
         int value
     ) override final;
+
+
+    /*!
+     * Adds this object's children parser objects. If this object's children
+     * have already been added then this does nothing.
+     */
+    private:
+    void addChildren(
+    );
 
 
     /*!

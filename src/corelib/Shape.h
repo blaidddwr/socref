@@ -18,6 +18,8 @@ public:
 
 }
 
+/*@ EOS @*/
+
 /*!
  * @namespace Shape
  *
