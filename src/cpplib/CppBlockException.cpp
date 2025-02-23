@@ -9,7 +9,7 @@ Exception::Exception(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base("exception",meta,parent)
+    Namespace("exception",meta,parent)
 {
 }
 

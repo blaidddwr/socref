@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCK_ENUMERATIONVALUE_H
 #define CPP_BLOCK_ENUMERATIONVALUE_H
-#include "CppBlockBase.h"
+#include "CppBlockNamespace.h"
 namespace Cpp {
 namespace Block {
 
@@ -14,7 +14,7 @@ namespace Block {
  * this value has no assignment this property is an empty string.
  */
 class EnumerationValue:
-    public Base
+    public Namespace
 {
     Q_OBJECT
     QString _assignment;

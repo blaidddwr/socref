@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCK_UNION_H
 #define CPP_BLOCK_UNION_H
-#include "CppBlockBase.h"
+#include "CppBlockNamespace.h"
 namespace Cpp {
 namespace Block {
 
@@ -11,7 +11,7 @@ namespace Block {
  * This is a C++ block class. It represents a C++ union.
  */
 class Union:
-    public Base
+    public Namespace
 {
     Q_OBJECT
 

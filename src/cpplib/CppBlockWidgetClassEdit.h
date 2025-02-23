@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCKWIDGET_CLASSEDIT_H
 #define CPP_BLOCKWIDGET_CLASSEDIT_H
-#include "CppBlockWidgetBaseEdit.h"
+#include "CppBlockWidgetPropertyEdit.h"
 #include "Widget.h"
 namespace Cpp {
 namespace BlockWidget {
@@ -13,7 +13,7 @@ namespace BlockWidget {
  * block.
  */
 class ClassEdit:
-    public BaseEdit
+    public PropertyEdit
 {
     Q_OBJECT
     Widget::StringList* _parentList {nullptr};

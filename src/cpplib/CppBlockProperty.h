@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCK_PROPERTY_H
 #define CPP_BLOCK_PROPERTY_H
-#include "CppBlockBase.h"
+#include "CppBlockNamespace.h"
 namespace Cpp {
 namespace Block {
 
@@ -18,7 +18,7 @@ namespace Block {
  * is abstract, virtual, or regular.
  */
 class Property:
-    public Base
+    public Namespace
 {
     Q_OBJECT
     const QIcon* _icon {nullptr};

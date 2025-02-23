@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCKWIDGET_FUNCTIONEDIT_H
 #define CPP_BLOCKWIDGET_FUNCTIONEDIT_H
-#include "CppBlockWidgetBaseEdit.h"
+#include "CppBlockWidgetNamespaceEdit.h"
 #include "Widget.h"
 class QCheckBox;
 class QComboBox;
@@ -17,7 +17,7 @@ namespace BlockWidget {
  * block.
  */
 class FunctionEdit:
-    public BaseEdit
+    public NamespaceEdit
 {
     Q_OBJECT
     QComboBox* _accessComboBox {nullptr};

@@ -4,7 +4,6 @@ CONFIG += c++17 staticlib
 INCLUDEPATH += ../corelib
 SOURCES += \
     Cpp.cpp \
-    CppBlockBase.cpp \
     CppBlockClass.cpp \
     CppBlockEnumeration.cpp \
     CppBlockEnumerationValue.cpp \
@@ -14,7 +13,6 @@ SOURCES += \
     CppBlockProperty.cpp \
     CppBlockUnion.cpp \
     CppBlockVariable.cpp \
-    CppBlockWidgetBaseEdit.cpp \
     CppBlockWidgetClassEdit.cpp \
     CppBlockWidgetEnumerationEdit.cpp \
     CppBlockWidgetEnumerationValueEdit.cpp \
@@ -31,7 +29,6 @@ SOURCES += \
 HEADERS += \
     Cpp.h \
     CppBlock.h \
-    CppBlockBase.h \
     CppBlockClass.h \
     CppBlockEnumeration.h \
     CppBlockEnumerationValue.h \
@@ -42,7 +39,6 @@ HEADERS += \
     CppBlockUnion.h \
     CppBlockVariable.h \
     CppBlockWidget.h \
-    CppBlockWidgetBaseEdit.h \
     CppBlockWidgetClassEdit.h \
     CppBlockWidgetEnumerationEdit.h \
     CppBlockWidgetEnumerationValueEdit.h \

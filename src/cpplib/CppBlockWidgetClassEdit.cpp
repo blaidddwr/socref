@@ -10,7 +10,7 @@ ClassEdit::ClassEdit(
     const AbstractBlock* block
     ,QWidget* parent
 ):
-    BaseEdit(block,parent)
+    PropertyEdit(block,parent)
 {
     setLayout(formLayout());
 }
@@ -36,11 +36,11 @@ QFormLayout* ClassEdit::formLayout(
 {
     if (!_formLayout)
     {
-        BaseEdit::formLayout()->addRow(tr("Parents:"),parentStringList());
-        BaseEdit::formLayout()->addRow(tr("Templates:"),templateStringList());
+        NamespaceEdit::formLayout()->addRow(tr("Parents:"),parentStringList());
+        NamespaceEdit::formLayout()->addRow(tr("Templates:"),templateStringList());
         _formLayout = true;
     }
-    return BaseEdit::formLayout();
+    return NamespaceEdit::formLayout();
 }
 
 

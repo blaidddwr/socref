@@ -46,336 +46,6 @@
                     <__p_name>Index</__p_name>
                 </Enumeration>
                 <Class>
-                    <__p_description>This is a C++ block class. It partially implements the abstract block class. It represents a base block for C++ with properties all C++ blocks share.
-
-Its properties are name, description, and scope name. Name and description are self-explanatory.</__p_description>
-                    <__p_name>Base</__p_name>
-                    <__p_parents>public AbstractBlock</__p_parents>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Signals</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Signals this block's description property has changed to the given value.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>descriptionChanged</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Signals</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Signals this block's name property has changed to the given value.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>nameChanged</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>displayText</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>QString</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>description</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>This block's description property.</__p_returnDescription>
-                        <__p_returnType>const QString&amp;</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>fileName</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>QString</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>name</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>This block's name property.</__p_returnDescription>
-                        <__p_returnType>const QString&amp;</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>loadFromMap</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_name>map</__p_name>
-                            <__p_type>const QMap&lt;QString,QVariant&gt;&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_name>version</__p_name>
-                            <__p_type>int</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>saveToMap</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>QMap&lt;QString,QVariant&gt;</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Sets this block's description property to the given value.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>setDescription</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Sets this block's name property to the given value.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>setName</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>setState</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_name>state</__p_name>
-                            <__p_type>const QHash&lt;QString,QVariant&gt;&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>1</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>state</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>QHash&lt;QString,QVariant&gt;</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Constructs this new instance with the given name, meta, and parent. The given meta must be valid and cannot be destroyed during the life of this instance.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>^</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The name.</__p_description>
-                            <__p_name>name</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_description>The meta.</__p_description>
-                            <__p_name>meta</__p_name>
-                            <__p_type>Model::Meta::Block*</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_assignment>nullptr</__p_assignment>
-                            <__p_description>The parent.</__p_description>
-                            <__p_name>parent</__p_name>
-                            <__p_type>QObject*</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Called when this block's name property has changed to the given value.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>onNameChanged</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_description>The value.</__p_description>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>descriptionKey</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>The key used for this block's description property.</__p_returnDescription>
-                        <__p_returnType>const char*</__p_returnType>
-                        <__p_static>1</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>nameKey</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>The key used for this block's name property.</__p_returnDescription>
-                        <__p_returnType>const char*</__p_returnType>
-                        <__p_static>1</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                </Class>
-                <Class>
                     <__p_description>This is a C++ block class. It represents a C++ class.
 
 Its properties are parents and templates. The parents is a list of a class's parent classes. The templates list is a list of template arguments for a class.</__p_description>
@@ -699,7 +369,7 @@ Its properties are parents and templates. The parents is a list of a class's par
 
 Its single property is class. It is self-explanatory.</__p_description>
                     <__p_name>Enumeration</__p_name>
-                    <__p_parents>public Base</__p_parents>
+                    <__p_parents>public Namespace</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -938,7 +608,7 @@ Its single property is class. It is self-explanatory.</__p_description>
 
 assignment: This property holds any assignment for this enumeration value. If this value has no assignment this property is an empty string.</__p_description>
                     <__p_name>EnumerationValue</__p_name>
-                    <__p_parents>public Base</__p_parents>
+                    <__p_parents>public Namespace</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Signals</__p_access>
@@ -1156,7 +826,7 @@ assignment: This property holds any assignment for this enumeration value. If th
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ exception that can be thrown from within a function.</__p_description>
                     <__p_name>Exception</__p_name>
-                    <__p_parents>public Base</__p_parents>
+                    <__p_parents>public Namespace</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -1249,7 +919,7 @@ There are two primary groups of virtual methods used to expand the property valu
 
 A words list is generated in order to correctly build the definition of a function. There are many protected methods called to append to this word list based off the properties. These methods are virtual and can be expanded upon with new property value enumerations.</__p_description>
                     <__p_name>Function</__p_name>
-                    <__p_parents>public Base</__p_parents>
+                    <__p_parents>public Namespace</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -3237,9 +2907,59 @@ A read block exception is thrown if any error is encountered.</__p_description>
                     </Function>
                 </Class>
                 <Class>
-                    <__p_description>This is a C++ block class. It represents a C++ namespace.</__p_description>
+                    <__p_description>This is a C++ block class. It represents a C++ namespace.
+
+It can be expanded for other blocks, providing protected methods to interact with its properties.
+
+@property name The name.
+
+@property description The description.</__p_description>
                     <__p_name>Namespace</__p_name>
-                    <__p_parents>public Base</__p_parents>
+                    <__p_parents>public AbstractBlock</__p_parents>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Signals</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Signals this block's description property has changed to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>descriptionChanged</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Signals</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Signals this block's name property has changed to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>nameChanged</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -3272,7 +2992,7 @@ A read block exception is thrown if any error is encountered.</__p_description>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
                         <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
+                        <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>createWidget</__p_name>
                         <__p_noexcept>0</__p_noexcept>
@@ -3287,8 +3007,26 @@ A read block exception is thrown if any error is encountered.</__p_description>
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
                         <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>description</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This block's description property.</__p_returnDescription>
+                        <__p_returnType>const QString&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>displayIcon</__p_name>
                         <__p_noexcept>0</__p_noexcept>
@@ -3299,12 +3037,215 @@ A read block exception is thrown if any error is encountered.</__p_description>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>displayText</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QString</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>fileName</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QString</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>name</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This block's name property.</__p_returnDescription>
+                        <__p_returnType>const QString&amp;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>loadFromMap</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>map</__p_name>
+                            <__p_type>const QMap&lt;QString,QVariant&gt;&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>saveToMap</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QMap&lt;QString,QVariant&gt;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this block's description property to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setDescription</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Sets this block's name property to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setName</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>setState</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>state</__p_name>
+                            <__p_type>const QHash&lt;QString,QVariant&gt;&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>state</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>QHash&lt;QString,QVariant&gt;</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Constructs this new instance with the given name, meta, and parent. The given meta must be valid and cannot be destroyed during the life of this instance.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The name.</__p_description>
+                            <__p_name>name</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The meta.</__p_description>
+                            <__p_name>meta</__p_name>
+                            <__p_type>Model::Meta::Block*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_description>The parent.</__p_description>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
                         <__p_access>Protected</__p_access>
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
                         <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
+                        <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>create</__p_name>
                         <__p_noexcept>0</__p_noexcept>
@@ -3318,13 +3259,71 @@ A read block exception is thrown if any error is encountered.</__p_description>
                             <__p_type>QObject*</__p_type>
                         </Variable>
                     </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Called when this block's name property has changed to the given value.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>onNameChanged</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_description>The value.</__p_description>
+                            <__p_name>value</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>descriptionKey</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The key used for this block's description property.</__p_returnDescription>
+                        <__p_returnType>const char*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>nameKey</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The key used for this block's name property.</__p_returnDescription>
+                        <__p_returnType>const char*</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
                 </Class>
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ class property. While this is not a concrete type defined in the C++ language, it is an abstract concept used pervasively enough in classes to conceptualize it as a block. A property's setter and getter are added as children to a property.
 
 This also serves as a base class for the class C++ block because it shares all common algorithms pertaining to holding functions and determining if it is abstract, virtual, or regular.</__p_description>
                     <__p_name>Property</__p_name>
-                    <__p_parents>public Base</__p_parents>
+                    <__p_parents>public Namespace</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -3593,7 +3592,7 @@ This also serves as a base class for the class C++ block because it shares all c
                 <Class>
                     <__p_description>This is a C++ block class. It represents a C++ union.</__p_description>
                     <__p_name>Union</__p_name>
-                    <__p_parents>public Base</__p_parents>
+                    <__p_parents>public Namespace</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -3678,7 +3677,7 @@ This also serves as a base class for the class C++ block because it shares all c
 
 Its properties are type and assignment. Both are self-explanatory.</__p_description>
                     <__p_name>Variable</__p_name>
-                    <__p_parents>public Base</__p_parents>
+                    <__p_parents>public Namespace</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Signals</__p_access>
@@ -4147,7 +4146,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                 <Class>
                     <__p_description>This is a block widget class. It provides an editable view of a class C++ block.</__p_description>
                     <__p_name>ClassEdit</__p_name>
-                    <__p_parents>public BaseEdit</__p_parents>
+                    <__p_parents>public PropertyEdit</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4247,7 +4246,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                 <Class>
                     <__p_description>This is a block widget. It provides an editable view of an enumeration C++ block.</__p_description>
                     <__p_name>EnumerationEdit</__p_name>
-                    <__p_parents>public BaseEdit</__p_parents>
+                    <__p_parents>public NamespaceEdit</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4347,7 +4346,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                 <Class>
                     <__p_description>This is a block widget. It provides an editable view of an enumeration value C++ block.</__p_description>
                     <__p_name>EnumerationValueEdit</__p_name>
-                    <__p_parents>public BaseEdit</__p_parents>
+                    <__p_parents>public NamespaceEdit</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4429,7 +4428,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                 <Class>
                     <__p_description>This is a block widget. It provides an editable view of an exception item C++ block.</__p_description>
                     <__p_name>ExceptionEdit</__p_name>
-                    <__p_parents>public BaseEdit</__p_parents>
+                    <__p_parents>public NamespaceEdit</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4459,7 +4458,7 @@ It is designed to be inherited and used by actual C++ block widget implementatio
                 <Class>
                     <__p_description>This is a block widget class. It provides an editable view of a function C++ block.</__p_description>
                     <__p_name>FunctionEdit</__p_name>
-                    <__p_parents>public BaseEdit</__p_parents>
+                    <__p_parents>public NamespaceEdit</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4723,9 +4722,11 @@ The given function flag must be valid.</__p_description>
                     </Function>
                 </Class>
                 <Class>
-                    <__p_description>This is a block widget. It provides an editable view of a namespace C++ block.</__p_description>
+                    <__p_description>This is a block widget. It provides an editable view of a C++ namespace block.
+
+It can be extended for other blocks by using the protected getter methods to expand upon its GUI.</__p_description>
                     <__p_name>NamespaceEdit</__p_name>
-                    <__p_parents>public BaseEdit</__p_parents>
+                    <__p_parents>public AbstractBlockWidget</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4751,11 +4752,81 @@ The given function flag must be valid.</__p_description>
                             <__p_type>QWidget*</__p_type>
                         </Variable>
                     </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public Slots</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>apply</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>bool</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>descriptionTextEdit</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This widget's description text edit widget.</__p_returnDescription>
+                        <__p_returnType>QTextEdit*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>formLayout</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This widget's form layout.</__p_returnDescription>
+                        <__p_returnType>QFormLayout*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter method.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>nameLineEdit</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This widget's name line edit widget.</__p_returnDescription>
+                        <__p_returnType>QLineEdit*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
                 </Class>
                 <Class>
                     <__p_description>This is a block widget. It provides an editable view of a property C++ block.</__p_description>
                     <__p_name>PropertyEdit</__p_name>
-                    <__p_parents>public BaseEdit</__p_parents>
+                    <__p_parents>public NamespaceEdit</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4785,7 +4856,7 @@ The given function flag must be valid.</__p_description>
                 <Class>
                     <__p_description>This is a block widget. It provides an editable view of a union C++ block.</__p_description>
                     <__p_name>UnionEdit</__p_name>
-                    <__p_parents>public BaseEdit</__p_parents>
+                    <__p_parents>public NamespaceEdit</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>
@@ -4815,7 +4886,7 @@ The given function flag must be valid.</__p_description>
                 <Class>
                     <__p_description>This is a block widget. It provides an editable view of a variable C++ block.</__p_description>
                     <__p_name>VariableEdit</__p_name>
-                    <__p_parents>public BaseEdit</__p_parents>
+                    <__p_parents>public NamespaceEdit</__p_parents>
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Public</__p_access>

@@ -12,7 +12,7 @@ FunctionEdit::FunctionEdit(
     const AbstractBlock* block
     ,QWidget* parent
 ):
-    BaseEdit(block,parent)
+    NamespaceEdit(block,parent)
 {
     setLayout(formLayout());
 }
@@ -161,15 +161,15 @@ QFormLayout* FunctionEdit::formLayout(
 {
     if (!_formLayout)
     {
-        BaseEdit::formLayout()->addRow(tr("Type:"),typeComboBox());
-        BaseEdit::formLayout()->addRow(tr("Assignment:"),assignmentComboBox());
-        BaseEdit::formLayout()->addRow(tr("Access:"),accessComboBox());
-        BaseEdit::formLayout()->addRow(tr("Return:"),returnGroupBox());
-        BaseEdit::formLayout()->addRow(tr("Flags:"),flagsGroupBox());
-        BaseEdit::formLayout()->addRow(tr("Templates:"),templateStringList());
+        NamespaceEdit::formLayout()->addRow(tr("Type:"),typeComboBox());
+        NamespaceEdit::formLayout()->addRow(tr("Assignment:"),assignmentComboBox());
+        NamespaceEdit::formLayout()->addRow(tr("Access:"),accessComboBox());
+        NamespaceEdit::formLayout()->addRow(tr("Return:"),returnGroupBox());
+        NamespaceEdit::formLayout()->addRow(tr("Flags:"),flagsGroupBox());
+        NamespaceEdit::formLayout()->addRow(tr("Templates:"),templateStringList());
         _formLayout = true;
     }
-    return BaseEdit::formLayout();
+    return NamespaceEdit::formLayout();
 }
 
 

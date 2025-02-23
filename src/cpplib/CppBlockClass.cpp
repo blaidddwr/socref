@@ -32,7 +32,7 @@ AbstractBlockWidget* Class::createWidget(
 QString Class::displayText(
 ) const
 {
-    auto ret = Base::displayText();
+    auto ret = Namespace::displayText();
     if (!_parents.isEmpty())
     {
         ret += " : "+_parents.join(", ");
@@ -63,7 +63,7 @@ void Class::loadFromMap(
     ,int version
 )
 {
-    Base::loadFromMap(map,version);
+    Namespace::loadFromMap(map,version);
     if (version == Socref_Legacy)
     {
         _parents = map.value(PARENTS).toString().split('\n',Qt::SkipEmptyParts);
@@ -93,7 +93,7 @@ const QStringList& Class::parents(
 QMap<QString,QVariant> Class::saveToMap(
 ) const
 {
-    auto ret = Base::saveToMap();
+    auto ret = Namespace::saveToMap();
     if (!_parents.isEmpty())
     {
         ret.insert(PARENTS,_parents.join(';'));
@@ -123,7 +123,7 @@ void Class::setState(
     const QHash<QString,QVariant>& state
 )
 {
-    Base::setState(state);
+    Namespace::setState(state);
     setParents(state.value(PARENTS).toStringList());
     setTemplates(state.value(TEMPLATES).toStringList());
 }
@@ -145,7 +145,7 @@ void Class::setTemplates(
 QHash<QString,QVariant> Class::state(
 ) const
 {
-    auto ret = Base::state();
+    auto ret = Namespace::state();
     ret.insert(PARENTS,_parents);
     ret.insert(TEMPLATES,_templates);
     return ret;

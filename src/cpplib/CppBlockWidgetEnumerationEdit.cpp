@@ -9,7 +9,7 @@ EnumerationEdit::EnumerationEdit(
     const AbstractBlock* block
     ,QWidget* parent
 ):
-    BaseEdit(block,parent)
+    NamespaceEdit(block,parent)
 {
     setLayout(formLayout());
 }
@@ -64,10 +64,10 @@ QFormLayout* EnumerationEdit::formLayout(
 {
     if (!_formLayout)
     {
-        BaseEdit::formLayout()->addRow(tr("Flags:"),flagsGroupBox());
+        NamespaceEdit::formLayout()->addRow(tr("Flags:"),flagsGroupBox());
         _formLayout = true;
     }
-    return BaseEdit::formLayout();
+    return NamespaceEdit::formLayout();
 }
 }
 }

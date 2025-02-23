@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCKWIDGET_PROPERTYEDIT_H
 #define CPP_BLOCKWIDGET_PROPERTYEDIT_H
-#include "CppBlockWidgetBaseEdit.h"
+#include "CppBlockWidgetNamespaceEdit.h"
 namespace Cpp {
 namespace BlockWidget {
 
@@ -11,7 +11,7 @@ namespace BlockWidget {
  * This is a block widget. It provides an editable view of a property C++ block.
  */
 class PropertyEdit:
-    public BaseEdit
+    public NamespaceEdit
 {
     Q_OBJECT
 

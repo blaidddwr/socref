@@ -14,7 +14,7 @@ Property::Property(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base("property",meta,parent)
+    Namespace("property",meta,parent)
     ,_icon(_regularIcon)
 {
     Q_ASSERT(_iconsInitialized);
@@ -132,7 +132,7 @@ Property::Property(
     ,Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base(name,meta,parent)
+    Namespace(name,meta,parent)
     ,_icon(icon)
 {
     Q_ASSERT(icon);

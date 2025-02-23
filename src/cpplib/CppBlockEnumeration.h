@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCK_ENUMERATION_H
 #define CPP_BLOCK_ENUMERATION_H
-#include "CppBlockBase.h"
+#include "CppBlockNamespace.h"
 namespace Cpp {
 namespace Block {
 
@@ -13,7 +13,7 @@ namespace Block {
  * Its single property is class. It is self-explanatory.
  */
 class Enumeration:
-    public Base
+    public Namespace
 {
     Q_OBJECT
     bool _class {false};

@@ -12,7 +12,7 @@ Variable::Variable(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base("variable",meta,parent)
+    Namespace("variable",meta,parent)
 {
 }
 
@@ -55,7 +55,7 @@ void Variable::loadFromMap(
     ,int version
 )
 {
-    Base::loadFromMap(map,version);
+    Namespace::loadFromMap(map,version);
     _type = map.value(TYPE).toString();
     _assignment = map.value(ASSIGNMENT).toString();
 }
@@ -64,7 +64,7 @@ void Variable::loadFromMap(
 QMap<QString,QVariant> Variable::saveToMap(
 ) const
 {
-    auto ret = Base::saveToMap();
+    auto ret = Namespace::saveToMap();
     ret.insert(TYPE,_type);
     if (!_assignment.isEmpty())
     {
@@ -90,7 +90,7 @@ void Variable::setState(
     const QHash<QString,QVariant>& state
 )
 {
-    Base::setState(state);
+    Namespace::setState(state);
     setType(state.value(TYPE).toString());
     setAssignment(state.value(ASSIGNMENT).toString());
 }
@@ -115,7 +115,7 @@ void Variable::setType(
 QHash<QString,QVariant> Variable::state(
 ) const
 {
-    auto ret = Base::state();
+    auto ret = Namespace::state();
     ret.insert(TYPE,_type);
     ret.insert(ASSIGNMENT,_assignment);
     return ret;

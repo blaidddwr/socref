@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCK_VARIABLE_H
 #define CPP_BLOCK_VARIABLE_H
-#include "CppBlockBase.h"
+#include "CppBlockNamespace.h"
 namespace Cpp {
 namespace Block {
 
@@ -13,7 +13,7 @@ namespace Block {
  * Its properties are type and assignment. Both are self-explanatory.
  */
 class Variable:
-    public Base
+    public Namespace
 {
     Q_OBJECT
     QString _assignment;

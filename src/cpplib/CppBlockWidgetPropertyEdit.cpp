@@ -8,7 +8,7 @@ PropertyEdit::PropertyEdit(
     const AbstractBlock* block
     ,QWidget* parent
 ):
-    BaseEdit(block,parent)
+    NamespaceEdit(block,parent)
 {
     setLayout(formLayout());
 }

@@ -9,7 +9,7 @@ Union::Union(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base("union",meta,parent)
+    Namespace("union",meta,parent)
 {
 }
 

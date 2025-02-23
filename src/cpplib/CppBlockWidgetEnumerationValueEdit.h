@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCKWIDGET_ENUMERATIONVALUEEDIT_H
 #define CPP_BLOCKWIDGET_ENUMERATIONVALUEEDIT_H
-#include "CppBlockWidgetBaseEdit.h"
+#include "CppBlockWidgetNamespaceEdit.h"
 namespace Cpp {
 namespace BlockWidget {
 
@@ -12,7 +12,7 @@ namespace BlockWidget {
  * C++ block.
  */
 class EnumerationValueEdit:
-    public BaseEdit
+    public NamespaceEdit
 {
     Q_OBJECT
     QLineEdit* _assignmentLineEdit {nullptr};

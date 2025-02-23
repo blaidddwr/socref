@@ -48,7 +48,7 @@ Function::Function(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base("function",meta,parent)
+    Namespace("function",meta,parent)
     ,_displayText("function() -> void")
     ,_icon(_publicFunctionIcon)
 {
@@ -391,7 +391,7 @@ void Function::loadFromMap(
     ,int version
 )
 {
-    Base::loadFromMap(map,version);
+    Namespace::loadFromMap(map,version);
     _returnType = map.value(RETURN_TYPE).toString();
     _returnDescription = map.value(RETURN_DESCRIPTION).toString();
     loadType(map.value(TYPE),version);
@@ -436,7 +436,7 @@ const QString& Function::returnType(
 QMap<QString,QVariant> Function::saveToMap(
 ) const
 {
-    auto ret = Base::saveToMap();
+    auto ret = Namespace::saveToMap();
     ret.insert(TYPE,typeString());
     ret.insert(ACCESS,accessString());
     ret.insert(RETURN_TYPE,_returnType);
@@ -468,7 +468,7 @@ void Function::set(
 )
 {
     if (
-        Base::name() != name
+        Namespace::name() != name
         || _returnType != returnType
         || _type != type
         || _access != access
@@ -476,7 +476,7 @@ void Function::set(
         || _flags != flags
         )
     {
-        auto oldName = Base::name();
+        auto oldName = Namespace::name();
         auto oldReturnType = _returnType;
         auto oldType = _type;
         auto oldAccess = _access;
@@ -554,7 +554,7 @@ void Function::setTemplates(
 QHash<QString,QVariant> Function::state(
 ) const
 {
-    auto ret = Base::state();
+    auto ret = Namespace::state();
     ret.insert(RETURN_TYPE,_returnType);
     ret.insert(TYPE,_type);
     ret.insert(ACCESS,_access);
@@ -667,7 +667,7 @@ void Function::addEvent(
         {
             setType(MethodFunctionType);
         }
-        connect(p,&Base::nameChanged,this,&Function::onClassNameChanged);
+        connect(p,&Namespace::nameChanged,this,&Function::onClassNameChanged);
         p->updateDisplayIcon();
     }
     else
@@ -1009,7 +1009,7 @@ void Function::removeEvent(
     if (auto p = qobject_cast<Property*>(parent()))
     {
         p->updateDisplayIcon();
-        disconnect(p,&Base::nameChanged,this,&Function::onClassNameChanged);
+        disconnect(p,&Namespace::nameChanged,this,&Function::onClassNameChanged);
     }
 }
 
@@ -1608,7 +1608,7 @@ void Function::setName(
     const QString& value
 )
 {
-    Base::setName(value);
+    Namespace::setName(value);
 }
 
 

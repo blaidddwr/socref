@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCK_EXCEPTION_H
 #define CPP_BLOCK_EXCEPTION_H
-#include "CppBlockBase.h"
+#include "CppBlockNamespace.h"
 namespace Cpp {
 namespace Block {
 
@@ -12,7 +12,7 @@ namespace Block {
  * from within a function.
  */
 class Exception:
-    public Base
+    public Namespace
 {
     Q_OBJECT
 

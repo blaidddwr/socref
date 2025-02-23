@@ -8,7 +8,6 @@ namespace Cpp {
  */
 namespace Block
 {
-    class Base;
     class Class;
     class Enumeration;
     class EnumerationValue;

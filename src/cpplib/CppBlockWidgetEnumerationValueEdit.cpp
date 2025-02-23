@@ -9,7 +9,7 @@ EnumerationValueEdit::EnumerationValueEdit(
     const AbstractBlock* block
     ,QWidget* parent
 ):
-    BaseEdit(block,parent)
+    NamespaceEdit(block,parent)
 {
     setLayout(formLayout());
 }
@@ -49,10 +49,10 @@ QFormLayout* EnumerationValueEdit::formLayout(
 {
     if (!_formLayout)
     {
-        BaseEdit::formLayout()->addRow(tr("Assignment:"),assignmentLineEdit());
+        NamespaceEdit::formLayout()->addRow(tr("Assignment:"),assignmentLineEdit());
         _formLayout = true;
     }
-    return BaseEdit::formLayout();
+    return NamespaceEdit::formLayout();
 }
 }
 }

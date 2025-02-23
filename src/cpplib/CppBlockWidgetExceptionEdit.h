@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCKWIDGET_EXCEPTIONEDIT_H
 #define CPP_BLOCKWIDGET_EXCEPTIONEDIT_H
-#include "CppBlockWidgetBaseEdit.h"
+#include "CppBlockWidgetNamespaceEdit.h"
 namespace Cpp {
 namespace BlockWidget {
 
@@ -12,7 +12,7 @@ namespace BlockWidget {
  * block.
  */
 class ExceptionEdit:
-    public BaseEdit
+    public NamespaceEdit
 {
     Q_OBJECT
 

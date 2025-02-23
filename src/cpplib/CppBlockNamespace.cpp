@@ -9,7 +9,8 @@ Namespace::Namespace(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base("namespace",meta,parent)
+    AbstractBlock(meta,parent)
+    ,_name("namespace")
 {
 }
 
@@ -21,10 +22,121 @@ AbstractBlockWidget* Namespace::createWidget(
 }
 
 
+const QString& Namespace::description(
+) const
+{
+    return _description;
+}
+
+
 QIcon Namespace::displayIcon(
 ) const
 {
     return QIcon(":/cpp/namespace.svg");
+}
+
+
+QString Namespace::displayText(
+) const
+{
+    return _name;
+}
+
+
+QString Namespace::fileName(
+) const
+{
+    return qobject_cast<AbstractBlock*>(parent())? _name : rootFileName();
+}
+
+
+const QString& Namespace::name(
+) const
+{
+    return _name;
+}
+
+
+void Namespace::loadFromMap(
+    const QMap<QString,QVariant>& map
+    ,int version
+)
+{
+    Q_UNUSED(version);
+    setName(map.value(nameKey()).toString());
+    setDescription(map.value(descriptionKey()).toString());
+}
+
+
+QMap<QString,QVariant> Namespace::saveToMap(
+) const
+{
+    QMap<QString,QVariant> ret;
+    if (!_name.isEmpty())
+    {
+        ret.insert(nameKey(),_name);
+    }
+    if (!_description.isEmpty())
+    {
+        ret.insert(descriptionKey(),_description);
+    }
+    return ret;
+}
+
+
+void Namespace::setDescription(
+    const QString& value
+)
+{
+    if (_description != value)
+    {
+        _description = value;
+        emit descriptionChanged(value);
+    }
+}
+
+
+void Namespace::setName(
+    const QString& value
+)
+{
+    if (_name != value)
+    {
+        _name = value;
+        onNameChanged(value);
+        emit nameChanged(value);
+    }
+}
+
+
+void Namespace::setState(
+    const QHash<QString,QVariant>& state
+)
+{
+    setName(state.value(nameKey()).toString());
+    setDescription(state.value(descriptionKey()).toString());
+}
+
+
+QHash<QString,QVariant> Namespace::state(
+) const
+{
+    return
+    {
+        {nameKey(),_name}
+        ,{descriptionKey(),_description}
+    };
+}
+
+
+Namespace::Namespace(
+    const QString& name
+    ,Model::Meta::Block* meta
+    ,QObject* parent
+):
+    AbstractBlock(meta,parent)
+    ,_name(name)
+{
 }
 
 
@@ -33,6 +145,28 @@ AbstractBlock* Namespace::create(
 ) const
 {
     return new Namespace(meta(),parent);
+}
+
+
+void Namespace::onNameChanged(
+    const QString& value
+)
+{
+    emit displayTextChanged(value);
+}
+
+
+const char* Namespace::descriptionKey(
+)
+{
+    return "description";
+}
+
+
+const char* Namespace::nameKey(
+)
+{
+    return "name";
 }
 }
 }

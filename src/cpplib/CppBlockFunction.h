@@ -1,7 +1,7 @@
 #ifndef CPP_BLOCK_FUNCTION_H
 #define CPP_BLOCK_FUNCTION_H
 #include "Cpp.h"
-#include "CppBlockBase.h"
+#include "CppBlockNamespace.h"
 namespace Cpp {
 namespace Block {
 
@@ -41,7 +41,7 @@ namespace Block {
  * with new property value enumerations.
  */
 class Function:
-    public Base
+    public Namespace
 {
     Q_OBJECT
     QString _displayText;

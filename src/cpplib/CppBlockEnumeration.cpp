@@ -10,7 +10,7 @@ Enumeration::Enumeration(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base("enumeration",meta,parent)
+    Namespace("enumeration",meta,parent)
 {
 }
 
@@ -32,7 +32,7 @@ QIcon Enumeration::displayIcon(
 QString Enumeration::displayText(
 ) const
 {
-    auto ret = Base::displayText();
+    auto ret = Namespace::displayText();
     if (_class)
     {
         ret += " -> class";
@@ -53,7 +53,7 @@ void Enumeration::loadFromMap(
     ,int version
 )
 {
-    Base::loadFromMap(map,version);
+    Namespace::loadFromMap(map,version);
     _class = map.value(CLASS).toBool();
 }
 
@@ -61,7 +61,7 @@ void Enumeration::loadFromMap(
 QMap<QString,QVariant> Enumeration::saveToMap(
 ) const
 {
-    auto ret = Base::saveToMap();
+    auto ret = Namespace::saveToMap();
     if (_class)
     {
         ret.insert(CLASS,true);
@@ -87,7 +87,7 @@ void Enumeration::setState(
     const QHash<QString,QVariant>& state
 )
 {
-    Base::setState(state);
+    Namespace::setState(state);
     setClass(state.value(CLASS).toBool());
 }
 
@@ -95,7 +95,7 @@ void Enumeration::setState(
 QHash<QString,QVariant> Enumeration::state(
 ) const
 {
-    auto ret = Base::state();
+    auto ret = Namespace::state();
     ret.insert(CLASS,_class);
     return ret;
 }

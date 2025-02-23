@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCKWIDGET_ENUMERATIONEDIT_H
 #define CPP_BLOCKWIDGET_ENUMERATIONEDIT_H
-#include "CppBlockWidgetBaseEdit.h"
+#include "CppBlockWidgetNamespaceEdit.h"
 class QCheckBox;
 class QGroupBox;
 namespace Cpp {
@@ -14,7 +14,7 @@ namespace BlockWidget {
  * block.
  */
 class EnumerationEdit:
-    public BaseEdit
+    public NamespaceEdit
 {
     Q_OBJECT
     QCheckBox* _classCheckBox {nullptr};

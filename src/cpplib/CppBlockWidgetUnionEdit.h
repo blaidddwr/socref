@@ -1,6 +1,6 @@
 #ifndef CPP_BLOCKWIDGET_UNIONEDIT_H
 #define CPP_BLOCKWIDGET_UNIONEDIT_H
-#include "CppBlockWidgetBaseEdit.h"
+#include "CppBlockWidgetNamespaceEdit.h"
 namespace Cpp {
 namespace BlockWidget {
 
@@ -11,7 +11,7 @@ namespace BlockWidget {
  * This is a block widget. It provides an editable view of a union C++ block.
  */
 class UnionEdit:
-    public BaseEdit
+    public NamespaceEdit
 {
     Q_OBJECT
 

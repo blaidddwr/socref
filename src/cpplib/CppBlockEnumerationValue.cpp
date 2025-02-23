@@ -10,7 +10,7 @@ EnumerationValue::EnumerationValue(
     Model::Meta::Block* meta
     ,QObject* parent
 ):
-    Base("value",meta,parent)
+    Namespace("value",meta,parent)
 {
 }
 
@@ -41,7 +41,7 @@ void EnumerationValue::loadFromMap(
     ,int version
 )
 {
-    Base::loadFromMap(map,version);
+    Namespace::loadFromMap(map,version);
     _assignment = map.value(ASSIGNMENT).toString();
 }
 
@@ -49,7 +49,7 @@ void EnumerationValue::loadFromMap(
 QMap<QString,QVariant> EnumerationValue::saveToMap(
 ) const
 {
-    auto ret = Base::saveToMap();
+    auto ret = Namespace::saveToMap();
     if (!_assignment.isEmpty())
     {
         ret.insert(ASSIGNMENT,_assignment);
@@ -74,7 +74,7 @@ void EnumerationValue::setState(
     const QHash<QString,QVariant>& state
 )
 {
-    Base::setState(state);
+    Namespace::setState(state);
     setAssignment(state.value(ASSIGNMENT).toString());
 }
 
@@ -82,7 +82,7 @@ void EnumerationValue::setState(
 QHash<QString,QVariant> EnumerationValue::state(
 ) const
 {
-    auto ret = Base::state();
+    auto ret = Namespace::state();
     ret.insert(ASSIGNMENT,_assignment);
     return ret;
 }
