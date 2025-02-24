@@ -4,17 +4,19 @@
 #include <QString>
 namespace Exception {
 
+
 class Base
 {
+
 public:
     Base(const QString& message);
     const QString& message() const;
-/*@ footer @*/
+
 private:
     QString _message;
 };
 
-/*@ footer @*/
+
 class FileSystem: public Base { using Base::Base; };
 class LogicalBlock: public Base { using Base::Base; };
 class LogicalParse: public Base { using Base::Base; };
@@ -27,7 +29,7 @@ class WriteBlock: public Base { using Base::Base; };
 class WriteProject: public Base { using Base::Base; };
 }
 
-/*@ EOS @*/
+
 
 /*!
  * @namespace Exception

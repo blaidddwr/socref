@@ -13,12 +13,12 @@
  * 
  * A parser can have children parsers. Children parsers look for their own code
  * blocks within the source code. A parser implementation is responsible for
- * adding its children parsers at the correct time.
+ * adding its children at construction.
  * 
  * Parsing is done line by line, and a parser is treated like a state machine
  * with its parse interface being called per line of source code. A status is
  * returned instructing the code controller how to proceed. When the children
- * parsers of a parser are given a change to parse a line of code, the first
+ * parsers of a parser are given a chance to parse a line of code, the first
  * child that successfully parses one or more lines is used and all other
  * children are ignored for that pass until the children parsers are called to
  * parse a line of code again.
@@ -34,12 +34,11 @@
  * reached while parsing a source code file's lines.
  * 
  * @property block The block object associated with the source code a parser is
- * parsing. This must be a valid block before parsing can begin.
- * 
- * @property children The list of a parser's children.
+ * parsing. This must be a valid object and it cannot be destroyed during the
+ * lifetime of the parser object.
  * 
  * @property version The version of source code a parser is parsing. This must
- * be a valid version number before parsing can begin.
+ * be a valid version number.
  */
 class AbstractParser:
     public QObject
@@ -80,27 +79,37 @@ class AbstractParser:
     /*!
      * Constructor.
      *
-     * @param parent
-     *        The new parser's parent. If this is a root parser created by the
-     *        language's create parser interface then this must be null, else it
-     *        must be a valid parser.
-     *
      * @param block
      *        The initial object of the block property.
      *
      * @param version
      *        The initial value of the version property.
+     *
+     * @param parent
+     *        This object's parent. If the parent is an abstract parser then
+     *        this object is added to its list of parser children.
      */
     public:
     AbstractParser(
-        AbstractParser* parent = nullptr
-        ,AbstractBlock* block = nullptr
-        ,int version = -1
+        AbstractBlock* block
+        ,int version
+        ,QObject* parent = nullptr
     );
 
 
     /*!
-     * Getter for the children property.
+     * Detailed description.
+     */
+    public:
+    AbstractBlock* block(
+    ) const;
+
+
+    /*!
+     * Getter.
+     *
+     * @return
+     * A list of this object's parser children.
      */
     public:
     const QList<AbstractParser*>& children(
@@ -108,7 +117,8 @@ class AbstractParser:
 
 
     /*!
-     * Parses a single line of code.
+     * Parses a single line of code. The reset method must be called before this
+     * method is called.
      * 
      * @exception Exception::LogicalParse Thrown when a logical parse error is
      * encountered.
@@ -130,69 +140,10 @@ class AbstractParser:
 
 
     /*!
-     * Resets this parser object and all its descendant parsers, allowing it to
-     * parse new source code lines.
-     * 
-     * If this method is overridden then the overriding method must called this
-     * method in order to correctly call the reset interface on all descendant
-     * parsers.
-     */
-    public:
-    virtual void reset(
-    );
-
-
-    /*!
-     * Setter for the block property.
-     * 
-     * If this method is overridden then the overriding method must call this
-     * method in order to properly set the property.
-     */
-    public:
-    virtual void setBlock(
-        AbstractBlock* object
-    );
-
-
-    /*!
-     * Setter for the version property.
-     * 
-     * If this method is overridden then the overriding method must call this
-     * method in order to properly set the property.
-     */
-    public:
-    virtual void setVersion(
-        int value
-    );
-
-
-    /*!
      * Getter for the version property.
      */
     public:
     int version(
-    ) const;
-
-
-    /*!
-     * Adds a parser object to this parser object as its child, taking ownership
-     * of it.
-     *
-     * @param child
-     *        The parser object added. This method's parser takes ownership of
-     *        the given child.
-     */
-    protected:
-    void addChild(
-        AbstractParser* child
-    );
-
-
-    /*!
-     * Getter for the block property.
-     */
-    protected:
-    AbstractBlock* block(
     ) const;
 
 
@@ -214,6 +165,25 @@ class AbstractParser:
     void insertCode(
         const QString& key
         ,const QStringList& lines
+    );
+
+
+    /*!
+     * Called when the block object's destroyed signal emitted.
+     */
+    private slots:
+    void onBlockDestroyed(
+        QObject* object
+    );
+
+
+    /*!
+     * Called when a child parser of this object has its destroyed signal
+     * emitted.
+     */
+    private slots:
+    void onChildDestroyed(
+        QObject* object
     );
 };
 

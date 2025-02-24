@@ -43,7 +43,7 @@ void TestCppLanguage::createClass()
 {
     static const QSet<int> allowList {EnumerationIndex,FunctionIndex,PropertyIndex,VariableIndex};
     static const QIcon testIcon(":/cpp/class.svg");
-    auto block = _language->createBlock(ClassIndex,this);
+    std::unique_ptr<AbstractBlock> block(_language->createBlock(ClassIndex));
     auto meta = block->meta();
     QCOMPARE(meta->index(),ClassIndex);
     QCOMPARE(meta->name(),"class");
@@ -56,7 +56,7 @@ void TestCppLanguage::createEnumeration()
 {
     static const QSet<int> allowList {EnumerationValueIndex};
     static const QIcon testIcon(":/cpp/enumeration.svg");
-    auto block = _language->createBlock(EnumerationIndex,this);
+    std::unique_ptr<AbstractBlock> block(_language->createBlock(EnumerationIndex));
     auto meta = block->meta();
     QCOMPARE(meta->index(),EnumerationIndex);
     QCOMPARE(meta->name(),"enumeration");
@@ -69,7 +69,7 @@ void TestCppLanguage::createEnumerationValue()
 {
     static const QSet<int> allowList {};
     static const QIcon testIcon(":/cpp/enumeration_value.svg");
-    auto block = _language->createBlock(EnumerationValueIndex,this);
+    std::unique_ptr<AbstractBlock> block(_language->createBlock(EnumerationValueIndex));
     auto meta = block->meta();
     QCOMPARE(meta->index(),EnumerationValueIndex);
     QCOMPARE(meta->name(),"enumerationvalue");
@@ -82,7 +82,7 @@ void TestCppLanguage::createException()
 {
     static const QSet<int> allowList {};
     static const QIcon testIcon(":/cpp/exception.svg");
-    auto block = _language->createBlock(ExceptionIndex,this);
+    std::unique_ptr<AbstractBlock> block (_language->createBlock(ExceptionIndex));
     auto meta = block->meta();
     QCOMPARE(meta->index(),ExceptionIndex);
     QCOMPARE(meta->name(),"exception");
@@ -95,7 +95,7 @@ void TestCppLanguage::createFunction()
 {
     static const QSet<int> allowList {ExceptionIndex,VariableIndex};
     static const QIcon testIcon(":/cpp/public_function.svg");
-    auto block = _language->createBlock(FunctionIndex,this);
+    std::unique_ptr<AbstractBlock> block(_language->createBlock(FunctionIndex));
     auto meta = block->meta();
     QCOMPARE(meta->index(),FunctionIndex);
     QCOMPARE(meta->name(),"function");
@@ -114,7 +114,7 @@ void TestCppLanguage::createNamespace()
         ,UnionIndex
     };
     static const QIcon testIcon(":/cpp/namespace.svg");
-    auto block = _language->createBlock(NamespaceIndex,this);
+    std::unique_ptr<AbstractBlock> block(_language->createBlock(NamespaceIndex));
     auto meta = block->meta();
     QCOMPARE(meta->index(),NamespaceIndex);
     QCOMPARE(meta->name(),"namespace");
@@ -127,7 +127,7 @@ void TestCppLanguage::createProperty()
 {
     static const QSet<int> allowList {FunctionIndex,VariableIndex};
     static const QIcon testIcon(":/cpp/property.svg");
-    auto block = _language->createBlock(PropertyIndex,this);
+    std::unique_ptr<AbstractBlock> block(_language->createBlock(PropertyIndex));
     auto meta = block->meta();
     QCOMPARE(meta->index(),PropertyIndex);
     QCOMPARE(meta->name(),"property");
@@ -140,7 +140,7 @@ void TestCppLanguage::createUnion()
 {
     static const QSet<int> allowList {};
     static const QIcon testIcon(":/cpp/union.svg");
-    auto block = _language->createBlock(UnionIndex,this);
+    std::unique_ptr<AbstractBlock> block(_language->createBlock(UnionIndex));
     auto meta = block->meta();
     QCOMPARE(meta->index(),UnionIndex);
     QCOMPARE(meta->name(),"union");
@@ -153,7 +153,7 @@ void TestCppLanguage::createVariable()
 {
     static const QSet<int> allowList {};
     static const QIcon testIcon(":/cpp/variable.svg");
-    auto block = _language->createBlock(VariableIndex,this);
+    std::unique_ptr<AbstractBlock> block(_language->createBlock(VariableIndex));
     auto meta = block->meta();
     QCOMPARE(meta->index(),VariableIndex);
     QCOMPARE(meta->name(),"variable");

@@ -75,10 +75,16 @@ class AbstractLanguage:
 
 
     /*!
-     * Creates a new parse controller.
+     * Creates a new parser.
      *
      * @param index
      *        The new parse controller's index.
+     *
+     * @param block
+     *        The block associated with the new parser.
+     *
+     * @param version
+     *        The source code version of the file to be parsed.
      *
      * @return
      * The new parse controller.
@@ -86,6 +92,8 @@ class AbstractLanguage:
     public:
     virtual AbstractParser* createParser(
         int index
+        ,AbstractBlock* block
+        ,int version
     ) const = 0;
 
 

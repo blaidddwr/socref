@@ -14,6 +14,7 @@
 #include "CppParseHeadParser.h"
 #include "CppParseSourceParser.h"
 #include "CppRouter.h"
+#include "Exception.h"
 #include "ModelMetaBlock.h"
 namespace Cpp {
 using namespace Block;
@@ -22,88 +23,8 @@ using namespace Parse;
 
 Language::Language(
 ):
-    AbstractLanguage(new Model::Meta::Language("cpp","C++",QIcon(":/cpp.svg")))
-    ,_router(new Router(this))
+    Language(new Model::Meta::Language("cpp","C++",QIcon(":/cpp.svg")))
 {
-    Class::initializeIcons();
-    Function::initializeIcons();
-    Property::initializeIcons();
-    appendBlocks(
-        {
-            new Model::Meta::Block(
-                meta()
-                ,ClassIndex
-                ,"class"
-                ,"Class"
-                ,QIcon(":/cpp/class.svg")
-                ,{EnumerationIndex,FunctionIndex,PropertyIndex,VariableIndex}
-                )
-            ,new Model::Meta::Block(
-                meta()
-                ,EnumerationIndex
-                ,"enumeration"
-                ,"Enumeration"
-                ,QIcon(":/cpp/enumeration.svg")
-                ,{EnumerationValueIndex}
-                )
-            ,new Model::Meta::Block(
-                meta()
-                ,EnumerationValueIndex
-                ,"enumerationvalue"
-                ,"Enumeration Value"
-                ,QIcon(":/cpp/enumeration_value.svg")
-                ,{}
-                )
-            ,new Model::Meta::Block(
-                meta()
-                ,ExceptionIndex
-                ,"exception"
-                ,"Exception"
-                ,QIcon(":/cpp/exception.svg")
-                ,{}
-                )
-            ,new Model::Meta::Block(
-                meta()
-                ,FunctionIndex
-                ,"function"
-                ,"Function"
-                ,QIcon(":/cpp/public_function.svg")
-                ,{ExceptionIndex,VariableIndex}
-                )
-            ,new Model::Meta::Block(
-                meta()
-                ,NamespaceIndex
-                ,"namespace"
-                ,"Namespace"
-                ,QIcon(":/cpp/namespace.svg")
-                ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex,UnionIndex}
-                )
-            ,new Model::Meta::Block(
-                meta()
-                ,PropertyIndex
-                ,"property"
-                ,"Property"
-                ,QIcon(":/cpp/property.svg")
-                ,{FunctionIndex,VariableIndex}
-                )
-            ,new Model::Meta::Block(
-                meta()
-                ,UnionIndex
-                ,"union"
-                ,"Union"
-                ,QIcon(":/cpp/union.svg")
-                ,{}
-                )
-            ,new Model::Meta::Block(
-                meta()
-                ,VariableIndex
-                ,"variable"
-                ,"Variable"
-                ,QIcon(":/cpp/variable.svg")
-                ,{}
-                )
-        }
-        );
 }
 
 
@@ -176,14 +97,51 @@ AbstractBlock* Language::createBlock(
 
 AbstractParser* Language::createParser(
     int index
+    ,AbstractBlock* block
+    ,int version
 ) const
 {
+    using LogicalParse = ::Exception::LogicalParse;
+    Q_ASSERT(block);
+    if (
+        version < Cpp_Legacy
+        || version > Cpp_Current
+        )
+    {
+        throw LogicalParse(tr("Unknown version number %1.").arg(version));
+    }
     switch (index)
     {
     case HeadParserIndex:
-        return new HeadParser;
+        if (auto b = qobject_cast<Namespace*>(block))
+        {
+            return new HeadParser(b,version);
+        }
+        else if (auto b = qobject_cast<Class*>(block))
+        {
+            return new HeadParser(b,version);
+        }
+        else
+        {
+            throw LogicalParse(
+                tr("Unsupported %1 block for head parser.").arg(block->meta()->label())
+                );
+        }
     case SourceParserIndex:
-        return new SourceParser;
+        if (auto b = qobject_cast<Namespace*>(block))
+        {
+            return new SourceParser(b,version);
+        }
+        else if (auto b = qobject_cast<Class*>(block))
+        {
+            return new SourceParser(b,version);
+        }
+        else
+        {
+            throw LogicalParse(
+                tr("Unsupported %1 block for source parser.").arg(block->meta()->label())
+                );
+        }
     default:
         throw std::logic_error("unknown parser index");
     }
@@ -212,5 +170,95 @@ AbstractRouter* Language::router(
 ) const
 {
     return _router;
+}
+
+
+Language::Language(
+    Model::Meta::Language* meta
+    ,QObject* parent
+):
+    AbstractLanguage(meta,parent)
+    ,_router(new Router(this))
+{
+    Q_ASSERT(meta);
+    Class::initializeIcons();
+    Function::initializeIcons();
+    Property::initializeIcons();
+    appendBlocks(
+        {
+            new Model::Meta::Block(
+                meta
+                ,ClassIndex
+                ,"class"
+                ,"Class"
+                ,QIcon(":/cpp/class.svg")
+                ,{EnumerationIndex,FunctionIndex,PropertyIndex,VariableIndex}
+                )
+            ,new Model::Meta::Block(
+                meta
+                ,EnumerationIndex
+                ,"enumeration"
+                ,"Enumeration"
+                ,QIcon(":/cpp/enumeration.svg")
+                ,{EnumerationValueIndex}
+                )
+            ,new Model::Meta::Block(
+                meta
+                ,EnumerationValueIndex
+                ,"enumerationvalue"
+                ,"Enumeration Value"
+                ,QIcon(":/cpp/enumeration_value.svg")
+                ,{}
+                )
+            ,new Model::Meta::Block(
+                meta
+                ,ExceptionIndex
+                ,"exception"
+                ,"Exception"
+                ,QIcon(":/cpp/exception.svg")
+                ,{}
+                )
+            ,new Model::Meta::Block(
+                meta
+                ,FunctionIndex
+                ,"function"
+                ,"Function"
+                ,QIcon(":/cpp/public_function.svg")
+                ,{ExceptionIndex,VariableIndex}
+                )
+            ,new Model::Meta::Block(
+                meta
+                ,NamespaceIndex
+                ,"namespace"
+                ,"Namespace"
+                ,QIcon(":/cpp/namespace.svg")
+                ,{ClassIndex,EnumerationIndex,FunctionIndex,NamespaceIndex,UnionIndex}
+                )
+            ,new Model::Meta::Block(
+                meta
+                ,PropertyIndex
+                ,"property"
+                ,"Property"
+                ,QIcon(":/cpp/property.svg")
+                ,{FunctionIndex,VariableIndex}
+                )
+            ,new Model::Meta::Block(
+                meta
+                ,UnionIndex
+                ,"union"
+                ,"Union"
+                ,QIcon(":/cpp/union.svg")
+                ,{}
+                )
+            ,new Model::Meta::Block(
+                meta
+                ,VariableIndex
+                ,"variable"
+                ,"Variable"
+                ,QIcon(":/cpp/variable.svg")
+                ,{}
+                )
+        }
+        );
 }
 }

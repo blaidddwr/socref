@@ -4,65 +4,21 @@
 
 
 AbstractParser::AbstractParser(
-    AbstractParser* parent
-    ,AbstractBlock* block
+    AbstractBlock* block
     ,int version
+    ,QObject* parent
 ):
     QObject(parent)
     ,_block(block)
     ,_version(version)
 {
-}
-
-
-const QList<AbstractParser*>& AbstractParser::children(
-)
-{
-    return _children;
-}
-
-
-void AbstractParser::reset(
-)
-{
-    for (auto child: std::as_const(_children))
+    Q_ASSERT(block);
+    connect(block,&QObject::destroyed,this,&AbstractParser::onBlockDestroyed);
+    if (auto p = qobject_cast<AbstractParser*>(parent))
     {
-        child->reset();
+        p->_children.append(this);
+        connect(this,&QObject::destroyed,p,&AbstractParser::onChildDestroyed);
     }
-}
-
-
-void AbstractParser::setBlock(
-    AbstractBlock* object
-)
-{
-    _block = object;
-}
-
-
-void AbstractParser::setVersion(
-    int value
-)
-{
-    _version = value;
-}
-
-
-int AbstractParser::version(
-) const
-{
-    Q_ASSERT(_version != -1);
-    return _version;
-}
-
-
-void AbstractParser::addChild(
-    AbstractParser* child
-)
-{
-    Q_ASSERT(child);
-    child->setParent(this);
-    _children.append(child);
 }
 
 
@@ -74,20 +30,53 @@ AbstractBlock* AbstractParser::block(
 }
 
 
+const QList<AbstractParser*>& AbstractParser::children(
+)
+{
+    return _children;
+}
+
+
+int AbstractParser::version(
+) const
+{
+    return _version;
+}
+
+
 void AbstractParser::insertCode(
     const QString& key
     ,const QStringList& lines
 )
 {
     using LogicalParse = Exception::LogicalParse;
-    Q_ASSERT(block());
+    Q_ASSERT(_block);
     if (!lines.isEmpty())
     {
-        auto& code = block()->code();
+        auto& code = _block->code();
         if (code.contains(key))
         {
             throw LogicalParse(tr("Code key collision in block %1.").arg(block()->displayText()));
         }
         code.insert(key,lines);
     }
+}
+
+
+void AbstractParser::onBlockDestroyed(
+    QObject* object
+)
+{
+    if (_block == object)
+    {
+        _block = nullptr;
+    }
+}
+
+
+void AbstractParser::onChildDestroyed(
+    QObject* object
+)
+{
+    _children.removeOne(object);
 }

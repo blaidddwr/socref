@@ -1,6 +1,7 @@
 #ifndef CPP_PARSE_SOURCEPARSER_H
 #define CPP_PARSE_SOURCEPARSER_H
 #include "AbstractParser.h"
+#include "CppBlock.h"
 namespace Cpp {
 namespace Parse {
 
@@ -14,6 +15,8 @@ class SourceParser:
     public AbstractParser
 {
     Q_OBJECT
+    using Class = Block::Class;
+    using Namespace = Block::Namespace;
     QStringList _header;
     QStringList _preProcess;
 
@@ -36,7 +39,17 @@ class SourceParser:
 
     public:
     SourceParser(
-        AbstractParser* parent = nullptr
+        Class* block
+        ,int version
+        ,QObject* parent = nullptr
+    );
+
+
+    public:
+    SourceParser(
+        Namespace* block
+        ,int version
+        ,QObject* parent = nullptr
     );
 
 
@@ -44,23 +57,6 @@ class SourceParser:
     virtual Status parse(
         const QStringList& lines
         ,int where
-    ) override final;
-
-
-    public:
-    virtual void reset(
-    ) override final;
-
-
-    public:
-    virtual void setBlock(
-        AbstractBlock* object
-    ) override final;
-
-
-    public:
-    virtual void setVersion(
-        int value
     ) override final;
 
 

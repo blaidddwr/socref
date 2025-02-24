@@ -1159,7 +1159,7 @@ router: This property provides a language's route controller for parsing.</__p_d
                 <__p_const>1</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Creates a new parse controller.</__p_description>
+                <__p_description>Creates a new parser.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
@@ -1173,6 +1173,16 @@ router: This property provides a language's route controller for parsing.</__p_d
                 <Variable>
                     <__p_description>The new parse controller's index.</__p_description>
                     <__p_name>index</__p_name>
+                    <__p_type>int</__p_type>
+                </Variable>
+                <Variable>
+                    <__p_description>The block associated with the new parser.</__p_description>
+                    <__p_name>block</__p_name>
+                    <__p_type>AbstractBlock*</__p_type>
+                </Variable>
+                <Variable>
+                    <__p_description>The source code version of the file to be parsed.</__p_description>
+                    <__p_name>version</__p_name>
                     <__p_type>int</__p_type>
                 </Variable>
             </Function>
@@ -1348,19 +1358,17 @@ The order of addition is the same as the order in the given list.</__p_descripti
         <Class>
             <__p_description>This parses a source code file for code lines. These code lines in turn are used by builders to rebuild the source code with the implementation code intact.
 
-A parser can have children parsers. Children parsers look for their own code blocks within the source code. A parser implementation is responsible for adding its children parsers at the correct time.
+A parser can have children parsers. Children parsers look for their own code blocks within the source code. A parser implementation is responsible for adding its children at construction.
 
-Parsing is done line by line, and a parser is treated like a state machine with its parse interface being called per line of source code. A status is returned instructing the code controller how to proceed. When the children parsers of a parser are given a change to parse a line of code, the first child that successfully parses one or more lines is used and all other children are ignored for that pass until the children parsers are called to parse a line of code again.
+Parsing is done line by line, and a parser is treated like a state machine with its parse interface being called per line of source code. A status is returned instructing the code controller how to proceed. When the children parsers of a parser are given a chance to parse a line of code, the first child that successfully parses one or more lines is used and all other children are ignored for that pass until the children parsers are called to parse a line of code again.
 
 When parsing reaches the end of the source code lines, a special end of lines value is passed as the line to be parsed. The parser must return a status of &quot;done with read&quot; to indicate it was ready for the end of the source code to be reached, otherwise a logical parse error will be thrown. All parent parsers are also given the same end of lines value and must return the &quot;done with read&quot; status to indicate they all expect the source code to end.
 
 @property EOL A special integer value indicating the end of lines has been reached while parsing a source code file's lines.
 
-@property block The block object associated with the source code a parser is parsing. This must be a valid block before parsing can begin.
+@property block The block object associated with the source code a parser is parsing. This must be a valid object and it cannot be destroyed during the lifetime of the parser object.
 
-@property children The list of a parser's children.
-
-@property version The version of source code a parser is parsing. This must be a valid version number before parsing can begin.</__p_description>
+@property version The version of source code a parser is parsing. This must be a valid version number.</__p_description>
             <__p_name>AbstractParser</__p_name>
             <__p_parents>public QObject</__p_parents>
             <Enumeration>
@@ -1393,23 +1401,38 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                 <__p_static>0</__p_static>
                 <__p_virtual>0</__p_virtual>
                 <Variable>
-                    <__p_assignment>nullptr</__p_assignment>
-                    <__p_description>The new parser's parent. If this is a root parser created by the language's create parser interface then this must be null, else it must be a valid parser.</__p_description>
-                    <__p_name>parent</__p_name>
-                    <__p_type>AbstractParser*</__p_type>
-                </Variable>
-                <Variable>
-                    <__p_assignment>nullptr</__p_assignment>
                     <__p_description>The initial object of the block property.</__p_description>
                     <__p_name>block</__p_name>
                     <__p_type>AbstractBlock*</__p_type>
                 </Variable>
                 <Variable>
-                    <__p_assignment>-1</__p_assignment>
                     <__p_description>The initial value of the version property.</__p_description>
                     <__p_name>version</__p_name>
                     <__p_type>int</__p_type>
                 </Variable>
+                <Variable>
+                    <__p_assignment>nullptr</__p_assignment>
+                    <__p_description>This object's parent. If the parent is an abstract parser then this object is added to its list of parser children.</__p_description>
+                    <__p_name>parent</__p_name>
+                    <__p_type>QObject*</__p_type>
+                </Variable>
+            </Function>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Public</__p_access>
+                <__p_const>1</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Detailed description.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>block</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnType>AbstractBlock*</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
             </Function>
             <Function>
                 <__p_abstract>0</__p_abstract>
@@ -1417,13 +1440,14 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                 <__p_const>0</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Getter for the children property.</__p_description>
+                <__p_description>Getter.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
                 <__p_name>children</__p_name>
                 <__p_noexcept>0</__p_noexcept>
                 <__p_override>0</__p_override>
+                <__p_returnDescription>A list of this object's parser children.</__p_returnDescription>
                 <__p_returnType>const QList&lt;AbstractParser*&gt;&amp;</__p_returnType>
                 <__p_static>0</__p_static>
                 <__p_virtual>0</__p_virtual>
@@ -1434,7 +1458,7 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                 <__p_const>0</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Parses a single line of code.
+                <__p_description>Parses a single line of code. The reset method must be called before this method is called.
 
 @exception Exception::LogicalParse Thrown when a logical parse error is encountered.</__p_description>
                 <__p_explicit>0</__p_explicit>
@@ -1461,71 +1485,6 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
             <Function>
                 <__p_abstract>0</__p_abstract>
                 <__p_access>Public</__p_access>
-                <__p_const>0</__p_const>
-                <__p_default>0</__p_default>
-                <__p_deleted>0</__p_deleted>
-                <__p_description>Resets this parser object and all its descendant parsers, allowing it to parse new source code lines.
-
-If this method is overridden then the overriding method must called this method in order to correctly call the reset interface on all descendant parsers.</__p_description>
-                <__p_explicit>0</__p_explicit>
-                <__p_final>0</__p_final>
-                <__p_invokable>0</__p_invokable>
-                <__p_name>reset</__p_name>
-                <__p_noexcept>0</__p_noexcept>
-                <__p_override>0</__p_override>
-                <__p_returnType>void</__p_returnType>
-                <__p_static>0</__p_static>
-                <__p_virtual>1</__p_virtual>
-            </Function>
-            <Function>
-                <__p_abstract>0</__p_abstract>
-                <__p_access>Public</__p_access>
-                <__p_const>0</__p_const>
-                <__p_default>0</__p_default>
-                <__p_deleted>0</__p_deleted>
-                <__p_description>Setter for the block property.
-
-If this method is overridden then the overriding method must call this method in order to properly set the property.</__p_description>
-                <__p_explicit>0</__p_explicit>
-                <__p_final>0</__p_final>
-                <__p_invokable>0</__p_invokable>
-                <__p_name>setBlock</__p_name>
-                <__p_noexcept>0</__p_noexcept>
-                <__p_override>0</__p_override>
-                <__p_returnType>void</__p_returnType>
-                <__p_static>0</__p_static>
-                <__p_virtual>1</__p_virtual>
-                <Variable>
-                    <__p_name>object</__p_name>
-                    <__p_type>AbstractBlock*</__p_type>
-                </Variable>
-            </Function>
-            <Function>
-                <__p_abstract>0</__p_abstract>
-                <__p_access>Public</__p_access>
-                <__p_const>0</__p_const>
-                <__p_default>0</__p_default>
-                <__p_deleted>0</__p_deleted>
-                <__p_description>Setter for the version property.
-
-If this method is overridden then the overriding method must call this method in order to properly set the property.</__p_description>
-                <__p_explicit>0</__p_explicit>
-                <__p_final>0</__p_final>
-                <__p_invokable>0</__p_invokable>
-                <__p_name>setVersion</__p_name>
-                <__p_noexcept>0</__p_noexcept>
-                <__p_override>0</__p_override>
-                <__p_returnType>void</__p_returnType>
-                <__p_static>0</__p_static>
-                <__p_virtual>1</__p_virtual>
-                <Variable>
-                    <__p_name>value</__p_name>
-                    <__p_type>int</__p_type>
-                </Variable>
-            </Function>
-            <Function>
-                <__p_abstract>0</__p_abstract>
-                <__p_access>Public</__p_access>
                 <__p_const>1</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
@@ -1537,45 +1496,6 @@ If this method is overridden then the overriding method must call this method in
                 <__p_noexcept>0</__p_noexcept>
                 <__p_override>0</__p_override>
                 <__p_returnType>int</__p_returnType>
-                <__p_static>0</__p_static>
-                <__p_virtual>0</__p_virtual>
-            </Function>
-            <Function>
-                <__p_abstract>0</__p_abstract>
-                <__p_access>Protected</__p_access>
-                <__p_const>0</__p_const>
-                <__p_default>0</__p_default>
-                <__p_deleted>0</__p_deleted>
-                <__p_description>Adds a parser object to this parser object as its child, taking ownership of it.</__p_description>
-                <__p_explicit>0</__p_explicit>
-                <__p_final>0</__p_final>
-                <__p_invokable>0</__p_invokable>
-                <__p_name>addChild</__p_name>
-                <__p_noexcept>0</__p_noexcept>
-                <__p_override>0</__p_override>
-                <__p_returnType>void</__p_returnType>
-                <__p_static>0</__p_static>
-                <__p_virtual>0</__p_virtual>
-                <Variable>
-                    <__p_description>The parser object added. This method's parser takes ownership of the given child.</__p_description>
-                    <__p_name>child</__p_name>
-                    <__p_type>AbstractParser*</__p_type>
-                </Variable>
-            </Function>
-            <Function>
-                <__p_abstract>0</__p_abstract>
-                <__p_access>Protected</__p_access>
-                <__p_const>1</__p_const>
-                <__p_default>0</__p_default>
-                <__p_deleted>0</__p_deleted>
-                <__p_description>Getter for the block property.</__p_description>
-                <__p_explicit>0</__p_explicit>
-                <__p_final>0</__p_final>
-                <__p_invokable>0</__p_invokable>
-                <__p_name>block</__p_name>
-                <__p_noexcept>0</__p_noexcept>
-                <__p_override>0</__p_override>
-                <__p_returnType>AbstractBlock*</__p_returnType>
                 <__p_static>0</__p_static>
                 <__p_virtual>0</__p_virtual>
             </Function>
@@ -1606,6 +1526,48 @@ If this method is overridden then the overriding method must call this method in
                     <__p_description>The inserted code lines. If this is empty then this method does nothing.</__p_description>
                     <__p_name>lines</__p_name>
                     <__p_type>const QStringList&amp;</__p_type>
+                </Variable>
+            </Function>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Private Slots</__p_access>
+                <__p_const>0</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Called when the block object's destroyed signal emitted.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>onBlockDestroyed</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnType>void</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
+                <Variable>
+                    <__p_name>object</__p_name>
+                    <__p_type>QObject*</__p_type>
+                </Variable>
+            </Function>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Private Slots</__p_access>
+                <__p_const>0</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Called when a child parser of this object has its destroyed signal emitted.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>onChildDestroyed</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnType>void</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
+                <Variable>
+                    <__p_name>object</__p_name>
+                    <__p_type>QObject*</__p_type>
                 </Variable>
             </Function>
         </Class>

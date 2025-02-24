@@ -9,23 +9,6 @@ namespace CppQt {
 namespace Block
 {
     class Function;
-
-
-    /*!
-     * This enumerates all C++/Qt block implementations' indexes.
-     */
-    enum Index
-    {
-        ClassIndex
-        ,EnumerationIndex
-        ,EnumerationValueIndex
-        ,ExceptionIndex
-        ,FunctionIndex
-        ,NamespaceIndex
-        ,PropertyIndex
-        ,UnionIndex
-        ,VariableIndex
-    };
 }
 }
 

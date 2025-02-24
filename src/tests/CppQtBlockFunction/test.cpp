@@ -35,7 +35,7 @@ void TestCppQtBlockFunction::initTestCase()
     Q_INIT_RESOURCE(cppqt);
     _language = new CppQt::Language;
     _language->setParent(this);
-    _block = qobject_cast<Function*>(_language->createBlock(FunctionIndex,this));
+    _block = qobject_cast<Function*>(_language->createBlock(Cpp::Block::FunctionIndex,this));
     _parent = qobject_cast<Class*>(_language->createBlock(Cpp::Block::ClassIndex,this));
     QVERIFY(_block);
     QVERIFY(_parent);

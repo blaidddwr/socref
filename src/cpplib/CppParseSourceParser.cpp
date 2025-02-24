@@ -1,8 +1,8 @@
 #include "CppParseSourceParser.h"
 #include <QtCore>
-#include "AbstractBlock.h"
 #include "Cpp.h"
-#include "CppBlock.h"
+#include "CppBlockClass.h"
+#include "CppBlockNamespace.h"
 #include "Exception.h"
 #include "ModelMetaBlock.h"
 namespace Cpp {
@@ -12,10 +12,26 @@ using Status = AbstractParser::Status;
 
 
 SourceParser::SourceParser(
-    AbstractParser* parent
+    Class* block
+    ,int version
+    ,QObject* parent
 ):
-    AbstractParser(parent)
+    AbstractParser(block,version,parent)
 {
+    Q_ASSERT(version >= Cpp_Legacy);
+    Q_ASSERT(version <= Cpp_Current);
+}
+
+
+SourceParser::SourceParser(
+    Namespace* block
+    ,int version
+    ,QObject* parent
+):
+    AbstractParser(block,version,parent)
+{
+    Q_ASSERT(version >= Cpp_Legacy);
+    Q_ASSERT(version <= Cpp_Current);
 }
 
 
@@ -33,38 +49,6 @@ Status SourceParser::parse(
     default:
         throw LogicalParse(tr("Unknown source code version %1.").arg(version()));
     }
-}
-
-
-void SourceParser::reset(
-)
-{
-    _header.clear();
-    _preProcess.clear();
-    _state = State::Include;
-    AbstractParser::reset();
-}
-
-
-void SourceParser::setBlock(
-    AbstractBlock* object
-)
-{
-    Q_ASSERT(
-        object->meta()->index() == ClassIndex
-        || object->meta()->index() == NamespaceIndex
-        );
-    AbstractParser::setBlock(object);
-}
-
-
-void SourceParser::setVersion(
-    int value
-)
-{
-    Q_ASSERT(value >= Cpp_Legacy);
-    Q_ASSERT(value <= Cpp_Current);
-    AbstractParser::setVersion(value);
 }
 
 

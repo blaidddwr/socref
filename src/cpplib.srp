@@ -4042,108 +4042,6 @@ Its properties are type and assignment. Both are self-explanatory.</__p_descript
                 <__p_description>This contains all C++ block widgets.</__p_description>
                 <__p_name>BlockWidget</__p_name>
                 <Class>
-                    <__p_description>This is a block widget. It provides an editable view of base C++ blocks.
-
-It is designed to be inherited and used by actual C++ block widget implementations. The GUI can be created by using this class's protected getter methods for individual widget elements. This class's form layout has the name and description edit widgets added to it.</__p_description>
-                    <__p_name>BaseEdit</__p_name>
-                    <__p_parents>public AbstractBlockWidget</__p_parents>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>^</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_name>block</__p_name>
-                            <__p_type>const AbstractBlock*</__p_type>
-                        </Variable>
-                        <Variable>
-                            <__p_assignment>nullptr</__p_assignment>
-                            <__p_name>parent</__p_name>
-                            <__p_type>QWidget*</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public Slots</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>apply</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>bool</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>descriptionTextEdit</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's description text edit widget.</__p_returnDescription>
-                        <__p_returnType>QTextEdit*</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>formLayout</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's form layout.</__p_returnDescription>
-                        <__p_returnType>QFormLayout*</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Protected</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Getter method.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>nameLineEdit</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>This widget's name line edit widget.</__p_returnDescription>
-                        <__p_returnType>QLineEdit*</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                </Class>
-                <Class>
                     <__p_description>This is a block widget class. It provides an editable view of a class C++ block.</__p_description>
                     <__p_name>ClassEdit</__p_name>
                     <__p_parents>public PropertyEdit</__p_parents>
@@ -4989,12 +4887,12 @@ It can be extended for other blocks by using the protected getter methods to exp
                 <__p_name>Parse</__p_name>
                 <Enumeration>
                     <__p_class>0</__p_class>
-                    <__p_description>This enumerates all C++ parser indexes.</__p_description>
+                    <__p_description>This enumerates the indexes of C++ parsers that must be created by the C++ language class.</__p_description>
                     <__p_name>Index</__p_name>
                 </Enumeration>
                 <Class>
-                    <__p_description>This parses the source code of a C++ header file.</__p_description>
-                    <__p_name>HeadParser</__p_name>
+                    <__p_description>This parses the source code of C++ class declarations.</__p_description>
+                    <__p_name>ClassParser</__p_name>
                     <__p_parents>public AbstractParser</__p_parents>
                     <Enumeration>
                         <__p_class>1</__p_class>
@@ -5007,6 +4905,7 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
+                        <__p_description>Constructor.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -5017,9 +4916,17 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                         <Variable>
-                            <__p_assignment>nullptr</__p_assignment>
                             <__p_name>parent</__p_name>
                             <__p_type>AbstractParser*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_description>The initial class block object of the block property.</__p_description>
+                            <__p_name>block</__p_name>
+                            <__p_type>Block::Class*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
                         </Variable>
                     </Function>
                     <Function>
@@ -5108,16 +5015,141 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Adds this object's children parser objects. If this object's children have already been added then this does nothing.</__p_description>
+                        <__p_description>Parses a legacy declaration. See the parse interface for more documentation.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>addChildren</__p_name>
+                        <__p_name>parseLegacy</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>Status</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>lines</__p_name>
+                            <__p_type>const QStringList&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>where</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Parses a version 1 declaration. See the parse interface for more documentation.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>parseVersion1</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>Status</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>lines</__p_name>
+                            <__p_type>const QStringList&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>where</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                </Class>
+                <Class>
+                    <__p_description>This parses the source code of a C++ header file.</__p_description>
+                    <__p_name>HeadParser</__p_name>
+                    <__p_parents>public AbstractParser</__p_parents>
+                    <Enumeration>
+                        <__p_class>1</__p_class>
+                        <__p_description>This enumerates all possible states.</__p_description>
+                        <__p_name>State</__p_name>
+                    </Enumeration>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>block</__p_name>
+                            <__p_type>Class*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>block</__p_name>
+                            <__p_type>Namespace*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>parse</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>Status</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>lines</__p_name>
+                            <__p_type>const QStringList&amp;</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>where</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
@@ -5195,9 +5227,46 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                         <Variable>
+                            <__p_name>block</__p_name>
+                            <__p_type>Class*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
                             <__p_assignment>nullptr</__p_assignment>
                             <__p_name>parent</__p_name>
-                            <__p_type>AbstractParser*</__p_type>
+                            <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>^</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_name>block</__p_name>
+                            <__p_type>Namespace*</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_name>version</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                        <Variable>
+                            <__p_assignment>nullptr</__p_assignment>
+                            <__p_name>parent</__p_name>
+                            <__p_type>QObject*</__p_type>
                         </Variable>
                     </Function>
                     <Function>
@@ -5221,62 +5290,6 @@ It can be extended for other blocks by using the protected getter methods to exp
                         </Variable>
                         <Variable>
                             <__p_name>where</__p_name>
-                            <__p_type>int</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>reset</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>setBlock</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_name>object</__p_name>
-                            <__p_type>AbstractBlock*</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Public</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>1</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>setVersion</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>1</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>1</__p_virtual>
-                        <Variable>
-                            <__p_name>value</__p_name>
                             <__p_type>int</__p_type>
                         </Variable>
                     </Function>
@@ -5308,7 +5321,9 @@ It can be extended for other blocks by using the protected getter methods to exp
                 </Class>
             </Namespace>
             <Class>
-                <__p_description>This is a language class. It implements the C++ language.</__p_description>
+                <__p_description>This is a language class. It implements the C++ language.
+
+This class can also be extended with an extremely tight set of requirements. Another language can extend the C++ language if it uses all the same block indexes, and properly creates blocks from its own language that extend any C++ blocks. The parsing, root block, and routing must be identical.</__p_description>
                 <__p_name>Language</__p_name>
                 <__p_parents>public AbstractLanguage</__p_parents>
                 <Function>
@@ -5334,7 +5349,7 @@ It can be extended for other blocks by using the protected getter methods to exp
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_explicit>0</__p_explicit>
-                    <__p_final>1</__p_final>
+                    <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
                     <__p_name>createBlock</__p_name>
                     <__p_noexcept>0</__p_noexcept>
@@ -5359,7 +5374,7 @@ It can be extended for other blocks by using the protected getter methods to exp
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_explicit>0</__p_explicit>
-                    <__p_final>1</__p_final>
+                    <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
                     <__p_name>createParser</__p_name>
                     <__p_noexcept>0</__p_noexcept>
@@ -5371,6 +5386,14 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_name>index</__p_name>
                         <__p_type>int</__p_type>
                     </Variable>
+                    <Variable>
+                        <__p_name>block</__p_name>
+                        <__p_type>AbstractBlock*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_name>version</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
                 </Function>
                 <Function>
                     <__p_abstract>0</__p_abstract>
@@ -5379,7 +5402,7 @@ It can be extended for other blocks by using the protected getter methods to exp
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_explicit>0</__p_explicit>
-                    <__p_final>1</__p_final>
+                    <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
                     <__p_name>createRootBlock</__p_name>
                     <__p_noexcept>0</__p_noexcept>
@@ -5401,7 +5424,7 @@ It can be extended for other blocks by using the protected getter methods to exp
                     <__p_default>0</__p_default>
                     <__p_deleted>0</__p_deleted>
                     <__p_explicit>0</__p_explicit>
-                    <__p_final>1</__p_final>
+                    <__p_final>0</__p_final>
                     <__p_invokable>0</__p_invokable>
                     <__p_name>rootIndex</__p_name>
                     <__p_noexcept>0</__p_noexcept>
@@ -5425,6 +5448,34 @@ It can be extended for other blocks by using the protected getter methods to exp
                     <__p_returnType>AbstractRouter*</__p_returnType>
                     <__p_static>0</__p_static>
                     <__p_virtual>1</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Protected</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_name>meta</__p_name>
+                        <__p_type>Model::Meta::Language*</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
                 </Function>
             </Class>
             <Class>

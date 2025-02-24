@@ -35,9 +35,13 @@ public:
     }
     virtual AbstractParser* createParser(
         int index
+        ,AbstractBlock* block
+        ,int version
         ) const override final
     {
         Q_UNUSED(index);
+        Q_UNUSED(block);
+        Q_UNUSED(version);
         return nullptr;
     }
     virtual AbstractBlock* createRootBlock(QObject* parent = nullptr) const override final

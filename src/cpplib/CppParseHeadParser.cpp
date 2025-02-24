@@ -1,7 +1,7 @@
 #include "CppParseHeadParser.h"
 #include <QtCore>
 #include "Cpp.h"
-#include "CppBlock.h"
+#include "CppBlockClass.h"
 #include "CppBlockNamespace.h"
 #include "Exception.h"
 #include "ModelMetaBlock.h"
@@ -12,10 +12,26 @@ using Status = AbstractParser::Status;
 
 
 HeadParser::HeadParser(
-    AbstractParser* parent
+    Class* block
+    ,int version
+    ,QObject* parent
 ):
-    AbstractParser(parent)
+    AbstractParser(block,version,parent)
 {
+    Q_ASSERT(version >= Cpp_Legacy);
+    Q_ASSERT(version <= Cpp_Current);
+}
+
+
+HeadParser::HeadParser(
+    Namespace* block
+    ,int version
+    ,QObject* parent
+):
+    AbstractParser(block,version,parent)
+{
+    Q_ASSERT(version >= Cpp_Legacy);
+    Q_ASSERT(version <= Cpp_Current);
 }
 
 
@@ -33,51 +49,6 @@ Status HeadParser::parse(
         return parseVersion1(lines,where);
     default:
         throw LogicalParse(tr("Unknown source code version %1.").arg(version()));
-    }
-}
-
-
-void HeadParser::reset(
-)
-{
-    _footer.clear();
-    _header.clear();
-    _preProcess.clear();
-    _state = State::Guard;
-    AbstractParser::reset();
-}
-
-
-void HeadParser::setBlock(
-    AbstractBlock* object
-)
-{
-    Q_ASSERT(
-        object->meta()->index() == ClassIndex
-        || object->meta()->index() == NamespaceIndex
-        );
-    AbstractParser::setBlock(object);
-}
-
-
-void HeadParser::setVersion(
-    int value
-)
-{
-    Q_ASSERT(value >= Cpp_Legacy);
-    Q_ASSERT(value <= Cpp_Current);
-    AbstractParser::setVersion(value);
-}
-
-
-void HeadParser::addChildren(
-)
-{
-    if (!_childrenAdded)
-    {
-        //TODO: add class parser child
-        //TODO: add union parser child IF this parser's block is a namespace
-        _childrenAdded = true;
     }
 }
 
@@ -107,7 +78,6 @@ Status HeadParser::parseLegacy(
     case State::Namespace:
         if (line.isEmpty())
         {
-            addChildren();
             _state = State::Body;
         }
         return Status::Read;
@@ -193,7 +163,6 @@ Status HeadParser::parseVersion1(
     case State::Header:
         if (line.isEmpty())
         {
-            addChildren();
             insertCode(codeKey(HeaderHeadCodeKey),_header);
             _state = State::Body;
         }
@@ -205,7 +174,6 @@ Status HeadParser::parseVersion1(
     case State::Namespace:
         if (line.isEmpty())
         {
-            addChildren();
             _state = State::Body;
         }
         else if (!namespaceRe.match(line).hasMatch())
@@ -219,7 +187,6 @@ Status HeadParser::parseVersion1(
         bool finished = false;
         if (line.isEmpty())
         {
-            addChildren();
             _state = State::Body;
             finished = true;
         }

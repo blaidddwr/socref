@@ -1,6 +1,7 @@
 #ifndef CPP_PARSE_HEADPARSER_H
 #define CPP_PARSE_HEADPARSER_H
 #include "AbstractParser.h"
+#include "CppBlock.h"
 namespace Cpp {
 namespace Parse {
 
@@ -14,6 +15,8 @@ class HeadParser:
     public AbstractParser
 {
     Q_OBJECT
+    using Class = Block::Class;
+    using Namespace = Block::Namespace;
     bool _childrenAdded {false};
     QStringList _footer;
     QStringList _header;
@@ -40,7 +43,17 @@ class HeadParser:
 
     public:
     HeadParser(
-        AbstractParser* parent = nullptr
+        Class* block
+        ,int version
+        ,QObject* parent = nullptr
+    );
+
+
+    public:
+    HeadParser(
+        Namespace* block
+        ,int version
+        ,QObject* parent = nullptr
     );
 
 
@@ -49,32 +62,6 @@ class HeadParser:
         const QStringList& lines
         ,int where
     ) override final;
-
-
-    public:
-    virtual void reset(
-    ) override final;
-
-
-    public:
-    virtual void setBlock(
-        AbstractBlock* object
-    ) override final;
-
-
-    public:
-    virtual void setVersion(
-        int value
-    ) override final;
-
-
-    /*!
-     * Adds this object's children parser objects. If this object's children
-     * have already been added then this does nothing.
-     */
-    private:
-    void addChildren(
-    );
 
 
     /*!

@@ -10,7 +10,6 @@ using namespace Cpp;
 class TestCppParseSourceParser: public QObject
 {
     Q_OBJECT
-    SourceParser* _parser;
     Language* _language;
 private slots:
     void initTestCase();
@@ -27,8 +26,6 @@ void TestCppParseSourceParser::initTestCase()
     Q_INIT_RESOURCE(cpp);
     _language = new Language;
     _language->setParent(this);
-    _parser = new SourceParser;
-    _parser->setParent(this);
 }
 
 void TestCppParseSourceParser::parseLegacy1()
@@ -41,13 +38,12 @@ void TestCppParseSourceParser::parseLegacy1()
             ,""
         };
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    _parser->setVersion(Cpp_Legacy);
-    _parser->setBlock(root.get());
+    SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
     int where = 0;
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
@@ -63,16 +59,14 @@ void TestCppParseSourceParser::parseLegacy2()
             ,""
         };
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    _parser->setVersion(Cpp_Legacy);
-    _parser->setBlock(root.get());
-    _parser->reset();
+    SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
     int where = 0;
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
@@ -95,17 +89,15 @@ void TestCppParseSourceParser::parseLegacy3()
             ,"#define THREE 0"
         };
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    _parser->setVersion(Cpp_Legacy);
-    _parser->setBlock(root.get());
-    _parser->reset();
+    SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
     int where = 0;
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),1);
     QVERIFY(root->code().contains(codeKey(PreProcessSourceCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessSourceCodeKey)),testPreProcess);
@@ -139,21 +131,19 @@ void TestCppParseSourceParser::parseLegacy4()
             ,"using ok = header2:ok;"
         };
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    _parser->setVersion(Cpp_Legacy);
-    _parser->setBlock(root.get());
-    _parser->reset();
+    SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
     int where = 0;
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(_parser->parse(lines,where++),Status::Read);
-    QCOMPARE(_parser->parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),2);
     QVERIFY(root->code().contains(codeKey(PreProcessSourceCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessSourceCodeKey)),testPreProcess);
@@ -163,7 +153,6 @@ void TestCppParseSourceParser::parseLegacy4()
 
 void TestCppParseSourceParser::cleanupTestCase()
 {
-    delete _parser;
     delete _language;
 }
 

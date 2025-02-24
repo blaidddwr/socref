@@ -12,6 +12,7 @@ NamespaceEdit::NamespaceEdit(
 ):
     AbstractBlockWidget(block,parent)
 {
+    setLayout(formLayout());
 }
 
 

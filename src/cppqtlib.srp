@@ -22,11 +22,6 @@ See the abstract block class for a detailed description of blocks.</__p_descript
             <Namespace>
                 <__p_description>This contains all C++/Qt blocks.</__p_description>
                 <__p_name>Block</__p_name>
-                <Enumeration>
-                    <__p_class>0</__p_class>
-                    <__p_description>This enumerates all C++/Qt block implementations' indexes.</__p_description>
-                    <__p_name>Index</__p_name>
-                </Enumeration>
                 <Class>
                     <__p_description>This is a C++/Qt block class. It represents a C++/Qt function.
 
@@ -411,7 +406,7 @@ A logical block exception is thrown if this instance's properties are not valid.
             <Class>
                 <__p_description>This is a language class. It implements the C++/Qt language.</__p_description>
                 <__p_name>Language</__p_name>
-                <__p_parents>public AbstractLanguage</__p_parents>
+                <__p_parents>public Cpp::Language</__p_parents>
                 <Function>
                     <__p_abstract>0</__p_abstract>
                     <__p_access>Public</__p_access>
@@ -452,80 +447,6 @@ A logical block exception is thrown if this instance's properties are not valid.
                         <__p_name>parent</__p_name>
                         <__p_type>QObject*</__p_type>
                     </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>1</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>createParser</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>1</__p_override>
-                    <__p_returnType>AbstractParser*</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>1</__p_virtual>
-                    <Variable>
-                        <__p_name>index</__p_name>
-                        <__p_type>int</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>1</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>createRootBlock</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>1</__p_override>
-                    <__p_returnType>AbstractBlock*</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>1</__p_virtual>
-                    <Variable>
-                        <__p_assignment>nullptr</__p_assignment>
-                        <__p_description>The parent.</__p_description>
-                        <__p_name>parent</__p_name>
-                        <__p_type>QObject*</__p_type>
-                    </Variable>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>1</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>rootIndex</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>1</__p_override>
-                    <__p_returnType>int</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>1</__p_virtual>
-                </Function>
-                <Function>
-                    <__p_abstract>0</__p_abstract>
-                    <__p_access>Public</__p_access>
-                    <__p_const>1</__p_const>
-                    <__p_default>0</__p_default>
-                    <__p_deleted>0</__p_deleted>
-                    <__p_explicit>0</__p_explicit>
-                    <__p_final>1</__p_final>
-                    <__p_invokable>0</__p_invokable>
-                    <__p_name>router</__p_name>
-                    <__p_noexcept>0</__p_noexcept>
-                    <__p_override>1</__p_override>
-                    <__p_returnType>AbstractRouter*</__p_returnType>
-                    <__p_static>0</__p_static>
-                    <__p_virtual>1</__p_virtual>
                 </Function>
             </Class>
         </Namespace>

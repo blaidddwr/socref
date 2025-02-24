@@ -64,9 +64,6 @@ void Code::parse(
     auto lines = data.split("\n",Qt::KeepEmptyParts);
     auto language = _project->language();
     Q_ASSERT(language);
-    std::unique_ptr<AbstractParser> parser(language->createParser(route.parseIndex));
-    Q_ASSERT(parser);
-    parser->setBlock(route.block);
     if (!lines.isEmpty())
     {
         int where = 0;
@@ -79,9 +76,12 @@ void Code::parse(
             Q_ASSERT(ok);
             where++;
         }
-        parser->setVersion(version);
         try
         {
+            std::unique_ptr<AbstractParser> parser(
+                language->createParser(route.parseIndex,route.block,version)
+                );
+            Q_ASSERT(parser);
             parse(parser.get(),lines,where);
         }
         catch (LogicalParse& e)
