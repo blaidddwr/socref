@@ -17,10 +17,10 @@ class HeadParser:
     Q_OBJECT
     using Class = Block::Class;
     using Namespace = Block::Namespace;
-    bool _childrenAdded {false};
-    QStringList _footer;
-    QStringList _header;
-    QStringList _preProcess;
+    int _depth {1};
+    int _empty;
+    int _size;
+    int _start;
 
 
     /*!
@@ -62,6 +62,26 @@ class HeadParser:
         const QStringList& lines
         ,int where
     ) override final;
+
+
+    /*!
+     * Evaluates a line of code.
+     *
+     * @param lines
+     *        The lines of code.
+     *
+     * @param where
+     *        The line index that is evaluated.
+     *
+     * @return
+     * True if the given line is the beginning of a header file's footer block
+     * or false otherwise.
+     */
+    private:
+    static bool isFooter(
+        const QStringList& lines
+        ,int where
+    );
 
 
     /*!

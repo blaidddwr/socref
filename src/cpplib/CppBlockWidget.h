@@ -8,7 +8,6 @@ namespace Cpp {
  */
 namespace BlockWidget
 {
-    class BaseEdit;
     class ClassEdit;
     class EnumerationEdit;
     class EnumerationValueEdit;

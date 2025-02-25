@@ -200,9 +200,6 @@ void TestCppParseHeadParser::parse1Version1()
             "#ifndef TEST_H"
             ,"#define TEST_H"
             ,""
-            ,"/*@ EOS @*/"
-            ,""
-            ,"/* comments */"
             ,""
             ,"#endif"
             ,""
@@ -210,9 +207,6 @@ void TestCppParseHeadParser::parse1Version1()
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
@@ -234,9 +228,10 @@ void TestCppParseHeadParser::parse2Version1()
             ,""
             ,"}"
             ,""
-            ,"/*@ EOS @*/"
             ,""
-            ,"/* comments */"
+            ,"/*!"
+            ," * comments"
+            ," */"
             ,""
             ,"#endif"
             ,""
@@ -249,7 +244,8 @@ void TestCppParseHeadParser::parse2Version1()
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
@@ -271,20 +267,18 @@ void TestCppParseHeadParser::parse3Version1()
             ,"#include <one>"
             ,"#include \"two.h\""
             ,"#define THREE 0"
-            ,"/*@ header @*/"
             ,"using header1;"
             ,"using ok = header2::ok;"
             ,""
             ,"function Foo();"
             ,""
-            ,"/*@ footer @*/"
             ,"class Simple {};"
             ,"class AnotherOne : public Simple { using Simple::Simple; }"
-            ,"/*@ end @*/"
             ,""
-            ,"/*@ EOS @*/"
             ,""
-            ,"/* comments */"
+            ,"/*!"
+            ," * comments"
+            ," */"
             ,""
             ,"#endif"
             ,""
@@ -294,10 +288,7 @@ void TestCppParseHeadParser::parse3Version1()
             "#include <one>"
             ,"#include \"two.h\""
             ,"#define THREE 0"
-        };
-    static const QStringList testHeader
-        {
-            "using header1;"
+            ,"using header1;"
             ,"using ok = header2::ok;"
         };
     static const QStringList testFooter
@@ -309,7 +300,6 @@ void TestCppParseHeadParser::parse3Version1()
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
     //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
@@ -330,14 +320,11 @@ void TestCppParseHeadParser::parse3Version1()
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
-    QCOMPARE(root->code().size(),3);
+    QCOMPARE(root->code().size(),2);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));
-    QVERIFY(root->code().contains(codeKey(HeaderHeadCodeKey)));
     QVERIFY(root->code().contains(codeKey(FooterHeadCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessHeadCodeKey)),testPreProcess);
-    QCOMPARE(root->code().value(codeKey(HeaderHeadCodeKey)),testHeader);
     QCOMPARE(root->code().value(codeKey(FooterHeadCodeKey)),testFooter);
 }
 
@@ -357,14 +344,14 @@ void TestCppParseHeadParser::parse4Version1()
             ,""
             ,"function Foo();"
             ,""
-            ,"/*@ footer @*/"
             ,"class Simple {};"
             ,"class AnotherOne : public Simple { using Simple::Simple; }"
             ,"}"
             ,""
-            ,"/*@ EOS @*/"
             ,""
-            ,"/* comments */"
+            ,"/*!"
+            ," * comments"
+            ," */"
             ,""
             ,"#endif"
             ,""

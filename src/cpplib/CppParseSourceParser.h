@@ -17,8 +17,8 @@ class SourceParser:
     Q_OBJECT
     using Class = Block::Class;
     using Namespace = Block::Namespace;
-    QStringList _header;
-    QStringList _preProcess;
+    int _size;
+    int _start;
 
 
     /*!

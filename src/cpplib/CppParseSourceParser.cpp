@@ -70,17 +70,17 @@ Status SourceParser::parseLegacy(
     case State::Header:
         if (line.isEmpty())
         {
-            insertCode(codeKey(HeaderSourceCodeKey),_header);
-            //TODO: add function parser child
+            insertCode(codeKey(HeaderSourceCodeKey),lines.mid(_start,_size));
             _state = State::Body;
-            return Status::Read;
         }
         else
         {
-            _header.append(line);
-            return Status::Read;
+            _size++;
         }
+        return Status::Read;
     case State::Include:
+        _start = 1;
+        _size = 0;
         _state = State::PreProcess;
         return Status::Read;
     case State::Namespace:
@@ -92,7 +92,8 @@ Status SourceParser::parseLegacy(
             }
             else
             {
-                _header.append(line);
+                _start = where;
+                _size = 1;
                 _state = State::Header;
             }
             return Status::Read;
@@ -107,15 +108,14 @@ Status SourceParser::parseLegacy(
             || namespaceRe.match(line).hasMatch()
             )
         {
-            insertCode(codeKey(PreProcessSourceCodeKey),_preProcess);
+            insertCode(codeKey(PreProcessSourceCodeKey),lines.mid(_start,_size));
             _state = State::Namespace;
-            return Status::Read;
         }
         else
         {
-            _preProcess.append(line);
-            return Status::Read;
+            _size++;
         }
+        return Status::Read;
     default:
         throw std::logic_error("unknown state");
     }

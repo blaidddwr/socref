@@ -5,7 +5,6 @@
 #include "Global.h"
 namespace Shape {
 
-
 class Route
 {
 public:
@@ -15,9 +14,7 @@ public:
     int buildIndex;
 };
 
-
 }
-
 
 
 /*!

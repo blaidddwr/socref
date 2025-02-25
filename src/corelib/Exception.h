@@ -4,18 +4,16 @@
 #include <QString>
 namespace Exception {
 
-
 class Base
 {
-
+//body:
 public:
     Base(const QString& message);
     const QString& message() const;
-
+//footer:
 private:
     QString _message;
 };
-
 
 class FileSystem: public Base { using Base::Base; };
 class LogicalBlock: public Base { using Base::Base; };
@@ -28,7 +26,6 @@ class RunSystem: public Base { using Base::Base; };
 class WriteBlock: public Base { using Base::Base; };
 class WriteProject: public Base { using Base::Base; };
 }
-
 
 
 /*!
