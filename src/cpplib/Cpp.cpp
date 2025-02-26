@@ -9,9 +9,11 @@ const QString& codeKey(
 {
     static const QStringList keys
     {
-        "footerHead"
+        "footer"
+        ,"footerHead"
         ,"preProcessHead"
         ,"preProcessSource"
+        ,"header"
         ,"headerHead"
         ,"headerSource"
     };

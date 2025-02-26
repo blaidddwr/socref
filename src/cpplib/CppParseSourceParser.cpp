@@ -4,7 +4,6 @@
 #include "CppBlockClass.h"
 #include "CppBlockNamespace.h"
 #include "Exception.h"
-#include "ModelMetaBlock.h"
 namespace Cpp {
 namespace Parse {
 using namespace Block;

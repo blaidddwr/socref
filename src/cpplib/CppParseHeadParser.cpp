@@ -3,13 +3,16 @@
 #include "Cpp.h"
 #include "CppBlockClass.h"
 #include "CppBlockNamespace.h"
+#include "CppParseClassParser.h"
 #include "Exception.h"
-#include "ModelMetaBlock.h"
 #define END_NEWLINE_SIZE 2
 namespace Cpp {
 namespace Parse {
 using namespace Block;
 using Status = AbstractParser::Status;
+const QRegularExpression HeadParser::_endScopeRe("^}+$");//{TODO:bug
+const QRegularExpression HeadParser::_guardRe("^#define [A-Z_]+_H$");
+const QRegularExpression HeadParser::_namespaceRe("^namespace [a-zA-Z_]\\w* {$");//}TODO:bug
 
 
 HeadParser::HeadParser(
@@ -21,6 +24,7 @@ HeadParser::HeadParser(
 {
     Q_ASSERT(version >= Cpp_Legacy);
     Q_ASSERT(version <= Cpp_Current);
+    new ClassParser(block,version,this);
 }
 
 
@@ -54,47 +58,11 @@ Status HeadParser::parse(
 }
 
 
-bool HeadParser::isFooter(
-    const QStringList& lines
-    ,int where
-)
-{
-    static const QRegularExpression endScopeRe("^}+$");//{TODO:bug
-    if (endScopeRe.match(lines.at(where)).hasMatch())
-    {
-        return false;
-    }
-    while (
-        where < lines.size()
-        && !lines.at(where).isEmpty()
-        )
-    {
-        where++;
-    }
-    int empty = 0;
-    while (
-        where < lines.size()
-        && lines.at(where).isEmpty()
-        )
-    {
-        empty++;
-        where++;
-        if (empty == END_NEWLINE_SIZE)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-
 Status HeadParser::parseLegacy(
     const QStringList& lines
     ,int where
 )
 {
-    const static QRegularExpression guardRe("^#define [A-Z_]+_H$");
-    const static QRegularExpression namespaceRe("^namespace [a-zA-Z_]\\w* {$");//}TODO:bug
     if (where == EOL)
     {
         return _state == State::Body ? Status::DoneWithRead : Status::DoneWithoutRead;
@@ -105,7 +73,7 @@ Status HeadParser::parseLegacy(
     case State::Body:
         return line.isEmpty() ? Status::Read : Status::DelegateToChildren;
     case State::Guard:
-        if (guardRe.match(line).hasMatch())
+        if (_guardRe.match(line).hasMatch())
         {
             _start = where+1;
             _size = 0;
@@ -121,7 +89,7 @@ Status HeadParser::parseLegacy(
     case State::PreProcess:
         if (
             line.isEmpty()
-            || namespaceRe.match(line).hasMatch()
+            || _namespaceRe.match(line).hasMatch()
             )
         {
             insertCode(codeKey(PreProcessHeadCodeKey),lines.mid(_start,_size));
@@ -143,9 +111,35 @@ Status HeadParser::parseVersion1(
     ,int where
 )
 {
-    static const QRegularExpression endScopeRe("^}+$");//{TODO:bug
-    const static QRegularExpression guardRe("^#define [A-Z_]+_H$");
-    const static QRegularExpression namespaceRe("^namespace [a-zA-Z_]\\w* {$");//}TODO:bug
+    auto isFooter = [this,&lines,where]() -> bool
+    {
+        if (_endScopeRe.match(lines.at(where)).hasMatch())
+        {
+            return false;
+        }
+        auto i = where;
+        while (
+            i < lines.size()
+            && !lines.at(i).isEmpty()
+            )
+        {
+            i++;
+        }
+        int empty = 0;
+        while (
+            i < lines.size()
+            && lines.at(i).isEmpty()
+            )
+        {
+            empty++;
+            i++;
+            if (empty == END_NEWLINE_SIZE)
+            {
+                return true;
+            }
+        }
+        return false;
+    };
     if (where == EOL)
     {
         return _state == State::End ? Status::DoneWithRead : Status::DoneWithoutRead;
@@ -163,12 +157,12 @@ Status HeadParser::parseVersion1(
             }
             return Status::Read;
         }
-        else if (endScopeRe.match(line).hasMatch())
+        else if (_endScopeRe.match(line).hasMatch())
         {
             _state = State::End;
             return Status::Read;
         }
-        else if (isFooter(lines,where))
+        else if (isFooter())
         {
             _start = where;
             _size = 1;
@@ -185,7 +179,7 @@ Status HeadParser::parseVersion1(
     case State::Footer:
         if (
             line.isEmpty()
-            || endScopeRe.match(line).hasMatch()
+            || _endScopeRe.match(line).hasMatch()
             )
         {
             insertCode(codeKey(FooterHeadCodeKey),lines.mid(_start,_size));
@@ -197,7 +191,7 @@ Status HeadParser::parseVersion1(
         }
         return Status::Read;
     case State::Guard:
-        if (guardRe.match(line).hasMatch())
+        if (_guardRe.match(line).hasMatch())
         {
             _start = where+1;
             _size = 0;
@@ -222,7 +216,7 @@ Status HeadParser::parseVersion1(
             _empty = 1;
             _state = State::Body;
         }
-        else if (!namespaceRe.match(line).hasMatch())
+        else if (!_namespaceRe.match(line).hasMatch())
         {
             _start = where;
             _size = 1;
@@ -236,7 +230,7 @@ Status HeadParser::parseVersion1(
             _empty = 1;
             _state = State::Body;
         }
-        else if (namespaceRe.match(line).hasMatch())
+        else if (_namespaceRe.match(line).hasMatch())
         {
             insertCode(codeKey(PreProcessHeadCodeKey),lines.mid(_start,_size));
             _state = State::Namespace;

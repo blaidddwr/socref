@@ -1,5 +1,5 @@
-#ifndef CPP_PARSE_HEADPARSER_H
-#define CPP_PARSE_HEADPARSER_H
+#ifndef CPP_PARSE_CLASSPARSER_H
+#define CPP_PARSE_CLASSPARSER_H
 #include "AbstractParser.h"
 #include "CppBlock.h"
 namespace Cpp {
@@ -9,21 +9,17 @@ namespace Parse {
 
 
 /*!
- * This parses the source code of a C++ header file.
+ * This parses the source code of C++ class declarations.
  */
-class HeadParser:
+class ClassParser:
     public AbstractParser
 {
     Q_OBJECT
     using Class = Block::Class;
-    using Namespace = Block::Namespace;
-    int _depth {1};
-    int _empty;
-    int _size;
+    Class* _class;
     int _start;
-    static const QRegularExpression _endScopeRe;
-    static const QRegularExpression _guardRe;
-    static const QRegularExpression _namespaceRe;
+    int _size;
+    static const QRegularExpression _classRe;
 
 
     /*!
@@ -33,28 +29,18 @@ class HeadParser:
     enum class State
     {
         Body
-        ,End
+        ,Declaration
         ,Footer
-        ,Guard
         ,Header
-        ,Namespace
-        ,PreProcess
+        ,Scanning
     };
     private:
-    State _state {State::Guard};
+    State _state {State::Scanning};
 
 
     public:
-    HeadParser(
+    ClassParser(
         Class* block
-        ,int version
-        ,QObject* parent = nullptr
-    );
-
-
-    public:
-    HeadParser(
-        Namespace* block
         ,int version
         ,QObject* parent = nullptr
     );
@@ -68,7 +54,7 @@ class HeadParser:
 
 
     /*!
-     * Parses a legacy header file. See the parse interface for more
+     * Parses a legacy declaration. See the parse interface for more
      * documentation.
      */
     private:
@@ -79,7 +65,7 @@ class HeadParser:
 
 
     /*!
-     * Parses a version 1 header file. See the parse interface for more
+     * Parses a version 1 declaration. See the parse interface for more
      * documentation.
      */
     private:

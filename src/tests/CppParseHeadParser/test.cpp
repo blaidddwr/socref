@@ -3,6 +3,7 @@
 #include "CppBlockClass.h"
 #include "CppBlockNamespace.h"
 #include "CppLanguage.h"
+#include "CppParseClassParser.h"
 #include "CppParseHeadParser.h"
 using namespace Cpp::Block;
 using namespace Cpp::Parse;
@@ -11,7 +12,6 @@ using namespace Cpp;
 class TestCppParseHeadParser: public QObject
 {
     Q_OBJECT
-    HeadParser* _parser;
     Language* _language;
 private slots:
     void initTestCase();
@@ -72,8 +72,8 @@ void TestCppParseHeadParser::parse2Legacy()
         };
     std::unique_ptr<AbstractBlock> root(_language->createBlock(ClassIndex));
     HeadParser parser(qobject_cast<Class*>(root.get()),Cpp_Legacy);
-    //QCOMPARE(parser.children().size(),1);TODO
-    //QVERIFY(qobject_cast<ClassParser*>(parser.children().at(0)));TODO
+    QCOMPARE(parser.children().size(),1);
+    QVERIFY(qobject_cast<ClassParser*>(parser.children().at(0)));
     int where = 0;
     QCOMPARE(parser.parse(lines,where++),Status::Read);
     QCOMPARE(parser.parse(lines,where++),Status::Read);

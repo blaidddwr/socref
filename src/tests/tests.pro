@@ -12,6 +12,7 @@ SUBDIRS = \
     CppBlockProperty \
     CppBlockVariable \
     CppLanguage \
+    CppParseClassParser \
     CppParseHeadParser \
     CppParseSourceParser \
     CppQtBlockFunction \
