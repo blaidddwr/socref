@@ -5,3 +5,5 @@ INCLUDEPATH += ../../corelib ../../cpplib
 LIBS += -L$$OUT_PWD/../../libs -lcpp -lcore -lhunspell
 PRE_TARGETDEPS += $$OUT_PWD/../../libs/libcore.a $$OUT_PWD/../../libs/libcpp.a
 SOURCES += test.cpp
+HEADERS += ../utility.h
+RESOURCES += test.qrc

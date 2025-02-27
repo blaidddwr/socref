@@ -102,10 +102,12 @@ Status SourceParser::parseLegacy(
             return Status::Read;
         }
     case State::PreProcess:
-        if (
-            line.isEmpty()
-            || namespaceRe.match(line).hasMatch()
-            )
+        if (line.isEmpty())
+        {
+            insertCode(codeKey(PreProcessSourceCodeKey),lines.mid(_start,_size));
+            _state = State::Body;
+        }
+        else if (namespaceRe.match(line).hasMatch())
         {
             insertCode(codeKey(PreProcessSourceCodeKey),lines.mid(_start,_size));
             _state = State::Namespace;

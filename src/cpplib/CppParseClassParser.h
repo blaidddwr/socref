@@ -16,7 +16,6 @@ class ClassParser:
 {
     Q_OBJECT
     using Class = Block::Class;
-    Class* _class;
     int _start;
     int _size;
     static const QRegularExpression _classRe;

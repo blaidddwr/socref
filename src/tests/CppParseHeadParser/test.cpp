@@ -5,25 +5,26 @@
 #include "CppLanguage.h"
 #include "CppParseClassParser.h"
 #include "CppParseHeadParser.h"
+#include "../utility.h"
 using namespace Cpp::Block;
 using namespace Cpp::Parse;
 using namespace Cpp;
 
-class TestCppParseHeadParser: public QObject
+class TestCppParseHeadParser: public QObject, private TestParse
 {
     Q_OBJECT
     Language* _language;
 private slots:
     void initTestCase();
-    void parse1Legacy();
-    void parse2Legacy();
-    void parse3Legacy();
-    void parse4Legacy();
-    void parse5Legacy();
-    void parse1Version1();
-    void parse2Version1();
-    void parse3Version1();
-    void parse4Version1();
+    void legacyParse1();
+    void legacyParse2();
+    void legacyParse3();
+    void legacyParse4();
+    void legacyParse5();
+    void version1Parse1();
+    void version1Parse2();
+    void version1Parse3();
+    void version1Parse4();
     void cleanupTestCase();
 };
 
@@ -35,291 +36,191 @@ void TestCppParseHeadParser::initTestCase()
     _language->setParent(this);
 }
 
-void TestCppParseHeadParser::parse1Legacy()
+void TestCppParseHeadParser::legacyParse1()
 {
     using Status = AbstractParser::Status;
-    static const QStringList lines
-        {
-            "#ifndef TEST_H"
-            ,"#define TEST_H"
-            ,""
-            ,"#endif"
-            ,""
-        };
+    auto lines = getLines("legacyParse1");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
     //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    while (where < lines.size())
+    {
+        switch (where+1)
+        {
+        case 4:
+            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+            break;
+        default:
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+            break;
+        }
+    }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
-void TestCppParseHeadParser::parse2Legacy()
+void TestCppParseHeadParser::legacyParse2()
 {
     using Status = AbstractParser::Status;
-    static const QStringList lines
-        {
-            "#ifndef TEST_H"
-            ,"#define TEST_H"
-            ,""
-            ,"#endif"
-            ,""
-        };
+    auto lines = getLines("legacyParse1");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(ClassIndex));
     HeadParser parser(qobject_cast<Class*>(root.get()),Cpp_Legacy);
     QCOMPARE(parser.children().size(),1);
     QVERIFY(qobject_cast<ClassParser*>(parser.children().at(0)));
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    while (where < lines.size())
+    {
+        switch (where+1)
+        {
+        case 4:
+            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+            break;
+        default:
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+            break;
+        }
+    }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
-void TestCppParseHeadParser::parse3Legacy()
+void TestCppParseHeadParser::legacyParse3()
 {
     using Status = AbstractParser::Status;
-    static const QStringList lines
-        {
-            "#ifndef TEST_H"
-            ,"#define TEST_H"
-            ,"namespace Dummy {"
-            ,""
-            ,"}"
-            ,"#endif"
-            ,""
-        };
+    auto lines = getLines("legacyParse3");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
     //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    while (where < lines.size())
+    {
+        switch (where+1)
+        {
+        case 5:
+        case 6:
+            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+            break;
+        default:
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+            break;
+        }
+    }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
-void TestCppParseHeadParser::parse4Legacy()
+void TestCppParseHeadParser::legacyParse4()
 {
     using Status = AbstractParser::Status;
-    static const QStringList lines
-        {
-            "#ifndef TEST_H"
-            ,"#define TEST_H"
-            ,"#include <one>"
-            ,"#include \"two.h\""
-            ,"#define THREE 0"
-            ,""
-            ,"#endif"
-            ,""
-        };
-    static const QStringList testPreProcess
-        {
-            "#include <one>"
-            ,"#include \"two.h\""
-            ,"#define THREE 0"
-        };
+    auto lines = getLines("legacyParse4");
+    auto testPreProcess = lines.mid(2,3);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
     //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    while (where < lines.size())
+    {
+        switch (where+1)
+        {
+        case 7:
+            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+            break;
+        default:
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+            break;
+        }
+    }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),1);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessHeadCodeKey)),testPreProcess);
 }
 
-void TestCppParseHeadParser::parse5Legacy()
+void TestCppParseHeadParser::legacyParse5()
 {
     using Status = AbstractParser::Status;
-    static const QStringList lines
-    {
-        "#ifndef TEST_H"
-        ,"#define TEST_H"
-        ,"#include <one>"
-        ,"#include \"two.h\""
-        ,"#define THREE 0"
-        ,"namespace Dummy {"
-        ,""
-        ,"}"
-        ,"#endif"
-        ,""
-    };
-    static const QStringList testPreProcess
-    {
-        "#include <one>"
-        ,"#include \"two.h\""
-        ,"#define THREE 0"
-    };
+    auto lines = getLines("legacyParse5");
+    auto testPreProcess = lines.mid(2,3);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
     //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    while (where < lines.size())
+    {
+        switch (where+1)
+        {
+        case 8:
+        case 9:
+            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+            break;
+        default:
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+            break;
+        }
+    }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),1);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessHeadCodeKey)),testPreProcess);
 }
 
-void TestCppParseHeadParser::parse1Version1()
+void TestCppParseHeadParser::version1Parse1()
 {
     using Status = AbstractParser::Status;
-    static const QStringList lines
-        {
-            "#ifndef TEST_H"
-            ,"#define TEST_H"
-            ,""
-            ,""
-            ,"#endif"
-            ,""
-        };
+    auto lines = getLines("version1Parse1");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    while (where < lines.size())
+    {
+        QCOMPARE(parser.parse(lines,where++),Status::Read);
+    }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
-void TestCppParseHeadParser::parse2Version1()
+void TestCppParseHeadParser::version1Parse2()
 {
     using Status = AbstractParser::Status;
-    static const QStringList lines
-        {
-            "#ifndef TEST_H"
-            ,"#define TEST_H"
-            ,"namespace Dummy {"
-            ,""
-            ,"}"
-            ,""
-            ,""
-            ,"/*!"
-            ," * comments"
-            ," */"
-            ,""
-            ,"#endif"
-            ,""
-        };
+    auto lines = getLines("version1Parse2");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
     //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    while (where < lines.size())
+    {
+        QCOMPARE(parser.parse(lines,where++),Status::Read);
+    }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
 }
 
-void TestCppParseHeadParser::parse3Version1()
+void TestCppParseHeadParser::version1Parse3()
 {
     using Status = AbstractParser::Status;
-    static const QStringList lines
-        {
-            "#ifndef TEST_H"
-            ,"#define TEST_H"
-            ,"#include <one>"
-            ,"#include \"two.h\""
-            ,"#define THREE 0"
-            ,"using header1;"
-            ,"using ok = header2::ok;"
-            ,""
-            ,"function Foo();"
-            ,""
-            ,"class Simple {};"
-            ,"class AnotherOne : public Simple { using Simple::Simple; }"
-            ,""
-            ,""
-            ,"/*!"
-            ," * comments"
-            ," */"
-            ,""
-            ,"#endif"
-            ,""
-        };
-    static const QStringList testPreProcess
-        {
-            "#include <one>"
-            ,"#include \"two.h\""
-            ,"#define THREE 0"
-            ,"using header1;"
-            ,"using ok = header2::ok;"
-        };
-    static const QStringList testFooter
-        {
-            "class Simple {};"
-            ,"class AnotherOne : public Simple { using Simple::Simple; }"
-        };
+    auto lines = getLines("version1Parse3");
+    auto testPreProcess = lines.mid(2,5);
+    auto testFooter = lines.mid(14,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
     //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    while (where < lines.size())
+    {
+        switch (where+1)
+        {
+        case 9:
+        case 10:
+        case 11:
+        case 13:
+            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+            break;
+        default:
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+            break;
+        }
+    }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),2);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));
@@ -328,76 +229,32 @@ void TestCppParseHeadParser::parse3Version1()
     QCOMPARE(root->code().value(codeKey(FooterHeadCodeKey)),testFooter);
 }
 
-void TestCppParseHeadParser::parse4Version1()
+void TestCppParseHeadParser::version1Parse4()
 {
     using Status = AbstractParser::Status;
-    static const QStringList lines
-        {
-            "#ifndef TEST_H"
-            ,"#define TEST_H"
-            ,"#include <one>"
-            ,"#include \"two.h\""
-            ,"#define THREE 0"
-            ,"namespace Dummy {"
-            ,"using header1;"
-            ,"using ok = header2::ok;"
-            ,""
-            ,"function Foo();"
-            ,""
-            ,"class Simple {};"
-            ,"class AnotherOne : public Simple { using Simple::Simple; }"
-            ,"}"
-            ,""
-            ,""
-            ,"/*!"
-            ," * comments"
-            ," */"
-            ,""
-            ,"#endif"
-            ,""
-        };
-    static const QStringList testPreProcess
-        {
-            "#include <one>"
-            ,"#include \"two.h\""
-            ,"#define THREE 0"
-        };
-    static const QStringList testHeader
-        {
-            "using header1;"
-            ,"using ok = header2::ok;"
-        };
-    static const QStringList testFooter
-        {
-            "class Simple {};"
-            ,"class AnotherOne : public Simple { using Simple::Simple; }"
-        };
+    auto lines = getLines("version1Parse4");
+    auto testPreProcess = lines.mid(2,3);
+    auto testHeader = lines.mid(6,2);
+    auto testFooter = lines.mid(15,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
     //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
-    QCOMPARE(parser.parse(lines,where++),Status::Read);
+    while (where < lines.size())
+    {
+        switch (where+1)
+        {
+        case 10:
+        case 11:
+        case 12:
+        case 14:
+            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+            break;
+        default:
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+            break;
+        }
+    }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),3);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));

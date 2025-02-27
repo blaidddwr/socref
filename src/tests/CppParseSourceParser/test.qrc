@@ -4,7 +4,5 @@
         <file>legacyParse2.cpp</file>
         <file>legacyParse3.cpp</file>
         <file>legacyParse4.cpp</file>
-        <file>version1Parse3.cpp</file>
-        <file>version1Parse4.cpp</file>
     </qresource>
 </RCC>

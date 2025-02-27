@@ -16,7 +16,6 @@ ClassParser::ClassParser(
     ,QObject* parent
 ):
     AbstractParser(block,version,parent)
-    ,_class(block)
 {
     Q_ASSERT(block);
     Q_ASSERT(version >= Cpp_Legacy);
@@ -86,7 +85,7 @@ Status ClassParser::parseLegacy(
             if (match.hasMatch())
             {
                 auto name = match.captured(1);
-                if (name != _class->name())
+                if (name != qobject_cast<Class*>(block())->name())
                 {
                     throw LogicalParse(tr("Encountered unknown class name %1.").arg(name));
                 }
@@ -172,7 +171,7 @@ Status ClassParser::parseVersion1(
             if (match.hasMatch())
             {
                 auto name = match.captured(1);
-                if (name != _class->name())
+                if (name != qobject_cast<Class*>(block())->name())
                 {
                     throw LogicalParse(tr("Encountered unknown class name %1.").arg(name));
                 }
