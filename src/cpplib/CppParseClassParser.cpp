@@ -7,7 +7,7 @@ namespace Cpp {
 namespace Parse {
 using namespace Block;
 using Status = AbstractParser::Status;
-const QRegularExpression ClassParser::_classRe("^class ([A-Za-z_]\\w*)");
+const QRegularExpression ClassParser::_classRe("^(template\\s*<.*>\\s+)?class\\s+(\\w+)");
 
 
 ClassParser::ClassParser(
@@ -84,7 +84,7 @@ Status ClassParser::parseLegacy(
             auto match = _classRe.match(line);
             if (match.hasMatch())
             {
-                auto name = match.captured(1);
+                auto name = match.captured(2);
                 if (name != qobject_cast<Class*>(block())->name())
                 {
                     throw LogicalParse(tr("Encountered unknown class name %1.").arg(name));
@@ -170,7 +170,7 @@ Status ClassParser::parseVersion1(
             auto match = _classRe.match(line);
             if (match.hasMatch())
             {
-                auto name = match.captured(1);
+                auto name = match.captured(2);
                 if (name != qobject_cast<Class*>(block())->name())
                 {
                     throw LogicalParse(tr("Encountered unknown class name %1.").arg(name));
