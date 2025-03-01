@@ -106,6 +106,31 @@ QString Function::accessString(
 }
 
 
+QStringList Function::arguments(
+    bool onlyTypes
+) const
+{
+    QStringList ret;
+    for (int i = 0;i < size();i++)
+    {
+        if (auto var = qobject_cast<Variable*>(get(i)))
+        {
+            auto arg = var->type();
+            if (!onlyTypes)
+            {
+                arg += " "+var->name();
+                if (!var->assignment().isEmpty())
+                {
+                    arg += " = "+var->assignment();
+                }
+            }
+            ret.append(arg);
+        }
+    }
+    return ret;
+}
+
+
 int Function::assignment(
 ) const
 {
@@ -677,31 +702,6 @@ void Function::addEvent(
         setFlags(flags()&NoExceptFunctionFlag);
         setAssignment(NoFunctionAssignment);
     }
-}
-
-
-QStringList Function::arguments(
-    bool onlyTypes
-) const
-{
-    QStringList ret;
-    for (int i = 0;i < size();i++)
-    {
-        if (auto var = qobject_cast<Variable*>(get(i)))
-        {
-            auto arg = var->type();
-            if (!onlyTypes)
-            {
-                arg += " "+var->name();
-                if (!var->assignment().isEmpty())
-                {
-                    arg += " = "+var->assignment();
-                }
-            }
-            ret.append(arg);
-        }
-    }
-    return ret;
 }
 
 

@@ -224,6 +224,24 @@ class Function:
 
 
     /*!
+     * Returns the list of arguments for this function derived from its variable
+     * block children. Each string in the returned list represents an individual
+     * argument formatted correctly for use in code output.
+     * 
+     * The "only types" flag determines if only the type is returned. If it is
+     * true then the name of each argument is omitted otherwise the name is
+     * included.
+     *
+     * @param onlyTypes
+     *        The "only types" flag.
+     */
+    public:
+    virtual QStringList arguments(
+        bool onlyTypes = false
+    ) const;
+
+
+    /*!
      * Getter method.
      *
      * @return
@@ -712,24 +730,6 @@ class Function:
     virtual void addEvent(
         int index
     ) override final;
-
-
-    /*!
-     * Returns the list of arguments for this function derived from its variable
-     * block children. Each string in the returned list represents an individual
-     * argument formatted correctly for use in code output.
-     * 
-     * The "only types" flag determines if only the type is returned. If it is
-     * true then the name of each argument is omitted otherwise the name is
-     * included.
-     *
-     * @param onlyTypes
-     *        The "only types" flag.
-     */
-    protected:
-    virtual QStringList arguments(
-        bool onlyTypes = false
-    ) const;
 
 
     /*!

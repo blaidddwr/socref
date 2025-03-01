@@ -9,6 +9,7 @@ namespace Cpp {
 namespace Parse
 {
     class ClassParser;
+    class FunctionParser;
     class HeadParser;
     class SourceParser;
 

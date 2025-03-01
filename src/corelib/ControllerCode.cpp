@@ -148,31 +148,38 @@ int Code::parse(
     using LogicalParse = Exception::LogicalParse;
     using Status = AbstractParser::Status;
     Q_ASSERT(parser);
-    while (where < lines.size())
+    try
     {
-        switch (parser->parse(lines,where))
+        while (where < lines.size())
         {
-        case Status::DelegateToChildren:
-            for (auto child: parser->children())
+            switch (parser->parse(lines,where))
             {
-                int nw = parse(child,lines,where);
-                if (nw != where)
+            case Status::DelegateToChildren:
+                for (auto child: parser->children())
                 {
-                    break;
+                    int nw = parse(child,lines,where);
+                    if (nw != where)
+                    {
+                        break;
+                    }
                 }
+                where++;
+                break;
+            case Status::DoneWithRead:
+                return where+1;
+            case Status::DoneWithoutRead:
+                return where;
+            case Status::Read:
+                where++;
+                break;
+            default:
+                throw std::logic_error("unknown parser status");
             }
-            where++;
-            break;
-        case Status::DoneWithRead:
-            return where+1;
-        case Status::DoneWithoutRead:
-            return where;
-        case Status::Read:
-            where++;
-            break;
-        default:
-            throw std::logic_error("unknown parser status");
         }
+    }
+    catch (LogicalParse& e)
+    {
+        throw LogicalParse(tr("line %1:").arg(e.message()));
     }
     if (parser->parse(lines,AbstractParser::EOL) != Status::DoneWithRead)
     {

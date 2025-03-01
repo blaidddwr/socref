@@ -33,7 +33,8 @@ namespace Cpp
      */
     enum CodeKey
     {
-        FooterCodeKey
+        BodyCodeKey
+        ,FooterCodeKey
         ,FooterHeadCodeKey
         ,PreProcessHeadCodeKey
         ,PreProcessSourceCodeKey
