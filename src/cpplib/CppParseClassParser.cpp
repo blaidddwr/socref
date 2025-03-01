@@ -3,6 +3,7 @@
 #include "Cpp.h"
 #include "CppBlockClass.h"
 #include "Exception.h"
+#include "ModelMetaBlock.h"
 namespace Cpp {
 namespace Parse {
 using namespace Block;
@@ -17,19 +18,21 @@ ClassParser::ClassParser(
 ):
     AbstractParser(block,version,parent)
 {
-    Q_ASSERT(block);
     Q_ASSERT(version >= Cpp_Legacy);
     Q_ASSERT(version <= Cpp_Current);
-    if (auto cb = qobject_cast<Class*>(block))
+    Q_ASSERT(block);
+    switch (block->meta()->index())
     {
+    case ClassIndex:
+    {
+        auto cb = qobject_cast<Class*>(block);
         _classes.insert(cb->name(),cb);
+        break;
     }
-    else if (qobject_cast<Namespace*>(block))
-    {
+    case NamespaceIndex:
         populate();
-    }
-    else
-    {
+        break;
+    default:
         throw std::logic_error("invalid block");
     }
 }
@@ -226,10 +229,12 @@ void ClassParser::populate(
 )
 {
     using LogicalParse = ::Exception::LogicalParse;
-    for (auto child: block()->children())
+    for (int i = 0;i < block()->size();i++)
     {
-        if (auto cb = qobject_cast<Class*>(child))
+        auto child = block()->get(i);
+        if (child->meta()->index() == ClassIndex)
         {
+            auto cb = qobject_cast<Class*>(child);
             if (_classes.contains(cb->name()))
             {
                 throw LogicalParse(tr("Duplicate class name %1 encountered.").arg(cb->name()));

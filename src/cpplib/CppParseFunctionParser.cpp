@@ -1,11 +1,14 @@
 #include "CppParseFunctionParser.h"
 #include <QtCore>
 #include "Cpp.h"
+#include "CppBlock.h"
 #include "CppBlockClass.h"
 #include "CppBlockFunction.h"
 #include "Exception.h"
+#include "ModelMetaBlock.h"
 namespace Cpp {
 namespace Parse {
+using namespace Cpp::Block;
 using Status = AbstractParser::Status;
 using Class = Block::Class;
 using Namespace = Block::Namespace;
@@ -21,16 +24,16 @@ FunctionParser::FunctionParser(
 {
     Q_ASSERT(version >= Cpp_Legacy);
     Q_ASSERT(version <= Cpp_Current);
-    if (auto nb = qobject_cast<Namespace*>(block))
+    Q_ASSERT(block);
+    switch (block->meta()->index())
     {
-        populate(nb,"");
-    }
-    else if (auto cb = qobject_cast<Class*>(block))
-    {
-        populate(cb,cb->name());
-    }
-    else
-    {
+    case ClassIndex:
+        populate(block,qobject_cast<Class*>(block)->name());
+        break;
+    case NamespaceIndex:
+        populate(block,"");
+        break;
+    default:
         throw std::logic_error("invalid block");
     }
 }
@@ -193,10 +196,14 @@ void FunctionParser::populate(
 )
 {
     using LogicalParse = ::Exception::LogicalParse;
-    for (auto child: parent->children())
+    for (int i = 0;i < parent->size();i++)
     {
-        if (auto fb = qobject_cast<Function*>(child))
+        auto child = parent->get(i);
+        switch (child->meta()->index())
         {
+        case FunctionIndex:
+        {
+            auto fb = qobject_cast<Function*>(child);
             QString signature(
                 scope
                 + fb->name()
@@ -212,15 +219,15 @@ void FunctionParser::populate(
                     );
             }
             _functions.insert(signature,fb);
+            break;
         }
-        else if (auto cb = qobject_cast<Class*>(child))
-        {
+        case ClassIndex:
             Q_ASSERT(scope.isEmpty());
-            populate(parent,cb->name()+"::");
-        }
-        else if (auto pb = qobject_cast<Property*>(child))
-        {
-            populate(pb,scope);
+            populate(child,qobject_cast<Class*>(child)->name()+"::");
+            break;
+        case PropertyIndex:
+            populate(child,scope);
+            break;
         }
     }
 }
