@@ -4891,7 +4891,9 @@ It can be extended for other blocks by using the protected getter methods to exp
                     <__p_name>Index</__p_name>
                 </Enumeration>
                 <Class>
-                    <__p_description>This parses the source code of C++ class declarations.</__p_description>
+                    <__p_description>This parses the source code of C++ class declarations.
+
+This class uses a hash table for any possible classes it can parse based off its block object. The name of a class is used as the key for the lookup table and it is generated on construction of objects of this class.</__p_description>
                     <__p_name>ClassParser</__p_name>
                     <__p_parents>public AbstractParser</__p_parents>
                     <Enumeration>
@@ -4916,7 +4918,7 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_virtual>0</__p_virtual>
                         <Variable>
                             <__p_name>block</__p_name>
-                            <__p_type>Class*</__p_type>
+                            <__p_type>AbstractBlock*</__p_type>
                         </Variable>
                         <Variable>
                             <__p_name>version</__p_name>
@@ -4958,7 +4960,33 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Parses a legacy declaration. See the parse interface for more documentation.</__p_description>
+                        <__p_description>Finds the class in this parser object's internal lookup table, using this object's currently parsed declaration parameters, and assigning it to this object's current class pointer.
+
+@exception Exception::LogicalParse</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>find</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The name of the class which is found.</__p_description>
+                            <__p_name>name</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Parses a legacy declaration. See the parse interface for more documentation.
+
+@exception Exception::LogicalParse</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -4983,7 +5011,9 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Parses a version 1 declaration. See the parse interface for more documentation.</__p_description>
+                        <__p_description>Parses a version 1 declaration. See the parse interface for more documentation.
+
+@exception Exception::LogicalParse</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -5002,9 +5032,47 @@ It can be extended for other blocks by using the protected getter methods to exp
                             <__p_type>int</__p_type>
                         </Variable>
                     </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Populates this parser object's internal class lookup table from its block object. Any descendant namespace blocks and their descendant classes are ignored.
+
+@exception Exception::LogicalParse</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>populate</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Resets this parser object, making it ready to scan for a new class declarations.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>reset</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
                 </Class>
                 <Class>
-                    <__p_description>This parses the source code of C++ function definitions.</__p_description>
+                    <__p_description>This parses the source code of C++ function definitions.
+
+This class uses a hash table for any possible functions it can parse based off its block object. The signature of a function is used as the key for the lookup table and it is generated on construction of objects of this class. The signature includes the scope of its class name of it is a method.</__p_description>
                     <__p_name>FunctionParser</__p_name>
                     <__p_parents>public AbstractParser</__p_parents>
                     <Enumeration>
@@ -5071,34 +5139,13 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Simplifies and removed the name of a given argument. In this context simplification means removing any whitespace at the beginning or end of the argument along with reducing any separating whitespace into a single space.</__p_description>
+                        <__p_description>Parses a given string into a list of simplified type only arguments. The names and all extraneous whitespace are removed, allowing the returned list to be used to generate a signature.
+
+@exception Exception::LogicalParse</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>detangleArgument</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>The simplified type only argument.</__p_returnDescription>
-                        <__p_returnType>QString</__p_returnType>
-                        <__p_static>1</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_description>The raw argument which is simplified.</__p_description>
-                            <__p_name>argument</__p_name>
-                            <__p_type>const QString&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Parses a given string into a list of type only arguments. The names are removed so the returned list can be used to generate a signature.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>detangleArguments</__p_name>
+                        <__p_name>detangle</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnDescription>The list of type only arguments.</__p_returnDescription>
@@ -5119,11 +5166,11 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_deleted>0</__p_deleted>
                         <__p_description>Finds the function in this parser object's internal lookup table, using this object's currently parsed declaration parameters, and assigning it to this object's current internal function.
 
-@exception Exception::LogicalParse Thown if a logical parse error is encountered.</__p_description>
+@exception Exception::LogicalParse</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>findFunction</__p_name>
+                        <__p_name>find</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
@@ -5136,7 +5183,9 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Parses a legacy or version 1 declaration. See the parse interface for more documentation.</__p_description>
+                        <__p_description>Parses a legacy or version 1 declaration. See the parse interface for more documentation.
+
+@exception Exception::LogicalParse</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -5161,13 +5210,13 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Recursively populates this parser object's internal function lookup table.
+                        <__p_description>Recursively populates this parser object's internal function lookup table. Any descendant namespace blocks and their descendant functions are ignored.
 
-@exception Exception::LogicalParse Thown if a logical parse error is encountered.</__p_description>
+@exception Exception::LogicalParse</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>populateFunctions</__p_name>
+                        <__p_name>populate</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
                         <__p_returnType>void</__p_returnType>
@@ -5179,8 +5228,8 @@ It can be extended for other blocks by using the protected getter methods to exp
                             <__p_type>AbstractBlock*</__p_type>
                         </Variable>
                         <Variable>
-                            <__p_description>The class name used as the scope of each descendant function's signature. This must be empty if the given parent is a namespace, otherwise it must contain the descendant method's class name.</__p_description>
-                            <__p_name>className</__p_name>
+                            <__p_description>The class scope used as the scope of each descendant function's signature. This must be empty if the given parent is a namespace, otherwise it must contain the descendant method's class name appended with 2 colon characters.</__p_description>
+                            <__p_name>scope</__p_name>
                             <__p_type>const QString&amp;</__p_type>
                         </Variable>
                     </Function>
@@ -5200,6 +5249,31 @@ It can be extended for other blocks by using the protected getter methods to exp
                         <__p_returnType>void</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Removes the name and all extraneous whitespace of a given argument.
+
+@exception Exception::LogicalParse</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>toType</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>The type only argument with no extraneous whitespace.</__p_returnDescription>
+                        <__p_returnType>QString</__p_returnType>
+                        <__p_static>1</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                        <Variable>
+                            <__p_description>The argument.</__p_description>
+                            <__p_name>argument</__p_name>
+                            <__p_type>const QString&amp;</__p_type>
+                        </Variable>
                     </Function>
                 </Class>
                 <Class>

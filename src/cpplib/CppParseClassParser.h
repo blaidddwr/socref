@@ -1,5 +1,6 @@
 #ifndef CPP_PARSE_CLASSPARSER_H
 #define CPP_PARSE_CLASSPARSER_H
+#include <QHash>
 #include "AbstractParser.h"
 #include "CppBlock.h"
 namespace Cpp {
@@ -10,12 +11,18 @@ namespace Parse {
 
 /*!
  * This parses the source code of C++ class declarations.
+ * 
+ * This class uses a hash table for any possible classes it can parse based off
+ * its block object. The name of a class is used as the key for the lookup table
+ * and it is generated on construction of objects of this class.
  */
 class ClassParser:
     public AbstractParser
 {
     Q_OBJECT
     using Class = Block::Class;
+    Class* _class {nullptr};
+    QHash<QString,Class*> _classes;
     int _start;
     int _size;
     static const QRegularExpression _classRe;
@@ -39,7 +46,7 @@ class ClassParser:
 
     public:
     ClassParser(
-        Class* block
+        AbstractBlock* block
         ,int version
         ,QObject* parent = nullptr
     );
@@ -53,8 +60,26 @@ class ClassParser:
 
 
     /*!
+     * Finds the class in this parser object's internal lookup table, using this
+     * object's currently parsed declaration parameters, and assigning it to
+     * this object's current class pointer.
+     * 
+     * @exception Exception::LogicalParse
+     *
+     * @param name
+     *        The name of the class which is found.
+     */
+    private:
+    void find(
+        const QString& name
+    );
+
+
+    /*!
      * Parses a legacy declaration. See the parse interface for more
      * documentation.
+     * 
+     * @exception Exception::LogicalParse
      */
     private:
     Status parseLegacy(
@@ -66,11 +91,34 @@ class ClassParser:
     /*!
      * Parses a version 1 declaration. See the parse interface for more
      * documentation.
+     * 
+     * @exception Exception::LogicalParse
      */
     private:
     Status parseVersion1(
         const QStringList& lines
         ,int where
+    );
+
+
+    /*!
+     * Populates this parser object's internal class lookup table from its block
+     * object. Any descendant namespace blocks and their descendant classes are
+     * ignored.
+     * 
+     * @exception Exception::LogicalParse
+     */
+    private:
+    void populate(
+    );
+
+
+    /*!
+     * Resets this parser object, making it ready to scan for a new class
+     * declarations.
+     */
+    private:
+    void reset(
     );
 };
 }

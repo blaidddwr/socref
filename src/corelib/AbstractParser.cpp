@@ -25,7 +25,6 @@ AbstractParser::AbstractParser(
 AbstractBlock* AbstractParser::block(
 ) const
 {
-    Q_ASSERT(_block);
     return _block;
 }
 
@@ -47,16 +46,21 @@ int AbstractParser::version(
 void AbstractParser::insertCode(
     const QString& key
     ,const QStringList& lines
+    ,AbstractBlock* block
 )
 {
     using LogicalParse = Exception::LogicalParse;
-    Q_ASSERT(_block);
+    if (!block)
+    {
+        Q_ASSERT(_block);
+        block = _block;
+    }
     if (!lines.isEmpty())
     {
-        auto& code = _block->code();
+        auto& code = block->code();
         if (code.contains(key))
         {
-            throw LogicalParse(tr("Code key collision in block %1.").arg(block()->displayText()));
+            throw LogicalParse(tr("Code key collision in block %1.").arg(block->displayText()));
         }
         code.insert(key,lines);
     }
@@ -69,7 +73,7 @@ void AbstractParser::onBlockDestroyed(
 {
     if (_block == object)
     {
-        _block = nullptr;
+        throw std::logic_error("block destroyed during lifetime of abstract parser");
     }
 }
 

@@ -11,6 +11,11 @@ namespace Parse {
 
 /*!
  * This parses the source code of C++ function definitions.
+ * 
+ * This class uses a hash table for any possible functions it can parse based
+ * off its block object. The signature of a function is used as the key for the
+ * lookup table and it is generated on construction of objects of this class.
+ * The signature includes the scope of its class name of it is a method.
  */
 class FunctionParser:
     public AbstractParser
@@ -19,8 +24,8 @@ class FunctionParser:
     using Function = Block::Function;
     Function* _function {nullptr};
     QHash<QString,Function*> _functions;
-    QString _className;
     QString _name;
+    QString _scope;
     QStringList _arguments;
     bool _isConstant {false};
     int _start;
@@ -59,26 +64,11 @@ class FunctionParser:
 
 
     /*!
-     * Simplifies and removed the name of a given argument. In this context
-     * simplification means removing any whitespace at the beginning or end of
-     * the argument along with reducing any separating whitespace into a single
-     * space.
-     *
-     * @param argument
-     *        The raw argument which is simplified.
-     *
-     * @return
-     * The simplified type only argument.
-     */
-    private:
-    static QString detangleArgument(
-        const QString& argument
-    );
-
-
-    /*!
-     * Parses a given string into a list of type only arguments. The names are
-     * removed so the returned list can be used to generate a signature.
+     * Parses a given string into a list of simplified type only arguments. The
+     * names and all extraneous whitespace are removed, allowing the returned
+     * list to be used to generate a signature.
+     * 
+     * @exception Exception::LogicalParse
      *
      * @param arguments
      *        The string containing one or more arguments.
@@ -87,7 +77,7 @@ class FunctionParser:
      * The list of type only arguments.
      */
     private:
-    static QStringList detangleArguments(
+    static QStringList detangle(
         const QString& arguments
     );
 
@@ -97,17 +87,18 @@ class FunctionParser:
      * this object's currently parsed declaration parameters, and assigning it
      * to this object's current internal function.
      * 
-     * @exception Exception::LogicalParse Thown if a logical parse error is
-     * encountered.
+     * @exception Exception::LogicalParse
      */
     private:
-    void findFunction(
+    void find(
     );
 
 
     /*!
      * Parses a legacy or version 1 declaration. See the parse interface for
      * more documentation.
+     * 
+     * @exception Exception::LogicalParse
      */
     private:
     Status parseLegacy(
@@ -118,24 +109,25 @@ class FunctionParser:
 
     /*!
      * Recursively populates this parser object's internal function lookup
-     * table.
+     * table. Any descendant namespace blocks and their descendant functions are
+     * ignored.
      * 
-     * @exception Exception::LogicalParse Thown if a logical parse error is
-     * encountered.
+     * @exception Exception::LogicalParse
      *
      * @param parent
      *        The parent whose descendant function blocks are added to this
      *        parser object's internal lookup table.
      *
-     * @param className
-     *        The class name used as the scope of each descendant function's
+     * @param scope
+     *        The class scope used as the scope of each descendant function's
      *        signature. This must be empty if the given parent is a namespace,
-     *        otherwise it must contain the descendant method's class name.
+     *        otherwise it must contain the descendant method's class name
+     *        appended with 2 colon characters.
      */
     private:
-    void populateFunctions(
+    void populate(
         AbstractBlock* parent
-        ,const QString& className
+        ,const QString& scope
     );
 
 
@@ -145,6 +137,23 @@ class FunctionParser:
      */
     private:
     void reset(
+    );
+
+
+    /*!
+     * Removes the name and all extraneous whitespace of a given argument.
+     * 
+     * @exception Exception::LogicalParse
+     *
+     * @param argument
+     *        The argument.
+     *
+     * @return
+     * The type only argument with no extraneous whitespace.
+     */
+    private:
+    static QString toType(
+        const QString& argument
     );
 };
 }

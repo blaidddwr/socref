@@ -7,11 +7,11 @@ namespace Cpp {
 namespace Parse {
 using namespace Block;
 using Status = AbstractParser::Status;
-const QRegularExpression ClassParser::_classRe("^(template\\s*<.*>\\s+)?class\\s+(\\w+)");
+const QRegularExpression ClassParser::_classRe("^(template *<.*> +)?class +(\\w+)");
 
 
 ClassParser::ClassParser(
-    Class* block
+    AbstractBlock* block
     ,int version
     ,QObject* parent
 ):
@@ -20,6 +20,18 @@ ClassParser::ClassParser(
     Q_ASSERT(block);
     Q_ASSERT(version >= Cpp_Legacy);
     Q_ASSERT(version <= Cpp_Current);
+    if (auto cb = qobject_cast<Class*>(block))
+    {
+        _classes.insert(cb->name(),cb);
+    }
+    else if (qobject_cast<Namespace*>(block))
+    {
+        populate();
+    }
+    else
+    {
+        throw std::logic_error("invalid block");
+    }
 }
 
 
@@ -40,12 +52,25 @@ Status ClassParser::parse(
 }
 
 
+void ClassParser::find(
+    const QString& name
+)
+{
+    using LogicalParse = ::Exception::LogicalParse;
+    auto i = _classes.find(name);
+    if (i == _classes.end())
+    {
+        throw LogicalParse(tr("Encountered unknown class name %1.").arg(name));
+    }
+    _class = i.value();
+}
+
+
 Status ClassParser::parseLegacy(
     const QStringList& lines
     ,int where
 )
 {
-    using LogicalParse = ::Exception::LogicalParse;
     if (where == EOL)
     {
         return Status::DoneWithoutRead;
@@ -54,7 +79,15 @@ Status ClassParser::parseLegacy(
     switch (_state)
     {
         case State::Body:
-            return (line == "};") ? Status::DoneWithRead : Status::Read;//{TODO:bug
+            if (line == "};")//{TODO:bug
+            {
+                reset();
+                return Status::DoneWithRead;
+            }
+            else
+            {
+                return Status::Read;
+            }
         case State::Declaration:
             if (line == "{")//}:TODO:bug
             {
@@ -66,12 +99,13 @@ Status ClassParser::parseLegacy(
         case State::Header:
             if (line.isEmpty())
             {
-                insertCode(codeKey(HeaderCodeKey),lines.mid(_start,_size));
+                insertCode(codeKey(HeaderCodeKey),lines.mid(_start,_size),_class);
                 _state = State::Body;
             }
             else if (line == "};")//{TODO:bug
             {
-                insertCode(codeKey(HeaderCodeKey),lines.mid(_start,_size));
+                insertCode(codeKey(HeaderCodeKey),lines.mid(_start,_size),_class);
+                reset();
                 return Status::DoneWithRead;
             }
             else
@@ -84,11 +118,7 @@ Status ClassParser::parseLegacy(
             auto match = _classRe.match(line);
             if (match.hasMatch())
             {
-                auto name = match.captured(2);
-                if (name != qobject_cast<Class*>(block())->name())
-                {
-                    throw LogicalParse(tr("Encountered unknown class name %1.").arg(name));
-                }
+                find(match.captured(2));
                 _state = State::Declaration;
                 return Status::Read;
             }
@@ -109,7 +139,6 @@ Status ClassParser::parseVersion1(
 )
 {
     static const QString footerLine = "//footer:";
-    using LogicalParse = ::Exception::LogicalParse;
     if (where == EOL)
     {
         return Status::DoneWithoutRead;
@@ -125,21 +154,28 @@ Status ClassParser::parseVersion1(
                 _state = State::Footer;
                 return Status::Read;
             }
+            else if (line == "};")//{TODO:bug
+            {
+                reset();
+                return Status::DoneWithRead;
+            }
             else
             {
-                return (line == "};") ? Status::DoneWithRead : Status::Read; //{TODO:bug
+                return Status::Read;
             }
         case State::Declaration:
             if (line == "{")//}:TODO:bug
             {
                 _start = where+1;
+                _size = 0;
                 _state = State::Header;
             }
             return Status::Read;
         case State::Footer:
             if (line == "};")//{TODO:bug
             {
-                insertCode(codeKey(FooterCodeKey),lines.mid(_start,_size));
+                insertCode(codeKey(FooterCodeKey),lines.mid(_start,_size),_class);
+                reset();
                 return Status::DoneWithRead;
             }
             else
@@ -150,14 +186,15 @@ Status ClassParser::parseVersion1(
         case State::Header:
             if (line.startsWith("//"))
             {
-                insertCode(codeKey(HeaderCodeKey),lines.mid(_start,_size));
+                insertCode(codeKey(HeaderCodeKey),lines.mid(_start,_size),_class);
                 _start = where+1;
                 _size = 0;
                 _state = (line == footerLine) ? State::Footer : State::Body;
             }
             else if (line == "};")//{TODO:bug
             {
-                insertCode(codeKey(HeaderCodeKey),lines.mid(_start,_size));
+                insertCode(codeKey(HeaderCodeKey),lines.mid(_start,_size),_class);
+                reset();
                 return Status::DoneWithRead;
             }
             else
@@ -170,14 +207,8 @@ Status ClassParser::parseVersion1(
             auto match = _classRe.match(line);
             if (match.hasMatch())
             {
-                auto name = match.captured(2);
-                if (name != qobject_cast<Class*>(block())->name())
-                {
-                    throw LogicalParse(tr("Encountered unknown class name %1.").arg(name));
-                }
-                _start = where+1;
-                _size = 0;
-                _state = line.endsWith("}") ? State::Header : State::Declaration;//{TODO:bug
+                find(match.captured(2));
+                _state = State::Declaration;
                 return Status::Read;
             }
             else
@@ -188,6 +219,32 @@ Status ClassParser::parseVersion1(
         default:
             throw std::logic_error("unknown state");
     }
+}
+
+
+void ClassParser::populate(
+)
+{
+    using LogicalParse = ::Exception::LogicalParse;
+    for (auto child: block()->children())
+    {
+        if (auto cb = qobject_cast<Class*>(child))
+        {
+            if (_classes.contains(cb->name()))
+            {
+                throw LogicalParse(tr("Duplicate class name %1 encountered.").arg(cb->name()));
+            }
+            _classes.insert(cb->name(),cb);
+        }
+    }
+}
+
+
+void ClassParser::reset(
+)
+{
+    _class = nullptr;
+    _state = State::Scanning;
 }
 }
 }

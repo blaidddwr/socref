@@ -148,11 +148,9 @@ class AbstractParser:
 
 
     /*!
-     * Inserts code lines into this object's block object's code property. This
-     * object's block property must have a valid object.
+     * Inserts code lines into a block object's code property.
      * 
-     * @exception Exception::LogicalParse Thrown when a logical parse error is
-     * encountered.
+     * @exception Exception::LogicalParse
      *
      * @param key
      *        The code map key.
@@ -160,11 +158,16 @@ class AbstractParser:
      * @param lines
      *        The inserted code lines. If this is empty then this method does
      *        nothing.
+     *
+     * @param block
+     *        The block where a code property is inserted. If this is null then
+     *        this object's block object is used.
      */
     protected:
     void insertCode(
         const QString& key
         ,const QStringList& lines
+        ,AbstractBlock* block = nullptr
     );
 
 
@@ -172,7 +175,7 @@ class AbstractParser:
      * Called when the block object's destroyed signal emitted.
      */
     private slots:
-    void onBlockDestroyed(
+    virtual void onBlockDestroyed(
         QObject* object
     );
 

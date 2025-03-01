@@ -19,13 +19,20 @@ FunctionParser::FunctionParser(
 ):
     AbstractParser(block,version,parent)
 {
-    Q_ASSERT(
-        qobject_cast<Class*>(block)
-        || qobject_cast<Namespace*>(block)
-        );
     Q_ASSERT(version >= Cpp_Legacy);
     Q_ASSERT(version <= Cpp_Current);
-    populateFunctions(block,"");
+    if (auto nb = qobject_cast<Namespace*>(block))
+    {
+        populate(nb,"");
+    }
+    else if (auto cb = qobject_cast<Class*>(block))
+    {
+        populate(cb,cb->name());
+    }
+    else
+    {
+        throw std::logic_error("invalid block");
+    }
 }
 
 
@@ -46,27 +53,7 @@ Status FunctionParser::parse(
 }
 
 
-QString FunctionParser::detangleArgument(
-    const QString& argument
-)
-{
-    using LogicalParse = ::Exception::LogicalParse;
-    if (argument.isEmpty())
-    {
-        throw LogicalParse(tr("Parsed invalid function argument."));
-    }
-    auto ret = argument.simplified();
-    auto i = ret.lastIndexOf(' ');
-    if (i < 0)
-    {
-        throw LogicalParse(tr("Parsed invalid function argument."));
-    }
-    Q_ASSERT(i <= ret.size());
-    return ret.first(i);
-}
-
-
-QStringList FunctionParser::detangleArguments(
+QStringList FunctionParser::detangle(
     const QString& arguments
 )
 {
@@ -74,26 +61,17 @@ QStringList FunctionParser::detangleArguments(
     const auto list = arguments.split(',',Qt::KeepEmptyParts);
     for (const auto& arg: list)
     {
-        ret.append(detangleArgument(arg));
+        ret.append(toType(arg));
     }
     return ret;
 }
 
 
-void FunctionParser::findFunction(
+void FunctionParser::find(
 )
 {
     using LogicalParse = ::Exception::LogicalParse;
-    QString signature;
-    if (!_className.isEmpty())
-    {
-        signature.append(_className+"::");
-    }
-    signature.append(_name+"("+_arguments.join(",")+")");
-    if (_isConstant)
-    {
-        signature.append(" const");
-    }
+    QString signature(_scope+_name+"("+_arguments.join(",")+")"+(_isConstant ? " const" : ""));
     auto i = _functions.find(signature);
     if (i == _functions.end())
     {
@@ -108,9 +86,10 @@ Status FunctionParser::parseLegacy(
     ,int where
 )
 {
+    static const QRegularExpression constantRe(" +const( +noexcept)?:?$");
     static const QRegularExpression endDeclarationRe("^ *)");
     static const QRegularExpression functionRe(
-        "(= +)?((\\w+)::)?((\\w+)|(operator.*))\\((([^\\(\\n]*)\\))?:?( +const)?$"
+        "(= +)?((\\w+)::)?((\\w+)|(operator.*))\\((([^\\(\\n]*)\\))?( +const)?( +noexcept)?:?$"
         );
     if (where == EOL)
     {
@@ -122,7 +101,7 @@ Status FunctionParser::parseLegacy(
     case State::Body:
         if (line == "}")//{TODO:bug
         {
-            insertCode(codeKey(BodyCodeKey),lines.mid(_start,_size));
+            insertCode(codeKey(BodyCodeKey),lines.mid(_start,_size),_function);
             reset();
             return Status::DoneWithRead;
         }
@@ -141,22 +120,22 @@ Status FunctionParser::parseLegacy(
                     reset();
                     return Status::DoneWithRead;
                 }
-                _isConstant = line.endsWith("const");
-                findFunction();
+                _isConstant = constantRe.match(line).hasMatch();
+                find();
                 _start = where+1;
                 _size = 0;
                 _state = line.endsWith(':') ? State::Header : State::Middle;
             }
             else
             {
-                _arguments.append(detangleArgument(line));
+                _arguments.append(detangle(line));
             }
         }
         return Status::Read;
     case State::Header:
         if (line == "{")//}TODO:bug
         {
-            insertCode(codeKey(HeaderCodeKey),lines.mid(_start,_size));
+            insertCode(codeKey(HeaderCodeKey),lines.mid(_start,_size),_function);
             _start = where+1;
             _size = 0;
             _state = State::Body;
@@ -183,13 +162,13 @@ Status FunctionParser::parseLegacy(
                 && match.captured(1).isEmpty()
                 )
             {
-                _className = match.captured(3);
+                _scope = match.captured(3).isEmpty() ? "" : match.captured(3)+"::";
                 _name = match.captured(4);
                 if (!match.captured(8).isEmpty())
                 {
-                    _arguments = detangleArguments(match.captured(8));
+                    _arguments = detangle(match.captured(8));
                     _isConstant = !match.captured(9).isEmpty();
-                    findFunction();
+                    find();
                     _start = where+1;
                     _size = 0;
                     _state = line.endsWith(':') ? State::Header : State::Middle;
@@ -208,9 +187,9 @@ Status FunctionParser::parseLegacy(
 }
 
 
-void FunctionParser::populateFunctions(
+void FunctionParser::populate(
     AbstractBlock* parent
-    ,const QString& className
+    ,const QString& scope
 )
 {
     using LogicalParse = ::Exception::LogicalParse;
@@ -218,16 +197,14 @@ void FunctionParser::populateFunctions(
     {
         if (auto fb = qobject_cast<Function*>(child))
         {
-            QString signature;
-            if (!className.isEmpty())
-            {
-                signature.append(className);
-            }
-            signature.append(fb->name()+"("+fb->arguments(true).join(",")+")");
-            if (fb->isConstant())
-            {
-                signature.append(" const");
-            }
+            QString signature(
+                scope
+                + fb->name()
+                + "("
+                + fb->arguments(true).join(",")
+                + ")"
+                + (fb->isConstant() ? " const" : "")
+                );
             if (_functions.contains(signature))
             {
                 throw LogicalParse(
@@ -238,12 +215,12 @@ void FunctionParser::populateFunctions(
         }
         else if (auto cb = qobject_cast<Class*>(child))
         {
-            Q_ASSERT(className.isEmpty());
-            populateFunctions(parent,cb->name());
+            Q_ASSERT(scope.isEmpty());
+            populate(parent,cb->name()+"::");
         }
         else if (auto pb = qobject_cast<Property*>(child))
         {
-            populateFunctions(pb,className);
+            populate(pb,scope);
         }
     }
 }
@@ -256,6 +233,26 @@ void FunctionParser::reset(
     _arguments.clear();
     _isConstant = false;
     _state = State::Scanning;
+}
+
+
+QString FunctionParser::toType(
+    const QString& argument
+)
+{
+    using LogicalParse = ::Exception::LogicalParse;
+    if (argument.isEmpty())
+    {
+        throw LogicalParse(tr("Parsed invalid function argument."));
+    }
+    auto ret = argument.simplified();
+    auto i = ret.lastIndexOf(' ');
+    if (i < 0)
+    {
+        throw LogicalParse(tr("Parsed invalid function argument."));
+    }
+    Q_ASSERT(i <= ret.size());
+    return ret.first(i);
 }
 }
 }
