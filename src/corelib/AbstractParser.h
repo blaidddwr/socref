@@ -106,14 +106,19 @@ class AbstractParser:
 
 
     /*!
-     * Getter.
+     * Gets a child parser.
+     *
+     * @param index
+     *        The index of the child parser object returned. This must be a
+     *        valid index.
      *
      * @return
-     * A list of this object's parser children.
+     * A child parser object contained in this parser object.
      */
     public:
-    const QList<AbstractParser*>& children(
-    );
+    AbstractParser* get(
+        int index
+    ) const;
 
 
     /*!
@@ -137,6 +142,17 @@ class AbstractParser:
         const QStringList& lines
         ,int where
     ) = 0;
+
+
+    /*!
+     * Returns children parser size.
+     *
+     * @return
+     * The total number of child parser objects contained in this parser object.
+     */
+    public:
+    int size(
+    ) const;
 
 
     /*!

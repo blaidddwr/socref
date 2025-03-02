@@ -1437,20 +1437,25 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
             <Function>
                 <__p_abstract>0</__p_abstract>
                 <__p_access>Public</__p_access>
-                <__p_const>0</__p_const>
+                <__p_const>1</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
-                <__p_description>Getter.</__p_description>
+                <__p_description>Gets a child parser.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>
                 <__p_invokable>0</__p_invokable>
-                <__p_name>children</__p_name>
+                <__p_name>get</__p_name>
                 <__p_noexcept>0</__p_noexcept>
                 <__p_override>0</__p_override>
-                <__p_returnDescription>A list of this object's parser children.</__p_returnDescription>
-                <__p_returnType>const QList&lt;AbstractParser*&gt;&amp;</__p_returnType>
+                <__p_returnDescription>A child parser object contained in this parser object.</__p_returnDescription>
+                <__p_returnType>AbstractParser*</__p_returnType>
                 <__p_static>0</__p_static>
                 <__p_virtual>0</__p_virtual>
+                <Variable>
+                    <__p_description>The index of the child parser object returned. This must be a valid index.</__p_description>
+                    <__p_name>index</__p_name>
+                    <__p_type>int</__p_type>
+                </Variable>
             </Function>
             <Function>
                 <__p_abstract>1</__p_abstract>
@@ -1481,6 +1486,24 @@ Read - The parser read the given line and is ready to parse the next line.</__p_
                     <__p_name>where</__p_name>
                     <__p_type>int</__p_type>
                 </Variable>
+            </Function>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Public</__p_access>
+                <__p_const>1</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Returns children parser size.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>size</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnDescription>The total number of child parser objects contained in this parser object.</__p_returnDescription>
+                <__p_returnType>int</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
             </Function>
             <Function>
                 <__p_abstract>0</__p_abstract>

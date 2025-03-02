@@ -43,18 +43,18 @@ void TestCppParseHeadParser::children1()
 {
     std::unique_ptr<AbstractBlock> root(_language->createBlock(ClassIndex));
     HeadParser parser(qobject_cast<Class*>(root.get()),Cpp_Legacy);
-    QCOMPARE(parser.children().size(),2);
-    QVERIFY(qobject_cast<ClassParser*>(parser.children().at(0)));
-    QVERIFY(qobject_cast<FunctionParser*>(parser.children().at(1)));
+    QCOMPARE(parser.size(),2);
+    QVERIFY(qobject_cast<ClassParser*>(parser.get(0)));
+    QVERIFY(qobject_cast<FunctionParser*>(parser.get(1)));
 }
 
 void TestCppParseHeadParser::children2()
 {
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    QCOMPARE(parser.children().size(),2);
-    QVERIFY(qobject_cast<ClassParser*>(parser.children().at(0)));
-    QVERIFY(qobject_cast<FunctionParser*>(parser.children().at(1)));
+    QCOMPARE(parser.size(),2);
+    QVERIFY(qobject_cast<ClassParser*>(parser.get(0)));
+    QVERIFY(qobject_cast<FunctionParser*>(parser.get(1)));
 }
 
 void TestCppParseHeadParser::legacyParse1()

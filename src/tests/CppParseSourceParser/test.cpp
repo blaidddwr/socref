@@ -35,8 +35,8 @@ void TestCppParseSourceParser::children()
 {
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    QCOMPARE(parser.children().size(),1);
-    QVERIFY(qobject_cast<FunctionParser*>(parser.children().at(0)));
+    QCOMPARE(parser.size(),1);
+    QVERIFY(qobject_cast<FunctionParser*>(parser.get(0)));
 }
 
 void TestCppParseSourceParser::legacyParse1()

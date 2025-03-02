@@ -29,10 +29,20 @@ AbstractBlock* AbstractParser::block(
 }
 
 
-const QList<AbstractParser*>& AbstractParser::children(
-)
+AbstractParser* AbstractParser::get(
+    int index
+) const
 {
-    return _children;
+    Q_ASSERT(index >= 0);
+    Q_ASSERT(index < _children.size());
+    return _children.at(index);
+}
+
+
+int AbstractParser::size(
+) const
+{
+    return _children.size();
 }
 
 

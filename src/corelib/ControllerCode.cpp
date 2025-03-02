@@ -155,9 +155,9 @@ int Code::parse(
             switch (parser->parse(lines,where))
             {
             case Status::DelegateToChildren:
-                for (auto child: parser->children())
+                for (int i = 0;i < parser->size();i++)
                 {
-                    int nw = parse(child,lines,where);
+                    int nw = parse(parser->get(i),lines,where);
                     if (nw != where)
                     {
                         break;
