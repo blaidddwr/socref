@@ -2,6 +2,7 @@
 #include "CppBlock.h"
 #include "CppBlockNamespace.h"
 #include "CppLanguage.h"
+#include "CppParseFunctionParser.h"
 #include "CppParseSourceParser.h"
 #include "../utility.h"
 using namespace Cpp::Block;
@@ -14,6 +15,7 @@ class TestCppParseSourceParser: public QObject, private TestParse
     Language* _language;
 private slots:
     void initTestCase();
+    void children();
     void legacyParse1();
     void legacyParse2();
     void legacyParse3();
@@ -27,6 +29,14 @@ void TestCppParseSourceParser::initTestCase()
     Q_INIT_RESOURCE(cpp);
     _language = new Language;
     _language->setParent(this);
+}
+
+void TestCppParseSourceParser::children()
+{
+    std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
+    SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+    QCOMPARE(parser.children().size(),1);
+    QVERIFY(qobject_cast<FunctionParser*>(parser.children().at(0)));
 }
 
 void TestCppParseSourceParser::legacyParse1()

@@ -3,7 +3,9 @@
 #include "Cpp.h"
 #include "CppBlockClass.h"
 #include "CppBlockNamespace.h"
+#include "CppParseFunctionParser.h"
 #include "Exception.h"
+#include "ModelMetaBlock.h"
 namespace Cpp {
 namespace Parse {
 using namespace Block;
@@ -11,7 +13,7 @@ using Status = AbstractParser::Status;
 
 
 SourceParser::SourceParser(
-    Class* block
+    AbstractBlock* block
     ,int version
     ,QObject* parent
 ):
@@ -19,18 +21,12 @@ SourceParser::SourceParser(
 {
     Q_ASSERT(version >= Cpp_Legacy);
     Q_ASSERT(version <= Cpp_Current);
-}
-
-
-SourceParser::SourceParser(
-    Namespace* block
-    ,int version
-    ,QObject* parent
-):
-    AbstractParser(block,version,parent)
-{
-    Q_ASSERT(version >= Cpp_Legacy);
-    Q_ASSERT(version <= Cpp_Current);
+    Q_ASSERT(block);
+    Q_ASSERT(
+        block->meta()->index() == ClassIndex
+        || block->meta()->index() == NamespaceIndex
+        );
+    new FunctionParser(block,version,this);
 }
 
 

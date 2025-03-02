@@ -1,10 +1,13 @@
 #include "CppParseHeadParser.h"
 #include <QtCore>
 #include "Cpp.h"
+#include "CppBlock.h"
 #include "CppBlockClass.h"
 #include "CppBlockNamespace.h"
 #include "CppParseClassParser.h"
+#include "CppParseFunctionParser.h"
 #include "Exception.h"
+#include "ModelMetaBlock.h"
 #define END_NEWLINE_SIZE 2
 namespace Cpp {
 namespace Parse {
@@ -16,7 +19,7 @@ const QRegularExpression HeadParser::_namespaceRe("^namespace [a-zA-Z_]\\w* {$")
 
 
 HeadParser::HeadParser(
-    Class* block
+    AbstractBlock* block
     ,int version
     ,QObject* parent
 ):
@@ -24,19 +27,13 @@ HeadParser::HeadParser(
 {
     Q_ASSERT(version >= Cpp_Legacy);
     Q_ASSERT(version <= Cpp_Current);
+    Q_ASSERT(block);
+    Q_ASSERT(
+        block->meta()->index() == ClassIndex
+        || block->meta()->index() == NamespaceIndex
+        );
     new ClassParser(block,version,this);
-}
-
-
-HeadParser::HeadParser(
-    Namespace* block
-    ,int version
-    ,QObject* parent
-):
-    AbstractParser(block,version,parent)
-{
-    Q_ASSERT(version >= Cpp_Legacy);
-    Q_ASSERT(version <= Cpp_Current);
+    new FunctionParser(block,version,this);
 }
 
 

@@ -4,6 +4,7 @@
 #include "CppBlockNamespace.h"
 #include "CppLanguage.h"
 #include "CppParseClassParser.h"
+#include "CppParseFunctionParser.h"
 #include "CppParseHeadParser.h"
 #include "../utility.h"
 using namespace Cpp::Block;
@@ -16,6 +17,8 @@ class TestCppParseHeadParser: public QObject, private TestParse
     Language* _language;
 private slots:
     void initTestCase();
+    void children1();
+    void children2();
     void legacyParse1();
     void legacyParse2();
     void legacyParse3();
@@ -36,13 +39,30 @@ void TestCppParseHeadParser::initTestCase()
     _language->setParent(this);
 }
 
+void TestCppParseHeadParser::children1()
+{
+    std::unique_ptr<AbstractBlock> root(_language->createBlock(ClassIndex));
+    HeadParser parser(qobject_cast<Class*>(root.get()),Cpp_Legacy);
+    QCOMPARE(parser.children().size(),2);
+    QVERIFY(qobject_cast<ClassParser*>(parser.children().at(0)));
+    QVERIFY(qobject_cast<FunctionParser*>(parser.children().at(1)));
+}
+
+void TestCppParseHeadParser::children2()
+{
+    std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
+    HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+    QCOMPARE(parser.children().size(),2);
+    QVERIFY(qobject_cast<ClassParser*>(parser.children().at(0)));
+    QVERIFY(qobject_cast<FunctionParser*>(parser.children().at(1)));
+}
+
 void TestCppParseHeadParser::legacyParse1()
 {
     using Status = AbstractParser::Status;
     auto lines = getLines("legacyParse1");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
     while (where < lines.size())
     {
@@ -66,8 +86,6 @@ void TestCppParseHeadParser::legacyParse2()
     auto lines = getLines("legacyParse1");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(ClassIndex));
     HeadParser parser(qobject_cast<Class*>(root.get()),Cpp_Legacy);
-    QCOMPARE(parser.children().size(),1);
-    QVERIFY(qobject_cast<ClassParser*>(parser.children().at(0)));
     int where = 0;
     while (where < lines.size())
     {
@@ -91,7 +109,6 @@ void TestCppParseHeadParser::legacyParse3()
     auto lines = getLines("legacyParse3");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
     while (where < lines.size())
     {
@@ -117,7 +134,6 @@ void TestCppParseHeadParser::legacyParse4()
     auto testPreProcess = lines.mid(2,3);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
     while (where < lines.size())
     {
@@ -144,7 +160,6 @@ void TestCppParseHeadParser::legacyParse5()
     auto testPreProcess = lines.mid(2,3);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
     while (where < lines.size())
     {
@@ -186,7 +201,6 @@ void TestCppParseHeadParser::version1Parse2()
     auto lines = getLines("version1Parse2");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
-    //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
     while (where < lines.size())
     {
@@ -204,7 +218,6 @@ void TestCppParseHeadParser::version1Parse3()
     auto testFooter = lines.mid(14,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
-    //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
     while (where < lines.size())
     {
@@ -238,7 +251,6 @@ void TestCppParseHeadParser::version1Parse4()
     auto testFooter = lines.mid(15,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
-    //QCOMPARE(parser.children().size(),2);//TODO
     int where = 0;
     while (where < lines.size())
     {

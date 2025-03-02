@@ -39,15 +39,7 @@ class SourceParser:
 
     public:
     SourceParser(
-        Class* block
-        ,int version
-        ,QObject* parent = nullptr
-    );
-
-
-    public:
-    SourceParser(
-        Namespace* block
+        AbstractBlock* block
         ,int version
         ,QObject* parent = nullptr
     );

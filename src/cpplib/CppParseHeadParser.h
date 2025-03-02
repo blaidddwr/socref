@@ -46,15 +46,7 @@ class HeadParser:
 
     public:
     HeadParser(
-        Class* block
-        ,int version
-        ,QObject* parent = nullptr
-    );
-
-
-    public:
-    HeadParser(
-        Namespace* block
+        AbstractBlock* block
         ,int version
         ,QObject* parent = nullptr
     );
