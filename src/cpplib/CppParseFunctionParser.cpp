@@ -8,11 +8,8 @@
 #include "ModelMetaBlock.h"
 namespace Cpp {
 namespace Parse {
-using namespace Cpp::Block;
+using namespace Block;
 using Status = AbstractParser::Status;
-using Class = Block::Class;
-using Namespace = Block::Namespace;
-using Property = Block::Property;
 
 
 FunctionParser::FunctionParser(
