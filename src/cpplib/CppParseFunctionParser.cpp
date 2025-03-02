@@ -56,11 +56,43 @@ QStringList FunctionParser::detangle(
     const QString& arguments
 )
 {
+    using LogicalParse = ::Exception::LogicalParse;
     QStringList ret;
-    const auto list = arguments.split(',',Qt::KeepEmptyParts);
-    for (const auto& arg: list)
+    QString argument;
+    int depth = 0;
+    for (const auto& ch: arguments)
     {
-        ret.append(toType(arg));
+        switch (ch.toLatin1())
+        {
+        case '<':
+            depth++;
+            break;
+        case '>':
+            depth--;
+            break;
+        case ',':
+            if (depth == 0)
+            {
+                if (argument.isEmpty())
+                {
+                    throw LogicalParse(tr("Invalid function arguments '%1'.").arg(arguments));
+                }
+                ret.append(toType(argument));
+                argument.clear();
+            }
+            break;
+        default:
+            argument.append(ch);
+            break;
+        }
+        if (depth < 0)
+        {
+            throw LogicalParse(tr("Invalid function arguments '%1'.").arg(arguments));
+        }
+    }
+    if (depth != 0)
+    {
+        throw LogicalParse(tr("Invalid function arguments '%1'.").arg(arguments));
     }
     return ret;
 }
@@ -243,19 +275,22 @@ QString FunctionParser::toType(
     const QString& argument
 )
 {
+    static const QRegularExpression argumentRe("^(const )?\\w+[\\w<>&*,]*$");
     using LogicalParse = ::Exception::LogicalParse;
-    if (argument.isEmpty())
-    {
-        throw LogicalParse(tr("Parsed invalid function argument."));
-    }
+    Q_ASSERT(!argument.isEmpty());
     auto ret = argument.simplified();
     auto i = ret.lastIndexOf(' ');
     if (i < 0)
     {
-        throw LogicalParse(tr("Parsed invalid function argument."));
+        throw LogicalParse(tr("Invalid function argument '%1'.").arg(argument));
     }
     Q_ASSERT(i <= ret.size());
-    return ret.first(i);
+    ret.resize(i);
+    if (!argumentRe.match(ret).hasMatch())
+    {
+        throw LogicalParse(tr("Invalid function argument '%1'.").arg(argument));
+    }
+    return ret;
 }
 }
 }

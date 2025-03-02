@@ -5270,7 +5270,7 @@ This class uses a hash table for any possible functions it can parse based off i
                         <__p_static>1</__p_static>
                         <__p_virtual>0</__p_virtual>
                         <Variable>
-                            <__p_description>The argument.</__p_description>
+                            <__p_description>The argument. This cannot be an empty string.</__p_description>
                             <__p_name>argument</__p_name>
                             <__p_type>const QString&amp;</__p_type>
                         </Variable>

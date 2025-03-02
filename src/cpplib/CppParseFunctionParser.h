@@ -146,7 +146,7 @@ class FunctionParser:
      * @exception Exception::LogicalParse
      *
      * @param argument
-     *        The argument.
+     *        The argument. This cannot be an empty string.
      *
      * @return
      * The type only argument with no extraneous whitespace.
