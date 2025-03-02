@@ -887,6 +887,26 @@ assignment: This property holds any assignment for this enumeration value. If th
                     <Function>
                         <__p_abstract>0</__p_abstract>
                         <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>addEvent</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>index</__p_name>
+                            <__p_type>int</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
                         <__p_const>1</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
@@ -903,6 +923,26 @@ assignment: This property holds any assignment for this enumeration value. If th
                             <__p_assignment>nullptr</__p_assignment>
                             <__p_name>parent</__p_name>
                             <__p_type>QObject*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Protected</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>removeEvent</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>index</__p_name>
+                            <__p_type>int</__p_type>
                         </Variable>
                     </Function>
                 </Class>

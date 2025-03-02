@@ -207,8 +207,7 @@ const QMap<int,QString>& Function::flagLabelMap(
 ) const
 {
     static const QMap<int,QString> ret {
-        {NoExceptFunctionFlag,"No Exceptions"}
-        ,{ExplicitFunctionFlag,"Explicit"}
+        {ExplicitFunctionFlag,"Explicit"}
         ,{StaticFunctionFlag,"Static"}
         ,{ConstantFunctionFlag,"Constant"}
         ,{VirtualFunctionFlag,"Virtual"}
@@ -344,7 +343,14 @@ bool Function::isMethod(
 bool Function::isNoExcept(
 ) const
 {
-    return _flags&NoExceptFunctionFlag;
+    for (int i = 0;i < size();i++)
+    {
+        if (get(i)->meta()->index() == ExceptionIndex)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 
@@ -699,7 +705,7 @@ void Function::addEvent(
     {
         setType(RegularFunctionType);
         setAccess(PublicAccess);
-        setFlags(flags()&NoExceptFunctionFlag);
+        setFlags(0);
         setAssignment(NoFunctionAssignment);
     }
 }
@@ -899,8 +905,7 @@ const QMap<int,QString>& Function::flagStringMap(
 ) const
 {
     static const QMap<int,QString> ret {
-        {NoExceptFunctionFlag,"noexcept"}
-        ,{ExplicitFunctionFlag,"explicit"}
+        {ExplicitFunctionFlag,"explicit"}
         ,{StaticFunctionFlag,"static"}
         ,{ConstantFunctionFlag,"const"}
         ,{VirtualFunctionFlag,"virtual"}
@@ -1441,9 +1446,9 @@ void Function::checkRegular(
     {
         throw LogicalBlock(tr("Functions cannot have an assignment."));
     }
-    if (flags()&(~NoExceptFunctionFlag))
+    if (flags())
     {
-        throw LogicalBlock(tr("Functions cannot have flags beside 'No Exceptions'."));
+        throw LogicalBlock(tr("Functions cannot have any flags."));
     }
 }
 

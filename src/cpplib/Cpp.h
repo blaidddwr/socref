@@ -66,14 +66,13 @@ namespace Cpp
      */
     enum FunctionFlags
     {
-        NoExceptFunctionFlag = 1
-        ,ExplicitFunctionFlag = 2
-        ,StaticFunctionFlag = 4
-        ,ConstantFunctionFlag = 8
-        ,VirtualFunctionFlag = 16
-        ,OverrideFunctionFlag = 32
-        ,FinalFunctionFlag = 64
-        ,UserFunctionFlag = 128
+        ExplicitFunctionFlag = 1
+        ,StaticFunctionFlag = 2
+        ,ConstantFunctionFlag = 4
+        ,VirtualFunctionFlag = 8
+        ,OverrideFunctionFlag = 16
+        ,FinalFunctionFlag = 32
+        ,UserFunctionFlag = 64
     };
 
 

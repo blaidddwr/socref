@@ -35,9 +35,21 @@ class Exception:
 
 
     protected:
+    virtual void addEvent(
+        int index
+    ) override final;
+
+
+    protected:
     virtual AbstractBlock* create(
         QObject* parent = nullptr
     ) const override final;
+
+
+    protected:
+    virtual void removeEvent(
+        int index
+    ) override final;
 };
 }
 }

@@ -127,9 +127,9 @@ void TestCppQtBlockFunction::displayTextProperty()
         spy.clear();
     };
     _block->set("test","void",SignalFunctionType,PublicAccess,NoFunctionAssignment,0);
-    verify("test() -> QSignal void");
+    verify("test() noexcept -> QSignal void");
     _block->set("test","void",SlotFunctionType,PublicAccess,NoFunctionAssignment,0);
-    verify("test() -> QSlot void");
+    verify("test() noexcept -> QSlot void");
     _block->set(
         "test"
         ,"void"
@@ -138,7 +138,7 @@ void TestCppQtBlockFunction::displayTextProperty()
         ,NoFunctionAssignment
         ,VirtualFunctionFlag
         );
-    verify("test() -> QSlot virtual void");
+    verify("test() noexcept -> QSlot virtual void");
     _block->set(
         "test"
         ,"void"
@@ -147,7 +147,7 @@ void TestCppQtBlockFunction::displayTextProperty()
         ,NoFunctionAssignment
         ,QtInvokableFunctionFlag
         );
-    verify("test() -> QInvokable void");
+    verify("test() noexcept -> QInvokable void");
 }
 
 void TestCppQtBlockFunction::isQtInvokable()

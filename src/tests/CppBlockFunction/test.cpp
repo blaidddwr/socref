@@ -111,10 +111,10 @@ void TestCppBlockFunction::copy()
 {
     _block->set("","",ConstructorFunctionType,PublicAccess,NoFunctionAssignment,0);
     std::unique_ptr<AbstractBlock> blockCopy(_block->copy());
-    QCOMPARE(blockCopy->displayText(),tr("!DETACHED!")+"()");
+    QCOMPARE(blockCopy->displayText(),tr("!DETACHED!")+"() noexcept");
     _block->set("","",DestructorFunctionType,PublicAccess,NoFunctionAssignment,0);
     blockCopy.reset(_block->copy());
-    QCOMPARE(blockCopy->displayText(),"~"+tr("!DETACHED!")+"()");
+    QCOMPARE(blockCopy->displayText(),"~"+tr("!DETACHED!")+"() noexcept");
 }
 
 void TestCppBlockFunction::displayIconProperty()
@@ -277,7 +277,7 @@ void TestCppBlockFunction::displayIconProperty()
 void TestCppBlockFunction::displayTextProperty()
 {
     _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
-    QCOMPARE(_block->displayText(),"test() -> void");
+    QCOMPARE(_block->displayText(),"test() noexcept -> void");
     QSignalSpy spy(_block,&Function::displayTextChanged);
     auto verify = [&spy,this](const QString& displayText)
     {
@@ -289,7 +289,11 @@ void TestCppBlockFunction::displayTextProperty()
         spy.clear();
     };
     _block->set("testing123","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    verify("testing123() noexcept -> void");
+    _block->append(_language->createBlock(ExceptionIndex));
     verify("testing123() -> void");
+    delete _block->take(0);
+    verify("testing123() noexcept -> void");
     _block->set(
         "testing123"
         ,"void"
@@ -298,7 +302,7 @@ void TestCppBlockFunction::displayTextProperty()
         ,NoFunctionAssignment
         ,VirtualFunctionFlag|ConstantFunctionFlag
         );
-    verify("testing123() const -> virtual void");
+    verify("testing123() const noexcept -> virtual void");
     _block->set(
         "testing123"
         ,"int"
@@ -307,7 +311,7 @@ void TestCppBlockFunction::displayTextProperty()
         ,NoFunctionAssignment
         ,VirtualFunctionFlag|ConstantFunctionFlag
         );
-    verify("testing123() const -> virtual int");
+    verify("testing123() const noexcept -> virtual int");
     _block->set(
         "testing123"
         ,"int"
@@ -316,13 +320,13 @@ void TestCppBlockFunction::displayTextProperty()
         ,AbstractFunctionAssignment
         ,VirtualFunctionFlag|ConstantFunctionFlag
         );
-    verify("testing123() const = 0 -> virtual int");
+    verify("testing123() const noexcept = 0 -> virtual int");
     _block->set("","",ConstructorFunctionType,PublicAccess,NoFunctionAssignment,0);
-    verify("class123()");
+    verify("class123() noexcept");
     _block->set("","",DestructorFunctionType,PublicAccess,NoFunctionAssignment,VirtualFunctionFlag);
-    verify("~class123() -> virtual");
+    verify("~class123() noexcept -> virtual");
     _block->set("++","void",OperatorFunctionType,PublicAccess,NoFunctionAssignment,0);
-    verify("operator++() -> void");
+    verify("operator++() noexcept -> void");
     _block->set("main","int",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
     spy.clear();
     auto arg1 = qobject_cast<Variable*>(_language->createBlock(VariableIndex,this));
@@ -332,15 +336,15 @@ void TestCppBlockFunction::displayTextProperty()
     arg1->setType("int");
     arg2->setType("char**");
     _block->append(arg1);
-    verify("main(int) -> int");
+    verify("main(int) noexcept -> int");
     _block->append(arg2);
-    verify("main(int,char**) -> int");
+    verify("main(int,char**) noexcept -> int");
     _block->move(1,0);
-    verify("main(char**,int) -> int");
+    verify("main(char**,int) noexcept -> int");
     delete arg1;
-    verify("main(char**) -> int");
+    verify("main(char**) noexcept -> int");
     delete arg2;
-    verify("main() -> int");
+    verify("main() noexcept -> int");
 }
 
 void TestCppBlockFunction::flagsProperty()
@@ -470,15 +474,10 @@ void TestCppBlockFunction::isMethod()
 void TestCppBlockFunction::isNoExcept()
 {
     _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
+    QVERIFY(_block->isNoExcept());
+    _block->append(_language->createBlock(ExceptionIndex));
     QVERIFY(!_block->isNoExcept());
-    _block->set(
-        "test"
-        ,"void"
-        ,MethodFunctionType
-        ,PublicAccess
-        ,NoFunctionAssignment
-        ,NoExceptFunctionFlag
-        );
+    delete _block->take(0);
     QVERIFY(_block->isNoExcept());
 }
 
@@ -617,7 +616,10 @@ void TestCppBlockFunction::loadFromMapLegacy()
     };
     _block->set("test","void",MethodFunctionType,PublicAccess,NoFunctionAssignment,0);
     _block->loadFromMap(testData,Socref_Legacy);
-    QCOMPARE(_block->displayText(),"class123() = default -> template<class A,class B> explicit");
+    QCOMPARE(
+        _block->displayText()
+        ,"class123() noexcept = default -> template<class A,class B> explicit"
+        );
     QCOMPARE(_block->name(),"");
     QCOMPARE(_block->description(),testDescription);
     QCOMPARE(_block->returnType(),"");
