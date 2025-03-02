@@ -42,7 +42,6 @@ Status HeadParser::parse(
     ,int where
 )
 {
-    using LogicalParse = ::Exception::LogicalParse;
     switch (version())
     {
     case Cpp_Legacy:
@@ -50,7 +49,7 @@ Status HeadParser::parse(
     case Cpp_1:
         return parseVersion1(lines,where);
     default:
-        throw LogicalParse(tr("Unknown source code version %1.").arg(version()));
+        throw std::logic_error("unknown version");
     }
 }
 

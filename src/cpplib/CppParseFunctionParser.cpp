@@ -41,14 +41,13 @@ Status FunctionParser::parse(
     ,int where
 )
 {
-    using LogicalParse = ::Exception::LogicalParse;
     switch (version())
     {
     case Cpp_Legacy:
     case Cpp_1:
         return parseLegacy(lines,where);
     default:
-        throw LogicalParse(tr("Unknown source code version %1.").arg(version()));
+        throw std::logic_error("unknown version");
     }
 }
 

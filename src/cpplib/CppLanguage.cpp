@@ -113,34 +113,24 @@ AbstractParser* Language::createParser(
     switch (index)
     {
     case HeadParserIndex:
-        if (auto b = qobject_cast<Namespace*>(block))
+        switch (block->meta()->index())
         {
-            return new HeadParser(b,version);
-        }
-        else if (auto b = qobject_cast<Class*>(block))
-        {
-            return new HeadParser(b,version);
-        }
-        else
-        {
-            throw LogicalParse(
-                tr("Unsupported %1 block for head parser.").arg(block->meta()->label())
-                );
+        case NamespaceIndex:
+        case ClassIndex:
+            return new HeadParser(block,version);
+            break;
+        default:
+            throw std::logic_error("unsupported block type for head parser");
         }
     case SourceParserIndex:
-        if (auto b = qobject_cast<Namespace*>(block))
+        switch (block->meta()->index())
         {
-            return new SourceParser(b,version);
-        }
-        else if (auto b = qobject_cast<Class*>(block))
-        {
-            return new SourceParser(b,version);
-        }
-        else
-        {
-            throw LogicalParse(
-                tr("Unsupported %1 block for source parser.").arg(block->meta()->label())
-                );
+        case NamespaceIndex:
+        case ClassIndex:
+            return new SourceParser(block,version);
+            break;
+        default:
+            throw std::logic_error("unsupported block type for source parser");
         }
     default:
         throw std::logic_error("unknown parser index");
