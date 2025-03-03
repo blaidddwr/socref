@@ -16,7 +16,6 @@ public:
 
 }
 
-
 /*!
  * @namespace Shape
  *

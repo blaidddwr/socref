@@ -107,38 +107,21 @@ Status HeadParser::parseVersion1(
     ,int where
 )
 {
-    auto isFooter = [this,&lines,where]() -> bool
-    {
-        if (_endScopeRe.match(lines.at(where)).hasMatch())
-        {
-            return false;
-        }
-        auto i = where;
-        while (
-            i < lines.size()
-            && !lines.at(i).isEmpty()
-            )
-        {
-            i++;
-        }
-        int empty = 0;
-        while (
-            i < lines.size()
-            && lines.at(i).isEmpty()
-            )
-        {
-            empty++;
-            i++;
-            if (empty == END_NEWLINE_SIZE)
-            {
-                return true;
-            }
-        }
-        return false;
-    };
+    static const QString doxygenLine = "/*!";
+    static const QString footerLine = "//nsfooter:";
     if (where == EOL)
     {
-        return _state == State::End ? Status::DoneWithRead : Status::DoneWithoutRead;
+        if (
+            _state == State::End
+            || _state == State::Body
+            )
+        {
+            return Status::DoneWithRead;
+        }
+        else
+        {
+            return Status::DoneWithoutRead;
+        }
     }
     const auto& line = lines.at(where);
     switch (_state)
@@ -146,28 +129,22 @@ Status HeadParser::parseVersion1(
     case State::Body:
         if (line.isEmpty())
         {
-            _empty++;
-            if (_empty == END_NEWLINE_SIZE)
-            {
-                _state = State::End;
-            }
             return Status::Read;
         }
-        else if (_endScopeRe.match(line).hasMatch())
+        else if (line == doxygenLine)
         {
             _state = State::End;
             return Status::Read;
         }
-        else if (isFooter())
+        else if (line == footerLine)
         {
-            _start = where;
-            _size = 1;
+            _start = where+1;
+            _size = 0;
             _state = State::Footer;
             return Status::Read;
         }
         else
         {
-            _empty = 0;
             return Status::DelegateToChildren;
         }
     case State::End:
@@ -179,7 +156,7 @@ Status HeadParser::parseVersion1(
             )
         {
             insertCode(codeKey(FooterHeadCodeKey),lines.mid(_start,_size));
-            _state = State::End;
+            _state = State::Body;
         }
         else
         {

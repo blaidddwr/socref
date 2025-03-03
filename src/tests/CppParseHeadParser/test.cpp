@@ -189,7 +189,15 @@ void TestCppParseHeadParser::version1Parse1()
     int where = 0;
     while (where < lines.size())
     {
-        QCOMPARE(parser.parse(lines,where++),Status::Read);
+        switch (where+1)
+        {
+        case 5:
+            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+            break;
+        default:
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+            break;
+        }
     }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
@@ -204,7 +212,15 @@ void TestCppParseHeadParser::version1Parse2()
     int where = 0;
     while (where < lines.size())
     {
-        QCOMPARE(parser.parse(lines,where++),Status::Read);
+        switch (where+1)
+        {
+        case 5:
+            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+            break;
+        default:
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+            break;
+        }
     }
     QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     QCOMPARE(root->code().size(),0);
@@ -215,7 +231,7 @@ void TestCppParseHeadParser::version1Parse3()
     using Status = AbstractParser::Status;
     auto lines = getLines("version1Parse3");
     auto testPreProcess = lines.mid(2,5);
-    auto testFooter = lines.mid(14,2);
+    auto testFooter = lines.mid(15,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
     int where = 0;
@@ -248,7 +264,7 @@ void TestCppParseHeadParser::version1Parse4()
     auto lines = getLines("version1Parse4");
     auto testPreProcess = lines.mid(2,3);
     auto testHeader = lines.mid(6,2);
-    auto testFooter = lines.mid(15,2);
+    auto testFooter = lines.mid(16,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
     int where = 0;

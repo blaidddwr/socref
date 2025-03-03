@@ -12,6 +12,7 @@ class Foo
 
 void Bar();
 
+//nsfooter:
 class Simple {};
 class AnotherOne : public Simple { using Simple::Simple; }
 
