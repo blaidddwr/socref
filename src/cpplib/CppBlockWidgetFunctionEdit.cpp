@@ -134,21 +134,13 @@ QGroupBox* FunctionEdit::flagsGroupBox(
     if (!_flagsGroupBox)
     {
         _flagsGroupBox = new QGroupBox;
-        auto layout = new QGridLayout;
-        layout->setColumnStretch(FLAG_COL_SIZE-1,1);
+        auto layout = new QVBoxLayout;
         auto b = qobject_cast<const Block::Function*>(block());
         Q_ASSERT(b);
         const auto& map = b->flagLabelMap();
-        int row = 0;
-        int col = 0;
         for(auto i = map.begin();i != map.end();i++)
         {
-            layout->addWidget(flagCheckBox(i.key()),row,col,Qt::AlignLeft);
-            if (++col == FLAG_COL_SIZE)
-            {
-                col = 0;
-                row++;
-            }
+            layout->addWidget(flagCheckBox(i.key()));
         }
         _flagsGroupBox->setLayout(layout);
     }
