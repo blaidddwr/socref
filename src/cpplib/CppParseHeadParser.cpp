@@ -111,17 +111,7 @@ Status HeadParser::parseVersion1(
     static const QString footerLine = "//nsfooter:";
     if (where == EOL)
     {
-        if (
-            _state == State::End
-            || _state == State::Body
-            )
-        {
-            return Status::DoneWithRead;
-        }
-        else
-        {
-            return Status::DoneWithoutRead;
-        }
+        return  _state == State::Body ? Status::DoneWithRead : Status::DoneWithoutRead;
     }
     const auto& line = lines.at(where);
     switch (_state)
@@ -133,8 +123,7 @@ Status HeadParser::parseVersion1(
         }
         else if (line == doxygenLine)
         {
-            _state = State::End;
-            return Status::Read;
+            return Status::DoneWithRead;
         }
         else if (line == footerLine)
         {
@@ -147,8 +136,6 @@ Status HeadParser::parseVersion1(
         {
             return Status::DelegateToChildren;
         }
-    case State::End:
-        return Status::Read;
     case State::Footer:
         if (
             line.isEmpty()

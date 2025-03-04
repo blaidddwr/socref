@@ -33,7 +33,6 @@ class HeadParser:
     enum class State
     {
         Body
-        ,End
         ,Footer
         ,Guard
         ,Header

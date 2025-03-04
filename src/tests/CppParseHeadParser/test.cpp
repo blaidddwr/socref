@@ -255,12 +255,15 @@ void TestCppParseHeadParser::version1Parse2()
     {
         HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
         int where = 0;
-        while (where < lines.size())
+        while (where < 8)
         {
             switch (where+1)
             {
             case 5:
                 QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            case 8:
+                QCOMPARE(parser.parse(lines,where++),Status::DoneWithRead);
                 break;
             default:
                 QCOMPARE(parser.parse(lines,where++),Status::Read);
@@ -287,7 +290,7 @@ void TestCppParseHeadParser::version1Parse3()
     {
         HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
         int where = 0;
-        while (where < lines.size())
+        while (where < 20)
         {
             switch (where+1)
             {
@@ -296,6 +299,9 @@ void TestCppParseHeadParser::version1Parse3()
             case 11:
             case 13:
                 QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            case 20:
+                QCOMPARE(parser.parse(lines,where++),Status::DoneWithRead);
                 break;
             default:
                 QCOMPARE(parser.parse(lines,where++),Status::Read);
@@ -327,7 +333,7 @@ void TestCppParseHeadParser::version1Parse4()
     {
         HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
         int where = 0;
-        while (where < lines.size())
+        while (where < 22)
         {
             switch (where+1)
             {
@@ -336,6 +342,9 @@ void TestCppParseHeadParser::version1Parse4()
             case 12:
             case 14:
                 QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            case 22:
+                QCOMPARE(parser.parse(lines,where++),Status::DoneWithRead);
                 break;
             default:
                 QCOMPARE(parser.parse(lines,where++),Status::Read);
