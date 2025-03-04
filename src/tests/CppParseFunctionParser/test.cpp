@@ -17,6 +17,7 @@ class TestCppParseFunctionParser: public QObject, private TestParse
     Language* _language;
 private slots:
     void initTestCase();
+    void children();
     void legacyParse1();
     void legacyParse2();
     void legacyParse3();
@@ -32,6 +33,13 @@ void TestCppParseFunctionParser::initTestCase()
     _language->setParent(this);
 }
 
+void TestCppParseFunctionParser::children()
+{
+    std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
+    FunctionParser parser(root.get(),Cpp_Legacy);
+    QVERIFY(parser.children().isEmpty());
+}
+
 void TestCppParseFunctionParser::legacyParse1()
 {
     using Status = AbstractParser::Status;
@@ -40,7 +48,6 @@ void TestCppParseFunctionParser::legacyParse1()
     try
     {
         FunctionParser parser(root.get(),Cpp_Legacy);
-        QVERIFY(parser.children().isEmpty());
         int where = 0;
         while (where < lines.size())
         {
@@ -90,7 +97,6 @@ void TestCppParseFunctionParser::legacyParse2()
     try
     {
         FunctionParser parser(root.get(),Cpp_Legacy);
-        QVERIFY(parser.children().isEmpty());
         int where = 0;
         while (where < lines.size())
         {
@@ -164,7 +170,6 @@ void TestCppParseFunctionParser::legacyParse3()
     try
     {
         FunctionParser parser(root.get(),Cpp_Legacy);
-        QVERIFY(parser.children().isEmpty());
         int where = 0;
         while (where < lines.size())
         {
@@ -245,7 +250,6 @@ void TestCppParseFunctionParser::legacyParse4()
     try
     {
         FunctionParser parser(root.get(),Cpp_Legacy);
-        QVERIFY(parser.children().isEmpty());
         int where = 0;
         while (where < lines.size())
         {

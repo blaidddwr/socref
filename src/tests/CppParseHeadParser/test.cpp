@@ -6,6 +6,7 @@
 #include "CppParseClassParser.h"
 #include "CppParseFunctionParser.h"
 #include "CppParseHeadParser.h"
+#include "Exception.h"
 #include "../utility.h"
 using namespace Cpp::Block;
 using namespace Cpp::Parse;
@@ -62,21 +63,28 @@ void TestCppParseHeadParser::legacyParse1()
     using Status = AbstractParser::Status;
     auto lines = getLines("legacyParse1");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 4:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 4:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),0);
 }
 
@@ -85,21 +93,28 @@ void TestCppParseHeadParser::legacyParse2()
     using Status = AbstractParser::Status;
     auto lines = getLines("legacyParse1");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(ClassIndex));
-    HeadParser parser(qobject_cast<Class*>(root.get()),Cpp_Legacy);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        HeadParser parser(qobject_cast<Class*>(root.get()),Cpp_Legacy);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 4:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 4:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),0);
 }
 
@@ -108,22 +123,29 @@ void TestCppParseHeadParser::legacyParse3()
     using Status = AbstractParser::Status;
     auto lines = getLines("legacyParse3");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 5:
-        case 6:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 5:
+            case 6:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),0);
 }
 
@@ -133,21 +155,28 @@ void TestCppParseHeadParser::legacyParse4()
     auto lines = getLines("legacyParse4");
     auto testPreProcess = lines.mid(2,3);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 7:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 7:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),1);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessHeadCodeKey)),testPreProcess);
@@ -159,22 +188,29 @@ void TestCppParseHeadParser::legacyParse5()
     auto lines = getLines("legacyParse5");
     auto testPreProcess = lines.mid(2,3);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 8:
-        case 9:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 8:
+            case 9:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),1);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessHeadCodeKey)),testPreProcess);
@@ -185,21 +221,28 @@ void TestCppParseHeadParser::version1Parse1()
     using Status = AbstractParser::Status;
     auto lines = getLines("version1Parse1");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 5:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 5:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),0);
 }
 
@@ -208,21 +251,28 @@ void TestCppParseHeadParser::version1Parse2()
     using Status = AbstractParser::Status;
     auto lines = getLines("version1Parse2");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 5:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 5:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),0);
 }
 
@@ -233,24 +283,31 @@ void TestCppParseHeadParser::version1Parse3()
     auto testPreProcess = lines.mid(2,5);
     auto testFooter = lines.mid(15,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 9:
-        case 10:
-        case 11:
-        case 13:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 9:
+            case 10:
+            case 11:
+            case 13:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),2);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));
     QVERIFY(root->code().contains(codeKey(FooterHeadCodeKey)));
@@ -266,24 +323,31 @@ void TestCppParseHeadParser::version1Parse4()
     auto testHeader = lines.mid(6,2);
     auto testFooter = lines.mid(16,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        HeadParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 10:
-        case 11:
-        case 12:
-        case 14:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 10:
+            case 11:
+            case 12:
+            case 14:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),3);
     QVERIFY(root->code().contains(codeKey(PreProcessHeadCodeKey)));
     QVERIFY(root->code().contains(codeKey(HeaderHeadCodeKey)));

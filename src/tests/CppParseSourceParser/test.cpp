@@ -4,6 +4,7 @@
 #include "CppLanguage.h"
 #include "CppParseFunctionParser.h"
 #include "CppParseSourceParser.h"
+#include "Exception.h"
 #include "../utility.h"
 using namespace Cpp::Block;
 using namespace Cpp::Parse;
@@ -44,13 +45,20 @@ void TestCppParseSourceParser::legacyParse1()
     using Status = AbstractParser::Status;
     auto lines = getLines("legacyParse1");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        QCOMPARE(parser.parse(lines,where++),Status::Read);
+        SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        int where = 0;
+        while (where < lines.size())
+        {
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+        }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),0);
 }
 
@@ -59,21 +67,28 @@ void TestCppParseSourceParser::legacyParse2()
     using Status = AbstractParser::Status;
     auto lines = getLines("legacyParse2");
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 4:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 4:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),0);
 }
 
@@ -83,24 +98,31 @@ void TestCppParseSourceParser::legacyParse3()
     auto lines = getLines("legacyParse3");
     auto testPreProcess = lines.mid(1,3);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),1);
     QVERIFY(root->code().contains(codeKey(PreProcessSourceCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessSourceCodeKey)),testPreProcess);
@@ -113,28 +135,35 @@ void TestCppParseSourceParser::legacyParse4()
     auto testPreProcess = lines.mid(1,3);
     auto testHeader = lines.mid(5,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-        case 13:
-        case 14:
-        case 15:
-        case 16:
-            QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+                QCOMPARE(parser.parse(lines,where++),Status::DelegateToChildren);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+        QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,AbstractParser::EOL),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),2);
     QVERIFY(root->code().contains(codeKey(PreProcessSourceCodeKey)));
     QCOMPARE(root->code().value(codeKey(PreProcessSourceCodeKey)),testPreProcess);

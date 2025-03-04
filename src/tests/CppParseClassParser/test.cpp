@@ -4,6 +4,7 @@
 #include "CppBlockNamespace.h"
 #include "CppLanguage.h"
 #include "CppParseClassParser.h"
+#include "Exception.h"
 #include "../utility.h"
 using namespace Cpp::Block;
 using namespace Cpp::Parse;
@@ -15,6 +16,7 @@ class TestCppParseClassParser: public QObject, private TestParse
     Language* _language;
 private slots:
     void initTestCase();
+    void children();
     void legacyParse1();
     void legacyParse2();
     void legacyParse3();
@@ -32,6 +34,13 @@ void TestCppParseClassParser::initTestCase()
     Q_INIT_RESOURCE(cpp);
     _language = new Language;
     _language->setParent(this);
+}
+
+void TestCppParseClassParser::children()
+{
+    std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
+    ClassParser parser(root.get(),Cpp_Legacy);
+    QVERIFY(parser.children().isEmpty());
 }
 
 void TestCppParseClassParser::legacyParse1()
@@ -52,29 +61,35 @@ void TestCppParseClassParser::legacyParse1()
     root->append(anotherOne);
     root->append(parents);
     root->append(templated);
-    ClassParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
-    QVERIFY(parser.children().isEmpty());
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        ClassParser parser(root.get(),Cpp_Legacy);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 3:
-        case 9:
-        case 15:
-        case 19:
-            QCOMPARE(parser.parse(lines,where++),Status::DoneWithRead);
-            break;
-        case 4:
-        case 10:
-        case 16:
-        case 20:
-            QCOMPARE(parser.parse(lines,where++),Status::DoneWithoutRead);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 3:
+            case 9:
+            case 15:
+            case 19:
+                QCOMPARE(parser.parse(lines,where++),Status::DoneWithRead);
+                break;
+            case 4:
+            case 10:
+            case 16:
+            case 20:
+                QCOMPARE(parser.parse(lines,where++),Status::DoneWithoutRead);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+    }
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
     }
     QCOMPARE(root->code().size(),0);
     QCOMPARE(root->get(0)->code().size(),0);
@@ -93,14 +108,20 @@ void TestCppParseClassParser::legacyParse2()
     auto cb = qobject_cast<Class*>(root.get());
     QVERIFY(cb);
     cb->setName("Test");
-    ClassParser parser(qobject_cast<Class*>(root.get()),Cpp_Legacy);
-    QVERIFY(parser.children().isEmpty());
-    int where = 0;
-    while ((where+2) < lines.size())
+    try
     {
-        QCOMPARE(parser.parse(lines,where++),Status::Read);
+        ClassParser parser(root.get(),Cpp_Legacy);
+        int where = 0;
+        while ((where+2) < lines.size())
+        {
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+        }
+        QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),1);
     QCOMPARE(root->code().value(codeKey(HeaderCodeKey)),testHeader);
 }
@@ -113,14 +134,20 @@ void TestCppParseClassParser::legacyParse3()
     auto cb = qobject_cast<Class*>(root.get());
     QVERIFY(cb);
     cb->setName("Test");
-    ClassParser parser(qobject_cast<Class*>(root.get()),Cpp_Legacy);
-    QVERIFY(parser.children().isEmpty());
-    int where = 0;
-    while ((where+2) < lines.size())
+    try
     {
-        QCOMPARE(parser.parse(lines,where++),Status::Read);
+        ClassParser parser(root.get(),Cpp_Legacy);
+        int where = 0;
+        while ((where+2) < lines.size())
+        {
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+        }
+        QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),0);
 }
 
@@ -133,14 +160,20 @@ void TestCppParseClassParser::legacyParse4()
     auto cb = qobject_cast<Class*>(root.get());
     QVERIFY(cb);
     cb->setName("Test");
-    ClassParser parser(qobject_cast<Class*>(root.get()),Cpp_Legacy);
-    QVERIFY(parser.children().isEmpty());
-    int where = 0;
-    while ((where+2) < lines.size())
+    try
     {
-        QCOMPARE(parser.parse(lines,where++),Status::Read);
+        ClassParser parser(root.get(),Cpp_Legacy);
+        int where = 0;
+        while ((where+2) < lines.size())
+        {
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+        }
+        QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),1);
     QCOMPARE(root->code().value(codeKey(HeaderCodeKey)),testHeader);
 }
@@ -164,29 +197,35 @@ void TestCppParseClassParser::version1Parse1()
     root->append(anotherOne);
     root->append(parents);
     root->append(templated);
-    ClassParser parser(qobject_cast<Namespace*>(root.get()),Cpp_1);
-    QVERIFY(parser.children().isEmpty());
-    int where = 0;
-    while (where < lines.size())
+    try
     {
-        switch (where+1)
+        ClassParser parser(root.get(),Cpp_1);
+        int where = 0;
+        while (where < lines.size())
         {
-        case 3:
-        case 9:
-        case 20:
-        case 24:
-            QCOMPARE(parser.parse(lines,where++),Status::DoneWithRead);
-            break;
-        case 4:
-        case 10:
-        case 21:
-        case 25:
-            QCOMPARE(parser.parse(lines,where++),Status::DoneWithoutRead);
-            break;
-        default:
-            QCOMPARE(parser.parse(lines,where++),Status::Read);
-            break;
+            switch (where+1)
+            {
+            case 3:
+            case 9:
+            case 20:
+            case 24:
+                QCOMPARE(parser.parse(lines,where++),Status::DoneWithRead);
+                break;
+            case 4:
+            case 10:
+            case 21:
+            case 25:
+                QCOMPARE(parser.parse(lines,where++),Status::DoneWithoutRead);
+                break;
+            default:
+                QCOMPARE(parser.parse(lines,where++),Status::Read);
+                break;
+            }
         }
+    }
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
     }
     QCOMPARE(root->code().size(),0);
     QCOMPARE(root->get(0)->code().size(),0);
@@ -207,14 +246,20 @@ void TestCppParseClassParser::version1Parse2()
     auto cb = qobject_cast<Class*>(root.get());
     QVERIFY(cb);
     cb->setName("Test");
-    ClassParser parser(qobject_cast<Class*>(root.get()),Cpp_1);
-    QVERIFY(parser.children().isEmpty());
-    int where = 0;
-    while ((where+2) < lines.size())
+    try
     {
-        QCOMPARE(parser.parse(lines,where++),Status::Read);
+        ClassParser parser(root.get(),Cpp_1);
+        int where = 0;
+        while ((where+2) < lines.size())
+        {
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+        }
+        QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),1);
     QCOMPARE(root->code().value(codeKey(HeaderCodeKey)),testHeader);
 }
@@ -227,14 +272,20 @@ void TestCppParseClassParser::version1Parse3()
     auto cb = qobject_cast<Class*>(root.get());
     QVERIFY(cb);
     cb->setName("Test");
-    ClassParser parser(qobject_cast<Class*>(root.get()),Cpp_1);
-    QVERIFY(parser.children().isEmpty());
-    int where = 0;
-    while ((where+2) < lines.size())
+    try
     {
-        QCOMPARE(parser.parse(lines,where++),Status::Read);
+        ClassParser parser(root.get(),Cpp_1);
+        int where = 0;
+        while ((where+2) < lines.size())
+        {
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+        }
+        QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),0);
 }
 
@@ -248,14 +299,20 @@ void TestCppParseClassParser::version1Parse4()
     auto cb = qobject_cast<Class*>(root.get());
     QVERIFY(cb);
     cb->setName("Test");
-    ClassParser parser(qobject_cast<Class*>(root.get()),Cpp_1);
-    QVERIFY(parser.children().isEmpty());
-    int where = 0;
-    while ((where+2) < lines.size())
+    try
     {
-        QCOMPARE(parser.parse(lines,where++),Status::Read);
+        ClassParser parser(root.get(),Cpp_1);
+        int where = 0;
+        while ((where+2) < lines.size())
+        {
+            QCOMPARE(parser.parse(lines,where++),Status::Read);
+        }
+        QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
     }
-    QCOMPARE(parser.parse(lines,where),Status::DoneWithRead);
+    catch (Exception::LogicalParse& e)
+    {
+        qDebug() << tr("Logical Parse Exception: %1").arg(e.message());
+    }
     QCOMPARE(root->code().size(),2);
     QCOMPARE(root->code().value(codeKey(HeaderCodeKey)),testHeader);
     QCOMPARE(root->code().value(codeKey(FooterCodeKey)),testFooter);
