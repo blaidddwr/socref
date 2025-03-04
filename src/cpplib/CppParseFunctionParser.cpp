@@ -25,7 +25,7 @@ FunctionParser::FunctionParser(
     switch (block->meta()->index())
     {
     case ClassIndex:
-        populate(block,qobject_cast<Class*>(block)->name());
+        populate(block,qobject_cast<Class*>(block)->name()+"::");
         break;
     case NamespaceIndex:
         populate(block,"");
@@ -58,11 +58,15 @@ QStringList FunctionParser::detangle(
 {
     using LogicalParse = ::Exception::LogicalParse;
     QStringList ret;
+    if (arguments.isEmpty())
+    {
+        return ret;
+    }
     QString argument;
     int depth = 0;
     for (const auto& ch: arguments)
     {
-        switch (ch.toLatin1())
+        switch (ch.unicode())
         {
         case '<':
             depth++;
@@ -94,6 +98,11 @@ QStringList FunctionParser::detangle(
     {
         throw LogicalParse(tr("Invalid function arguments '%1'.").arg(arguments));
     }
+    if (argument.isEmpty())
+    {
+        throw LogicalParse(tr("Invalid function arguments '%1'.").arg(arguments));
+    }
+    ret.append(toType(argument));
     return ret;
 }
 
@@ -102,7 +111,7 @@ void FunctionParser::find(
 )
 {
     using LogicalParse = ::Exception::LogicalParse;
-    QString signature(_scope+_name+"("+_arguments.join(",")+")"+(_isConstant ? " const" : ""));
+    QString signature(_scope+_name+"("+_arguments.join(",")+")"+(_isConstant ? "const" : ""));
     auto i = _functions.find(signature);
     if (i == _functions.end())
     {
@@ -117,10 +126,11 @@ Status FunctionParser::parseLegacy(
     ,int where
 )
 {
+    static const QRegularExpression commaArgumentRe("^ *,?(.*)$");
     static const QRegularExpression constantRe(" +const( +noexcept)?:?$");
-    static const QRegularExpression endDeclarationRe("^ *)");
+    static const QRegularExpression endDeclarationRe("^ *\\)");
     static const QRegularExpression functionRe(
-        "(= +)?((\\w+)::)?((\\w+)|(operator.*))\\((([^\\(\\n]*)\\))?( +const)?( +noexcept)?:?$"
+        "(= +)?((\\w+)::)?((~?[A-Za-z_]\\w*)|(operator.*))\\((([^\\(]*)\\)( +const)?( +noexcept)?:?)?$"
         );
     if (where == EOL)
     {
@@ -159,7 +169,7 @@ Status FunctionParser::parseLegacy(
             }
             else
             {
-                _arguments.append(detangle(line));
+                _arguments.append(toType(commaArgumentRe.match(line).captured(1)));
             }
         }
         return Status::Read;
@@ -195,7 +205,7 @@ Status FunctionParser::parseLegacy(
             {
                 _scope = match.captured(3).isEmpty() ? "" : match.captured(3)+"::";
                 _name = match.captured(4);
-                if (!match.captured(8).isEmpty())
+                if (!match.captured(7).isEmpty())
                 {
                     _arguments = detangle(match.captured(8));
                     _isConstant = !match.captured(9).isEmpty();
@@ -232,14 +242,7 @@ void FunctionParser::populate(
         case FunctionIndex:
         {
             auto fb = qobject_cast<Function*>(child);
-            QString signature(
-                scope
-                + fb->name()
-                + "("
-                + fb->arguments(true).join(",")
-                + ")"
-                + (fb->isConstant() ? " const" : "")
-                );
+            auto signature = scope+fb->signature();
             if (_functions.contains(signature))
             {
                 throw LogicalParse(

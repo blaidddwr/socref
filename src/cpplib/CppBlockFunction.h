@@ -555,6 +555,18 @@ class Function:
 
 
     /*!
+     * Getter.
+     *
+     * @return
+     * This function block's real name, as would be seen in its source code
+     * declaration.
+     */
+    public:
+    QString realName(
+    ) const;
+
+
+    /*!
      * Getter method.
      *
      * @return
@@ -647,6 +659,17 @@ class Function:
     void setTemplates(
         const QStringList& value
     );
+
+
+    /*!
+     * Getter.
+     *
+     * @return
+     * The full C++ signature of this function object.
+     */
+    public:
+    QString signature(
+    ) const;
 
 
     public:

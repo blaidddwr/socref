@@ -450,6 +450,37 @@ void Function::loadFromMap(
 }
 
 
+QString Function::realName(
+) const
+{
+    switch (_type)
+    {
+    case RegularFunctionType:
+    case MethodFunctionType:
+        return name();
+    case ConstructorFunctionType:
+    case DestructorFunctionType:
+    {
+        auto parentBlock = qobject_cast<Class*>(parent());
+        QString name;
+        if (parentBlock)
+        {
+            name = parentBlock->name();
+        }
+        else
+        {
+            name = tr("!DETACHED!");
+        }
+        return isDestructor() ? "~"+name : name;
+    }
+    case OperatorFunctionType:
+        return "operator"+name();
+    default:
+        throw std::logic_error("unknown function type");
+    }
+}
+
+
 const QString& Function::returnDescription(
 ) const
 {
@@ -579,6 +610,16 @@ void Function::setTemplates(
         emit templatesChanged(value);
         updateDisplayText();
     }
+}
+
+
+QString Function::signature(
+) const
+{
+    QStringList ret;
+    appendSignature(ret);
+    appendRightSignatureFlags(ret);
+    return ret.join("");
 }
 
 
@@ -801,41 +842,7 @@ void Function::appendSignature(
     QStringList& words
 ) const
 {
-    switch (_type)
-    {
-    case RegularFunctionType:
-    case MethodFunctionType:
-        words.append(name()+"("+arguments(true).join(",")+")");
-        break;
-    case ConstructorFunctionType:
-    case DestructorFunctionType:
-    {
-        auto parentBlock = qobject_cast<Class*>(parent());
-        QString name;
-        if (parentBlock)
-        {
-            name = parentBlock->name();
-        }
-        else
-        {
-            name = tr("!DETACHED!");
-        }
-        if (isDestructor())
-        {
-            words.append("~"+name+"("+arguments(true).join(",")+")");
-        }
-        else
-        {
-            words.append(name+"("+arguments(true).join(",")+")");
-        }
-        break;
-    }
-    case OperatorFunctionType:
-        words.append("operator"+name()+"("+arguments(true).join(",")+")");
-        break;
-    default:
-        throw std::logic_error("unknown function type");
-    }
+    words.append(realName()+"("+arguments(true).join(",")+")");
 }
 
 
