@@ -1,5 +1,10 @@
 int foobar(int);
 
+int foobar(
+    int a
+    ,int b
+    );
+
 int a = foobar(5);
 
 int b = foobar(

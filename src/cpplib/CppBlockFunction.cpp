@@ -1388,20 +1388,13 @@ void Function::checkOperator(
 {
     using LogicalBlock = ::Exception::LogicalBlock;
     static const int virtualFlags = VirtualFunctionFlag|OverrideFunctionFlag|FinalFunctionFlag;
-    if (
-        parent()
-        && !qobject_cast<Class*>(parent())
-        )
-    {
-        throw LogicalBlock(tr("Operators must be the child of a class."));
-    }
     if (name().isEmpty())
     {
-        throw LogicalBlock(tr("Methods must have a name."));
+        throw LogicalBlock(tr("Operators must have a name."));
     }
     if (returnType().isEmpty())
     {
-        throw LogicalBlock(tr("Methods must have a return type."));
+        throw LogicalBlock(tr("Operators must have a return type."));
     }
     if (
         assignment() == DefaultFunctionAssignment
