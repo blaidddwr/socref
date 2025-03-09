@@ -23,8 +23,8 @@ class ClassParser:
     using Class = Block::Class;
     Class* _class {nullptr};
     QHash<QString,Class*> _classes;
-    int _start;
     int _size;
+    int _start;
     static const QRegularExpression _classRe;
 
 

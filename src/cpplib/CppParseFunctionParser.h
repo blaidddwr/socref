@@ -28,8 +28,8 @@ class FunctionParser:
     QString _scope;
     QStringList _arguments;
     bool _isConstant {false};
-    int _start;
     int _size;
+    int _start;
 
 
     /*!
