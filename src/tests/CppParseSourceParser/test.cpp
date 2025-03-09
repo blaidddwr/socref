@@ -35,7 +35,7 @@ void TestCppParseSourceParser::initTestCase()
 void TestCppParseSourceParser::children()
 {
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
-    SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+    SourceParser parser(root.get(),Cpp_Legacy);
     QCOMPARE(parser.size(),1);
     QVERIFY(qobject_cast<FunctionParser*>(parser.get(0)));
 }
@@ -47,7 +47,7 @@ void TestCppParseSourceParser::legacyParse1()
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     try
     {
-        SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        SourceParser parser(root.get(),Cpp_Legacy);
         int where = 0;
         while (where < lines.size())
         {
@@ -69,7 +69,7 @@ void TestCppParseSourceParser::legacyParse2()
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     try
     {
-        SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        SourceParser parser(root.get(),Cpp_Legacy);
         int where = 0;
         while (where < lines.size())
         {
@@ -100,7 +100,7 @@ void TestCppParseSourceParser::legacyParse3()
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     try
     {
-        SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        SourceParser parser(root.get(),Cpp_Legacy);
         int where = 0;
         while (where < lines.size())
         {
@@ -137,7 +137,7 @@ void TestCppParseSourceParser::legacyParse4()
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     try
     {
-        SourceParser parser(qobject_cast<Namespace*>(root.get()),Cpp_Legacy);
+        SourceParser parser(root.get(),Cpp_Legacy);
         int where = 0;
         while (where < lines.size())
         {
