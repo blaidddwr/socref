@@ -12,6 +12,7 @@ namespace Parse
     class FunctionParser;
     class HeadParser;
     class SourceParser;
+    class UnionParser;
 
 
     /*!

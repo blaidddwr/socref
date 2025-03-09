@@ -27,6 +27,7 @@ SOURCES += \
     CppParseFunctionParser.cpp \
     CppParseHeadParser.cpp \
     CppParseSourceParser.cpp \
+    CppParseUnionParser.cpp \
     CppRouter.cpp
 HEADERS += \
     Cpp.h \
@@ -56,6 +57,7 @@ HEADERS += \
     CppParseFunctionParser.h \
     CppParseHeadParser.h \
     CppParseSourceParser.h \
+    CppParseUnionParser.h \
     CppRouter.h
 RESOURCES += cpp.qrc
 DESTDIR = $$OUT_PWD/../libs

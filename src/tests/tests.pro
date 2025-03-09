@@ -16,6 +16,7 @@ SUBDIRS = \
     CppParseFunctionParser \
     CppParseHeadParser \
     CppParseSourceParser \
+    CppParseUnionParser \
     CppQtBlockFunction \
     CppQtLanguage \
     CppRouter \
