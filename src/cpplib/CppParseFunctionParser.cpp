@@ -130,7 +130,9 @@ Status FunctionParser::parseLegacy(
     static const QRegularExpression constantRe(" +const( +noexcept)?:?$");
     static const QRegularExpression endDeclarationRe("^ *\\)");
     static const QRegularExpression functionRe(
-        "(= +)?((\\w+)::)?((~?[A-Za-z_]\\w*)|(operator.*))\\((([^\\(]*)\\)( +const)?( +noexcept)?:?)?$"
+        "(= +)?((\\w+)::)?"
+        "((~?[A-Za-z_]\\w*)|(operator.*))"
+        "\\((([^\\(]*)\\)( +const)?( +noexcept)?:?)?$"
         );
     if (where == EOL)
     {
