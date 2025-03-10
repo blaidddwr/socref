@@ -147,6 +147,8 @@ int Code::parse(
 {
     using LogicalParse = Exception::LogicalParse;
     using Status = AbstractParser::Status;
+    static bool caughtLine;
+    caughtLine = false;
     Q_ASSERT(parser);
     try
     {
@@ -179,7 +181,15 @@ int Code::parse(
     }
     catch (LogicalParse& e)
     {
-        throw LogicalParse(tr("line %1:").arg(e.message()));
+        if (!caughtLine)
+        {
+            caughtLine = true;
+            throw LogicalParse(tr("line %1: %2").arg(where).arg(e.message()));
+        }
+        else
+        {
+            throw e;
+        }
     }
     if (parser->parse(lines,AbstractParser::EOL) != Status::DoneWithRead)
     {

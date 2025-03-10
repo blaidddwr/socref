@@ -82,7 +82,7 @@ void Router::addRoutes(
         }
         for (int i = 0;i < block->size();i++)
         {
-            addRoutes(block->get(i),scope);
+            addRoutes(block->get(i),newScope);
         }
         break;
     }
