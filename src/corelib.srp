@@ -364,6 +364,24 @@ The given index can go beyond the bounds of this block's children list. If it is
             <Function>
                 <__p_abstract>1</__p_abstract>
                 <__p_access>Public</__p_access>
+                <__p_const>1</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
+                <__p_description>Getter.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>label</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnDescription>A human readable label which uniquely identifies this block object.</__p_returnDescription>
+                <__p_returnType>QString</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>1</__p_virtual>
+            </Function>
+            <Function>
+                <__p_abstract>1</__p_abstract>
+                <__p_access>Public</__p_access>
                 <__p_const>0</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>

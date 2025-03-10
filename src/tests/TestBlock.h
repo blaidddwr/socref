@@ -40,6 +40,10 @@ public:
     {
         return qobject_cast<TestBlock*>(parent())? property1 : "ROOT";
     }
+    virtual QString label() const override final
+    {
+        return fileName();
+    }
     virtual void loadFromMap(const QMap<QString,QVariant>& map, int version) override final
     {
         Q_UNUSED(version);

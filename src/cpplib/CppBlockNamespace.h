@@ -87,6 +87,18 @@ class Namespace:
     ) const override;
 
 
+    public:
+    virtual QString label(
+    ) const override;
+
+
+    public:
+    virtual void loadFromMap(
+        const QMap<QString,QVariant>& map
+        ,int version
+    ) override;
+
+
     /*!
      * Getter method.
      *
@@ -96,13 +108,6 @@ class Namespace:
     public:
     const QString& name(
     ) const;
-
-
-    public:
-    virtual void loadFromMap(
-        const QMap<QString,QVariant>& map
-        ,int version
-    ) override;
 
 
     public:

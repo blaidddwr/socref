@@ -50,10 +50,25 @@ QString Namespace::fileName(
 }
 
 
-const QString& Namespace::name(
+QString Namespace::label(
 ) const
 {
-    return _name;
+    if (_name.isNull())
+    {
+        return "::";
+    }
+    QStringList ret {_name};
+    auto p = qobject_cast<Namespace*>(parent());
+    while (p)
+    {
+        if (!p->_name.isNull())
+        {
+            ret.append(p->_name);
+        }
+        p = qobject_cast<Namespace*>(p->parent());
+    }
+    std::reverse(ret.begin(),ret.end());
+    return ret.join("::");
 }
 
 
@@ -65,6 +80,13 @@ void Namespace::loadFromMap(
     Q_UNUSED(version);
     setName(map.value(nameKey()).toString());
     setDescription(map.value(descriptionKey()).toString());
+}
+
+
+const QString& Namespace::name(
+) const
+{
+    return _name;
 }
 
 

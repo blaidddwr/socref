@@ -417,6 +417,13 @@ bool Function::isVirtual(
 }
 
 
+QString Function::label(
+) const
+{
+    return Namespace::label()+"("+arguments(true).join(",")+")";
+}
+
+
 void Function::loadFromMap(
     const QMap<QString,QVariant>& map
     ,int version

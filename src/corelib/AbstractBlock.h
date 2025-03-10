@@ -262,6 +262,17 @@ class AbstractBlock:
 
 
     /*!
+     * Getter.
+     *
+     * @return
+     * A human readable label which uniquely identifies this block object.
+     */
+    public:
+    virtual QString label(
+    ) const = 0;
+
+
+    /*!
      * Sets this block's data from the given mapping using the given format
      * version, overwriting any data contained in this block.
      * 

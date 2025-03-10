@@ -184,7 +184,7 @@ int Code::parse(
         if (!caughtLine)
         {
             caughtLine = true;
-            throw LogicalParse(tr("line %1: %2").arg(where).arg(e.message()));
+            throw LogicalParse(tr("line %1: %2").arg(where+1).arg(e.message()));
         }
         else
         {

@@ -70,7 +70,7 @@ void AbstractParser::insertCode(
         auto& code = block->code();
         if (code.contains(key))
         {
-            throw LogicalParse(tr("Code key collision in block %1.").arg(block->displayText()));
+            throw LogicalParse(tr("Code key %1 collision in block %2.").arg(key,block->label()));
         }
         code.insert(key,lines);
     }

@@ -548,6 +548,11 @@ class Function:
 
 
     public:
+    virtual QString label(
+    ) const override final;
+
+
+    public:
     virtual void loadFromMap(
         const QMap<QString,QVariant>& map
         ,int version
