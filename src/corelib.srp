@@ -847,6 +847,24 @@ This widget must have a valid model, index, and block.</__p_description>
                 <__p_const>1</__p_const>
                 <__p_default>0</__p_default>
                 <__p_deleted>0</__p_deleted>
+                <__p_description>Evaluator.</__p_description>
+                <__p_explicit>0</__p_explicit>
+                <__p_final>0</__p_final>
+                <__p_invokable>0</__p_invokable>
+                <__p_name>isCodeEmpty</__p_name>
+                <__p_noexcept>0</__p_noexcept>
+                <__p_override>0</__p_override>
+                <__p_returnDescription>True if this object's block object's code property is empty or false otherwise.</__p_returnDescription>
+                <__p_returnType>bool</__p_returnType>
+                <__p_static>0</__p_static>
+                <__p_virtual>0</__p_virtual>
+            </Function>
+            <Function>
+                <__p_abstract>0</__p_abstract>
+                <__p_access>Public</__p_access>
+                <__p_const>1</__p_const>
+                <__p_default>0</__p_default>
+                <__p_deleted>0</__p_deleted>
                 <__p_description>Getter method.</__p_description>
                 <__p_explicit>0</__p_explicit>
                 <__p_final>0</__p_final>

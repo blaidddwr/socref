@@ -73,6 +73,7 @@ void AbstractParser::insertCode(
             throw LogicalParse(tr("Code key %1 collision in block %2.").arg(key,block->label()));
         }
         code.insert(key,lines);
+        block->touchCode();
     }
 }
 

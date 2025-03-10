@@ -641,6 +641,7 @@ void Project::setBlockWidget(
             }
             );
         applyButton->setEnabled(block->modified());
+        codeButton->setEnabled(!block->isCodeEmpty());
     }
 }
 

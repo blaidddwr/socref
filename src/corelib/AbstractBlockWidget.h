@@ -94,6 +94,18 @@ class AbstractBlockWidget:
 
 
     /*!
+     * Evaluator.
+     *
+     * @return
+     * True if this object's block object's code property is empty or false
+     * otherwise.
+     */
+    public:
+    bool isCodeEmpty(
+    ) const;
+
+
+    /*!
      * Getter method.
      *
      * @return

@@ -38,6 +38,13 @@ void AbstractBlockWidget::showCode(
 }
 
 
+bool AbstractBlockWidget::isCodeEmpty(
+) const
+{
+    return _block->code().isEmpty();
+}
+
+
 bool AbstractBlockWidget::modified(
 ) const
 {

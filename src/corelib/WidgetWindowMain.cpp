@@ -251,6 +251,7 @@ void Main::parse(
     try
     {
         Controller::Code code(_projectModel);
+        code.clear();
         QProgressDialog dialog(tr("Parsing source code..."),tr("Abort Parsing"),0,code.size(),this);
         dialog.setWindowModality(Qt::ApplicationModal);
         for (int i = 0;i < code.size();i++)
