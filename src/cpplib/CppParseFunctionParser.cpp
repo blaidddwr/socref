@@ -280,7 +280,7 @@ QString FunctionParser::toType(
     const QString& argument
 )
 {
-    static const QRegularExpression argumentRe("^(const )?\\w+[\\w<>&*,]*$");
+    static const QRegularExpression argumentRe("^(const )?\\w+[\\w:<>&*,]*$");
     using LogicalParse = ::Exception::LogicalParse;
     Q_ASSERT(!argument.isEmpty());
     auto ret = argument.simplified();

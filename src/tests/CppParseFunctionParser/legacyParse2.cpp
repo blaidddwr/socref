@@ -11,7 +11,7 @@ void function2(int arg1, int arg2)
 }
 
 void function3(
-    int arg3
+    Foo::Bar* arg3
     ,const QList<int>& arg4
     )
 {

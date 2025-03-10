@@ -8,7 +8,7 @@ namespace Cpp {
 namespace Parse {
 using namespace Block;
 using Status = AbstractParser::Status;
-const QRegularExpression ClassParser::_classRe("^(template *<.*> +)?class +(\\w+)");
+const QRegularExpression ClassParser::_classRe("^(template *<.*> +)?class +(\\w+):?");
 
 
 ClassParser::ClassParser(
@@ -117,19 +117,17 @@ Status ClassParser::parseLegacy(
             }
             return Status::Read;
         case State::Scanning:
-        {
-            auto match = _classRe.match(line);
-            if (match.hasMatch())
+            if (!line.endsWith(';'))
             {
-                find(match.captured(2));
-                _state = State::Declaration;
-                return Status::Read;
+                auto match = _classRe.match(line);
+                if (match.hasMatch())
+                {
+                    find(match.captured(2));
+                    _state = State::Declaration;
+                    return Status::Read;
+                }
             }
-            else
-            {
-                return Status::DoneWithoutRead;
-            }
-        }
+            return Status::DoneWithoutRead;
         default:
             throw std::logic_error("unknown state");
     }
@@ -206,19 +204,17 @@ Status ClassParser::parseVersion1(
             }
             return Status::Read;
         case State::Scanning:
-        {
-            auto match = _classRe.match(line);
-            if (match.hasMatch())
+            if (!line.endsWith(';'))
             {
-                find(match.captured(2));
-                _state = State::Declaration;
-                return Status::Read;
+                auto match = _classRe.match(line);
+                if (match.hasMatch())
+                {
+                    find(match.captured(2));
+                    _state = State::Declaration;
+                    return Status::Read;
+                }
             }
-            else
-            {
-                return Status::DoneWithoutRead;
-            }
-        }
+            return Status::DoneWithoutRead;
         default:
             throw std::logic_error("unknown state");
     }

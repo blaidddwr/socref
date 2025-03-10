@@ -47,7 +47,7 @@ void TestCppParseClassParser::legacyParse1()
 {
     using Status = AbstractParser::Status;
     auto lines = getLines("legacyParse1");
-    auto testHeader = lines.mid(6,2);
+    auto testHeader = lines.mid(10,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     auto simple = qobject_cast<Class*>(_language->createBlock(ClassIndex));
     auto anotherOne = qobject_cast<Class*>(_language->createBlock(ClassIndex));
@@ -70,15 +70,19 @@ void TestCppParseClassParser::legacyParse1()
             switch (where+1)
             {
             case 3:
-            case 9:
-            case 15:
+            case 13:
             case 19:
+            case 23:
                 QCOMPARE(parser.parse(lines,where++),Status::DoneWithRead);
                 break;
             case 4:
-            case 10:
-            case 16:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 14:
             case 20:
+            case 24:
                 QCOMPARE(parser.parse(lines,where++),Status::DoneWithoutRead);
                 break;
             default:
@@ -182,8 +186,9 @@ void TestCppParseClassParser::version1Parse1()
 {
     using Status = AbstractParser::Status;
     auto lines = getLines("version1Parse1");
-    auto testHeader = lines.mid(6,2);
-    auto testFooter = lines.mid(17,2);
+    auto testHeader1 = lines.mid(10,2);
+    auto testHeader2 = lines.mid(18,2);
+    auto testFooter = lines.mid(21,2);
     std::unique_ptr<AbstractBlock> root(_language->createBlock(NamespaceIndex));
     auto simple = qobject_cast<Class*>(_language->createBlock(ClassIndex));
     auto anotherOne = qobject_cast<Class*>(_language->createBlock(ClassIndex));
@@ -206,15 +211,19 @@ void TestCppParseClassParser::version1Parse1()
             switch (where+1)
             {
             case 3:
-            case 9:
-            case 20:
+            case 13:
             case 24:
+            case 28:
                 QCOMPARE(parser.parse(lines,where++),Status::DoneWithRead);
                 break;
             case 4:
-            case 10:
-            case 21:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 14:
             case 25:
+            case 29:
                 QCOMPARE(parser.parse(lines,where++),Status::DoneWithoutRead);
                 break;
             default:
@@ -230,9 +239,9 @@ void TestCppParseClassParser::version1Parse1()
     QCOMPARE(root->code().size(),0);
     QCOMPARE(root->get(0)->code().size(),0);
     QCOMPARE(root->get(1)->code().size(),1);
-    QCOMPARE(root->get(1)->code().value(codeKey(HeaderCodeKey)),testHeader);
+    QCOMPARE(root->get(1)->code().value(codeKey(HeaderCodeKey)),testHeader1);
     QCOMPARE(root->get(2)->code().size(),2);
-    QCOMPARE(root->get(2)->code().value(codeKey(HeaderCodeKey)),testHeader);
+    QCOMPARE(root->get(2)->code().value(codeKey(HeaderCodeKey)),testHeader2);
     QCOMPARE(root->get(2)->code().value(codeKey(FooterCodeKey)),testFooter);
     QCOMPARE(root->get(3)->code().size(),0);
 }

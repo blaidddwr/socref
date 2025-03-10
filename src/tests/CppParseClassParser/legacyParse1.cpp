@@ -2,6 +2,10 @@ class Simple
 {
 };
 
+class Forward1;
+class Forward2;
+class Forward3;
+
 class AnotherOne
 {
     int a;

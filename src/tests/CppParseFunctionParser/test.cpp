@@ -95,7 +95,7 @@ void TestCppParseFunctionParser::legacyParse2()
     arg2->setName("arg2");
     arg2->setType("int");
     arg3->setName("arg3");
-    arg3->setType("int");
+    arg3->setType("Foo::Bar*");
     arg4->setName("arg4");
     arg4->setType("const QList<int>&");
     function1->set("function1","void",RegularFunctionType,PublicAccess,NoFunctionAssignment,0);
