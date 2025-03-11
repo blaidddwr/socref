@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>legacyParse1.cpp</file>
+        <file>legacyParse2.cpp</file>
+        <file>legacyParse3.cpp</file>
+        <file>legacyParse4.cpp</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,22 @@
+#ifndef COMMAND_PROJECT_H
+#define COMMAND_PROJECT_H
+namespace Command {
+
+
+/*!
+ * This contains all project commands.
+ * 
+ * See the abstract project command class for a detailed description of project
+ * commands.
+ */
+namespace Project
+{
+    class Insert;
+    class Move;
+    class Remove;
+    class Set;
+}
+}
+
+
+#endif

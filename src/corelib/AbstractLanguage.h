@@ -1,0 +1,205 @@
+#ifndef ABSTRACTLANGUAGE_H
+#define ABSTRACTLANGUAGE_H
+#include <QObject>
+#include <QHash>
+#include "ControllerCode.h"
+#include "ModelMeta.h"
+
+
+
+
+/*!
+ * This is an abstract class. It is a language implementation and block factory
+ * for its implemented language. A language in this application is synonymous
+ * with a programming language, such as C++ or Python for example.
+ * 
+ * Its properties are meta and root index. Meta is self-explanatory. Root index
+ * is a language's root block's index.
+ * 
+ * router: This property provides a language's route controller for parsing.
+ */
+class AbstractLanguage:
+    public QObject
+{
+    Q_OBJECT
+    Model::Meta::Language* _meta;
+    QHash<QString,int> _lookup;
+    QList<Model::Meta::Block*> _blocks;
+
+
+    /*!
+     * Constructs this new language with the given meta and parent. The given
+     * meta must be valid and this method's instance takes ownership of it.
+     *
+     * @param meta
+     *        The meta.
+     *
+     * @param parent
+     *        The parent.
+     */
+    public:
+    AbstractLanguage(
+        Model::Meta::Language* meta
+        ,QObject* parent = nullptr
+    );
+
+
+    /*!
+     * Returns this language's block's meta at the given index. The given index
+     * must be valid.
+     *
+     * @param index
+     *        The index.
+     */
+    public:
+    Model::Meta::Block* blockMeta(
+        int index
+    ) const;
+
+
+    /*!
+     * Creates and returns a new block of this language with the given index and
+     * parent. The given index must be valid.
+     *
+     * @param index
+     *        The index.
+     *
+     * @param parent
+     *        The parent.
+     */
+    public:
+    virtual AbstractBlock* createBlock(
+        int index
+        ,QObject* parent = nullptr
+    ) const = 0;
+
+
+    /*!
+     * Creates a new parser.
+     *
+     * @param index
+     *        The new parse controller's index.
+     *
+     * @param block
+     *        The block associated with the new parser.
+     *
+     * @param version
+     *        The source code version of the file to be parsed.
+     *
+     * @return
+     * The new parse controller.
+     */
+    public:
+    virtual AbstractParser* createParser(
+        int index
+        ,AbstractBlock* block
+        ,int version
+    ) const = 0;
+
+
+    /*!
+     * Creates and returns a new root block of this language with the given
+     * parent.
+     *
+     * @param parent
+     *        The parent.
+     */
+    public:
+    virtual AbstractBlock* createRootBlock(
+        QObject* parent = nullptr
+    ) const = 0;
+
+
+    /*!
+     * Returns this language's block index with the given meta name. If there is
+     * no such block with the given meta name then -1 is returned.
+     *
+     * @param name
+     *        The name.
+     */
+    public:
+    int indexFromName(
+        const QString& name
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This language's meta property.
+     */
+    public:
+    Model::Meta::Language* meta(
+    ) const;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This language's root index property.
+     */
+    public:
+    virtual int rootIndex(
+    ) const = 0;
+
+
+    /*!
+     * Getter method.
+     */
+    public:
+    virtual AbstractRouter* router(
+    ) const = 0;
+
+
+    /*!
+     * Getter method.
+     *
+     * @return
+     * This language's total number of block implementations.
+     */
+    public:
+    int size(
+    ) const;
+
+
+    /*!
+     * Appends the given block meta to this language's list of block meta.
+     * 
+     * This language takes ownership of the given meta.
+     * 
+     * This language's create interface implementation must match the order
+     * generated from calling this method in regard to block indexes.
+     * 
+     * The given meta must be valid. Its name must be unique among all other
+     * block meta in this language. Its name cannot be an empty string. Its name
+     * cannot begin with an underscore character.
+     *
+     * @param meta
+     *        The block meta.
+     */
+    protected:
+    void appendBlock(
+        Model::Meta::Block* meta
+    );
+
+
+    /*!
+     * Appends the given block meta list to this language's list of block meta
+     * by calling this language's append block method for each block meta in the
+     * given list.
+     * 
+     * The order of addition is the same as the order in the given list.
+     *
+     * @param metas
+     *        The block meta list.
+     */
+    protected:
+    void appendBlocks(
+        const QList<Model::Meta::Block*>& metas
+    );
+};
+
+
+#endif
