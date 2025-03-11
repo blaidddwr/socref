@@ -7,6 +7,7 @@
  */
 namespace Model
 {
+    class Code;
     class Project;
 }
 

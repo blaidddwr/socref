@@ -2998,6 +2998,185 @@ The display icon property is the user visible icon.</__p_description>
                 </Class>
             </Namespace>
             <Class>
+                <__p_description>This models the code property of a block. Its list is the list of keys for a code property. It also provides a text property which displays the code lines of the currently indexed key.
+
+@property code The code of a block which this class models.
+
+@property currentIndex The currently indexed key.
+
+@property text The code lines of the currently indexed key.</__p_description>
+                <__p_name>Code</__p_name>
+                <__p_parents>public QAbstractListModel</__p_parents>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Setter for the code property.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>setCode</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>value</__p_name>
+                        <__p_type>const QMap&lt;QString,QStringList&gt;&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Setter for the current index property.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>setCurrentIndex</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>index</__p_name>
+                        <__p_type>const QModelIndex&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Signals</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Notifier for the text property.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>textChanged</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>value</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Getter for the text property.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>text</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>const QString&amp;</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Private</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_description>Setter for the text property.</__p_description>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>setText</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_name>value</__p_name>
+                        <__p_type>const QString&amp;</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>0</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>0</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>^</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>0</__p_override>
+                    <__p_returnType>void</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>0</__p_virtual>
+                    <Variable>
+                        <__p_assignment>nullptr</__p_assignment>
+                        <__p_name>parent</__p_name>
+                        <__p_type>QObject*</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>1</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>data</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>1</__p_override>
+                    <__p_returnType>QVariant</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_name>index</__p_name>
+                        <__p_type>const QModelIndex&amp;</__p_type>
+                    </Variable>
+                    <Variable>
+                        <__p_assignment>Qt::DisplayRole</__p_assignment>
+                        <__p_name>role</__p_name>
+                        <__p_type>int</__p_type>
+                    </Variable>
+                </Function>
+                <Function>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_access>Public</__p_access>
+                    <__p_const>1</__p_const>
+                    <__p_default>0</__p_default>
+                    <__p_deleted>0</__p_deleted>
+                    <__p_explicit>0</__p_explicit>
+                    <__p_final>1</__p_final>
+                    <__p_invokable>0</__p_invokable>
+                    <__p_name>rowCount</__p_name>
+                    <__p_noexcept>0</__p_noexcept>
+                    <__p_override>1</__p_override>
+                    <__p_returnType>int</__p_returnType>
+                    <__p_static>0</__p_static>
+                    <__p_virtual>1</__p_virtual>
+                    <Variable>
+                        <__p_assignment>QModelIndex()</__p_assignment>
+                        <__p_name>parent</__p_name>
+                        <__p_type>const QModelIndex&amp;</__p_type>
+                    </Variable>
+                </Function>
+            </Class>
+            <Class>
                 <__p_description>This is a model class. It represents a Socrates' Reference project.
 
 Its properties are language, name, directory path, relative code path, and modified. The language and name are self-explanatory. The directory path is where a project's files are located. The relative code path is the path, relative to the location of a project's directory path, where a project's source code is contained. The modified flag is self-explanatory.</__p_description>
@@ -5173,9 +5352,9 @@ A read project, read block, or file system exception is thrown if any error is e
                     </Function>
                 </Class>
                 <Class>
-                    <__p_description>This is a dialog widget. It displays the parsed code lines of its block property.
+                    <__p_description>This displays the parsed code lines of a block's code property.
 
-block: This property is the block object whose code lines are displayed.</__p_description>
+block: The block object whose code lines are displayed.</__p_description>
                     <__p_name>Code</__p_name>
                     <__p_parents>public QDialog</__p_parents>
                     <Function>
@@ -5195,7 +5374,7 @@ block: This property is the block object whose code lines are displayed.</__p_de
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                         <Variable>
-                            <__p_description>Initial object of the block property. This must be a valid block and cannot be destroyed during the lifetime of this object.</__p_description>
+                            <__p_description>Initial object of the block property. This must be a valid block.</__p_description>
                             <__p_name>block</__p_name>
                             <__p_type>const AbstractBlock*</__p_type>
                         </Variable>
@@ -5212,11 +5391,51 @@ block: This property is the block object whose code lines are displayed.</__p_de
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>closeEvent</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>event</__p_name>
+                            <__p_type>QCloseEvent*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Public</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>1</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>hideEvent</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>1</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>1</__p_virtual>
+                        <Variable>
+                            <__p_name>event</__p_name>
+                            <__p_type>QHideEvent*</__p_type>
+                        </Variable>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
                         <__p_access>Private Slots</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Called when this instance's block property's destroyed signal is emitted.</__p_description>
+                        <__p_description>Called when this object's block property's destroyed signal is emitted.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
@@ -5233,39 +5452,18 @@ block: This property is the block object whose code lines are displayed.</__p_de
                     </Function>
                     <Function>
                         <__p_abstract>0</__p_abstract>
-                        <__p_access>Private Slots</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Called when this instance's block property's code changed signal is emitted.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>onCodeChanged</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnType>void</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                        <Variable>
-                            <__p_name>value</__p_name>
-                            <__p_type>const QMap&lt;QString,QStringList&gt;&amp;</__p_type>
-                        </Variable>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
                         <__p_access>Private</__p_access>
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Provides a layout for this widget.</__p_description>
+                        <__p_description>Getter.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>buttonsLayout</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>The buttons layout.</__p_returnDescription>
+                        <__p_returnDescription>This object's buttons layout.</__p_returnDescription>
                         <__p_returnType>QHBoxLayout*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -5276,14 +5474,14 @@ block: This property is the block object whose code lines are displayed.</__p_de
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Provides a child widget for this widget.</__p_description>
+                        <__p_description>Getter.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>closeButton</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>The close button widget.</__p_returnDescription>
+                        <__p_returnDescription>This object's close button widget.</__p_returnDescription>
                         <__p_returnType>QPushButton*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -5294,14 +5492,14 @@ block: This property is the block object whose code lines are displayed.</__p_de
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Provides a child widget for this widget.</__p_description>
+                        <__p_description>Getter.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>listView</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>The list view widget.</__p_returnDescription>
+                        <__p_returnDescription>This object's list view widget.</__p_returnDescription>
                         <__p_returnType>QListView*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
@@ -5312,15 +5510,15 @@ block: This property is the block object whose code lines are displayed.</__p_de
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Provides a child model element for this widget.</__p_description>
+                        <__p_description>Getter.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
-                        <__p_name>stringListModel</__p_name>
+                        <__p_name>model</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>The string list model.</__p_returnDescription>
-                        <__p_returnType>QStringListModel*</__p_returnType>
+                        <__p_returnDescription>This object's model.</__p_returnDescription>
+                        <__p_returnType>Model::Code*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>
@@ -5330,33 +5528,67 @@ block: This property is the block object whose code lines are displayed.</__p_de
                         <__p_const>0</__p_const>
                         <__p_default>0</__p_default>
                         <__p_deleted>0</__p_deleted>
-                        <__p_description>Provides a child widget for this widget.</__p_description>
+                        <__p_description>Restores the geometry and state of this widget using the Qt settings system.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>restore</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>1</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Saves the geometry and state of this widget using the Qt settings system.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>save</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnType>void</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter.</__p_description>
+                        <__p_explicit>0</__p_explicit>
+                        <__p_final>0</__p_final>
+                        <__p_invokable>0</__p_invokable>
+                        <__p_name>splitter</__p_name>
+                        <__p_noexcept>0</__p_noexcept>
+                        <__p_override>0</__p_override>
+                        <__p_returnDescription>This object's splitter widget.</__p_returnDescription>
+                        <__p_returnType>QSplitter*</__p_returnType>
+                        <__p_static>0</__p_static>
+                        <__p_virtual>0</__p_virtual>
+                    </Function>
+                    <Function>
+                        <__p_abstract>0</__p_abstract>
+                        <__p_access>Private</__p_access>
+                        <__p_const>0</__p_const>
+                        <__p_default>0</__p_default>
+                        <__p_deleted>0</__p_deleted>
+                        <__p_description>Getter.</__p_description>
                         <__p_explicit>0</__p_explicit>
                         <__p_final>0</__p_final>
                         <__p_invokable>0</__p_invokable>
                         <__p_name>textEdit</__p_name>
                         <__p_noexcept>0</__p_noexcept>
                         <__p_override>0</__p_override>
-                        <__p_returnDescription>The plain text edit widget.</__p_returnDescription>
+                        <__p_returnDescription>This object's plain text edit widget.</__p_returnDescription>
                         <__p_returnType>QPlainTextEdit*</__p_returnType>
-                        <__p_static>0</__p_static>
-                        <__p_virtual>0</__p_virtual>
-                    </Function>
-                    <Function>
-                        <__p_abstract>0</__p_abstract>
-                        <__p_access>Private</__p_access>
-                        <__p_const>0</__p_const>
-                        <__p_default>0</__p_default>
-                        <__p_deleted>0</__p_deleted>
-                        <__p_description>Provides a layout for this widget.</__p_description>
-                        <__p_explicit>0</__p_explicit>
-                        <__p_final>0</__p_final>
-                        <__p_invokable>0</__p_invokable>
-                        <__p_name>viewLayout</__p_name>
-                        <__p_noexcept>0</__p_noexcept>
-                        <__p_override>0</__p_override>
-                        <__p_returnDescription>The view layout.</__p_returnDescription>
-                        <__p_returnType>QHBoxLayout*</__p_returnType>
                         <__p_static>0</__p_static>
                         <__p_virtual>0</__p_virtual>
                     </Function>

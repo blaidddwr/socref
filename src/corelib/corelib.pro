@@ -16,6 +16,7 @@ SOURCES += \
     ControllerSpellingHighlight.cpp \
     Exception.cpp \
     FactoryLanguage.cpp \
+    ModelCode.cpp \
     ModelMetaBlock.cpp \
     ModelMetaLanguage.cpp \
     ModelProject.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     FactoryLanguage.h \
     Global.h \
     Model.h \
+    ModelCode.h \
     ModelMeta.h \
     ModelMetaBlock.h \
     ModelMetaLanguage.h \

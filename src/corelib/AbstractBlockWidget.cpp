@@ -1,4 +1,5 @@
 #include "AbstractBlockWidget.h"
+#include <QtWidgets>
 #include "AbstractBlock.h"
 #include "ModelProject.h"
 #include "WidgetDialogCode.h"
@@ -33,7 +34,9 @@ void AbstractBlockWidget::showCode(
     Q_ASSERT(_block);
     if (!_block->code().isEmpty())
     {
-        Widget::Dialog::Code(_block,this).exec();
+        Widget::Dialog::Code dialog(_block,this);
+        dialog.setWindowTitle(QApplication::applicationName()+tr(" - Code"));
+        dialog.exec();
     }
 }
 
